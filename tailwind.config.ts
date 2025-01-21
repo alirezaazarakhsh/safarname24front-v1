@@ -23,7 +23,12 @@ export default {
         sans: ['var(--font-sans)'],
         outfit: ['var(--font-outfit)'],
       },
-      colors: {},
+      colors: {
+        'cs-red': '#F30F26',
+      },
+      screens: {
+        template: '1280px',
+      },
       borderRadius: {},
       keyframes: {
         'caret-blink': {
