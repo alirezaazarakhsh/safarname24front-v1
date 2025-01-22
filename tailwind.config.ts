@@ -21,7 +21,7 @@ export default {
       },
       fontFamily: {
         sans: ['var(--font-sans)'],
-        outfit: ['var(--font-outfit)'],
+        inter: ['var(--font-inter)'],
       },
       colors: {
         'cs-red': '#F30F26',
@@ -29,7 +29,9 @@ export default {
       screens: {
         template: '1280px',
       },
-      borderRadius: {},
+      borderRadius: {
+        'cs-10': '10px',
+      },
       keyframes: {
         'caret-blink': {
           '0%,70%,100%': { opacity: '1' },

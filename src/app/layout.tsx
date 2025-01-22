@@ -2,11 +2,11 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 import localFont from 'next/font/local';
-import { Outfit } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
 // ---------------------------------------------------
 
-const outfitFont = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
+const interFont = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const iranSansFont = localFont({
   src: [
     { path: '../../public/font/woff/IRANSansX-Light.woff', weight: '400' },
@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='fa' dir='rtl'>
-      <body className={`${outfitFont.variable} ${iranSansFont.variable} font-sans antialiased ss01`}>{children}</body>
+      <body className={`${interFont.variable} ${iranSansFont.variable} font-sans antialiased ss01`}>{children}</body>
     </html>
   );
 }

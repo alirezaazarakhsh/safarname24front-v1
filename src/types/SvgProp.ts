@@ -1,1 +1,1 @@
-export type SvgProp = React.HTMLAttributes<SVGElement>;
+export type SvgProps = React.HTMLAttributes<SVGElement>;
