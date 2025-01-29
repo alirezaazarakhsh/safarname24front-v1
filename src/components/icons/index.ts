@@ -7,3 +7,4 @@ export * from './ICLocation';
 export * from './ICLinkdin';
 export * from './ICEmail';
 export * from './ICPhone';
+export * from './ICClock';
