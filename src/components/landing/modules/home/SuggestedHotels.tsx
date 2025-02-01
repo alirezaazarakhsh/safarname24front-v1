@@ -2,14 +2,13 @@
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-import { Swiper as SwiperType } from 'swiper/types';
 import { Navigation } from 'swiper/modules';
-import { SuggestedHotel as Hotel } from '@/types';
-import { TopBarConfig } from '../../shared/TopBarConfig';
-import { SuggestedHotel } from '../../shared/suggested-hotel/SuggestedHotel';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper/types';
+
 import { useRef } from 'react';
+import { SuggestedHotel as Hotel } from '@/types';
+import { SuggestedHotel, TopBarConfig } from '../../shared';
 
 type Props = {
   suggestedHotels: Hotel[];
@@ -22,7 +21,7 @@ export function SuggestedHotels(props: Props) {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
-    <div className='-ml-4 lg:ml-0'>
+    <div className='-ml-5 lg:ml-0'>
       <TopBarConfig
         title='هتل های پیشنهادی'
         subtitle='هتل های پیشنهادی سفرنامه رو از دست نده !'
@@ -44,8 +43,8 @@ export function SuggestedHotels(props: Props) {
         className='suggestedHotels-swiper'
       >
         {suggestedHotels.map((hotel) => (
-          <SwiperSlide key={hotel.id} className='max-w-72 select-none cursor-grab xl:max-w-full'>
-            <SuggestedHotel {...hotel} />
+          <SwiperSlide key={hotel.id} className='max-w-72 select-none xl:max-w-full'>
+            <SuggestedHotel hotel={hotel} />
           </SwiperSlide>
         ))}
       </Swiper>

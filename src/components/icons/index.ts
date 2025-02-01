@@ -1,4 +1,5 @@
 export * from './ICArrowCircleUp';
+export * from './ICCommentStar';
 export * from './ICInstagram';
 export * from './ICArrowLeft';
 export * from './ICWhatsApp';

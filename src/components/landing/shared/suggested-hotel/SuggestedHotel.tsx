@@ -1,23 +1,23 @@
 import Link from 'next/link';
 import Image from 'next/image';
+
 import { numberSeparation } from '@/utils';
+import { SuggestedHotel as Hotel } from '@/types';
 import DiscountPercentage from './DiscountPercentage';
 import { DynamicSuggestedHotelTimer } from './SuggestedHotelTimer';
 
 type Props = {
-  image: string;
-  discountPercentage: number;
-  timer: string;
-  hotelName: string;
-  province: string;
-  city: string;
-  stars: number;
-  rating: number;
-  price: number;
+  hotel: Hotel;
+  showTimer?: boolean;
+  showDiscount?: boolean;
 };
 
 export function SuggestedHotel(props: Props) {
-  const { image, discountPercentage, timer, hotelName, province, city, stars, rating, price } = props;
+  const {
+    hotel: { image, discountPercentage, timer, hotelName, province, city, stars, rating, price },
+    showTimer = true,
+    showDiscount = true,
+  } = props;
 
   return (
     <div className='bg-white p-2 rounded-xl'>
@@ -25,8 +25,8 @@ export function SuggestedHotel(props: Props) {
       <div className='relative bg-zinc-100 h-40 overflow-hidden rounded-cs-10'>
         <Image src={image} alt='hotel' width={300} height={300} className='full-size object-cover' />
 
-        <DiscountPercentage discountPercentage={discountPercentage} />
-        <DynamicSuggestedHotelTimer timer={timer} />
+        {showDiscount && <DiscountPercentage discountPercentage={discountPercentage} />}
+        {showTimer && <DynamicSuggestedHotelTimer timer={timer} />}
       </div>
 
       {/* Hotel-Information */}

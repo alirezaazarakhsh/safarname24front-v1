@@ -1,13 +1,34 @@
-import { Services, SuggestedHotels } from '@/components/landing/modules';
-import { MostVisitedCities } from '@/components/landing/modules/home/MostVisitedCities';
-import { services, suggestedHotels } from '@/constants';
+import {
+  amazingHotels,
+  bestHotels,
+  customerReviews,
+  interestingBLogs,
+  mostVisitedCities,
+  services,
+  suggestedHotels,
+} from '@/constants';
+import {
+  Services,
+  SuggestedHotels,
+  MostVisitedCities,
+  AmazingHotels,
+  AdvertisingBanners,
+  BestHotels,
+  InterestingBlogs,
+  CustomerReviews,
+} from '@/components/landing/modules/home';
 
 export default function Home() {
   return (
-    <div className='mt-10'>
+    <>
       <Services services={services} />
       <SuggestedHotels suggestedHotels={suggestedHotels} />
       <MostVisitedCities cities={mostVisitedCities} />
-    </div>
+      <AmazingHotels hotels={amazingHotels} />
+      <AdvertisingBanners />
+      <BestHotels hotels={bestHotels} />
+      <InterestingBlogs blogs={interestingBLogs} />
+      <CustomerReviews reviews={customerReviews} />
+    </>
   );
 }
