@@ -20,7 +20,7 @@ export function TopBarConfig(props: Props) {
       <div className='space-y-2'>
         <h4 className='text-cs85 font-extrabold lg:text-cs09'>
           {'title' in props ? (
-            <span>{props.title}</span>
+            <span className='text-zinc-800'>{props.title}</span>
           ) : (
             <>
               <span className='text-zic-800'>{props.titleA}</span>

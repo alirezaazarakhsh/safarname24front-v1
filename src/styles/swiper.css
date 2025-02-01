@@ -1,3 +1,42 @@
+/* =============== HOME-PAGE ===============  */
+/* ========================================= */
+
+.heroSection-swiper .swiper-pagination {
+  position: absolute !important;
+  top: 50% !important;
+  left: 0.8rem !important;
+  width: max-content;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transform: translateY(-50%);
+}
+
+.heroSection-swiper .swiper-pagination-bullet {
+  width: 0.2rem;
+  height: 2rem;
+  border-radius: 0.2rem;
+  background-color: white;
+}
+
+/* -------------------------- */
+
 .services-swiper .swiper-pagination-bullet {
   background-color: rgb(100, 100, 100);
 }
+
+/* -------------------------- */
+
+.bestSellingHotelsA-swiper .swiper-pagination-bullet {
+  background-color: rgb(100, 100, 100);
+}
+
+.bestSellingHotelsB-swiper .swiper-pagination-bullet {
+  width: 1.8rem;
+  height: 0.25rem;
+  border-radius: 0.2rem;
+  background-color: rgb(100, 100, 100);
+}
+
+/* -------------------------- */

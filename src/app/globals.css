@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --clr-main-light: #ededed;
+}
+
+/* ------------------------------------ */
+
 @layer base {
   body {
-    @apply min-h-screen bg-[#ededed] text-black;
+    @apply min-h-screen bg-[--clr-main-light] text-black;
   }
 
   button,

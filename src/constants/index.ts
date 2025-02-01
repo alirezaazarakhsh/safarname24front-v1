@@ -9,3 +9,4 @@ export * from './mostVisitedCity';
 export * from './customerReviews';
 export * from './interestingBlogs';
 export * from './communicationWays';
+export * from './bestSellingHotels';

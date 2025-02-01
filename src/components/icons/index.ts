@@ -9,3 +9,4 @@ export * from './ICLinkdin';
 export * from './ICEmail';
 export * from './ICPhone';
 export * from './ICClock';
+export * from './ICStar';
