@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --clr-main-light: #ededed;
+}
+
+/* ------------------------------------ */
+
+@layer base {
+  body {
+    @apply min-h-screen bg-[--clr-main-light] text-black;
+  }
+
+  button,
+  input {
+    @apply outline-none;
+  }
+}
+
+@layer utilities {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between;
+  }
+
+  .full-size {
+    @apply w-full h-full;
+  }
+}
+
+@layer components {
+}
+
+/* Custom =================================== */
+.ss01 {
+  -moz-font-feature-settings: 'ss01';
+  -webkit-font-feature-settings: 'ss01';
+  font-feature-settings: 'ss01';
+}
+
+/* ScrollBar =================================== */
+/* Loader =================================== */
