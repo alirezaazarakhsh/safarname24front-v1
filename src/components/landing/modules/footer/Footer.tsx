@@ -8,11 +8,11 @@ import WebsiteIdentity from './WebsiteIdentity';
 import CommunicationWays from './CommunicationWays';
 import { communicationWays, identityBadges, quickAccess, socialMedias } from '@/constants';
 
-export function Footer() {
+export default function Footer() {
   return (
     <>
       {/* Small-Device */}
-      <div className='relative bg-white text-cs08 font-medium p-4 pb-28 mt-auto flex flex-col items-center gap-4 border-t-4 border-zinc-200 lg:hidden'>
+      <footer className='relative bg-white text-cs08 font-medium p-4 pb-28 mt-auto flex flex-col items-center gap-4 border-t-4 border-zinc-200 lg:hidden'>
         <Logo />
         <Description />
         <QuickAccess src={quickAccess} />
@@ -21,10 +21,10 @@ export function Footer() {
         <SocialMedias src={socialMedias} />
         <Copyright />
         <WebsiteIdentity />
-      </div>
+      </footer>
 
       {/* Large-Device */}
-      <div className='pb-12 mx-4 mt-auto hidden grid-cols-[2fr_1fr] grid-rows-[1.2fr_3fr] gap-6 lg:grid'>
+      <footer className='pb-12 mx-5 mt-auto hidden grid-cols-[2fr_1fr] grid-rows-[1.2fr_3fr] gap-6 lg:grid'>
         {/* Quick-Access */}
         <div className='bg-white flex-center rounded-xl'>
           <QuickAccess src={quickAccess} />
@@ -49,7 +49,7 @@ export function Footer() {
             <SocialMedias src={socialMedias} />
           </div>
         </div>
-      </div>
+      </footer>
     </>
   );
 }

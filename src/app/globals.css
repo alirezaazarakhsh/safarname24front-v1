@@ -43,5 +43,52 @@
   font-feature-settings: 'ss01';
 }
 
+.nav-link {
+  position: relative;
+  padding: 8px 16px;
+  color: #555;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-link.active {
+  color: #111;
+}
+
+.nav-link:after {
+  content: '';
+  width: 0;
+  height: 3px;
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  border-radius: 0.5rem;
+  background: #f30f26;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-link:hover:after,
+.nav-link.active:after {
+  width: 30%;
+}
+
 /* ScrollBar =================================== */
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--clr-main-light);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: rgb(192, 192, 192);
+  border-radius: 8px 0 0 8px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: rgb(182, 182, 182);
+}
+
 /* Loader =================================== */
