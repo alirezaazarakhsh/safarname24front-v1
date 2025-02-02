@@ -19,36 +19,32 @@ jobs:
         node-version: 20
 
     - name: Install dependencies
-      run: npm install
-
-    - name: Install Docker Compose
       run: |
-        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
-        docker-compose --version
+        npm install --legacy-peer-deps
 
     - name: Build Docker Image
-      run: docker-compose -f docker-compose.yml build
+      run: |
+        docker build -t myapp .
 
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
       env:
         SERVER_IP: 91.107.134.107
 
     - name: Deploy to Server
       run: |
-        ssh -i ~/.ssh/id_rsa root@$SERVER_IP << 'EOF'
-          # Move to the frontend directory
+        ssh -i ~/.ssh/id_rsa root@${{ secrets.SERVER_IP }} << 'EOF'
+          # Go to the correct directory for the frontend
           cd /var/safarname24front-v1
           # Pull the latest changes from the repository
           git pull origin main
-          # Stop the running containers
+          # Stop running containers (if any)
           docker-compose down
-          # Build and run the containers in detached mode
+          # Rebuild and run the containers in detached mode
           docker-compose up -d --build
         EOF
       env:
