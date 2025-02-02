@@ -43,7 +43,7 @@ jobs:
       run: |
         ssh -i ~/.ssh/id_rsa root@$SERVER_IP << 'EOF'
           # Move to the frontend directory
-          cd /var/zarvanfrotendv2
+          cd /var/safarname24front-v1
           # Pull the latest changes from the repository
           git pull origin main
           # Stop the running containers
