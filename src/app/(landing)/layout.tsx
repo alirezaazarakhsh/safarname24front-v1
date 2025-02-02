@@ -1,4 +1,5 @@
-import { Footer } from '@/components/landing/modules/footer/Footer';
+import Header from '@/components/landing/modules/header/Header';
+import Footer from '@/components/landing/modules/footer/Footer';
 
 type Props = Readonly<{
   children: React.ReactNode;
@@ -7,7 +8,8 @@ type Props = Readonly<{
 export default function LandingLayout(props: Props) {
   return (
     <main className='max-w-screen-template min-h-screen mx-auto flex flex-col'>
-      <section className='mx-5 my-20 space-y-16 lg:space-y-20'>{props.children}</section>
+      <Header />
+      <section className='mx-5 mt-8 mb-20 flex flex-col gap-y-16 lg:gap-y-20 xl:mt-4'>{props.children}</section>
       <Footer />
     </main>
   );

@@ -1,3 +1,4 @@
+export * from './navLinks';
 export * from './services';
 export * from './bestHotels';
 export * from './quickAccess';

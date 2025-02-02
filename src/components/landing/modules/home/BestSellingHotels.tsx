@@ -34,9 +34,9 @@ export function BestSellingHotels(props: Props) {
         nextBtnFunc={() => swiperRef.current?.slideNext()}
       />
 
-      <div className='flex gap-6'>
+      <div className='flex-between'>
         {/* Best-Selling-Hotels-B */}
-        <div className='w-1/3 hidden xl:flex'>
+        <div className='w-[30%] hidden xl:flex'>
           <Swiper
             spaceBetween={20}
             pagination={{ clickable: true }}
@@ -53,7 +53,7 @@ export function BestSellingHotels(props: Props) {
         </div>
 
         {/* Best-Selling-Hotels-A */}
-        <div className='w-full xl:w-2/3'>
+        <div className='w-full xl:w-[67%]'>
           <Swiper
             spaceBetween={20}
             pagination={{ clickable: true, dynamicBullets: true }}
