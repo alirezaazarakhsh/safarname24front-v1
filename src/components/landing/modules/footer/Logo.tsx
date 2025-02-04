@@ -8,7 +8,7 @@ export default function Logo() {
         alt='safarname24-logo'
         width={100}
         height={100}
-        className='w-28 h-28 -mb-6 -mt-2 object-contain lg:-mb-4 lg:-mt-6'
+        className='w-28 h-28 -mb-6 -mt-2 object-contain lg:-mb-3 lg:-mt-7'
       />
     </div>
   );

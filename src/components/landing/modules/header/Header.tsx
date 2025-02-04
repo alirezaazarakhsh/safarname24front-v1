@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <>
       {/* Small-Device */}
-      <header className='text-cs08 font-bold pt-8 mx-5 flex flex-col gap-5 xl:hidden'>
+      <header className='text-cs08 font-bold pt-8 mx-5 flex flex-col gap-4 xl:hidden'>
         {/* Logo | Titles */}
         <div className='flex items-center gap-3'>
           <Link href={'/'} className='bg-cs-red w-12 h-12 overflow-hidden rounded-lg'>
@@ -24,15 +24,22 @@ export default function Header() {
             />
           </Link>
 
-          <div className='text-zinc-900 space-y-0.5'>
+          <div className='text-zinc-800 space-y-0.5'>
             <h1 className='font-extrabold'>سفرنامه 24</h1>
             <h2 className='font-inter font-semibold capitalize'>agency safarname 24 hotel</h2>
           </div>
         </div>
 
-        <div className='bg-zinc-200 h-12 flex overflow-hidden rounded-lg'>
+        <div className='bg-zinc-200/50 h-10 flex overflow-hidden rounded-lg'>
           <button className='w-12 flex-center'>
-            <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
+            <svg
+              width='20'
+              height='20'
+              className='w-4 h-4'
+              viewBox='0 0 20 20'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
               <path
                 d='M9.1665 17.2917C4.68317 17.2917 1.0415 13.65 1.0415 9.16669C1.0415 4.68335 4.68317 1.04169 9.1665 1.04169C9.50817 1.04169 9.7915 1.32502 9.7915 1.66669C9.7915 2.00835 9.50817 2.29169 9.1665 2.29169C5.37484 2.29169 2.2915 5.37502 2.2915 9.16669C2.2915 12.9584 5.37484 16.0417 9.1665 16.0417C12.9582 16.0417 16.0415 12.9584 16.0415 9.16669C16.0415 8.82502 16.3248 8.54169 16.6665 8.54169C17.0082 8.54169 17.2915 8.82502 17.2915 9.16669C17.2915 13.65 13.6498 17.2917 9.1665 17.2917Z'
                 fill='#5D5D5D'
@@ -55,7 +62,7 @@ export default function Header() {
           <input
             type='text'
             placeholder='جستجو شهر, هتل ...'
-            className='flex-1 bg-transparent text-zinc-800 placeholder:text-zinc-500 pl-4'
+            className='flex-1 bg-transparent text-zinc-800 text-cs07 placeholder:text-zinc-500 pl-4'
           />
         </div>
       </header>
@@ -74,7 +81,7 @@ export default function Header() {
             />
           </Link>
 
-          <div className='text-zinc-900 space-y-0.5'>
+          <div className='text-zinc-800 space-y-0.5'>
             <h1 className='font-extrabold'>سفرنامه 24</h1>
             <h2 className='font-inter font-semibold capitalize'>agency safarname 24 hotel</h2>
           </div>
@@ -90,7 +97,7 @@ export default function Header() {
         </nav>
 
         <div className='h-10 text-zinc-800 text-cs07 flex gap-3'>
-          <button className='bg-zinc-200 px-4 flex-center gap-2 rounded-lg'>
+          <button className='bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/80'>
             <svg
               width='24'
               height='24'
@@ -108,7 +115,7 @@ export default function Header() {
             <span>مورد علاقه ها</span>
           </button>
 
-          <button className='bg-zinc-200 px-4 flex-center gap-2 rounded-lg'>
+          <button className='bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/80'>
             <svg
               width='24'
               height='24'

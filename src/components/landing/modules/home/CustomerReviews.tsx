@@ -54,7 +54,7 @@ export function CustomerReviews(props: Props) {
       >
         {reviews.map((review) => (
           <SwiperSlide key={review.id} className='max-w-72 select-none xl:max-w-full'>
-            <div className='bg-white p-4 rounded-xl'>
+            <div className='bg-white p-5 rounded-xl'>
               <div className='h-12 flex gap-3'>
                 {/* Image */}
                 <div className='relative bg-zinc-100 w-12 overflow-hidden rounded-lg'>
@@ -71,14 +71,14 @@ export function CustomerReviews(props: Props) {
 
                 {/* Full-Name | Vote-Type */}
                 <div className='flex flex-col justify-center gap-1'>
-                  <span className='text-zinc-800 text-cs08 font-bold'>{review.fullname}</span>
+                  <span className='max-w-28 text-zinc-800 text-cs08 font-bold truncate'>{review.fullname}</span>
                   <span className={`text-cs75 font-semibold ${exportBasedOnImport(review.rate, 'colorText')}`}>
                     {exportBasedOnImport(review.rate, 'text')}
                   </span>
                 </div>
 
                 {/* Rating */}
-                <div className='w-12 mr-auto'>
+                <div className='w-11 mr-auto'>
                   <CircularProgressbar
                     value={review.rate}
                     maxValue={5}
@@ -96,7 +96,7 @@ export function CustomerReviews(props: Props) {
               </div>
 
               {/* Separator */}
-              <div className='bg-zinc-200 h-[1px] my-4 rounded'></div>
+              <div className='bg-zinc-200 h-[1px] my-5 rounded'></div>
 
               {/* Description */}
               <p className='text-zinc-500 text-cs75 text-justify font-medium line-clamp-6'>{review.desc}</p>

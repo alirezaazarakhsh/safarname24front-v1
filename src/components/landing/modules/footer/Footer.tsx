@@ -44,7 +44,7 @@ export default function Footer() {
             <CommunicationWays src={communicationWays} />
           </div>
 
-          <div className='flex flex-col gap-4'>
+          <div className='flex-1 flex flex-col gap-4'>
             <IdentityBadges src={identityBadges} />
             <SocialMedias src={socialMedias} />
           </div>

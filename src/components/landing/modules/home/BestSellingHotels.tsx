@@ -25,7 +25,7 @@ export function BestSellingHotels(props: Props) {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
-    <div className='sm:-ml-5 xl:ml-0'>
+    <div className='sm:-ml-5 lg:ml-0'>
       <TopBarConfig
         title='هتل های پرفروش سفرنامه'
         subtitle='هتل های پر فروش و جذاب سفرنامه رو از دست نده !'
@@ -34,9 +34,9 @@ export function BestSellingHotels(props: Props) {
         nextBtnFunc={() => swiperRef.current?.slideNext()}
       />
 
-      <div className='flex-between'>
+      <div className='justify-between grid-cols-[30%_68%] xl:grid'>
         {/* Best-Selling-Hotels-B */}
-        <div className='w-[30%] hidden xl:flex'>
+        <div className='hidden xl:block'>
           <Swiper
             spaceBetween={20}
             pagination={{ clickable: true }}
@@ -53,7 +53,7 @@ export function BestSellingHotels(props: Props) {
         </div>
 
         {/* Best-Selling-Hotels-A */}
-        <div className='w-full xl:w-[67%]'>
+        <div>
           <Swiper
             spaceBetween={20}
             pagination={{ clickable: true, dynamicBullets: true }}
@@ -64,10 +64,10 @@ export function BestSellingHotels(props: Props) {
             }}
             modules={[Navigation, Pagination]}
             onSwiper={(swiper) => (swiperRef.current = swiper)}
-            className='bestSellingHotelsA-swiper h-[14rem] xl:h-max'
+            className='bestSellingHotelsA-swiper h-[14rem] xl:h-auto'
           >
             {hotels.map((hotel) => (
-              <SwiperSlide key={hotel.id} className='select-none sm:max-w-96'>
+              <SwiperSlide key={hotel.id} className='select-none sm:max-w-96 xl:max-w-full'>
                 <div className='xl:hidden'>
                   <BestSellingHotelA hotel={hotel} />
                 </div>

@@ -60,7 +60,7 @@ const CountDownItem = (props: CountDownItemProps) => {
   return (
     <div
       className={`w-9 text-cs75 font-extrabold pt-1 flex-center gap-1 rounded-md lg:w-20 lg:font-bold lg:rounded-lg ${
-        type === 'روز' ? 'bg-cs-red/15 text-cs-red border-2 border-cs-red border-dashed' : 'bg-zinc-200 text-zinc-800'
+        type === 'روز' ? 'bg-cs-red/15 text-cs-red border-2 border-cs-red border-dashed' : 'bg-zinc-200/50 text-zinc-800'
       }`}
     >
       <span className='w-4 text-center'>{paddedNumber(value)}</span>

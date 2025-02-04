@@ -3,24 +3,21 @@
 import 'swiper/css';
 import '@/styles/swiper.css';
 import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 
 import Image from 'next/image';
 import { useState } from 'react';
 import SearchAndFilter from './molecules/SearchAndFilter';
-
-// type Props = {
-//   images: Hotel[];
-// };
 
 const slidesInitialStat = {
   allowSlidePrev: false,
   allowSlideNext: true,
 };
 
-const images = ['/image/banner/large-banner.png', '/image/banner/large-banner.png', '/image/banner/large-banner.png'];
+const images = ['/image/banner/hero-1.jpg', '/image/banner/hero-2.jpg', '/image/banner/hero-3.jpg'];
 
 // -----------------------------------------------
 
@@ -36,14 +33,16 @@ export function HeroSection() {
       <SearchAndFilter />
 
       <Swiper
-        spaceBetween={20}
         slidesPerView={1}
-        speed={1500}
+        grabCursor={true}
+        effect={'fade'}
+        speed={800}
         autoplay={{
           delay: 8000,
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         }}
+        pagination={{ clickable: true }}
         onSlideChange={(swiper) => {
           if (swiper.activeIndex === 0) handleSetControlSlides('prev', false);
           else handleSetControlSlides('prev', true);
@@ -53,12 +52,14 @@ export function HeroSection() {
         }}
         allowSlidePrev={controlSlides.allowSlidePrev}
         allowSlideNext={controlSlides.allowSlideNext}
-        pagination={{ clickable: true }}
-        modules={[Pagination, Autoplay]}
-        className='heroSection-swiper h-[34rem] rounded-2xl'
+        modules={[Pagination, Autoplay, EffectFade]}
+        className='heroSection-swiper h-[38rem] rounded-2xl'
       >
         {images.map((image, index) => (
-          <SwiperSlide key={index} className='max-w-full select-none flex-center overflow-hidden rounded-2xl'>
+          <SwiperSlide
+            key={index}
+            className='bg-zinc-200 max-w-full select-none flex-center overflow-hidden rounded-2xl'
+          >
             <Image src={image} alt='hotel-view' width={1280} height={600} className='full-size object-cover' />
           </SwiperSlide>
         ))}

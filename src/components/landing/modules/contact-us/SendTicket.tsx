@@ -1,0 +1,163 @@
+'use client';
+
+import { TopBarConfig } from '../../shared';
+import { sendTicket as formSchema } from '@/schema';
+import SendTicketReaction from './molecules/SendTicketReaction';
+
+import { z } from 'zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+
+type ReactionType = 'success' | 'fail';
+type FormStates = 'subject' | 'fullName' | 'phoneNumber' | 'email' | 'desc';
+
+// -----------------------------------------
+
+export function SendTicket() {
+  const [reactionOpen, setReactionOpen] = useState(false);
+  const [reactionType, setReactionType] = useState<ReactionType>('success');
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      subject: '',
+      fullName: '',
+      phoneNumber: '',
+      email: '',
+      desc: '',
+    },
+  });
+
+  function handleSetError(state: FormStates) {
+    const errors = form.formState.errors;
+    return errors[state] ? 'ring-red-400' : '';
+  }
+
+  function handleSetReaction(type: 'success' | 'fail', isOpen: boolean) {
+    setReactionType(type);
+    setReactionOpen(isOpen);
+  }
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+
+    values.subject === '0' ? handleSetReaction('fail', true) : handleSetReaction('success', true);
+  }
+
+  return (
+    <div>
+      <TopBarConfig
+        title='َتماس با شبکه سفرنامه 24'
+        subtitle='دوست داریم نظرات و پیشنهادات شما را بشنویم پیام هایتان را با ما در میان بذارید.'
+      />
+
+      <SendTicketReaction reactionType={reactionType} isOpen={reactionOpen} setOpen={setReactionOpen} />
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4 lg:grid-cols-[1fr_2fr]'>
+          <div className='space-y-3'>
+            {/* =============== Subject */}
+            <FormField
+              control={form.control}
+              name='subject'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className='relative'>
+                      <Input
+                        {...field}
+                        className={`pl-24 ${handleSetError('subject')}`}
+                        placeholder='* موضوع مورد نظر را وارد نمایید'
+                      />
+
+                      <div className='absolute top-1/2 -translate-y-1/2 left-4 h-6 px-2 bg-zinc-100 text-zinc-500 text-cs65 font-extrabold flex-center gap-1 rounded-md'>
+                        <span className='w-3 text-center'>
+                          {35 - form.getValues('subject').length >= 0 ? 35 - form.getValues('subject').length : 0}
+                        </span>
+                        <span>کاراکتر</span>
+                      </div>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {/* =============== FullName */}
+            <FormField
+              control={form.control}
+              name='fullName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className={handleSetError('fullName')}
+                      placeholder='* نام و نام خانوادگی خود را وارد نمایید'
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {/* =============== PhoneNumber */}
+            <FormField
+              control={form.control}
+              name='phoneNumber'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className={handleSetError('phoneNumber')}
+                      placeholder='* شماره همراه خود را وارد نمایید'
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {/* =============== Email */}
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input {...field} placeholder='* ایمیل خود را وارد نمایید' className={handleSetError('email')} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* =============== Description */}
+          <FormField
+            control={form.control}
+            name='desc'
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder='* توضیحات خود را وارد نمایید ...'
+                    className={`h-full resize-none ${handleSetError('desc')}`}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <Button type='submit' className='w-max px-6'>
+            ارسال پیام
+          </Button>
+        </form>
+      </Form>
+    </div>
+  );
+}

@@ -1,5 +1,9 @@
-import { ICArrowLeft } from '@/components/icons';
+'use client';
+
 import Link from 'next/link';
+import { ICArrowLeft } from '@/components/icons';
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Props = {
   src: { title: string; href: string }[];
@@ -14,10 +18,25 @@ export default function QuickAccess(props: Props) {
     <>
       {/* Small-Device */}
       <div className='w-full lg:hidden'>
-        <button className='bg-zinc-100 w-full h-12 px-4 my-4 text-zinc-800 font-semibold flex-between items-center rounded-cs-10 lg:my-0'>
-          <span>دسترسی سریع</span>
-          <ICArrowLeft className='w-3.5 h-3.5' />
-        </button>
+        <Accordion type='single' collapsible>
+          <AccordionItem value='item-1'>
+            <AccordionTrigger className='bg-zinc-100 w-full h-12 px-4 mt-4 mb-2 text-zinc-800 font-semibold rounded-cs-10'>
+              دسترسی سریع
+            </AccordionTrigger>
+
+            <AccordionContent className='grid grid-cols-2 gap-2'>
+              {src.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className='bg-zinc-100 h-10 text-zinc-800 text-cs07 font-bold px-4 flex-center rounded-cs-10 transition-colors ease-in-out duration-200 hover:bg-cs-red hover:text-zinc-100'
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
 
       {/* Large-Device */}
