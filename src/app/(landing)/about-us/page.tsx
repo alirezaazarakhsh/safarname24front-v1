@@ -1,3 +1,12 @@
+// -----------------------------------------------
+
+import { AboutUsStory } from '@/components/landing/modules/about-us';
+import { aboutUsStory } from '@/constants';
+
 export default function AboutUs() {
-  return <div>AboutUs</div>;
+  return (
+    <>
+      <AboutUsStory story={aboutUsStory} />
+    </>
+  );
 }
