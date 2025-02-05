@@ -40,7 +40,7 @@ export function TopBarConfig(props: Props) {
           {seeAllHref && (
             <Link
               href={seeAllHref}
-              className='bg-zinc-200 text-zinc-800 text-cs07 font-semibold px-5 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-300/60'
+              className='bg-zinc-200/50 text-zinc-800 text-cs07 font-semibold px-5 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/70'
             >
               مشاهده همه
             </Link>
@@ -49,14 +49,14 @@ export function TopBarConfig(props: Props) {
           {backBtnFunc && nextBtnFunc && (
             <>
               <button
-                className='bg-zinc-200 w-10 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-300/60'
+                className='bg-zinc-200/50 w-10 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-200/70'
                 onClick={backBtnFunc}
               >
                 <ICArrowLeft className='w-4 h-4 stroke-zinc-400 rotate-180' />
               </button>
 
               <button
-                className='bg-zinc-200 w-10 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-300/60'
+                className='bg-zinc-200/50 w-10 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-200/70'
                 onClick={nextBtnFunc}
               >
                 <ICArrowLeft className='w-4 h-4 stroke-zinc-400' />

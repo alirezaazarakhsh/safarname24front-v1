@@ -48,7 +48,7 @@ export function MostVisitedCities(props: Props) {
               </div>
 
               {/* Number of residence */}
-              <div className='absolute top-0 right-3 bg-zinc-100 w-16 h-6 text-zinc-800 text-cs65 font-bold pt-1 flex-center gap-1 opacity-0 rounded-md transition-all duration-200 ease-in-out group-hover:opacity-100 group-hover:top-3'>
+              <div className='absolute top-3 right-3 bg-zinc-100 w-16 h-6 text-zinc-800 text-cs65 font-bold pt-1 flex-center gap-1 opacity-100 rounded-md transition-all duration-200 ease-in-out md:top-0 md:opacity-0 md:group-hover:opacity-100 md:group-hover:top-3'>
                 <span>{city.numberOfResidence}</span>
                 <span>اقامتگاه</span>
               </div>

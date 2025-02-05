@@ -1,6 +1,6 @@
 export default function SearchAndFilter() {
   return (
-    <div className='absolute z-10 bottom-10 inset-x-28 bg-[--clr-main-light] h-24 px-6 flex items-center gap-8 rounded-2xl'>
+    <div className='absolute z-10 bottom-10 inset-x-24 bg-[--clr-main-light] h-28 px-6 flex items-center gap-8 rounded-2xl'>
       <SearchItem title='انتخاب شهر یا هتل' subtitle='شهر یا هتل (داخلی, خارجی)' />
 
       <span className='w-[2px] h-8 bg-zinc-300 rounded'></span>
@@ -15,7 +15,7 @@ export default function SearchAndFilter() {
 
       <SearchItem title='مسافران' subtitle='تعداد مسافر و اتاق' />
 
-      <button className='bg-cs-red text-zinc-100 text-cs08 font-bold px-8 py-4 mr-auto rounded-cs-10'>جستجو</button>
+      <button className='bg-cs-red text-zinc-100 text-cs08 font-bold px-10 py-4 mr-auto rounded-cs-10'>جستجو</button>
     </div>
   );
 }
