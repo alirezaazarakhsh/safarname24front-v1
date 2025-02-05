@@ -17,7 +17,7 @@ const slidesInitialStat = {
   allowSlideNext: true,
 };
 
-const images = ['/image/banner/hero-1.jpg', '/image/banner/hero-2.jpg', '/image/banner/hero-3.jpg'];
+const images = ['/image/background/hero-1.jpg', '/image/background/hero-2.jpg', '/image/background/hero-3.jpg'];
 
 // -----------------------------------------------
 
