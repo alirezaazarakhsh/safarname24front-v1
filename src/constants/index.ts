@@ -2,6 +2,7 @@ export * from './navLinks';
 export * from './services';
 export * from './bestHotels';
 export * from './quickAccess';
+export * from './aboutUsStory';
 export * from './socialMedias';
 export * from './contactUsWays';
 export * from './amazingHotels';
