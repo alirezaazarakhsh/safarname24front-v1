@@ -22,7 +22,7 @@ export function ContactUsMap(props: Props) {
   const { lat, lng } = props;
 
   return (
-    <MapContainer className='full-size' center={[lat ?? 0, lng ?? 0]} zoom={13} scrollWheelZoom={false}>
+    <MapContainer className='full-size z-10' center={[lat ?? 0, lng ?? 0]} zoom={13} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'

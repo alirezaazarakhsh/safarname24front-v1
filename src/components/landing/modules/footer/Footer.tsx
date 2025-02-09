@@ -24,7 +24,7 @@ export default function Footer() {
       </footer>
 
       {/* Large-Device */}
-      <footer className='pb-12 mx-5 mt-auto hidden grid-cols-[2fr_1fr] grid-rows-[1.2fr_3fr] gap-6 lg:grid'>
+      <footer className='pb-8 mx-5 mt-auto hidden grid-cols-[2fr_1fr] grid-rows-[1.2fr_3fr] gap-6 lg:grid'>
         {/* Quick-Access */}
         <div className='bg-white flex-center rounded-xl'>
           <QuickAccess src={quickAccess} />

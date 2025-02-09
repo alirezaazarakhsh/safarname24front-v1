@@ -3,15 +3,15 @@ export default function SearchAndFilter() {
     <div className='absolute z-10 bottom-10 inset-x-24 bg-[--clr-main-light] h-28 px-6 flex items-center gap-8 rounded-2xl'>
       <SearchItem title='انتخاب شهر یا هتل' subtitle='شهر یا هتل (داخلی, خارجی)' />
 
-      <span className='w-[2px] h-8 bg-zinc-300 rounded'></span>
+      <span className='w-[2px] h-6 bg-zinc-300 rounded'></span>
 
       <SearchItem title='تاریخ ورود و خروج هتل' subtitle='تاریخ را وارد نمایید' />
 
-      <span className='w-[2px] h-8 bg-zinc-300 rounded'></span>
+      <span className='w-[2px] h-6 bg-zinc-300 rounded'></span>
 
       <SearchItem title='تعداد شب اقامت' subtitle='5 شب' />
 
-      <span className='w-[2px] h-8 bg-zinc-300 rounded'></span>
+      <span className='w-[2px] h-6 bg-zinc-300 rounded'></span>
 
       <SearchItem title='مسافران' subtitle='تعداد مسافر و اتاق' />
 

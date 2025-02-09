@@ -7,7 +7,7 @@ export default function ComingSoon() {
   return (
     <div
       dir='ltr'
-      className='relative min-h-screen text-white text-center font-medium font-inter px-6 py-8 flex flex-col items-center justify-between'
+      className='relative min-h-dvh text-white text-center font-medium font-inter px-6 py-8 flex flex-col items-center justify-between'
     >
       <Image
         src={'/image/background/coming-soon.png'}

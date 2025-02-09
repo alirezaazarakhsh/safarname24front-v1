@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --clr-main-light: #f8f8f8f8;
+  --clr-main-light: #f8f8f8;
 }
 
 /* ------------------------------------ */
 
 @layer base {
   body {
-    @apply min-h-screen bg-[--clr-main-light] text-black;
+    @apply min-h-dvh bg-[--clr-main-light] text-black;
   }
 
   button,
@@ -46,8 +46,9 @@
 .nav-link {
   position: relative;
   padding: 8px 14px;
-  color: #666;
+  font-size: 0.75rem;
   text-decoration: none;
+  color: #666;
   transition: all 0.3s ease-in-out;
 }
 
@@ -71,6 +72,12 @@
 .nav-link:hover:after,
 .nav-link.active:after {
   width: 30%;
+}
+
+@media screen and (min-width: 1280px) {
+  .nav-link {
+    font-size: 0.8rem;
+  }
 }
 
 /* ScrollBar =================================== */

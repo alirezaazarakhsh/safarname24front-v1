@@ -3,10 +3,10 @@ import Header from '@/components/landing/modules/header/Header';
 
 export default function NotFound() {
   return (
-    <main className='max-w-screen-template min-h-screen mx-auto'>
+    <main className='max-w-screen-template min-h-dvh mx-auto'>
       <Header />
 
-      <section className='text-center mx-5 mt-20 flex flex-col items-center justify-center gap-10 lg:gap-14'>
+      <section className='text-center mx-5 pt-28 flex flex-col items-center justify-center gap-10 lg:pt-48 lg:gap-14'>
         <div dir='ltr' className='font-inter capitalize'>
           <span className='text-zinc-800 text-2xl font-extrabold lg:text-3xl'>Oops!</span>
           <p className='text-zinc-700 text-cs08 font-semibold mt-2 lg:text-cs09 lg:mt-3'>
