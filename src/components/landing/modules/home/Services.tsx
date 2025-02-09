@@ -17,7 +17,7 @@ export function Services(props: Props) {
   const { services } = props;
 
   return (
-    <div className='sm:-ml-5 xl:ml-0'>
+    <div className='-mb-6 sm:-ml-5 xl:ml-0'>
       {/* Small-Device */}
       <div className='xl:hidden'>
         <Swiper

@@ -12,7 +12,7 @@ export default function Footer() {
   return (
     <>
       {/* Small-Device */}
-      <footer className='relative bg-white text-cs08 font-medium p-4 pb-28 mt-auto flex flex-col items-center gap-4 border-t-4 border-zinc-200 lg:hidden'>
+      <footer className='relative bg-white text-cs08 font-medium p-4 pb-28 mt-auto flex flex-col items-center gap-4 border-t-4 border-zinc-200 lg:pb-8 xl:hidden'>
         <Logo />
         <Description />
         <QuickAccess src={quickAccess} />
@@ -24,7 +24,7 @@ export default function Footer() {
       </footer>
 
       {/* Large-Device */}
-      <footer className='pb-8 mx-5 mt-auto hidden grid-cols-[2fr_1fr] grid-rows-[1.2fr_3fr] gap-6 lg:grid'>
+      <footer className='pb-8 mx-5 mt-auto hidden grid-cols-[2fr_1fr] grid-rows-[1.2fr_3fr] gap-6 xl:grid'>
         {/* Quick-Access */}
         <div className='bg-white flex-center rounded-xl'>
           <QuickAccess src={quickAccess} />

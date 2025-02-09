@@ -47,7 +47,7 @@ export function SendTicket() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
 
-    values.subject === '0' ? handleSetReaction('fail', true) : handleSetReaction('success', true);
+    values.subject === 'incorrect-subject' ? handleSetReaction('fail', true) : handleSetReaction('success', true);
   }
 
   return (

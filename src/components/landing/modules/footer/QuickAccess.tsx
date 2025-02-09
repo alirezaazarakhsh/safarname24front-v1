@@ -1,8 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { ICArrowLeft } from '@/components/icons';
-
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Props = {
@@ -17,7 +15,7 @@ export default function QuickAccess(props: Props) {
   return (
     <>
       {/* Small-Device */}
-      <div className='w-full lg:hidden'>
+      <div className='w-full xl:hidden'>
         <Accordion type='single' collapsible>
           <AccordionItem value='item-1'>
             <AccordionTrigger className='bg-zinc-100 w-full h-12 px-4 mt-4 mb-2 text-zinc-800 font-semibold rounded-cs-10'>
@@ -40,7 +38,7 @@ export default function QuickAccess(props: Props) {
       </div>
 
       {/* Large-Device */}
-      <div className='w-full h-12 px-6 my-4 hidden gap-4 lg:flex-center xl:justify-between'>
+      <div className='w-full h-12 px-6 my-4 hidden gap-4 xl:flex-center xl:justify-between'>
         <h4 className='text-zinc-800 text-cs85 font-bold hidden xl:block'>دسترسی سریع :</h4>
 
         <div className='flex-1 h-full flex-between gap-4 xl:flex-none'>

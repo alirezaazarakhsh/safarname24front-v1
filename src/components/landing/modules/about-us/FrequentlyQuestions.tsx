@@ -18,7 +18,7 @@ export function FrequentlyQuestions(props: Props) {
 
   return (
     <div>
-      <TopBarConfig title='سوالات متداول' subtitle='پرسش و پاسخ های مهم در رابط با رزرواسیون !' />
+      <TopBarConfig title='سوالات متداول' subtitle='پرسش و پاسخ های مهم در رابط با رزرواسیون !' className='mb-0 lg:mb-4' />
 
       {/* Small-Device */}
       <div className='lg:hidden'>

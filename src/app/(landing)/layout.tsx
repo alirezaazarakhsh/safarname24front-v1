@@ -24,7 +24,9 @@ export default function LandingLayout(props: Props) {
         <main className='max-w-screen-template min-h-dvh mx-auto flex flex-col'>
           <Header />
           <section
-            className={`mx-5 mt-8 mb-16 flex flex-col gap-y-16 lg:gap-y-20 ${pathname === '/' ? 'lg:mt-28 xl:mt-24' : 'lg:mt-32'}`}
+            className={`mx-5 mt-8 mb-16 flex flex-col gap-y-12 lg:gap-y-20 ${
+              pathname === '/' ? 'lg:mt-28 xl:mt-24' : 'lg:mt-32'
+            }`}
           >
             {props.children}
           </section>

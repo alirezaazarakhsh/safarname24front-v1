@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { ICArrowLeft } from '@/components/icons';
 import { DynamicTopBarTimer } from './TopBarTimer';
+import { cn } from '@/utils/utils';
 
 type commonProps = {
   subtitle: string;
   timer?: string;
   seeAllHref?: string;
+  className?: string;
   backBtnFunc?: () => void;
   nextBtnFunc?: () => void;
 };
@@ -13,10 +15,10 @@ type commonProps = {
 type Props = (commonProps & { title: string }) | (commonProps & { titleA: string; titleB: string });
 
 export function TopBarConfig(props: Props) {
-  const { subtitle, timer, seeAllHref, backBtnFunc, nextBtnFunc } = props;
+  const { subtitle, timer, seeAllHref, backBtnFunc, nextBtnFunc, className } = props;
 
   return (
-    <div className='mb-6 ml-5 flex-between items-center lg:mb-8 lg:ml-0'>
+    <div className={cn('mb-4 ml-5 flex-between items-center lg:mb-6 lg:ml-0', className)}>
       <div className='space-y-2'>
         <h4 className='text-cs85 font-extrabold lg:text-cs09'>
           {'title' in props ? (
