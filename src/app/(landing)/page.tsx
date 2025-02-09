@@ -8,6 +8,7 @@ import {
   services,
   suggestedHotels,
 } from '@/constants';
+
 import {
   Services,
   SuggestedHotels,

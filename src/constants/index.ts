@@ -5,6 +5,7 @@ export * from './quickAccess';
 export * from './aboutUsStory';
 export * from './socialMedias';
 export * from './contactUsWays';
+export * from './navigationBar';
 export * from './amazingHotels';
 export * from './aboutUsReasons';
 export * from './identityBadges';
