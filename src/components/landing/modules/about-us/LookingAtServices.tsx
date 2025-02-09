@@ -16,7 +16,11 @@ export function LookingAtServices(props: Props) {
 
   return (
     <div>
-      <TopBarConfig title='نگاهی به خدمات سفرنامه 24' subtitle='یکی از قوی ترین خدمات های هتلداری ایران!' />
+      <TopBarConfig
+        title='نگاهی به خدمات سفرنامه 24'
+        subtitle='یکی از قوی ترین خدمات های هتلداری ایران!'
+        className='mb-0 lg:mb-4'
+      />
 
       <div className='grid items-start gap-20 lg:grid-cols-[1.2fr_1fr]'>
         <Accordion type='single' collapsible>

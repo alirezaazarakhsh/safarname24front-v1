@@ -20,7 +20,7 @@ export function AmazingHotels(props: Props) {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
-    <div className='-ml-5 lg:ml-0'>
+    <div className='mt-4 -ml-5 lg:ml-0'>
       <TopBarConfig
         titleA='هتل های'
         titleB='شگفت انگیز'

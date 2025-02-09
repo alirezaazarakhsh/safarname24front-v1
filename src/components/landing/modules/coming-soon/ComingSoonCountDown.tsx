@@ -32,7 +32,7 @@ const CountDownRenderer = (props: CountDownRendererProps) => {
   const { days, hours, minutes, seconds } = props;
 
   return (
-    <div className='w-full h-28 max-w-[40rem] px-4 grid grid-cols-4 gap-4 lg:h-32 lg:gap-6'>
+    <div className='w-full h-28 max-w-[40rem] px-4 grid grid-cols-4 gap-2 lg:h-32 lg:gap-6'>
       <CountDownItem number={days} type='days' />
       <CountDownItem number={hours} type='hrs' />
       <CountDownItem number={minutes} type='mins' />

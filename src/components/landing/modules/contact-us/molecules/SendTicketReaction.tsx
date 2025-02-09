@@ -37,7 +37,7 @@ export default function SendTicketReaction(props: Props) {
 
               <DialogClose
                 className={`w-max h-10 text-zinc-100 px-6 rounded-lg ${
-                  reactionType === 'success' ? 'bg-green-500' : 'bg-red-500'
+                  reactionType === 'success' ? 'bg-emerald-500' : 'bg-red-500'
                 }`}
               >
                 {reactionType === 'success' ? 'متوجه شدم' : 'تلاش مجدد'}

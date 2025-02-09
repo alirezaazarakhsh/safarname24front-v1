@@ -18,8 +18,8 @@ export const navigationBar = [
   },
   {
     id: 2,
-    title: 'علاقه مندی ها',
-    href: '',
+    title: 'Coming soon',
+    href: '/coming-soon',
     icon: (
       <svg width='18' height='17' viewBox='0 0 18 17' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <path
@@ -44,8 +44,8 @@ export const navigationBar = [
   },
   {
     id: 4,
-    title: 'چت تایم',
-    href: '/chat-time',
+    title: 'درباره ما',
+    href: '/about-us',
     icon: (
       <svg width='18' height='17' viewBox='0 0 18 17' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <path
@@ -73,8 +73,8 @@ export const navigationBar = [
   },
   {
     id: 5,
-    title: 'پروفایل کاربری',
-    href: '/',
+    title: 'تماس با ما',
+    href: '/contact-us',
     icon: (
       <svg width='18' height='17' viewBox='0 0 18 17' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <path
