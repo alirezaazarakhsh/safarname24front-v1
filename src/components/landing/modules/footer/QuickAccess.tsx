@@ -38,7 +38,7 @@ export default function QuickAccess(props: Props) {
       </div>
 
       {/* Large-Device */}
-      <div className='w-full h-12 px-6 my-4 hidden gap-4 xl:flex-center xl:justify-between'>
+      <div className='w-full h-12 px-6 my-4 hidden items-center justify-between gap-4 xl:flex'>
         <h4 className='text-zinc-800 text-cs85 font-bold hidden xl:block'>دسترسی سریع :</h4>
 
         <div className='flex-1 h-full flex-between gap-4 xl:flex-none'>

@@ -4,7 +4,6 @@ import { useMediaQuery } from '@/hooks';
 import { sendTicketReaction } from '@/constants';
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
-
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle } from '@/components/ui/drawer';
 
 type Props = {
@@ -59,7 +58,7 @@ export default function SendTicketReaction(props: Props) {
 
               <DrawerClose
                 className={`w-max h-10 text-zinc-100 px-6 rounded-lg ${
-                  reactionType === 'success' ? 'bg-green-500' : 'bg-red-500'
+                  reactionType === 'success' ? 'bg-emerald-500' : 'bg-red-500'
                 }`}
               >
                 {reactionType === 'success' ? 'متوجه شدم' : 'تلاش مجدد'}
