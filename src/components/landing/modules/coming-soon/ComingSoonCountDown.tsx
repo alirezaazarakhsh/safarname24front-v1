@@ -5,10 +5,7 @@ import Countdown from 'react-countdown';
 
 export const DynamicComingSoonCountDown = dynamic(
   () => import('./ComingSoonCountDown').then(({ ComingSoonCountDown }) => ComingSoonCountDown),
-  {
-    ssr: false,
-    // loading: () => <div className='flex-1 h-full bg-white rounded-xl lg:w-52'></div>,
-  }
+  { ssr: false }
 );
 
 type Props = {
