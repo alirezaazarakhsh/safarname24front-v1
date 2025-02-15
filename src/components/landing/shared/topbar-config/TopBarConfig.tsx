@@ -4,7 +4,7 @@ import { DynamicTopBarTimer } from './TopBarTimer';
 import { cn } from '@/utils/utils';
 
 type commonProps = {
-  subtitle: string;
+  subtitle?: string;
   timer?: string;
   seeAllHref?: string;
   className?: string;
