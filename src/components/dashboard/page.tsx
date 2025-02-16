@@ -9,14 +9,8 @@ import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createContext, ReactNode, useContext } from "react";
 
-// Creating a context for deeper components within this component to get the value of user id (uid)
-const uidContext = createContext<string>("");
-
-// Creating a custom hook to use the uid context
-export function useUid(): string {
-  const context = useContext(uidContext);
-  return context;
-}
+// Creating and exporting a context for deeper components within this component to get the value of user id (uid)
+export const uidContext = createContext<string>("");
 
 // Crating and exporting Page component (container like for dashboard pages) component as defualt
 export default function Page({
