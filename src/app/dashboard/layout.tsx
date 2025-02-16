@@ -63,18 +63,45 @@ export const metadata: Metadata = {
 const interFont = Inter({ subsets: ["latin"], variable: "--font-inter" }); // For english text
 const iranSansFont = localFont({
   src: [
-    { path: "/public/font/woff/IRANSansX-LightD4.woff", weight: "400" },
-    { path: "/public/font/woff2/IRANSansX-LightD4.woff2", weight: "400" },
-    { path: "/public/font/woff/IRANSansX-RegularD4.woff", weight: "500" },
-    { path: "/public/font/woff2/IRANSansX-RegularD4.woff2", weight: "500" },
-    { path: "/public/font/woff/IRANSansX-MediumD4.woff", weight: "600" },
-    { path: "/public/font/woff2/IRANSansX-MediumD4.woff2", weight: "600" },
-    { path: "/public/font/woff/IRANSansX-DemiBoldD4.woff", weight: "700" },
-    { path: "/public/font/woff2/IRANSansX-DemiBoldD4.woff2", weight: "700" },
-    { path: "/public/font/woff/IRANSansX-BoldD4.woff", weight: "800" },
-    { path: "/public/font/woff2/IRANSansX-BoldD4.woff2", weight: "800" },
-    { path: "/public/font/woff/IRANSansX-BlackD4.woff", weight: "900" },
-    { path: "/public/font/woff2/IRANSansX-BlackD4.woff2", weight: "900" },
+    { path: "../../../public/font/woff/IRANSansX-LightD4.woff", weight: "400" },
+    {
+      path: "../../../public/font/woff2/IRANSansX-LightD4.woff2",
+      weight: "400",
+    },
+    {
+      path: "../../../public/font/woff/IRANSansX-RegularD4.woff",
+      weight: "500",
+    },
+    {
+      path: "../../../public/font/woff2/IRANSansX-RegularD4.woff2",
+      weight: "500",
+    },
+    {
+      path: "../../../public/font/woff/IRANSansX-MediumD4.woff",
+      weight: "600",
+    },
+    {
+      path: "../../../public/font/woff2/IRANSansX-MediumD4.woff2",
+      weight: "600",
+    },
+    {
+      path: "../../../public/font/woff/IRANSansX-DemiBoldD4.woff",
+      weight: "700",
+    },
+    {
+      path: "../../../public/font/woff2/IRANSansX-DemiBoldD4.woff2",
+      weight: "700",
+    },
+    { path: "../../../public/font/woff/IRANSansX-BoldD4.woff", weight: "800" },
+    {
+      path: "../../../public/font/woff2/IRANSansX-BoldD4.woff2",
+      weight: "800",
+    },
+    { path: "../../../public/font/woff/IRANSansX-BlackD4.woff", weight: "900" },
+    {
+      path: "../../../public/font/woff2/IRANSansX-BlackD4.woff2",
+      weight: "900",
+    },
   ],
   variable: "--font-sans",
 });
@@ -85,7 +112,7 @@ export default function RootLayout({
 }: RootLayoutPropsType): ReactNode {
   // Returning JSX
   return (
-    <html lang="fa" dir="rtl">
+    <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
         className={cn(
           "min-h-scren overflow-x-hidden overflow-y-auto",
