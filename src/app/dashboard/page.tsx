@@ -5,8 +5,8 @@ import { ReactNode } from "react";
 export default function Dashboard(): ReactNode {
   // Returning JSX
   return (
-    <div>
-      <h1>سلام دادا</h1>
+    <div className="p-5 h-dvh flex items-center justify-center">
+      <h1 className="font-bold text-center text-2xl block">داشبورد</h1>
     </div>
   );
 }

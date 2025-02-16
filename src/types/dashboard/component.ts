@@ -5,3 +5,8 @@ import { ReactNode } from "react";
 export interface RootLayoutPropsType {
   children: ReactNode;
 }
+
+export interface PageComponentPropsType {
+  children: ReactNode;
+  className?: string;
+}

@@ -6,6 +6,9 @@ import localFont from "next/font/local";
 import { Metadata } from "next/types";
 import { ReactNode } from "react";
 
+import "swiper/css";
+import "@/styles/scrollbar.css";
+
 // Defining some variables to user later
 const siteInfo = {
   name: "سفرنامه | داشبورد رزرو بلیط و هتل",
@@ -115,7 +118,7 @@ export default function RootLayout({
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-scren overflow-x-hidden overflow-y-auto",
+          "min-h-dvh overflow-x-hidden overflow-y-auto",
           interFont.variable,
           iranSansFont.className
         )}
