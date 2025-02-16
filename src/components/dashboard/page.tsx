@@ -8,6 +8,7 @@ import { cn } from "@/utils/utils";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createContext, ReactNode, useContext } from "react";
+import Header from "./header";
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>("");
@@ -32,7 +33,13 @@ export default function Page({
   } else if (uid.data) {
     return (
       <uidContext.Provider value={uid.data}>
-        <div className={cn("max-w-screen-template mx-auto", className)}>
+        <Header />
+        <div
+          className={cn(
+            "max-w-screen-template mx-auto bg-[#F9F9F9]",
+            className
+          )}
+        >
           {children}
         </div>
       </uidContext.Provider>
@@ -43,8 +50,8 @@ export default function Page({
 
     // Returning JSX
     return (
-      <div className="max-w-screen-template mx-auto flex items-center justify-center">
-        <span className="font-medium text-center text-xl block">
+      <div className="max-w-screen-template min-h-dvh mx-auto flex items-center justify-center">
+        <span className="font-medium text-center text-lg block">
           شما درحال انتقال به صفحه ورود هستید.
         </span>
       </div>
