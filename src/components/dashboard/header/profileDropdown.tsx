@@ -38,10 +38,10 @@ export default function ProfileDropdown(): ReactNode {
       </DropDown.DropdownMenuTrigger>
       <DropDown.DropdownMenuContent className="shadow-none">
         <DropDown.DropdownMenuLabel className="flex items-center justify-center gap-3 p-3 text-black">
-          <span className="truncate block text-sm font-medium text-current">
+          <span className="truncate block text-cs08 font-medium text-current">
             حساب شما صفر میباشد!
           </span>
-          <ICWallet className="w-5 h-5 text-current shrink-0" />
+          <ICWallet className="w-4 h-4 text-current shrink-0" />
         </DropDown.DropdownMenuLabel>
         <DropDown.DropdownMenuSeparator className="mx-3 mb-3" />
         <DropDown.DropdownMenuItem
@@ -49,7 +49,7 @@ export default function ProfileDropdown(): ReactNode {
           className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
         >
           <button>
-            <span className="text-sm font-normal text-current text-right truncate block">
+            <span className="text-cs08 font-normal text-current text-right truncate block">
               ویرایش پروفایل
             </span>
           </button>
@@ -59,7 +59,7 @@ export default function ProfileDropdown(): ReactNode {
           className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
         >
           <button>
-            <span className="text-sm font-normal text-current text-right truncate block">
+            <span className="text-cs08 font-normal text-current text-right truncate block">
               شارژ کیف پول
             </span>
           </button>
@@ -69,7 +69,7 @@ export default function ProfileDropdown(): ReactNode {
           className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
         >
           <button>
-            <span className="text-sm font-normal text-current text-right truncate block">
+            <span className="text-cs08 font-normal text-current text-right truncate block">
               خروج از حساب
             </span>
           </button>
