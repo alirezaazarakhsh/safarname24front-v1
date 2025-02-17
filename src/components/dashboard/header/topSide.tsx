@@ -3,11 +3,9 @@ import { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import LogoImage from "../../../../public/image/logo/logo-white.png";
-import AvatarImage from "../../../../public/image/profile/1.webp";
-import { ICLogOut } from "@/components/icons/IcLogOut";
 import { ICNotificationStatus } from "@/components/icons/ICNotifcationStatus";
-import { ICChevronBottom } from "@/components/icons/ICChevronBottom";
-import * as DropDown from "@/components/ui/dropdown-menu";
+import ProfileDropdown from "./profileDropdown";
+import { ICLogOut } from "@/components/icons/ICLogOut";
 
 // Creating and exporting TopSide component of header as default
 export default function TopSide(): ReactNode {
@@ -50,47 +48,7 @@ export default function TopSide(): ReactNode {
               اعلان ها
             </span>
           </Link>
-          <DropDown.DropdownMenu>
-            <DropDown.DropdownMenuTrigger asChild>
-              <button className="flex items-center justify-start gap-2 w-[200px] overflow-hidden">
-                <Image
-                  width={100}
-                  height={100}
-                  alt={"عکس پروفایل شما"}
-                  src={AvatarImage.src}
-                  className="aspect-square object-cover w-12 h-12 rounded-lg overflow-hidden shrink-0"
-                />
-                <div className="w-full overflow-hidden">
-                  <div className="mb-1 flex items-center justify-start gap-3 text-black">
-                    <span className="font-bold text-cs75 text-current block truncate w-full text-right">
-                      علیرضا آذرخش عزیز!
-                    </span>
-                    <ICChevronBottom className="w-3 h-3 shrink-0 text-current" />
-                  </div>
-                  <span className="font-bold text-cs75 text-gray-500 block truncate text-right">
-                    Alirezaazarakhsh@gmail.com
-                  </span>
-                </div>
-              </button>
-            </DropDown.DropdownMenuTrigger>
-            <DropDown.DropdownMenuContent>
-              <DropDown.DropdownMenuLabel className="flex items-center justify-center gap-2 text-red-600">
-                <span className="text-center truncate block">kjjk</span>
-                <ICChevronBottom className="w-3 h-3 text-current shrink-0" />
-              </DropDown.DropdownMenuLabel>
-              <DropDown.DropdownMenuSeparator />
-              <DropDown.DropdownMenuItem asChild>
-                <button
-                  className="px-3 py-5 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full"
-                  dir="rtl"
-                >
-                  <span className="text-xs font-normal text-current truncate">
-                    ویرایش پروفایل
-                  </span>
-                </button>
-              </DropDown.DropdownMenuItem>
-            </DropDown.DropdownMenuContent>
-          </DropDown.DropdownMenu>
+          <ProfileDropdown />
         </div>
       </div>
     </div>
