@@ -74,6 +74,9 @@ export default function NavBar(): ReactNode {
     setActiveLinkIndex(indexOfFindedItem);
   }, [pathname]);
 
+  // Defining some variables
+  const width = 125;
+
   // Returning JSX
   return (
     <nav className="border-b border-b-black/20 bg-white">
@@ -81,6 +84,7 @@ export default function NavBar(): ReactNode {
         {data.map((item, index) => (
           <Link
             key={index}
+            style={{ width }}
             data-active={activeLinkIndex === index}
             className="shrink-0 w-[125px] px-3 flex items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
             href={item.href}
@@ -95,9 +99,10 @@ export default function NavBar(): ReactNode {
           </Link>
         ))}
         <div
-          className="w-[125px] absolute h-[1px] rounded-[45rem] top-[98%] right-0 bg-cs-red transition-all duration-500"
+          className="absolute h-[1px] rounded-[45rem] top-[98%] right-0 bg-cs-red transition-all duration-500"
           style={{
-            transform: `translateX(-${activeLinkIndex * (125 + 20) + 20}px)`,
+            transform: `translateX(-${activeLinkIndex * (width + 20) + 20}px)`,
+            width,
           }}
         />
       </div>
