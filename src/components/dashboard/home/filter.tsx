@@ -6,15 +6,19 @@ import { ICChevronBottom } from "@/components/icons/ICChevronBottom";
 import { getTodayDate } from "@/utils/date";
 import { ReactNode } from "react";
 import * as DropDown from "@/components/ui/dropdown-menu";
+import { FilterComponentPropsType } from "@/types/dashboard/component";
+import { cn } from "@/utils/utils";
 
 // Creating and exporting Filter component as defualt
-export default function Filter(): ReactNode {
+export default function Filter({
+  className,
+}: FilterComponentPropsType): ReactNode {
   // Defining current date in tehran
   const date = getTodayDate();
 
   // Returning JSX
   return (
-    <div className="flex items-center justify-between gap-5">
+    <div className={cn("flex items-center justify-between gap-5", className)}>
       <span className="block truncate text-right w-full font-bold text-cs85 text-black">
         داشبورد سفرنامه
       </span>

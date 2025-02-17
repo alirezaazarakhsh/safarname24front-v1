@@ -10,3 +10,7 @@ export interface PageComponentPropsType {
   children: ReactNode;
   className?: string;
 }
+
+export interface FilterComponentPropsType {
+  className?: string;
+}
