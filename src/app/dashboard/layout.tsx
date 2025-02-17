@@ -118,7 +118,7 @@ export default function RootLayout({
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-dvh overflow-x-hidden overflow-y-auto",
+          "min-h-dvh overflow-x-hidden overflow-y-auto bg-[#F9F9F9]",
           interFont.variable,
           iranSansFont.className
         )}

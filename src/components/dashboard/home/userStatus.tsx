@@ -1,5 +1,4 @@
 // Importing part
-import { ICArrowLeft } from "@/components/icons";
 import { ICCharSuccess } from "@/components/icons/ICChartSuccess";
 import { ICCup } from "@/components/icons/ICCup";
 import { ICHoriz3Dots } from "@/components/icons/ICHoriz3Dots";
