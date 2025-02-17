@@ -41,8 +41,10 @@ export default function TopSide(): ReactNode {
           </button>
           <Link
             href="/dashboard/notifications"
-            className="flex h-12 px-4 bg-gray-100 transition-all duration-500 hover:bg-gray-200 text-gray-700 items-center justify-center gap-2 rounded-lg"
+            className="flex h-12 px-4 bg-gray-100 transition-all duration-500 hover:bg-gray-200 text-gray-700 items-center justify-center gap-2 rounded-lg relative"
           >
+            <div className="absolute top-0 left-0 bg-cs-red w-2 h-2 z-10 rounded-full -translate-y-[50%] -translate-x-[50%]" />
+            <div className="absolute top-[-4px] left-[-4px] bg-cs-red/40 duration-1000 delay-1000 animate-ping z-0 origin-center w-2 h-2 rounded-full" />
             <ICNotificationStatus className="w-5 h-5 text-current shrink-0" />
             <span className="font-medium text-cs08 text-current block truncate w-full">
               اعلان ها
