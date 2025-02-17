@@ -1,5 +1,6 @@
 // Importing part
 import Filter from "@/components/dashboard/home/filter";
+import UserStatus from "@/components/dashboard/home/userStatus";
 import Page from "@/components/dashboard/page";
 import { ReactNode } from "react";
 
@@ -9,6 +10,7 @@ export default function Dashboard(): ReactNode {
   return (
     <Page className="p-5">
       <Filter className="mb-5" />
+      <UserStatus />
     </Page>
   );
 }

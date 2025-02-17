@@ -14,3 +14,7 @@ export interface PageComponentPropsType {
 export interface FilterComponentPropsType {
   className?: string;
 }
+
+export interface UserStatusComponentPropsType {
+  className?: string;
+}
