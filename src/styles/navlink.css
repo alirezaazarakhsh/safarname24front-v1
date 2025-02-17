@@ -16,7 +16,7 @@
   width: 0;
   height: 3px;
   position: absolute;
-  bottom: 0.1rem;
+  bottom: 0.05rem;
   right: 50%;
   transform: translateX(50%);
   border-radius: 0.5rem;
