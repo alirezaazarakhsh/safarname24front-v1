@@ -3,6 +3,7 @@
 
 // Importing part
 import { ICCategory } from "@/components/icons/ICCategory";
+import { ICChevronBottom } from "@/components/icons/ICChevronBottom";
 import { ICCrown } from "@/components/icons/ICCrown";
 import { ICDocumentText } from "@/components/icons/ICDocumentText";
 import { ICLogOut } from "@/components/icons/ICLogOut";
@@ -88,6 +89,9 @@ export default function NavBar(): ReactNode {
             <span className="block truncate text-right text-cs85 font-normal">
               {item.label}
             </span>
+            {item.hasChevronIcon && (
+              <ICChevronBottom className="w-4 h-4 text-current shrink-0" />
+            )}
           </Link>
         ))}
         <div
