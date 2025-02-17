@@ -30,9 +30,10 @@ export default function Page({
         <Loader className="w-5 h-5 animate-spin text-cs-red" />
       </div>
     );
-  } else if (uid.data) {
+  } else  {
+    // else if (uid.data)
     return (
-      <uidContext.Provider value={uid.data}>
+      <uidContext.Provider value={(uid.data) ? uid.data : "undefined_user_id"}>
         <Header />
         <div
           className={cn(
@@ -44,17 +45,18 @@ export default function Page({
         </div>
       </uidContext.Provider>
     );
-  } else if (!uid.data) {
-    // redirecting user to auth page
-    router.push("/auth/login");
-
-    // Returning JSX
-    return (
-      <div className="max-w-screen-template min-h-dvh mx-auto flex items-center justify-center">
-        <span className="font-medium text-center text-lg block">
-          شما درحال انتقال به صفحه ورود هستید.
-        </span>
-      </div>
-    );
-  }
+  } 
+  // else if (!uid.data) {
+  //  // redirecting user to auth page
+  //  router.push("/auth/login");
+  //
+  //  // Returning JSX
+  //  return (
+  //    <div className="max-w-screen-template min-h-dvh mx-auto flex items-center justify-center">
+  //      <span className="font-medium text-center text-lg block">
+  //        شما درحال انتقال به صفحه ورود هستید.
+  //      </span>
+  //    </div>
+  //  );
+  //}
 }
