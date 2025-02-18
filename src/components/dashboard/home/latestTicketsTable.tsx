@@ -3,12 +3,11 @@
 
 // Importing part
 import { ReactNode } from "react";
+import moment from 'jalali-moment'
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
@@ -152,7 +151,7 @@ export default function LatestTicketsTable(): ReactNode {
                 <div className="flex justify-end gap-3">
                   <div className="bg-gray-100 h-10 px-5 rounded-md flex items-center justify-center">
                     <span className="font-normal text-cs07 text-gray-600 block truncate text-center">
-                      1403/12/18
+                        {moment().locale("fa").format("YYYY/MM/DD")}
                     </span>
                   </div>
                   <Link

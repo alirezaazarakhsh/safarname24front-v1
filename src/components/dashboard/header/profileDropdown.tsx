@@ -36,7 +36,7 @@ export default function ProfileDropdown(): ReactNode {
           </div>
         </button>
       </DropDown.DropdownMenuTrigger>
-      <DropDown.DropdownMenuContent className="shadow-none">
+      <DropDown.DropdownMenuContent className="shadow-none w-[200px]" align="start">
         <DropDown.DropdownMenuLabel className="flex items-center justify-center gap-3 p-3 text-black">
           <span className="truncate block text-cs08 font-medium text-current">
             حساب شما صفر میباشد!
