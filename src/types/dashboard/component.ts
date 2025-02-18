@@ -26,3 +26,22 @@ export interface LatestReservationsTableProps {
 export interface LatestTicketsTableProps {
   className?: string;
 }
+
+export interface UserStatusInfoComponentPropsType {
+  className?: string;
+  data: {
+    icon: ReactNode;
+    title: string;
+    value: {
+      unit: string;
+      count: number;
+    };
+    barMode: {
+      unit: string;
+      value: {
+        date: string;
+        value: number;
+      }[];
+    };
+  };
+}

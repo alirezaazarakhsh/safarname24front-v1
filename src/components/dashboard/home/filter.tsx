@@ -1,13 +1,13 @@
 // Forcing next.js to render this component as client side component
-"use client";
+'use client';
 
 // Importing part
-import { ICChevronBottom } from "@/components/icons/ICChevronBottom";
-import { getTodayDate } from "@/utils/date";
-import { ReactNode } from "react";
-import * as DropDown from "@/components/ui/dropdown-menu";
-import { FilterComponentPropsType } from "@/types/dashboard/component";
-import { cn } from "@/utils/utils";
+import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
+import { getTodayDate } from '@/utils/date';
+import { ReactNode } from 'react';
+import * as DropDown from '@/components/ui/dropdown-menu';
+import { FilterComponentPropsType } from '@/types/dashboard/component';
+import { cn } from '@/utils/utils';
 
 // Creating and exporting Filter component as defualt
 export default function Filter({
@@ -18,7 +18,7 @@ export default function Filter({
 
   // Returning JSX
   return (
-    <div className={cn("flex items-center justify-between gap-5", className)}>
+    <div className={cn('flex items-center justify-between gap-5', className)}>
       <span className="block truncate text-right w-full font-bold text-cs85 text-black">
         داشبورد سفرنامه
       </span>
@@ -50,10 +50,7 @@ export default function Filter({
               <ICChevronBottom className="w-3 h-3 text-current" />
             </button>
           </DropDown.DropdownMenuTrigger>
-          <DropDown.DropdownMenuContent
-                        align="start"
-            className="shadow-none w-[170px]"
-          >
+          <DropDown.DropdownMenuContent align="start" className="w-[200px]">
             <DropDown.DropdownMenuLabel className="p-3">
               <span className="truncate block text-cs08 font-medium text-black text-right">
                 تایم لاین حالت دیفالت

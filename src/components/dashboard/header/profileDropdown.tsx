@@ -1,13 +1,13 @@
 // Forcing next.js to render this component as client side component
-"use client";
+'use client';
 
 // Importing part
-import { ReactNode } from "react";
-import * as DropDown from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import { ICChevronBottom } from "@/components/icons/ICChevronBottom";
-import AvatarImage from "../../../../public/image/profile/1.webp";
-import { ICWallet } from "@/components/icons/ICWallet";
+import { ReactNode } from 'react';
+import * as DropDown from '@/components/ui/dropdown-menu';
+import Image from 'next/image';
+import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
+import AvatarImage from '../../../../public/image/profile/1.webp';
+import { ICWallet } from '@/components/icons/ICWallet';
 
 // Creating and exporting ProfileDropdown component as defualt
 export default function ProfileDropdown(): ReactNode {
@@ -19,7 +19,7 @@ export default function ProfileDropdown(): ReactNode {
           <Image
             width={100}
             height={100}
-            alt={"عکس پروفایل شما"}
+            alt={'عکس پروفایل شما'}
             src={AvatarImage.src}
             className="aspect-square object-cover w-12 h-12 rounded-lg overflow-hidden shrink-0"
           />
@@ -36,7 +36,7 @@ export default function ProfileDropdown(): ReactNode {
           </div>
         </button>
       </DropDown.DropdownMenuTrigger>
-      <DropDown.DropdownMenuContent className="shadow-none w-[200px]" align="start">
+      <DropDown.DropdownMenuContent className="w-[200px]" align="start">
         <DropDown.DropdownMenuLabel className="flex items-center justify-center gap-3 p-3 text-black">
           <span className="truncate block text-cs08 font-medium text-current">
             حساب شما صفر میباشد!
