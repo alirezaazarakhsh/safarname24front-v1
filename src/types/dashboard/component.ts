@@ -1,5 +1,5 @@
 // Importing part
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -16,5 +16,13 @@ export interface FilterComponentPropsType {
 }
 
 export interface UserStatusComponentPropsType {
+  className?: string;
+}
+
+export interface LatestReservationsTableProps {
+  className?: string;
+}
+
+export interface LatestTicketsTableProps {
   className?: string;
 }
