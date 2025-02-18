@@ -8,6 +8,7 @@ import { ReactNode, useState } from 'react';
 import { numberSeparation } from '@/utils';
 import { ICHoriz3Dots } from '@/components/icons/ICHoriz3Dots';
 import * as Dropdown from '@/components/ui/dropdown-menu';
+import { UserInfoBarChart } from './userInfoBarCharts';
 
 // Creating and eporting UserStatusInfo component as default
 export default function UserStatusInfo({
@@ -15,7 +16,7 @@ export default function UserStatusInfo({
   data,
 }: UserStatusInfoComponentPropsType): ReactNode {
   // Defining states of component
-  const [mode, setMode] = useState<string>('normal');
+  const [mode, setMode] = useState<string>('normal'); // values: normal, bar
 
   // Returning JSX
   return (
@@ -46,14 +47,15 @@ export default function UserStatusInfo({
           </span>
         </div>
       </div>
-      <div className="flex items-center justify-between gap-3 shrink-0">
+      <div
+            data-mode={mode}
+            className="flex items-center justify-between gap-1 shrink-0 transition-all duration-500 data-[mode='normal']:w-auto data-[mode='bar']:w-[50%]"
+        >
         {mode === 'normal' ? (
-          false
+        false
         ) : (
-          <div className="bg-red-600 w-full ">
-            <h1>Hello world</h1>
-          </div>
-        )}
+            <div className="w-full h-full"><UserInfoBarChart /></div>
+            )}
         <Dropdown.DropdownMenu>
           <Dropdown.DropdownMenuTrigger asChild>
             <button className="shrink-0">

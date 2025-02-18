@@ -7,7 +7,6 @@ import { ICVerify } from '@/components/icons/ICVerify';
 import { UserStatusComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { ReactNode } from 'react';
-import { numberSeparation } from '@/utils';
 import UserStatusInfo from './userStatusInfo';
 
 // Defining some fake data to render
@@ -24,8 +23,9 @@ export default function UserStatus({
 }: UserStatusComponentPropsType): ReactNode {
   // Returning JSx
   return (
-    <div className={cn('grid grid-cols-4 gap-8', className)}>
+    <div className={cn('lg:grid lg:overflow-visible overflow-auto scrollbar-hide grid-cols-4 lg:gap-8 gap-4 flex', className)}>
       <UserStatusInfo
+                className="lg:shrink shrink-0"
         data={{
           icon: <ICCharSuccess className="w-4 h-4 text-black" />,
           title: 'تعداد رزرو های موفق من',
@@ -43,6 +43,8 @@ export default function UserStatus({
         }}
       />
       <UserStatusInfo
+
+                className="lg:shrink shrink-0"
         data={{
           icon: <ICSMSTracking className="w-4 h-4 text-black" />,
           title: 'مجموع تیکت های من',
@@ -60,6 +62,7 @@ export default function UserStatus({
         }}
       />
       <UserStatusInfo
+                className="lg:shrink shrink-0"
         data={{
           icon: <ICCup className="w-4 h-4 text-black" />,
           title: 'امتیاز باشگاه مشتری من',
@@ -77,6 +80,7 @@ export default function UserStatus({
         }}
       />
       <UserStatusInfo
+                className="lg:shrink shrink-0"
         data={{
           icon: <ICVerify className="w-4 h-4 text-black" />,
           title: 'تعداد رزرو های موفق من',
