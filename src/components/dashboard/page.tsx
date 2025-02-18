@@ -1,17 +1,17 @@
 // Forcing next.js to render this component as client side component
-"use client";
+'use client';
 
 // Imporitng part
-import useLocalStorage from "@/hooks/useLocalStorage";
-import { PageComponentPropsType } from "@/types/dashboard/component";
-import { cn } from "@/utils/utils";
-import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { createContext, ReactNode, useContext } from "react";
-import Header from "./header";
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { PageComponentPropsType } from '@/types/dashboard/component';
+import { cn } from '@/utils/utils';
+import { Loader } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { createContext, ReactNode, useContext } from 'react';
+import Header from './header';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
-export const uidContext = createContext<string>("");
+export const uidContext = createContext<string>('');
 
 // Crating and exporting Page component (container like for dashboard pages) component as defualt
 export default function Page({
@@ -19,7 +19,7 @@ export default function Page({
   className,
 }: PageComponentPropsType): ReactNode {
   // Defining hooks to use later
-  const uid = useLocalStorage({ value: "uid" });
+  const uid = useLocalStorage({ value: 'uid' });
   const router = useRouter();
 
   // Condititional rendering for conditions of :
@@ -30,22 +30,22 @@ export default function Page({
         <Loader className="w-5 h-5 animate-spin text-cs-red" />
       </div>
     );
-  } else  {
+  } else {
     // else if (uid.data)
     return (
-      <uidContext.Provider value={(uid.data) ? uid.data : "undefined_user_id"}>
+      <uidContext.Provider value={uid.data ? uid.data : 'undefined_user_id'}>
         <Header />
         <div
           className={cn(
-            "max-w-screen-template overflow-x-hidden overflow-y-auto mx-auto bg-[#F9F9F9]",
-            className
+            'max-w-screen-template overflow-x-hidden overflow-y-auto mx-auto bg-[#F9F9F9]',
+            className,
           )}
         >
           {children}
         </div>
       </uidContext.Provider>
     );
-  } 
+  }
   // else if (!uid.data) {
   //  // redirecting user to auth page
   //  router.push("/auth/login");

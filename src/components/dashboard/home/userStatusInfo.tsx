@@ -48,14 +48,16 @@ export default function UserStatusInfo({
         </div>
       </div>
       <div
-            data-mode={mode}
-            className="flex items-center justify-between gap-1 shrink-0 transition-all duration-500 data-[mode='normal']:w-auto data-[mode='bar']:w-[50%]"
-        >
+        data-mode={mode}
+        className="flex items-center justify-between gap-1 shrink-0 transition-all duration-500 data-[mode='normal']:w-auto data-[mode='bar']:w-[50%]"
+      >
         {mode === 'normal' ? (
-        false
+          false
         ) : (
-            <div className="w-full h-full"><UserInfoBarChart /></div>
-            )}
+          <div className="w-full h-full">
+            <UserInfoBarChart />
+          </div>
+        )}
         <Dropdown.DropdownMenu>
           <Dropdown.DropdownMenuTrigger asChild>
             <button className="shrink-0">
