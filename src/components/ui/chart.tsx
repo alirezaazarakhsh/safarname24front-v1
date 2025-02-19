@@ -111,6 +111,7 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: 'line' | 'dot' | 'dashed';
       nameKey?: string;
       labelKey?: string;
+      posX: number;
     }
 >(
   (
@@ -121,6 +122,7 @@ const ChartTooltipContent = React.forwardRef<
       indicator = 'dot',
       hideLabel = false,
       hideIndicator = false,
+      posX,
       label,
       labelFormatter,
       labelClassName,
@@ -128,6 +130,7 @@ const ChartTooltipContent = React.forwardRef<
       color,
       nameKey,
       labelKey,
+      position,
     },
     ref,
   ) => {
@@ -179,9 +182,10 @@ const ChartTooltipContent = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          'grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-black/10 bg-white px-2.5 py-1.5 text-xs shadow-xl dark:border-zinc-800 dark:border-zinc-800/50 dark:bg-zinc-950 absolute bottom-full left-0 ',
+          'grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-black/10 bg-white px-2.5 py-1.5 text-xs shadow-xl dark:border-zinc-800 dark:border-zinc-800/50 dark:bg-zinc-950 absolute bottom-full',
           className,
         )}
+        style={{ left: `${posX || 10}px` }}
       >
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
@@ -198,12 +202,7 @@ const ChartTooltipContent = React.forwardRef<
                   indicator === 'dot' && 'items-center',
                 )}
               >
-                <div
-                  className="absolute w-3 h-3 top-full bg-white border borrer-black/10 rotate-45 transition-all duration-500 border-l-transparent border-t-transparent"
-                  style={{
-                    left: `${20}px`,
-                  }}
-                />
+                <div className="absolute w-3 h-3 top-full bg-white border borrer-black/10 rotate-45 transition-all duration-500 border-l-transparent border-t-transparent left-[20px]" />
                 {formatter && item?.value !== undefined && item.name ? (
                   formatter(item.value, item.name, item, index, item.payload)
                 ) : (
