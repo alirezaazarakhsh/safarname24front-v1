@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { Bar, BarChart, Label } from 'recharts';
+import { Bar, BarChart } from 'recharts';
 import {
   ChartConfig,
   ChartContainer,
@@ -31,7 +31,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 // Creating and exporting UserInfoButtonChart component as default
-export function UserInfoBarChart() {
+export function UserInfoBarChart():ReactNode {
   // Defining state of component
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [cursorPosX, setCursorPosX] = useState<number>(0);
@@ -52,7 +52,6 @@ export function UserInfoBarChart() {
       <BarChart accessibilityLayer data={chartData} barGap={10}>
         <ChartTooltip
           cursor={false}
-                    active
           content={<ChartTooltipContent posX={cursorPosX} hideLabel />}
         />
         <Bar
