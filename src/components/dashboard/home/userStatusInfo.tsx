@@ -27,7 +27,7 @@ export default function UserStatusInfo({
         className,
       )}
     >
-<div
+      <div
         data-mode={mode}
         className="flex items-center justify-center gap-3 data-[mode='normal']:w-[calc(100%-16px)] data-[mode='bar']:w-[50%] transition-all duration-500 overflow-hidden"
       >
@@ -44,11 +44,9 @@ export default function UserStatusInfo({
             {data.title}
           </span>
           <span className="text-cs75 font-medium text-black truncate block text-right">
-            {
-                        (data.value.count !== 0)
-                            ? `${numberSeparation(data.value.count)} ${data.value.unit}`
-                            : `${data.value.unit} نداشتید!`
-                    }
+            {data.value.count !== 0
+              ? `${numberSeparation(data.value.count)} ${data.value.unit}`
+              : `${data.value.unit} نداشتید!`}
           </span>
         </div>
       </div>
@@ -63,16 +61,18 @@ export default function UserStatusInfo({
             <UserInfoBarChart />
           </div>
         )}
-                {
-                    (data.value.count === 0)
-                        ? (
-                            <div className="w-full">
-                                <ICChartDown className="w-full" />
-                            </div>
-                        ) : false
-                }
+        {data.value.count === 0 ? (
+          <div className="w-full">
+            <ICChartDown className="w-full" />
+          </div>
+        ) : (
+          false
+        )}
         <Dropdown.DropdownMenu>
-          <Dropdown.DropdownMenuTrigger asChild disabled={data.value.count === 0}>
+          <Dropdown.DropdownMenuTrigger
+            asChild
+            disabled={data.value.count === 0}
+          >
             <button className="shrink-0">
               <ICHoriz3Dots className="text-gray-200 w-4 h-4" />
             </button>
