@@ -9,6 +9,7 @@ import { numberSeparation } from '@/utils';
 import { ICHoriz3Dots } from '@/components/icons/ICHoriz3Dots';
 import * as Dropdown from '@/components/ui/dropdown-menu';
 import { UserInfoBarChart } from './userInfoBarCharts';
+import { ICChartDown } from '@/components/icons/ICChartDown';
 
 // Creating and eporting UserStatusInfo component as default
 export default function UserStatusInfo({
@@ -26,14 +27,11 @@ export default function UserStatusInfo({
         className,
       )}
     >
-            {
-                data.value.count !== 0 
-                    ? (
 <div
         data-mode={mode}
         className="flex items-center justify-center gap-3 data-[mode='normal']:w-[calc(100%-16px)] data-[mode='bar']:w-[50%] transition-all duration-500 overflow-hidden"
       >
-        {mode === 'normal' ? (
+        {mode === 'normal' && data.value.count !== 0 ? (
           <div className="w-8 h-8 rounded-md aspect-square flex items-center justify-center bg-gray-100 shrink-0">
             {data.icon}
           </div>
@@ -46,13 +44,14 @@ export default function UserStatusInfo({
             {data.title}
           </span>
           <span className="text-cs75 font-medium text-black truncate block text-right">
-            {`${numberSeparation(data.value.count)} ${data.value.unit}`}
+            {
+                        (data.value.count !== 0)
+                            ? `${numberSeparation(data.value.count)} ${data.value.unit}`
+                            : `${data.value.unit} نداشتید!`
+                    }
           </span>
         </div>
       </div>
-                    ) : false
-            }
-      
       <div
         data-mode={mode}
         className="flex items-center justify-between gap-1 shrink-0 transition-all duration-500 data-[mode='normal']:w-auto data-[mode='bar']:w-[50%]"
@@ -64,6 +63,14 @@ export default function UserStatusInfo({
             <UserInfoBarChart />
           </div>
         )}
+                {
+                    (data.value.count === 0)
+                        ? (
+                            <div className="w-full">
+                                <ICChartDown className="w-full" />
+                            </div>
+                        ) : false
+                }
         <Dropdown.DropdownMenu>
           <Dropdown.DropdownMenuTrigger asChild disabled={data.value.count === 0}>
             <button className="shrink-0">
