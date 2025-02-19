@@ -7,8 +7,9 @@ import { PageComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode } from 'react';
 import Header from './header';
+import MobileNav from './mobileNav';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
@@ -35,6 +36,7 @@ export default function Page({
     return (
       <uidContext.Provider value={uid.data ? uid.data : 'undefined_user_id'}>
         <Header />
+        <MobileNav />
         <div
           className={cn(
             'max-w-screen-template overflow-x-hidden overflow-y-auto mx-auto bg-[#F9F9F9]',

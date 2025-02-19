@@ -10,7 +10,7 @@ import { ReactNode } from 'react';
 export default function Dashboard(): ReactNode {
   // Returning JSX
   return (
-    <Page className="p-5">
+    <Page className="lg:p-5 lg:pb-5 p-[24px] pb-[100px]">
       <Filter className="mb-5" />
       <UserStatus className="mb-5" />
       <LatestTicketsTable className="mb-5" />

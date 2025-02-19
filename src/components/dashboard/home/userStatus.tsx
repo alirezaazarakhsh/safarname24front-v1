@@ -83,7 +83,7 @@ export default function UserStatus({
         className="lg:shrink shrink-0"
         data={{
           icon: <ICVerify className="w-4 h-4 text-black" />,
-          title: 'تعداد رزرو های موفق من',
+          title: 'مبلغ کل خرید موفق آمیز',
           value: {
             count: data.totalSuccesfullTransaction,
             unit: 'تومان',
