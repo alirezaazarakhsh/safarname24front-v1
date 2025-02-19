@@ -1,0 +1,53 @@
+name: Deploy Next.js App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name: Install dependencies
+      run: |
+        npm install --legacy-peer-deps
+
+    - name: Build Docker Image
+      run: |
+        docker build -t myapp .
+
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      env:
+        SERVER_IP: 91.107.134.107
+
+    - name: Deploy to Server
+      run: |
+        ssh -i ~/.ssh/id_rsa root@${{ secrets.SERVER_IP }} << 'EOF'
+          # Go to the correct directory for the frontend
+          cd /var/safarname24front-v1
+          # Pull the latest changes from the repository
+          git pull origin main
+          # Stop running containers (if any)
+          docker-compose down
+          # Rebuild and run the containers in detached mode
+          docker-compose up -d --build
+        EOF
+      env:
+        SERVER_IP: 91.107.134.107
+
+        

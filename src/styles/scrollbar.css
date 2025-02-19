@@ -28,3 +28,7 @@ html::-webkit-scrollbar-thumb:hover {
   background: #c5c5c5;
   border-radius: 0.6rem;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
