@@ -26,7 +26,10 @@ export default function UserStatusInfo({
         className,
       )}
     >
-      <div
+            {
+                data.value.count !== 0 
+                    ? (
+<div
         data-mode={mode}
         className="flex items-center justify-center gap-3 data-[mode='normal']:w-[calc(100%-16px)] data-[mode='bar']:w-[50%] transition-all duration-500 overflow-hidden"
       >
@@ -47,6 +50,9 @@ export default function UserStatusInfo({
           </span>
         </div>
       </div>
+                    ) : false
+            }
+      
       <div
         data-mode={mode}
         className="flex items-center justify-between gap-1 shrink-0 transition-all duration-500 data-[mode='normal']:w-auto data-[mode='bar']:w-[50%]"
@@ -59,7 +65,7 @@ export default function UserStatusInfo({
           </div>
         )}
         <Dropdown.DropdownMenu>
-          <Dropdown.DropdownMenuTrigger asChild>
+          <Dropdown.DropdownMenuTrigger asChild disabled={data.value.count === 0}>
             <button className="shrink-0">
               <ICHoriz3Dots className="text-gray-200 w-4 h-4" />
             </button>

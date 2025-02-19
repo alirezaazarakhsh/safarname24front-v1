@@ -1,7 +1,6 @@
 // Importing part
 import { ICCharSuccess } from '@/components/icons/ICChartSuccess';
 import { ICCup } from '@/components/icons/ICCup';
-import { ICHoriz3Dots } from '@/components/icons/ICHoriz3Dots';
 import { ICSMSTracking } from '@/components/icons/ICSMSTracking';
 import { ICVerify } from '@/components/icons/ICVerify';
 import { UserStatusComponentPropsType } from '@/types/dashboard/component';
@@ -35,15 +34,12 @@ export default function UserStatus({
           icon: <ICCharSuccess className="w-4 h-4 text-black" />,
           title: 'تعداد رزرو های موفق من',
           value: {
-            count: data.successfullReservationCount,
+            count: 0,
             unit: 'رزرو',
           },
           barMode: {
             unit: 'رزرو موفق',
-            value: [
-              { date: new Date().toISOString(), value: 12 },
-              { date: new Date().toISOString(), value: 12 },
-            ],
+            value: [],
           },
         }}
       />

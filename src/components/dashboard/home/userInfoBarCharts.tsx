@@ -43,7 +43,7 @@ export function UserInfoBarChart() {
       onMouseLeave={() => setCursorPosX(0)}
       onMouseMove={(e) => {
         const boundingRect = e.currentTarget.getBoundingClientRect();
-        const posXToSet = e.clientX - boundingRect.width - 0;
+        const posXToSet = (e.clientX - boundingRect.left) - 30;
 
         setCursorPosX(posXToSet);
       }}
@@ -52,6 +52,7 @@ export function UserInfoBarChart() {
       <BarChart accessibilityLayer data={chartData} barGap={10}>
         <ChartTooltip
           cursor={false}
+                    active
           content={<ChartTooltipContent posX={cursorPosX} hideLabel />}
         />
         <Bar
