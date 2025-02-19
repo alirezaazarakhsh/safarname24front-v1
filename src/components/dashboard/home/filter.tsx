@@ -18,33 +18,40 @@ export default function Filter({
 
   // Returning JSX
   return (
-    <div className={cn('flex items-center justify-between gap-5', className)}>
-      <span className="block truncate text-right w-full font-bold text-cs85 text-black">
+    <div
+      className={cn(
+        'lg:flex block lg:items-center lg:justify-between lg:gap-5 gap-[17px]',
+        className,
+      )}
+    >
+      <span className="lg:block hidden truncate text-right w-full font-bold text-cs85 text-black">
         داشبورد سفرنامه
       </span>
-      <div className="flex shrink-0 gap-2">
-        <div className="bg-white rounded-md px-3 h-10 flex items-center justify-center">
-          <span className="text-cs07 font-medium text-black block text-center">
+      <div className="lg:flex grid grid-cols-4 lg:shrink-0 lg:gap-2 gap-[17px]">
+        <div className="bg-white lg:rounded-md rounded-[7px] lg:px-3 px-[20px] lg:h-10 h-[45px] flex items-center justify-center col-span-3">
+          <span className="lg:text-cs07 text-[12px] font-medium text-black block text-center">
             {date.date}
           </span>
         </div>
-        <div className="flex items-center justify-between gap-2">
-          <div className="bg-white rounded-md aspect-square h-10 flex items-center justify-center">
-            <span className="text-cs07 font-medium text-black block text-center">
+        <div className="flex items-center justify-between lg:gap-2 gap-[5px] col-span-1">
+          <div className="bg-white lg:rounded-md rounded-[7px] lg:aspect-square lg:h-10 h-[45px] lg:w-10 w-full flex items-center justify-center">
+            <span className="lg:text-cs07 text-[12px] font-medium text-black block text-center">
               {date.time.minute}
             </span>
           </div>
-          <span className="text-cs08 font-medium text-black block">:</span>
-          <div className="bg-white rounded-md aspect-square h-10 flex items-center justify-center">
-            <span className="text-cs07 font-medium text-black block text-center">
+          <span className="text-cs08 font-medium text-black block shrink-0">
+            :
+          </span>
+          <div className="bg-white lg:rounded-md rounded-[7px] lg:aspect-square lg:h-10 h-[45px] lg:w-10 w-full flex items-center justify-center">
+            <span className="lg:text-cs07 text-[12px] font-medium text-black block text-center">
               {date.time.hour}
             </span>
           </div>
         </div>
         <DropDown.DropdownMenu>
           <DropDown.DropdownMenuTrigger asChild>
-            <button className="bg-white rounded-md px-3 h-10 flex items-center justify-center text-black gap-3">
-              <span className="text-cs07 font-medium text-black block text-center">
+            <button className="bg-white rounded-md lg:px-3 px-[20px] lg:h-10 h-[45px] flex items-center lg:justify-center justify-between text-black gap-3 col-span-4">
+              <span className="lg:text-cs07 text-[12px] lg:font-medium font-semibold text-black block lg:text-center text-right">
                 فیلتر تایم لاین
               </span>
               <ICChevronBottom className="w-3 h-3 text-current" />
