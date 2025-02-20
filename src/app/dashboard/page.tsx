@@ -11,8 +11,8 @@ export default function Dashboard(): ReactNode {
   // Returning JSX
   return (
     <Page className="lg:p-5 lg:pb-5 p-[24px] pb-[100px]">
-      <Filter className="mb-5" />
-      <UserStatus className="mb-5" />
+      <Filter className="lg:mb-5 mb-[16px]" />
+      <UserStatus className="lg:mb-5 mb-[25px]" />
       <LatestTicketsTable className="mb-5" />
       <LatestReservationsTable />
     </Page>

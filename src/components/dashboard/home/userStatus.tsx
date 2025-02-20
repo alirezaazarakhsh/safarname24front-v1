@@ -24,14 +24,16 @@ export default function UserStatus({
   return (
     <div
       className={cn(
-        'lg:grid lg:overflow-visible overflow-auto scrollbar-hide grid-cols-4 lg:gap-8 gap-4 flex',
+        'grid lg:grid-cols-4 grid-cols-1 lg:gap-8 gap-[12px]',
         className,
       )}
     >
       <UserStatusInfo
         className="lg:shrink shrink-0"
         data={{
-          icon: <ICCharSuccess className="w-4 h-4 text-black" />,
+          icon: (
+            <ICCharSuccess className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+          ),
           title: 'تعداد رزرو های موفق من',
           value: {
             count: 0,
@@ -46,7 +48,9 @@ export default function UserStatus({
       <UserStatusInfo
         className="lg:shrink shrink-0"
         data={{
-          icon: <ICSMSTracking className="w-4 h-4 text-black" />,
+          icon: (
+            <ICSMSTracking className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+          ),
           title: 'مجموع تیکت های من',
           value: {
             count: data.ticketsCount,
@@ -64,7 +68,9 @@ export default function UserStatus({
       <UserStatusInfo
         className="lg:shrink shrink-0"
         data={{
-          icon: <ICCup className="w-4 h-4 text-black" />,
+          icon: (
+            <ICCup className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+          ),
           title: 'امتیاز باشگاه مشتری من',
           value: {
             count: data.customerClubScore,
@@ -82,7 +88,9 @@ export default function UserStatus({
       <UserStatusInfo
         className="lg:shrink shrink-0"
         data={{
-          icon: <ICVerify className="w-4 h-4 text-black" />,
+          icon: (
+            <ICVerify className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+          ),
           title: 'مبلغ کل خرید موفق آمیز',
           value: {
             count: data.totalSuccesfullTransaction,
