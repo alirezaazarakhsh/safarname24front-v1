@@ -13,7 +13,7 @@ export default function Dashboard(): ReactNode {
     <Page className="lg:p-5 lg:pb-5 p-[24px] pb-[100px]">
       <Filter className="lg:mb-5 mb-[16px]" />
       <UserStatus className="lg:mb-5 mb-[25px]" />
-      <LatestTicketsTable className="mb-5" />
+      <LatestTicketsTable className="lg:mb-5 mb-[25px]" />
       <LatestReservationsTable />
     </Page>
   );

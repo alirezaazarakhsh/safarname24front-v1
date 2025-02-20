@@ -207,8 +207,8 @@ export default function LatestTicketsTable({
                 <ICChevronBottom className="w-[10px] h-[10px] text-gray-600 rotate-90 shrink-0" />
               </Link>
             </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0 mb-[25px]">
+            <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                 <ICHashtagUp className="w-[20px] h-[20px] text-black" />
               </div>
               <div>
@@ -220,8 +220,8 @@ export default function LatestTicketsTable({
                 </span>
               </div>
             </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0 mb-[25px]">
+            <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                 <ICDocumentText className="w-[20px] h-[20px] text-black" />
               </div>
               <div>
