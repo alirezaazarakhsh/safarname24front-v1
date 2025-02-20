@@ -1,18 +1,19 @@
 // Importing part
-import { ReactNode } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import LogoImage from "../../../../public/image/logo/logo-white.png";
-import { ICNotificationStatus } from "@/components/icons/ICNotifcationStatus";
-import ProfileDropdown from "./profileDropdown";
-import { ICLogOut } from "@/components/icons/ICLogOut";
+import { ReactNode } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import LogoImage from '../../../../public/image/logo/logo-white.png';
+import { ICNotificationStatus } from '@/components/icons/ICNotifcationStatus';
+import ProfileDropdown from './profileDropdown';
+import { ICLogOut } from '@/components/icons/ICLogOut';
+import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
 
 // Creating and exporting TopSide component of header as default
 export default function TopSide(): ReactNode {
   // Returning JSX
   return (
-    <div className="bg-white border-b border-b-black/20">
-      <div className="p-5 max-w-screen-template mx-auto flex items-center justify-between">
+    <div className="bg-transparent transition-all duration-500 border-b border-b-black/20">
+      <div className="p-5 max-w-screen-template mx-auto lg:flex hidden items-center justify-between">
         <div className="flex items-center justify-start gap-2">
           <Link
             href="/"
@@ -21,7 +22,7 @@ export default function TopSide(): ReactNode {
             <Image
               width={100}
               height={100}
-              alt={"سفرنامه 24"}
+              alt={'سفرنامه 24'}
               src={LogoImage.src}
               className="aspect-square object-cover w-full h-full"
             />
@@ -52,6 +53,17 @@ export default function TopSide(): ReactNode {
           </Link>
           <ProfileDropdown />
         </div>
+      </div>
+      <div className="lg:hidden block py-[16px] px-[24px]">
+        <Link
+          href={'#'}
+          className="flex items-center justify-start gap-[10px] w-full overflow-hidden"
+        >
+          <ICArrowFlashRight className="w-[24px] h-[24px] aspect-square shrink-0" />
+          <span className="block truncate text-black text-[14px] font-bold w-full text-right">
+            داشبورد سفرنامه
+          </span>
+        </Link>
       </div>
     </div>
   );
