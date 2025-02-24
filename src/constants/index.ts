@@ -1,3 +1,4 @@
+export * from './rooms';
 export * from './navLinks';
 export * from './services';
 export * from './hotelPage';
@@ -5,7 +6,6 @@ export * from './facilities';
 export * from './bestHotels';
 export * from './quickAccess';
 export * from './sectionLinks';
-export * from './imageGallery';
 export * from './aboutUsStory';
 export * from './socialMedias';
 export * from './contactUsWays';

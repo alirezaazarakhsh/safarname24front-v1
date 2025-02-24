@@ -6,6 +6,54 @@ export const hotelPage = {
     '/image/hotel/hotel-4.png',
     '/image/hotel/hotel-1.png',
   ],
+  imageGallery: [
+    {
+      title: 'امکانات داخل اتاق',
+      pictures: [
+        '/image/hotel/hotel-1.png',
+        '/image/hotel/hotel-2.png',
+        '/image/hotel/hotel-3.png',
+        '/image/hotel/hotel-4.png',
+      ],
+    },
+    {
+      title: 'امکانات داخلی لابی',
+      pictures: ['/image/hotel/hotel-4.png', '/image/hotel/hotel-2.png', '/image/hotel/hotel-3.png'],
+    },
+    {
+      title: 'خدمات رفاهی',
+      pictures: [
+        '/image/hotel/hotel-2.png',
+        '/image/hotel/hotel-3.png',
+        '/image/hotel/hotel-4.png',
+        '/image/hotel/hotel-1.png',
+        '/image/hotel/hotel-2.png',
+      ],
+    },
+    {
+      title: 'نمای بیرونی هتل',
+      pictures: ['/image/hotel/hotel-3.png', '/image/hotel/hotel-4.png', '/image/hotel/hotel-4.png'],
+    },
+    {
+      title: 'پارکینگ هتل',
+      pictures: ['/image/hotel/hotel-1.png', '/image/hotel/hotel-2.png', '/image/hotel/hotel-4.png'],
+    },
+    {
+      title: 'اتاق های اسپشیال',
+      pictures: [
+        '/image/hotel/hotel-2.png',
+        '/image/hotel/hotel-3.png',
+        '/image/hotel/hotel-4.png',
+        '/image/hotel/hotel-4.png',
+        '/image/hotel/hotel-4.png',
+        '/image/hotel/hotel-4.png',
+      ],
+    },
+    {
+      title: 'رستوران و کافه',
+      pictures: ['/image/hotel/hotel-1.png', '/image/hotel/hotel-2.png', '/image/hotel/hotel-4.png'],
+    },
+  ],
   rules:
     'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است',
   desc: 'هتل اسپیناس پالاس که با افتخار در شمال تهران ایستاده است، گوهری پنهان و بهشتی آرام، فضای زیبای یک هتل مجلل واقعی را تابیده است. کاخ اسپیناس بهترین و بهترین راحتی مدرن معاصر را با طعمی تماشایی برای گذشته ترکیب می کند. به عنوان یکی از ممتازترین ساختمان‌های تهران با معماری هیجان‌انگیز، کاخ زیبا یک نقطه عطف شهری با ابهت است که دارای لابی باشکوه، فضاهای عمومی چشمگیر و اتاق‌خواب‌های بسیار راحت است. هتل اسپیناس پالاس هتلی با استعداد در خدمات است. اقامت در کاخ همیشه یک زمان خاص برای مهمانان ما است. کاخ دارای تمام امکانات و خدمات یک هتل پنج ستاره لوکس همراه با جاذبه و فضایی منحصر به فرد در خانه است.',
@@ -38,4 +86,206 @@ export const hotelPage = {
     'برچسب شماره نهم',
     'برچسب شماره دهم',
   ],
+  importantPlaces: [
+    {
+      title: 'بازار بزرگ بین المللی تهران',
+      image: '/image/background/hero-1.jpg',
+      distances: {
+        byCar: 5,
+        onFoot: 30,
+        totalDistance: 50,
+      },
+      geolocation: { lat: 20, lng: 20 },
+    },
+    {
+      title: 'پیست کارتینگ آلکارن',
+      image: '/image/background/hero-2.jpg',
+      distances: {
+        byCar: 8,
+        onFoot: 22,
+        totalDistance: 30,
+      },
+      geolocation: { lat: 50, lng: 30 },
+    },
+    {
+      title: 'رستوران هفت خوان رستم',
+      image: '/image/background/hero-3.jpg',
+      distances: {
+        byCar: 3,
+        onFoot: 10,
+        totalDistance: 30,
+      },
+      geolocation: { lat: 50, lng: 20 },
+    },
+    {
+      title: 'مجموعه تفریحی القدیر',
+      image: '/image/background/hero-1.jpg',
+      distances: {
+        byCar: 12,
+        onFoot: 60,
+        totalDistance: 50,
+      },
+      geolocation: { lat: 15, lng: 24 },
+    },
+    {
+      title: 'پارکینگ بزرگ پالاس',
+      image: '/image/background/hero-2.jpg',
+      distances: {
+        byCar: 6,
+        onFoot: 9,
+        totalDistance: 16,
+      },
+      geolocation: { lat: 16, lng: 36 },
+    },
+    {
+      title: 'برج بزرگ پالاس',
+      image: '/image/background/hero-3.jpg',
+      distances: {
+        byCar: 9,
+        onFoot: 11,
+        totalDistance: 22,
+      },
+      geolocation: { lat: 25, lng: 14 },
+    },
+  ],
+  customerReviews: {
+    reviewsAverage: {
+      rate: 4.7,
+      comment: 'خیلی خوب',
+      standards: [
+        { title: 'وضعیت نظافت', value: 4.5 },
+        { title: 'موقعیت مکانی و دسترسی', value: 4.2 },
+        { title: 'امکانات اقامتگاه', value: 3.5 },
+        { title: 'رعایت پروتکل های بهداشتی', value: 4.9 },
+        { title: 'خوشرویی و رفتار کارکنان', value: 4.8 },
+        { title: 'کیفیت غذا و پذیرایی', value: 3.1 },
+        { title: 'خدمات سرویس دهی', value: 4 },
+      ],
+    },
+    reviews: [
+      {
+        avatar: '',
+        fullname: 'آراد پارساپور',
+        date: '5 مهر ماه 1403',
+        time: '16:00',
+        rate: 4.7,
+        comment: 'محیط عالی و پرسنل مودب، تجربه‌ی خیلی خوبی بود. از غذاها راضی بودم، فقط کاش منو کمی متنوع‌تر بود.',
+        points: {
+          positive: ['برخورد حرفه‌ای', 'سرعت سرویس‌دهی'],
+          negative: ['قیمت بالا', 'منوی محدود'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'نیوشا رضایی',
+        date: '21 آبان ماه 1403',
+        time: '19:45',
+        rate: 3.9,
+        comment: 'کیفیت غذا خوب بود ولی زمان آماده‌سازی طولانی بود. انتظار داشتم محیط آرام‌تری باشه، اما کمی شلوغ بود.',
+        points: {
+          positive: ['کیفیت مواد اولیه', 'دکوراسیون زیبا'],
+          negative: ['زمان انتظار زیاد', 'فضای شلوغ'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'پیمان نیکزاد',
+        date: '30 مهر ماه 1403',
+        time: '12:15',
+        rate: 4.5,
+        comment: 'فضای رستوران دنج و دلنشین بود، ممنون از خدمات عالی. نوشیدنی‌های پیشنهادی خیلی خوشمزه بودن.',
+        points: {
+          positive: ['محیط آرام', 'نوشیدنی‌های خاص', 'پرسنل مودب'],
+          negative: ['منوی گیاهی کم تنوع'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'ترانه موسوی',
+        date: '8 دی ماه 1403',
+        time: '18:20',
+        rate: 4.1,
+        comment: 'فضای مناسب برای خانواده، اما موسیقی کمی بلند بود. کیفیت غذا خوب بود ولی میزها خیلی نزدیک به هم بودن.',
+        points: {
+          positive: ['محیط خانوادگی', 'نظافت عالی', 'سرویس‌دهی سریع'],
+          negative: ['صدای زیاد موسیقی', 'فاصله کم بین میزها'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'رضا کیانفر',
+        date: '2 بهمن ماه 1403',
+        time: '20:10',
+        rate: 3.5,
+        comment: 'کیفیت غذا متوسط، اما سرویس‌دهی خیلی خوب بود. انتظار داشتم تنوع غذاها بیشتر باشه.',
+        points: {
+          positive: ['برخورد پرسنل', 'فضای مناسب'],
+          negative: ['طعم غذا', 'تنوع کم منو', 'عدم وجود پارکینگ'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'الناز جمشیدی',
+        date: '14 اسفند ماه 1403',
+        time: '13:50',
+        rate: 4.8,
+        comment:
+          'همه چیز عالی! دوباره حتما میام. برخورد پرسنل خیلی خوب بود و حس خیلی خوبی بهم داد. دکوراسیون خاص و جذابی داره که دوست داشتم.',
+        points: {
+          positive: ['تنوع منو', 'طعم فوق‌العاده غذا', 'برخورد گرم کارکنان', 'دکور زیبا'],
+          negative: ['پارکینگ محدود'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'کیان قاسمی',
+        date: '22 فروردین ماه 1404',
+        time: '15:30',
+        rate: 3.2,
+        comment: 'انتظار بیشتری داشتم، کیفیت غذا معمولی بود. سالادها طعم خاصی نداشتن و برخورد پرسنل کمی سرد بود.',
+        points: {
+          positive: ['نورپردازی خوب', 'محیط دوستانه'],
+          negative: ['خدمات کند', 'کیفیت پایین سالاد', 'عدم استقبال گرم'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'نوشین صادقی',
+        date: '10 اردیبهشت ماه 1404',
+        time: '17:40',
+        rate: 4.6,
+        comment:
+          'سرویس عالی، کیفیت غذا هم فوق‌العاده بود. حتما دوباره میام. موسیقی زنده خیلی جذاب بود و فضای دوستانه‌ای داشت.',
+        points: {
+          positive: ['دکور زیبا', 'کیفیت بالا', 'موسیقی زنده', 'برخورد گرم'],
+          negative: ['فضای شلوغ'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'آرمین توکلی',
+        date: '5 خرداد ماه 1404',
+        time: '12:00',
+        rate: 3.8,
+        comment: 'در مجموع تجربه‌ی خوبی بود اما جای بهتر شدن دارد. نوشیدنی‌ها می‌توانست بهتر باشند.',
+        points: {
+          positive: ['کارکنان مودب', 'قیمت مناسب', 'تمیزی محیط'],
+          negative: ['فضای کوچک', 'کیفیت متوسط نوشیدنی‌ها'],
+        },
+      },
+      {
+        avatar: '',
+        fullname: 'سارا امیری',
+        date: '18 تیر ماه 1404',
+        time: '21:15',
+        rate: 4.9,
+        comment:
+          'بهترین تجربه‌ای که داشتم! ممنون از تیم عالی. برخورد پرسنل فوق‌العاده گرم بود و غذا هم عالی. فقط یه مقدار پیدا کردن جای پارک سخت بود.',
+        points: {
+          positive: ['کیفیت عالی', 'سرویس‌دهی سریع', 'پرسنل حرفه‌ای', 'محیط دلنشین'],
+          negative: ['رزرو سخت', 'مشکل جای پارک'],
+        },
+      },
+    ],
+  },
 };
