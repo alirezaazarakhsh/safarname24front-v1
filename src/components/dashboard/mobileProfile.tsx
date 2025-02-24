@@ -11,6 +11,8 @@ import { IconsName } from '@/types';
 import Link from 'next/link';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import { ICLogOut } from '../icons/ICLogOut';
+import { numberSeparation } from '@/utils';
+import { ICArrowFlashRight } from '../icons/ICArrowFlashRight';
 
 // Creating some data to render
 const data: {
@@ -161,14 +163,40 @@ export default function MobileProfile({
           </div>
           <Link
             href="/dashboard/profile/edit"
-            className="px-[18px] bg-blue-100 text-blue-500 h-[35px] rounded-[6px] flex items-center justify-center shrink-0"
+            className="px-[18px] bg-blue-50 text-blue-500 h-[35px] rounded-[6px] flex items-center justify-center shrink-0"
           >
             <span className="text-[10px] font-bold text-current">
               ویرایش پروفایل
             </span>
           </Link>
         </div>
-        <div className="pt-[100px] p-[24px] pb-[100px] min-h-dvh flex flex-col gap-[20px]">
+        <div className="pt-[100px] p-[24px] pb-[100px] min-h-dvh flex flex-col gap-[15px]">
+          <div className="p-[20px] bg-white border border-black/20 rounded-[14px]">
+            <div className="mb-[20px] pb-[20px] border-b border-b-black/20 flex items-center justify-between gap-3">
+              <div className="flex items-center justify-start gap-[10px] w-full overflow-hidden text-black">
+                <IconsaxIcons
+                  name="Wallet"
+                  className="w-[20px] h-[20px] shrink-0 text-current"
+                />
+                <span className="text-[12px] truncate block w-full text-right font-semibold text-current">
+                  موجودی شما :
+                </span>
+              </div>
+              <p className="shrink-0 text-black">
+                <span className="text-[16px] font-bold">{`${numberSeparation(253618148)} `}</span>
+                <span className="text-[12px] font-semibold">تومان</span>
+              </p>
+            </div>
+            <Link
+              href="/dashboard/charge"
+              className="flex justify-start items-center gap-[10px] text-blue-500 w-full"
+            >
+              <span className="block trucate text-current text-[10px] font-semibold">
+                افزایش موجودی کیف پول
+              </span>
+              <ICArrowFlashRight className="text-current stroke-current w-[15px] h-[15px] shrink-0 rotate-180" />
+            </Link>
+          </div>
           {data.map((item, index) =>
             item.type === 'single' ? (
               <Link
@@ -176,7 +204,13 @@ export default function MobileProfile({
                 key={index}
                 className="flex items-center justify-start w-full gap-[15px] p-[20px] bg-white border border-black/20 rounded-[14px]"
               >
-                <div className="w-[43px] h-[43px] aspect-square rounded-[7px] flex items-center justify-center bg-gray-100 text-black">
+                <div className="w-[43px] h-[43px] aspect-square rounded-[7px] flex items-center justify-center bg-gray-100 text-black relative">
+                  {item.icon === 'NotificationStatus' && (
+                    <>
+                      <div className="absolute top-0 right-0 bg-cs-red w-2 h-2 z-10 rounded-full -translate-y-[50%] translate-x-[50%]" />
+                      <div className="absolute top-[-4px] right-[-4px] bg-cs-red/40 duration-1000 delay-1000 animate-ping z-0 origin-center w-2 h-2 rounded-full" />
+                    </>
+                  )}
                   <IconsaxIcons
                     name={item.icon}
                     className="w-[20px] h-[20px] text-current"
