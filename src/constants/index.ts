@@ -1,3 +1,4 @@
+export * from './rooms';
 export * from './navLinks';
 export * from './services';
 export * from './hotelPage';

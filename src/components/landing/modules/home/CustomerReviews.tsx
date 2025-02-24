@@ -12,9 +12,11 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { TopBarConfig } from '../../shared';
 import { ICCommentStar } from '@/components/icons';
+import { HomeCustomerReview } from '@/types';
+
 
 type Props = {
-  reviews: { id: number; image: string; fullname: string; rate: number; desc: string }[];
+  reviews: HomeCustomerReview[];
 };
 
 // ------------------------------------------------
