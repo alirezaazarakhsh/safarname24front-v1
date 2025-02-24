@@ -57,18 +57,18 @@ export default function LatestReservationsTable({
         className,
       )}
     >
-      <div className="flex items-center justify-between gap-5 mb-5">
-        <span className="block truncate text-right w-full font-bold text-cs85 text-black">
-          لیست رزرو های اخیر
+      <div className="flex items-center justify-between lg:gap-5 gap-3 lg:mb-5 mb-[25px]">
+        <span className="block truncate text-right w-full font-bold lg:text-cs85 text-[12px] text-black">
+لیست رزرو های اخیر
         </span>
         <Link
           href="/dashboard/reservations"
-          className="rounded-lg font-normal text-cs08 text-white bg-black px-8 py-3 w-[125px] block whitespace-nowrap"
+          className="lg:rounded-lg rounded-[6px] lg:font-normal font-medium lg:w-[125px] w-[94px] lg:text-cs08 text-[10px] text-white bg-black lg:px-8 px-[12px] lg:py-3 py-0 lg:h-auto h-[33px] flex items-center justify-center whitespace-nowrap shrink-0"
         >
           مشاهده همه
         </Link>
       </div>
-      <Table dir="rtl">
+      <Table dir="rtl" className="lg:table hidden">
         <TableBody>
           {data.map((item, index) => (
             <TableRow
@@ -185,6 +185,100 @@ export default function LatestReservationsTable({
           ))}
         </TableBody>
       </Table>
+        <div className="lg:hidden flex flex-col">
+                {data.map((item, index) => (
+          <div
+            key={index}
+            className={cn(
+              index + 1 === data.length
+                ? ''
+                : 'mb-[20px] border-b border-b-black/10 pb-[20px]',
+            )}
+          >
+            <div className="flex items-center justify-between gap-3 mb-[20px]">
+              <div className="flex items-center justify-start gap-[10px]">
+                <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center">
+                  <span className="font-bold text-[12px] text-black block">
+                    {handleZeroBeforeNumber(index + 1)}
+                  </span>
+                </div>
+                <div className="bg-gray-100 h-[40px] px-[12px] rounded-[6px] flex items-center justify-center">
+                  <span className="font-bold lg:text-cs07 text-[10px] text-gray-600 block truncate text-center">
+                    {moment().locale('fa').format('YYYY/MM/DD')}
+                  </span>
+                </div>
+              </div>
+{item.status === 'accepted' ? (
+                    <Link
+                      href={`/dashboard/reservation/${item.id}`}
+                        className="bg-green-100/50 hover:bg-green-100 text-green-500 w-[94px] h-[40px] box-border transition-all duration-500 px-[12px] rounded-[6px] flex items-center justify-center"
+                    >
+                      <span className="font-normal text-[12px] text-current  block truncate text-right">
+                        مشاهده تاییده
+                      </span>
+                    </Link>
+                  ) : (
+                    <div
+                      className={cn(
+"w-[94px] h-[40px] box-border transition-all duration-500 px-[12px] rounded-[6px] flex items-center justify-center",
+                        item.status === 'cancled'
+                          ? 'bg-red-100/50 text-red-500'
+                          : 'bg-gray-100/50 text-gray-500',
+                      )}
+                    >
+                      <span className="font-normal text-cs07 text-current block truncate text-right whitespace-nowrap">
+                        {item.status === 'pending'
+                          ? 'در انتظار پرداخت'
+                          : 'لغو شده'}
+                      </span>
+                    </div>
+                  )}
+            </div>
+            <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                <ICBank className="w-[20px] h-[20px] text-black" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                                    نام هتل :
+                </span>
+                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                                                                                              {item.hotelName}
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                <ICMoneyTick className="w-[20px] h-[20px] text-black" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                                    مبلغ :
+                </span>
+                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                      {numberSeparation(item.price)}
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                <ICStatus className="w-[20px] h-[20px] text-black" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  وضعیت :
+                </span>
+                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+{item.status === 'pending'
+                          ? 'در انتظار پرداخت'
+                          : 'لغو شده'}
+
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -54,7 +54,7 @@ export default function TopSide(): ReactNode {
           <ProfileDropdown />
         </div>
       </div>
-      <div className="lg:hidden block p-[24px]">
+      <div className="lg:hidden block py-[16px] px-[24px]">
         <Link
           href={'#'}
           className="flex items-center justify-start gap-[10px] w-full overflow-hidden"
