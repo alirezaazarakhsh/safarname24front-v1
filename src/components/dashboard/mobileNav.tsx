@@ -2,71 +2,107 @@
 'use client';
 
 // Importing part
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import { IconsName } from '@/types';
+import MobileProfile from './mobileProfile';
+import { createPortal } from 'react-dom';
 
 // Defining data to render in navigation bar
 const data: {
   icon: IconsName;
   title: string;
-  href: `/${string}` | '/';
+  href?: `/${string}` | '/';
+  type: 'link' | 'profile-toggler';
 }[] = [
   {
     icon: 'Home2',
     title: 'خانه',
     href: '/dashboard',
+    type: 'link',
   },
   {
     icon: 'Heart',
     title: 'علاقه مندی ها',
     href: '/dashboard/favorites',
+    type: 'link',
   },
   {
     icon: 'Flash',
     title: 'بهترین هتل ها',
     href: '/best-hotels',
+    type: 'link',
   },
   {
     icon: 'Messages3',
     title: 'چت تایم ',
     href: '/dashboard/tickets',
+    type: 'link',
   },
   {
     icon: 'Profile2User',
     title: 'پروفایل کاربری',
-    href: '/dashboard/profile',
+    type: 'profile-toggler',
   },
 ];
 
 // Creating and exporting MobileNav component as defualt
 export default function MobileNav(): ReactNode {
+  // Defining states of component
+  const [profileOpened, setProfileOpened] = useState<boolean>(false);
+
   // Defining hooks
   const pathname = usePathname();
 
   // Returning JSX
   return (
-    <nav className="bg-white border-t border-t-black/20 py-[12px] px-[24px] lg:hidden fixed bottom-0 left-0 w-full z-40 shadow-[0px_-40px_50px_-12px_rgba(0,_0,_0,_0.2)] grid grid-cols-5 items-center justify-between gap-[15px]">
-      {data.map((item, index) => (
-        <Link
-          key={index}
-          data-active={pathname === item.href}
-          className="flex flex-col items-center justify-center gap-[5px] data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
-          href={item.href}
-        >
-          <IconsaxIcons
-            name={item.icon}
-            className="w-[17px] h-[17px]"
-            color="currentColor"
-            variant={pathname === item.href ? 'Bold' : 'Outline'}
-          />
-          <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
-            {item.title}
-          </span>
-        </Link>
-      ))}
+    <nav className="bg-white border-t border-t-black/20 py-[12px] px-[24px] lg:hidden fixed bottom-0 left-0 w-full z-40 shadow-[0px_-40px_50px_-12px_rgba(0,_0,_0,_0.2)] grid grid-cols-5 gap-[15px]">
+      {data.map((item, index) =>
+        item.type === 'link' ? (
+          <Link
+            key={index}
+            data-active={pathname === item.href}
+            className="flex flex-col items-center justify-center gap-[5px] transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
+            href={item.href || '#'}
+          >
+            <IconsaxIcons
+              name={item.icon}
+              className="w-[17px] h-[17px]"
+              color="currentColor"
+              variant={pathname === item.href ? 'Bold' : 'Outline'}
+            />
+            <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+              {item.title}
+            </span>
+          </Link>
+        ) : (
+          <>
+            {profileOpened &&
+              createPortal(
+                <MobileProfile isOpened={profileOpened} />,
+                document.body,
+              )}
+            <button
+              key={index}
+              data-active={profileOpened}
+              className="flex flex-col items-center justify-center gap-[5px] transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
+              onClick={() => setProfileOpened((prev) => !prev)}
+            >
+              <IconsaxIcons
+                name={item.icon}
+                className="w-[17px] h-[17px]"
+                color="currentColor"
+                variant={profileOpened ? 'Bold' : 'Outline'}
+              />
+              <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+                {item.title}
+              </span>
+            </button>
+          </>
+        ),
+      )}
     </nav>
   );
 }

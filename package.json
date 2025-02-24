@@ -20,6 +20,7 @@
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.4.7",
     "iconsax-react": "^0.0.8",
     "jalali-moment": "^3.3.11",
     "js-cookie": "^3.0.5",
