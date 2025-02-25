@@ -156,7 +156,7 @@ export default function LatestReservationsTable({
                   </div>
                   {item.status === 'accepted' ? (
                     <Link
-                      href={`/dashboard/reservation/${item.id}`}
+                      href={`/dashboard/reservations/${item.id}`}
                       className="bg-green-100/50 h-10 w-[125px] transition-all duration-500 hover:bg-green-100 px-5 rounded-md flex items-center justify-center gap-2"
                     >
                       <span className="font-normal text-cs07 text-green-500 block truncate text-right">
