@@ -1,7 +1,6 @@
 // Importing part
 import { InputHTMLAttributes, ReactNode } from 'react';
 import { IconsName } from '../SvgProp';
-import { type ClassValue } from 'clsx';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -59,4 +58,13 @@ export interface ReservationsFilterComponentPropsType {
 export interface IconInputComponentPropsType extends InputHTMLAttributes<HTMLInputElement> {
     icon: IconsName;
     wholeClassName?: string;
+}
+
+export interface AllFactorsTableComponentPropsType {
+    className?: string;
+}
+
+export interface CustomPaginationComponentPropsType {
+    className?: string;
+    count: number;
 }
