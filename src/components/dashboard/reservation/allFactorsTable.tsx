@@ -23,6 +23,7 @@ import Image from "next/image";
 import EmptyImage from "../../../../public/image/empty.png";
 import AcceptCanclationDialog from "@/components/dashboard/reservation/dialog/acceptCancleationDialog";
 import FailedToCancleDialog from "@/components/dashboard/reservation/dialog/failedToCancleDialog";
+import CanclationReasonDialog from './dialog/canclationReseaonDialog';
 
 // Creating and exporting AllFactorsTable component as default
 export default function AllFactorsTable({
@@ -31,7 +32,8 @@ export default function AllFactorsTable({
 }: AllFactorsTableComponentPropsType): ReactNode {
     // Defining states of component 
     const [acceptCanclationDialogOpened, setAcceptCanclationDialogOpened] = useState<boolean>(false);
-    const [failedToCancleDialogOpened, setFailedToCancleDialogOpened] = useState<boolean>(true);
+    const [failedToCancleDialogOpened, setFailedToCancleDialogOpened] = useState<boolean>(false);
+    const [canclationReasonDialogOpened, setCanclationReasonDialogOpened] = useState<boolean>(false);
 
     // Returning JSX
     return (
@@ -44,6 +46,7 @@ export default function AllFactorsTable({
         >
             <AcceptCanclationDialog isOpened={acceptCanclationDialogOpened} closeFn={() => setAcceptCanclationDialogOpened(false)} />
             <FailedToCancleDialog isOpened={failedToCancleDialogOpened} closeFn={() => setFailedToCancleDialogOpened(false)} /> 
+            <CanclationReasonDialog isOpened={canclationReasonDialogOpened} closeFn={() => setCanclationReasonDialogOpened(false)} />
             {
                 (data.length === 0)
                     ? (
@@ -144,7 +147,10 @@ export default function AllFactorsTable({
                                             </TableCell>
                                             <TableCell className="p-3 flex items-center justify-end gap-3">
                                                 {item.financialStatus === 'payed' && (
-                                                    <button className="px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs transition-all duration-500 hover:bg-red-100">
+                                                    <button 
+                                                        className="px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs transition-all duration-500 hover:bg-red-100"
+                                                        onClick={() => setCanclationReasonDialogOpened(true)}
+                                                    >
                                                         کنسل
                                                     </button>
                                                 )}
@@ -246,7 +252,10 @@ export default function AllFactorsTable({
                                         </div>
                                         <div className="grid grid-cols-1 gap-3">
                                             {item.financialStatus === 'payed' && (
-                                                <button className="h-[40px] rounded-[6px] border border-red-600 bg-red-50 text-red-600 font-normal text-cs07 transition-all duration-500 hover:bg-red-100">
+                                                <button
+                                                    className="h-[40px] rounded-[6px] border border-red-600 bg-red-50 text-red-600 font-normal text-cs07 transition-all duration-500 hover:bg-red-100"
+                                                    onClick={() => setCanclationReasonDialogOpened(true)}
+                                                >
                                                     کنسل
                                                 </button>
                                             )}
