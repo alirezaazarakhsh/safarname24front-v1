@@ -25,7 +25,7 @@ export default function CustomPagination({ count, className }: CustomPaginationC
     // Returning JSX
     return (
         <Pagination className={cn("w-auto mx-0", className)}>
-            <PaginationContent>
+            <PaginationContent className="gap-3">
                 <PaginationItem>
                     <button className="w-10 h-10 rounded-lg flex items-center justify-center text-black transition-all duration-500 bg-gray-50 hover:bg-gray-100">
                         <IconsaxIcons name="ArrowUp2" className="rotate-90 w-4 h-4 text-current" />
@@ -50,7 +50,7 @@ export default function CustomPagination({ count, className }: CustomPaginationC
                                     </button>
                                 </PaginationItem>
                                 <PaginationItem>
-                                    <PaginationEllipsis />
+                                    <PaginationEllipsis data-active={false} className={cn(buttonClassName, "pointer-events-none")}  />
                                 </PaginationItem>
                                 <PaginationItem>
                                     <button

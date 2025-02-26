@@ -16,7 +16,7 @@ export default function AllFactorsTable({ className }: AllFactorsTableComponentP
                 <span className="block truncate text-right w-full font-bold lg:text-cs85 text-[12px] text-black">
                     مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
                 </span>
-                <CustomPagination count={12} />
+                <CustomPagination count={2} />
             </div>
         </section>
     );
