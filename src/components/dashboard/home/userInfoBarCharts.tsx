@@ -31,7 +31,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 // Creating and exporting UserInfoButtonChart component as default
-export function UserInfoBarChart():ReactNode {
+export function UserInfoBarChart(): ReactNode {
   // Defining state of component
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [cursorPosX, setCursorPosX] = useState<number>(0);
@@ -43,7 +43,7 @@ export function UserInfoBarChart():ReactNode {
       onMouseLeave={() => setCursorPosX(0)}
       onMouseMove={(e) => {
         const boundingRect = e.currentTarget.getBoundingClientRect();
-        const posXToSet = (e.clientX - boundingRect.left) - 30;
+        const posXToSet = e.clientX - boundingRect.left - 30;
 
         setCursorPosX(posXToSet);
       }}
