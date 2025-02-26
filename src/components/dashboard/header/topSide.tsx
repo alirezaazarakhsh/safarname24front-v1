@@ -56,7 +56,7 @@ export default function TopSide(): ReactNode {
       </div>
       <div className="lg:hidden block py-[16px] px-[24px]">
         <Link
-          href={'#'}
+          href={'/dashboard'}
           className="flex items-center justify-start gap-[10px] w-full overflow-hidden"
         >
           <ICArrowFlashRight className="w-[24px] h-[24px] aspect-square shrink-0" />
