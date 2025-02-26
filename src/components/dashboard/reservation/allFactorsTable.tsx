@@ -85,7 +85,7 @@ export default function AllFactorsTable({ className }: AllFactorsTableComponentP
                 />
             </div>
             <Table dir="rtl" className="border-none">
-                <TableHeader className="bg-gray-100 border-y border-y-black/20">
+                <TableHeader className="bg-gray-100 border-y border-y-black/10">
                     <TableRow className="border-none">
                         <TableHead className="text-right p-3 w-8 truncate text-xs font-medium text-gray-400">ردیف</TableHead>
                         <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">کد پیگیری</TableHead>
@@ -167,7 +167,7 @@ export default function AllFactorsTable({ className }: AllFactorsTableComponentP
                                                                 <span className="text-xs font-medium text-current">
                                                                     رزرواسیون رد شد!
                                                                 </span>
-                                                            ) : <Loading /> 
+                                                            ) : <Loading />
                                                     }
                                                 </div>
                                             )
