@@ -79,3 +79,8 @@ export interface CustomPaginationComponentPropsType {
     count: number;
     onChange?: (index: number) => void;
 }
+
+export interface DialogComponentPropsType {
+    isOpened?: boolean;
+    closeFn?: () => void;
+}

@@ -4,7 +4,7 @@
 // Importing part
 import moment from 'jalali-moment';
 import { AllFactorsTableComponentPropsType } from '@/types/dashboard/component';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { cn } from '@/utils/utils';
 import CustomPagination from '@/components/dashboard/ui/customPagination';
 import {
@@ -21,12 +21,18 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Loading from '@/components/dashboard/ui/loading';
 import Image from "next/image";
 import EmptyImage from "../../../../public/image/empty.png";
+import AcceptCanclationDialog from "@/components/dashboard/reservation/dialog/acceptCancleationDialog";
+import FailedToCancleDialog from "@/components/dashboard/reservation/dialog/failedToCancleDialog";
 
 // Creating and exporting AllFactorsTable component as default
 export default function AllFactorsTable({
     className,
     data
 }: AllFactorsTableComponentPropsType): ReactNode {
+    // Defining states of component 
+    const [acceptCanclationDialogOpened, setAcceptCanclationDialogOpened] = useState<boolean>(false);
+    const [failedToCancleDialogOpened, setFailedToCancleDialogOpened] = useState<boolean>(true);
+
     // Returning JSX
     return (
         <section
@@ -36,6 +42,8 @@ export default function AllFactorsTable({
                 className,
             )}
         >
+            <AcceptCanclationDialog isOpened={acceptCanclationDialogOpened} closeFn={() => setAcceptCanclationDialogOpened(false)} />
+            <FailedToCancleDialog isOpened={failedToCancleDialogOpened} closeFn={() => setFailedToCancleDialogOpened(false)} /> 
             {
                 (data.length === 0)
                     ? (

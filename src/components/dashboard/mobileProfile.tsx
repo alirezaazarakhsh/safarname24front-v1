@@ -143,7 +143,7 @@ export default function MobileProfile({
         animate={{ opacity: 1, top: 0 }}
         className="fixed z-30 left-0 pb-[100px] w-dvw h-dvh bg-[#F9F9F9] lg:hidden block overflow-auto scrollbar-hide"
       >
-        <div className="py-[16px] px-[24px] bg-white border-b border-b-black/20 flex items-center justify-between gap-3 shadow-2xl shadow-black/20 fixed top-0 w-full left-0">
+        <div className="py-[16px] px-[24px] bg-white border-b border-b-black/20 flex items-center justify-between gap-3 shadow-2xl shadow-black/20 fixed top-0 w-full left-0 z-50">
           <div className="flex items-center justify-start gap-[10px] w-full">
             <Image
               width={50}
