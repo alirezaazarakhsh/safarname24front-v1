@@ -31,15 +31,15 @@ export default function CustomPagination({
 
   // Defining classname for buttons
   const buttonClassName =
-    "w-10 h-10 flex items-center rounded-lg justify-center transition-all duration-500 border data-[active='false']:border-black/20 data-[active='false']:bg-white data-[active='false']:text-black data-[active='true']:border-blue-50 data-[active='true']:bg-blue-50 data-[active='true']:text-blue-500 data-[active='false']:hover:border-blue-50 data-[active='false']:hover:bg-blue-50 data-[active='false']:hover:text-blue-500";
+    "lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center transition-all duration-500 border data-[active='false']:border-black/20 data-[active='false']:bg-white data-[active='false']:text-black data-[active='true']:border-blue-50 data-[active='true']:bg-blue-50 data-[active='true']:text-blue-500 data-[active='false']:hover:border-blue-50 data-[active='false']:hover:bg-blue-50 data-[active='false']:hover:text-blue-500";
 
   // Returning JSX
   return (
-    <Pagination className={cn('w-auto mx-0', className)} dir="ltr">
-      <PaginationContent className="gap-3">
+    <Pagination className={cn('lg:w-auto w-full lg:overflow-hidden overflow-auto scrollbar-hide mx-0', className)} dir="ltr">
+      <PaginationContent className="lg:w-auto w-full lg:gap-3 gap-[17px] lg:justify-start justify-evenly">
         <PaginationItem>
           <button
-            className="w-10 h-10 rounded-lg flex items-center justify-center text-black transition-all duration-500 bg-gray-50 hover:bg-gray-100"
+            className="lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-gray-50 hover:bg-gray-100"
             onClick={() => {
               const prevIndex = activeIndex - 1;
               if (prevIndex > -1) setActiveIndex(prevIndex);
@@ -47,7 +47,7 @@ export default function CustomPagination({
           >
             <IconsaxIcons
               name="ArrowUp2"
-              className="-rotate-90 w-4 h-4 text-current"
+              className="-rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current"
             />
           </button>
         </PaginationItem>
@@ -106,7 +106,7 @@ export default function CustomPagination({
         )}
         <PaginationItem>
           <button
-            className="w-10 h-10 flex rounded-lg items-center justify-center text-black transition-all duration-500 bg-gray-50 hover:bg-gray-100"
+            className="lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-gray-50 hover:bg-gray-100"
             onClick={() => {
               const nextIndex = activeIndex + 1;
               if (nextIndex < count) setActiveIndex(nextIndex);
@@ -114,7 +114,7 @@ export default function CustomPagination({
           >
             <IconsaxIcons
               name="ArrowUp2"
-              className="rotate-90 w-4 h-4 text-current"
+              className="rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current"
             />
           </button>
         </PaginationItem>

@@ -24,7 +24,7 @@ export default function IconInput({
   return (
     <div
       className={cn(
-        'bg-white lg:rounded-md rounded-lg flex items-center justify-between text-black lg:w-[200px] w-auto col-span-3',
+        'bg-white lg:rounded-md rounded-[7px] flex items-center justify-between text-black lg:w-[200px] w-auto col-span-3',
         wholeClassName,
       )}
       data-focused={isFocused}
@@ -37,7 +37,7 @@ export default function IconInput({
       </div>
       <input
         className={cn(
-          'lg:h-8 h-10 p-2 w-full block placeholder:text-xs placeholder:font-normal text-xs font-normal text-current placeholder:text-current outline-0 bg-transparent',
+          'lg:h-8 h-10 p-2 w-full block lg:placeholder:text-xs placeholder:text-[12px] lg:text-xs text-[12px] placeholder:font-normal font-normal text-current placeholder:text-current outline-0 bg-transparent',
           className,
         )}
         autoFocus={autoFocus}
