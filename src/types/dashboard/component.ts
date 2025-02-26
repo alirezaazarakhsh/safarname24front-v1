@@ -67,4 +67,5 @@ export interface AllFactorsTableComponentPropsType {
 export interface CustomPaginationComponentPropsType {
     className?: string;
     count: number;
+    onChange?: (index:number) => void;
 }
