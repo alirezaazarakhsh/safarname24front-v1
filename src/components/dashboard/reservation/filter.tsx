@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 // Creating and exporting Filter component as default
 export default function Filter({
   className,
-  dataNotEmpty
+  dataNotEmpty,
 }: ReservationsFilterComponentPropsType): ReactNode {
   // Returning JSX
   return (
@@ -27,7 +27,13 @@ export default function Filter({
           داشبورد سفرنامه
         </span>
         <div className="lg:flex grid grid-cols-4 items-center justify-end lg:gap-4 gap-[17px]">
-          {(dataNotEmpty) && <IconInput icon="SearchStatus" className="lg:h-10 h-[45px]" placeholder="جستجو مسافر، هتل" />}
+          {dataNotEmpty && (
+            <IconInput
+              icon="SearchStatus"
+              className="lg:h-10 h-[45px]"
+              placeholder="جستجو مسافر، هتل"
+            />
+          )}
           <Button className="flex items-center justify-center gap-2 lg:h-10 h-[45px] text-black bg-white lg:rounded-md rounded-[7px] px-3 hover:bg-white">
             <IconsaxIcons
               name="Add"

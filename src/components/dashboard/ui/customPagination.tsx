@@ -35,7 +35,13 @@ export default function CustomPagination({
 
   // Returning JSX
   return (
-    <Pagination className={cn('lg:w-auto w-full lg:overflow-visible overflow-auto scrollbar-hide mx-0', className)} dir="ltr">
+    <Pagination
+      className={cn(
+        'lg:w-auto w-full lg:overflow-visible overflow-auto scrollbar-hide mx-0',
+        className,
+      )}
+      dir="ltr"
+    >
       <PaginationContent className="lg:w-auto w-full lg:gap-3 gap-[17px] lg:justify-start justify-evenly">
         <PaginationItem>
           <button
