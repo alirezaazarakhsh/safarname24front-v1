@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MobileProfileComponentPropsType } from '@/types/dashboard/component';
 import Image from 'next/image';
@@ -116,6 +116,7 @@ export default function MobileProfile({
   isOpened,
 }: MobileProfileComponentPropsType): ReactNode {
   // Defining states of component
+  const [componentScrolled, setComponentScrolled] = useState<boolean>(false);
   const [activeItemIndex, setActiveItemIndex] = useState<number | undefined>(
     undefined,
   );
@@ -133,6 +134,9 @@ export default function MobileProfile({
     };
   }, [isOpened]);
 
+  // Defining refrences
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   // Returning JSX
   return (
     <AnimatePresence>
@@ -141,9 +145,22 @@ export default function MobileProfile({
         exit={{ opacity: 0, top: '50%' }}
         initial={{ opacity: 0, top: '50%' }}
         animate={{ opacity: 1, top: 0 }}
-        className="fixed z-30 left-0 pb-[100px] w-dvw h-dvh bg-[#F9F9F9] lg:hidden block overflow-auto scrollbar-hide"
+        className="fixed z-30 left-0 pb-[100px] w-dvw h-dvh lg:hidden block overflow-auto scrollbar-hide bg-[#F9F9F9]"
+        ref={containerRef}
+        onScroll={() => {
+            const containerElement = containerRef.current;
+            if (containerElement) {
+                const scrollTop = containerElement.scrollTop;
+                (scrollTop === 0) 
+                    ? setComponentScrolled(false) 
+                    : setComponentScrolled(true)
+            }
+        }}
       >
-        <div className="py-[16px] px-[24px] bg-white border-b border-b-black/20 flex items-center justify-between gap-3 shadow-2xl shadow-black/20 fixed top-0 w-full left-0 z-50">
+        <div
+            data-scrolled={componentScrolled}
+            className="py-[16px] px-[24px] border-b border-b-black/20 flex items-center justify-between gap-3 data-[scrolled='false']:shadow-none data-[scrolled='true']:shadow-2xl shadow-black/20 sticky top-0 w-full left-0 z-50 data-[scrolled='false']:bg-transparent data-[scrolled='true']:bg-white transition-all duration-500"
+        >
           <div className="flex items-center justify-start gap-[10px] w-full">
             <Image
               width={50}
@@ -170,7 +187,7 @@ export default function MobileProfile({
             </span>
           </Link>
         </div>
-        <div className="pt-[100px] p-[24px] pb-[100px] min-h-dvh flex flex-col gap-[15px]">
+        <div className="p-[24px] flex flex-col gap-[15px]">
           <div className="p-[20px] bg-white border border-black/20 rounded-[14px]">
             <div className="mb-[20px] pb-[20px] border-b border-b-black/20 flex items-center justify-between gap-3">
               <div className="flex items-center justify-start gap-[10px] w-full overflow-hidden text-black">
