@@ -92,7 +92,7 @@ export default function UserStatusInfo({
                 </span>
               </button>
             </DropDown.DropdownMenuRadioItem>
-            <DropDown.DropdownMenuSeparator className="mx-3 my-3" />
+            <DropDown.DropdownMenuSeparator className="mx-3" />
 <DropDown.DropdownMenuRadioItem
               value="bar"
               asChild

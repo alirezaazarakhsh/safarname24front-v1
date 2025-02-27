@@ -14,6 +14,7 @@ import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
 import { LatestTicketsTableProps } from '@/types/dashboard/component';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import { ICCup } from '@/components/icons/ICCup';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 // Defining some fake data to render
 const data: {
@@ -112,7 +113,7 @@ export default function LatestTicketsTable({
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
-                    <ICDocumentText className="w-5 h-5 text-black" />
+                    <IconsaxIcons name="DocumentText1" className="w-5 h-5 text-black" />
                   </div>
                   <div>
                     <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
@@ -181,7 +182,7 @@ export default function LatestTicketsTable({
             className={cn(
               index + 1 === data.length
                 ? ''
-                : 'mb-[20px] border-b border-b-black/10 pb-[20px]',
+                : 'mb-[20px] border-b-[1.5px] border-b-black/10 pb-[20px]',
             )}
           >
             <div className="flex items-center justify-between gap-3 mb-[20px]">
@@ -201,7 +202,7 @@ export default function LatestTicketsTable({
                 href={`/dashboard/tickets/${item.id}`}
                 className="bg-white border border-gray-300 w-[94px] h-[40px] box-border transition-all duration-500 hover:bg-gray-100 px-[12px] rounded-[6px] flex items-center justify-center gap-[4px]"
               >
-                <span className="font-normal text-[10px] text-gray-600 block truncate text-right">
+                <span className="font-medium text-[10px] text-gray-600 block truncate text-right">
                   ورود به تیکت
                 </span>
                 <ICChevronBottom className="w-[10px] h-[10px] text-gray-600 rotate-90 shrink-0" />
@@ -222,7 +223,7 @@ export default function LatestTicketsTable({
             </div>
             <div className="flex items-center justify-start gap-[10px] mb-[25px]">
               <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                <ICDocumentText className="w-[20px] h-[20px] text-black" />
+                <IconsaxIcons name="DocumentText1" className="w-[20px] h-[20px] text-black" />
               </div>
               <div>
                 <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
