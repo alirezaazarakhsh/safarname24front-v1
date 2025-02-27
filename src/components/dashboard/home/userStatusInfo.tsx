@@ -7,7 +7,7 @@ import { cn } from '@/utils/utils';
 import { ReactNode, useState } from 'react';
 import { numberSeparation } from '@/utils';
 import { ICHoriz3Dots } from '@/components/icons/ICHoriz3Dots';
-import * as Dropdown from '@/components/ui/dropdown-menu';
+import * as DropDown from '@/components/ui/dropdown-menu';
 import { UserInfoBarChart } from './userInfoBarCharts';
 import { ICChartDown } from '@/components/icons/ICChartDown';
 
@@ -23,7 +23,7 @@ export default function UserStatusInfo({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] lg:px-3 lg:py-4 px-[20px] py-[20px] flex items-center justify-between gap-2 lg:h-auto h-[83px]',
+        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] lg:px-3 lg:py-4 px-[15px] py-[20px] flex items-center justify-between gap-2 lg:h-auto h-[83px]',
         className,
       )}
     >
@@ -54,60 +54,57 @@ export default function UserStatusInfo({
         data-mode={mode}
         className="flex items-center justify-end gap-1 shrink-0 transition-all duration-500 data-[mode='normal']:w-auto data-[mode='bar']:w-[50%]"
       >
-        {mode === 'normal' ? (
-          false
-        ) : (
-          <div className="w-[100px]">
-            <UserInfoBarChart />
-          </div>
-        )}
-        {data.value.count === 0 ? (
-          <div className="w-[100px]">
-            <ICChartDown className="w-full" />
-          </div>
-        ) : (
-          false
-        )}
-        <Dropdown.DropdownMenu>
-          <Dropdown.DropdownMenuTrigger
-            asChild
-            disabled={data.value.count === 0}
-          >
+                {
+                    mode === 'bar' && (
+                        <div className={cn("w-[100px]", (data.value.count === 0) ? "flex items-center justify-end" : "")}>
+                            {
+                                data.value.count === 0 
+                                    ? <ICChartDown className="w-[60px] aspect-square block" />
+                                    : <UserInfoBarChart />
+                            }
+                        </div>
+                    )
+                }
+    <DropDown.DropdownMenu>
+          <DropDown.DropdownMenuTrigger asChild>
             <button className="shrink-0">
               <ICHoriz3Dots className="text-gray-200 lg:w-4 lg:h-4 w-[20px] h-[20px]" />
             </button>
-          </Dropdown.DropdownMenuTrigger>
-          <Dropdown.DropdownMenuContent align="start">
-            <Dropdown.DropdownMenuRadioGroup
-              value={mode}
-              onValueChange={(e) => setMode(e)}
+          </DropDown.DropdownMenuTrigger>
+          <DropDown.DropdownMenuContent align="start" className="w-[200px] rounded-lg shadow-[0_0_2rem_rgba(0,0,0,0.1)]">
+
+            <DropDown.DropdownMenuRadioGroup
+                            value={mode}
+                            onValueChange={(e) => setMode(e)}
+                        >
+<DropDown.DropdownMenuRadioItem
+              value="normal"
+              asChild
+              className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red w-full cursor-pointer data-[active='true']:bg-cs-red/10 data-[active='true']:text-cs-red block"
+              data-active={mode === "normal"}
             >
-              <Dropdown.DropdownMenuRadioItem
-                className="lg:p-3 p-[15px] bg-white block transition-all duration-500 hover:bg-cs-red/10 hover:text-cs-red text-black cursor-pointer"
-                value="normal"
-              >
-                <span
-                  data-active={mode === 'normal'}
-                  className="lg:text-cs08 text-[10px] text-current text-right lg:font-medium font-bold truncate block transition-all duration-500 data-[active='true']:font-bold data-[active='false']:font-normal"
-                >
-                  حالت معمولی
+              <button>
+                <span className="text-cs08 font-normal text-current text-right truncate block">
+                                        حالت معمولی
                 </span>
-              </Dropdown.DropdownMenuRadioItem>
-              <Dropdown.DropdownMenuSeparator className="mx-3 mb-3" />
-              <Dropdown.DropdownMenuRadioItem
-                className="lg:p-3 p-[15px] bg-white block transition-all duration-500 hover:bg-cs-red/10 hover:text-cs-red text-black cursor-pointer"
-                value="bar"
-              >
-                <span
-                  data-active={mode === 'bar'}
-                  className="lg:text-cs08 text-[10px] text-current text-right lg:font-medium font-bold truncate block transition-all duration-500 data-[active='true']:font-bold data-[active='false']:font-normal"
-                >
-                  حالت حرفه ای - چارت لاین
+              </button>
+            </DropDown.DropdownMenuRadioItem>
+            <DropDown.DropdownMenuSeparator className="mx-3" />
+<DropDown.DropdownMenuRadioItem
+              value="bar"
+              asChild
+              className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red w-full cursor-pointer data-[active='true']:bg-cs-red/10 data-[active='true']:text-cs-red block"
+              data-active={mode === "bar"}
+            >
+              <button>
+                <span className="text-cs08 font-normal text-current text-right truncate block">
+                                        حالت حرفه ای - چارت لاین
                 </span>
-              </Dropdown.DropdownMenuRadioItem>
-            </Dropdown.DropdownMenuRadioGroup>
-          </Dropdown.DropdownMenuContent>
-        </Dropdown.DropdownMenu>
+              </button>
+            </DropDown.DropdownMenuRadioItem>
+            </DropDown.DropdownMenuRadioGroup>
+          </DropDown.DropdownMenuContent>
+        </DropDown.DropdownMenu>
       </div>
     </div>
   );

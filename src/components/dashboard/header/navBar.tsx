@@ -55,7 +55,7 @@ const data: {
   {
     icon: <ICProfile2User className="w-4 h-4 text-current shrink-0" />,
     label: 'مسافران من',
-    href: '/dashboard/passangers',
+    href: '/dashboard/passengers',
   },
 ];
 

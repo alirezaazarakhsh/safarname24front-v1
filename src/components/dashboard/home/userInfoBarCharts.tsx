@@ -12,6 +12,7 @@ import {
 import moment from 'jalali-moment';
 import { ReactNode, useState } from 'react';
 
+// Defining dummy data to render
 const chartData = [
   { date: moment().locale('fa').format('YYYY/MM/DD'), value: 12 },
   { date: moment().locale('fa').format('YYYY/MM/DD'), value: 3 },
@@ -26,12 +27,12 @@ const chartData = [
 // Defining configs of charts
 const chartConfig = {
   value: {
-    label: 'تعداد : ',
+    label: 'lrnh : ',
   },
 } satisfies ChartConfig;
 
 // Creating and exporting UserInfoButtonChart component as default
-export function UserInfoBarChart():ReactNode {
+export function UserInfoBarChart(): ReactNode {
   // Defining state of component
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [cursorPosX, setCursorPosX] = useState<number>(0);
@@ -43,7 +44,7 @@ export function UserInfoBarChart():ReactNode {
       onMouseLeave={() => setCursorPosX(0)}
       onMouseMove={(e) => {
         const boundingRect = e.currentTarget.getBoundingClientRect();
-        const posXToSet = (e.clientX - boundingRect.left) - 30;
+        const posXToSet = e.clientX - boundingRect.left - 30;
 
         setCursorPosX(posXToSet);
       }}
@@ -54,25 +55,40 @@ export function UserInfoBarChart():ReactNode {
           cursor={false}
           content={<ChartTooltipContent posX={cursorPosX} hideLabel />}
         />
-        <Bar
-          dataKey="value"
-          onMouseEnter={(item, index) => setHoveredIndex(index)}
-          onMouseLeave={() => setHoveredIndex(null)}
-          shape={({ x, y, height, index }: any) => (
-            <rect
-              x={x}
-              y={y}
-              ry={3}
-              width={3}
-              height={height}
-              fill="#35A346"
-              style={{
-                transition: 'all 500ms ease-out',
-                opacity: index === hoveredIndex ? '20%' : '100%',
-              }}
-            />
-          )}
-        />
+
+<Bar
+  dataKey="value"
+  onMouseEnter={(item, index) => setHoveredIndex(index)}
+  onMouseLeave={() => setHoveredIndex(null)}
+  shape={({ x, y, height, index }: any) => (
+    <g>
+      {/* Invisible Hitbox for Better Hover Detection */}
+      <rect
+        x={x - 7}  // Expand left & right
+        y={y - 5}  // Expand up
+        width={17} // Expand hitbox width
+        height={height + 10} // Expand hitbox height
+        fill="transparent"
+        onMouseEnter={() => setHoveredIndex(index)}
+        onMouseLeave={() => setHoveredIndex(null)}
+      />
+      
+      {/* Actual Bar */}
+      <rect
+        x={x}
+        y={y}
+        ry={3}
+        width={3}
+        height={height}
+        fill="#35A346"
+        style={{
+          transition: 'all 500ms ease-out',
+          opacity: index === hoveredIndex ? '20%' : '100%',
+        }}
+      />
+    </g>
+  )}
+/>
       </BarChart>
     </ChartContainer>
   );
