@@ -54,22 +54,19 @@ export default function UserStatusInfo({
         data-mode={mode}
         className="flex items-center justify-end gap-1 shrink-0 transition-all duration-500 data-[mode='normal']:w-auto data-[mode='bar']:w-[50%]"
       >
-        {mode === 'normal' ? (
-          false
-        ) : (
-          <div className="w-[100px]">
-            <UserInfoBarChart />
-          </div>
-        )}
-        {data.value.count === 0 ? (
-          <div className="w-[100px]">
-            <ICChartDown className="w-full" />
-          </div>
-        ) : (
-          false
-        )}
+                {
+                    mode === 'bar' && (
+                        <div className={cn("w-[100px]", (data.value.count === 0) ? "flex items-center justify-end" : "")}>
+                            {
+                                data.value.count === 0 
+                                    ? <ICChartDown className="w-[60px] aspect-square block" />
+                                    : <UserInfoBarChart />
+                            }
+                        </div>
+                    )
+                }
     <DropDown.DropdownMenu>
-          <DropDown.DropdownMenuTrigger asChild disabled={data.value.count === 0}>
+          <DropDown.DropdownMenuTrigger asChild>
             <button className="shrink-0">
               <ICHoriz3Dots className="text-gray-200 lg:w-4 lg:h-4 w-[20px] h-[20px]" />
             </button>
