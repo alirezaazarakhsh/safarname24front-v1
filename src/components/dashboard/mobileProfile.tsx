@@ -152,7 +152,7 @@ export default function MobileProfile({
         exit={{ opacity: 0, top: '50%' }}
         initial={{ opacity: 0, top: '50%' }}
         animate={ (isOpened) ? { opacity: 1, top: 0, visibility: "visible"  } : {opacity: 0, top: "50%", visibility: "hidden"}}
-        className="fixed z-30 left-0 pb-[75px] z-40 w-dvw h-dvh lg:hidden block overflow-auto scrollbar-hide bg-[#F9F9F9]"
+        className="fixed left-0 pb-[75px] z-40 w-dvw h-dvh lg:hidden block overflow-auto scrollbar-hide bg-[#F9F9F9]"
         ref={containerRef}
         onScroll={() => {
             const containerElement = containerRef.current;

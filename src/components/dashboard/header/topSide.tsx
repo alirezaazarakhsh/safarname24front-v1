@@ -12,7 +12,7 @@ import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
 export default function TopSide(): ReactNode {
   // Returning JSX
   return (
-    <div className="bg-transparent transition-all duration-500 border-b border-b-black/20">
+    <div className="bg-transparent transition-all duration-500 border-b">
       <div className="p-5 max-w-screen-template mx-auto lg:flex hidden items-center justify-between">
         <div className="flex items-center justify-start gap-2">
           <Link
