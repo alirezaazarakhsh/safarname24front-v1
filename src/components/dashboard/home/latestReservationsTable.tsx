@@ -173,13 +173,11 @@ export default function LatestReservationsTable({
                       )}
                     >
                       <span className="font-normal text-cs07 text-current block truncate text-right whitespace-nowrap">
-                            {
-                                                        (item.status === "cancled")
-                                                            ? "سیستم پرداخت لغو شد"
-                                                            : (item.status === "pending")
-                                                                ? "در حال پرداخت وجه"
-                                                                : "پرداخت موفقیت آمیز"
-                                                    }
+                        {item.status === 'cancled'
+                          ? 'سیستم پرداخت لغو شد'
+                          : item.status === 'pending'
+                            ? 'در حال پرداخت وجه'
+                            : 'پرداخت موفقیت آمیز'}
                       </span>
                     </div>
                   )}
@@ -271,14 +269,11 @@ export default function LatestReservationsTable({
                   وضعیت :
                 </span>
                 <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-{
-                                                        (item.status === "cancled")
-                                                            ? "سیستم پرداخت لغو شد"
-                                                            : (item.status === "pending")
-                                                                ? "در حال پرداخت وجه"
-                                                                : "پرداخت موفقیت آمیز"
-                                                    }
-
+                  {item.status === 'cancled'
+                    ? 'سیستم پرداخت لغو شد'
+                    : item.status === 'pending'
+                      ? 'در حال پرداخت وجه'
+                      : 'پرداخت موفقیت آمیز'}
                 </span>
               </div>
             </div>

@@ -113,7 +113,10 @@ export default function LatestTicketsTable({
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
-                    <IconsaxIcons name="DocumentText1" className="w-5 h-5 text-black" />
+                    <IconsaxIcons
+                      name="DocumentText1"
+                      className="w-5 h-5 text-black"
+                    />
                   </div>
                   <div>
                     <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
@@ -223,7 +226,10 @@ export default function LatestTicketsTable({
             </div>
             <div className="flex items-center justify-start gap-[10px] mb-[25px]">
               <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons name="DocumentText1" className="w-[20px] h-[20px] text-black" />
+                <IconsaxIcons
+                  name="DocumentText1"
+                  className="w-[20px] h-[20px] text-black"
+                />
               </div>
               <div>
                 <span className="text-[12px] font-bold text-black truncate block text-right mb-1">

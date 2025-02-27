@@ -25,14 +25,14 @@ export default function useLocalStorage({
       setData(null);
       setLoading(false);
     }
-  }, []);
+  }, [value]);
 
   // Setting local storage item when data state is changed
   useEffect(() => {
     if (data) {
       localStorage.setItem(value, data);
     }
-  }, [data]);
+  }, [data, value]);
 
   // Defining a function to remove local storage item
   function removeItem(): void {
