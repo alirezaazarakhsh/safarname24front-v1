@@ -49,6 +49,7 @@ export interface UserStatusInfoComponentPropsType {
 
 export interface MobileProfileComponentPropsType {
     isOpened?: boolean;
+    closeFn: () => void;
 }
 
 export interface ReservationsFilterComponentPropsType {

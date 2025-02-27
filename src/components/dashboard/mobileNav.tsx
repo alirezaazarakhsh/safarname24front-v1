@@ -109,7 +109,7 @@ export default function MobileNav(): ReactNode {
         ) : (
           <>
             {createPortal(
-                <MobileProfile isOpened={profileOpened} />,
+                <MobileProfile isOpened={profileOpened} closeFn={() => setProfileOpened(false)} />,
                 document.body,
             )}
             <button

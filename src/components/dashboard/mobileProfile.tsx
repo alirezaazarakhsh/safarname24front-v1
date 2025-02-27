@@ -13,6 +13,7 @@ import IconsaxIcons from '../icons/iconsaxIcons';
 import { ICLogOut } from '../icons/ICLogOut';
 import { numberSeparation } from '@/utils';
 import { ICArrowFlashRight } from '../icons/ICArrowFlashRight';
+import { usePathname } from 'next/navigation';
 
 // Creating some data to render
 const data: {
@@ -114,12 +115,19 @@ const data: {
 // Creating and exporting MobileProfile component as default
 export default function MobileProfile({
   isOpened,
+  closeFn
 }: MobileProfileComponentPropsType): ReactNode {
   // Defining states of component
   const [componentScrolled, setComponentScrolled] = useState<boolean>(false);
   const [activeItemIndex, setActiveItemIndex] = useState<number | undefined>(
     undefined,
   );
+
+  // Definint pathname 
+  const pathname = usePathname();
+
+  // Using useEffect to close the component when url changes 
+  useEffect(() => closeFn(), [pathname])
 
   // Using useEffect to remove scroll feature from body while the component is opened
   useEffect(() => {
@@ -144,7 +152,7 @@ export default function MobileProfile({
         exit={{ opacity: 0, top: '50%' }}
         initial={{ opacity: 0, top: '50%' }}
         animate={ (isOpened) ? { opacity: 1, top: 0, visibility: "visible"  } : {opacity: 0, top: "50%", visibility: "hidden"}}
-        className="fixed z-30 left-0 pb-[75px] w-dvw h-dvh lg:hidden block overflow-auto scrollbar-hide bg-[#F9F9F9]"
+        className="fixed z-30 left-0 pb-[75px] z-40 w-dvw h-dvh lg:hidden block overflow-auto scrollbar-hide bg-[#F9F9F9]"
         ref={containerRef}
         onScroll={() => {
             const containerElement = containerRef.current;
