@@ -53,7 +53,7 @@ export default function LatestReservationsTable({
   return (
     <div
       className={cn(
-        'bg-white py-5 px-3 border border-black/10 w-full rounded-lg',
+        'bg-white lg:py-5 py-[15px] lg:px-3 px-[13px] border border-black/10 w-full lg:rounded-lg rounded-[14px]',
         className,
       )}
     >
@@ -173,9 +173,13 @@ export default function LatestReservationsTable({
                       )}
                     >
                       <span className="font-normal text-cs07 text-current block truncate text-right whitespace-nowrap">
-                        {item.status === 'pending'
-                          ? 'در انتظار پرداخت'
-                          : 'لغو شده'}
+                            {
+                                                        (item.status === "cancled")
+                                                            ? "سیستم پرداخت لغو شد"
+                                                            : (item.status === "pending")
+                                                                ? "در حال پرداخت وجه"
+                                                                : "پرداخت موفقیت آمیز"
+                                                    }
                       </span>
                     </div>
                   )}
@@ -192,7 +196,7 @@ export default function LatestReservationsTable({
             className={cn(
               index + 1 === data.length
                 ? ''
-                : 'mb-[20px] border-b border-b-black/10 pb-[20px]',
+                : 'mb-[20px] border-b-[1.3px] border-b-black/10 pb-[20px]',
             )}
           >
             <div className="flex items-center justify-between gap-3 mb-[20px]">
@@ -213,7 +217,7 @@ export default function LatestReservationsTable({
                   href={`/dashboard/reservation/${item.id}`}
                   className="bg-green-100/50 hover:bg-green-100 text-green-500 w-[94px] h-[40px] box-border transition-all duration-500 px-[12px] rounded-[6px] flex items-center justify-center"
                 >
-                  <span className="font-normal text-[12px] text-current  block truncate text-right">
+                  <span className="font-medium text-[12px] text-current  block truncate text-right">
                     مشاهده تاییده
                   </span>
                 </Link>
@@ -226,7 +230,7 @@ export default function LatestReservationsTable({
                       : 'bg-gray-100/50 text-gray-500',
                   )}
                 >
-                  <span className="font-normal text-cs07 text-current block truncate text-right whitespace-nowrap">
+                  <span className="font-medium text-cs07 text-current block truncate text-right whitespace-nowrap">
                     {item.status === 'pending' ? 'در انتظار پرداخت' : 'لغو شده'}
                   </span>
                 </div>
@@ -254,7 +258,7 @@ export default function LatestReservationsTable({
                   مبلغ :
                 </span>
                 <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                  {numberSeparation(item.price)}
+                  {numberSeparation(item.price)} تومان
                 </span>
               </div>
             </div>
@@ -267,7 +271,14 @@ export default function LatestReservationsTable({
                   وضعیت :
                 </span>
                 <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                  {item.status === 'pending' ? 'در انتظار پرداخت' : 'لغو شده'}
+{
+                                                        (item.status === "cancled")
+                                                            ? "سیستم پرداخت لغو شد"
+                                                            : (item.status === "pending")
+                                                                ? "در حال پرداخت وجه"
+                                                                : "پرداخت موفقیت آمیز"
+                                                    }
+
                 </span>
               </div>
             </div>
