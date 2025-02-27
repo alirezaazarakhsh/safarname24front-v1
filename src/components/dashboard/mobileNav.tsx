@@ -13,130 +13,132 @@ import { cn } from '@/utils/utils';
 
 // Defining data to render in navigation bar
 const data: {
-    icon: IconsName;
-    title: string;
-    href?: `/${string}` | '/';
-    type: 'link' | 'profile-toggler';
+  icon: IconsName;
+  title: string;
+  href?: `/${string}` | '/';
+  type: 'link' | 'profile-toggler';
 }[] = [
-        {
-            icon: 'Home2',
-            title: 'خانه',
-            href: '/dashboard',
-            type: 'link',
-        },
-        {
-            icon: 'Heart',
-            title: 'علاقه مندی ها',
-            href: '/dashboard/favorites',
-            type: 'link',
-        },
-        {
-            icon: 'Flash',
-            title: 'بهترین هتل ها',
-            href: '/best-hotels',
-            type: 'link',
-        },
-        {
-            icon: 'Messages3',
-            title: 'چت تایم ',
-            href: '/dashboard/tickets',
-            type: 'link',
-        },
-        {
-            icon: 'Profile2User',
-            title: 'پروفایل کاربری',
-            type: 'profile-toggler',
-        },
-    ];
+  {
+    icon: 'Home2',
+    title: 'خانه',
+    href: '/dashboard',
+    type: 'link',
+  },
+  {
+    icon: 'Heart',
+    title: 'علاقه مندی ها',
+    href: '/dashboard/favorites',
+    type: 'link',
+  },
+  {
+    icon: 'Flash',
+    title: 'بهترین هتل ها',
+    href: '/best-hotels',
+    type: 'link',
+  },
+  {
+    icon: 'Messages3',
+    title: 'چت تایم ',
+    href: '/dashboard/tickets',
+    type: 'link',
+  },
+  {
+    icon: 'Profile2User',
+    title: 'پروفایل کاربری',
+    type: 'profile-toggler',
+  },
+];
 
 // Creating and exporting MobileNav component as defualt
 export default function MobileNav(): ReactNode {
-    // Defining hooks
-    const pathname = usePathname();
-    const hideMobileNavUrls = ["/dashboard"];
+  // Defining hooks
+  const pathname = usePathname();
+  const hideMobileNavUrls = ['/dashboard'];
 
-    if (hideMobileNavUrls.includes(pathname)) return false
-    else {
+  // Defining states of component
+  const [profileOpened, setProfileOpened] = useState<boolean>(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState('');
 
-        // Defining states of component
-        const [profileOpened, setProfileOpened] = useState<boolean>(false);
-        const [isAtBottom, setIsAtBottom] = useState(false);
-        const [lastScrollTop, setLastScrollTop] = useState(0);
-        const [scrollDirection, setScrollDirection] = useState('');
+  // Check Scroll-Direction
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
 
-        // Check Scroll-Direction
-        useEffect(() => {
-            const handleScroll = () => {
-                const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (currentScrollTop > lastScrollTop) {
+        setScrollDirection('down');
+      } else {
+        setScrollDirection('up');
+      }
 
-                if (currentScrollTop > lastScrollTop) {
-                    setScrollDirection('down');
-                } else {
-                    setScrollDirection('up');
-                }
+      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
+    };
 
-                setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
-            };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollTop]);
 
-            window.addEventListener('scroll', handleScroll);
-            return () => window.removeEventListener('scroll', handleScroll);
-        }, [lastScrollTop]);
-
-        // returning JSX 
-        return (
-            <nav
-                className={
-                    cn(
-                        "fixed z-50 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0",
-                        isAtBottom || scrollDirection === 'down' ? '-bottom-20' : 'bottom-0'
-                    )
-                }
+  // returning JSX
+  if (hideMobileNavUrls.includes(pathname)) return false;
+  else {
+    return (
+      <nav
+        className={cn(
+          'fixed z-50 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0',
+          isAtBottom || scrollDirection === 'down' ? '-bottom-20' : 'bottom-0',
+        )}
+      >
+        {data.map((item, index) =>
+          item.type === 'link' ? (
+            <Link
+              key={index}
+              data-active={pathname === item.href && !profileOpened}
+              className="flex flex-col items-center justify-center gap-[5px] transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
+              href={item.href || '#'}
             >
-                {data.map((item, index) =>
-                    item.type === 'link' ? (
-                        <Link
-                            key={index}
-                            data-active={pathname === item.href && !profileOpened}
-                            className="flex flex-col items-center justify-center gap-[5px] transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
-                            href={item.href || '#'}
-                        >
-                            <IconsaxIcons
-                                name={item.icon}
-                                className="w-[17px] h-[17px]"
-                                color="currentColor"
-                                variant={pathname === item.href && !profileOpened ? 'Bold' : 'Outline'}
-                            />
-                            <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
-                                {item.title}
-                            </span>
-                        </Link>
-                    ) : (
-                        <>
-                            {createPortal(
-                                <MobileProfile isOpened={profileOpened} closeFn={() => setProfileOpened(false)} />,
-                                document.body,
-                            )}
-                            <button
-                                key={index}
-                                data-active={profileOpened}
-                                className="flex flex-col items-center justify-center gap-1.5 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
-                                onClick={() => setProfileOpened((prev) => !prev)}
-                            >
-                                <IconsaxIcons
-                                    name={item.icon}
-                                    className="w-[17px] h-[17px]"
-                                    color="currentColor"
-                                    variant={profileOpened ? 'Bold' : 'Outline'}
-                                />
-                                <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
-                                    {item.title}
-                                </span>
-                            </button>
-                        </>
-                    ),
-                )}
-            </nav>
-        );
-
-    }
+              <IconsaxIcons
+                name={item.icon}
+                className="w-[17px] h-[17px]"
+                color="currentColor"
+                variant={
+                  pathname === item.href && !profileOpened ? 'Bold' : 'Outline'
+                }
+              />
+              <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+                {item.title}
+              </span>
+            </Link>
+          ) : (
+            <>
+              {createPortal(
+                <MobileProfile
+                  isOpened={profileOpened}
+                  closeFn={() => setProfileOpened(false)}
+                />,
+                document.body,
+              )}
+              <button
+                key={index}
+                data-active={profileOpened}
+                className="flex flex-col items-center justify-center gap-1.5 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
+                onClick={() => setProfileOpened((prev) => !prev)}
+              >
+                <IconsaxIcons
+                  name={item.icon}
+                  className="w-[17px] h-[17px]"
+                  color="currentColor"
+                  variant={profileOpened ? 'Bold' : 'Outline'}
+                />
+                <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+                  {item.title}
+                </span>
+              </button>
+            </>
+          ),
+        )}
+      </nav>
+    );
+  }
 }

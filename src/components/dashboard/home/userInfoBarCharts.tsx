@@ -56,39 +56,39 @@ export function UserInfoBarChart(): ReactNode {
           content={<ChartTooltipContent posX={cursorPosX} hideLabel />}
         />
 
-<Bar
-  dataKey="value"
-  onMouseEnter={(item, index) => setHoveredIndex(index)}
-  onMouseLeave={() => setHoveredIndex(null)}
-  shape={({ x, y, height, index }: any) => (
-    <g>
-      {/* Invisible Hitbox for Better Hover Detection */}
-      <rect
-        x={x - 7}  // Expand left & right
-        y={y - 5}  // Expand up
-        width={17} // Expand hitbox width
-        height={height + 10} // Expand hitbox height
-        fill="transparent"
-        onMouseEnter={() => setHoveredIndex(index)}
-        onMouseLeave={() => setHoveredIndex(null)}
-      />
-      
-      {/* Actual Bar */}
-      <rect
-        x={x}
-        y={y}
-        ry={3}
-        width={3}
-        height={height}
-        fill="#35A346"
-        style={{
-          transition: 'all 500ms ease-out',
-          opacity: index === hoveredIndex ? '20%' : '100%',
-        }}
-      />
-    </g>
-  )}
-/>
+        <Bar
+          dataKey="value"
+          onMouseEnter={(item, index) => setHoveredIndex(index)}
+          onMouseLeave={() => setHoveredIndex(null)}
+          shape={({ x, y, height, index }: any) => (
+            <g>
+              {/* Invisible Hitbox for Better Hover Detection */}
+              <rect
+                x={x - 7} // Expand left & right
+                y={y - 5} // Expand up
+                width={17} // Expand hitbox width
+                height={height + 10} // Expand hitbox height
+                fill="transparent"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              />
+
+              {/* Actual Bar */}
+              <rect
+                x={x}
+                y={y}
+                ry={3}
+                width={3}
+                height={height}
+                fill="#35A346"
+                style={{
+                  transition: 'all 500ms ease-out',
+                  opacity: index === hoveredIndex ? '20%' : '100%',
+                }}
+              />
+            </g>
+          )}
+        />
       </BarChart>
     </ChartContainer>
   );
