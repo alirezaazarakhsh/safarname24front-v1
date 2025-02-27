@@ -2,13 +2,14 @@
 'use client';
 
 // Importing part
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import { IconsName } from '@/types';
 import MobileProfile from './mobileProfile';
 import { createPortal } from 'react-dom';
+import { cn } from '@/utils/utils';
 
 // Defining data to render in navigation bar
 const data: {
@@ -52,14 +53,40 @@ const data: {
 export default function MobileNav(): ReactNode {
   // Defining states of component
   const [profileOpened, setProfileOpened] = useState<boolean>(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState('');
 
   // Defining hooks
   const pathname = usePathname();
 
+  // Check Scroll-Direction
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (currentScrollTop > lastScrollTop) {
+        setScrollDirection('down');
+      } else {
+        setScrollDirection('up');
+      }
+
+      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollTop]);
+
   // Returning JSX
   return (
     <nav
-            className="fixed z-50 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0"
+            className={
+                cn(
+                    "fixed z-50 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0", 
+                        isAtBottom || scrollDirection === 'down' ? '-bottom-20' : 'bottom-0'
+                )
+            }
         >
       {data.map((item, index) =>
         item.type === 'link' ? (
