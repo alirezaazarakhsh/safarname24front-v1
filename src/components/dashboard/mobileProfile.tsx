@@ -158,7 +158,7 @@ export default function MobileProfile({
       >
         <div
             data-scrolled={componentScrolled}
-            className="py-[16px] px-[24px] border-b border-b-black/20 flex items-center justify-between gap-3 data-[scrolled='false']:shadow-none data-[scrolled='true']:shadow-2xl shadow-black/20 sticky top-0 w-full left-0 z-50 data-[scrolled='false']:bg-transparent data-[scrolled='true']:bg-white transition-all duration-500"
+            className="py-[16px] px-[24px] border-b border-b-black/10 flex items-center justify-between gap-3 data-[scrolled='false']:shadow-none data-[scrolled='true']:shadow-2xl shadow-black/20 sticky top-0 w-full left-0 z-50 data-[scrolled='false']:bg-transparent data-[scrolled='true']:bg-white transition-all duration-500"
         >
           <div className="flex items-center justify-start gap-[10px] w-full">
             <Image
@@ -187,8 +187,8 @@ export default function MobileProfile({
           </Link>
         </div>
         <div className="p-[24px] flex flex-col gap-[15px]">
-          <div className="p-[20px] bg-white border border-black/20 rounded-[14px]">
-            <div className="mb-[20px] pb-[20px] border-b border-b-black/20 flex items-center justify-between gap-3">
+          <div className="p-[20px] bg-white border border-black/10 rounded-[14px]">
+            <div className="mb-[20px] pb-[20px] border-b border-b-black/10 flex items-center justify-between gap-3">
               <div className="flex items-center justify-start gap-[10px] w-full overflow-hidden text-black">
                 <IconsaxIcons
                   name="Wallet"
@@ -218,7 +218,7 @@ export default function MobileProfile({
               <Link
                 href={item.link || '#'}
                 key={index}
-                className="flex items-center justify-start w-full gap-[15px] p-[20px] bg-white border border-black/20 rounded-[14px]"
+                className="flex items-center justify-start w-full gap-[15px] p-[20px] bg-white border border-black/10 rounded-[14px]"
               >
                 <div className="w-[43px] h-[43px] aspect-square rounded-[7px] flex items-center justify-center bg-gray-100 text-black relative">
                   {item.icon === 'NotificationStatus' && (
@@ -245,7 +245,7 @@ export default function MobileProfile({
               <div
                 key={index}
                 data-opened={index === activeItemIndex}
-                className="p-[20px] bg-white border border-black/20 rounded-[14px] overflow-hidden"
+                className="p-[20px] bg-white border border-black/10 rounded-[14px] overflow-hidden"
               >
                 <button
                   onClick={() =>
@@ -298,7 +298,7 @@ export default function MobileProfile({
                   }
                   exit={{ height: 0, opacity: 0, paddingTop: 0, marginTop: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="flex flex-col gap-[20px] border-t border-t-black/20 overflow-hidden"
+                  className="flex flex-col gap-[20px] border-t border-t-black/10 overflow-hidden"
                 >
                   {item.containable?.map(
                     (containableItem, containableIndex) => (
