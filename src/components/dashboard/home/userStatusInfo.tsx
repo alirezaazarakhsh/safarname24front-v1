@@ -69,7 +69,7 @@ export default function UserStatusInfo({
           false
         )}
     <DropDown.DropdownMenu>
-          <DropDown.DropdownMenuTrigger asChild>
+          <DropDown.DropdownMenuTrigger asChild disabled={data.value.count === 0}>
             <button className="shrink-0">
               <ICHoriz3Dots className="text-gray-200 lg:w-4 lg:h-4 w-[20px] h-[20px]" />
             </button>

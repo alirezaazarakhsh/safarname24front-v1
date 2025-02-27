@@ -214,16 +214,10 @@ const ChartTooltipContent = React.forwardRef<
                       )}
                     >
                       <div className="grid gap-1.5">
-                        {nestLabel ? tooltipLabel : null}
-                        <span className="text-zinc-500 dark:text-zinc-400">
-                          {itemConfig?.label || item.name}
+                        <span className="text-zinc-500 dark:text-zinc-400 truncate block text-right w-full">
+                            {`${payload[0].value} در تاریخ ${payload[0].payload.date}`}
                         </span>
                       </div>
-                      {item.value && (
-                        <span className="font-mono font-medium tabular-nums text-zinc-950 dark:text-zinc-50">
-                          {item.value.toLocaleString()}
-                        </span>
-                      )}
                     </div>
                   </>
                 )}
