@@ -65,7 +65,7 @@ export default function MobileNav(): ReactNode {
         item.type === 'link' ? (
           <Link
             key={index}
-            data-active={pathname === item.href}
+            data-active={pathname === item.href && !profileOpened}
             className="flex flex-col items-center justify-center gap-[5px] transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
             href={item.href || '#'}
           >
@@ -73,7 +73,7 @@ export default function MobileNav(): ReactNode {
               name={item.icon}
               className="w-[17px] h-[17px]"
               color="currentColor"
-              variant={pathname === item.href ? 'Bold' : 'Outline'}
+              variant={pathname === item.href && !profileOpened ? 'Bold' : 'Outline'}
             />
             <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
               {item.title}
@@ -81,11 +81,10 @@ export default function MobileNav(): ReactNode {
           </Link>
         ) : (
           <>
-            {profileOpened &&
-              createPortal(
+            {createPortal(
                 <MobileProfile isOpened={profileOpened} />,
                 document.body,
-              )}
+            )}
             <button
               key={index}
               data-active={profileOpened}
