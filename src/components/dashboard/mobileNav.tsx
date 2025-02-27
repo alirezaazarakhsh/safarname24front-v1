@@ -58,7 +58,9 @@ export default function MobileNav(): ReactNode {
 
   // Returning JSX
   return (
-    <nav className="bg-white border-t border-t-black/20 py-[12px] px-[24px] lg:hidden fixed bottom-0 left-0 w-full z-40 shadow-[0px_-40px_50px_-12px_rgba(0,_0,_0,_0.2)] grid grid-cols-5 gap-[15px]">
+    <nav
+            className="fixed z-50 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0"
+        >
       {data.map((item, index) =>
         item.type === 'link' ? (
           <Link
@@ -87,7 +89,7 @@ export default function MobileNav(): ReactNode {
             <button
               key={index}
               data-active={profileOpened}
-              className="flex flex-col items-center justify-center gap-[5px] transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
+              className="flex flex-col items-center justify-center gap-1.5 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
               onClick={() => setProfileOpened((prev) => !prev)}
             >
               <IconsaxIcons
