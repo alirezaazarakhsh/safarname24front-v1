@@ -17,7 +17,7 @@ export function Facilities(props: Props) {
   const { facilities, hotelName } = props;
 
   return (
-    <div className='relative'>
+    <div id='facilities' className='relative'>
       <TopBarConfig title='امکانات هتل' className='mb-2 md:mb-6' />
 
       <MFacilities facilities={facilities} hotelName={hotelName} />

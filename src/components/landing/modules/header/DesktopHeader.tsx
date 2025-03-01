@@ -31,9 +31,9 @@ export default function DesktopHeader(props: Props) {
       <nav className='max-w-screen-template w-full px-5 mx-auto font-bold flex-between items-center gap-4'>
         {/* Logo | Titles */}
         <div className='flex items-center gap-3'>
-          <Link href={'/'} className='bg-cs-red w-12 h-12 overflow-hidden rounded-cs-10'>
+          <Link href={'/'} className='bg-cs-red w-12 h-12 pt-1.5 flex-center overflow-hidden rounded-cs-10'>
             {logo && (
-              <Image src={logo} alt='logo' width={100} height={100} className='full-size object-cover scale-125' />
+              <Image src={logo} alt='logo' width={100} height={100} className='full-size object-cover' />
             )}
           </Link>
 

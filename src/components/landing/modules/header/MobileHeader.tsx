@@ -16,9 +16,9 @@ export default function MobileHeader(props: Props) {
     <header className='text-cs08 font-bold pt-6 mx-5 flex flex-col gap-4 lg:hidden'>
       {/* Logo | Titles */}
       <div className='flex items-center gap-3'>
-        <Link href={'/'} className='bg-cs-red w-12 h-12 overflow-hidden rounded-lg'>
+        <Link href={'/'} className='bg-cs-red w-12 h-12 pt-1.5 flex-center overflow-hidden rounded-lg'>
           {logo && (
-            <Image src={logo} alt='logo' width={100} height={100} className='full-size object-cover scale-125' />
+            <Image src={logo} alt='logo' width={100} height={100} className='full-size object-cover' />
           )}
         </Link>
 
