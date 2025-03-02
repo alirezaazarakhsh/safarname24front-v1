@@ -28,7 +28,7 @@ export default function Filter({
         className,
       )}
     >
-      <span className="lg:block hidden truncate text-right w-full font-bold text-cs85 text-black">
+      <span className="lg:block hidden truncate text-right w-full font-bold text-[16px] text-black">
         داشبورد سفرنامه
       </span>
       <div className="lg:flex block lg:shrink-0 lg:gap-2">

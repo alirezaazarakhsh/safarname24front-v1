@@ -1,4 +1,4 @@
-// Forcing next.js to render this component as client side component
+// Forcing next.js to render this component as client side componentw-[125px]
 'use client';
 
 // Importing part
@@ -22,38 +22,38 @@ const data: {
   href: `/dashboard/${string}` | '/dashboard';
 }[] = [
   {
-    icon: <ICCategory className="w-4 h-4 text-current shrink-0" />,
+    icon: <ICCategory className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'داشبورد',
     href: '/dashboard',
   },
   {
-    icon: <ICDocumentText className="w-4 h-4 text-current shrink-0" />,
+    icon: <ICDocumentText className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'لیست رزرو من',
     href: '/dashboard/reservations',
   },
   {
-    icon: <ICWallet className="w-4 h-4 text-current shrink-0" />,
+    icon: <ICWallet className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'بخش مالی',
     href: '/dashboard/financial',
     hasChevronIcon: true,
   },
   {
-    icon: <ICCrown className="w-4 h-4 text-current shrink-0" />,
+    icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'باشگاه مشتریان',
     href: '/dashboard/customer-club',
   },
   {
-    icon: <ICMessageText className="w-4 h-4 text-current shrink-0" />,
+    icon: <ICMessageText className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'مدیریت تیکت ها',
     href: '/dashboard/tickets',
   },
   {
-    icon: <ICSave2 className="w-4 h-4 text-current shrink-0" />,
+    icon: <ICSave2 className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'علاقه مندی های من',
     href: '/dashboard/favorites',
   },
   {
-    icon: <ICProfile2User className="w-4 h-4 text-current shrink-0" />,
+    icon: <ICProfile2User className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'مسافران من',
     href: '/dashboard/passengers',
   },
@@ -120,7 +120,7 @@ export default function NavBar(): ReactNode {
           </Link>
         ))}
         <div
-          className="absolute h-[1.5px] rounded-[45rem] top-[98%] right-0 bg-cs-red w-[125px] transition-all duration-500 ease-in-out" 
+          className="absolute h-[1.5px] rounded-[45rem] top-[98%] right-0 bg-cs-red transition-all duration-500 ease-in-out" 
           style={{ right: indicatorStyles.right, width: indicatorStyles.width }}
         />
       </div>
