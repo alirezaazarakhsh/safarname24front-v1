@@ -23,7 +23,7 @@ export default function UserStatusInfo({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-[12px] rounded-[14px] lg:px-[10px] lg:py-[12px] px-[15px] py-[20px] flex items-center justify-between gap-2 lg:h-auto h-[83px]',
+        'bg-white border border-black/10 lg:rounded-[12px] rounded-[14px] lg:px-[10px] lg:py-[12px] px-[15px] py-[20px] flex items-center justify-between  lg:h-auto h-[83px]',
         className,
       )}
     >
