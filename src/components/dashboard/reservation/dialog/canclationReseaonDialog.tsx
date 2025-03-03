@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { DialogComponentPropsType } from '@/types/dashboard/component';
+import { CanclationReasonDialogComponentProps } from '@/types/dashboard/component';
 import { ReactNode } from 'react';
 import {
   Dialog,
@@ -18,7 +18,8 @@ import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from '@/components/dashboard/ui/customSonner/toast';
-import { title } from 'node:process';
+import { ICX } from '@/components/icons/ICX';
+import Loading from '../../ui/loading';
 
 // Defining data of radio group
 const radioGroupData: {
@@ -46,7 +47,7 @@ const radioGroupData: {
 // Defining form schema
 const formSchema = z.object({
   message: z
-    .string({ required_error: 'مشترک گرامی فیلد توضیحات تکمیل نشده است.' })
+    .string({ message: 'مشترک گرامی فیلد توضیحات تکمیل نشده است.' })
     .min(10, { message: 'پیام باید حداقل ۱۰ کاراکتر داشته باشد.' })
     .max(200, { message: 'پیام نباید بیش از ۲۰۰ کاراکتر باشد.' }),
 
@@ -70,7 +71,9 @@ type formType = z.infer<typeof formSchema>;
 export default function CanclationReasonDialog({
   closeFn,
   isOpened,
-}: DialogComponentPropsType): ReactNode {
+  openAcceptDialog,
+  openFailedDialog,
+}: CanclationReasonDialogComponentProps): ReactNode {
   // Defining hooks
   const formHook = useForm<formType>({
     resolver: zodResolver(formSchema),
@@ -81,7 +84,12 @@ export default function CanclationReasonDialog({
     message,
     reason,
   }) => {
+    const randomNum = Math.floor(Math.random() * 2); // For Testing purposes for now which returns random number of 1 (accepted) or 0 (failed)
+    await new Promise((resolve) => setTimeout(() => resolve(true), 2000));
+
     console.log({ message, reason });
+    closeFn && closeFn();
+    randomNum === 1 ? openAcceptDialog() : openFailedDialog();
   };
 
   // Returning JSX
@@ -94,7 +102,7 @@ export default function CanclationReasonDialog({
           </DialogTitle>
           <DialogClose asChild>
             <button onClick={closeFn} className="shrink-0" type="button">
-              <IconsaxIcons name="CloseCircle" className="w-4 h-4 text-black" />
+              <ICX className="w-3 h-3 text-black" fill="currentColor" />
             </button>
           </DialogClose>
         </div>
@@ -132,9 +140,9 @@ export default function CanclationReasonDialog({
                     {...formHook.register('reason')}
                   />
                   <IconsaxIcons
-                    color="white"
                     name="TickSquare"
                     variant="Bold"
+                    color="white"
                     className="w-2 h-2 aspect-square absolute top-[50%] left-[50%] block -translate-y-[75%] -translate-x-[25%] peer-data-[state=unchecked]:opacity-0 peer-data-[state=checked]:opacity-100 pointer-events-none"
                   />
                 </div>
@@ -148,11 +156,16 @@ export default function CanclationReasonDialog({
             ))}
             <Button
               variant="default"
+              disabled={formHook.formState.isSubmitting}
               className="bg-blue-700 rounded-md transition-all duration-500 hover:bg-blue-800 w-full mt-3"
             >
-              <span className="text-white text-cs65 font-normal">
-                ارسال کنسلی
-              </span>
+              {!formHook.formState.isSubmitting ? (
+                <span className="text-white text-cs65 font-normal">
+                  ارسال کنسلی
+                </span>
+              ) : (
+                <Loading />
+              )}
             </Button>
           </RadioGroup>
           <textarea

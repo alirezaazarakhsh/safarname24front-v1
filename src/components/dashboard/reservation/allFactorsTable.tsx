@@ -60,6 +60,8 @@ export default function AllFactorsTable({
       <CanclationReasonDialog
         isOpened={canclationReasonDialogOpened}
         closeFn={() => setCanclationReasonDialogOpened(false)}
+        openFailedDialog={() => setFailedToCancleDialogOpened(true)}
+        openAcceptDialog={() => setAcceptCanclationDialogOpened(true)}
       />
       {data.length === 0 ? (
         <div>

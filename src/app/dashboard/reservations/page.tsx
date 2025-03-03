@@ -60,14 +60,13 @@ const data: {
   },
 ];
 
-
 // Creating and exporting Reservations page as default
 export default function ReservationsPage(): ReactNode {
-    // Returning JSX
-    return (
-        <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
-            <Filter dataNotEmpty={(data.length !== 0)} />
-            <AllFactorsTable data={data} />
-        </main>
-    );
+  // Returning JSX
+  return (
+    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
+      <Filter dataNotEmpty={data.length !== 0} />
+      <AllFactorsTable data={data} />
+    </main>
+  );
 }

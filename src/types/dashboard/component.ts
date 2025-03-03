@@ -96,3 +96,9 @@ export interface CircluarTimerComponentPropsType {
   className?: string;
   duration: number;
 }
+
+export interface CanclationReasonDialogComponentProps
+  extends DialogComponentPropsType {
+  openFailedDialog: () => void;
+  openAcceptDialog: () => void;
+}
