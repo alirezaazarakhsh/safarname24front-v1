@@ -136,4 +136,15 @@
   background-color: rgb(100, 100, 100);
 }
 
+/* =============== BEST-HOTELS-PAGE ===============  */
+/* ========================================= */
+
+.amazingHotels-swiper {
+  padding-bottom: 2.4rem !important;
+}
+
+.amazingHotels-swiper .swiper-pagination-bullet {
+  background-color: rgb(100, 100, 100);
+}
+
 /* -------------------------- */

@@ -11,6 +11,7 @@ export * from './socialMedias';
 export * from './contactUsWays';
 export * from './navigationBar';
 export * from './amazingHotels';
+export * from './bestHotelsPage';
 export * from './aboutUsReasons';
 export * from './identityBadges';
 export * from './suggestedHotels';
