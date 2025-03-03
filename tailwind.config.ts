@@ -34,6 +34,9 @@ export default {
       borderRadius: {
         'cs-10': '10px',
       },
+      boxShadow: {
+        light: '0 0.5rem 1rem rgba(0, 0, 0, 0.03)',
+      },
       keyframes: {
         'caret-blink': {
           '0%,70%,100%': {

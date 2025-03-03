@@ -46,3 +46,23 @@
   -webkit-font-feature-settings: 'ss01';
   font-feature-settings: 'ss01';
 }
+
+.custom-horizontal-dashed-line {
+  background: repeating-linear-gradient(
+    to right,
+    #e4e4e7 0px,
+    #e4e4e7 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+.custom-vertical-dashed-line {
+  background: repeating-linear-gradient(
+    to top,
+    #e4e4e7 0px,
+    #e4e4e7 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
