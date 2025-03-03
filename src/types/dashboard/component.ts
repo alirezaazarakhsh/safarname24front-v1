@@ -102,3 +102,7 @@ export interface CanclationReasonDialogComponentProps
   openFailedDialog: () => void;
   openAcceptDialog: () => void;
 }
+
+export interface HotelAcceptSectionPropsType {
+  className?: string;
+}

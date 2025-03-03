@@ -27,7 +27,9 @@ const data: {
     href: '/dashboard',
   },
   {
-    icon: <ICDocumentText className="w-[19px] h-[19px] text-current shrink-0" />,
+    icon: (
+      <ICDocumentText className="w-[19px] h-[19px] text-current shrink-0" />
+    ),
     label: 'لیست رزرو من',
     href: '/dashboard/reservations',
   },
@@ -53,7 +55,9 @@ const data: {
     href: '/dashboard/favorites',
   },
   {
-    icon: <ICProfile2User className="w-[19px] h-[19px] text-current shrink-0" />,
+    icon: (
+      <ICProfile2User className="w-[19px] h-[19px] text-current shrink-0" />
+    ),
     label: 'مسافران من',
     href: '/dashboard/passengers',
   },
@@ -70,39 +74,49 @@ export default function NavBar(): ReactNode {
     width: number;
   }>({
     right: 0,
-    width: 0 
+    width: 0,
   });
 
-  // Defining a function to calculate styles of indicator 
+  // Defining a function to calculate styles of indicator
   function calculateIndicatorStyles() {
-    const activeElement = document.querySelector(".dashboard-nav-item[data-active='true']") as HTMLAnchorElement;
+    const activeElement = document.querySelector(
+      ".dashboard-nav-item[data-active='true']",
+    ) as HTMLAnchorElement;
     const itemsParentElement = itemsParentRef.current;
 
     if (activeElement && itemsParentElement) {
-        const { width } = getComputedStyle(activeElement);
-        const indexOfPxInWidth = width.indexOf("px");
-        const slicedWidthNum = Number(width.slice(0, indexOfPxInWidth));
-        const right = itemsParentElement.offsetWidth - (activeElement.offsetLeft + activeElement.offsetWidth);
-        
-        setIndicatorStyles({width: slicedWidthNum, right});
+      const { width } = getComputedStyle(activeElement);
+      const indexOfPxInWidth = width.indexOf('px');
+      const slicedWidthNum = Number(width.slice(0, indexOfPxInWidth));
+      const right =
+        itemsParentElement.offsetWidth -
+        (activeElement.offsetLeft + activeElement.offsetWidth);
+
+      setIndicatorStyles({ width: slicedWidthNum, right });
     }
   }
- 
+
   // Using useEffect to set active link index
   useEffect(() => {
-    const findedItem = data.find((item) => item.href === pathname);
-    const indexOfFindedItem = findedItem ? data.indexOf(findedItem) : 0;
+    const objToSet = data.find((item) => item.href.includes(pathname));
+    const objIndexInData = objToSet ? data.indexOf(objToSet) : 1;
 
-    setActiveLinkIndex(indexOfFindedItem);
+    setActiveLinkIndex(objIndexInData);
   }, [pathname]);
 
   // Calling `calculateIndicatorStyles` function while activeLinkIndex or width of page changes
-  useEffect(() => calculateIndicatorStyles(), [activeLinkIndex, window.innerWidth])
+  useEffect(
+    () => calculateIndicatorStyles(),
+    [activeLinkIndex, window.innerWidth],
+  );
 
   // Returning JSX
   return (
     <nav className="border-b-[1.5px] border-b-black/10 bg-white lg:block hidden">
-      <div ref={itemsParentRef} className="max-w-screen-template mx-auto flex items-center justify-start overflow-auto scrollbar-hide relative py-4 px-5 gap-5">
+      <div
+        ref={itemsParentRef}
+        className="max-w-screen-template mx-auto flex items-center justify-start overflow-auto scrollbar-hide relative py-4 px-5 gap-5"
+      >
         {data.map((item, index) => (
           <Link
             key={index}
@@ -120,7 +134,7 @@ export default function NavBar(): ReactNode {
           </Link>
         ))}
         <div
-          className="absolute h-[1.5px] rounded-[45rem] top-[98%] right-0 bg-cs-red transition-all duration-500 ease-in-out" 
+          className="absolute h-[1.5px] rounded-[45rem] top-[98%] right-0 bg-cs-red transition-all duration-500 ease-in-out"
           style={{ right: indicatorStyles.right, width: indicatorStyles.width }}
         />
       </div>
