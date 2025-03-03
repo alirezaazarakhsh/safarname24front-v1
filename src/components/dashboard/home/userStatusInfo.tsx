@@ -23,7 +23,7 @@ export default function UserStatusInfo({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] lg:px-3 lg:py-4 px-[15px] py-[20px] flex items-center justify-between gap-2 lg:h-auto h-[83px]',
+        'bg-white border border-black/10 lg:rounded-[12px] rounded-[14px] lg:px-[10px] lg:py-[12px] px-[15px] py-[20px] flex items-center justify-between  lg:h-auto h-[83px]',
         className,
       )}
     >
@@ -31,8 +31,8 @@ export default function UserStatusInfo({
         data-mode={mode}
         className="flex items-center justify-center lg:gap-3 gap-[15px] lg:data-[mode='normal']:w-[calc(100%-16px)] data-[mode='normal']:w-[calc(100%-20px)] data-[mode='bar']:w-[50%] transition-all duration-500 overflow-hidden"
       >
-        {mode === 'normal' && data.value.count !== 0 ? (
-          <div className="lg:w-8 lg:h-8 w-[43px] h-[43px] lg:rounded-md rounded-[7px] aspect-square flex items-center justify-center bg-gray-100 shrink-0">
+        {mode === 'normal' ? (
+          <div className="lg:w-[38px] lg:h-[38px] w-[43px] h-[43px] lg:rounded-md rounded-[7px] aspect-square flex items-center justify-center bg-gray-100 shrink-0">
             {data.icon}
           </div>
         ) : (
@@ -40,10 +40,10 @@ export default function UserStatusInfo({
         )}
 
         <div className="overflow-hidden w-full">
-          <span className="lg:text-cs75 text-[12px] lg:font-medium font-semibold text-black truncate block text-right lg:mb-1 mb-2">
+          <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right lg:mb-1 mb-2">
             {data.title}
           </span>
-          <span className="lg:text-cs75 text-[10px] lg:font-medium font-semibold text-black truncate block text-right">
+          <span className="lg:text-cs75 text-[10px] font-semibold text-black truncate block text-right">
             {data.value.count !== 0
               ? `${numberSeparation(data.value.count)} ${data.value.unit}`
               : `${data.value.unit} نداشتید!`}

@@ -27,7 +27,7 @@ export default function UserStatus({
           className="lg:shrink shrink-0"
           data={{
             icon: (
-              <ICCharSuccess className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+              <ICCharSuccess className="lg:w-[19px] lg:h-[19px] w-[20px] h-[20px] text-black" />
             ),
             title: 'تعداد رزرو های موفق من',
             value: {
@@ -44,7 +44,7 @@ export default function UserStatus({
           className="lg:shrink shrink-0"
           data={{
             icon: (
-              <ICSMSTracking className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+              <ICSMSTracking className="lg:w-[19px] lg:h-[19px] w-[20px] h-[20px] text-black" />
             ),
             title: 'مجموع تیکت های من',
             value: {
@@ -64,7 +64,7 @@ export default function UserStatus({
           className="lg:shrink shrink-0"
           data={{
             icon: (
-              <ICCup className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+              <ICCup className="lg:w-[19px] lg:h-[19px] w-[20px] h-[20px] text-black" />
             ),
             title: 'امتیاز باشگاه مشتری من',
             value: {
@@ -84,7 +84,7 @@ export default function UserStatus({
           className="lg:shrink shrink-0"
           data={{
             icon: (
-              <ICVerify className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+              <ICVerify className="lg:w-[19px] lg:h-[19px] w-[20px] h-[20px] text-black" />
             ),
             title: 'مبلغ کل خرید موفق آمیز',
             value: {
@@ -106,7 +106,7 @@ export default function UserStatus({
           className="lg:shrink shrink-0"
           data={{
             icon: (
-              <ICCup className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+              <ICCup className="lg:w-[19px] lg:h-[19px] w-[20px] h-[20px] text-black" />
             ),
             title: 'امتیاز باشگاه مشتری من',
             value: {
@@ -126,7 +126,7 @@ export default function UserStatus({
           className="lg:shrink shrink-0"
           data={{
             icon: (
-              <ICVerify className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+              <ICVerify className="lg:w-[19px] lg:h-[19px] w-[20px] h-[20px] text-black" />
             ),
             title: 'مبلغ کل خرید موفق آمیز',
             value: {
@@ -146,7 +146,7 @@ export default function UserStatus({
           className="lg:shrink shrink-0"
           data={{
             icon: (
-              <ICSMSTracking className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+              <ICSMSTracking className="lg:w-[19px] lg:h-[19px] w-[20px] h-[20px] text-black" />
             ),
             title: 'مجموع تیکت های من',
             value: {
@@ -166,7 +166,7 @@ export default function UserStatus({
           className="lg:shrink shrink-0"
           data={{
             icon: (
-              <ICCharSuccess className="lg:w-4 lg:h-4 w-[20px] h-[20px] text-black" />
+              <ICCharSuccess className="lg:w-[19px] lg:h-[19px] w-[20px] h-[20px] text-black" />
             ),
             title: 'تعداد رزرو های موفق من',
             value: {

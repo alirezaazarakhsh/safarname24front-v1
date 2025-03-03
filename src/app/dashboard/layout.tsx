@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import { Metadata } from "next/types";
 import { ReactNode } from "react";
-
+import { Toaster } from "sonner";
 import "swiper/css";
 import "@/styles/scrollbar.css";
 import Page from "@/components/dashboard/page";
@@ -125,6 +125,7 @@ export default function RootLayout({
                 )}
             >
                 <Page>
+                    <Toaster richColors closeButton position="bottom-left" />
                     {children}
                 </Page>
             </body>
