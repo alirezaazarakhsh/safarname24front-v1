@@ -4,6 +4,7 @@ import Logo from '@/components/dashboard/ui/logo';
 import HotelAcceptSection from '@/components/dashboard/reservationFactor/hotelAcceptSection';
 import Link from 'next/link';
 import RoomsSection from '@/components/dashboard/reservationFactor/roomsSection';
+import RulesSection from '@/components/dashboard/reservationFactor/rulesSection';
 
 // Defining some dummy data
 const data: {
@@ -67,7 +68,7 @@ const data: {
 export default function SingleReservationPage(): ReactNode {
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[100px] flex flex-col lg:gap-5 gap-[25px]">
+    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px]">
       <Logo />
       <HotelAcceptSection data={data.accept} />
       <div className="p-3 lg:h-16 bg-gray-100 border border-black/10 rounded-lg flex items-center justify-between gap-5">
@@ -89,6 +90,7 @@ export default function SingleReservationPage(): ReactNode {
           </p>
         </div>
       )}
+      <RulesSection />
     </main>
   );
 }
