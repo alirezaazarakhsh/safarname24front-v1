@@ -53,7 +53,7 @@ export function AmazingHotels(props: Props) {
       </div>
 
       {/* Large-Screen */}
-      <div className="hidden gap-6 xl:grid">
+      <div className="hidden gap-8 xl:grid">
         {amazingHotels?.map((hotel, index) => (
           <DHotelCard key={index} hotel={hotel} />
         ))}
