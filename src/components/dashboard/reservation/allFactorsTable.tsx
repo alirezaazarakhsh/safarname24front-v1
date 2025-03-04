@@ -60,6 +60,8 @@ export default function AllFactorsTable({
       <CanclationReasonDialog
         isOpened={canclationReasonDialogOpened}
         closeFn={() => setCanclationReasonDialogOpened(false)}
+        openFailedDialog={() => setFailedToCancleDialogOpened(true)}
+        openAcceptDialog={() => setAcceptCanclationDialogOpened(true)}
       />
       {data.length === 0 ? (
         <div>
@@ -184,7 +186,7 @@ export default function AllFactorsTable({
                     )}
                     {item.financialStatus === 'payed' ? (
                       <Link
-                        href={`/dashboard/factor/${item.id}`}
+                        href={`/dashboard/reservations/${item.id}`}
                         className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black hover:bg-gray-100"
                       >
                         <IconsaxIcons name="Eye" className="w-3 h-3 shrink-0" />
@@ -306,7 +308,7 @@ export default function AllFactorsTable({
                   )}
                   {item.financialStatus === 'payed' ? (
                     <Link
-                      href={`/dashboard/factor/${item.id}`}
+                      href={`/dashboard/reservations/${item.id}`}
                       className="h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-[6px] text-black hover:bg-gray-100"
                     >
                       <span className="text-cs07 text-current font-normal">

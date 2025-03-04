@@ -1,0 +1,27 @@
+// Forcing next.js to render this component as client side component
+'use client';
+
+// Importing part
+import { ToastProps } from '@/types/dashboard/component';
+import CircluarTimer from '../circluarTimer';
+
+// Creating and exporting ToastComponent which renders is our actual headless toast
+export default function ToastComponent({ title, description }: ToastProps) {
+  // Returning JSX
+  return (
+    <div
+      dir="rtl"
+      className="flex items-center justify-between gap-3 lg:w-[30dvw] w-full bg-white p-3 rounded-md z-[100] font-sans"
+    >
+      <div className="overflow-hidden">
+        <span className="text-cs-red mb-1 font-medium text-cs08 block truncate text-right w-full">
+          {title}
+        </span>
+        <span className="text-gray-500 font-medium text-cs65 block truncate text-right w-full">
+          {description}
+        </span>
+      </div>
+      <CircluarTimer duration={5} />
+    </div>
+  );
+}

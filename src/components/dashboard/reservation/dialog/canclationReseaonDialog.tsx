@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { DialogComponentPropsType } from '@/types/dashboard/component';
+import { CanclationReasonDialogComponentProps } from '@/types/dashboard/component';
 import { ReactNode } from 'react';
 import {
   Dialog,
@@ -17,60 +17,80 @@ import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
 import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
+import toast from '@/components/dashboard/ui/customSonner/toast';
+import { ICX } from '@/components/icons/ICX';
+import Loading from '../../ui/loading';
 
 // Defining data of radio group
-const radioGroupData:{
-    label: string;
-    value: string;
+const radioGroupData: {
+  label: string;
+  value: string;
 }[] = [
-        {
-            label: "منصرف شدم",
-            value: "gave-up"
-        }, {
-            label: "از جای دیگه سفارش میدهم",
-            value: "order-from-another-service"
-        }, {
-            label: "پشتیبانی خوبی ندیدم",
-            value: "no-good-support"
-        }, {
-            label: "مبلغ بسیار زیاد روی هتل ها",
-            value: "high-price-of-hotels"
-        }
-    ];
+  {
+    label: 'منصرف شدم',
+    value: 'gave-up',
+  },
+  {
+    label: 'از جای دیگه سفارش میدهم',
+    value: 'order-from-another-service',
+  },
+  {
+    label: 'پشتیبانی خوبی ندیدم',
+    value: 'no-good-support',
+  },
+  {
+    label: 'مبلغ بسیار زیاد روی هتل ها',
+    value: 'high-price-of-hotels',
+  },
+];
 
-// Defining form schema 
+// Defining form schema
 const formSchema = z.object({
   message: z
-    .string()
-    .min(10, { message: "پیام باید حداقل ۱۰ کاراکتر داشته باشد." })
-    .max(200, { message: "پیام نباید بیش از ۲۰۰ کاراکتر باشد." }),
+    .string({ message: 'مشترک گرامی فیلد توضیحات تکمیل نشده است.' })
+    .min(10, { message: 'پیام باید حداقل ۱۰ کاراکتر داشته باشد.' })
+    .max(200, { message: 'پیام نباید بیش از ۲۰۰ کاراکتر باشد.' }),
 
   reason: z.enum(
-    ["gave-up", "order-from-another-service", "no-good-support", "high-price-of-hotels"],
+    [
+      'gave-up',
+      'order-from-another-service',
+      'no-good-support',
+      'high-price-of-hotels',
+    ],
     {
-      message: "لطفاً یک دلیل معتبر انتخاب کنید.",
-    }
+      message: 'لطفاً یک دلیل معتبر انتخاب کنید.',
+    },
   ),
 });
 
-// Defining form type 
+// Defining form type
 type formType = z.infer<typeof formSchema>;
 
 // Creating and exporting CanclationReasonDialog as deafult
 export default function CanclationReasonDialog({
   closeFn,
   isOpened,
-}: DialogComponentPropsType): ReactNode {
-    // Defining hooks 
-    const formHook = useForm<formType>({
-        resolver: zodResolver(formSchema),
-    })
+  openAcceptDialog,
+  openFailedDialog,
+}: CanclationReasonDialogComponentProps): ReactNode {
+  // Defining hooks
+  const formHook = useForm<formType>({
+    resolver: zodResolver(formSchema),
+  });
 
-    // Handling submit event 
-    const handleOnSubmitEvent:SubmitHandler<formType> = async ({message, reason}) => {
-        console.log({message, reason});
-    }
+  // Handling submit event
+  const handleOnSubmitEvent: SubmitHandler<formType> = async ({
+    message,
+    reason,
+  }) => {
+    const randomNum = Math.floor(Math.random() * 2); // For Testing purposes for now which returns random number of 1 (accepted) or 0 (failed)
+    await new Promise((resolve) => setTimeout(() => resolve(true), 2000));
+
+    console.log({ message, reason });
+    closeFn && closeFn();
+    randomNum === 1 ? openAcceptDialog() : openFailedDialog();
+  };
 
   // Returning JSX
   return (
@@ -78,37 +98,54 @@ export default function CanclationReasonDialog({
       <DialogContent className="lg:w-[500px] w-[calc(100vw-25px)] p-0 gap-0">
         <div className="px-6 py-3 border-b border-b-black/10 flex items-center justify-between gap-3">
           <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black block truncate w-full">
-                        دلیل کنسلی شما چیست ؟
+            دلیل کنسلی شما چیست ؟
           </DialogTitle>
           <DialogClose asChild>
             <button onClick={closeFn} className="shrink-0" type="button">
-              <IconsaxIcons name="CloseCircle" className="w-4 h-4 text-black" />
+              <ICX className="w-3 h-3 text-black" fill="currentColor" />
             </button>
           </DialogClose>
         </div>
         <form
           action="#"
           onSubmit={formHook.handleSubmit(handleOnSubmitEvent, (error) => {
-                        if (error.message) toast.error(error.message.message)
-                        if (error.reason) toast.error(error.reason.message)
-                    })}
+            if (error.message)
+              toast({
+                description: error.message?.message || '',
+                title: 'خطایی رخ داد!',
+              });
+            if (error.reason)
+              toast({
+                description: error.reason?.message || '',
+                title: 'خطایی رخ داد!',
+              });
+          })}
           className="p-6 grid lg:grid-cols-5 grid-cols-1 gap-[17px]"
         >
-          <RadioGroup dir="rtl" className="flex flex-col gap-3 col-span-2" defaultValue="gave-up">
+          <RadioGroup
+            dir="rtl"
+            className="flex flex-col gap-3 col-span-2"
+            defaultValue="gave-up"
+          >
             {radioGroupData.map((item, index) => (
               <div
                 key={index}
                 className="flex items-center justify-start gap-2 overflow-hidden"
               >
                 <div className="relative shrink-0 w-5 h-5">
-                    <RadioGroupItem
-                      id={`canclation-reason-${index + 1}`}
-                      value={item.value}
-                      className="data-[state='unchecked']:bg-gray-100 rounded-md w-4 h-4 aspect-square data-[state='checked']:bg-green-500 transition-all duration-500 peer cursor-pointer"
-                      {...formHook.register("reason")}
-                    />
-                    <IconsaxIcons color="white" name="TickSquare" variant="Bold" className="w-2 h-2 aspect-square absolute top-[50%] left-[50%] block -translate-y-[75%] -translate-x-[25%] peer-data-[state=unchecked]:opacity-0 peer-data-[state=checked]:opacity-100 pointer-events-none" />
-               </div>
+                  <RadioGroupItem
+                    id={`canclation-reason-${index + 1}`}
+                    value={item.value}
+                    className="data-[state='unchecked']:bg-gray-100 rounded-md w-4 h-4 aspect-square data-[state='checked']:bg-green-500 transition-all duration-500 peer cursor-pointer"
+                    {...formHook.register('reason')}
+                  />
+                  <IconsaxIcons
+                    name="TickSquare"
+                    variant="Bold"
+                    color="white"
+                    className="w-2 h-2 aspect-square absolute top-[50%] left-[50%] block -translate-y-[75%] -translate-x-[25%] peer-data-[state=unchecked]:opacity-0 peer-data-[state=checked]:opacity-100 pointer-events-none"
+                  />
+                </div>
                 <Label
                   htmlFor={`canclation-reason-${index + 1}`}
                   className="truncate block text-right w-full text-cs07 font-medium text-black"
@@ -117,14 +154,24 @@ export default function CanclationReasonDialog({
                 </Label>
               </div>
             ))}
-            <Button variant="default" className="bg-blue-700 rounded-md transition-all duration-500 hover:bg-blue-800 w-full mt-3">
-              <span className="text-white text-cs65 font-normal">ارسال کنسلی</span>
+            <Button
+              variant="default"
+              disabled={formHook.formState.isSubmitting}
+              className="bg-blue-700 rounded-md transition-all duration-500 hover:bg-blue-800 w-full mt-3"
+            >
+              {!formHook.formState.isSubmitting ? (
+                <span className="text-white text-cs65 font-normal">
+                  ارسال کنسلی
+                </span>
+              ) : (
+                <Loading />
+              )}
             </Button>
           </RadioGroup>
           <textarea
             className="col-span-3 resize-none h-full bg-gray-100 rounded-md p-3 outline-0 placeholder:text-cs65 placeholder:text-gray-400 text-cs65 text-gray-400 border-none"
             placeholder="توضیحات خود را وارد نمایید..."
-            {...formHook.register("message")}
+            {...formHook.register('message')}
           />
         </form>
       </DialogContent>

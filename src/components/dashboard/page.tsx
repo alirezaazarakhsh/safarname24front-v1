@@ -6,7 +6,7 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 import { PageComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { Loader } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { createContext, ReactNode } from 'react';
 import Header from './header';
 import MobileNav from './mobileNav';
@@ -22,6 +22,7 @@ export default function Page({
   // Defining hooks to use later
   const uid = useLocalStorage({ value: 'uid' });
   const router = useRouter();
+  const pathname = usePathname();
 
   // Condititional rendering for conditions of :
   // loading the user id in local storage, uid exists in local storage which means user is logged in , and if user is not logged in
@@ -35,7 +36,7 @@ export default function Page({
     // else if (uid.data)
     return (
       <uidContext.Provider value={uid.data ? uid.data : 'undefined_user_id'}>
-        <Header />
+        {!pathname.startsWith('/dashboard/reservations/') && <Header />}
         <MobileNav />
         <div
           className={cn(
