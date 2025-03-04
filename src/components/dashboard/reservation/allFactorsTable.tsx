@@ -6,6 +6,7 @@ import moment from 'jalali-moment';
 import { AllFactorsTableComponentPropsType } from '@/types/dashboard/component';
 import { ReactNode, useState } from 'react';
 import { cn } from '@/utils/utils';
+import { Button } from '@/components/ui/button';
 import CustomPagination from '@/components/dashboard/ui/customPagination';
 import {
   Table,
@@ -44,7 +45,7 @@ export default function AllFactorsTable({
       className={cn(
         'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10',
         data.length === 0
-          ? 'lg:h-[500px] h-auto flex items-center justify-center lg:p-10 p-6'
+          ? 'lg:h-[500px] h-[calc(100dvh-20dvh)] flex items-center justify-center lg:p-10 p-6'
           : '',
         className,
       )}
@@ -70,15 +71,24 @@ export default function AllFactorsTable({
             src={EmptyImage.src}
             width={500}
             height={500}
-            className="h-auto lg:w-[250px] w-[150px] aspect-square block mb-4 mx-auto"
+            className="h-auto lg:w-[250px] w-[200px] aspect-square block mb-4 mx-auto"
           />
-          <span className="block text-center w-full text-black lg:text-cs95 text-cs75 lg:mb-2 mb-3 font-bold">
+          <span className="block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold">
             هیچ لیست رزروی فعلا ندارید!
           </span>
-          <span className="block text-center w-full text-black lg:text-cs09 text-cs07 font-normal">
+          <span className="block text-center w-full lg:text-black text-gray-500 lg:text-cs09 text-[10px] font-normal lg:mb-0 mb-6">
             مشتری گرامی برای ثبت رزرو هتل میتوانید از دکمه بالا اقدام نمایید از
             همراهی شما متشکریم.
           </span>
+          <Button className="lg:hidden flex items-center justify-center gap-2 mx-auto text-black bg-gray-100 rounded-[7px] p-[14px]">
+            <IconsaxIcons
+              name="Add"
+              className="w-[18px] h-[18px] text-gray-600 shrink-0"
+            />
+            <span className="block text-right truncate font-normal whitespace-nowrap text-[12px] text-current">
+              ثبت رزرو
+            </span>
+          </Button>
         </div>
       ) : (
         <>
