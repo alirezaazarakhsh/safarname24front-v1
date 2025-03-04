@@ -32,7 +32,7 @@ export default function HotelAcceptSection({
             دانلود
           </button>
           <Link
-            href="/dashboard/reservation"
+            href="/dashboard/reservations"
             className="flex lg:w-auto w-[50%] items-center h-10 justify-center gap-2 rounded-md bg-cs-red/10 hover:bg-cs-red/15 transition-all duration-500 text-cs-red px-3"
           >
             <IconsaxIcons
