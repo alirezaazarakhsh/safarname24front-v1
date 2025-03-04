@@ -15,28 +15,10 @@ import { cn } from '@/utils/utils';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import moment from 'jalali-moment';
 
-// Defining some dummy data to render
-const data: {
-  reserver: string;
-  createdAt: string;
-  codePeigiri: string;
-  phoneNumber: string;
-  enterAt: string;
-  exitAt: string | null;
-}[] = [
-  {
-    reserver: 'علیرضا آذرخش آلوچه',
-    createdAt: new Date().toISOString(),
-    codePeigiri: '45HGI13968V',
-    phoneNumber: '09912346598',
-    enterAt: new Date().toISOString(),
-    exitAt: null,
-  },
-];
-
 // Creatgina and exporting HotelAcceptSection as deafult
 export default function HotelAcceptSection({
   className,
+  data,
 }: HotelAcceptSectionPropsType): ReactNode {
   // Returning JSX
   return (

@@ -105,4 +105,12 @@ export interface CanclationReasonDialogComponentProps
 
 export interface HotelAcceptSectionPropsType {
   className?: string;
+  data: {
+    reserver: string;
+    createdAt: string;
+    codePeigiri: string;
+    phoneNumber: string;
+    enterAt: string;
+    exitAt: string | null;
+  }[];
 }
