@@ -97,3 +97,54 @@
 }
 
 /* -------------------------- */
+
+.hotelMImportantPlaces-swiper {
+  padding-bottom: 2.4rem !important;
+}
+
+.hotelMImportantPlaces-swiper .swiper-pagination-bullet {
+  background-color: rgb(100, 100, 100);
+}
+
+/* -------------------------- */
+
+.hotelDImportantPlaces-swiper {
+  height: 100%;
+}
+
+.hotelDImportantPlaces-swiper-pagination {
+  position: relative !important;
+  top: 2.6rem !important;
+  right: 6.5rem !important;
+  display: flex !important;
+  width: max-content !important;
+  height: max-content !important;
+  transform: translate(0) rotate(0) !important;
+}
+
+.hotelDImportantPlaces-swiper-pagination .swiper-pagination-bullet {
+  background-color: rgb(100, 100, 100);
+}
+
+/* -------------------------- */
+
+.hotelMReviews-swiper {
+  padding-bottom: 2.4rem !important;
+}
+
+.hotelMReviews-swiper .swiper-pagination-bullet {
+  background-color: rgb(100, 100, 100);
+}
+
+/* =============== BEST-HOTELS-PAGE ===============  */
+/* ========================================= */
+
+.amazingHotels-swiper {
+  padding-bottom: 2.4rem !important;
+}
+
+.amazingHotels-swiper .swiper-pagination-bullet {
+  background-color: rgb(100, 100, 100);
+}
+
+/* -------------------------- */

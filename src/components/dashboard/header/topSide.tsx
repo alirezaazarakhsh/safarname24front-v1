@@ -1,6 +1,7 @@
 // Importing part
 import { ReactNode } from 'react';
 import Link from 'next/link';
+import LogoImage from '../../../../public/image/logo/white.webp';
 import { ICNotificationStatus } from '@/components/icons/ICNotifcationStatus';
 import ProfileDropdown from './profileDropdown';
 import { ICLogOut } from '@/components/icons/ICLogOut';

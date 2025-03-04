@@ -1,7 +1,10 @@
 export * from './ICArrowCircleUp';
 export * from './ICCommentStar';
+export * from './ICSquareCheck';
 export * from './ICInstagram';
 export * from './ICArrowLeft';
+export * from './ICApartment';
+export * from './ICCarInRoad';
 export * from './ICWhatsApp';
 export * from './ICTelegram';
 export * from './ICLocation';
@@ -9,4 +12,5 @@ export * from './ICLinkdin';
 export * from './ICEmail';
 export * from './ICPhone';
 export * from './ICClock';
+export * from './ICUser';
 export * from './ICStar';

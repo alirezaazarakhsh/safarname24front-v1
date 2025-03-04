@@ -7,12 +7,16 @@ import DesktopHeader from './DesktopHeader';
 export default function Header() {
   return (
     <>
-      <MobileHeader logo='/image/logo/logo-white.png' title='سفرنامه 24' subtitle='agency safarname 24 hotel' />
+      <MobileHeader
+        logo="/image/logo/white.webp"
+        title="سفرنامه 24"
+        subtitle="agency safarname 24 hotel"
+      />
 
       <DesktopHeader
-        logo='/image/logo/logo-white.png'
-        title='سفرنامه 24'
-        subtitle='agency safarname 24 hotel'
+        logo="/image/logo/white.webp"
+        title="سفرنامه 24"
+        subtitle="agency safarname 24 hotel"
         navLinks={navLinks}
       />
     </>

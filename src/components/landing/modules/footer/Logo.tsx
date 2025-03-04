@@ -4,11 +4,11 @@ export default function Logo() {
   return (
     <div className='w-full flex-center'>
       <Image
-        src='/image/logo/logo-black.png'
+        src='/image/logo/red-gray.webp'
         alt='safarname24-logo'
-        width={100}
-        height={100}
-        className='w-28 h-28 -mb-6 -mt-2 object-contain lg:-mb-3 lg:-mt-7'
+        width={200}
+        height={200}
+        className='w-24 h-24 -mb-4 object-contain xl:mb-0 xl:-mt-3'
       />
     </div>
   );
