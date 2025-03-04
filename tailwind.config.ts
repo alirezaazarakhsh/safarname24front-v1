@@ -25,12 +25,17 @@ export default {
       },
       colors: {
         'cs-red': '#F30F26',
+        'cs-blue': '#4B5BCE',
+        'cs-dark-blue': '#252525',
       },
       screens: {
         template: '1280px',
       },
       borderRadius: {
         'cs-10': '10px',
+      },
+      boxShadow: {
+        light: '0 0.5rem 1rem rgba(0, 0, 0, 0.03)',
       },
       keyframes: {
         'caret-blink': {
