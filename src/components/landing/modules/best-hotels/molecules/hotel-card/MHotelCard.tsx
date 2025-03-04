@@ -97,7 +97,7 @@ export default function MHotelCard(props: Props) {
 
       {/* NumberOfNights | DiscountedPrice | TotalPrice */}
       <div
-        className={`relative text-zinc-800 font-bold p-5 flex-between items-center ${isSpecialOffer ? 'pt-9' : ''}`}
+        className={`relative text-zinc-800 font-bold p-5 flex-between items-center ${isSpecialOffer ? 'pt-9' : ''} ${!isSpecialOffer && discountedPrice > 0 ? 'pt-9 md:pt-5' : ''}`}
       >
         <div className="text-cs08 flex items-center gap-1">
           <span>قیمت برای</span>
@@ -105,8 +105,14 @@ export default function MHotelCard(props: Props) {
           <span>شب اقامت :</span>
         </div>
 
-        {isSpecialOffer && discountedPrice > 0 && (
+        {isSpecialOffer && (
           <span className="absolute top-3 left-5 text-zinc-500 text-cs08 line-through">
+            {numberSeparation(discountedPrice)}
+          </span>
+        )}
+
+        {!isSpecialOffer && discountedPrice > 0 && (
+          <span className="absolute top-3 left-5 text-zinc-500 text-cs08 line-through md:hidden">
             {numberSeparation(discountedPrice)}
           </span>
         )}

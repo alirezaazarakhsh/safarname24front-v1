@@ -7,6 +7,7 @@ import {
   AmazingHotels,
   SuggestedHotels,
   Pagination,
+  Setting,
 } from '@/components/landing/modules/best-hotels';
 import { bestHotelsPage } from '@/constants';
 
@@ -21,6 +22,7 @@ export default function BestHotels() {
 
   return (
     <div>
+      <Setting />
       <div className="grid gap-10 xl:grid-cols-[20rem_1fr]">
         <Filters />
 
