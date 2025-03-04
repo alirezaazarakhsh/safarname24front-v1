@@ -10,6 +10,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { createContext, ReactNode } from 'react';
 import Header from './header';
 import MobileNav from './mobileNav';
+import Loading from './ui/loading';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
@@ -28,8 +29,8 @@ export default function Page({
   // loading the user id in local storage, uid exists in local storage which means user is logged in , and if user is not logged in
   if (uid.loading) {
     return (
-      <div className="h-dvh flex items-center justify-center">
-        <Loader className="w-5 h-5 animate-spin text-cs-red" />
+      <div className="h-[100vh] w-[100vw] flex items-center justify-center">
+        <Loading />
       </div>
     );
   } else {
