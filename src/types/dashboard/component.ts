@@ -114,3 +114,18 @@ export interface HotelAcceptSectionPropsType {
     exitAt: string | null;
   }[];
 }
+
+export interface RoomsSectionPropsType {
+  className?: string;
+  data: {
+    info: {
+      hotelName: string;
+      timeSpan: 8; // in Nights
+      meals: string;
+      enteranceHalfCharge: boolean;
+      exitHalfCharge: boolean;
+      reserver: string;
+    };
+    passenger: string[];
+  }[];
+}
