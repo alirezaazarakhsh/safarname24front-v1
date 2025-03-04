@@ -13,7 +13,53 @@ const data: {
   exitAt: string | null;
   passengers: string;
   financialStatus: 'payed' | 'cancled' | 'pending';
-}[] = [];
+}[] = [
+  {
+    id: 1,
+    code: 'ZMA45362',
+    hotel: 'اسپیناس پالاس تهران',
+    enterAt: new Date().toISOString(),
+    exitAt: new Date().toISOString(),
+    passengers: 'محمد مهدی تاشا',
+    financialStatus: 'payed',
+  },
+  {
+    id: 2,
+    code: 'ZMA45362',
+    hotel: 'اسپیناس پالاس تهران',
+    enterAt: new Date().toISOString(),
+    exitAt: null,
+    passengers: 'محمد مهدی تاشا',
+    financialStatus: 'payed',
+  },
+  {
+    id: 3,
+    code: 'ZMA45362',
+    hotel: 'اسپیناس پالاس تهران',
+    enterAt: new Date().toISOString(),
+    exitAt: new Date().toISOString(),
+    passengers: 'محمد مهدی تاشا',
+    financialStatus: 'cancled',
+  },
+  {
+    id: 4,
+    code: 'ZMA45362',
+    hotel: 'اسپیناس پالاس تهران',
+    enterAt: new Date().toISOString(),
+    exitAt: new Date().toISOString(),
+    passengers: 'محمد مهدی تاشا',
+    financialStatus: 'payed',
+  },
+  {
+    id: 5,
+    code: 'ZMA45362',
+    hotel: 'اسپیناس پالاس تهران',
+    enterAt: new Date().toISOString(),
+    exitAt: new Date().toISOString(),
+    passengers: 'محمد مهدی تاشا',
+    financialStatus: 'pending',
+  },
+];
 
 // Creating and exporting Reservations page as default
 export default function ReservationsPage(): ReactNode {
