@@ -2,6 +2,7 @@
 import { ReactNode } from 'react';
 import Logo from '@/components/dashboard/ui/logo';
 import HotelAcceptSection from '@/components/dashboard/reservationFactor/hotelAcceptSection';
+import Link from 'next/link';
 
 // Defining some dummy data
 const data: {
@@ -68,6 +69,17 @@ export default function SingleReservationPage(): ReactNode {
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[100px] flex flex-col lg:gap-5 gap-[25px]">
       <Logo />
       <HotelAcceptSection data={data.accept} />
+      <div className="p-3 bg-gray-100 border border-black/10 rounded-lg flex items-center justify-between gap-5">
+        <p className="font-medium  text-black text-cs75 block text-right truncate">{`${data.location.label} ادرس هتل :`}</p>
+        <Link
+          href={data.location.googleMapURL}
+          className="h-10 px-3 border border-blue-500 bg-green-100 rounded-md transition-all duration-500 hover:bg-blue-200 text-blue-600 flex items-center justify-center"
+        >
+          <span className="text-current text-cs75 font-medium truncate block text-right">
+            نقشه Google Map
+          </span>
+        </Link>
+      </div>
     </main>
   );
 }
