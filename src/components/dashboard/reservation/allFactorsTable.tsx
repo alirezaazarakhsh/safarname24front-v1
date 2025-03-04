@@ -42,7 +42,7 @@ export default function AllFactorsTable({
   return (
     <section
       className={cn(
-        'bg-white overflow-hidden rounded-lg border border-black/10 lg:px-0 lg:py-0 px-3 py-5',
+        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10',
         data.length === 0
           ? 'lg:h-[500px] h-auto flex items-center justify-center lg:p-10 p-6'
           : '',
@@ -82,8 +82,8 @@ export default function AllFactorsTable({
         </div>
       ) : (
         <>
-          <div className="flex lg:flex-row flex-col items-center justify-between gap-3 lg:py-5 lg:px-3 px-0 py-0">
-            <span className="block truncate lg:text-right text-center w-full font-bold lg:text-cs85 text-[12px] text-black">
+          <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
+            <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
               مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
             </span>
             <CustomPagination
@@ -210,129 +210,167 @@ export default function AllFactorsTable({
               ))}
             </TableBody>
           </Table>
-          <div className="lg:hidden flex flex-col mt-5">
-            {data.map((item, index) => (
-              <div
-                key={index}
-                className={cn(
-                  'bg-white hover:bg-white',
-                  index + 1 !== data.length
-                    ? 'border-b border-b-black/10 py-3 mb-3'
-                    : 'border-b-0',
-                )}
-              >
-                <div className="flex items-center justify-between gap-3 mb-[20px]">
-                  <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                    <span className="font-bold text-[12px] text-black block">
-                      {handleZeroBeforeNumber(index + 1)}
-                    </span>
-                  </div>
-                  <div className="bg-gray-100 h-[40px] w-full px-[12px] rounded-[6px] flex items-center justify-center">
-                    <span className="font-bold lg:text-cs07 text-[10px] text-gray-600 block truncate text-center">
-                      {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                  <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                    <IconsaxIcons
-                      name="ScanBarcode"
-                      className="w-[20px] h-[20px] text-black"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                      کد پیگیری
-                    </span>
-                    <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                      {item.code}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                  <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                    <IconsaxIcons
-                      name="MoneyTick"
-                      className="w-[20px] h-[20px] text-black"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                      هتل
-                    </span>
-                    <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                      {item.hotel}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                  <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                    <IconsaxIcons
-                      name="Profile2User"
-                      className="w-[20px] h-[20px] text-black"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                      مسافران
-                    </span>
-                    <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                      {item.passengers}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                  <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                    <IconsaxIcons
-                      name="Bank"
-                      className="w-[20px] h-[20px] text-black"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                      وضعیت مالی
-                    </span>
-                    <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                      {item.passengers}
-                    </span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 gap-3">
-                  {item.financialStatus === 'payed' && (
-                    <button
-                      className="h-[40px] rounded-[6px] border border-red-600 bg-red-50 text-red-600 font-normal text-cs07 transition-all duration-500 hover:bg-red-100"
-                      onClick={() => setCanclationReasonDialogOpened(true)}
-                    >
-                      کنسل
-                    </button>
-                  )}
-                  {item.financialStatus === 'payed' ? (
-                    <Link
-                      href={`/dashboard/reservations/${item.id}`}
-                      className="h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-[6px] text-black hover:bg-gray-100"
-                    >
-                      <span className="text-cs07 text-current font-normal">
-                        {item.financialStatus === 'payed'
-                          ? 'پرداخت شده'
-                          : item.financialStatus === 'cancled'
-                            ? 'لغو شده'
-                            : 'انتظار پرداخت کاربر'}
-                      </span>
-                    </Link>
-                  ) : (
-                    <div className="h-[40px] bg-white border border-black/20 rounded-[6px] text-black flex items-center justify-center">
-                      {item.financialStatus === 'cancled' ? (
-                        <span className="text-cs07 font-normal text-current">
-                          رزرواسیون رد شد!
+          <div className="lg:hidden block mt-5">
+            <div className="flex flex-col">
+              {data.map((item, index) => (
+                <div
+                  key={index}
+                  className={
+                    'bg-transparent hover:bg-transparent border-b-[1.5px] border-b-black/10 py-3 mb-3'
+                  }
+                >
+                  <div className="flex items-center justify-between gap-3 mb-[20px]">
+                    <div className="flex items-center justify-start gap-[10px]">
+                      <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                        <span className="font-bold text-[12px] text-black block">
+                          {handleZeroBeforeNumber(index + 1)}
                         </span>
+                      </div>
+                      <div>
+                        <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                          کد پیگیری
+                        </span>
+                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                          {item.code}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between gap-[10px]">
+                      {item.financialStatus === 'payed' && (
+                        <button
+                          className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
+                          onClick={() => setCanclationReasonDialogOpened(true)}
+                        >
+                          <IconsaxIcons
+                            name="CloseCircle"
+                            color="currentColor"
+                            className="w-[17px] h-[17px]"
+                          />
+                        </button>
+                      )}
+                      {item.financialStatus === 'payed' ? (
+                        <Link
+                          href={`/dashboard/reservations/${item.id}`}
+                          className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"
+                        >
+                          <span className="text-[10px] text-current font-medium w-full text-right block truncate">
+                            {item.financialStatus === 'payed'
+                              ? 'پرداخت شده'
+                              : item.financialStatus === 'cancled'
+                                ? 'لغو شده'
+                                : 'انتظار پرداخت کاربر'}
+                          </span>
+                          <IconsaxIcons
+                            name="Eye"
+                            color="currentColor"
+                            className="w-[17px] h-[17px]"
+                          />
+                        </Link>
                       ) : (
-                        <Loading />
+                        <div
+                          className={cn(
+                            'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black',
+                            item.financialStatus === 'cancled'
+                              ? 'px-[10px]'
+                              : 'px-[20px]',
+                          )}
+                        >
+                          {item.financialStatus === 'cancled' ? (
+                            <span className="text-cs07 font-normal text-current">
+                              رزرواسیون رد شد!
+                            </span>
+                          ) : (
+                            <Loading />
+                          )}
+                        </div>
                       )}
                     </div>
-                  )}
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Bank"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        هتل :
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {item.hotel}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Calendar"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        تاریخ ورود و خروج :
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Profile2User"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        مسافران :
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {item.passengers}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Status"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        وضعیت مالی
+                      </span>
+                      <div className="flex items-center justify-start gap-[10px]">
+                        <div
+                          className="w-[4px] h-[4px] shrink-0 rounded-full"
+                          style={{
+                            backgroundColor:
+                              item.financialStatus === 'cancled'
+                                ? '#F30F26'
+                                : item.financialStatus === 'payed'
+                                  ? '#35A346'
+                                  : '#4B5BCE',
+                          }}
+                        />
+                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                          {item.financialStatus === 'payed'
+                            ? 'پرداخت شده'
+                            : item.financialStatus === 'cancled'
+                              ? 'لغو شده'
+                              : 'انتظار پرداخت کاربر'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <CustomPagination count={12} />
           </div>
         </>
       )}

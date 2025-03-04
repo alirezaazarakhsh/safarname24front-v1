@@ -29,15 +29,15 @@ export default function IconInput({
       )}
       data-focused={isFocused}
     >
-      <div className="lg:h-8 h-10 aspect-square flex items-center justify-center">
+      <div className="lg:h-8 h-[45px] aspect-square flex items-center justify-center">
         <IconsaxIcons
           name={icon}
-          className="lg:h-3 lg:w-3 w-4 h-4 text-current shrink-0 aspect-square"
+          className="lg:h-3 lg:w-3 w-[18px] h-[18px] text-current shrink-0 aspect-square"
         />
       </div>
       <input
         className={cn(
-          'lg:h-8 h-10 p-2 w-full block lg:placeholder:text-xs placeholder:text-[12px] lg:text-xs text-[12px] placeholder:font-normal font-normal text-current placeholder:text-current outline-0 bg-transparent',
+          'lg:h-8 h-10 lg:px-2 lg:py-2 px-[10px] py-[10px]  w-full block lg:placeholder:text-xs placeholder:text-[12px] lg:text-xs text-[12px] placeholder:font-normal font-normal text-current placeholder:text-current outline-0 bg-transparent',
           className,
         )}
         autoFocus={autoFocus}
