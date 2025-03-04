@@ -70,8 +70,8 @@ export default function SingleReservationPage(): ReactNode {
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[100px] flex flex-col lg:gap-5 gap-[25px]">
       <Logo />
       <HotelAcceptSection data={data.accept} />
-      <div className="p-3 h-16 bg-gray-100 border border-black/10 rounded-lg flex items-center justify-between gap-5">
-        <p className="font-medium  text-black lg:text-cs75 text-cs65 block text-right truncate">{`${data.location.label} ادرس هتل :`}</p>
+      <div className="p-3 lg:h-16 bg-gray-100 border border-black/10 rounded-lg flex items-center justify-between gap-5">
+        <p className="font-medium  text-black text-cs75 block text-right truncate">{`${data.location.label} ادرس هتل :`}</p>
         <Link
           href={data.location.googleMapURL}
           className="h-10 px-3 border border-blue-500 bg-green-100 rounded-md transition-all duration-500 hover:bg-blue-200 text-blue-600 flex items-center justify-center"
@@ -83,8 +83,8 @@ export default function SingleReservationPage(): ReactNode {
       </div>
       <RoomsSection data={data.rooms} />
       {data.note && (
-        <div className="p-3 bg-cs-red/10 rounded-lg h-16 flex items-center justify-start">
-          <p className="font-medium  text-cs-red lg:text-cs75 text-cs65 block text-right truncate">
+        <div className="p-3 bg-cs-red/10 rounded-lg lg:h-16 flex items-center justify-start">
+          <p className="font-medium  text-cs-red text-cs75 block text-right lg:truncate">
             {data.note}
           </p>
         </div>
