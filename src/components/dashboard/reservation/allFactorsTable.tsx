@@ -35,7 +35,7 @@ export default function AllFactorsTable({
   const [acceptCanclationDialogOpened, setAcceptCanclationDialogOpened] =
     useState<boolean>(false);
   const [failedToCancleDialogOpened, setFailedToCancleDialogOpened] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const [canclationReasonDialogOpened, setCanclationReasonDialogOpened] =
     useState<boolean>(false);
 

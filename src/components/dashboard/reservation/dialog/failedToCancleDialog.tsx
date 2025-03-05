@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/dialog';
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -37,18 +36,18 @@ export default function FailedToCancleDialog({
     return (
       <Drawer open={isOpened} onClose={closeFn}>
         <DrawerContent>
-          <DrawerHeader className="px-[24px]">
+          <DrawerHeader className="px-[24px] py-0 mb-[10px]">
             <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
               پیام کنسلی شما ارسال نشد!
             </DrawerTitle>
           </DrawerHeader>
-          <div className="px-[24px]">
+          <div className="px-[24px] py-0">
             <DrawerDescription className="text-[12px] font-medium text-gray-500">
               مشترک گرامی عزیز عملیات ارسال فرم کنسلی رزرو ناموفق بود لطفاً مجدد
               تلاش کنید از صبر و شکیبایی شما متشکریم.
             </DrawerDescription>
           </div>
-          <DrawerFooter className="px-[24px] mt-[20px]">
+          <DrawerFooter className="px-[24px] mt-[20px] py-0">
             <button className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit">
               <span className="text-[12px] font-semibold text-white">
                 تلاش مجدد
