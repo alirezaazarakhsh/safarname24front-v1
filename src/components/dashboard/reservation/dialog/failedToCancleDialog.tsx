@@ -37,10 +37,24 @@ export default function FailedToCancleDialog({
     return (
       <Drawer open={isOpened} onClose={closeFn}>
         <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+          <DrawerHeader className="px-[24px]">
+            <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
+              پیام کنسلی شما ارسال نشد!
+            </DrawerTitle>
           </DrawerHeader>
+          <div className="px-[24px]">
+            <DrawerDescription className="text-[12px] font-medium text-gray-500">
+              مشترک گرامی عزیز عملیات ارسال فرم کنسلی رزرو ناموفق بود لطفاً مجدد
+              تلاش کنید از صبر و شکیبایی شما متشکریم.
+            </DrawerDescription>
+          </div>
+          <DrawerFooter className="px-[24px] mt-[20px]">
+            <button className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit">
+              <span className="text-[12px] font-semibold text-white">
+                تلاش مجدد
+              </span>
+            </button>
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     );
@@ -66,7 +80,7 @@ export default function FailedToCancleDialog({
                 بستن
               </button>
             </DialogClose>
-            <button className="flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-white bg-red-600">
+            <button className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600">
               تلاش مجدد
             </button>
           </DialogFooter>
