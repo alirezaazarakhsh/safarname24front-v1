@@ -119,12 +119,12 @@ export default function RootLayout({
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
         className={cn(
-          'min-h-dvh overflow-x-hidden overflow-y-auto bg-gray-100',
+          'min-h-dvh overflow-x-hidden overflow-y-auto bg-[#F9F9F9]',
           interFont.variable,
           iranSansFont.className,
         )}
       >
-        <Toaster duration={5000} position="bottom-left" />
+        <Toaster duration={5} position="bottom-left" />
         <Page>{children}</Page>
       </body>
     </html>

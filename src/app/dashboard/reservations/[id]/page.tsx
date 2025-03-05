@@ -5,6 +5,7 @@ import Link from 'next/link';
 import RoomsSection from '@/components/dashboard/reservationFactor/roomsSection';
 import RulesSection from '@/components/dashboard/reservationFactor/rulesSection';
 import Header from '@/components/dashboard/reservationFactor/header';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 // Defining some dummy data
 const data: {
@@ -71,17 +72,42 @@ export default function SingleReservationPage(): ReactNode {
     <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] lg:bg-transparent bg-white">
       <Header />
       <HotelAcceptSection data={data.accept} />
-      <div className="p-3 lg:h-16 bg-gray-100 border border-black/10 rounded-lg flex items-center justify-between gap-5">
+      <div className="p-3 lg:h-16 bg-gray-100 border border-black/10 rounded-lg lg:flex hidden items-center justify-between gap-5">
         <p className="font-medium  text-black text-cs75 block text-right truncate">{`${data.location.label} ادرس هتل :`}</p>
         <Link
           href={data.location.googleMapURL}
-          className="h-10 px-3 border border-blue-500 bg-green-100 rounded-md transition-all duration-500 hover:bg-blue-200 text-blue-600 flex items-center justify-center"
+          className="h-10 px-3 border border-blue-500 bg-blue-100 rounded-md transition-all duration-500 hover:bg-blue-200 text-blue-600 flex items-center justify-center"
         >
           <span className="text-current text-cs75 font-medium truncate block text-right">
             نقشه Google Map
           </span>
         </Link>
       </div>
+      <div className="lg:hidden block py-[20px] border-y-[1.5px] border-black/10">
+        <div className="flex items-start justify-start gap-[10px]">
+          <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+            <IconsaxIcons name="Location" className="h-[17px] w-[17px]" />
+          </div>
+          <div>
+            <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+              آدرس هتل
+            </span>
+            <p className="text-[10px] font-medium text-gray-600 text-right">
+              جردن، خیابان مطهری، رو به روی بانک پارسیان نرسیده به هتل بین
+              اللملی ایران پلاک 20 واحد 7
+            </p>
+          </div>
+        </div>
+        <Link
+          href={data.location.googleMapURL}
+          className="h-[40px] px-[20px] border border-blue-500 bg-blue-100 rounded-[7px] text-blue-600 flex items-center justify-center w-fit mt-[25px]"
+        >
+          <span className="text-current text-[12px] font-semibold">
+            نقشه Google Map
+          </span>
+        </Link>
+      </div>
+
       <RoomsSection data={data.rooms} />
       {data.note && (
         <div className="p-3 bg-cs-red/10 rounded-lg lg:h-16 flex items-center justify-start">
