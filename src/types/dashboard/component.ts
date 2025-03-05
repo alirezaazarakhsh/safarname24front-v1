@@ -129,3 +129,10 @@ export interface RoomsSectionPropsType {
     passenger: string[];
   }[];
 }
+
+export interface CanclationErrorDrawerPropsType {
+  isOpened?: boolean;
+  closeFn?: () => void;
+  title: string;
+  description: string;
+}

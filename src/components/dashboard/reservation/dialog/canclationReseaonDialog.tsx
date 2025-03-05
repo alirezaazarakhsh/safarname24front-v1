@@ -3,7 +3,7 @@
 
 // Importing part
 import { CanclationReasonDialogComponentProps } from '@/types/dashboard/component';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,9 @@ import toast from '@/components/dashboard/ui/customSonner/toast';
 import { ICX } from '@/components/icons/ICX';
 import Loading from '../../ui/loading';
 import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
+import ToastComponent from '../../ui/customSonner/toastComponent';
+import { useMediaQuery } from '@/hooks';
+import CanclationErrorDrawer from '../canclationErrorDrawer';
 
 // Defining data of radio group
 const radioGroupData: {
@@ -76,6 +79,8 @@ export default function CanclationReasonDialog({
   openFailedDialog,
 }: CanclationReasonDialogComponentProps): ReactNode {
   // Defining hooks
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [drawerOpened, setDrawerOpened] = useState<boolean>(false);
   const formHook = useForm<formType>({
     resolver: zodResolver(formSchema),
   });
@@ -96,6 +101,14 @@ export default function CanclationReasonDialog({
   // Returning JSX
   return (
     <Dialog open={isOpened}>
+      {isMobile && (
+        <CanclationErrorDrawer
+          isOpened={drawerOpened}
+          closeFn={() => setDrawerOpened(false)}
+          title="خطایی رخ داد!"
+          description="مشترک گرامی فیلد توضیحات تکمیل نشده است."
+        />
+      )}
       <DialogContent className="lg:w-[500px] w-[100vw] max-w-screen-template lg:h-auto h-dvh p-0 gap-0 lg:rounded-2xl rounded-none lg:grid block">
         <div className="lg:hidden block py-[16px] px-[24px] border-b-[1.5px] border-b-black/10 bg-gray-100">
           <DialogClose asChild>
@@ -123,16 +136,15 @@ export default function CanclationReasonDialog({
         <form
           action="#"
           onSubmit={formHook.handleSubmit(handleOnSubmitEvent, (error) => {
-            if (error.message)
-              toast({
-                description: error.message?.message || '',
-                title: 'خطایی رخ داد!',
-              });
-            if (error.reason)
-              toast({
-                description: error.reason?.message || '',
-                title: 'خطایی رخ داد!',
-              });
+            if (!isMobile) {
+              if (error.message)
+                toast({
+                  description: error.message?.message || '',
+                  title: 'خطایی رخ داد!',
+                });
+            } else {
+              if (error.message) setDrawerOpened(true);
+            }
           })}
           className="lg:p-6 p-[24px] lg:grid flex flex-col justify-between items-start grid-cols-5 lg:gap-[17px] lg:h-auto h-[calc(100%-50px)]"
         >
