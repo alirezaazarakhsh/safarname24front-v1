@@ -21,7 +21,6 @@ import toast from '@/components/dashboard/ui/customSonner/toast';
 import { ICX } from '@/components/icons/ICX';
 import Loading from '../../ui/loading';
 import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
-import ToastComponent from '../../ui/customSonner/toastComponent';
 import { useMediaQuery } from '@/hooks';
 import CanclationErrorDrawer from '../canclationErrorDrawer';
 
