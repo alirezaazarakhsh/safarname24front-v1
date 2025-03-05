@@ -107,13 +107,15 @@ export default function SingleReservationPage(): ReactNode {
           </span>
         </Link>
       </div>
-
       <RoomsSection data={data.rooms} />
       {data.note && (
-        <div className="p-3 bg-cs-red/10 rounded-lg lg:h-16 flex items-center justify-start">
-          <p className="font-medium  text-cs-red text-cs75 block text-right lg:truncate">
-            {data.note}
-          </p>
+        <div className="lg:border-b-0 border-b-[1.5px] border-b-black/10 lg:pb-0 pb-[20px]">
+          <div className="lg:p-3 p-[12px] bg-cs-red/10 lg:rounded-lg rounded-[10px] lg:h-16 flex items-center justify-start">
+            <p className="font-medium  text-cs-red lg:text-cs75 text-[10px] block text-right lg:truncate">
+              توضیحات : <br />
+              {data.note}
+            </p>
+          </div>
         </div>
       )}
       <RulesSection />
