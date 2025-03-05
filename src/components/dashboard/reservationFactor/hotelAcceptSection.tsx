@@ -23,17 +23,22 @@ export default function HotelAcceptSection({
   // Returning JSX
   return (
     <section className={className}>
-      <div className="flex lg:flex-row flex-col items-center justify-between gap-4 mb-5 lg:w-auto w-full">
-        <span className="truncate lg:text-right text-center w-full font-bold lg:text-cs85 text-cs75 text-black">
-          تائيدیه هتل اسپیناس پالاس (تهران)
-        </span>
-        <div className="flex items-center justify-between gap-2 lg:w-auto w-full">
-          <button className="h-10 lg:w-auto w-[50%] px-3 border border-green-500 bg-green-100 rounded-md transition-all duration-500 hover:bg-green-200 text-green-600 text-cs75 font-normal">
+      <div className="flex items-center justify-between gap-4 mb-5 lg:w-auto w-full">
+        <div className="flex items-center justify-start gap-[10px]">
+          <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 lg:hidden flex items-center justify-center shrink-0">
+            <span className="font-bold text-[12px] text-black block">01</span>
+          </div>
+          <span className="truncate text-right w-full lg:font-bold font-semibold lg:text-cs85 text-[12px] text-black">
+            تائيدیه هتل اسپیناس پالاس (تهران)
+          </span>
+        </div>
+        <div className="flex items-center justify-between gap-2 shrink-0">
+          <button className="lg:h-10 h-[40px] lg:px-3 px-[22px] border border-green-500 bg-green-100 lg:rounded-md rounded-[7px] transition-all duration-500 lg:hover:bg-green-200 text-green-600 lg:text-cs75 text-[12px] lg:font-normal font-semibold">
             دانلود
           </button>
           <Link
             href="/dashboard/reservations"
-            className="flex lg:w-auto w-[50%] items-center h-10 justify-center gap-2 rounded-md bg-cs-red/10 hover:bg-cs-red/15 transition-all duration-500 text-cs-red px-3"
+            className="lg:flex hidden items-center h-10 justify-center gap-2 rounded-md bg-cs-red/10 hover:bg-cs-red/15 transition-all duration-500 text-cs-red px-3"
           >
             <IconsaxIcons
               color="currentColor"
@@ -46,7 +51,7 @@ export default function HotelAcceptSection({
           </Link>
         </div>
       </div>
-      <div className="border border-black/10 bg-white rounded-lg overflow-hidden">
+      <div className="border border-black/10 bg-white rounded-lg overflow-hidden lg:block hidden">
         <Table dir="rtl">
           <TableHeader className="bg-gray-100 border-b border-b-black/10">
             <TableRow className="border-none">
@@ -96,7 +101,9 @@ export default function HotelAcceptSection({
                 </TableCell>
                 <TableCell className="p-3">
                   <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                    {moment(item.createdAt).locale('fa').format('YYYY/MM/DD')}
+                    {moment(item.createdAt)
+                      .locale('fa')
+                      .format('jYYYY/jMM/jDD')}
                   </span>
                 </TableCell>
                 <TableCell className="p-3">
@@ -118,6 +125,86 @@ export default function HotelAcceptSection({
             ))}
           </TableBody>
         </Table>
+      </div>
+      <div className="lg:hidden flex flex-col gap-[25px]">
+        {data.map((item, index) => (
+          <div key={index} className="lg:hidden flex flex-col gap-[13px]">
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons name="User" className="h-[17px] w-[17px]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  رزرو کننده
+                </span>
+                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                  {item.reserver}
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons
+                  name="CalendarTick"
+                  className="h-[17px] w-[17px]"
+                />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  تاریخ رزرو
+                </span>
+                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                  {moment(item.createdAt).locale('fa').format('jYYYY/jMM/jDD')}
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons name="HashtagUp" className="h-[17px] w-[17px]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  کد پیگیری
+                </span>
+                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                  {item.codePeigiri}
+                </span>
+              </div>
+            </div>
+            <Link
+              href={`tel:${item.phoneNumber}`}
+              className="flex items-center justify-start gap-[10px]"
+            >
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons
+                  name="CallCalling"
+                  className="h-[17px] w-[17px]"
+                />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  شماره تماس
+                </span>
+                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                  {item.phoneNumber}
+                </span>
+              </div>
+            </Link>
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons name="Calendar" className="h-[17px] w-[17px]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  تاریخ ورود و خروج
+                </span>
+                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                  {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

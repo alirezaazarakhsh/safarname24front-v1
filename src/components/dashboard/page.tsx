@@ -41,7 +41,7 @@ export default function Page({
         <MobileNav />
         <div
           className={cn(
-            'max-w-screen-template overflow-x-hidden overflow-y-auto mx-auto bg-[#F9F9F9]',
+            'max-w-screen-template overflow-x-hidden overflow-y-auto mx-auto bg-gray-100',
             className,
           )}
         >

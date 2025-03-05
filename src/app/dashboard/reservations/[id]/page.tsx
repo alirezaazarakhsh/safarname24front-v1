@@ -68,7 +68,7 @@ const data: {
 export default function SingleReservationPage(): ReactNode {
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px]">
+    <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] lg:bg-transparent bg-white">
       <Header />
       <HotelAcceptSection data={data.accept} />
       <div className="p-3 lg:h-16 bg-gray-100 border border-black/10 rounded-lg flex items-center justify-between gap-5">

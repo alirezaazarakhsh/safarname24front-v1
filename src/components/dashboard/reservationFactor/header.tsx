@@ -21,7 +21,7 @@ export default function Header(): ReactNode {
       </div>
       <div
         data-scrolled={scrollY !== 0}
-        className="lg:hidden block py-[16px] px-[24px] border-b-[1.5px] border-b-black/10 bg-gray-100 fixed w-full top-0 left-0 z-30 bg-transparent transition-all duration-500 data-[scrolled='false']:bg-transparent data-[scrolled='true']:bg-white"
+        className="lg:hidden block py-[16px] px-[24px] border-b-[1.5px] border-b-black/10 fixed w-full top-0 left-0 z-30 bg-transparent transition-all duration-500 data-[scrolled='false']:bg-gray-100 data-[scrolled='true']:bg-white"
       >
         <Link
           href="/dashboard/reservations"
