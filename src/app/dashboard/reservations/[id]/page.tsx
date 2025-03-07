@@ -34,7 +34,7 @@ const data: {
     passenger: string[];
   }[];
 } = {
-  note: 'توضیحات : لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است که بهبود بخشیده شده که میتواند به تمامی دیزاینر کمک کند.',
+  note: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است که بهبود بخشیده شده که میتواند به تمامی دیزاینر کمک کند.',
   location: {
     label:
       'آدرس هتل : جردن، خیابان مطهری، رو به روی بانک پارسیان نرسیده به هتل بین اللملی ایران',
@@ -112,7 +112,7 @@ export default function SingleReservationPage(): ReactNode {
         <div className="lg:border-b-0 border-b-[1.5px] border-b-black/10 lg:pb-0 pb-[20px]">
           <div className="lg:p-3 p-[12px] bg-cs-red/10 lg:rounded-lg rounded-[10px] lg:h-16 flex items-center justify-start">
             <p className="font-medium  text-cs-red lg:text-cs75 text-[10px] block text-right lg:truncate">
-              توضیحات : <br />
+              توضیحات : <br className="lg:hidden block" />
               {data.note}
             </p>
           </div>
