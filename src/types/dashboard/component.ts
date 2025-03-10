@@ -136,3 +136,16 @@ export interface CanclationErrorDrawerPropsType {
   title: string;
   description: string;
 }
+
+export interface IconedPriceComponentPropsType {
+  title: string;
+  price: number;
+  icon: IconsName;
+  className?: string;
+  onClick?: () => void;
+  selected?: boolean;
+}
+
+export interface FinancialSectionComponentPropsType {
+  className?: string;
+}
