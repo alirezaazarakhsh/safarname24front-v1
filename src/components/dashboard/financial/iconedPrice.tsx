@@ -17,25 +17,29 @@ export default function IconedPrice({
   className,
   onClick,
   selected,
+  disabled = false,
 }: IconedPriceComponentPropsType): ReactNode {
   // Returning part
   return (
     <div
       tabIndex={onClick && 0}
-      onClick={onClick}
+      onClick={!disabled ? onClick : undefined}
       data-selected={selected}
+      data-disabled={disabled}
       className={cn(
-        'bg-white rounded-lg border px-3 py-4 flex items-center justify-start gap-3',
+        'bg-white rounded-lg border px-3 py-4 flex items-center justify-start gap-3 group',
         onClick
-          ? "cursor-pointer transition-all duration-500 data-[selected='false']:text-black data-[selected='true']:text-blue-600 data-[selected='false']:text-black/ data-[selected='true']:border-blue-600"
+          ? "cursor-pointer transition-all duration-500 data-[selected='false']:text-black data-[selected='true']:text-blue-600 data-[selected='false']:text-black/ data-[selected='true']:border-blue-600 data-[disabled='true']:opacity-50 data-[disabled='false']:opacity-100 data-[disabled='true']:cursor-not-allowed"
           : 'text-black border-black/10',
         className,
       )}
     >
       <div
         className={cn(
-          'w-[38px] h-[38px] rounded-md aspect-square bg-gray-100 overflow-hidden shrink-0 text-current',
-          !onClick ? 'flex items-center justify-center overflow-hidden' : '',
+          'w-[38px] h-[38px] rounded-md aspect-square overflow-hidden shrink-0 text-current',
+          !onClick
+            ? 'flex items-center justify-center overflow-hidden bg-gray-100'
+            : 'group-data-[selected="false"]:bg-gray-100 group-data-[selected="true"]:bg-blue-50',
         )}
       >
         {onClick ? (

@@ -144,8 +144,23 @@ export interface IconedPriceComponentPropsType {
   className?: string;
   onClick?: () => void;
   selected?: boolean;
+  disabled?: boolean;
 }
 
 export interface FinancialSectionComponentPropsType {
   className?: string;
+}
+
+export interface CheckboxItemComponentPropsType {
+  onClick?: () => void;
+  disabled?: boolean;
+  checked: boolean;
+  title: string;
+}
+
+export interface SwitchItemComponentPropsType {
+  onClick?: () => void;
+  disabled?: boolean;
+  isOn?: boolean;
+  title: string;
 }
