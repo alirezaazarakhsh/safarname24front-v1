@@ -124,7 +124,7 @@ export default function RootLayout({
           iranSansFont.className,
         )}
       >
-        <Toaster duration={5} position="bottom-left" />
+        <Toaster position="bottom-left" duration={5000} />
         <Page>{children}</Page>
       </body>
     </html>

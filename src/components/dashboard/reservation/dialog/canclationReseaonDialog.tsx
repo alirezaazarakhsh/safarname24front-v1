@@ -136,13 +136,13 @@ export default function CanclationReasonDialog({
           action="#"
           onSubmit={formHook.handleSubmit(handleOnSubmitEvent, (error) => {
             if (!isMobile) {
-              if (error.message)
+              if (error.message?.message)
                 toast({
-                  description: error.message?.message || '',
+                  description: error.message.message,
                   title: 'خطایی رخ داد!',
                 });
             } else {
-              if (error.message) setDrawerOpened(true);
+              if (error.message?.message) setDrawerOpened(true);
             }
           })}
           className="lg:p-6 p-[24px] lg:grid flex flex-col justify-between items-start grid-cols-5 lg:gap-[17px] lg:h-auto h-[calc(100%-50px)]"
@@ -187,7 +187,7 @@ export default function CanclationReasonDialog({
             <Button
               variant="default"
               disabled={formHook.formState.isSubmitting}
-              className="bg-blue-700 rounded-md transition-all duration-500 hover:bg-blue-800 w-full mt-3 lg:block hidden"
+              className="bg-blue-700 rounded-md transition-all duration-500 hover:bg-blue-800 w-full mt-3 lg:flex items-center justify-center hidden"
             >
               {!formHook.formState.isSubmitting ? (
                 <span className="text-white text-cs65 font-normal">
