@@ -164,3 +164,7 @@ export interface SwitchItemComponentPropsType {
   isOn?: boolean;
   title: string;
 }
+
+export interface customChargeComponentPropsType {
+  disabled: boolean;
+}

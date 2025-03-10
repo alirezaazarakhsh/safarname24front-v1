@@ -9,6 +9,7 @@ import { FinancialSectionComponentPropsType } from '@/types/dashboard/component'
 import { cn } from '@/utils/utils';
 import CheckboxItem from '../checkboxItem';
 import SwitchItem from '../switchItem';
+import CustomeCharge from '../customCharge';
 
 // Creating and exporting Financial section component as default
 export default function Financial({
@@ -82,6 +83,7 @@ export default function Financial({
           isOn={automaticDownload}
         />
       </div>
+      <CustomeCharge disabled={priceType === 'static'} />
     </section>
   );
 }
