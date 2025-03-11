@@ -37,7 +37,7 @@ export default function MobileHeader(props: Props) {
         </div>
       </div>
 
-      <div className="bg-zinc-200/50 h-10 flex overflow-hidden rounded-lg">
+      <div className="bg-zinc-200/50 h-12 flex overflow-hidden rounded-lg">
         <button className="w-12 flex-center">
           <svg
             width="20"

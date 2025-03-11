@@ -4,10 +4,18 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import { navigationBar } from '@/constants';
+import UserProfile from '../auth/UserProfile';
+import UserAccount from '../auth/UserAccount';
+import AuthGuardReaction from '../auth/AuthGuardReaction';
 
 // ---------------------------------------
 
-export default function NavigationBar() {
+export function NavigationBar() {
+  const userIsLoggedIn = true;
+
+  const [open, setOpen] = useState(false);
+  const [authReactionIsOpen, setAuthReactionOpen] = useState(false);
+
   const [isAtBottom, setIsAtBottom] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [scrollDirection, setScrollDirection] = useState('');
@@ -30,22 +38,23 @@ export default function NavigationBar() {
   // }, []);
 
   // Check Scroll-Direction
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScrollTop =
+  //       window.pageYOffset || document.documentElement.scrollTop;
 
-      if (currentScrollTop > lastScrollTop) {
-        setScrollDirection('down');
-      } else {
-        setScrollDirection('up');
-      }
+  //     if (currentScrollTop > lastScrollTop) {
+  //       setScrollDirection('down');
+  //     } else {
+  //       setScrollDirection('up');
+  //     }
 
-      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
-    };
+  //     setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollTop]);
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, [lastScrollTop]);
 
   return (
     <nav
@@ -53,12 +62,29 @@ export default function NavigationBar() {
         isAtBottom || scrollDirection === 'down' ? '-bottom-20' : 'bottom-0'
       }`}
     >
-      {navigationBar.map((nav) => (
-        <Link key={nav.id} href={nav.href} className='flex flex-col items-center gap-1.5'>
-          <span className=''>{nav.icon}</span>
-          <span className='text-zinc-400 text-cs65 font-bold'>{nav.title}</span>
+      {/* {navigationBar.map((nav) => (
+        <Link
+          key={nav.id}
+          href={nav.href}
+          className="flex flex-col items-center gap-1.5"
+        >
+          <span className="">{nav.icon}</span>
+          <span className="text-zinc-400 text-cs65 font-bold">{nav.title}</span>
         </Link>
-      ))}
+      ))} */}
+
+      <button onClick={() => setAuthReactionOpen(true)}>Click</button>
+
+      <AuthGuardReaction
+        isOpen={authReactionIsOpen}
+        setOpen={setAuthReactionOpen}
+      />
+
+      {userIsLoggedIn ? (
+        <UserProfile userFullName="علیرضا آذرخش" />
+      ) : (
+        <UserAccount isOpen={open} setOpen={setOpen} />
+      )}
     </nav>
   );
 }
