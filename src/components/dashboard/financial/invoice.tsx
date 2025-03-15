@@ -19,13 +19,15 @@ export default function Invoice({
           صورتحساب پرداختی
         </span>
       </div>
-      <div className="flex flex-col gap-7 w-full">
+      <div className="flex flex-col gap-5 w-full">
         <div className="flex items-center justify-between gap-3">
           <span className="block text-right font-medium text-gray-600 truncate text-cs07">
             مبلغ نهایی :
           </span>
           <span className="block text-left font-medium text-black truncate text-cs07">
-            {`${numberSeparation(value)} تومان`}
+            {value !== 0
+              ? `${numberSeparation(value)} تومان`
+              : 'مبلغی وارد نشده!'}
           </span>
         </div>
         <div className="flex items-center justify-between gap-3">
@@ -33,10 +35,13 @@ export default function Invoice({
             معادل ریالی مبلغ :
           </span>
           <span className="block text-left font-medium text-black truncate text-cs07">
-            {`${num2persian(value)} تومان`}
+            {value !== 0 ? `${num2persian(value)} تومان` : 'نامعلوم'}
           </span>
         </div>
-        <button className="bg-green-600 rounded-lg text-white flex items-center justify-center p-3">
+        <button
+          disabled={value === 0}
+          className="bg-green-600 rounded-lg text-white flex items-center justify-center p-3 transition-all duration-500 hover:bg-green-700 disabled:bg-gray-200 disabled:text-gray-500"
+        >
           <span className="text-current font-medium text-cs07 block text-center truncate">
             تایید نهایی پرداخت
           </span>

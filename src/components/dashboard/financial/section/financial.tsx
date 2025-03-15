@@ -44,32 +44,48 @@ export default function Financial({
         title="مبلغ انتخابی"
         price={1000000}
         selected={selectedPrice === 1000000}
-        onClick={() => setSelectedPrice(1000000)}
         disabled={priceType === 'dynamic'}
+        onClick={() => {
+          selectedPrice === 1000000
+            ? setSelectedPrice(undefined)
+            : setSelectedPrice(1000000);
+        }}
       />
       <IconedPrice
         icon="DollarSquare"
         title="مبلغ انتخابی"
         price={2000000}
         selected={selectedPrice === 2000000}
-        onClick={() => setSelectedPrice(2000000)}
         disabled={priceType === 'dynamic'}
+        onClick={() => {
+          selectedPrice === 2000000
+            ? setSelectedPrice(undefined)
+            : setSelectedPrice(2000000);
+        }}
       />
       <IconedPrice
         icon="DollarSquare"
         title="مبلغ انتخابی"
         price={5000000}
         selected={selectedPrice === 5000000}
-        onClick={() => setSelectedPrice(5000000)}
         disabled={priceType === 'dynamic'}
+        onClick={() => {
+          selectedPrice === 5000000
+            ? setSelectedPrice(undefined)
+            : setSelectedPrice(5000000);
+        }}
       />
       <IconedPrice
         icon="DollarSquare"
         title="مبلغ انتخابی"
         price={10000000}
         selected={selectedPrice === 10000000}
-        onClick={() => setSelectedPrice(10000000)}
         disabled={priceType === 'dynamic'}
+        onClick={() => {
+          selectedPrice === 10000000
+            ? setSelectedPrice(undefined)
+            : setSelectedPrice(10000000);
+        }}
       />
       <div className="flex flex-col gap-5">
         <CheckboxItem
