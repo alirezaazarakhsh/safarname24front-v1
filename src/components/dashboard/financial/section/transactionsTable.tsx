@@ -155,15 +155,25 @@ export default function TransactionsTable({
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="p-3 flex items-center justify-end gap-3">
+                  <TableCell className="p-3 flex items-center justify-end gap-3 relative">
                     {item.status === 'successfull' ? (
                       <button className="px-6 h-[40px] rounded-md border border-black/10 bg-white text-black font-medium text-xs transition-all duration-500 hover:bg-black/10">
-                        عدم پرداخت
+                        خروجی اکسل
                       </button>
                     ) : (
-                      <div className="px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs flex items-center justify-center">
-                        عدم پرداخت
-                      </div>
+                      <>
+                        <div className="px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs flex items-center justify-center peer transition-all duration-500 hover:bg-red-100">
+                          عدم پرداخت
+                        </div>
+                        <div className="p-2 rounded-md bg-[#FFE9EB] text-cs-red absolute bottom-full left-[20px] w-[200px] transition-all duration-500 opacity-0 invisible peer-hover:opacity-100 peer-hover:visible">
+                          <p className="text-right text-current font-light text-[9px]">
+                            مشتری گرامی پرداخت شما به دلیل مشکلات فنی به وجود
+                            آمده موفقیت آمیز نبود بنابراین فاکتور برای شما صادر
+                            نخواهد شد.
+                          </p>
+                          <div className="absolute top-full -translate-y-[50%] left-[20px] w-[15px] h-[15px] bg-[#FFE9EB] rotate-45" />
+                        </div>
+                      </>
                     )}
                   </TableCell>
                 </TableRow>
