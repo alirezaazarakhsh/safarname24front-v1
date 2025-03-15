@@ -22,7 +22,10 @@ const formSchema = z.object({
       return Number(removedCommas);
     })
     .refine((val) => val > 1000000, {
-      message: 'حداقل مبلف شارژ 1,000,000 تومان است',
+      message: 'حداقل وارد کردن مبلغ سقف (1,000,000 تومان) میباشد',
+    })
+    .refine((val) => val < 100000000, {
+      message: 'حداکثر وارد کردن مبلغ به سقف (100,000,000 تومان) میباشد.',
     }),
 });
 
@@ -70,9 +73,10 @@ export default function CustomCharge({
       <div className="w-full">
         <div className="flex items-center justify-start gap-3 flex-wrap mb-2">
           <input
-            className="bg-white border border-blac/10 rounded-md px-3 block w-[250px] h-[40px] placeholder:text-cs75 placeholder:font-normal text-cs75 font-normal text-black placeholder:black transition-all duration-500 opacity-80 focus:opacity-100"
+            className="bg-white border border-blac/10 rounded-md px-3 block w-[250px] h-[40px] placeholder:text-cs75 placeholder:font-normal text-cs75 font-normal text-black placeholder:black transition-all duration-500 opacity-80 focus:opacity-100 data-[errored='true']:bg-cs-red/10 data-[errored='true']:placeholder:text-cs-red data-[errored='true']:text-cs-red data-[errored='true']:border-cs-red"
             placeholder="مثال : 21,000,000 تومان"
             disabled={disabled}
+            data-errored={form.formState.errors.amount?.message !== undefined}
             onInput={(e) => {
               const value = e.currentTarget.value;
               const removedCommas = value.replace(/,/g, '');

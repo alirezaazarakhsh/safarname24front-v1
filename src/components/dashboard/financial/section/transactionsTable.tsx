@@ -18,6 +18,7 @@ import { handleZeroBeforeNumber } from '@/utils/string';
 import Link from 'next/link';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { numberSeparation } from '@/utils';
+import CustomPagination from '../../ui/customPagination';
 
 // Creating and exporting TransactionsTable component as default
 export default function TransactionsTable({
@@ -32,8 +33,19 @@ export default function TransactionsTable({
         className,
       )}
     >
+      <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
+        <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
+          لیست تمام تراکنش ها
+        </span>
+        {data.length !== 0 && (
+          <CustomPagination
+            count={12}
+            // onChange={(index) => console.log(index)}
+          />
+        )}
+      </div>
       <Table dir="rtl" className="border-none lg:table hidden">
-        <TableHeader className="bg-gray-100 border-b border-b-black/10">
+        <TableHeader className="bg-gray-100 border-y border-y-black/10">
           <TableRow className="border-none">
             <TableHead className="text-right p-3 w-8 truncate text-xs font-medium text-gray-400">
               ردیف
