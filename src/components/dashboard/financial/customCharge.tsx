@@ -26,18 +26,18 @@ const formSchema = z.object({
 
 type formType = z.infer<typeof formSchema>;
 
-// Creating and exporting CustomeCharge component as default
-export default function CustomeCharge({
+// Creating and exporting CustomCharge component as default
+export default function CustomCharge({
   disabled,
+  onSubmit,
 }: customChargeComponentPropsType): ReactNode {
   // Defining hooks
   const form = useForm<formType>({ resolver: zodResolver(formSchema) });
 
   // Defining a function to handle submit Event
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    await new Promise((resolve) => setTimeout(() => resolve(true), 2000));
-
-    console.log(data);
+    await new Promise((resolve) => setTimeout(() => resolve(true), 2000)); // TODO: Remove later
+    onSubmit(data.amount);
   };
 
   // Returning JSX
@@ -80,11 +80,7 @@ export default function CustomeCharge({
             {...form.register('amount')}
           />
           <button
-            disabled={
-              form.getValues('amount') === undefined ||
-              form.getValues('amount').toString() === '0' ||
-              form.formState.isSubmitting
-            }
+            disabled={form.formState.isSubmitting}
             className="h-[40px] rounded-md px-5 text-cs08 font-medium transition-all duration-500 disabled:bg-gray-100 disabled:text-gray-300 flex items-center justify-center bg-black text-white"
           >
             {form.formState.isSubmitting ? <Loading /> : 'اضافه کردن'}

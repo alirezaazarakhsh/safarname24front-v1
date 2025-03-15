@@ -32,6 +32,7 @@
     "lucide-react": "^0.473.0",
     "motion": "^12.0.1",
     "next": "15.1.5",
+    "num2persian": "^3.2.2",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-circular-progressbar": "^2.2.0",

@@ -9,7 +9,8 @@ import { FinancialSectionComponentPropsType } from '@/types/dashboard/component'
 import { cn } from '@/utils/utils';
 import CheckboxItem from '../checkboxItem';
 import SwitchItem from '../switchItem';
-import CustomeCharge from '../customCharge';
+import CustomCharge from '../customCharge';
+import Invoice from '../invoice';
 
 // Creating and exporting Financial section component as default
 export default function Financial({
@@ -18,6 +19,10 @@ export default function Financial({
   // Defining states of component
   const [priceType, setPriceType] = useState<'dynamic' | 'static'>('static');
   const [automaticDownload, setAutomaticDownload] = useState<boolean>(false);
+
+  const [dynamicPrice, setDynamicPrice] = useState<number | undefined>(
+    undefined,
+  );
   const [selectedPrice, setSelectedPrice] = useState<
     1000000 | 2000000 | 5000000 | 10000000 | undefined
   >(undefined);
@@ -83,7 +88,13 @@ export default function Financial({
           isOn={automaticDownload}
         />
       </div>
-      <CustomeCharge disabled={priceType === 'static'} />
+      <CustomCharge
+        disabled={priceType === 'static'}
+        onSubmit={(value) => setDynamicPrice(value)}
+      />
+      <Invoice
+        value={priceType === 'static' ? selectedPrice || 0 : dynamicPrice || 0}
+      />
     </section>
   );
 }

@@ -1,5 +1,5 @@
 // Importing part
-import { InputHTMLAttributes, ReactNode } from 'react';
+import { ChangeEvent, InputHTMLAttributes, ReactNode } from 'react';
 import { IconsName } from '../SvgProp';
 
 // Creating and exporting type of components of dashboard pages
@@ -167,4 +167,9 @@ export interface SwitchItemComponentPropsType {
 
 export interface customChargeComponentPropsType {
   disabled: boolean;
+  onSubmit: (value: number) => void;
+}
+
+export interface InvoiceComponentPropsType {
+  value: number;
 }
