@@ -14,7 +14,9 @@ import { numberSeparation } from '@/utils';
 // Defining formSchema
 const formSchema = z.object({
   amount: z
-    .string()
+    .string({
+      message: 'لطفا این فیلد را پر کنید.',
+    })
     .transform((value) => {
       const removedCommas = value.replace(/,/g, '');
       return Number(removedCommas);
@@ -70,6 +72,7 @@ export default function CustomCharge({
           <input
             className="bg-white border border-blac/10 rounded-md px-3 block w-[250px] h-[40px] placeholder:text-cs75 placeholder:font-normal text-cs75 font-normal text-black placeholder:black transition-all duration-500 opacity-80 focus:opacity-100"
             placeholder="مثال : 21,000,000 تومان"
+            disabled={disabled}
             onInput={(e) => {
               const value = e.currentTarget.value;
               const removedCommas = value.replace(/,/g, '');
@@ -80,7 +83,7 @@ export default function CustomCharge({
             {...form.register('amount')}
           />
           <button
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || disabled}
             className="h-[40px] rounded-md px-5 text-cs08 font-medium transition-all duration-500 disabled:bg-gray-100 disabled:text-gray-300 flex items-center justify-center bg-black text-white"
           >
             {form.formState.isSubmitting ? <Loading /> : 'اضافه کردن'}
@@ -90,7 +93,7 @@ export default function CustomCharge({
           type="button"
           disabled={form.getValues('amount') === undefined}
           className="font-normal text-cs08 transition-all duration-500 disabled:text-black text-cs-red"
-          onClick={() => form.setValue('amount', 0)}
+          onClick={() => form.resetField('amount')}
         >
           پاک کردن
         </button>

@@ -15,7 +15,7 @@ export default function Invoice({
   return (
     <div className="p-3 rounded-lg border border-black/10 bg-white flex flex-col justify-between items-start">
       <div className="border-b-[3px] border-black/10 border-dashed mb-3 pb-3 w-full">
-        <span className="text-cs08 font-bold text-black block truncate text-right">
+        <span className="text-cs85 font-semibold text-black truncate block">
           صورتحساب پرداختی
         </span>
       </div>
