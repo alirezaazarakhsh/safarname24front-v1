@@ -1,5 +1,5 @@
 // Importing part
-import { ChangeEvent, InputHTMLAttributes, ReactNode } from 'react';
+import { InputHTMLAttributes, ReactNode } from 'react';
 import { IconsName } from '../SvgProp';
 
 // Creating and exporting type of components of dashboard pages
@@ -172,4 +172,15 @@ export interface customChargeComponentPropsType {
 
 export interface InvoiceComponentPropsType {
   value: number;
+}
+
+export interface TransactionsTablePropsType {
+  className?: string;
+  data: {
+    codePeigiri: string;
+    price: number;
+    createdAt: string;
+    bank: string;
+    status: 'successfull' | 'unsucessfull';
+  }[];
 }
