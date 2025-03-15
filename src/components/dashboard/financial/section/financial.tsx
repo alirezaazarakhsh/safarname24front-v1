@@ -11,6 +11,9 @@ import CheckboxItem from '../checkboxItem';
 import SwitchItem from '../switchItem';
 import CustomCharge from '../customCharge';
 import Invoice from '../invoice';
+import PaymentErrorDialog from '../dialog/paymentErrorDialog';
+import PaymentSuccessDialog from '../dialog/paymentSuccesfullDialog';
+import PaymantCancledDialog from '../dialog/paymentCancledDialog';
 
 // Creating and exporting Financial section component as default
 export default function Financial({
@@ -19,6 +22,13 @@ export default function Financial({
   // Defining states of component
   const [priceType, setPriceType] = useState<'dynamic' | 'static'>('static');
   const [automaticDownload, setAutomaticDownload] = useState<boolean>(false);
+
+  const [paymantCancledDialogOpened, setPaymantCancledDialogOpened] =
+    useState<boolean>(true);
+  const [paymantSuccessDialogOpened, setPaymantSuccessDialogOpened] =
+    useState<boolean>(false);
+  const [paymantErrorDialogOpened, setPaymantErrorDialogOpened] =
+    useState<boolean>(false);
 
   const [dynamicPrice, setDynamicPrice] = useState<number | undefined>(
     undefined,
@@ -37,6 +47,18 @@ export default function Financial({
   // Returning JSX
   return (
     <section className={cn('grid grid-cols-4 gap-5', className)}>
+      <PaymantCancledDialog
+        isOpened={paymantCancledDialogOpened}
+        closeFn={() => setPaymantCancledDialogOpened(false)}
+      />
+      <PaymentSuccessDialog
+        isOpened={paymantSuccessDialogOpened}
+        closeFn={() => setPaymantSuccessDialogOpened(false)}
+      />
+      <PaymentErrorDialog
+        isOpened={paymantErrorDialogOpened}
+        closeFn={() => setPaymantErrorDialogOpened(false)}
+      />
       <Introduction />
       <IconedPrice icon="Wallet" title="موجودی شما" price={112459000} />
       <IconedPrice
