@@ -9,12 +9,16 @@ import { z } from 'zod';
 import Loading from '../ui/loading';
 import toast from '../ui/customSonner/toast';
 import { customChargeComponentPropsType } from '@/types/dashboard/component';
+import { numberSeparation } from '@/utils';
 
 // Defining formSchema
 const formSchema = z.object({
   amount: z
     .string()
-    .transform((val) => Number(val))
+    .transform((value) => {
+      const removedCommas = value.replace(/,/g, '');
+      return Number(removedCommas);
+    })
     .refine((val) => val > 1000000, {
       message: 'حداقل مبلف شارژ 1,000,000 تومان است',
     }),
@@ -66,11 +70,19 @@ export default function CustomeCharge({
           <input
             className="bg-white border border-blac/10 rounded-md px-3 block w-[250px] h-[40px] placeholder:text-cs75 placeholder:font-normal text-cs75 font-normal text-black placeholder:black transition-all duration-500 opacity-80 focus:opacity-100"
             placeholder="مثال : 21,000,000 تومان"
+            onInput={(e) => {
+              const value = e.currentTarget.value;
+              const removedCommas = value.replace(/,/g, '');
+              const formattedValue = numberSeparation(removedCommas);
+
+              e.currentTarget.value = formattedValue;
+            }}
             {...form.register('amount')}
           />
           <button
             disabled={
               form.getValues('amount') === undefined ||
+              form.getValues('amount').toString() === '0' ||
               form.formState.isSubmitting
             }
             className="h-[40px] rounded-md px-5 text-cs08 font-medium transition-all duration-500 disabled:bg-gray-100 disabled:text-gray-300 flex items-center justify-center bg-black text-white"
@@ -82,7 +94,7 @@ export default function CustomeCharge({
           type="button"
           disabled={form.getValues('amount') === undefined}
           className="font-normal text-cs08 transition-all duration-500 disabled:text-black text-cs-red"
-          onClick={() => form.resetField('amount')}
+          onClick={() => form.setValue('amount', 0)}
         >
           پاک کردن
         </button>
