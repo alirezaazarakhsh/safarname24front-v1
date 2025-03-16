@@ -46,12 +46,7 @@ export default function Financial({
 
   // Returning JSX
   return (
-    <section
-      className={cn(
-        'flex flex-col lg:gap-5 gap-[16px] lg:pt-0 pt-[24px]',
-        className,
-      )}
-    >
+    <section className={className}>
       <PaymantCancledDialog
         isOpened={paymantCancledDialogOpened}
         closeFn={() => setPaymantCancledDialogOpened(false)}
@@ -64,7 +59,7 @@ export default function Financial({
         isOpened={paymantErrorDialogOpened}
         closeFn={() => setPaymantErrorDialogOpened(false)}
       />
-      <div className="grid lg:grid-cols-4 lg:gap-5 gap-[16px] lg:px-0 px-[24px]">
+      <div className="grid lg:grid-cols-4 lg:gap-5 gap-[16px] lg:px-0 px-[24px] lg:mb-5 mb-[24px]">
         <Introduction />
         <div>
           <IconedPrice
@@ -79,7 +74,7 @@ export default function Financial({
           </p>
         </div>
       </div>
-      <div className="lg:grid grid-cols-4 hidden gap-5">
+      <div className="lg:grid grid-cols-4 hidden gap-5 mb-5">
         <IconedPrice
           icon="DollarSquare"
           title="مبلغ انتخابی"
@@ -129,8 +124,8 @@ export default function Financial({
           }}
         />
       </div>
-      <div className="grid lg:grid-cols-4 lg:gap-5 gap-[16px]">
-        <div className="flex flex-col lg:gap-5 gap-[16px] lg:px-0 px-[24px]">
+      <div className="grid lg:grid-cols-4 lg:gap-5 gap-0">
+        <div className="flex flex-col lg:gap-5 gap-[16px] lg:px-0 px-[24px] lg:mb-0 mb-[24px]">
           <CheckboxItem
             title="مبلغ انتخابی"
             onClick={() => setPriceType('static')}
@@ -201,15 +196,17 @@ export default function Financial({
             }}
           />
         </div>
-        <CustomCharge
-          disabled={priceType === 'static'}
-          onSubmit={(value) => setDynamicPrice(value)}
-        />
-        <Invoice
-          value={
-            priceType === 'static' ? selectedPrice || 0 : dynamicPrice || 0
-          }
-        />
+        <div className="grid lg:grid-cols-3 lg:col-span-3 grid-cols-1 lg:gap-5 gap-[16px] lg:bg-transparent bg-white">
+          <CustomCharge
+            disabled={priceType === 'static'}
+            onSubmit={(value) => setDynamicPrice(value)}
+          />
+          <Invoice
+            value={
+              priceType === 'static' ? selectedPrice || 0 : dynamicPrice || 0
+            }
+          />
+        </div>
       </div>
     </section>
   );
