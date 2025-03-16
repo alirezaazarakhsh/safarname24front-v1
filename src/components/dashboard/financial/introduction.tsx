@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 export default function Introduction(): ReactNode {
   // Returning JSX
   return (
-    <div className="bg-white rounded-lg border border-black/10 p-3 col-span-3 flex items-center justify-start">
+    <div className="bg-white rounded-lg border border-black/10 p-3 col-span-3 lg:flex hidden items-center justify-start">
       <div>
         <h1 className="text-cs85 font-semibold text-black truncate block mb-2">
           بخش مالی - شارژ کیف پول

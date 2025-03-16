@@ -8,6 +8,7 @@ import { numberSeparation } from '@/utils';
 import { cn } from '@/utils/utils';
 import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
+import { useMediaQuery } from '@/hooks';
 
 // Creating and exporting IconedPrice component as default
 export default function IconedPrice({
@@ -19,6 +20,9 @@ export default function IconedPrice({
   selected,
   disabled = false,
 }: IconedPriceComponentPropsType): ReactNode {
+  // Defining hooks
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+
   // Returning part
   return (
     <div className="relative">
@@ -28,7 +32,7 @@ export default function IconedPrice({
         data-selected={selected}
         data-disabled={disabled}
         className={cn(
-          'bg-white rounded-lg border px-3 py-4 flex items-center justify-start gap-3 group peer',
+          'bg-white lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[16px] py-[16px] flex items-center justify-start gap-3 group peer',
           onClick
             ? "cursor-pointer transition-all duration-500 data-[selected='false']:text-black data-[selected='true']:text-blue-600 data-[selected='false']:text-black/ data-[selected='true']:border-blue-600 data-[disabled='true']:opacity-50 data-[disabled='false']:opacity-100 data-[disabled='true']:cursor-not-allowed"
             : 'text-black border-black/10',
@@ -37,32 +41,35 @@ export default function IconedPrice({
       >
         <div
           className={cn(
-            'w-[38px] h-[38px] rounded-md aspect-square overflow-hidden shrink-0 text-current',
+            'rounded-md aspect-square overflow-hidden shrink-0 text-current',
             !onClick
-              ? 'flex items-center justify-center overflow-hidden bg-gray-100'
-              : 'group-data-[selected="false"]:bg-gray-100 group-data-[selected="true"]:bg-blue-50',
+              ? 'flex items-center justify-center overflow-hidden lg:bg-gray-100 lg:w-[38px] lg:h-[38px]'
+              : 'group-data-[selected="false"]:bg-gray-100 group-data-[selected="true"]:bg-blue-50 lg:w-[38px] lg:h-[38px] w-[43px] h-[43px]',
           )}
         >
           {onClick ? (
             <motion.div
+              className="flex flex-col"
               initial={{ transform: 'translateY(0)' }}
               exit={{ transform: 'translateY(0)' }}
               animate={
                 !selected
                   ? { transform: 'translateY(0)' }
-                  : { transform: 'translateY(-38px)' }
+                  : {
+                      transform: !isMobile
+                        ? 'translateY(-38px)'
+                        : 'translateY(-43px)',
+                    }
               }
-              className="flex flex-col"
             >
-              <div className="w-[38px] aspect-square flex items-center justify-center">
+              <div className="lg:w-[38px] w-[43px] aspect-square flex items-center justify-center">
                 <IconsaxIcons
                   name={icon}
                   className="w-[20px] h-[20px]"
                   color="currentColor"
                 />
               </div>
-
-              <div className="w-[38px] aspect-square flex items-center justify-center">
+              <div className="lg:w-[38px] w-[43px] aspect-square flex items-center justify-center">
                 <IconsaxIcons
                   name={'Verify'}
                   className="w-[20px] h-[20px]"
@@ -77,15 +84,19 @@ export default function IconedPrice({
               color="currentColor"
             />
           )}
-          <div></div>
         </div>
-        <div className="overflow-hidden w-full">
-          <span className="text-cs75 font-semibold text-current truncate block text-right mb-1">
-            {title}
+        <div className="overflow-hidden w-full lg:block flex items-center justify-between gap-3">
+          <span className="lg:text-cs75 text-[12px] lg:font-semibold font-semibold text-current truncate block text-right lg:mb-1">
+            {title} :
           </span>
-          <span className="text-cs75 font-semibold text-current truncate block text-right">
-            {`${numberSeparation(price)} تومان`}
-          </span>
+          <p className="lg:text-right text-left truncate text-current">
+            <span className="lg:text-cs75 text-[16px] lg:font-semibold font-bold text-current">
+              {`${numberSeparation(price)} `}
+            </span>
+            <span className="lg:text-cs75 text-[12px] font-semibold text-current">
+              تومان
+            </span>
+          </p>
         </div>
       </div>
       {disabled && (

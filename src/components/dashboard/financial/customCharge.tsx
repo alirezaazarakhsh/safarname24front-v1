@@ -59,7 +59,7 @@ export default function CustomCharge({
         }
       })}
       action="#"
-      className="bg-white rounded-lg border border-black/10 p-3 col-span-2 flex flex-col items-start justify-around gap-6 transition-all duration-500 data-[disabled='false']:opacity-100 data-[disabled='true']:opacity-50 data-[disabled='true']:pointer-events-none data-[disabled='false']:pointer-events-auto"
+      className="bg-white rounded-lg border border-black/10 p-3 lg:col-span-2 col-span-1 flex flex-col items-start justify-around gap-6 transition-all duration-500 data-[disabled='false']:opacity-100 data-[disabled='true']:opacity-50 data-[disabled='true']:pointer-events-none data-[disabled='false']:pointer-events-auto"
     >
       <div className="w-full">
         <span className="text-cs08 font-medium text-black truncate block mb-2">
