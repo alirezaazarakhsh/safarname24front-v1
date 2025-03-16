@@ -46,7 +46,12 @@ export default function Financial({
 
   // Returning JSX
   return (
-    <section className={cn('flex flex-col lg:gap-5 gap-[16px]', className)}>
+    <section
+      className={cn(
+        'flex flex-col lg:gap-5 gap-[16px] lg:pt-0 pt-[24px]',
+        className,
+      )}
+    >
       <PaymantCancledDialog
         isOpened={paymantCancledDialogOpened}
         closeFn={() => setPaymantCancledDialogOpened(false)}
@@ -59,7 +64,7 @@ export default function Financial({
         isOpened={paymantErrorDialogOpened}
         closeFn={() => setPaymantErrorDialogOpened(false)}
       />
-      <div className="grid lg:grid-cols-4 lg:gap-5 gap-[16px]">
+      <div className="grid lg:grid-cols-4 lg:gap-5 gap-[16px] lg:px-0 px-[24px]">
         <Introduction />
         <div>
           <IconedPrice
@@ -125,7 +130,7 @@ export default function Financial({
         />
       </div>
       <div className="grid lg:grid-cols-4 lg:gap-5 gap-[16px]">
-        <div className="flex flex-col lg:gap-5 gap-[16px]">
+        <div className="flex flex-col lg:gap-5 gap-[16px] lg:px-0 px-[24px]">
           <CheckboxItem
             title="مبلغ انتخابی"
             onClick={() => setPriceType('static')}
@@ -142,13 +147,14 @@ export default function Financial({
             isOn={automaticDownload}
           />
         </div>
-        <div className="lg:hidden flex flex-col gap-[16px]">
+        <div className="lg:hidden flex flex-col gap-[16px] border-y-[1.5px] border-y-black/10 lg:px-0 px-[24px] py-[24px]">
           <IconedPrice
             icon="DollarSquare"
             title="مبلغ انتخابی"
             price={1000000}
             selected={selectedPrice === 1000000}
             disabled={priceType === 'dynamic'}
+            className="h-[83px]"
             onClick={() => {
               selectedPrice === 1000000
                 ? setSelectedPrice(undefined)
@@ -161,6 +167,7 @@ export default function Financial({
             price={2000000}
             selected={selectedPrice === 2000000}
             disabled={priceType === 'dynamic'}
+            className="h-[83px]"
             onClick={() => {
               selectedPrice === 2000000
                 ? setSelectedPrice(undefined)
@@ -173,6 +180,7 @@ export default function Financial({
             price={5000000}
             selected={selectedPrice === 5000000}
             disabled={priceType === 'dynamic'}
+            className="h-[83px]"
             onClick={() => {
               selectedPrice === 5000000
                 ? setSelectedPrice(undefined)
@@ -183,6 +191,7 @@ export default function Financial({
             icon="DollarSquare"
             title="مبلغ انتخابی"
             price={10000000}
+            className="h-[83px]"
             selected={selectedPrice === 10000000}
             disabled={priceType === 'dynamic'}
             onClick={() => {
@@ -192,7 +201,6 @@ export default function Financial({
             }}
           />
         </div>
-
         <CustomCharge
           disabled={priceType === 'static'}
           onSubmit={(value) => setDynamicPrice(value)}

@@ -9,6 +9,7 @@ import { cn } from '@/utils/utils';
 import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from '@/hooks';
+import { Checkbox } from '@radix-ui/react-checkbox';
 
 // Creating and exporting IconedPrice component as default
 export default function IconedPrice({
@@ -85,19 +86,47 @@ export default function IconedPrice({
             />
           )}
         </div>
-        <div className="overflow-hidden w-full lg:block flex items-center justify-between gap-3">
-          <span className="lg:text-cs75 text-[12px] lg:font-semibold font-semibold text-current truncate block text-right lg:mb-1">
-            {title} :
-          </span>
-          <p className="lg:text-right text-left truncate text-current">
-            <span className="lg:text-cs75 text-[16px] lg:font-semibold font-bold text-current">
-              {`${numberSeparation(price)} `}
+        {!onClick ? (
+          <div className="overflow-hidden w-full lg:block flex items-center justify-between gap-3">
+            <span className="lg:text-cs75 text-[12px] font-semibold text-current truncate block text-right lg:mb-1">
+              {title} :
             </span>
-            <span className="lg:text-cs75 text-[12px] font-semibold text-current">
-              تومان
-            </span>
-          </p>
-        </div>
+            <p className="lg:text-right text-left truncate text-current">
+              <span className="lg:text-cs75 text-[16px] lg:font-semibold font-bold text-current">
+                {`${numberSeparation(price)} `}
+              </span>
+              <span className="lg:text-cs75 text-[12px] font-semibold text-current">
+                تومان
+              </span>
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="overflow-hidden lg:w-auto w-full">
+              <span className="lg:text-cs75 text-[12px] font-semibold text-current truncate block text-right mb-1">
+                {title} :
+              </span>
+              <p className="lg:text-right truncate lg:text-cs75 text-[10px] font-semibold lg:group-data-[selected='true']:text-current lg:group-data-[selected='false']:text-current group-data-[selected='false']:text-gray-500 group-data-[selected='false']:text-current text-right">
+                {`${numberSeparation(price)} تومان`}
+              </p>
+            </div>
+            <div className="relative lg:w-[30px] lg:h-[30px] w-[25px] h-[25px] shrink-0 aspect-square text-blue-600/50 pointer-events-none lg:hidden block">
+              <Checkbox
+                disabled={disabled}
+                checked={selected}
+                onClick={onClick}
+                className="shrink-0 bg-gray-100 lg:w-[30px] lg:h-[30px] w-[25px] h-[25px] rounded-md"
+              />
+              <IconsaxIcons
+                name="TickSquare"
+                variant="Bold"
+                color="currentColor"
+                data-selected={selected}
+                className="w-[15px] h-[15px] aspect-square absolute transition-all duration-500 top-[50%] left-[50%] block -translate-y-[50%] -translate-x-[50%] data-[selected='false']:opacity-0 data-[selected='true']:opacity-100 pointer-events-none"
+              />
+            </div>
+          </>
+        )}
       </div>
       {disabled && (
         <div className="p-2 rounded-md bg-[#FFE9EB] text-cs-red absolute bottom-full left-[20px] w-[200px] transition-all duration-500 opacity-0 invisible peer-hover:opacity-100 peer-hover:visible">
