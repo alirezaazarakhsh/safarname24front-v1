@@ -201,11 +201,13 @@ export default function Financial({
             disabled={priceType === 'static'}
             onSubmit={(value) => setDynamicPrice(value)}
           />
-          <Invoice
-            value={
-              priceType === 'static' ? selectedPrice || 0 : dynamicPrice || 0
-            }
-          />
+          <div className="lg:p-0 p-[24px] border-t-[1.5px] lg:border-transparent border-black/10">
+            <Invoice
+              value={
+                priceType === 'static' ? selectedPrice || 0 : dynamicPrice || 0
+              }
+            />
+          </div>
         </div>
       </div>
     </section>
