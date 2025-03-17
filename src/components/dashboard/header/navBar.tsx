@@ -14,6 +14,7 @@ import { ICWallet } from '@/components/icons/ICWallet';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import useWindowSize from '@/hooks/useWindowSize';
 
 // Defining some data to render
 const data: {
@@ -88,6 +89,7 @@ const data: {
 export default function NavBar(): ReactNode {
   // Defining hooks
   const pathname = usePathname();
+  const windowSize = useWindowSize();
   const [dropdownOpened, setDropdownOpened] = useState<boolean>(false);
   const [activeLinkIndex, setActiveLinkIndex] = useState<number>(0);
   const itemsParentRef = useRef<null | HTMLDivElement>(null);
@@ -127,10 +129,7 @@ export default function NavBar(): ReactNode {
   }, [pathname]);
 
   // Calling `calculateIndicatorStyles` function while activeLinkIndex or width of page changes
-  useEffect(
-    () => calculateIndicatorStyles(),
-    [activeLinkIndex, window.innerWidth],
-  );
+  useEffect(() => calculateIndicatorStyles(), [activeLinkIndex, windowSize]);
 
   // Defining some functions to open and close dropdown
   const openDropdown = () => setDropdownOpened(true);
