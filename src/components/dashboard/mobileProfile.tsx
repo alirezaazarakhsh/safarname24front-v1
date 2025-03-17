@@ -127,7 +127,7 @@ export default function MobileProfile({
   const pathname = usePathname();
 
   // Using useEffect to close the component when url changes
-  useEffect(() => closeFn(), [pathname]);
+  useEffect(() => closeFn(), [pathname, closeFn]);
 
   // Using useEffect to remove scroll feature from body while the component is opened
   useEffect(() => {
