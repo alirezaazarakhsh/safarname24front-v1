@@ -48,22 +48,12 @@ export default function PaymentErrorDialog({
               از صبر و شکیبایی شما متشکریم.
             </DrawerDescription>
           </div>
-          <DrawerFooter className="px-[24px] mt-[20px] py-0 flex items-center justify-start gap-4 flex-wrap">
+          <DrawerFooter className="px-[24px] mt-[20px] py-0 flex items-start justify-start gap-4 lg:flex-wrap">
             <button className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit">
               <span className="text-[12px] font-semibold text-white">
                 تلاش مجدد
               </span>
             </button>
-            <DrawerClose asChild>
-              <button
-                className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit"
-                onClick={closeFn}
-              >
-                <span className="text-[12px] font-semibold text-white">
-                  بستن
-                </span>
-              </button>
-            </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
