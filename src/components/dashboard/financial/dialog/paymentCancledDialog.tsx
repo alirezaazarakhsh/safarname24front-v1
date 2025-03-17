@@ -66,12 +66,12 @@ export default function PaymantCancledDialog({
         <DialogContent className="lg:w-auto w-[calc(100vw-25px)]">
           <DialogHeader>
             <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black">
-              اطلاعات شما با موفقیت ثبت شد
+              پرداخت توسط شما لغو شد!
             </DialogTitle>
           </DialogHeader>
           <DialogDescription className="text-right text-sm font-medium text-black">
-            مشترک گرامی عزیز پس از تایید ادمین سفرنامه 24 رزرو شما لغو و با شما
-            تماس گرفته خواهد شد از همراهی شما متشکریم.
+            مشترک گرامی عزیز عملیات شارژ کیف پول توسط شما لغو شد و اطلاعات این
+            بخش در قسمت فاکتور ها میتوانید بررسی کنید از همراهی شما متشکریم.
           </DialogDescription>
           <DialogFooter dir="ltr">
             <DialogClose asChild>
@@ -79,7 +79,7 @@ export default function PaymantCancledDialog({
                 onClick={closeFn}
                 className="flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-white bg-green-600"
               >
-                متوجه شدم
+                بستن
               </button>
             </DialogClose>
           </DialogFooter>

@@ -66,12 +66,12 @@ export default function PaymentSuccessDialog({
         <DialogContent className="lg:w-auto w-[calc(100vw-25px)]">
           <DialogHeader>
             <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black">
-              اطلاعات شما با موفقیت ثبت شد
+              پرداخت با موفقیت انجام شد
             </DialogTitle>
           </DialogHeader>
           <DialogDescription className="text-right text-sm font-medium text-black">
-            مشترک گرامی عزیز پس از تایید ادمین سفرنامه 24 رزرو شما لغو و با شما
-            تماس گرفته خواهد شد از همراهی شما متشکریم.
+            مشترک گرامی عزیز حساب شما به مبلغ 10,000,000 تومان شارژ شد و فاکتور
+            برای شما در بخش مالی (فاکتور ها) صادر شد.
           </DialogDescription>
           <DialogFooter dir="ltr">
             <DialogClose asChild>

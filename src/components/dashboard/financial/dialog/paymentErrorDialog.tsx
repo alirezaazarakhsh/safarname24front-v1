@@ -74,22 +74,14 @@ export default function PaymentErrorDialog({
         <DialogContent className="lg:w-auto w-[calc(100vw-25px)]">
           <DialogHeader>
             <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black">
-              پیام کنسلی شما ارسال نشد!
+              پرداخت شما موفقیت آمیز نبود!
             </DialogTitle>
           </DialogHeader>
           <DialogDescription className="text-right text-sm font-medium text-black">
-            مشترک گرامی عزیز عملیات ارسال فرم کنسلی رزرو ناموفق بود لطفاً مجدد
-            تلاش کنید از صبر و شکیبایی شما متشکریم.
+            مشترک گرامی عزیز عملیات پرداخت شما ناموفق بود لطفاً مجدد تلاش کنید
+            از صبر و شکیبایی شما متشکریم.
           </DialogDescription>
           <DialogFooter dir="ltr" className="space-x-2">
-            <DialogClose asChild>
-              <button
-                onClick={closeFn}
-                className="flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-black border border-black/10"
-              >
-                بستن
-              </button>
-            </DialogClose>
             <button className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600">
               تلاش مجدد
             </button>

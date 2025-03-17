@@ -23,13 +23,6 @@ export default function Financial({
   const [priceType, setPriceType] = useState<'dynamic' | 'static'>('static');
   const [automaticDownload, setAutomaticDownload] = useState<boolean>(false);
 
-  const [paymantCancledDialogOpened, setPaymantCancledDialogOpened] =
-    useState<boolean>(false);
-  const [paymantSuccessDialogOpened, setPaymantSuccessDialogOpened] =
-    useState<boolean>(false);
-  const [paymantErrorDialogOpened, setPaymantErrorDialogOpened] =
-    useState<boolean>(false);
-
   const [dynamicPrice, setDynamicPrice] = useState<number | undefined>(
     undefined,
   );
@@ -47,18 +40,6 @@ export default function Financial({
   // Returning JSX
   return (
     <section className={className}>
-      <PaymantCancledDialog
-        isOpened={paymantCancledDialogOpened}
-        closeFn={() => setPaymantCancledDialogOpened(false)}
-      />
-      <PaymentSuccessDialog
-        isOpened={paymantSuccessDialogOpened}
-        closeFn={() => setPaymantSuccessDialogOpened(false)}
-      />
-      <PaymentErrorDialog
-        isOpened={paymantErrorDialogOpened}
-        closeFn={() => setPaymantErrorDialogOpened(false)}
-      />
       <div className="grid lg:grid-cols-4 lg:gap-5 gap-[16px] lg:px-0 px-[24px] lg:mb-5 mb-[24px]">
         <Introduction />
         <div>
