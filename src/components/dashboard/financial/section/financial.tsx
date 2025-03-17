@@ -10,9 +10,6 @@ import CheckboxItem from '../checkboxItem';
 import SwitchItem from '../switchItem';
 import CustomCharge from '../customCharge';
 import Invoice from '../invoice';
-import PaymentErrorDialog from '../dialog/paymentErrorDialog';
-import PaymentSuccessDialog from '../dialog/paymentSuccesfullDialog';
-import PaymantCancledDialog from '../dialog/paymentCancledDialog';
 import Link from 'next/link';
 
 // Creating and exporting Financial section component as default
@@ -184,7 +181,7 @@ export default function Financial({
           />
           <div className="lg:p-0 p-[24px] border-t-[1.5px] lg:border-transparent border-black/10">
             <Link
-              href="/"
+              href="/dashboard/financial/factors"
               className="rounded-[12px] border border-black/10 p-[14px] lg:hidden flex items-center justify-between gap-3 mb-[16px]"
             >
               <span className="truncate text-[12px] font-semibold text-black block text-right">

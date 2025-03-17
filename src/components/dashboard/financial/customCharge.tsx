@@ -3,7 +3,7 @@
 
 // Importing part
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Loading from '../ui/loading';
@@ -11,6 +11,8 @@ import toast from '../ui/customSonner/toast';
 import { customChargeComponentPropsType } from '@/types/dashboard/component';
 import { numberSeparation } from '@/utils';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import CanclationErrorDrawer from '../reservation/canclationErrorDrawer';
+import { useMediaQuery } from '@/hooks';
 
 // Defining formSchema
 const formSchema = z.object({
@@ -39,6 +41,8 @@ export default function CustomCharge({
 }: customChargeComponentPropsType): ReactNode {
   // Defining hooks
   const form = useForm<formType>({ resolver: zodResolver(formSchema) });
+  const [errorOpened, setErrorOpened] = useState<boolean>(false);
+  const isMobile = useMediaQuery('(max-width: 1024px)');
 
   // Defining a function to handle submit Event
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
@@ -52,16 +56,26 @@ export default function CustomCharge({
       data-disabled={disabled}
       tabIndex={disabled ? -1 : 0}
       onSubmit={form.handleSubmit(submitEventHandler, (error) => {
-        if (error.amount?.message) {
-          toast({
-            description: error.amount.message,
-            title: 'خطایی رخ داد!',
-          });
+        if (isMobile) {
+          setErrorOpened(true);
+        } else {
+          if (error.amount?.message) {
+            toast({
+              description: error.amount.message,
+              title: 'خطایی رخ داد!',
+            });
+          }
         }
       })}
       action="#"
       className="bg-white lg:rounded-lg lg:border border-black/10 lg:p-3 p-[24px] lg:col-span-2 col-span-1 lg:flex flex-col items-start justify-around gap-6 transition-all duration-500 data-[disabled='false']:opacity-100 data-[disabled='true']:opacity-50 data-[disabled='true']:pointer-events-none data-[disabled='false']:pointer-events-auto"
     >
+      <CanclationErrorDrawer
+        isOpened={errorOpened}
+        closeFn={() => setErrorOpened(false)}
+        title="خطایی رخ داد!"
+        description="مشتری گرامی حداکثر  وراد کردن مبلغ را رعایت بفرمایید."
+      />
       <div className="w-full lg:mb-0 mb-4">
         <span className="lg:text-cs08 text-[12px] lg:font-medium font-semibold text-black truncate block mb-2">
           مبلغ بیشتر شارژ کیف پول

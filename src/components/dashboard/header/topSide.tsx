@@ -1,15 +1,18 @@
 // Importing part
 import { ReactNode } from 'react';
 import Link from 'next/link';
-import LogoImage from '../../../../public/image/logo/white.webp';
 import { ICNotificationStatus } from '@/components/icons/ICNotifcationStatus';
 import ProfileDropdown from './profileDropdown';
 import { ICLogOut } from '@/components/icons/ICLogOut';
 import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
 import Logo from '../ui/logo';
+import { useRouter } from 'next/navigation';
 
 // Creating and exporting TopSide component of header as default
 export default function TopSide(): ReactNode {
+  // Defining hooks
+  const router = useRouter();
+
   // Returning JSX
   return (
     <div className="bg-transparent transition-all duration-500 border-b-[1.5px] border-b-black/10">
@@ -34,15 +37,15 @@ export default function TopSide(): ReactNode {
         </div>
       </div>
       <div className="lg:hidden block py-[16px] px-[24px]">
-        <Link
-          href={'/dashboard'}
+        <button
+          onClick={() => router.back()}
           className="flex items-center justify-start gap-[10px] w-full overflow-hidden"
         >
           <ICArrowFlashRight className="w-[24px] h-[24px] aspect-square shrink-0" />
           <span className="block truncate text-black text-[14px] font-bold w-full text-right">
             داشبورد سفرنامه
           </span>
-        </Link>
+        </button>
       </div>
     </div>
   );
