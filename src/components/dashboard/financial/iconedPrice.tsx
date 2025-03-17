@@ -35,7 +35,7 @@ export default function IconedPrice({
         className={cn(
           'bg-white lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[16px] py-[16px] flex items-center justify-start gap-3 group peer',
           onClick
-            ? "cursor-pointer transition-all duration-500 data-[selected='false']:text-black data-[selected='true']:text-blue-600 data-[selected='false']:text-black/ data-[selected='true']:border-blue-600 data-[disabled='true']:opacity-50 data-[disabled='false']:opacity-100 data-[disabled='true']:cursor-not-allowed"
+            ? "cursor-pointer transition-all duration-500 data-[selected='false']:text-black data-[selected='true']:text-blue-600 data-[selected='false']:text-black/ data-[selected='true']:border-blue-600 lg:data-[disabled='true']:opacity-50 lg:data-[disabled='false']:opacity-100 lg:data-[disabled='true']:cursor-not-allowed"
             : 'text-black border-black/10',
           className,
         )}
@@ -118,19 +118,23 @@ export default function IconedPrice({
                 className="shrink-0 bg-gray-100 lg:w-[30px] lg:h-[30px] w-[25px] h-[25px] rounded-md"
               />
               <IconsaxIcons
-                name="TickSquare"
+                name={disabled ? 'CloseSquare' : 'TickSquare'}
                 variant="Bold"
-                color="currentColor"
+                color={disabled ? '#4a5565' : 'currentColor'}
                 data-selected={selected}
-                className="w-[15px] h-[15px] aspect-square absolute transition-all duration-500 top-[50%] left-[50%] block -translate-y-[50%] -translate-x-[50%] data-[selected='false']:opacity-0 data-[selected='true']:opacity-100 pointer-events-none"
+                className={cn(
+                  'w-[15px] h-[15px] aspect-square absolute transition-all duration-500 top-[50%] left-[50%] block -translate-y-[50%] -translate-x-[50%] pointer-events-none',
+                  !disabled &&
+                    "data-[selected='false']:opacity-0 data-[selected='true']:opacity-100",
+                )}
               />
             </div>
           </>
         )}
       </div>
       {disabled && (
-        <div className="p-2 rounded-md bg-[#FFE9EB] text-cs-red absolute bottom-full left-[20px] w-[200px] transition-all duration-500 opacity-0 invisible peer-hover:opacity-100 peer-hover:visible">
-          <p className="text-right text-current font-light text-[9px]">
+        <div className="p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute lg:bottom-full bottom-[calc(75%+10px)] lg:left-[20px] left-[4px] lg:w-[200px] w-[218px] transition-all duration-500 opacity-0 invisible peer-hover:opacity-100 peer-hover:visible">
+          <p className="text-right text-current lg:font-light font-medium lg:text-[9px] text-[8px]">
             مشتری گرامی روش انتخابی روی (مبلغ دستی اضافه) قرار دادید نمیتوانید
             انتخاب کنید!
           </p>
