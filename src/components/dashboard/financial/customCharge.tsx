@@ -91,7 +91,7 @@ export default function CustomCharge({
             <button
               disabled={form.getValues('amount') === undefined}
               onClick={() => form.resetField('amount')}
-              className="h-[35px] w-[35px] rounded-[6px] transition-all duration-500 bg-black disabled:bg-gray-100 disabled:text-gray-300 text-white lg:hidden flex items-center justify-center"
+              className="h-[35px] w-[35px] rounded-[6px] transition-all duration-500 bg-cs-red/10 text-cs-red disabled:bg-gray-100 disabled:text-gray-300 lg:hidden flex items-center justify-center"
             >
               <IconsaxIcons
                 name="Trash"

@@ -13,7 +13,7 @@ import Invoice from '../invoice';
 import PaymentErrorDialog from '../dialog/paymentErrorDialog';
 import PaymentSuccessDialog from '../dialog/paymentSuccesfullDialog';
 import PaymantCancledDialog from '../dialog/paymentCancledDialog';
-import { cn } from '@/utils/utils';
+import Link from 'next/link';
 
 // Creating and exporting Financial section component as default
 export default function Financial({
@@ -202,6 +202,19 @@ export default function Financial({
             onSubmit={(value) => setDynamicPrice(value)}
           />
           <div className="lg:p-0 p-[24px] border-t-[1.5px] lg:border-transparent border-black/10">
+            <Link
+              href="/"
+              className="rounded-[12px] border border-black/10 p-[14px] lg:hidden flex items-center justify-between gap-3 mb-[16px]"
+            >
+              <span className="truncate text-[12px] font-semibold text-black block text-right">
+                مشاهده لیست تمام تراکنش ها
+              </span>
+              <div className="h-[34px] w-[80px] shrink-0 bg-gray-100 flex items-center justify-center rounded-[6px]">
+                <span className="text-[10px] font-semibold text-black">
+                  مشاهده
+                </span>
+              </div>
+            </Link>
             <Invoice
               value={
                 priceType === 'static' ? selectedPrice || 0 : dynamicPrice || 0
