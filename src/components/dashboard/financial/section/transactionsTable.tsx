@@ -31,7 +31,7 @@ export default function TransactionsTable({
   return (
     <section
       className={cn(
-        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10',
+        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10 lg:block hidden',
         className,
       )}
     >
@@ -180,120 +180,6 @@ export default function TransactionsTable({
               ))}
             </TableBody>
           </Table>
-          <div className="lg:hidden block mt-5">
-            <div className="flex flex-col">
-              {data.map((item, index) => (
-                <div
-                  key={index}
-                  className={
-                    'bg-transparent hover:bg-transparent border-b-[1.5px] border-b-black/10 py-3 mb-3'
-                  }
-                >
-                  <div className="flex items-center justify-between gap-3 mb-[20px]">
-                    <div className="flex items-center justify-start gap-[10px]">
-                      <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                        <span className="font-bold text-[12px] text-black block">
-                          {handleZeroBeforeNumber(index + 1)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                          کد پیگیری
-                        </span>
-                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          x
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between gap-[10px]">
-                      <button className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center">
-                        <IconsaxIcons
-                          name="CloseCircle"
-                          color="currentColor"
-                          className="w-[17px] h-[17px]"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                      <IconsaxIcons
-                        name="Bank"
-                        className="w-[20px] h-[20px] text-black"
-                      />
-                    </div>
-                    <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                        هتل :
-                      </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        s
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                      <IconsaxIcons
-                        name="Calendar"
-                        className="w-[20px] h-[20px] text-black"
-                      />
-                    </div>
-                    <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                        تاریخ ورود و خروج :
-                      </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        sd
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                      <IconsaxIcons
-                        name="Profile2User"
-                        className="w-[20px] h-[20px] text-black"
-                      />
-                    </div>
-                    <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                        مسافران :
-                      </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        sd
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                      <IconsaxIcons
-                        name="Status"
-                        className="w-[20px] h-[20px] text-black"
-                      />
-                    </div>
-                    <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                        وضعیت مالی
-                      </span>
-                      <div className="flex items-center justify-start gap-[10px]">
-                        <div
-                          className="w-[4px] h-[4px] shrink-0 rounded-full"
-                          style={{
-                            backgroundColor:
-                              item.status === 'unsucessfull'
-                                ? '#F30F26'
-                                : '#35A346',
-                          }}
-                        />
-                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          d
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </>
       )}
     </section>
