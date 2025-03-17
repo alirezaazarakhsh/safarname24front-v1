@@ -156,7 +156,11 @@ export default function NavBar(): ReactNode {
               </span>
             </Link>
           ) : (
-            <DropDown.DropdownMenu modal={false} open={dropdownOpened}>
+            <DropDown.DropdownMenu
+              modal={false}
+              open={dropdownOpened}
+              key={index}
+            >
               <DropDown.DropdownMenuTrigger
                 className="dashboard-nav-item"
                 data-active={activeLinkIndex === index}
