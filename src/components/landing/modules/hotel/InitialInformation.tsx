@@ -49,7 +49,7 @@ export function InitialInformation(props: Props) {
     <div className='relative h-auto bg-white text-cs08 p-4 border-2 border-zinc-200 rounded-xl md:text-cs75'>
       {/* Logo | HotelName | City | Stars */}
       <div className='flex items-center gap-3'>
-        <div className='w-16 h-16 overflow-hidden border-2 border-zinc-200 rounded-lg'>
+        <div className='w-16 h-16 overflow-hidden border-2 p-1 border-zinc-200 rounded-lg'>
           <Image src={logo} alt='hotel-logo' width={100} height={100} className='full-size object-cover' />
         </div>
 

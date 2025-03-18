@@ -3,8 +3,20 @@
 import { useMediaQuery } from '@/hooks';
 import { sendTicketReaction } from '@/constants';
 
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle } from '@/components/ui/drawer';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+} from '@/components/ui/drawer';
 
 type Props = {
   isOpen: boolean;
@@ -18,7 +30,10 @@ export default function SendTicketReaction(props: Props) {
   const { isOpen, setOpen, reactionType } = props;
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  const content = reactionType === 'success' ? sendTicketReaction.success : sendTicketReaction.fail;
+  const content =
+    reactionType === 'success'
+      ? sendTicketReaction.success
+      : sendTicketReaction.fail;
 
   return (
     <>
@@ -26,10 +41,12 @@ export default function SendTicketReaction(props: Props) {
         <>
           {/* Dialog (Large-Device) */}
           <Dialog open={isOpen} onOpenChange={setOpen}>
-            <DialogContent className='max-w-[450px] text-cs08 font-semibold gap-0'>
-              <DialogTitle className='text-zinc-800 text-base font-extrabold'>{content.title}</DialogTitle>
+            <DialogContent className="max-w-[450px] text-cs08 font-semibold gap-0">
+              <DialogTitle className="text-zinc-800 text-base font-extrabold">
+                {content.title}
+              </DialogTitle>
 
-              <DialogDescription className='text-zinc-500 mt-3 mb-6 flex flex-col'>
+              <DialogDescription className="text-zinc-500 mt-3 mb-6 flex flex-col">
                 <span>مشترک گرامی عزیز</span>
                 <span>{content.desc}</span>
               </DialogDescription>
@@ -48,10 +65,12 @@ export default function SendTicketReaction(props: Props) {
         <>
           {/* Drawer (Small-Device) */}
           <Drawer open={isOpen} onOpenChange={setOpen}>
-            <DrawerContent className='text-cs08 font-semibold'>
-              <DrawerTitle className='text-zinc-800 text-cs09 font-extrabold'>{content.title}</DrawerTitle>
+            <DrawerContent className="text-cs08 font-semibold">
+              <DrawerTitle className="text-zinc-800 text-cs09 font-extrabold">
+                {content.title}
+              </DrawerTitle>
 
-              <DrawerDescription className='text-zinc-500 mt-3 mb-5 flex flex-col'>
+              <DrawerDescription className="text-zinc-500 mt-3 mb-5 flex flex-col">
                 <span>مشترک گرامی عزیز</span>
                 <span>{content.desc}</span>
               </DrawerDescription>

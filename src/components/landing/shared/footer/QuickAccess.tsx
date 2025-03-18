@@ -17,8 +17,8 @@ export default function QuickAccess(props: Props) {
       {/* Small-Device */}
       <div className='w-full xl:hidden'>
         <Accordion type='single' collapsible>
-          <AccordionItem value='item-1'>
-            <AccordionTrigger className='bg-zinc-100 w-full h-12 px-4 mt-4 mb-2 text-zinc-800 font-semibold rounded-cs-10'>
+          <AccordionItem value='quick-access'>
+            <AccordionTrigger className='bg-zinc-100 w-full h-12 px-4 mt-2 mb-2 text-zinc-800 font-semibold rounded-cs-10'>
               دسترسی سریع
             </AccordionTrigger>
 
@@ -27,7 +27,7 @@ export default function QuickAccess(props: Props) {
                 <Link
                   key={index}
                   href={item.href}
-                  className='bg-zinc-100 h-10 text-zinc-800 text-cs07 font-bold px-4 flex-center rounded-cs-10 transition-colors ease-in-out duration-200 hover:bg-cs-red hover:text-zinc-100'
+                  className='bg-zinc-100 h-10 text-zinc-800 text-cs07 font-bold px-4 flex-center rounded-cs-10 transition-colors ease-in-out hover:bg-cs-red hover:text-zinc-100'
                 >
                   {item.title}
                 </Link>

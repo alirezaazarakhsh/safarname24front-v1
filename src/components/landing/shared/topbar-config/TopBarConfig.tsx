@@ -18,7 +18,7 @@ export function TopBarConfig(props: Props) {
   const { subtitle, timer, seeAllHref, backBtnFunc, nextBtnFunc, className } = props;
 
   return (
-    <div className={cn('mb-4 ml-5 flex-between items-center lg:mb-6 lg:ml-0', className)}>
+    <div className={cn('mb-4 ml-5 flex-between items-center lg:mb-6 xl:ml-0', className)}>
       <div className='space-y-2'>
         <h4 className='text-cs85 font-extrabold lg:text-cs09'>
           {'title' in props ? (

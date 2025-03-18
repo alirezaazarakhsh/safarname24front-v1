@@ -23,9 +23,9 @@ export function Services(props: Props) {
         <Swiper
           spaceBetween={20}
           modules={[Pagination]}
+          className='services-swiper'
           pagination={{ clickable: true, dynamicBullets: true }}
           breakpoints={{ 0: { slidesPerView: 1 }, 640: { slidesPerView: 'auto' } }}
-          className='services-swiper'
         >
           {services.map((service, index) => (
             <SwiperSlide key={index} className='select-none sm:max-w-80'>

@@ -1,4 +1,4 @@
-html::-webkit-scrollbar {
+/* html::-webkit-scrollbar {
   width: 10px;
 }
 
@@ -13,7 +13,9 @@ html::-webkit-scrollbar-thumb {
 
 html::-webkit-scrollbar-thumb:hover {
   background: rgb(194, 194, 194);
-}
+} */
+
+/* -------------------------------- */
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;

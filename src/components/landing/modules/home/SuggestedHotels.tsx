@@ -21,11 +21,11 @@ export function SuggestedHotels(props: Props) {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
-    <div className='-ml-5 lg:ml-0'>
+    <div className="-ml-5 xl:ml-0">
       <TopBarConfig
-        title='هتل های پیشنهادی'
-        subtitle='هتل های پیشنهادی سفرنامه رو از دست نده !'
-        seeAllHref='/'
+        title="هتل های پیشنهادی"
+        subtitle="هتل های پیشنهادی سفرنامه رو از دست نده !"
+        seeAllHref="/"
         backBtnFunc={() => swiperRef.current?.slidePrev()}
         nextBtnFunc={() => swiperRef.current?.slideNext()}
       />
@@ -40,10 +40,13 @@ export function SuggestedHotels(props: Props) {
         }}
         modules={[Navigation]}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
-        className='suggestedHotels-swiper'
+        className="suggestedHotels-swiper"
       >
         {suggestedHotels.map((hotel) => (
-          <SwiperSlide key={hotel.id} className='max-w-72 select-none xl:max-w-full'>
+          <SwiperSlide
+            key={hotel.id}
+            className="max-w-72 select-none xl:max-w-full"
+          >
             <SuggestedHotel hotel={hotel} />
           </SwiperSlide>
         ))}
