@@ -7,7 +7,7 @@ type Props = {
 
 // --------------------------------------
 
-export default function ComingSoon(props: Props) {
+export function ComingSoon(props: Props) {
   return (
     <div
       dir="ltr"

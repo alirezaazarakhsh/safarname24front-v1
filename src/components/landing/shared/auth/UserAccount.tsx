@@ -1,10 +1,10 @@
+'use client';
+
 import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
-import { Profile2User } from 'iconsax-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { DialogTrigger } from '@/components/ui/dialog';
 import PhoneNumber from './molecules/user-account/PhoneNumber';
 import OTPVerification from './molecules/user-account/OTPVerification';
 
@@ -36,11 +36,6 @@ export default function UserAccount(props: Props) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
-      <DialogTrigger className="bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-300 ease-in-out hover:bg-zinc-200/80">
-        <Profile2User size={19} color="#292D32" />
-        <span className="hidden xl:block">حساب کاربری</span>
-      </DialogTrigger>
-
       <DialogContent className="max-w-[22rem] h-[22rem] text-cs75 font-semibold p-7 pb-6 flex flex-col items-center gap-0 overflow-hidden">
         <DialogTitle className="hidden"></DialogTitle>
         <DialogDescription className="hidden"></DialogDescription>

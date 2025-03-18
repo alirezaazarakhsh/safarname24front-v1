@@ -1,6 +1,8 @@
+'use client';
+
 import { Header } from '@/components/landing/shared';
 import { Footer } from '@/components/landing/shared';
-import ComingSoon from '@/components/landing/modules/coming-soon/ComingSoon';
+import { ComingSoon } from '@/components/landing/modules/coming-soon';
 import { NavigationBar } from '@/components/landing/shared/navigation-bar';
 
 type Props = Readonly<{
@@ -17,9 +19,10 @@ export default function LandingLayout(props: Props) {
       ) : (
         <>
           <Header />
+
           <main className="max-w-screen-template min-h-dvh mx-auto">
             <section className="mx-5">{props.children}</section>
-            {/* <NavigationBar /> */}
+            <NavigationBar />
             <Footer />
           </main>
         </>

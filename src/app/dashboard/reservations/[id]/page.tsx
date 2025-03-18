@@ -1,12 +1,124 @@
-// Importing part 
+// Importing part
 import { ReactNode } from 'react';
+import HotelAcceptSection from '@/components/dashboard/reservationFactor/hotelAcceptSection';
+import Link from 'next/link';
+import RoomsSection from '@/components/dashboard/reservationFactor/roomsSection';
+import RulesSection from '@/components/dashboard/reservationFactor/rulesSection';
+import Header from '@/components/dashboard/reservationFactor/header';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
-// Creating and exporting single Reservation edit page as default 
-export default function SingleReservationPage():ReactNode {
-    // Returning JSX
-    return (
-        <main className="lg:p-5 lg:pb-5 p-[24px] pb-[100px] flex h-dvh items-center justify-center">
-            <h1>Single Reservation page</h1>
-        </main>
-    );
+// Defining some dummy data
+const data: {
+  note?: string;
+  location: {
+    label: string;
+    googleMapURL: string;
+  };
+  accept: {
+    reserver: string;
+    createdAt: string;
+    codePeigiri: string;
+    phoneNumber: string;
+    enterAt: string;
+    exitAt: string | null;
+  }[];
+  rooms: {
+    info: {
+      hotelName: string;
+      timeSpan: 8; // in Nights
+      meals: string;
+      enteranceHalfCharge: boolean;
+      exitHalfCharge: boolean;
+      reserver: string;
+    };
+    passenger: string[];
+  }[];
+} = {
+  note: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است که بهبود بخشیده شده که میتواند به تمامی دیزاینر کمک کند.',
+  location: {
+    label:
+      'آدرس هتل : جردن، خیابان مطهری، رو به روی بانک پارسیان نرسیده به هتل بین اللملی ایران',
+    googleMapURL: '#',
+  },
+  accept: [
+    {
+      reserver: 'علیرضا آذرخش آلوچه',
+      createdAt: new Date().toISOString(),
+      codePeigiri: '45HGI13968V',
+      phoneNumber: '09912346598',
+      enterAt: new Date().toISOString(),
+      exitAt: null,
+    },
+  ],
+  rooms: [
+    {
+      info: {
+        hotelName: 'هتل اسپیناس پالاس  - اتاق دوبلکس',
+        timeSpan: 8,
+        meals: 'ناهار و صبحانه',
+        enteranceHalfCharge: true,
+        exitHalfCharge: true,
+        reserver: 'علیرضا آذرخش آلوچه',
+      },
+      passenger: ['پرهام رحیمی', 'محمد مهدی تاشا'],
+    },
+  ],
+};
+
+// Creating and exporting single Reservation edit page as default
+export default function SingleReservationPage(): ReactNode {
+  // Returning JSX
+  return (
+    <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] lg:bg-transparent bg-white">
+      <Header />
+      <HotelAcceptSection data={data.accept} />
+      <div className="p-3 lg:h-16 bg-gray-100 border border-black/10 rounded-lg lg:flex hidden items-center justify-between gap-5">
+        <p className="font-medium  text-black text-cs75 block text-right truncate">{`${data.location.label} ادرس هتل :`}</p>
+        <Link
+          href={data.location.googleMapURL}
+          className="h-10 px-3 border border-blue-500 bg-blue-100 rounded-md transition-all duration-500 hover:bg-blue-200 text-blue-600 flex items-center justify-center"
+        >
+          <span className="text-current text-cs75 font-medium truncate block text-right">
+            نقشه Google Map
+          </span>
+        </Link>
+      </div>
+      <div className="lg:hidden block py-[20px] border-y-[1.5px] border-black/10">
+        <div className="flex items-start justify-start gap-[10px]">
+          <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+            <IconsaxIcons name="Location" className="h-[17px] w-[17px]" />
+          </div>
+          <div>
+            <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+              آدرس هتل
+            </span>
+            <p className="text-[10px] font-medium text-gray-600 text-right">
+              جردن، خیابان مطهری، رو به روی بانک پارسیان نرسیده به هتل بین
+              اللملی ایران پلاک 20 واحد 7
+            </p>
+          </div>
+        </div>
+        <Link
+          href={data.location.googleMapURL}
+          className="h-[40px] px-[20px] border border-blue-500 bg-blue-100 rounded-[7px] text-blue-600 flex items-center justify-center w-fit mt-[25px]"
+        >
+          <span className="text-current text-[12px] font-semibold">
+            نقشه Google Map
+          </span>
+        </Link>
+      </div>
+      <RoomsSection data={data.rooms} />
+      {data.note && (
+        <div className="lg:border-b-0 border-b-[1.5px] border-b-black/10 lg:pb-0 pb-[20px]">
+          <div className="lg:p-3 p-[12px] bg-cs-red/10 lg:rounded-lg rounded-[10px] lg:h-16 flex items-center justify-start">
+            <p className="font-medium  text-cs-red lg:text-cs75 text-[10px] block text-right lg:truncate">
+              توضیحات : <br className="lg:hidden block" />
+              {data.note}
+            </p>
+          </div>
+        </div>
+      )}
+      <RulesSection />
+    </main>
+  );
 }

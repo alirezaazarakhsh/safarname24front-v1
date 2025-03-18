@@ -1,4 +1,7 @@
+import { useState } from 'react';
+
 import { useMediaQuery } from '@/hooks';
+import UserAccount from './UserAccount';
 
 import {
   Dialog,
@@ -25,10 +28,15 @@ type Props = {
 
 export default function AuthGuardReaction(props: Props) {
   const { isOpen, setOpen } = props;
+
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  const [userAccountIsOpen, setUserAccountOpen] = useState(false);
 
   return (
     <>
+      {/* User-Account (For Login) */}
+      <UserAccount isOpen={userAccountIsOpen} setOpen={setUserAccountOpen} />
+
       {isDesktop ? (
         <>
           {/* Dialog (Large-Device) */}
@@ -52,7 +60,10 @@ export default function AuthGuardReaction(props: Props) {
                   منصرف شدم
                 </DialogClose>
 
-                <DialogClose className="text-zinc-500 border-2 border-zinc-300 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-100/50">
+                <DialogClose
+                  className="text-zinc-500 border-2 border-zinc-300 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-100/50"
+                  onClick={() => setUserAccountOpen(true)}
+                >
                   ورود به حساب کاربری
                 </DialogClose>
               </div>
@@ -81,7 +92,10 @@ export default function AuthGuardReaction(props: Props) {
                   منصرف شدم
                 </DrawerClose>
 
-                <DrawerClose className="text-zinc-500 border-2 border-zinc-300 rounded-lg">
+                <DrawerClose
+                  className="text-zinc-500 border-2 border-zinc-300 rounded-lg"
+                  onClick={() => setUserAccountOpen(true)}
+                >
                   ورود به حساب کاربری
                 </DrawerClose>
               </div>

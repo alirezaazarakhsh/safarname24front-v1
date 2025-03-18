@@ -13,7 +13,7 @@ export default function Header(): ReactNode {
   return (
     <header
       data-scrolled={scrollY !== 0}
-      className="lg:bg-white lg:data-[scrolled='false']:bg-white bg-transparent transition-all duration-500 data-[scrolled='false']:bg-transparent data-[scrolled='true']:bg-white lg:shadow-none shadow-2xl data-[scrolled='false']:shadow-transparent data-[scrolled='true']:shadow-black/20 lg:static sticky top-0 left-0 w-full z-30"
+      className="lg:bg-white lg:data-[scrolled='false']:bg-white transition-all duration-500 data-[scrolled='false']:bg-gray-100 data-[scrolled='true']:bg-white lg:shadow-none shadow-2xl data-[scrolled='false']:shadow-transparent data-[scrolled='true']:shadow-black/20 lg:static sticky top-0 left-0 w-full z-30"
     >
       <TopSide />
       <NavBar />

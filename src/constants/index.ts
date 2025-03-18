@@ -6,7 +6,6 @@ export * from './bestHotels';
 export * from './sectionLinks';
 export * from './aboutUsStory';
 export * from './contactUsWays';
-export * from './navigationBar';
 export * from './amazingHotels';
 export * from './bestHotelsPage';
 export * from './aboutUsReasons';

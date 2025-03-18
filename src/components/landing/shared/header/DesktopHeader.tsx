@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { usePathname } from 'next/navigation';
 
@@ -11,6 +11,8 @@ import { navLinks } from '@/constants/landing';
 import UserFavorites from '../auth/UserFavorites';
 import { useMediaQuery, useScrollPosition } from '@/hooks';
 import DUserProfileTrigger from '../auth/molecules/user-profile/DUserProfileTrigger';
+import { Profile2User } from 'iconsax-react';
+import { IoIosArrowBack } from 'react-icons/io';
 
 type Props = {
   logo: string;
@@ -28,8 +30,8 @@ export default function DesktopHeader(props: Props) {
 
   const pathname = usePathname();
   const scrollPosition = useScrollPosition();
-  const [isOpen, setIsOpen] = useState(false);
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const [userAccountIsOpen, setUserAccountOpen] = useState(false);
 
   return (
     <>
@@ -77,17 +79,33 @@ export default function DesktopHeader(props: Props) {
           <div className="h-10 text-zinc-800 text-cs07 flex gap-2 xl:gap-3">
             <UserFavorites />
 
-            {/* UserProfile | UserAccount (Based-On Auth) */}
+            {!userIsLoggedIn && (
+              <button
+                className="bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-300 ease-in-out hover:bg-zinc-200/80"
+                onClick={() => setUserAccountOpen(true)}
+              >
+                <Profile2User size={19} color="#292D32" />
+                <span className="hidden xl:block">حساب کاربری</span>
+              </button>
+            )}
+
             {userIsLoggedIn ? (
-              <UserProfile userFullName={userFullName} />
+              <UserProfile
+                isOpen={userAccountIsOpen}
+                userFullName={userFullName}
+                setOpen={setUserAccountOpen}
+              />
             ) : (
-              <UserAccount isOpen={isOpen} setOpen={setIsOpen} />
+              <UserAccount
+                isOpen={userAccountIsOpen}
+                setOpen={setUserAccountOpen}
+              />
             )}
 
             {/* UserProfileTrigger (Large-Screen) */}
-            {!isDesktop && userIsLoggedIn ? (
+            {/* {!isDesktop && userIsLoggedIn ? (
               <DUserProfileTrigger fullname={userFullName} />
-            ) : null}
+            ) : null} */}
           </div>
         </section>
       </header>

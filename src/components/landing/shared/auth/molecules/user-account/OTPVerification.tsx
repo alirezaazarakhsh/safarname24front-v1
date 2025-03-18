@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import Cookies from 'js-cookie';
-import CryptoJS from 'crypto-js';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,31 +29,29 @@ export default function OTPVerification(props: Props) {
 
   const [isLoading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const secretKey = process.env.NEXT_PUBLIC_PHONE_NUMBER_SECRET_KEY;
+  const [isSubmitted, setSubmitted] = useState(false);
 
   // Get Encrypted PhoneNumber
   useEffect(() => {
     const encryptedPhoneNumber = Cookies.get('UPN');
-    if (!secretKey || !encryptedPhoneNumber) return;
-
-    try {
-      const bytes = CryptoJS.AES.decrypt(encryptedPhoneNumber, secretKey);
-      const decryptedPhoneNumber = bytes.toString(CryptoJS.enc.Utf8);
-      setPhoneNumber(decryptedPhoneNumber);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [secretKey]);
+    if (!encryptedPhoneNumber) return;
+    setPhoneNumber(encryptedPhoneNumber);
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { otp: '' },
   });
 
+  const otp = form.watch('otp');
+
   // Submit Form ( OTP Full-Length[4] )
   useEffect(() => {
-    if (form.getValues().otp.length === 4) form.handleSubmit(onSubmit)();
-  }, [form.getValues().otp]);
+    if (otp.length === 4 && !isSubmitted) {
+      setSubmitted(true);
+      form.handleSubmit(onSubmit)();
+    }
+  }, [form, otp, isSubmitted]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import Cookies from 'js-cookie';
-import CryptoJS from 'crypto-js';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,21 +23,13 @@ export default function PhoneNumber(props: Props) {
 
   const [isLoading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const secretKey = process.env.NEXT_PUBLIC_PHONE_NUMBER_SECRET_KEY;
 
   // Get Encrypted PhoneNumber
   useEffect(() => {
     const encryptedPhoneNumber = Cookies.get('UPN');
-    if (!secretKey || !encryptedPhoneNumber) return;
-
-    try {
-      const bytes = CryptoJS.AES.decrypt(encryptedPhoneNumber, secretKey);
-      const decryptedPhoneNumber = bytes.toString(CryptoJS.enc.Utf8);
-      setPhoneNumber(decryptedPhoneNumber);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [secretKey]);
+    if (!encryptedPhoneNumber) return;
+    setPhoneNumber(encryptedPhoneNumber);
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,13 +48,7 @@ export default function PhoneNumber(props: Props) {
     setLoading(true);
     setTimeout(() => setDialogStep(), 2000);
 
-    if (!secretKey) return;
-    const encryptedPhoneNumber = CryptoJS.AES.encrypt(
-      form.getValues().phoneNumber,
-      secretKey,
-    ).toString();
-
-    Cookies.set('UPN', encryptedPhoneNumber, {
+    Cookies.set('UPN', form.getValues().phoneNumber, {
       path: '/',
       secure: true,
       expires: 1 / 24,

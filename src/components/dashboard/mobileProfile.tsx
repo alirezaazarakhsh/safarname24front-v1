@@ -127,7 +127,7 @@ export default function MobileProfile({
   const pathname = usePathname();
 
   // Using useEffect to close the component when url changes
-  useEffect(() => closeFn(), [pathname]);
+  useEffect(() => closeFn(), [pathname, closeFn]);
 
   // Using useEffect to remove scroll feature from body while the component is opened
   useEffect(() => {
@@ -156,7 +156,7 @@ export default function MobileProfile({
           ? { opacity: 1, top: 0, visibility: 'visible' }
           : { opacity: 0, top: '50%', visibility: 'hidden' }
       }
-      className="fixed left-0 pb-[75px] z-40 w-dvw h-dvh lg:hidden block overflow-auto scrollbar-hide bg-[#F9F9F9]"
+      className="fixed left-0 pb-[75px] z-40 w-dvw h-dvh lg:hidden block overflow-auto scrollbar-hide bg-gray-100"
       ref={containerRef}
       onScroll={() => {
         const containerElement = containerRef.current;
@@ -170,7 +170,7 @@ export default function MobileProfile({
     >
       <div
         data-scrolled={componentScrolled}
-        className="py-[16px] px-[24px] border-b border-b-black/10 flex items-center justify-between gap-3 data-[scrolled='false']:shadow-none data-[scrolled='true']:shadow-2xl shadow-black/20 sticky top-0 w-full left-0 z-50 data-[scrolled='false']:bg-transparent data-[scrolled='true']:bg-white transition-all duration-500"
+        className="py-[16px] px-[24px] border-b border-b-black/10 flex items-center justify-between gap-3 data-[scrolled='false']:bg-gray-100 data-[scrolled='false']:shadow-none data-[scrolled='true']:shadow-2xl shadow-black/20 sticky top-0 w-full left-0 z-50 data-[scrolled='false']:bg-transparent data-[scrolled='true']:bg-white transition-all duration-500"
       >
         <div className="flex items-center justify-start gap-[10px] w-full">
           <Image
