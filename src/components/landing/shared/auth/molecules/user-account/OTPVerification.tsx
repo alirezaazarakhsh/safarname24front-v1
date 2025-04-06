@@ -1,3 +1,5 @@
+'use client';
+
 import { z } from 'zod';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
@@ -12,6 +14,7 @@ import {
   InputOTPSlot,
   InputOTPGroup,
 } from '@/components/ui/input-otp';
+
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 
 const formSchema = z.object({
@@ -73,13 +76,13 @@ export default function OTPVerification(props: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="h-[13.7rem] flex flex-col items-center"
+        className="h-full flex flex-col md:items-center"
       >
-        <span className="text-zinc-800 text-cs85 font-extrabold mb-2">
+        <span className="text-zinc-800 text-cs09 font-extrabold mb-2.5">
           تایید شماره همراه
         </span>
 
-        <p className="text-zinc-600 flex-center gap-1">
+        <p className="text-zinc-600 text-cs08 font-semibold flex gap-1 md:items-center">
           <span>کد 4 رقمی به شماره</span>
           <span dir="ltr" className="tracking-wider">
             (+98 {phoneNumber})
@@ -87,7 +90,11 @@ export default function OTPVerification(props: Props) {
           <span>ارسال شد .</span>
         </p>
 
-        <div dir="ltr" className="w-64 h-10 mt-4 flex-between">
+        {/* OPT-Input | Resend */}
+        <div
+          dir="ltr"
+          className="w-full h-10 mt-6 flex items-center justify-end gap-4 md:justify-center"
+        >
           <FormField
             name="otp"
             control={form.control}
@@ -95,7 +102,7 @@ export default function OTPVerification(props: Props) {
               <FormItem className="space-y-0">
                 <FormControl>
                   <InputOTP {...field} maxLength={4} pattern="^[0-9۰-۹]+$">
-                    <InputOTPGroup className="text-zinc-600 gap-2">
+                    <InputOTPGroup className="text-zinc-600 text-[0.9rem] gap-2">
                       <InputOTPSlot index={0} />
                       <InputOTPSlot index={1} />
                       <InputOTPSlot index={2} />
@@ -110,28 +117,32 @@ export default function OTPVerification(props: Props) {
           <ResendOTPToken />
         </div>
 
+        {/* Edit-Phone-Number */}
         <button
           type="button"
-          className="text-zinc-500 text-cs07 font-bold mt-3 transition-colors hover:text-zinc-600"
+          className="w-fit text-zinc-500 text-cs08 font-bold my-6 flex-center gap-2 rounded-md transition-colors md:mt-5 hover:text-zinc-600"
           onClick={setDialogStep}
         >
-          ویرایش شماره همراه
+          <span>ویرایش شماره همراه</span>
         </button>
 
-        <RulesAndRegulation />
+        <div className="hidden md:flex">
+          <RulesAndRegulation />
+        </div>
 
+        {/* Submit-Button */}
         <button
           disabled={isLoading}
-          className={`relative w-64 h-10 bg-cs-dark-blue overflow-hidden rounded-lg transition-colors duration-300 ease-in-out hover:bg-cs-dark-blue/95 ${isLoading ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
+          className={`relative w-full h-12 bg-cs-dark-blue mt-auto overflow-hidden rounded-lg transition-colors duration-300 ease-in-out md:mt-0  hover:bg-cs-dark-blue/95 ${isLoading ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
         >
           <span
-            className={`absolute inset-0 text-zinc-100 flex-center transition-all duration-300 ease-in-out ${isLoading ? 'opacity-0 invisible -right-8' : 'opacity-100 visible right-0'}`}
+            className={`absolute inset-0 text-zinc-100 text-cs85 font-semibold flex-center pointer-events-none transition-all duration-300 ease-in-out ${isLoading ? 'opacity-0 invisible -right-8' : 'opacity-100 visible right-0'}`}
           >
             تایید و ادامه فرآیند
           </span>
 
           <div
-            className={`absolute inset-0 flex-center transition-all duration-300 ease-in-out ${isLoading ? 'opacity-100 visible left-0' : 'opacity-0 invisible -left-8'}`}
+            className={`absolute inset-0 flex-center pointer-events-none transition-all duration-300 ease-in-out ${isLoading ? 'opacity-100 visible left-0' : 'opacity-0 invisible -left-8'}`}
           >
             <div className="loader-dots" />
           </div>

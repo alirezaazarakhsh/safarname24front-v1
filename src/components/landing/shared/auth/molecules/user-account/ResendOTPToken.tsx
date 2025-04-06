@@ -33,7 +33,7 @@ const CountDownRenderer = (props: CountDownRendererProps) => {
   const { seconds, minutes, completed, resetCountDown } = props;
 
   return (
-    <div className="relative w-14 bg-zinc-100/50 text-zinc-600 border-2 rounded-md">
+    <div className="relative w-20 h-11 bg-zinc-100 text-zinc-600 rounded-md">
       <AnimatePresence mode="wait">
         {completed ? (
           <motion.div
@@ -59,7 +59,7 @@ const CountDownRenderer = (props: CountDownRendererProps) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
             initial={{ opacity: 0, x: 10 }}
-            className="absolute inset-0 text-cs75/3 font-bold pt-0.5 flex-center gap-0.5"
+            className="absolute inset-0 text-cs08/3 font-bold pt-0.5 flex-center gap-0.5"
           >
             <span className="w-3">{String(minutes).padStart(2, '0')}</span>
             <span>:</span>

@@ -1,5 +1,5 @@
 import { TopBarConfig } from '@/components/landing/shared';
-import { hotelPage, facilities, suggestedHotels } from '@/constants';
+// import { hotelPage, facilities, suggestedHotels } from '@/constants';
 import { PiCaretUpBold } from 'react-icons/pi';
 
 import {
@@ -20,16 +20,22 @@ import {
 } from '@/components/landing/modules/hotel';
 import { Arrow, ArrowRight, ArrowUp, Heart } from 'iconsax-react';
 import { IoCaretUp } from 'react-icons/io5';
+import StickyArea from '@/components/landing/shared/header/StickyArea';
 
 // -----------------------------------------------------
 
 export default function Hotel() {
   return (
-    <div className="relative flex flex-col gap-12 lg:gap-16">
-      <Pictures
-        pictures={hotelPage.pictures}
-        gallery={hotelPage.imageGallery}
-      />
+    <>
+      {/* <StickyArea>
+
+</StickyArea> */}
+
+      {/* <div className="relative flex flex-col gap-12 lg:gap-16">
+        <Pictures
+          pictures={hotelPage.pictures}
+          gallery={hotelPage.imageGallery}
+        /> */}
 
       {/* <div className="sticky flex flex-col justify-between gap-6 rounded-lg lg:bg-white lg:flex-row-reverse lg:items-center">
         <div className="h-[4.5rem] bg-white text-zinc-700 text-cs75 font-bold p-3 grid grid-cols-[auto_1fr_1fr] gap-3 rounded-lg lg:w-1/3 lg:rounded-xl">
@@ -59,42 +65,43 @@ export default function Hotel() {
         </div>
       </div> */}
 
-      <div>
-        <TopBarConfig title="توضیحات هتل" className="mb-1 lg:mb-1" />
+      {/* <div>
+          <TopBarConfig title="توضیحات هتل" className="mb-1 lg:mb-1" />
 
-        <div
-          id="description"
-          className="grid items-start gap-12 xl:grid-cols-2"
-        >
-          <Description description={hotelPage.desc} />
-          <InitialInformation information={hotelPage.initialInfo} />
+          <div
+            id="description"
+            className="grid items-start gap-12 xl:grid-cols-2"
+          >
+            <Description description={hotelPage.desc} />
+            <InitialInformation information={hotelPage.initialInfo} />
+          </div>
         </div>
-      </div>
 
-      <Rooms />
-      <AdditionalDetails details={hotelPage.desc} />
+        <Rooms />
+        <AdditionalDetails details={hotelPage.desc} />
 
-      <div id="rules" className="grid items-start gap-8 lg:grid-cols-2">
-        <RulesAndRegulations rules={hotelPage.rules} />
-        <EssentialTips tips={hotelPage.rules} />
-      </div>
+        <div id="rules" className="grid items-start gap-8 lg:grid-cols-2">
+          <RulesAndRegulations rules={hotelPage.rules} />
+          <EssentialTips tips={hotelPage.rules} />
+        </div>
 
-      <ImportantPlaces importantPlaces={hotelPage.importantPlaces} />
-      <Facilities
-        facilities={facilities}
-        hotelName={hotelPage.initialInfo.hotelName}
-      />
+        <ImportantPlaces importantPlaces={hotelPage.importantPlaces} />
+        <Facilities
+          facilities={facilities}
+          hotelName={hotelPage.initialInfo.hotelName}
+        />
 
-      <FrequentlyQuestions
-        src={[...hotelPage.services, ...hotelPage.services]}
-      />
+        <FrequentlyQuestions
+          src={[...hotelPage.services, ...hotelPage.services]}
+        />
 
-      <CustomerReviews customerReviews={hotelPage.customerReviews} />
-      <Tags tags={hotelPage.tags} />
-      <SuggestedHotels
-        suggestedHotels={suggestedHotels}
-        city={hotelPage.initialInfo.city}
-      />
-    </div>
+        <CustomerReviews customerReviews={hotelPage.customerReviews} />
+        <Tags tags={hotelPage.tags} />
+        <SuggestedHotels
+          suggestedHotels={suggestedHotels}
+          city={hotelPage.initialInfo.city}
+        />
+      </div> */}
+    </>
   );
 }

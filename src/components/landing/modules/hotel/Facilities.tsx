@@ -18,7 +18,7 @@ export function Facilities(props: Props) {
 
   return (
     <div id='facilities' className='relative'>
-      <TopBarConfig title='امکانات هتل' className='mb-2 md:mb-6' />
+      {/* <TopBarConfig title='امکانات هتل' className='mb-2 md:mb-6' /> */}
 
       <MFacilities facilities={facilities} hotelName={hotelName} />
       <DFacilities facilities={facilities} />

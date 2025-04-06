@@ -13,7 +13,7 @@ export function AdditionalDetails(props: Props) {
 
   return (
     <div id=''>
-      <TopBarConfig title='توضیحات تکمیلی' className='mb-1 lg:mb-1' />
+      {/* <TopBarConfig title='توضیحات تکمیلی' className='mb-1 lg:mb-1' /> */}
 
       <p className='text-zinc-600 text-cs75/6 text-justify font-semibold overflow-hidden'>{details}</p>
     </div>

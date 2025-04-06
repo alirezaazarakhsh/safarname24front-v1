@@ -1,3 +1,5 @@
+'use client';
+
 import { z } from 'zod';
 import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
@@ -60,22 +62,23 @@ export default function PhoneNumber(props: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="h-[13.7rem] flex flex-col items-center"
+        className="h-full flex flex-col md:items-center"
       >
-        <span className="text-zinc-800 text-cs85 font-extrabold mb-2">
+        <span className="text-zinc-800 text-cs09 font-extrabold mb-2.5">
           ورود به حساب کاربری
         </span>
 
-        <p className="text-zinc-600">
-          برای ورود شماره همراه خود را وارد نمایید :
+        <p className="text-zinc-600 text-cs08 font-semibold">
+          برای ورود به سفرنامه 24 شماره همراه خود را وارد نمایید :
         </p>
 
         <div
           dir="ltr"
-          className={`w-64 h-10 text-zinc-600 mt-4 grid grid-cols-[1fr_3fr] overflow-hidden border-2 rounded-lg ${form.formState.errors.phoneNumber ? 'border-cs-red/50' : 'border-zinc-200'}`}
+          className={`w-full h-12 text-zinc-600 mt-6 mb-4 grid grid-cols-[1fr_3fr] overflow-hidden border-2 rounded-lg ${form.formState.errors.phoneNumber ? 'border-cs-red/50' : 'border-zinc-200'}`}
         >
-          <div className="my-2 flex-center border-r-2">+ 98</div>
+          <div className="text-[0.9rem] flex-center border-r-2">+ 98</div>
 
+          {/* Phone-Number-Input */}
           <FormField
             name="phoneNumber"
             control={form.control}
@@ -90,7 +93,7 @@ export default function PhoneNumber(props: Props) {
                       );
                     }}
                     onBlur={() => form.clearErrors('phoneNumber')}
-                    className="h-full tracking-[0.2rem] border-none rounded-none"
+                    className="h-full text-[0.9rem] pl-6 tracking-[0.2rem] border-none rounded-none"
                   />
                 </FormControl>
               </FormItem>
@@ -100,21 +103,22 @@ export default function PhoneNumber(props: Props) {
 
         <RulesAndRegulation />
 
+        {/* Submit-Button */}
         <button
           disabled={isLoading}
-          className={`relative w-64 h-10 bg-cs-dark-blue overflow-hidden rounded-lg transition-colors duration-300 ease-in-out hover:bg-cs-dark-blue/95 ${isLoading ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
+          className={`relative w-full h-12 bg-cs-dark-blue mt-auto overflow-hidden rounded-lg transition-colors duration-300 ease-in-out md:mt-0 hover:bg-cs-dark-blue/95 ${isLoading ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
         >
           <span
-            className={`absolute inset-0 text-zinc-100 flex-center transition-all duration-300 ease-in-out ${isLoading ? 'opacity-0 invisible -right-8' : 'opacity-100 visible right-0'}`}
+            className={`absolute inset-0 text-zinc-100 text-cs85 font-semibold flex-center pointer-events-none transition-all duration-300 ease-in-out ${isLoading ? 'opacity-0 invisible -right-8' : 'opacity-100 visible right-0'}`}
           >
             تایید و دریافت کد
           </span>
 
-          <div
-            className={`absolute inset-0 flex-center transition-all duration-300 ease-in-out ${isLoading ? 'opacity-100 visible left-0' : 'opacity-0 invisible -left-8'}`}
+          <span
+            className={`absolute inset-0 flex-center pointer-events-none transition-all duration-300 ease-in-out ${isLoading ? 'opacity-100 visible left-0' : 'opacity-0 invisible -left-8'}`}
           >
-            <div className="loader-dots" />
-          </div>
+            <span className="loader-dots" />
+          </span>
         </button>
       </form>
     </Form>

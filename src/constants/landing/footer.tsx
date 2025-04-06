@@ -1,10 +1,13 @@
-import { ICEmail, ICLocation, ICPhone } from '@/components/icons';
 import {
   ICInstagram,
   ICLinkdin,
   ICTelegram,
   ICWhatsApp,
 } from '@/components/icons';
+
+import { ICEmail, ICLocation, ICPhone } from '@/components/icons';
+
+// ------------------------------
 
 export const footer = {
   logo: '/image/logo/full-red-gray.png',

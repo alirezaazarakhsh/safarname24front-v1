@@ -1,21 +1,21 @@
 'use client';
 
 import { useMediaQuery } from '@/hooks';
-import { sendTicketReaction } from '@/constants';
+import { contactUs } from '@/constants/landing';
 
 import {
   Dialog,
+  DialogTitle,
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogTitle,
 } from '@/components/ui/dialog';
 import {
   Drawer,
   DrawerClose,
+  DrawerTitle,
   DrawerContent,
   DrawerDescription,
-  DrawerTitle,
 } from '@/components/ui/drawer';
 
 type Props = {
@@ -32,8 +32,8 @@ export default function SendTicketReaction(props: Props) {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const content =
     reactionType === 'success'
-      ? sendTicketReaction.success
-      : sendTicketReaction.fail;
+      ? contactUs.sendTicketReaction.success
+      : contactUs.sendTicketReaction.fail;
 
   return (
     <>

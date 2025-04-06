@@ -1,19 +1,12 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Countdown from 'react-countdown';
-
-export const DynamicComingSoonCountDown = dynamic(
-  () =>
-    import('./ComingSoonCountDown').then(
-      ({ ComingSoonCountDown }) => ComingSoonCountDown,
-    ),
-  { ssr: false },
-);
 
 type Props = {
   date?: string | number | Date | undefined;
 };
+
+// --------------------------------
 
 export function ComingSoonCountDown(props: Props) {
   return (

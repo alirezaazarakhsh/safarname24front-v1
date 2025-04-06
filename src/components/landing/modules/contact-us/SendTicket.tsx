@@ -46,39 +46,49 @@ export function SendTicket() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-
-    values.subject === 'incorrect-subject' ? handleSetReaction('fail', true) : handleSetReaction('success', true);
+    values.subject === 'incorrect-subject'
+      ? handleSetReaction('fail', true)
+      : handleSetReaction('success', true);
   }
 
   return (
     <div>
       <TopBarConfig
-        title='َتماس با شبکه سفرنامه 24'
-        subtitle='دوست داریم نظرات و پیشنهادات شما را بشنویم پیام هایتان را با ما در میان بذارید.'
+        title={{ type: 'single', text: 'تماس با شبکه سفرنامه 24' }}
+        subtitle="دوست داریم نظرات و پیشنهادات شما را بشنویم پیام هایتان را با ما در میان بذارید."
       />
 
-      <SendTicketReaction reactionType={reactionType} isOpen={reactionOpen} setOpen={setReactionOpen} />
+      <SendTicketReaction
+        reactionType={reactionType}
+        isOpen={reactionOpen}
+        setOpen={setReactionOpen}
+      />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='grid gap-4 lg:grid-cols-[1fr_2fr]'>
-          <div className='space-y-3'>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid gap-4 lg:grid-cols-[1fr_2fr]"
+        >
+          <div className="space-y-4">
             {/* =============== Subject */}
             <FormField
               control={form.control}
-              name='subject'
+              name="subject"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <div className='relative'>
+                    <div className="relative">
                       <Input
                         {...field}
-                        className={`pl-24 ${handleSetError('subject')}`}
-                        placeholder='* موضوع مورد نظر را وارد نمایید'
+                        className={`pl-28 ${handleSetError('subject')}`}
+                        placeholder="* موضوع مورد نظر را وارد نمایید"
                       />
 
-                      <div className='absolute top-1/2 -translate-y-1/2 left-4 h-6 px-2 bg-zinc-100 text-zinc-500 text-cs65 font-extrabold flex-center gap-1 rounded-md'>
-                        <span className='w-3 text-center'>
-                          {35 - form.getValues('subject').length >= 0 ? 35 - form.getValues('subject').length : 0}
+                      <div className="absolute top-1/2 -translate-y-1/2 left-4 h-7 px-3 bg-zinc-100 text-zinc-500 text-cs07 font-extrabold pt-0.5 flex-center gap-1 rounded-md">
+                        <span className="w-3 text-center">
+                          {35 - form.getValues('subject').length >= 0
+                            ? 35 - form.getValues('subject').length
+                            : 0}
                         </span>
                         <span>کاراکتر</span>
                       </div>
@@ -91,14 +101,14 @@ export function SendTicket() {
             {/* =============== FullName */}
             <FormField
               control={form.control}
-              name='fullName'
+              name="fullName"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       {...field}
                       className={handleSetError('fullName')}
-                      placeholder='* نام و نام خانوادگی خود را وارد نمایید'
+                      placeholder="* نام و نام خانوادگی خود را وارد نمایید"
                     />
                   </FormControl>
                 </FormItem>
@@ -108,14 +118,14 @@ export function SendTicket() {
             {/* =============== PhoneNumber */}
             <FormField
               control={form.control}
-              name='phoneNumber'
+              name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       {...field}
                       className={handleSetError('phoneNumber')}
-                      placeholder='* شماره همراه خود را وارد نمایید'
+                      placeholder="* شماره همراه خود را وارد نمایید"
                     />
                   </FormControl>
                 </FormItem>
@@ -125,11 +135,15 @@ export function SendTicket() {
             {/* =============== Email */}
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} placeholder='* ایمیل خود را وارد نمایید' className={handleSetError('email')} />
+                    <Input
+                      {...field}
+                      placeholder="* ایمیل خود را وارد نمایید"
+                      className={handleSetError('email')}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -139,13 +153,13 @@ export function SendTicket() {
           {/* =============== Description */}
           <FormField
             control={form.control}
-            name='desc'
+            name="desc"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Textarea
                     {...field}
-                    placeholder='* توضیحات خود را وارد نمایید ...'
+                    placeholder="* توضیحات خود را وارد نمایید ..."
                     className={`h-full resize-none ${handleSetError('desc')}`}
                   />
                 </FormControl>
@@ -153,7 +167,7 @@ export function SendTicket() {
             )}
           />
 
-          <Button type='submit' className='w-max px-6'>
+          <Button type="submit" className="w-max px-8">
             ارسال پیام
           </Button>
         </form>

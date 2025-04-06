@@ -23,12 +23,12 @@ export function SuggestedHotels(props: Props) {
 
   return (
     <div className='-ml-5 lg:ml-0'>
-      <TopBarConfig
+      {/* <TopBarConfig
         title={`هتل های پیشنهادی شهر ${city}`}
         seeAllHref='/'
         backBtnFunc={() => swiperRef.current?.slidePrev()}
         nextBtnFunc={() => swiperRef.current?.slideNext()}
-      />
+      /> */}
 
       <Swiper
         spaceBetween={20}

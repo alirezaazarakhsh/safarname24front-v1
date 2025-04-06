@@ -41,7 +41,7 @@ export default function AuthGuardReaction(props: Props) {
         <>
           {/* Dialog (Large-Device) */}
           <Dialog open={isOpen} onOpenChange={setOpen}>
-            <DialogContent className="max-w-[500px] text-cs08/5 font-semibold gap-0">
+            <DialogContent className="max-w-[500px] text-cs85/6 font-semibold p-7 gap-0">
               <DialogTitle className="text-zinc-800 text-cs95 font-extrabold">
                 ورود به حساب کاربری
               </DialogTitle>
@@ -55,13 +55,13 @@ export default function AuthGuardReaction(props: Props) {
                 <span>از همراهی شما سپاسگذاریم .</span>
               </DialogDescription>
 
-              <div className="w-[70%] h-10 text-cs75 grid grid-cols-[1fr_1.5fr] gap-4">
+              <div className="w-[70%] h-10 text-cs08 grid grid-cols-[1fr_1.5fr] gap-4">
                 <DialogClose className="bg-cs-red/90 text-zinc-100 rounded-lg transition-colors duration-200 ease-in-out hover:bg-cs-red/95">
-                  منصرف شدم
+                انصراف
                 </DialogClose>
 
                 <DialogClose
-                  className="text-zinc-500 border-2 border-zinc-300 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-100/50"
+                  className="text-zinc-500 border border-zinc-300 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-100/50"
                   onClick={() => setUserAccountOpen(true)}
                 >
                   ورود به حساب کاربری
@@ -74,8 +74,8 @@ export default function AuthGuardReaction(props: Props) {
         <>
           {/* Drawer (Small-Device) */}
           <Drawer open={isOpen} onOpenChange={setOpen}>
-            <DrawerContent className="text-cs08/5 font-semibold">
-              <DrawerTitle className="text-zinc-800 text-cs09 font-extrabold">
+            <DrawerContent className="text-cs85/6 font-semibold">
+              <DrawerTitle className="text-zinc-800 text-cs95 font-extrabold">
                 ورود به حساب کاربری
               </DrawerTitle>
 
@@ -87,13 +87,13 @@ export default function AuthGuardReaction(props: Props) {
                 </span>
               </DrawerDescription>
 
-              <div className="h-10 text-cs75 grid grid-cols-[1fr_1.5fr] gap-4">
+              <div className="h-10 text-cs08 grid grid-cols-[1fr_1.5fr] gap-4">
                 <DrawerClose className="bg-cs-red/90 text-zinc-100 rounded-lg">
-                  منصرف شدم
+                انصراف
                 </DrawerClose>
 
                 <DrawerClose
-                  className="text-zinc-500 border-2 border-zinc-300 rounded-lg"
+                  className="text-zinc-500 border border-zinc-300 rounded-lg"
                   onClick={() => setUserAccountOpen(true)}
                 >
                   ورود به حساب کاربری

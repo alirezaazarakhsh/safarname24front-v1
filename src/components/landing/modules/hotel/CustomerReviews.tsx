@@ -21,11 +21,11 @@ export function CustomerReviews(props: Props) {
 
   return (
     <div id="passengers-viewpoint" className="relative">
-      <TopBarConfig
+      {/* <TopBarConfig
         title="نظرات محبت آمیز مشتریان"
         subtitle={`${16} نظر ثبت شد`}
         className="mb-3 lg:mb-4"
-      />
+      /> */}
 
       <button className="absolute top-0 left-0 h-10 px-4 pr-3 flex-center gap-1.5 border rounded-lg">
         <svg

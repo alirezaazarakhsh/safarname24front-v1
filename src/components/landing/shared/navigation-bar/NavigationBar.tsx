@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Profile2User } from 'iconsax-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { useMediaQuery } from '@/hooks';
 import UserProfile from '../auth/UserProfile';
 import UserAccount from '../auth/UserAccount';
 import UserFavorites from '../auth/UserFavorites';
@@ -18,6 +19,7 @@ export function NavigationBar() {
 
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   // Check if user is logged in
   useEffect(() => {
@@ -39,6 +41,8 @@ export function NavigationBar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  if (isDesktop) return null;
+
   return (
     <>
       <AnimatePresence>
@@ -48,7 +52,7 @@ export function NavigationBar() {
             animate={{ transform: 'translateY(0)' }}
             exit={{ transform: 'translateY(100%)' }}
             initial={{ transform: 'translateY(100%)' }}
-            className={`fixed z-30 bottom-0 inset-x-0 bg-white h-[4.6rem] px-5 flex-between items-center overflow-hidden border-t shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:flex-center md:gap-8 lg:hidden`}
+            className={`fixed z-30 bottom-0 inset-x-0 bg-white h-[4.6rem] px-5 flex-between gap-2 items-center overflow-hidden border-t shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:flex-center md:gap-8 lg:hidden`}
           >
             <NavigationBarItem title="خانه" href="/" icon={'Home2'} />
 
@@ -66,13 +70,14 @@ export function NavigationBar() {
 
             <UserFavorites />
 
+            {/* User-Profile | User-Account Triggers */}
             {userIsLoggedIn !== null && userIsLoggedIn ? (
               <button
                 className="flex flex-col items-center gap-2"
                 onClick={() => setUserAccountOpen(true)}
               >
                 <Profile2User size={20} color="#71717a" />
-                <span className="text-zinc-500 text-cs08 font-extrabold">
+                <span className="text-zinc-500 text-cs75 font-bold">
                   پروفایل کاربری
                 </span>
               </button>
@@ -82,7 +87,7 @@ export function NavigationBar() {
                 onClick={() => setUserAccountOpen(true)}
               >
                 <Profile2User size={20} color="#71717a" />
-                <span className="text-zinc-500 text-cs08 font-extrabold">
+                <span className="text-zinc-500 text-cs75 font-bold">
                   حساب کاربری
                 </span>
               </button>
@@ -91,6 +96,7 @@ export function NavigationBar() {
         )}
       </AnimatePresence>
 
+      {/* User-Profile & User-Account Content */}
       {userIsLoggedIn ? (
         <UserProfile
           isOpen={userAccountIsOpen}

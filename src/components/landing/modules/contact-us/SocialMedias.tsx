@@ -7,9 +7,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { TopBarConfig } from '../../shared';
 import SocialMedia from './molecules/SocialMedia';
 
-export const ContactUsMap = dynamic(() => import('./molecules/ContactUsMap').then(({ ContactUsMap }) => ContactUsMap), {
-  ssr: false,
-});
+export const ContactUsMap = dynamic(
+  () =>
+    import('./molecules/ContactUsMap').then(({ ContactUsMap }) => ContactUsMap),
+  {
+    ssr: false,
+  },
+);
 
 type Props = {
   src: {
@@ -27,19 +31,21 @@ export function SocialMedias(props: Props) {
 
   return (
     <div>
-      <TopBarConfig title='َشبکه های اجتماعی' subtitle='ما را در شبکه های اجتماعی دنبال کنید' />
+      <TopBarConfig
+        subtitle="ما را در شبکه های اجتماعی دنبال کنید"
+        title={{ type: 'single', text: 'شبکه های اجتماعی' }}
+      />
 
-      <div className='gap-12 grid-cols-2 xl:grid'>
+      <div className="gap-12 grid-cols-2 xl:grid">
         {/* Social-Media (Small-Device) */}
-        <div className='-ml-5 xl:ml-0 xl:hidden'>
+        <div className="-ml-5 xl:ml-0 xl:hidden">
           <Swiper
             spaceBetween={20}
             slidesPerView={'auto'}
-            slidesOffsetAfter={24}
-            className='contactUsSocialMedia-swiper'
+            slidesOffsetAfter={22}
           >
-            {src.map((item, index) => (
-              <SwiperSlide key={index} className='max-w-60 select-none'>
+            {src?.map((item, index) => (
+              <SwiperSlide key={index} className="max-w-60 pb-4 select-none">
                 <SocialMedia media={item} />
               </SwiperSlide>
             ))}
@@ -47,14 +53,12 @@ export function SocialMedias(props: Props) {
         </div>
 
         {/* Social-Media (Large-Device) */}
-        <div className='hidden grid-cols-2 gap-4 xl:grid'>
-          {src.map((item, index) => (
-            <SocialMedia key={index} media={item} />
-          ))}
+        <div className="hidden grid-cols-2 gap-6 xl:grid">
+          {src?.map((item, index) => <SocialMedia key={index} media={item} />)}
         </div>
 
         {/* Map */}
-        <div className='bg-zinc-200 h-48 mt-8 overflow-hidden rounded-2xl xl:h-auto xl:mt-0'>
+        <div className="bg-zinc-200 h-64 mt-8 overflow-hidden rounded-2xl xl:h-auto xl:mt-0">
           <ContactUsMap lat={50} lng={20} />
         </div>
       </div>

@@ -15,7 +15,7 @@ export function Tags(props: Props) {
 
   return (
     <div className='-ml-5 lg:ml-0'>
-      <TopBarConfig title='برچسب های هتل' className='lg:mb-4' />
+      {/* <TopBarConfig title='برچسب های هتل' className='lg:mb-4' /> */}
 
       <Swiper
         spaceBetween={20}

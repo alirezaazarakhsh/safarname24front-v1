@@ -18,7 +18,7 @@ export function ImportantPlaces(props: Props) {
 
   return (
     <div id='nearby-places'>
-      <TopBarConfig title='اماکن مهم اطراف هتل' className='mb-3 lg:mb-4' />
+      {/* <TopBarConfig title='اماکن مهم اطراف هتل' className='mb-3 lg:mb-4' /> */}
 
       <MImportantPlaces importantPlaces={importantPlaces} />
       <DImportantPlaces importantPlaces={importantPlaces} />

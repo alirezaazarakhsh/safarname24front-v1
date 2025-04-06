@@ -19,7 +19,7 @@ export function Rooms() {
 
   return (
     <div id="rooms">
-      <TopBarConfig title="اتاق های هتل اسپیناس پالاس" />
+      {/* <TopBarConfig title="اتاق های هتل اسپیناس پالاس" /> */}
 
       <div className="space-y-6 lg:space-y-8">
         {/* Settings */}
