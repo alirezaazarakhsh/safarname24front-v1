@@ -1,4 +1,4 @@
-export const bestHotelsPage = {
+export const bestHotels = {
   amazingHotels: [
     {
       image: '/image/hotel/hotel-1.png',
@@ -139,4 +139,14 @@ export const bestHotelsPage = {
       totalPrice: 1000000,
     },
   ],
+  favoriteHotelReaction: {
+    success: {
+      title: 'هتل مورد نظر شما با موفقیت ذخیره شد',
+      desc: 'میتوانید هتل ذخیره شده خود را در لیست علاقه مندی های هتل مشاهده نمایید .',
+    },
+    fail: {
+      title: 'هتل مورد نظر شما ذخیره نشد !',
+      desc: 'لطفا برای ذخیره هتل مورد نظر مجدد تلاش فرمایید , از صبر وشکیبایی شما متشرکیم .',
+    },
+  },
 };

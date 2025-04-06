@@ -40,7 +40,7 @@ export function Filters(props: Props) {
             onClick={() => setDialogOpen(true)}
           >
             <Filter size="17" color="#52525b" />
-            <span className="text-zinc-600 text-cs07 font-bold pt-0.5">
+            <span className="text-zinc-600 text-cs75 font-bold pt-0.5">
               فیلتر ها
             </span>
           </button>
@@ -48,7 +48,7 @@ export function Filters(props: Props) {
           <div className="bg-white px-4 flex-center gap-2 border rounded-full">
             <Building size="18" color="#52525b" />
 
-            <div className="text-zinc-600 text-cs07 font-bold pt-0.5 flex-center gap-1">
+            <div className="text-zinc-600 text-cs75 font-bold pt-0.5 flex-center gap-1">
               <span>نتایج :</span>
               <span>{123}</span>
               <span>هتل</span>
@@ -58,7 +58,7 @@ export function Filters(props: Props) {
 
         {/* Dialog-Container */}
         <div
-          className={`fixed inset-y-0 z-40 w-full bg-white transition-all duration-500 ease-in-out ${dialogIsOpen ? 'visible left-0' : 'invisible left-full'}`}
+          className={`fixed inset-y-0 z-40 w-full h-dvh bg-white transition-all duration-500 ease-in-out ${dialogIsOpen ? 'visible left-0' : 'invisible left-full'}`}
         >
           {/* Dialog-Content */}
           <div
@@ -66,7 +66,7 @@ export function Filters(props: Props) {
           >
             {/* Sort-Filters | Close-Dialog */}
             <div className="px-6 flex-between items-center border-b">
-              <span className="text-cs85 font-bold">فیلتر مرتب سازی</span>
+              <span className="text-cs09 font-bold">فیلتر مرتب سازی</span>
 
               <button onClick={() => setDialogOpen(false)}>
                 <IoClose fill="#52525b" />
@@ -83,7 +83,7 @@ export function Filters(props: Props) {
             </div>
 
             {/* Remove-Filters | Number-Of-Hotels */}
-            <div className="bg-white text-cs08 font-semibold px-6 flex-between items-center border-t shadow-[0_-1rem_1.5rem_rgba(0,0,0,0.03)]">
+            <div className="bg-white text-cs85 font-semibold px-6 flex-between items-center border-t shadow-[0_-1rem_1.5rem_rgba(0,0,0,0.03)]">
               <button className="flex-center gap-2">
                 <Trash size="18" color="#27272a" />
                 <span className="text-zinc-800">حذف فیلتر ها</span>
@@ -102,9 +102,9 @@ export function Filters(props: Props) {
       <div className="sticky top-32 h-fit bg-white text-zinc-800 hidden divide-y overflow-hidden rounded-2xl shadow-light xl:block">
         {/* Sort-Filters */}
         <div className="px-5 py-4 flex-between items-center">
-          <span className="text-cs08 font-bold">فیلتر مرتب سازی</span>
+          <span className="text-cs85 font-bold">فیلتر مرتب سازی</span>
 
-          <div className="bg-cs-red/10 text-cs-red text-cs07 font-bold px-3 py-2 flex items-center gap-1 rounded-lg">
+          <div className="bg-cs-red/10 text-cs-red text-cs75 font-bold px-3 py-2 flex items-center gap-1 rounded-lg">
             <span>نتایج :</span>
             <span>{123}</span>
             <span>هتل</span>

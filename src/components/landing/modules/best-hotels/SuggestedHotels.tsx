@@ -2,6 +2,7 @@
 
 import { TopBarConfig } from '../../shared';
 import { AmazingHotel as Hotel } from '@/types/landing';
+
 import MHotelCard from './molecules/hotel-card/MHotelCard';
 import DHotelCard from './molecules/hotel-card/DHotelCard';
 
@@ -19,8 +20,8 @@ export function SuggestedHotels(props: Props) {
   return (
     <div>
       <TopBarConfig
-        title="هتل های پیشنهادی سفرنامه"
         subtitle="هتل های محبوب و خوش قیمت سفرنامه رو از دست نده !"
+        title={{ type: 'single', text: 'هتل های پیشنهادی سفرنامه' }}
       />
 
       {/* Small-Screen */}

@@ -27,12 +27,12 @@ export function Footer() {
       {/* Large-Device */}
       <footer className="pb-8 mx-5 mt-auto hidden grid-cols-[2fr_1fr] grid-rows-[1.2fr_3fr] gap-6 xl:grid">
         {/* Quick-Access */}
-        <div className="bg-white flex-center rounded-xl">
+        <div className="bg-white flex-center rounded-xl shadow-[0_1rem_1rem_rgba(0,0,0,0.02)]">
           <QuickAccess src={footer.quickAccess} />
         </div>
 
         {/* Left */}
-        <div className="bg-white p-6 row-span-2 flex flex-col rounded-xl">
+        <div className="bg-white p-6 row-span-2 flex flex-col rounded-xl shadow-[0_1rem_1rem_rgba(0,0,0,0.02)]">
           <Logo src={footer.logo} />
           <Description title={footer.title} desc={footer.desc} />
           <Copyright copyright={footer.copyright} />
@@ -40,12 +40,12 @@ export function Footer() {
         </div>
 
         {/* Right-Bottom */}
-        <div className="bg-white p-6 flex items-end gap-4 rounded-xl xl:gap-6">
-          <div>
+        <div className="bg-white p-6 flex gap-4 rounded-xl shadow-[0_1rem_1rem_rgba(0,0,0,0.02)] xl:gap-6">
+          <div className="w-1/2">
             <CommunicationWays src={footer.communicationWays} />
           </div>
 
-          <div className="flex-1 flex flex-col gap-4">
+          <div className="w-1/2 mt-auto flex flex-col gap-2">
             <IdentityBadges src={footer.identityBadges} />
             <SocialMedias src={footer.socialMedias} />
           </div>

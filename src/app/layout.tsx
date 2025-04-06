@@ -32,7 +32,7 @@ const iranSansFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Safarname 24',
+  title: '8494190',
   description: '',
 };
 

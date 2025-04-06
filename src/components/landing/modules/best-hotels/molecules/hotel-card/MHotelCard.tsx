@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { numberSeparation } from '@/utils';
-import FavoriteButton from '../FavoriteButton';
+
 import { AmazingHotel as Hotel } from '@/types/landing';
+import FavoriteButton from '../Favorite-hotel/FavoriteButton';
 
 type Props = {
   hotel: Hotel;
@@ -47,7 +48,7 @@ export default function MHotelCard(props: Props) {
 
         <FavoriteButton />
         {discountPercentage && discountPercentage > 0 && (
-          <div className="absolute top-3 right-3 w-9 h-9 bg-cs-red text-white text-cs75 font-bold pt-0.5 flex-center gap-0.5 rounded-lg">
+          <div className="absolute top-3 right-3 h-9 px-2.5 bg-cs-red text-white text-cs08 font-bold pt-0.5 flex-center gap-0.5 rounded-lg">
             <span>%</span>
             <span>{discountPercentage}</span>
           </div>
@@ -55,10 +56,10 @@ export default function MHotelCard(props: Props) {
       </div>
 
       {/* HotelName | Province | City | Stars | Score | Address */}
-      <div className="relative text-zinc-800 text-cs75 font-bold px-5 pt-1 mt-4 grid gap-2">
+      <div className="relative text-zinc-800 text-cs08 font-bold px-5 pt-1 mt-4 grid gap-2">
         <h3 className="text-cs09 font-extrabold mb-1 flex items-center gap-1 overflow-hidden">
           <span>هتل</span>
-          <span className="w-1/2 truncate">{hotelName}</span>
+          <span className="w-7/12 truncate">{hotelName}</span>
         </h3>
 
         <div className="truncate flex items-center gap-1">

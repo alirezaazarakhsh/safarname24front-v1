@@ -1,7 +1,12 @@
 'use client';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { TopBarConfig } from '../../shared';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Props = {
   src: { title: string; desc: string }[];
@@ -18,15 +23,18 @@ export function FrequentlyQuestions(props: Props) {
 
   return (
     <div>
-      <TopBarConfig title='سوالات متداول' subtitle='پرسش و پاسخ های مهم در رابط با رزرواسیون !' className='mb-0 lg:mb-4' />
+      <TopBarConfig
+        title={{ type: 'single', text: 'سوالات متداول' }}
+        subtitle="پرسش و پاسخ های مهم در رابط با رزرواسیون !"
+      />
 
       {/* Small-Device */}
-      <div className='lg:hidden'>
+      <div className="lg:hidden">
         <Questions src={src} />
       </div>
 
       {/* Large-Device */}
-      <div className='hidden grid-cols-2 gap-20 lg:grid'>
+      <div className="hidden grid-cols-2 gap-20 lg:grid">
         <Questions src={column1} />
         <Questions src={column2} />
       </div>
@@ -42,15 +50,23 @@ type QuestionProps = {
 
 function Questions(props: QuestionProps) {
   return (
-    <Accordion type='multiple'>
+    <Accordion type="multiple">
       {props.src.map((item, index) => (
-        <AccordionItem key={index} value={`item-${index}`} className='border-b last:border-none'>
-          <AccordionTrigger className='text-zinc-800 text-cs08 font-bold py-5'>{item.title}</AccordionTrigger>
+        <AccordionItem
+          key={index}
+          value={`item-${index}`}
+          className="border-b last:border-none"
+        >
+          <AccordionTrigger className="text-zinc-800 text-cs85 font-bold py-5">
+            {item.title}
+          </AccordionTrigger>
 
-          <AccordionContent className='text-cs08'>
-            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم
-            از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-            صنعت چاپ است لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده میباشد.
+          <AccordionContent className="text-cs08/6">
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است لورم
+            ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
+            طراحان گرافیک است. لورم ایپسوم لورم ایپسوم متن ساختگی با تولید سادگی
+            نامفهوم از صنعت چاپ است لورم ایپسوم متن ساختگی با تولید سادگی
+            نامفهوم از صنعت چاپ و با استفاده میباشد.
           </AccordionContent>
         </AccordionItem>
       ))}

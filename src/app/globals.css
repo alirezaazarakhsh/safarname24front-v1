@@ -10,6 +10,10 @@
   --clr-main-light: #f8f8f8;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ------------------------------------ */
 
 @layer base {

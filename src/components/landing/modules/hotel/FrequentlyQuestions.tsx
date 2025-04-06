@@ -23,7 +23,7 @@ export function FrequentlyQuestions(props: Props) {
 
   return (
     <div id="frequently-questions">
-      <TopBarConfig title="سوالات متداول" className="mb-0 lg:mb-1" />
+      {/* <TopBarConfig title="سوالات متداول" className="mb-0 lg:mb-1" /> */}
 
       {/* Small-Device */}
       <div className="lg:hidden">

@@ -4,7 +4,7 @@
 .heroSection-swiper .swiper-pagination {
   position: absolute !important;
   top: 50% !important;
-  left: 1rem !important;
+  left: 1.5rem !important;
   width: max-content;
   height: max-content;
   display: flex;
@@ -15,7 +15,7 @@
 
 .heroSection-swiper .swiper-pagination-bullet {
   width: 0.2rem;
-  height: 2rem;
+  height: 1.8rem;
   border-radius: 0.2rem;
   background-color: white;
 }
@@ -38,8 +38,17 @@
 
 /* -------------------------- */
 
+.bestSellingHotelsA-swiper,
+.bestSellingHotelsB-swiper {
+  padding-bottom: 3rem !important;
+}
+
 .bestSellingHotelsA-swiper .swiper-pagination-bullet {
   background-color: rgb(100, 100, 100);
+}
+
+.bestSellingHotelsB-swiper .swiper-pagination {
+  bottom: 0;
 }
 
 .bestSellingHotelsB-swiper .swiper-pagination-bullet {
@@ -47,6 +56,12 @@
   height: 0.25rem;
   border-radius: 0.2rem;
   background-color: rgb(100, 100, 100);
+}
+
+@media screen and (min-width: 1280px) {
+  .bestSellingHotelsA-swiper {
+    padding-bottom: 0 !important;
+  }
 }
 
 /* =============== HOTEL-PAGE ===============  */
@@ -140,7 +155,7 @@
 /* ========================================= */
 
 .amazingHotels-swiper {
-  padding-bottom: 2.4rem !important;
+  padding-bottom: 2.6rem !important;
 }
 
 .amazingHotels-swiper .swiper-pagination-bullet {

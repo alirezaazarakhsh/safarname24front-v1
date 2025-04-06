@@ -16,11 +16,10 @@ export default function UserFavorites() {
   const pathname = usePathname();
 
   const isActive = pathname === '/dashboard/favorites';
-
-  const userIsLoggedIn = Cookies.get('AUTH');
   const [guardIsOpen, setGuardIsOpen] = useState(false);
 
   function handleClick() {
+    const userIsLoggedIn = Cookies.get('AUTH');
     if (!userIsLoggedIn) setGuardIsOpen(true);
     else router.push('/dashboard/favorites');
   }
@@ -42,7 +41,7 @@ export default function UserFavorites() {
 
         <span
           className={clsx(
-            'text-zinc-500 text-cs08 font-bold transition-colors duration-300 ease-in-out',
+            'text-zinc-500 text-cs75 font-bold transition-colors duration-300 ease-in-out',
             isActive && 'text-zinc-800',
           )}
         >
