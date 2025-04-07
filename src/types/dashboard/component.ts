@@ -145,6 +145,7 @@ export interface IconedPriceComponentPropsType {
   onClick?: () => void;
   selected?: boolean;
   disabled?: boolean;
+  iconVariant?: 'fill' | 'outline';
 }
 
 export interface FinancialSectionComponentPropsType {
@@ -183,4 +184,11 @@ export interface TransactionsTablePropsType {
     bank: string;
     status: 'successfull' | 'unsucessfull';
   }[];
+}
+
+export interface InputAndLabelPropsType
+  extends InputHTMLAttributes<HTMLInputElement> {
+  error?: string;
+  validation?: string;
+  label: string;
 }
