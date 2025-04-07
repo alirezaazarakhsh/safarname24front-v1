@@ -41,7 +41,7 @@ const data: {
   {
     icon: <ICWallet className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'بخش مالی',
-    href: '/dashboard/financial',
+    href: '/dashboard/financial/wallet',
     dropdown: [
       {
         label: 'شارژ کیف پول',
@@ -122,10 +122,14 @@ export default function NavBar(): ReactNode {
 
   // Using useEffect to set active link index
   useEffect(() => {
-    const objToSet = data.find((item) => item.href.includes(pathname));
-    const objIndexInData = objToSet ? data.indexOf(objToSet) : 1;
-
-    setActiveLinkIndex(objIndexInData);
+    const parentIndex = data.findIndex((item) => {
+      if (item.href === pathname) return true;
+      if (item.dropdown) {
+        return item.dropdown.some((drop) => drop.href === pathname);
+      }
+      return false;
+    });
+    setActiveLinkIndex(parentIndex);
   }, [pathname]);
 
   // Calling `calculateIndicatorStyles` function while activeLinkIndex or width of page changes
