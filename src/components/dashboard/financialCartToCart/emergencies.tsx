@@ -117,8 +117,8 @@ export default function Emergencies(): ReactNode {
           className={cn(
             'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 ',
             form.formState.isValid
-              ? 'hover:bg-green-200 bg-green-100 text-green-500'
-              : 'hover:bg-gray-200 bg-gray-100 text-black/50',
+              ? 'bg-green-100 text-green-500'
+              : 'bg-gray-100 text-black/50',
           )}
         >
           <IconsaxIcons

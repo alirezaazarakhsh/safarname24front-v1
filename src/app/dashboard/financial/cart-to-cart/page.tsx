@@ -3,6 +3,7 @@ import IconedPrice from '@/components/dashboard/financial/iconedPrice';
 import CreditCardSelection from '@/components/dashboard/financialCartToCart/creditCardSelection';
 import Emergencies from '@/components/dashboard/financialCartToCart/emergencies';
 import Introduction from '@/components/dashboard/financialCartToCart/introduction';
+import Upload from '@/components/dashboard/financialCartToCart/upload';
 import { ReactNode } from 'react';
 
 // Creating and exporting CartToCart financial page as default
@@ -23,7 +24,7 @@ export default function CartoToCartFinancialPage(): ReactNode {
           </div>
           <div className="h-[calc(100%-100px)] flex gap-5 w-full">
             <CreditCardSelection />
-            <div className="bg-white rounded-lg border border-black/10 row-span-2 w-[50%]" />
+            <Upload />
           </div>
         </div>
         <Emergencies />
