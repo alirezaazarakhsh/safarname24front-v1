@@ -191,4 +191,5 @@ export interface InputAndLabelPropsType
   error?: string;
   validation?: string;
   label: string;
+  isValid?: boolean;
 }

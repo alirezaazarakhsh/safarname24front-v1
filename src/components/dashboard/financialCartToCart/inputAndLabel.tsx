@@ -15,6 +15,7 @@ export default function InputAndLabel({
   label,
   className,
   id,
+  isValid = false,
   ...props
 }: InputAndLabelPropsType): ReactNode {
   // Returning JSX
@@ -34,13 +35,23 @@ export default function InputAndLabel({
             data-errored={error !== undefined}
             className={cn(
               'w-full block outline-0 border-0 bg-white text-xs font-normal text-black placeholder:text-xs placeholder:text-black/50',
+              error ? 'placeholder:text-cs-red text-cs-red' : '',
               className,
             )}
             {...props}
           />
-          <div className="bg-gray-100 rounded-md px-5 py-1.5 flex items-center justify-center shrink-0">
-            <span className="text-xs font-normal text-black/50">
-              {validation}
+          <div
+            className={cn(
+              'rounded-md px-5 py-1.5 flex items-center justify-center shrink-0 transition-all duration-500',
+              isValid
+                ? 'bg-green-100 text-green-500'
+                : error
+                  ? 'bg-cs-red/10 text-cs-red'
+                  : 'bg-gray-100 text-black/50',
+            )}
+          >
+            <span className="text-xs font-normal text-current">
+              {error ? 'اشتباه است' : validation}
             </span>
           </div>
         </div>
