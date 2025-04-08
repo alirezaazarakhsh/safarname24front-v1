@@ -34,8 +34,7 @@ export default function InputAndLabel({
             placeholder={placeholder}
             data-errored={error !== undefined}
             className={cn(
-              'w-full block outline-0 border-0 bg-white text-xs font-normal text-black placeholder:text-xs placeholder:text-black/50',
-              error ? 'placeholder:text-cs-red text-cs-red' : '',
+              'w-full block outline-0 border-0 bg-white text-xs font-normal placeholder:text-xs data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red transition-all duration-500',
               className,
             )}
             {...props}
@@ -61,7 +60,7 @@ export default function InputAndLabel({
           placeholder={placeholder}
           data-errored={error !== undefined}
           className={cn(
-            'w-full block outline-0 bg-white text-xs font-normal text-black placeholder:text-xs placeholder:text-black/50 border border-black/10 rounded-lg overflow-hidden p-3 h-[50px]',
+            'w-full block outline-0 transition-all duration-500 bg-white font-normal placeholder:text-xs text-xs border border-black/10  rounded-lg overflow-hidden p-3 h-[50px] data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red',
             className,
           )}
           {...props}

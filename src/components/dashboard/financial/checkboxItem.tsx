@@ -23,7 +23,7 @@ export default function CheckboxItem({
     <div
       tabIndex={!disabled ? 0 : -1}
       data-disabled={disabled}
-      className="bg-white lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[12px] py-[12px] flex items-center justify-between gap-3 cursor-pointer"
+      className="bg-white lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[12px] py-[12px] flex items-center justify-between gap-3 cursor-pointer w-full"
       onClick={() => {
         if (!disabled) {
           const checkboxElement = checkboxRef.current;
