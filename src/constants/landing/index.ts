@@ -1,4 +1,5 @@
 export * from './home';
+export * from './hotel';
 export * from './rules';
 export * from './global';
 export * from './footer';

@@ -13,6 +13,7 @@ import { global } from '@/constants/landing';
 import UserAccount from '../auth/UserAccount';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
+import { useUserAccountContext } from '@/context/UserAccountContext';
 
 type Props = {
   logo: string;
@@ -27,6 +28,7 @@ export default function DesktopHeader(props: Props) {
   const { logo, title, subtitle, userFullName } = props;
 
   const pathname = usePathname();
+  const { toggle } = useUserAccountContext();
   const scrollPosition = useScrollPosition();
   const [userAccountIsOpen, setUserAccountOpen] = useState(false);
 
@@ -82,7 +84,7 @@ export default function DesktopHeader(props: Props) {
             ))}
           </nav>
 
-          {/* User-Favorites | (User-Account / User-Profile) */}
+          {/* User-Favorites - User-Profile */}
           <div className="h-10 text-zinc-800 text-cs07 flex gap-2 xl:gap-3">
             <UserFavorites />
 
@@ -93,27 +95,24 @@ export default function DesktopHeader(props: Props) {
               </button>
             )}
 
+            {/* --------------------------------- */}
+
             {/* User-Account-Trigger */}
             {userIsLoggedIn === false && (
               <button
                 className="bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-300 ease-in-out hover:bg-zinc-200/80"
-                onClick={() => setUserAccountOpen(true)}
+                onClick={() => toggle()}
               >
                 <Profile2User size={19} color="#292D32" />
                 <span className="hidden xl:block">حساب کاربری</span>
               </button>
             )}
 
-            {/* User-Profile & User-Account Content */}
-            {userIsLoggedIn ? (
+            {/* User-Profile Content */}
+            {userIsLoggedIn && (
               <UserProfile
                 isOpen={userAccountIsOpen}
                 userFullName={userFullName}
-                setOpen={setUserAccountOpen}
-              />
-            ) : (
-              <UserAccount
-                isOpen={userAccountIsOpen}
                 setOpen={setUserAccountOpen}
               />
             )}

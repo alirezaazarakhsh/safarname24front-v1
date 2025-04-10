@@ -1,9 +1,9 @@
 'use client';
 
 import 'swiper/css';
-import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
+import { Autoplay, Navigation } from 'swiper/modules';
 
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -43,7 +43,12 @@ export function InterestingBlogs(props: Props) {
           0: { slidesPerView: 'auto', slidesOffsetAfter: 22 },
           1280: { slidesPerView: 4, slidesOffsetAfter: 0 },
         }}
-        modules={[Navigation]}
+        speed={500}
+        autoplay={{
+          delay: 4000,
+          pauseOnMouseEnter: true,
+        }}
+        modules={[Navigation, Autoplay]}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {blogs.map((blog) => (

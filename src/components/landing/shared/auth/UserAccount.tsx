@@ -1,60 +1,43 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useMediaQuery } from '@/hooks';
 import PhoneNumber from './molecules/user-account/PhoneNumber';
+import useControlBodyOverflow from '@/hooks/useControlBodyOverflow';
+import { useUserAccountContext } from '@/context/UserAccountContext';
 import OTPVerification from './molecules/user-account/OTPVerification';
 import DialogCloseButton from './molecules/user-account/molecules/DialogCloseButton';
 
 type DialogStep = 'phone-number' | 'otp-verification';
 
-type Props = {
-  isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 // --------------------------------------------
 
-export default function UserAccount(props: Props) {
-  const { isOpen, setOpen } = props;
-
+export default function UserAccount() {
+  const { isOpen, toggle } = useUserAccountContext();
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const [dialogStep, setDialogStep] = useState<DialogStep>('phone-number');
 
   // Control Body-Overflow
-  useEffect(() => {
-    !isDesktop && isOpen
-      ? (document.body.style.overflow = 'hidden')
-      : (document.body.style.overflow = 'auto');
-
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen]);
-
-  // Reset dialogStep when dialog is closed
-  useEffect(() => {
-    if (!isOpen) setTimeout(() => setDialogStep('phone-number'), 300);
-  }, [isOpen]);
+  useControlBodyOverflow(isOpen);
 
   return (
     <>
       {/* Dialog */}
       <div
         className={`fixed inset-y-0 z-40 w-full h-dvh bg-white transition-all duration-500 ease-in-out md:bg-black/50 md:left-0 md:duration-300 ${isOpen ? 'visible left-0 md:opacity-100' : 'invisible left-full md:opacity-0'}`}
-        onClick={() => isDesktop && setOpen(false)}
+        onClick={() => isDesktop && toggle()}
       >
         <div
-          className={`absolute z-50 bg-white full-size text-zinc-800 grid grid-rows-[auto_1fr] transition-all duration-500 ease-in-out md:w-[28rem] md:h-[26rem] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:duration-300 ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+          className={`absolute z-50 bg-white full-size text-zinc-800 grid grid-rows-[auto_1fr] transition-all duration-500 ease-in-out md:w-[28rem] md:h-[26rem] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:duration-300 ${isOpen ? 'opacity-100 md:scale-100' : 'opacity-0 md:scale-95'}`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Dialog-Close-Button */}
           <DialogCloseButton
             dialogStep={dialogStep}
-            closeDialog={() => setOpen(false)}
+            closeDialog={() => toggle()}
             returnBack={() => setDialogStep('phone-number')}
           />
 

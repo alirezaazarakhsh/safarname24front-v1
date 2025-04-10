@@ -25,14 +25,14 @@ export function OurStory(props: Props) {
 
       <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:grid-flow-col-dense">
         {/* Story */}
-        <div className="bg-white px-3 py-6 space-y-3 border-2 border-zinc-200 rounded-xl lg:order-2 lg:py-8 lg:space-y-3">
+        <div className="bg-white px-3 py-6 space-y-3 border-2 border-zinc-200 rounded-xl shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:rounded-2xl lg:order-2 lg:py-8 lg:space-y-3">
           <h2 className="text-zinc-800 text-base font-extrabold px-4 lg:text-xl">
             داستان سفرنامه 24
           </h2>
 
           <p
             dir={isDesktop ? 'rtl' : 'ltr'}
-            className="h-72 text-zinc-600 text-cs08/[1.4rem] text-justify font-semibold px-4 overflow-auto custom-scrollbar lg:h-[26rem]"
+            className="h-72 text-zinc-600 text-cs08/[1.5rem] text-justify font-semibold px-4 overflow-auto custom-scrollbar lg:h-[26rem]"
           >
             {story}
           </p>
@@ -40,7 +40,7 @@ export function OurStory(props: Props) {
 
         {/* Image | Information */}
         <div className="flex flex-col gap-8 lg:order-1">
-          <div className="bg-zinc-200 h-64 overflow-hidden rounded-xl lg:h-72">
+          <div className="bg-zinc-200 h-64 overflow-hidden rounded-xl shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:rounded-2xl lg:h-72">
             {imageUrl && (
               <Image
                 src={imageUrl}
@@ -52,7 +52,7 @@ export function OurStory(props: Props) {
             )}
           </div>
 
-          <div className="bg-white p-4 grid gap-3 border-2 border-zinc-200 rounded-xl lg:grid-cols-2 lg:flex-1">
+          <div className="bg-white p-4 grid gap-3 border-2 border-zinc-200 rounded-xl shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:rounded-2xl lg:grid-cols-2 lg:flex-1">
             {information?.map((item, index) => (
               <div
                 key={index}
