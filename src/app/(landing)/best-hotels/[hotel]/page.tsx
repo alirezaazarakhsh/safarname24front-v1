@@ -50,7 +50,7 @@ export default function Hotel() {
         <SearchBar />
       </StickyArea>
 
-      <div className="relative mt-8 flex flex-col gap-14 lg:mt-12 lg:gap-20">
+      <div className="relative mt-8 flex flex-col gap-12 lg:mt-12 lg:gap-16">
         <Pictures pictures={pictures} gallery={imageGallery} />
 
         {/* <div className="sticky flex flex-col justify-between gap-6 rounded-lg lg:bg-white lg:flex-row-reverse lg:items-center">
@@ -81,7 +81,7 @@ export default function Hotel() {
           </div>
         </div> */}
 
-        <div>
+        {/* <div>
           <TopBarConfig
             title={{ type: 'single', text: 'توضیحات هتل' }}
             className="mb-1 lg:mb-2"
@@ -94,15 +94,15 @@ export default function Hotel() {
             <Description description={desc} />
             <InitialInformation information={initialInfo} />
           </div>
-        </div>
+        </div> */}
 
-        <Rooms
+        {/* <Rooms
           rooms={rooms}
           hotelName={initialInfo.hotelName}
           numberOfRooms={initialInfo.numberOfRooms}
-        />
+        /> */}
 
-        <AdditionalDetails details={desc} />
+        {/* <AdditionalDetails details={desc} />
 
         {rules && (
           <div id="rules" className="grid items-start gap-8 lg:grid-cols-2">
@@ -111,16 +111,16 @@ export default function Hotel() {
           </div>
         )}
 
-        <ImportantPlaces importantPlaces={importantPlaces} />
+        <ImportantPlaces importantPlaces={importantPlaces} /> */}
         <Facilities facilities={facilities} hotelName={initialInfo.hotelName} />
-        <FrequentlyQuestions src={[...services, ...services]} />
+        {/* <FrequentlyQuestions src={[...services, ...services]} />
         <CustomerReviews customerReviews={customerReviews} />
 
         <Tags tags={tags} />
         <SuggestedHotels
           city={initialInfo.city}
           suggestedHotels={suggestedHotels}
-        />
+        /> */}
       </div>
     </>
   );

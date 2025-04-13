@@ -45,7 +45,7 @@ export default function DImageGallery(props: Props) {
         مشاهده تصاویر هتل
       </DialogTrigger>
 
-      <DialogContent className="max-w-[70%] w-full h-[34rem] flex p-5 pb-6 flex-col gap-5 lg:max-w-[46rem]">
+      <DialogContent className="max-w-[70%] w-full h-[30rem] flex p-5 flex-col gap-4 lg:max-w-[42rem] lg:h-[32rem]">
         <DialogTitle className="hidden"></DialogTitle>
         <DialogDescription className="hidden"></DialogDescription>
 
