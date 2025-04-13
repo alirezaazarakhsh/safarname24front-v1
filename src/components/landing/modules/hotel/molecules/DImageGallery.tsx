@@ -41,24 +41,28 @@ export default function DImageGallery(props: Props) {
 
   return (
     <Dialog>
-      <DialogTrigger className='absolute bottom-4 left-4 bg-zinc-200/20 text-zinc-100 text-cs65 font-semibold px-4 py-2 backdrop-blur-lg rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/30'>
+      <DialogTrigger className="absolute bottom-4 left-4 bg-white/20 text-zinc-100 text-cs75 font-semibold px-5 py-2.5 backdrop-blur-lg rounded-lg transition-colors duration-200 ease-in-out hover:bg-white/30">
         مشاهده تصاویر هتل
       </DialogTrigger>
 
-      <DialogContent className='max-w-[36rem] h-[30rem] flex p-4 pb-6 flex-col gap-4 lg:max-w-[42rem]'>
-        <DialogTitle className='hidden'></DialogTitle>
-        <DialogDescription className='hidden'></DialogDescription>
+      <DialogContent className="max-w-[70%] w-full h-[34rem] flex p-5 pb-6 flex-col gap-5 lg:max-w-[46rem]">
+        <DialogTitle className="hidden"></DialogTitle>
+        <DialogDescription className="hidden"></DialogDescription>
 
         {/* Pictures */}
-        <div className='relative flex-1 overflow-hidden rounded-xl'>
-          <DialogClose className='absolute top-4 right-4 z-10 bg-white w-8 h-8 flex-center rounded-md'>
-            <IoClose className='w-5 h-5 text-zinc-700' />
+        <div className="relative flex-1 overflow-hidden rounded-xl">
+          <DialogClose className="absolute top-4 right-4 z-10 bg-white w-8 h-8 flex-center rounded-md">
+            <IoClose className="w-5 h-5 text-zinc-700" />
           </DialogClose>
 
-          <div className='absolute top-4 left-4 z-10 bg-white text-zinc-800 h-8 px-3 text-cs65 font-bold flex-center rounded-lg'>
-            <span className='inline-block w-4 text-center'>{activeIndex + 1}</span>
+          <div className="absolute top-4 left-4 z-10 bg-white text-zinc-800 h-8 px-3 text-cs75/3 font-bold flex-center rounded-lg">
+            <span className="inline-block w-4 text-center">
+              {activeIndex + 1}
+            </span>
             <span>/</span>
-            <span className='inline-block w-4 text-center'>{gallery[categoryIndex].pictures.length}</span>
+            <span className="inline-block w-4 text-center">
+              {gallery[categoryIndex].pictures.length}
+            </span>
           </div>
 
           {/* --------------- */}
@@ -70,15 +74,23 @@ export default function DImageGallery(props: Props) {
               enabled: true,
             }}
             modules={[Pagination, Navigation]}
+            className="DHotelGallery-swiper h-full"
             onSwiper={(swiper) => (swiperRef.current = swiper)}
-            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
             pagination={{ clickable: true, dynamicBullets: true }}
-            className='DHotelGallery-swiper h-full'
+            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
           >
             {gallery[categoryIndex].pictures?.map((picture, index) => (
-              <SwiperSlide key={index} className='select-none'>
-                <div className='bg-zinc-100 h-full overflow-hidden rounded-xl'>
-                  <Image src={picture} alt='hotel-view' width={800} height={600} className='full-size object-cover' />
+              <SwiperSlide key={index} className="select-none">
+                <div className="bg-zinc-100 h-full overflow-hidden rounded-xl">
+                  {picture && (
+                    <Image
+                      width={800}
+                      height={600}
+                      src={picture}
+                      alt="hotel-view"
+                      className="full-size object-cover"
+                    />
+                  )}
                 </div>
               </SwiperSlide>
             ))}
@@ -86,43 +98,52 @@ export default function DImageGallery(props: Props) {
         </div>
 
         {/* Categories */}
-        <div className='h-32'>
+        <div className="h-36">
           <Swiper
             spaceBetween={10}
-            breakpoints={{ 0: { slidesPerView: 3 }, 1024: { slidesPerView: 4 } }}
-            className='h-full'
+            breakpoints={{
+              0: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
+            }}
+            className="h-full"
           >
             {gallery?.map((picture, index) => (
               <SwiperSlide
                 key={index}
-                className='select-none'
+                className="select-none"
                 onClick={() => {
                   setCategoryIndex(index);
                   swiperRef.current?.slideTo(0);
                 }}
               >
-                <div className='h-full flex flex-col'>
+                <div className="h-full flex flex-col">
                   {/* Image */}
                   <div
-                    className={`relative bg-zinc-100 h-[6.2rem] overflow-hidden border-2 rounded-xl transition-colors duration-200 ease-in-out hover:border-cs-red ${
-                      categoryIndex === index ? 'border-cs-red' : 'border-transparent'
+                    className={`relative bg-zinc-100 h-[7rem] overflow-hidden border-2 rounded-xl transition-colors duration-200 ease-in-out hover:border-cs-red ${
+                      categoryIndex === index
+                        ? 'border-cs-red'
+                        : 'border-transparent'
                     }`}
                   >
-                    <Image
-                      src={picture.pictures[0]}
-                      alt='hotel-view'
-                      width={300}
-                      height={200}
-                      className='full-size object-cover'
-                    />
+                    {picture.pictures[0] && (
+                      <Image
+                        alt="hotel-view"
+                        width={300}
+                        height={200}
+                        src={picture.pictures[0]}
+                        className="full-size object-cover"
+                      />
+                    )}
 
-                    <div className='absolute top-2 left-2 w-8 h-6 pt-0.5 bg-white text-zinc-800 text-cs07 font-bold flex-center rounded-md'>
+                    <div className="absolute top-2 left-2 w-8 h-6 pt-0.5 bg-white text-zinc-800 text-cs07 font-bold flex-center rounded-md">
                       {picture.pictures.length}
                     </div>
                   </div>
 
                   {/* Title */}
-                  <div className='text-zinc-700 text-cs75 font-bold mt-auto'>{picture.title}</div>
+                  <div className="text-zinc-700 text-cs75 font-bold mt-auto">
+                    {picture.title}
+                  </div>
                 </div>
               </SwiperSlide>
             ))}

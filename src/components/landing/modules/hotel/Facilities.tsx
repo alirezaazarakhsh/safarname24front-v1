@@ -15,10 +15,14 @@ type Props = {
 
 export function Facilities(props: Props) {
   const { facilities, hotelName } = props;
+  if (!facilities) return null;
 
   return (
-    <div id='facilities' className='relative'>
-      {/* <TopBarConfig title='امکانات هتل' className='mb-2 md:mb-6' /> */}
+    <div id="facilities" className="relative">
+      <TopBarConfig
+        className="mb-2 md:mb-6"
+        title={{ type: 'single', text: 'امکانات هتل' }}
+      />
 
       <MFacilities facilities={facilities} hotelName={hotelName} />
       <DFacilities facilities={facilities} />

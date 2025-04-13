@@ -19,15 +19,15 @@ import StickyArea from '@/components/landing/shared/header/StickyArea';
 
 export default function Home() {
   const {
-    advertisingBanners,
-    amazingHotels,
+    services,
     bestHotels,
-    bestSellingHotels,
-    customerReviews,
     heroSection,
+    amazingHotels,
+    customerReviews,
     interestingBLogs,
     mostVisitedCities,
-    services,
+    bestSellingHotels,
+    advertisingBanners,
   } = home;
 
   return (

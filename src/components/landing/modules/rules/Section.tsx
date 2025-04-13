@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useMediaQuery } from '@/hooks';
+import { useEffect } from 'react';
 
 interface Props {
   section: {
@@ -46,7 +46,7 @@ export function Section(props: Props) {
       setActiveSection(firstSectionID);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [id, setActiveSection, isDesktop]);
+  }, [id, setActiveSection, isDesktop, firstSectionID]);
 
   return (
     <div

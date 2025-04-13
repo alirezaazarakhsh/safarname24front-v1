@@ -46,8 +46,8 @@ export function SuggestedHotels(props: Props) {
           pauseOnMouseEnter: true,
         }}
         modules={[Navigation, Autoplay]}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
         className="suggestedHotels-swiper"
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {suggestedHotels?.map((hotel) => (
           <SwiperSlide

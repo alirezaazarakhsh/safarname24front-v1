@@ -31,7 +31,7 @@ export default function ImportantPlaceDrawer(props: Props) {
         <DrawerDescription className='hidden'></DrawerDescription>
 
         {/* Image */}
-        <div className='h-52 overflow-hidden rounded-xl'>
+        <div className='h-56 overflow-hidden rounded-xl'>
           <Image src={image} alt='place-view' width={500} height={400} className='full-size object-cover' />
         </div>
 

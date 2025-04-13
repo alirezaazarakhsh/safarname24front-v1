@@ -1,3 +1,5 @@
+import { Forbidden2 } from 'iconsax-react';
+
 type Props = {
   tips: string;
 };
@@ -6,31 +8,23 @@ type Props = {
 
 export function EssentialTips(props: Props) {
   const { tips } = props;
+  if (!tips) return null;
 
   return (
-    <div className='bg-white p-5 border-2 border-zinc-200 rounded-xl'>
-      <div className='flex items-center gap-3 mb-3'>
-        <div className='w-10 h-10 flex-center border-2 border-zinc-200 rounded-md'>
-          <svg width='25' height='25' viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'>
-            <path
-              d='M15.4 23.25H9.60001C8.71001 23.25 7.57 22.78 6.95 22.15L2.85001 18.05C2.22001 17.42 1.75 16.28 1.75 15.4V9.60001C1.75 8.71001 2.22001 7.57001 2.85001 6.95001L6.95 2.85001C7.58 2.22001 8.72001 1.75 9.60001 1.75H15.4C16.29 1.75 17.43 2.22001 18.05 2.85001L22.15 6.95001C22.78 7.58001 23.25 8.72001 23.25 9.60001V15.4C23.25 16.29 22.78 17.43 22.15 18.05L18.05 22.15C17.42 22.78 16.29 23.25 15.4 23.25ZM9.60001 3.25C9.11001 3.25 8.34999 3.56 8.00999 3.91L3.91 8.01001C3.57 8.36001 3.25 9.11001 3.25 9.60001V15.4C3.25 15.89 3.56 16.65 3.91 16.99L8.00999 21.09C8.35999 21.43 9.11001 21.75 9.60001 21.75H15.4C15.89 21.75 16.65 21.44 16.99 21.09L21.09 16.99C21.43 16.64 21.75 15.89 21.75 15.4V9.60001C21.75 9.11001 21.44 8.35001 21.09 8.01001L16.99 3.91C16.64 3.57 15.89 3.25 15.4 3.25H9.60001Z'
-              fill='#2B2B2B'
-            />
-            <path
-              d='M8.99945 16.7499C8.80945 16.7499 8.61945 16.6799 8.46945 16.5299C8.17945 16.2399 8.17945 15.7599 8.46945 15.4699L15.4695 8.46994C15.7595 8.17994 16.2395 8.17994 16.5295 8.46994C16.8195 8.75994 16.8195 9.23994 16.5295 9.52994L9.52945 16.5299C9.37945 16.6799 9.18945 16.7499 8.99945 16.7499Z'
-              fill='#2B2B2B'
-            />
-            <path
-              d='M15.9995 16.7499C15.8095 16.7499 15.6195 16.6799 15.4695 16.5299L8.46945 9.52994C8.17945 9.23994 8.17945 8.75994 8.46945 8.46994C8.75945 8.17994 9.23945 8.17994 9.52945 8.46994L16.5295 15.4699C16.8195 15.7599 16.8195 16.2399 16.5295 16.5299C16.3795 16.6799 16.1895 16.7499 15.9995 16.7499Z'
-              fill='#2B2B2B'
-            />
-          </svg>
+    <div className="bg-white p-5 border-2 border-zinc-200 rounded-xl">
+      <div className="flex items-center gap-3 mb-3">
+        <div className="w-10 h-10 flex-center border-2 border-zinc-200 rounded-md">
+          <Forbidden2 size={20} color="#444" />
         </div>
 
-        <span className='text-zinc-800 text-cs85 font-extrabold lg:text-cs09'>نکات ضروری</span>
+        <span className="text-zinc-800 text-cs85 font-extrabold lg:text-cs09">
+          نکات ضروری
+        </span>
       </div>
 
-      <p className='text-zinc-600 text-cs75/6 text-justify font-semibold overflow-hidden'>{tips}</p>
+      <p className="text-zinc-600 text-cs75/6 text-justify font-semibold overflow-hidden">
+        {tips}
+      </p>
     </div>
   );
 }

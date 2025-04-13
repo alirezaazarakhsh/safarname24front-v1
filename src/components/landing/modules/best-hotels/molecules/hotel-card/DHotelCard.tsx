@@ -124,7 +124,7 @@ export default function DHotelCard(props: Props) {
         </div>
 
         <Link
-          href={''}
+          href={'/best-hotels/hotel'}
           className="bg-cs-dark-blue text-white text-cs75 font-semibold h-10 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-cs-dark-blue/95"
         >
           مشاهده اتاق ها
