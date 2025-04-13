@@ -4,10 +4,35 @@
 // Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/utils/utils';
 import { ReactNode } from 'react';
+import { useDropzone } from 'react-dropzone';
+import toast from '../ui/customSonner/toast';
 
 // Creating and exporting Upload component as default
 export default function Upload(): ReactNode {
+  // Defining hooks
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    acceptedFiles,
+    inputRef,
+    rootRef,
+    isFileDialogActive,
+  } = useDropzone({
+    accept: {
+      'image/*': [],
+    },
+    maxSize: 30 * 1024 * 1024, // 30MB in bytes
+    onError: () => {
+      toast({
+        description: 'مشکلی پیش امد',
+        title: 'خطا در اپلود عکس',
+      });
+    },
+  });
+
   // Returning JSX
   return (
     <div className="bg-white border border-black/10 rounded-lg overflow-hidden flex flex-col items-start justify-start w-[50%]">
@@ -29,21 +54,39 @@ export default function Upload(): ReactNode {
         </div>
       </div>
       <div className="px-3 py-4 h-full border-b border-b-black/10 w-full flex">
-        <div className="w-full h-full border-[3px] border-black/10 rounded-xl border-dashed flex items-center justify-center cursor-pointer">
+        <div
+          {...getRootProps()}
+          className={cn(
+            'w-full bg-white h-full border-[3px] rounded-xl border-dashed flex items-center justify-center cursor-pointer transition-all duration-500',
+            isDragActive || isFileDialogActive
+              ? 'border-cs-red text-cs-red bg-cs-red/10'
+              : 'text-black border-black/10',
+          )}
+        >
+          <input {...getInputProps()} hidden />
           <div>
             <IconsaxIcons
-              color="black"
+              color="currentColor"
               name="DocumentUpload"
               className="w-[40px] h-[40px] block mx-auto mb-3"
             />
-            <p className="text-black font-normal text-xs block text-center truncate mb-2">
-              <span className="font-bold inline-block ml-[4px]">
-                کلیک کردن برای آپلود فایل
-              </span>
-              یا درگ کردن فایل
-            </p>
-            <span className="text-black/50 font-normal text-xs block text-center truncate">
-              حداکثر آپلود فایل 30MB میباشد
+            {acceptedFiles.length === 0 ? (
+              <p className="text-current font-normal text-xs block text-center truncate mb-2">
+                <span className="font-bold inline-block ml-[4px]">
+                  کلیک کردن برای آپلود فایل
+                </span>
+                یا درگ کردن فایل
+              </p>
+            ) : (
+              <p className="text-current font-normal text-xs block text-center truncate mb-2">
+                {acceptedFiles[0].name}
+              </p>
+            )}
+
+            <span className="text-current/15 font-normal text-xs block text-center truncate">
+              {acceptedFiles.length === 0
+                ? 'حداکثر آپلود فایل 30MB میباشد'
+                : `حجم فایل : ${Math.ceil(acceptedFiles[0].size / (1024 * 1024))} مگابایت`}
             </span>
           </div>
         </div>
@@ -62,8 +105,18 @@ export default function Upload(): ReactNode {
           </Button>
         </div>
         <Button
+          disabled={acceptedFiles.length === 0}
+          onClick={() => {
+            const inputEl = inputRef.current;
+            const rootEl = rootRef.current;
+
+            if (inputEl) {
+              inputEl.value = '';
+              rootEl.click();
+            }
+          }}
           className={
-            'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 hover:bg-gray-200 bg-gray-100 text-black/50'
+            'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 bg-cs-red/10 hover:bg-cs-red/15  text-cs-red disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 disabled:hover:bg-gray-100'
           }
         >
           <IconsaxIcons

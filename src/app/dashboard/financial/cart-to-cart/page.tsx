@@ -11,7 +11,7 @@ export default function CartoToCartFinancialPage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
-      <div className="flex gap-5 items-start">
+      <section className="flex gap-5 items-start">
         <div className="flex flex-col gap-5 items-start w-[70%] h-[474px] overflow-hidden">
           <div className="grid grid-cols-3 gap-5 grid-rows-1 col-span-2 h-fit w-full shrink-0">
             <Introduction />
@@ -28,7 +28,7 @@ export default function CartoToCartFinancialPage(): ReactNode {
           </div>
         </div>
         <Emergencies />
-      </div>
+      </section>
     </main>
   );
 }
