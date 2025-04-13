@@ -16,14 +16,7 @@ type NormalRoom = BaseInfo & {
   };
 };
 
-type PackedRoom = {
-  title: string;
-  desc: string;
-  capacity: number;
-  services: string;
-  extraCapacity: number;
-  customerClub: number;
-  totalPrice: number;
+type PackedRoom = BaseInfo & {
   pricePerNight: number;
   discount: {
     purchase: number | null;

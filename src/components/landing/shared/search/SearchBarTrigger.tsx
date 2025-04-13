@@ -14,7 +14,7 @@ export default function SearchBarTrigger(props: Props) {
 
   return (
     <div
-      className="bg-zinc-200/40 w-full h-12 flex items-center overflow-hidden select-none cursor-pointer rounded-lg"
+      className="bg-zinc-200/60 w-full h-12 flex items-center overflow-hidden select-none cursor-pointer rounded-lg"
       onClick={setDialogOpen}
     >
       <button className="w-14 flex-center">

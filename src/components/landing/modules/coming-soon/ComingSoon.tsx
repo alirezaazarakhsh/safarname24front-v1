@@ -1,8 +1,7 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
-// import { ComingSoonCountDown } from './ComingSoonCountDown';
+import dynamic from 'next/dynamic';
 
 export const DynamicComingSoonCountDown = dynamic(
   () =>
@@ -22,7 +21,7 @@ export function ComingSoon(props: Props) {
   return (
     <div
       dir="ltr"
-      className="relative min-h-dvh text-white text-center font-medium font-inter px-6 py-8 flex flex-col items-center justify-between"
+      className="relative w-full min-h-dvh text-white text-center font-medium font-inter px-5 pt-12 pb-8 flex flex-col items-center justify-between"
     >
       <Image
         width={1000}
@@ -50,7 +49,7 @@ export function ComingSoon(props: Props) {
       </div>
 
       <DynamicComingSoonCountDown date={props.date} />
-      <p className="text-cs08">
+      <p className="text-[clamp(0.7rem,2vw,0.8rem)]">
         © Copyrights Safarname24 | All Rights Reserved
       </p>
     </div>

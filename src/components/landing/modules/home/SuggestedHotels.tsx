@@ -3,9 +3,9 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
+import { Navigation, Autoplay } from 'swiper/modules';
 
 import { useRef } from 'react';
 import { SuggestedHotel as Hotel } from '@/types';
@@ -40,9 +40,14 @@ export function SuggestedHotels(props: Props) {
             slidesOffsetAfter: 0,
           },
         }}
-        modules={[Navigation]}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        speed={500}
+        autoplay={{
+          delay: 4000,
+          pauseOnMouseEnter: true,
+        }}
+        modules={[Navigation, Autoplay]}
         className="suggestedHotels-swiper"
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {suggestedHotels?.map((hotel) => (
           <SwiperSlide

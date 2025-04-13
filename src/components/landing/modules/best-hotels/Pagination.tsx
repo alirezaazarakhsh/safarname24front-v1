@@ -18,7 +18,7 @@ export function Pagination() {
     router.push(`${pathname}/?current-page=${currentPage + 1}`, {
       scroll: false,
     });
-  }, [currentPage]);
+  }, [currentPage, pathname, router]);
 
   return (
     <ReactPaginate

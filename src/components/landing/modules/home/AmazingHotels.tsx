@@ -2,9 +2,9 @@
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
+import { Autoplay, Navigation } from 'swiper/modules';
 
 import { useRef } from 'react';
 import { SuggestedHotel as Hotel } from '@/types';
@@ -37,7 +37,12 @@ export function AmazingHotels(props: Props) {
             slidesOffsetAfter: 0,
           },
         }}
-        modules={[Navigation]}
+        speed={500}
+        autoplay={{
+          delay: 4000,
+          pauseOnMouseEnter: true,
+        }}
+        modules={[Navigation, Autoplay]}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {hotels.map((hotel) => (

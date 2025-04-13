@@ -1,7 +1,5 @@
-import { useState } from 'react';
-
 import { useMediaQuery } from '@/hooks';
-import UserAccount from './UserAccount';
+import { useUserAccountContext } from '@/context/UserAccountContext';
 
 import {
   Dialog,
@@ -29,14 +27,11 @@ type Props = {
 export default function AuthGuardReaction(props: Props) {
   const { isOpen, setOpen } = props;
 
+  const { toggle } = useUserAccountContext();
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  const [userAccountIsOpen, setUserAccountOpen] = useState(false);
 
   return (
     <>
-      {/* User-Account (For Login) */}
-      <UserAccount isOpen={userAccountIsOpen} setOpen={setUserAccountOpen} />
-
       {isDesktop ? (
         <>
           {/* Dialog (Large-Device) */}
@@ -57,12 +52,12 @@ export default function AuthGuardReaction(props: Props) {
 
               <div className="w-[70%] h-10 text-cs08 grid grid-cols-[1fr_1.5fr] gap-4">
                 <DialogClose className="bg-cs-red/90 text-zinc-100 rounded-lg transition-colors duration-200 ease-in-out hover:bg-cs-red/95">
-                انصراف
+                  انصراف
                 </DialogClose>
 
                 <DialogClose
                   className="text-zinc-500 border border-zinc-300 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-100/50"
-                  onClick={() => setUserAccountOpen(true)}
+                  onClick={() => toggle()}
                 >
                   ورود به حساب کاربری
                 </DialogClose>
@@ -89,12 +84,12 @@ export default function AuthGuardReaction(props: Props) {
 
               <div className="h-10 text-cs08 grid grid-cols-[1fr_1.5fr] gap-4">
                 <DrawerClose className="bg-cs-red/90 text-zinc-100 rounded-lg">
-                انصراف
+                  انصراف
                 </DrawerClose>
 
                 <DrawerClose
                   className="text-zinc-500 border border-zinc-300 rounded-lg"
-                  onClick={() => setUserAccountOpen(true)}
+                  onClick={() => toggle()}
                 >
                   ورود به حساب کاربری
                 </DrawerClose>

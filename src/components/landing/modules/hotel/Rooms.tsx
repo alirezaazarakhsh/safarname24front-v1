@@ -1,27 +1,45 @@
 'use client';
 
 import { useState } from 'react';
-import { rooms } from '@/constants';
+import { TopBarConfig } from '../../shared';
 import NormalRoom from './molecules/rooms/NormalRoom';
 import PackedRoom from './molecules/rooms/PackedRoom';
-import { TopBarConfig } from '../../shared';
+import SeeMoreButton from './molecules/rooms/atoms/SeeMoreButton';
+import {
+  NormalRoom as NormalRoomType,
+  PackedRoom as PackedRoomType,
+} from '@/types/landing';
+
+type Props = {
+  hotelName: string;
+  numberOfRooms: number;
+  rooms: any;
+  // rooms: { normal: NormalRoomType[]; packed: PackedRoomType[] };
+};
 
 type RoomTypes = 'normal' | 'packed';
-
-// ------------------------------------------
 
 const sharedStyle =
   'w-1/2 flex-center rounded-md transition-colors duration-300 ease-in-out';
 
-export function Rooms() {
+// ------------------------------------------
+
+export function Rooms(props: Props) {
+  const { hotelName, numberOfRooms, rooms } = props;
+
   const [roomTypes, setRoomTypes] = useState<RoomTypes>('normal');
   const numberOfNights = 9;
 
   return (
     <div id="rooms">
-      {/* <TopBarConfig title="اتاق های هتل اسپیناس پالاس" /> */}
+      <TopBarConfig
+        title={{
+          type: 'single',
+          text: `${hotelName ? `اتاق های هتل ${hotelName}` : 'اتاق ها'}`,
+        }}
+      />
 
-      <div className="space-y-6 lg:space-y-8">
+      <div className="space-y-6 lg:space-y-10">
         {/* Settings */}
         <div className="text-cs07 font-bold grid grid-cols-[1fr_5rem] items-end gap-4 lg:grid-cols-[1fr_16rem_5rem_8rem] xl:text-cs75">
           <div className="grid-cols-[2fr_0.8fr_1fr] gap-4 hidden lg:grid">
@@ -78,9 +96,9 @@ export function Rooms() {
             ></div>
           </div>
 
-          {/* Switch-Case */}
+          {/* NumberOfRooms */}
           <div className="bg-cs-dark-blue text-zinc-100 h-10 flex-center gap-1 rounded-lg lg:h-12">
-            <span>{24}</span>
+            <span>{numberOfRooms}</span>
             <span>اتاق</span>
           </div>
 
@@ -93,14 +111,14 @@ export function Rooms() {
         {/* Rooms-Area */}
         <div className="grid gap-6">
           {roomTypes === 'normal'
-            ? rooms.normal?.map((room, index) => (
+            ? rooms.normal?.map((room: any, index: number) => (
                 <NormalRoom
                   key={index}
                   room={room}
                   numberOfNights={numberOfNights}
                 />
               ))
-            : rooms.packed?.map((room, index) => (
+            : rooms.packed?.map((room: any, index: number) => (
                 <PackedRoom
                   key={index}
                   room={room}
@@ -110,11 +128,7 @@ export function Rooms() {
         </div>
 
         {/* See-More Button */}
-        <div className="h-10 flex justify-center lg:justify-start">
-          <button className="bg-zinc-200 text-zinc-800 text-cs08 font-semibold px-6 rounded-lg">
-            مشاهده بیشتر
-          </button>
-        </div>
+        <SeeMoreButton />
       </div>
     </div>
   );
