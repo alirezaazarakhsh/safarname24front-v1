@@ -43,7 +43,6 @@ export default function Emergencies(): ReactNode {
   // Defining hooks
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
-    reValidateMode: 'onSubmit',
   });
 
   // Defining a function to handle submit event of form

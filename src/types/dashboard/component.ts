@@ -157,6 +157,8 @@ export interface CheckboxItemComponentPropsType {
   disabled?: boolean;
   checked: boolean;
   title: string;
+  isCardSelection?: boolean;
+  disabledReason?: string;
 }
 
 export interface SwitchItemComponentPropsType {

@@ -24,7 +24,7 @@ export default function Upload(): ReactNode {
     accept: {
       'image/*': [],
     },
-    maxSize: 30 * 1024 * 1024, // 30MB in bytes
+    maxSize: 5 * 1024 * 1024, // 30MB in bytes
     onError: () => {
       toast({
         description: 'مشکلی پیش امد',

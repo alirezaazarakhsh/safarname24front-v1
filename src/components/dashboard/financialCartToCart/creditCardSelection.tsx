@@ -11,6 +11,7 @@ const data: {
   label: string;
   value: string;
   disabled?: boolean;
+  disabledReason?: string;
 }[] = [
   {
     label: 'انتخاب شماره کارت حقیقی',
@@ -24,6 +25,8 @@ const data: {
     label: 'انتخاب شماره کارت دلخواه',
     value: '3',
     disabled: true,
+    disabledReason:
+      'مشتری گرامی به دلیل مشکل در سیستم فنی این بهش برای شما غیر فعال میباشد لطفا دقایقی دیگر مراجعه نمایید!',
   },
 ];
 
@@ -61,6 +64,8 @@ export default function CreditCardSelection(): ReactNode {
             checked={selectedItem === item.value}
             title={item.label}
             disabled={item.disabled}
+            isCardSelection
+            disabledReason={item.disabledReason}
             onClick={() => {
               selectedItem === item.value
                 ? setSelectedItem(undefined)
