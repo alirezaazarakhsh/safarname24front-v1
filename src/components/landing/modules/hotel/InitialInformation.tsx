@@ -86,7 +86,7 @@ export function InitialInformation(props: Props) {
           <ICLocation />
         </div>
 
-        <div className="flex items-center gap-1 overflow-hidden">
+        <div className="flex-1 flex items-center gap-1 overflow-hidden">
           <span>آدرس</span>
           <span className="mx-0.5">:</span>
           <span className="truncate">{address}</span>
