@@ -5,13 +5,13 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/utils';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import toast from '../ui/customSonner/toast';
 
 // Creating and exporting Upload component as default
 export default function Upload(): ReactNode {
   // Defining hooks
+  const [isErrored, setErrored] = useState<boolean>(false);
   const {
     getRootProps,
     getInputProps,
@@ -21,15 +21,12 @@ export default function Upload(): ReactNode {
     rootRef,
     isFileDialogActive,
   } = useDropzone({
+    maxFiles: 1,
+    onDropRejected: () => setErrored(true),
+    onDropAccepted: () => setErrored(false),
+    maxSize: 30 * 1024 * 1024, // 30MB in bytes
     accept: {
       'image/*': [],
-    },
-    maxSize: 5 * 1024 * 1024, // 30MB in bytes
-    onError: () => {
-      toast({
-        description: 'مشکلی پیش امد',
-        title: 'خطا در اپلود عکس',
-      });
     },
   });
 
@@ -66,8 +63,8 @@ export default function Upload(): ReactNode {
           <input {...getInputProps()} hidden />
           <div>
             <IconsaxIcons
-              color="currentColor"
-              name="DocumentUpload"
+              color={isErrored ? '#F30F26' : 'currentColor'}
+              name={isErrored ? 'Warning2' : 'DocumentUpload'}
               className="w-[40px] h-[40px] block mx-auto mb-3"
             />
             {acceptedFiles.length === 0 ? (
@@ -82,11 +79,17 @@ export default function Upload(): ReactNode {
                 {acceptedFiles[0].name}
               </p>
             )}
-
-            <span className="text-current/15 font-normal text-xs block text-center truncate">
-              {acceptedFiles.length === 0
-                ? 'حداکثر آپلود فایل 30MB میباشد'
-                : `حجم فایل : ${Math.ceil(acceptedFiles[0].size / (1024 * 1024))} مگابایت`}
+            <span
+              className={cn(
+                'font-normal text-xs block text-center truncate',
+                isErrored ? 'text-cs-red' : 'text-current/10',
+              )}
+            >
+              {isErrored
+                ? 'خطایی رخ داد، مشتری گرامی حداکثر وارد کردن فایل 30MB میباشد!'
+                : acceptedFiles.length === 0
+                  ? 'حداکثر آپلود فایل 30MB میباشد'
+                  : `حجم فایل : ${Math.ceil(acceptedFiles[0].size / (1024 * 1024))} مگابایت`}
             </span>
           </div>
         </div>
@@ -98,7 +101,18 @@ export default function Upload(): ReactNode {
               آپلود فایل
             </span>
           </Button>
-          <Button className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50">
+          <Button
+            className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50"
+            onClick={() => {
+              const inputEl = inputRef.current;
+              const rootEl = rootRef.current;
+
+              if (inputEl) {
+                inputEl.value = '';
+                rootEl.click();
+              }
+            }}
+          >
             <span className="font-normal text-black/60 truncate block w-full text-center text-xs">
               مشاهده تمام فایل
             </span>
