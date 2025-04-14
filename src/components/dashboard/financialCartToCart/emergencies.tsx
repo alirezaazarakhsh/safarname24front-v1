@@ -11,6 +11,8 @@ import { z } from 'zod';
 import { numberSeparation } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { cn } from '@/utils/utils';
+import { EmergenciesComponentPropsType } from '@/types/dashboard/component';
+import toast from '../ui/customSonner/toast';
 
 // Defining form type and its schema
 const formSchema = z.object({
@@ -28,8 +30,8 @@ const formSchema = z.object({
     .refine((val) => val > 1000000, {
       message: 'حداقل وارد کردن مبلغ سقف (1,000,000 تومان) میباشد',
     })
-    .refine((val) => val < 100000000, {
-      message: 'حداکثر وارد کردن مبلغ به سقف (100,000,000 تومان) میباشد.',
+    .refine((val) => val < 99999999, {
+      message: 'حداکثر وارد کردن مبلغ به سقف (99,999,999 تومان) میباشد.',
     }),
   transactionDate: z.string({
     message: 'لطفا این فیلد را پر کنید.',
@@ -39,7 +41,9 @@ const formSchema = z.object({
 type formType = z.infer<typeof formSchema>;
 
 // Creating and exporting Emergencies component as default
-export default function Emergencies(): ReactNode {
+export default function Emergencies({
+  previousInfos: { card, file },
+}: EmergenciesComponentPropsType): ReactNode {
   // Defining hooks
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
@@ -47,7 +51,25 @@ export default function Emergencies(): ReactNode {
 
   // Defining a function to handle submit event of form
   const handleSubmit: SubmitHandler<formType> = (data) => {
-    console.log(data);
+    if (card && file) {
+      form.clearErrors();
+      console.log({ ...data, card, file });
+    } else if (card && !file) {
+      toast({
+        description: 'لطفا فایل مربوطه را اپلود کنید.',
+        title: 'عدم اپلود فایل مربوطه.',
+      });
+    } else if (!card && file) {
+      toast({
+        description: 'لطفا کارت مدنظر را انتخواب کنید.',
+        title: 'عدم انتخواب کارت.',
+      });
+    } else {
+      toast({
+        description: 'لطفا کارت و فایل مربوطه را انتخواب و اپلود کنید.',
+        title: 'عدم اپلود فایل و انتخواب کارت.',
+      });
+    }
   };
 
   // Returning JSX
@@ -115,18 +137,22 @@ export default function Emergencies(): ReactNode {
         <div
           className={cn(
             'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 ',
-            form.formState.isValid
+            form.formState.isValid && card && file
               ? 'bg-green-100 text-green-500'
               : 'bg-gray-100 text-black/50',
           )}
         >
           <IconsaxIcons
-            name={form.formState.isValid ? 'TickSquare' : 'CloseSquare'}
+            name={
+              form.formState.isValid && card && file
+                ? 'TickSquare'
+                : 'CloseSquare'
+            }
             color="currentColor"
             className="h-[20px] w-[20px]"
           />
           <span className="font-normal  truncate block w-full text-right text-xs text-current">
-            {form.formState.isValid ? 'تکمیل شد' : 'تکمیل نشده'}
+            {form.formState.isValid && card && file ? 'تکمیل شد' : 'تکمیل نشده'}
           </span>
         </div>
       </div>

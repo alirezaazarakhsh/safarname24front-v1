@@ -195,3 +195,18 @@ export interface InputAndLabelPropsType
   label: string;
   isValid?: boolean;
 }
+
+export interface CreditCardSelectionComponentPropsType {
+  onChange: (selectedVal: string) => void;
+}
+
+export interface UploadComponentPropsType {
+  onChange: (file: File | undefined) => void;
+}
+
+export interface EmergenciesComponentPropsType {
+  previousInfos: {
+    file: File | undefined;
+    card: string | undefined;
+  };
+}

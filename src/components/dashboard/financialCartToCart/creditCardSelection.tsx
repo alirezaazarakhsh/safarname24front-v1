@@ -3,8 +3,9 @@
 
 // Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import CheckboxItem from '../financial/checkboxItem';
+import { CreditCardSelectionComponentPropsType } from '@/types/dashboard/component';
 
 // Defining checkbox items fake data to render for now
 const data: {
@@ -31,11 +32,14 @@ const data: {
 ];
 
 // Creating and exporting CreditCardSelection component as default
-export default function CreditCardSelection(): ReactNode {
+export default function CreditCardSelection({
+  onChange,
+}: CreditCardSelectionComponentPropsType): ReactNode {
   // Defining hooks
-  const [selectedItem, setSelectedItem] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedItem, setSelectedItem] = useState<string>(data[0].value);
+
+  // Using useEffect to attach onChange prop to component
+  useEffect(() => onChange(selectedItem), [selectedItem]);
 
   // Returning JSX
   return (
@@ -66,11 +70,7 @@ export default function CreditCardSelection(): ReactNode {
             disabled={item.disabled}
             isCardSelection
             disabledReason={item.disabledReason}
-            onClick={() => {
-              selectedItem === item.value
-                ? setSelectedItem(undefined)
-                : setSelectedItem(item.value);
-            }}
+            onClick={() => setSelectedItem(item.value)}
           />
         ))}
       </div>

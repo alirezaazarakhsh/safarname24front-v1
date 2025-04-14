@@ -4,14 +4,18 @@
 // Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Button } from '@/components/ui/button';
+import { UploadComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 // Creating and exporting Upload component as default
-export default function Upload(): ReactNode {
+export default function Upload({
+  onChange,
+}: UploadComponentPropsType): ReactNode {
   // Defining hooks
   const [isErrored, setErrored] = useState<boolean>(false);
+  const [file, setFile] = useState<File | undefined>();
   const {
     getRootProps,
     getInputProps,
@@ -22,13 +26,22 @@ export default function Upload(): ReactNode {
     isFileDialogActive,
   } = useDropzone({
     maxFiles: 1,
-    onDropRejected: () => setErrored(true),
-    onDropAccepted: () => setErrored(false),
     maxSize: 30 * 1024 * 1024, // 30MB in bytes
+    onDropRejected: () => {
+      setErrored(true);
+      setFile(undefined);
+    },
+    onDropAccepted: (files) => {
+      setErrored(false);
+      setFile(files[0]);
+    },
     accept: {
       'image/*': [],
     },
   });
+
+  // Using useEffect to attach onChange prop to component
+  useEffect(() => onChange(file), [file]);
 
   // Returning JSX
   return (
@@ -104,13 +117,8 @@ export default function Upload(): ReactNode {
           <Button
             className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50"
             onClick={() => {
-              const inputEl = inputRef.current;
               const rootEl = rootRef.current;
-
-              if (inputEl) {
-                inputEl.value = '';
-                rootEl.click();
-              }
+              if (rootEl) rootEl.click();
             }}
           >
             <span className="font-normal text-black/60 truncate block w-full text-center text-xs">
@@ -127,6 +135,7 @@ export default function Upload(): ReactNode {
             if (inputEl) {
               inputEl.value = '';
               rootEl.click();
+              setFile(undefined);
             }
           }}
           className={
