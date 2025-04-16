@@ -194,6 +194,7 @@ export interface InputAndLabelPropsType
   validation?: string;
   label: string;
   isValid?: boolean;
+  validationType?: 'text' | 'icon';
 }
 
 export interface CreditCardSelectionComponentPropsType {
@@ -209,4 +210,11 @@ export interface EmergenciesComponentPropsType {
     file: File | undefined;
     card: string | undefined;
   };
+}
+
+export interface CreditCardComponentPropsType {
+  className?: string;
+  name: string;
+  shabaNumber: string;
+  number: string;
 }

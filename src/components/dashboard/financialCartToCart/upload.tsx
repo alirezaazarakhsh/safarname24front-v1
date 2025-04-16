@@ -67,14 +67,14 @@ export default function Upload({
         <div
           {...getRootProps()}
           className={cn(
-            'w-full bg-white h-full border-[3px] rounded-xl border-dashed flex items-center justify-center cursor-pointer transition-all duration-500',
+            'w-full bg-white h-full border-[3px] rounded-xl border-dashed flex items-center justify-center cursor-pointer transition-all duration-500 px-4',
             isDragActive || isFileDialogActive
               ? 'border-cs-red text-cs-red bg-cs-red/10'
               : 'text-black border-black/10',
           )}
         >
           <input {...getInputProps()} hidden />
-          <div>
+          <div className="overflow-hidden">
             <IconsaxIcons
               color={isErrored ? '#F30F26' : 'currentColor'}
               name={isErrored ? 'Warning2' : 'DocumentUpload'}

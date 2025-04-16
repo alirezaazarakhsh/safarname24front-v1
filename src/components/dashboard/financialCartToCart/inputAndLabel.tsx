@@ -1,6 +1,7 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 // Importing part
 import { Label } from '@/components/ui/label';
 import { InputAndLabelPropsType } from '@/types/dashboard/component';
@@ -16,6 +17,7 @@ export default function InputAndLabel({
   className,
   id,
   isValid = false,
+  validationType = 'text',
   ...props
 }: InputAndLabelPropsType): ReactNode {
   // Returning JSX
@@ -39,20 +41,39 @@ export default function InputAndLabel({
             )}
             {...props}
           />
-          <div
-            className={cn(
-              'rounded-md px-5 py-1.5 flex items-center justify-center shrink-0 transition-all duration-500',
-              isValid
-                ? 'bg-green-100 text-green-500'
-                : error
-                  ? 'bg-cs-red/10 text-cs-red'
-                  : 'bg-gray-100 text-black/50',
-            )}
-          >
-            <span className="text-xs font-normal text-current">
-              {error ? 'اشتباه است' : validation}
-            </span>
-          </div>
+          {validationType === 'text' ? (
+            <div
+              className={cn(
+                'rounded-md px-5 py-1.5 flex items-center justify-center shrink-0 transition-all duration-500',
+                isValid
+                  ? 'bg-green-100 text-green-500'
+                  : error
+                    ? 'bg-cs-red/10 text-cs-red'
+                    : 'bg-gray-100 text-black/50',
+              )}
+            >
+              <span className="text-xs font-normal text-current">
+                {error ? 'اشتباه است' : validation}
+              </span>
+            </div>
+          ) : (
+            <div
+              className={cn(
+                'w-[30px] h-[30px] shrink-0 transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100',
+                isValid
+                  ? 'bg-green-100 text-green-500'
+                  : error
+                    ? 'bg-cs-red/10 text-cs-red'
+                    : 'bg-gray-100 text-black/50',
+              )}
+            >
+              <IconsaxIcons
+                color={'currentColor'}
+                name={isValid ? 'TickSquare' : 'CloseSquare'}
+                className="w-[15px] h-[15px]"
+              />
+            </div>
+          )}
         </div>
       ) : (
         <input
