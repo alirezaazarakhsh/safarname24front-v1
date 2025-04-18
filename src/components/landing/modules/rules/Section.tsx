@@ -1,7 +1,7 @@
 'use client';
 
-import { useMediaQuery } from '@/hooks';
 import { useEffect } from 'react';
+import { useMediaQuery } from '@/hooks';
 
 interface Props {
   section: {

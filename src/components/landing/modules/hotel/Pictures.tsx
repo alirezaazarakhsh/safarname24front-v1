@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import Image from 'next/image';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import DImageGallery from './molecules/DImageGallery';
+import DImageGallery from './molecules/image-gallery/DImageGallery';
 
 type Props = {
   pictures: string[];
@@ -43,7 +43,7 @@ export function Pictures(props: Props) {
           >
             {pictures?.map((picture, index) => (
               <SwiperSlide key={index} className="select-none">
-                <div className="bg-zinc-100 h-56 overflow-hidden rounded-xl">
+                <div className="bg-zinc-100 h-52 overflow-hidden rounded-xl">
                   <Image
                     src={picture}
                     alt="hotel-view"

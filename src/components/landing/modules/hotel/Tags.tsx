@@ -37,9 +37,9 @@ export function Tags(props: Props) {
             key={index}
             className="max-w-fit select-none xl:max-w-full"
           >
-            <h2 className="h-10 px-6 bg-zinc-200/80 text-zinc-800 text-cs08 font-semibold flex-center cursor-pointer rounded-lg transition-colors duration-200 delay-100 ease-in-out hover:text-zinc-100 hover:bg-[#252525]">
+            <h3 className="h-10 px-6 bg-zinc-200/80 text-zinc-800 text-cs08 font-semibold flex-center cursor-pointer rounded-lg transition-colors duration-200 delay-100 ease-in-out hover:text-zinc-100 hover:bg-[#252525]">
               {tag}
-            </h2>
+            </h3>
           </SwiperSlide>
         ))}
       </Swiper>

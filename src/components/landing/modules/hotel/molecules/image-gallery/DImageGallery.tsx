@@ -17,10 +17,10 @@ import { IoClose } from 'react-icons/io5';
 import {
   Dialog,
   DialogClose,
-  DialogContent,
-  DialogDescription,
   DialogTitle,
+  DialogContent,
   DialogTrigger,
+  DialogDescription,
 } from '@/components/ui/dialog';
 
 type Props = {

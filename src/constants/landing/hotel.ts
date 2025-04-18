@@ -71,13 +71,13 @@ export const hotel = {
     },
   ],
   sectionLinks: [
-    { id: 'description', title: 'توضیحات هتل' },
     { id: 'rooms', title: 'اتاق ها' },
-    { id: 'rules', title: 'قوانین و مقررات هتل' },
-    { id: 'nearby-places', title: 'اماکن اطراف هتل' },
-    { id: 'facilities', title: 'امکانات هتل' },
+    { id: 'rules', title: 'قوانین و مقررات' },
+    { id: 'important-places', title: 'اماکن اطراف' },
+    { id: 'facilities-services', title: 'امکانات و سرویس ها' },
     { id: 'frequently-questions', title: 'سوالات متداول' },
-    { id: 'passengers-viewpoint', title: 'دیدگاه مسافران' },
+    { id: 'customer-reviews', title: 'دیدگاه مسافران' },
+    { id: 'suggested-hotels', title: 'هتل های پیشنهادی' },
   ],
   rules:
     'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است',

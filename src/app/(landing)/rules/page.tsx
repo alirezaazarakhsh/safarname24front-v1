@@ -20,7 +20,7 @@ export default function Rules() {
 
   return (
     <>
-      <StickyArea className="py-0">
+      <StickyArea showSearchBar={false} fixedClassName="py-0">
         <NavBar activeSection={activeSection} navList={navbar} />
       </StickyArea>
 

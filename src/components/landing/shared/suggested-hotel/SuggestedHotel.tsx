@@ -102,7 +102,7 @@ export function SuggestedHotel(props: Props) {
 
         {/* Hotel-Reservation */}
         <Link
-          href={''}
+          href={'/best-hotels/hotel'}
           className="bg-zinc-100 text-zinc-600 h-10 mt-2 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-[#252525] hover:text-zinc-100"
         >
           مشاهده رزرو هتل

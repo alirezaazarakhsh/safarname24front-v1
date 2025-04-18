@@ -18,7 +18,6 @@ export default function BestHotels() {
   return (
     <>
       <StickyArea>
-        <SearchBar />
         <Filters />
       </StickyArea>
 

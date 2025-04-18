@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { ICArrowLeft } from '@/components/icons';
 import { TickSquare } from 'iconsax-react';
+import { ICArrowLeft } from '@/components/icons';
 
 type FacilitiesType = 'welfare' | 'room';
 
@@ -51,15 +51,13 @@ export default function DFacilities(props: Props) {
       </div>
 
       {/* Content | Pagination  */}
-      <div className="bg-white p-6 flex border-2 border-zinc-200 rounded-2xl">
+      <div className="bg-white p-6 flex gap-4 border-2 border-zinc-200 rounded-2xl">
         <div className="flex-1 grid grid-cols-3 gap-4 lg:grid-cols-4 xl:grid-cols-5">
           {facilities.all[facilitiesType]?.map((item, index) => (
             <div key={index} className="flex items-center gap-3">
-              <div className="w-[1.1rem] h-[1.1rem] flex-center lg:w-5 lg:h-5">
-                <TickSquare size={20} color="#444" />
-              </div>
+              <TickSquare size={20} color="#444" />
 
-              <span className="text-zinc-700 text-cs75 font-bold lg:text-cs08">
+              <span className="text-zinc-700 text-cs08 font-bold flex-1 truncate">
                 {item}
               </span>
             </div>

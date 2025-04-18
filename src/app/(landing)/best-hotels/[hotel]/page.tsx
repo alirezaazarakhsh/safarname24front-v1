@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 import {
   Tags,
   Rooms,
@@ -16,14 +20,13 @@ import {
 } from '@/components/landing/modules/hotel';
 
 import { hotel } from '@/constants/landing';
-import { PiCaretUpBold } from 'react-icons/pi';
 import { TopBarConfig } from '@/components/landing/shared';
-
-import { Arrow, ArrowRight, ArrowUp, Heart } from 'iconsax-react';
-import { IoCaretUp } from 'react-icons/io5';
-
-import SearchBar from '@/components/landing/shared/search/SearchBar';
+import Configs from '@/components/landing/modules/hotel/Configs';
 import StickyArea from '@/components/landing/shared/header/StickyArea';
+import { Section } from '@/components/landing/modules/hotel/molecules/Section';
+import Sharing from '@/components/landing/modules/hotel/molecules/sharing/Sharing';
+import FavoriteButton from '@/components/landing/modules/hotel/molecules/FavoriteButton';
+import MImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/MImageGallery';
 
 // -----------------------------------------------------
 
@@ -44,44 +47,53 @@ export default function Hotel() {
     customerReviews,
   } = hotel;
 
+  const [activeSection, setActiveSection] = useState('');
+
   return (
     <>
-      <StickyArea>
-        <SearchBar />
+      <StickyArea
+        scrollFromTop={500}
+        showInStatic={false}
+        fixedClassName="pb-0"
+        staticClassName="mt-6"
+      >
+        <div className="-mx-5">
+          <SectionLinks
+            sectionList={sectionLinks}
+            activeSection={activeSection}
+          />
+        </div>
       </StickyArea>
 
-      <div className="relative mt-8 flex flex-col gap-12 lg:mt-12 lg:gap-16">
+      <div className="relative mt-8 flex flex-col gap-14 lg:mt-12 lg:gap-20">
         <Pictures pictures={pictures} gallery={imageGallery} />
 
-        {/* <div className="sticky flex flex-col justify-between gap-6 rounded-lg lg:bg-white lg:flex-row-reverse lg:items-center">
-          <div className="h-[4.5rem] bg-white text-zinc-700 text-cs75 font-bold p-3 grid grid-cols-[auto_1fr_1fr] gap-3 rounded-lg lg:w-1/3 lg:rounded-xl">
-            <button className="bg-zinc-100 w-8 hidden rounded-lg lg:flex-center">
-              <PiCaretUpBold size="18" color="#71717a" />
-            </button>
+        {/* === (Small-Screen) */}
+        <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-3 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
+          <FavoriteButton />
 
-            <button className="bg-zinc-100 aspect-square flex-center rounded-lg lg:aspect-auto lg:order-3">
-              <Heart
-                variant="Bold"
-                size="24"
-                color="#a1a1aa"
-                className="lg:hidden"
-              />
-              <span className="hidden lg:block">ذخیره کردن هتل</span>
-            </button>
-
-            <button className="bg-zinc-100 rounded-lg">اشتراک گذاری</button>
-
-            <button className="bg-zinc-100 rounded-lg lg:hidden">
-              مشاهده تصاویر هتل
-            </button>
+          <div className="flex-1 grid grid-cols-2 gap-3 sm:flex-none sm:mr-auto">
+            <Sharing />
+            <MImageGallery
+              city="تهران"
+              gallery={imageGallery}
+              hotelName="اسپیناس پالاس"
+            />
           </div>
+        </div>
 
-          <div className="rounded-xl lg:w-2/3 lg:px-2 absolute bg-red-100">
-            <SectionLinks />
-          </div>
-        </div> */}
+        {/* === Section-Links (Small-Screen) */}
+        <div className="bg-white h-12 pt-1 -mx-5 flex items-center shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
+          <SectionLinks
+            sectionList={sectionLinks}
+            activeSection={activeSection}
+          />
+        </div>
 
-        {/* <div>
+        {/* === Large-Screen */}
+        <Configs activeSection={activeSection} sectionList={sectionLinks} />
+
+        <div>
           <TopBarConfig
             title={{ type: 'single', text: 'توضیحات هتل' }}
             className="mb-1 lg:mb-2"
@@ -94,33 +106,69 @@ export default function Hotel() {
             <Description description={desc} />
             <InitialInformation information={initialInfo} />
           </div>
-        </div> */}
+        </div>
 
-        {/* <Rooms
-          rooms={rooms}
-          hotelName={initialInfo.hotelName}
-          numberOfRooms={initialInfo.numberOfRooms}
-        /> */}
+        <Section sectionID="rooms" setActiveSection={setActiveSection}>
+          <Rooms
+            rooms={rooms}
+            hotelName={initialInfo.hotelName}
+            numberOfRooms={initialInfo.numberOfRooms}
+          />
+        </Section>
 
-        {/* <AdditionalDetails details={desc} />
+        <AdditionalDetails details={desc} />
 
-        {rules && (
-          <div id="rules" className="grid items-start gap-8 lg:grid-cols-2">
-            <RulesAndRegulations rules={rules} />
-            <EssentialTips tips={rules} />
-          </div>
-        )}
+        <Section sectionID="rules" setActiveSection={setActiveSection}>
+          {rules && (
+            <div id="rules" className="grid items-start gap-8 lg:grid-cols-2">
+              <RulesAndRegulations rules={rules} />
+              <EssentialTips tips={rules} />
+            </div>
+          )}
+        </Section>
 
-        <ImportantPlaces importantPlaces={importantPlaces} /> */}
-        <Facilities facilities={facilities} hotelName={initialInfo.hotelName} />
-        {/* <FrequentlyQuestions src={[...services, ...services]} />
-        <CustomerReviews customerReviews={customerReviews} />
+        <Section
+          sectionID="important-places"
+          setActiveSection={setActiveSection}
+        >
+          <ImportantPlaces importantPlaces={importantPlaces} />
+        </Section>
+
+        <Section
+          sectionID="facilities-services"
+          setActiveSection={setActiveSection}
+        >
+          <Facilities
+            facilities={facilities}
+            hotelName={initialInfo.hotelName}
+          />
+        </Section>
+
+        <Section
+          sectionID="frequently-questions"
+          setActiveSection={setActiveSection}
+        >
+          <FrequentlyQuestions src={[...services, ...services]} />
+        </Section>
+
+        <Section
+          sectionID="customer-reviews"
+          setActiveSection={setActiveSection}
+        >
+          <CustomerReviews customerReviews={customerReviews} />
+        </Section>
 
         <Tags tags={tags} />
-        <SuggestedHotels
-          city={initialInfo.city}
-          suggestedHotels={suggestedHotels}
-        /> */}
+
+        <Section
+          sectionID="suggested-hotels"
+          setActiveSection={setActiveSection}
+        >
+          <SuggestedHotels
+            city={initialInfo.city}
+            suggestedHotels={suggestedHotels}
+          />
+        </Section>
       </div>
     </>
   );

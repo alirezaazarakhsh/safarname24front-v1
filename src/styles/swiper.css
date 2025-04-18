@@ -77,10 +77,12 @@
 
 /* -------------------------- */
 
+.MHotelGallery-swiper .swiper-pagination,
 .DHotelGallery-swiper .swiper-pagination {
   bottom: 1rem !important;
 }
 
+.MHotelGallery-swiper .swiper-pagination-bullet,
 .DHotelGallery-swiper .swiper-pagination-bullet {
   background-color: white;
 }

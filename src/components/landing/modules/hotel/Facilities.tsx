@@ -1,6 +1,6 @@
 import { TopBarConfig } from '../../shared';
-import DFacilities from './molecules/DFacilities';
-import MFacilities from './molecules/MFacilities';
+import DFacilities from './molecules/facilities/DFacilities';
+import MFacilities from './molecules/facilities/MFacilities';
 
 type Props = {
   hotelName: string;

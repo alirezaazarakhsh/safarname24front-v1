@@ -1,100 +1,84 @@
 'use client';
 
-import { Link } from 'react-scroll';
-// import { sectionLinks } from '@/constants';
-import { useEffect, useRef, useState } from 'react';
+import { useMediaQuery } from '@/hooks';
+import { useEffect, useRef } from 'react';
 
 import 'swiper/css';
-import '@/styles/swiper.css';
-import 'swiper/css/free-mode';
-
-import { FreeMode } from 'swiper/modules';
+import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 
-// -----------------------------------------------
+type Props = {
+  activeSection: string;
+  sectionList: Array<{ id: string; title: string }>;
+};
 
-export function SectionLinks() {
+// --------------------------------------------
+
+export function SectionLinks(props: Props) {
+  const { activeSection, sectionList } = props;
+
   const swiperRef = useRef<SwiperType>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-  const [isAtTop, setIsAtTop] = useState(false);
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  // ====== Handle Click-Scroll
+  const scrollToWithOffset = (id: string) => {
+    const element = document.getElementById(id.toString());
+    if (!element) return;
 
-  // Calculate Sticky Position
+    const offset = isDesktop ? 190 : 145;
+    const y = element.getBoundingClientRect().top + window.pageYOffset - offset;
+
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
+
+  // ====== Auto Slide-Change
   useEffect(() => {
-    const handleScroll = () => {
-      if (stickyRef.current) {
-        const rect = stickyRef.current.getBoundingClientRect();
-        rect.top <= 0 ? setIsAtTop(true) : setIsAtTop(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Swiper Automatic-Scroll to Active Section
-  // useEffect(() => {
-  //   if (activeSection && swiperRef.current) {
-  //     const activeIndex = sectionLinks.findIndex(
-  //       (link) => link.id === activeSection,
-  //     );
-  //     if (activeIndex !== -1) swiperRef.current.slideTo(activeIndex);
-  //   }
-  // }, [activeSection]);
+    if (swiperRef.current && activeSection) {
+      const index = sectionList.findIndex((nav) => nav.id === activeSection);
+      if (index !== -1) swiperRef.current.slideTo(index);
+    }
+  }, [activeSection, sectionList]);
 
   return (
+    <div>
+      <Swiper
+        spaceBetween={20}
+        slidesPerView={'auto'}
+        breakpoints={{
+          0: {
+            spaceBetween: 20,
+            slidesOffsetBefore: 20,
+            slidesOffsetAfter: 20,
+          },
+          1024: {
+            spaceBetween: 0,
+            slidesOffsetBefore: 0,
+            slidesOffsetAfter: 0,
+          },
+        }}
+        className="h-10"
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+      >
+        {sectionList?.map((section, index) => (
+          <SwiperSlide
+            key={index}
+            className="max-w-fit pb-2 select-none lg:pb-0"
+          >
+            <div
+              className={`relative h-full text-cs08 font-bold pt-1 flex-center cursor-pointer rounded-lg transition-colors duration-300 ease-in-out lg:px-4 lg:pt-0 lg:border ${activeSection === section.id ? 'text-red-500 lg:bg-cs-red/10 lg:border-cs-red' : 'text-zinc-400 lg:bg-transparent lg:border-transparent'}`}
+              onClick={() => scrollToWithOffset(section.id)}
+            >
+              {section.title}
 
-    <div></div>
-    // <div
-    //   ref={stickyRef}
-    //   className={`sticky top-0 z-20 bg-white h-12 -mx-5 transition-all duration-300 ease-in-out lg:shadow-none lg:top-20 lg:mx-0 ${isAtTop ? 'shadow-[0_0_1rem_rgba(0,0,0,0.1)]' : 'shadow-[0_0_1rem_rgba(0,0,0,0.03)]'}`}
-    // >
-    //   <Swiper
-    //     freeMode
-    //     speed={800}
-    //     modules={[FreeMode]}
-    //     slidesPerView={'auto'}
-    //     slidesOffsetAfter={8}
-    //     slidesOffsetBefore={8}
-    //     className="hotelSectionLinks-swiper"
-    //     onSwiper={(swiper) => (swiperRef.current = swiper)}
-    //   >
-    //     {sectionLinks.map((sectionLink) => (
-    //       <SwiperSlide key={sectionLink.id} className="max-w-fit select-none">
-    //         <Link
-    //           isDynamic
-    //           spy={true}
-    //           smooth={true}
-    //           duration={1000}
-    //           ignoreCancelEvents
-    //           to={sectionLink.id}
-    //           className="relative h-12 flex-center"
-    //           onSetActive={() => setActiveSection(sectionLink.id)}
-    //           offset={sectionLink.id === 'description' ? -130 : -80}
-    //         >
-    //           <div
-    //             className={`full-size text-cs07 font-bold  px-4 cursor-pointer flex-center border-2 border-transparent rounded-lg transition-all duration-300 ease-in-out ${
-    //               sectionLink.id === activeSection
-    //                 ? 'text-cs-red lg:bg-cs-red/10 lg:border-cs-red/60'
-    //                 : 'text-zinc-400 border-transparent'
-    //             }`}
-    //           >
-    //             {sectionLink.title}
-    //           </div>
-
-    //           <div
-    //             className={`absolute inset-x-4 bg-cs-red h-[5px] rounded-t-xl transition-all duration-200 ease-in-out lg:-bottom-full ${
-    //               sectionLink.id === activeSection ? 'bottom-0' : '-bottom-2'
-    //             }`}
-    //           ></div>
-    //         </Link>
-    //       </SwiperSlide>
-    //     ))}
-    //   </Swiper>
-    // </div>
+              {/* Small-Device Flag */}
+              <div
+                className={`absolute -z-10 inset-x-0 bg-cs-red h-1 rounded-t-md transition-all duration-300 ease-in-out lg:hidden ${activeSection === section.id ? '-bottom-2' : '-bottom-full'}`}
+              ></div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }

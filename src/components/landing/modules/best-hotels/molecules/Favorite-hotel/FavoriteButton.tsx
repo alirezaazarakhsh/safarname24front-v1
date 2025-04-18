@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import AuthGuardReaction from './AuthGuardReaction';
 import FavoriteHotelReaction from './FavoriteHotelReaction';
 
-type ReactionType = 'success' | 'fail';
+type ReactionType = 'saved' | 'unsaved' | 'fail';
 
 // -------------------------------------
 
@@ -20,7 +20,7 @@ export default function FavoriteButton() {
   const [reactionType, setReactionType] = useState<ReactionType>('fail');
 
   // ==== Handle Set Reaction-Type
-  function handleSetReaction(type: 'success' | 'fail', isOpen: boolean) {
+  function handleSetReaction(type: ReactionType, isOpen: boolean) {
     setReactionType(type);
     setReactionOpen(isOpen);
   }
@@ -33,20 +33,22 @@ export default function FavoriteButton() {
       return;
     }
 
-    handleSetReaction('success', true);
+    if (isFavorite) {
+      setIsFavorite(false);
+      handleSetReaction('unsaved', true);
+    } else {
+      setIsFavorite(true);
+      handleSetReaction('saved', true);
+    }
   }
-
-  useEffect(() => {
-    if (reactionType === 'success') setIsFavorite(true);
-  }, [reactionType]);
 
   return (
     <>
       <AuthGuardReaction isOpen={guardIsOpen} setOpen={setGuardIsOpen} />
       <FavoriteHotelReaction
-        reactionType={reactionType}
         isOpen={reactionOpen}
         setOpen={setReactionOpen}
+        reactionType={reactionType}
       />
 
       <motion.button

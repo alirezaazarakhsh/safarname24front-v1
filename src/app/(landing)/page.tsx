@@ -32,9 +32,7 @@ export default function Home() {
 
   return (
     <>
-      <StickyArea>
-        <SearchBar />
-      </StickyArea>
+      <StickyArea />
 
       <div className="mt-6 flex flex-col gap-14 lg:gap-20 xl:mt-0">
         <HeroSection images={heroSection.images} />
