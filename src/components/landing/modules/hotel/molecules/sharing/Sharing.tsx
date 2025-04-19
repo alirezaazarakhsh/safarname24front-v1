@@ -33,8 +33,8 @@ export default function Sharing(props: Props) {
         <>
           {/* Dialog (Large-Device) */}
           <Dialog>
-            <DialogTrigger className="bg-zinc-100 text-zinc-700 text-cs08 font-bold px-5 flex-center gap-1 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/60 xl:px-6">
-              اشتراک کذاری
+            <DialogTrigger className="bg-zinc-100 text-zinc-700 text-[clamp(0.75rem,2vw,0.8rem)] font-bold flex-center gap-1 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/60 sm:px-6">
+              اشتراک گذاری
             </DialogTrigger>
 
             <DialogContent className="bg-[#f8f8f8] p-8">
@@ -54,7 +54,7 @@ export default function Sharing(props: Props) {
           {/* Drawer (Small-Device) */}
           <Drawer>
             <DrawerTrigger className="bg-zinc-100 text-zinc-700 text-cs08 font-bold px-5 flex-center gap-1 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/60 xl:px-6">
-              اشتراک کذاری
+              اشتراک گذاری
             </DrawerTrigger>
 
             <DrawerContent className="bg-[#f8f8f8]">

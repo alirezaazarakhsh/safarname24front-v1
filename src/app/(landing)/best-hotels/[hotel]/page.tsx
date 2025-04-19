@@ -69,10 +69,10 @@ export default function Hotel() {
         <Pictures pictures={pictures} gallery={imageGallery} />
 
         {/* === (Small-Screen) */}
-        <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-3 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
+        <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
           <FavoriteButton />
 
-          <div className="flex-1 grid grid-cols-2 gap-3 sm:flex-none sm:mr-auto">
+          <div className="flex-1 grid grid-cols-2 gap-2.5 sm:flex-none sm:mr-auto">
             <Sharing />
             <MImageGallery
               city="تهران"
@@ -83,7 +83,7 @@ export default function Hotel() {
         </div>
 
         {/* === Section-Links (Small-Screen) */}
-        <div className="bg-white h-12 pt-1 -mx-5 flex items-center shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
+        <div className="bg-white h-12 pt-1 -mx-5 -mb-6 flex items-center overflow-hidden shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
           <SectionLinks
             sectionList={sectionLinks}
             activeSection={activeSection}

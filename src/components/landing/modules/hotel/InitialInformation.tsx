@@ -49,10 +49,10 @@ export function InitialInformation(props: Props) {
   } = props;
 
   return (
-    <div className="relative h-auto bg-white text-cs08 p-5 overflow-hidden border-2 border-zinc-200 rounded-xl md:text-cs75">
+    <div className="relative h-auto bg-white text-[clamp(0.75rem,2vw,0.8rem)] p-5 overflow-hidden border-2 border-zinc-200 rounded-xl md:text-cs75">
       {/* Logo | HotelName | City | Stars */}
-      <div className="grid grid-cols-[5rem_1fr] items-center gap-4">
-        <div className="w-20 h-20 overflow-hidden border-2 p-1 border-zinc-200 rounded-cs-10">
+      <div className="flex items-center gap-4">
+        <div className="w-[clamp(4rem,3vw,4.5rem)] aspect-square overflow-hidden border-2 p-1 border-zinc-200 rounded-cs-10">
           {logo && (
             <Image
               src={logo}
@@ -64,8 +64,8 @@ export function InitialInformation(props: Props) {
           )}
         </div>
 
-        <div className="space-y-1">
-          <div className="text-zinc-800 text-cs09 font-extrabold flex items-center gap-1 overflow-hidden">
+        <div className="space-y-1 flex-1">
+          <div className="text-zinc-800 text-[clamp(0.8rem,2vw,0.85rem)] font-extrabold flex items-center gap-1 overflow-hidden">
             <span>هتل</span>
             <span className="max-w-40 truncate lg:max-w-32 xl:max-w-52">
               {hotelName}

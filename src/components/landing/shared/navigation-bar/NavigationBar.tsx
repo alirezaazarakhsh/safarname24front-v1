@@ -53,7 +53,7 @@ export function NavigationBar() {
             animate={{ transform: 'translateY(0)' }}
             exit={{ transform: 'translateY(100%)' }}
             initial={{ transform: 'translateY(100%)' }}
-            className={`fixed z-30 bottom-0 inset-x-0 bg-white h-[4.6rem] px-4 flex-between items-center overflow-hidden border-t shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:flex-center md:gap-8 lg:hidden`}
+            className={`fixed z-30 bottom-0 inset-x-0 bg-white h-[4.6rem] px-3 flex-between items-center overflow-hidden border-t shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:flex-center md:gap-8 lg:hidden`}
           >
             <NavigationBarItem title="خانه" href="/" icon={'Home2'} />
 
@@ -74,7 +74,7 @@ export function NavigationBar() {
             {/* User-Profile | User-Account Triggers */}
             {userIsLoggedIn !== null && userIsLoggedIn ? (
               <button
-                className="flex flex-col items-center gap-2"
+                className="flex flex-col items-center gap-1.5"
                 onClick={() => setUserAccountOpen(true)}
               >
                 <Profile2User size={20} color="#71717a" />
@@ -84,7 +84,7 @@ export function NavigationBar() {
               </button>
             ) : (
               <button
-                className="flex flex-col items-center gap-2"
+                className="flex flex-col items-center gap-1.5"
                 onClick={() => toggle()}
               >
                 <Profile2User size={20} color="#71717a" />

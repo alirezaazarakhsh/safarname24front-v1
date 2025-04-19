@@ -42,14 +42,14 @@ export default function MImageGallery(props: Props) {
 
   return (
     <Sheet>
-      <SheetTrigger className="bg-zinc-100 text-zinc-700 text-cs08 font-bold px-5 flex-center gap-1 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/60 xl:px-6">
-        مشاهده تصاویر هتل
+      <SheetTrigger className="bg-zinc-100 text-zinc-700 text-[clamp(0.75rem,2vw,0.8rem)] font-bold flex-center gap-1 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/60 sm:px-6">
+        تصاویر هتل
       </SheetTrigger>
 
       <SheetContent
         side={'left'}
         aria-describedby={undefined}
-        className="bg-[#0E0E0E] text-white w-full pt-12 pb-8 grid grid-rows-[3rem_19rem_5rem] content-between border-none"
+        className="bg-[#0E0E0E] text-white w-full py-8 grid grid-rows-[3rem_19rem_5rem] content-between border-none"
       >
         <SheetTitle className="hidden"></SheetTitle>
 

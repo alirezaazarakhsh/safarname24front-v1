@@ -43,7 +43,7 @@ export function Pictures(props: Props) {
           >
             {pictures?.map((picture, index) => (
               <SwiperSlide key={index} className="select-none">
-                <div className="bg-zinc-100 h-52 overflow-hidden rounded-xl">
+                <div className="bg-zinc-100 h-48 overflow-hidden rounded-xl">
                   <Image
                     src={picture}
                     alt="hotel-view"
@@ -81,10 +81,10 @@ export function Pictures(props: Props) {
         {/* Main-Image */}
         <div className="relative bg-zinc-200 overflow-hidden rounded-xl">
           <Image
-            src={pictures[0]}
-            alt="hotel-view"
             width={600}
             height={400}
+            alt="hotel-view"
+            src={pictures[0]}
             className="full-size object-cover"
           />
 

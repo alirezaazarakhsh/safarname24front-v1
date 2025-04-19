@@ -23,7 +23,7 @@ export default function NavigationBarItem(props: Props) {
   return (
     <Link
       href={href}
-      className="flex flex-col items-center gap-2 overflow-hidden"
+      className="flex flex-col items-center gap-1.5 overflow-hidden"
     >
       <IconsaxIcons
         size={20}

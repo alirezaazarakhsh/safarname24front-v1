@@ -28,7 +28,7 @@ export default function UserFavorites() {
     <>
       {/* Small-Device */}
       <button
-        className="flex flex-col items-center gap-2 overflow-hidden lg:hidden"
+        className="flex flex-col items-center gap-1.5 overflow-hidden lg:hidden"
         onClick={handleClick}
       >
         <IconsaxIcons
