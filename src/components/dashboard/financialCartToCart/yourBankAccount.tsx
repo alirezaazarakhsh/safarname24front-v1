@@ -73,7 +73,7 @@ export default function YourBankAccout(): ReactNode {
         <div>
           <div className="flex items-center justify-between gap-3">
             <div>
-              <span className="text-cs65 font-normal block text-right truncate w-full overflow-hidden text-black mb-2">
+              <span className="text-cs08 font-semibold block text-right truncate w-full overflow-hidden text-black mb-2">
                 بانک
               </span>
               <span className="text-cs07 font-normal block text-right truncate w-full overflow-hidden text-black/50">
@@ -82,7 +82,7 @@ export default function YourBankAccout(): ReactNode {
             </div>
             <Button
               className={
-                'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 bg-white border border-black/10 text-black/50 hover:bg-black/5'
+                'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 bg-white border border-black/10 text-black/50 hover:bg-black/5 shrink-0'
               }
             >
               <IconsaxIcons

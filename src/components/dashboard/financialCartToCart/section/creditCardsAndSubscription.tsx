@@ -1,6 +1,7 @@
 // Importing part
 import { ReactNode } from 'react';
 import YourBankAccout from '../yourBankAccount';
+import ManagerBankAccount from '../managerBankAccount';
 
 // Creating and exporting CreditCardsAndSubscription section of cart to cart financial page as default
 export default function CreditCardsAndSubscription(): ReactNode {
@@ -8,7 +9,7 @@ export default function CreditCardsAndSubscription(): ReactNode {
   return (
     <section className="grid grid-cols-3 grid-rows-2 gap-5">
       <YourBankAccout />
-      <div className="bg-red-600 row-span-2 col-span-1" />
+      <ManagerBankAccount />
       <div className="bg-red-600 row-span-1 col-span-1" />
       <div className="bg-red-600 row-span-1 col-span-1" />
     </section>

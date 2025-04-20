@@ -24,7 +24,10 @@ export default function InputAndLabel({
   return (
     <div>
       <Label
-        className="text-xs font-bold mb-3 block truncate text-right w-full"
+        className={cn(
+          'mb-3 block truncate text-right w-full text-xs',
+          validationType === 'text' ? 'font-bold' : 'font-semibold',
+        )}
         htmlFor={id}
       >
         {label}

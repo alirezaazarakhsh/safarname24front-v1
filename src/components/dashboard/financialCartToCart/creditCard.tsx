@@ -12,6 +12,10 @@ export default function CreditCard({
   shabaNumber,
   className,
 }: CreditCardComponentPropsType): ReactNode {
+  // Defining a function to convert , remove white spaces and group the given number or string and return the last value
+  const valueTransform = (val: string | number) =>
+    numberSeparation(val.toString().replace(/\s+/g, ''), ' ', 4);
+
   // Returning JSx
   return (
     <div
@@ -29,10 +33,10 @@ export default function CreditCard({
       </div>
       <div className="w-full">
         <span className="text-cs08 font-medium block text-left truncate text-white mb-2">
-          IR {numberSeparation(shabaNumber, ' ', 4)}
+          IR {valueTransform(shabaNumber)}
         </span>
         <span className="text-cs75 font-medium block text-left truncate text-white">
-          {numberSeparation(number, ' ', 4)}
+          {valueTransform(number)}
         </span>
       </div>
     </div>

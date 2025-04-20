@@ -214,7 +214,7 @@ export interface EmergenciesComponentPropsType {
 
 export interface CreditCardComponentPropsType {
   className?: string;
-  name: string;
-  shabaNumber: string;
+  name: string | number;
+  shabaNumber: string | number;
   number: string;
 }
