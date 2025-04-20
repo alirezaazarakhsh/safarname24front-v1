@@ -54,8 +54,8 @@ export default function YourBankAccout(): ReactNode {
           <div className="w-[250px]">
             <Swiper spaceBetween={20} dir="ltr" style={{ overflow: 'visible' }}>
               {creditCards.map((item, index) => (
-                <SwiperSlide>
-                  <CreditCard {...item} key={index} />
+                <SwiperSlide key={index}>
+                  <CreditCard {...item} />
                 </SwiperSlide>
               ))}
               <SwiperSlide>
