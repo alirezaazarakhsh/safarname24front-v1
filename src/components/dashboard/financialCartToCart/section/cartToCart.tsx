@@ -18,7 +18,7 @@ export default function CartToCart(): ReactNode {
   // Returning JSX
   return (
     <section className="gap-5 grid grid-cols-3">
-      <div className="flex flex-col gap-5 items-start overflow-hidden col-span-2">
+      <div className="flex flex-col gap-5 items-start h-[474px] overflow-hidden col-span-2">
         <div className="grid grid-cols-3 gap-5 grid-rows-1 col-span-2 h-fit w-full shrink-0">
           <Introduction />
           <IconedPrice

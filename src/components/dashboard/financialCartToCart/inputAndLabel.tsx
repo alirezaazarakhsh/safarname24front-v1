@@ -61,14 +61,9 @@ export default function InputAndLabel({
             </div>
           ) : (
             <div
-              className={cn(
-                'w-[30px] h-[30px] shrink-0 transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100',
-                isValid
-                  ? 'bg-green-100 text-green-500'
-                  : error
-                    ? 'bg-cs-red/10 text-cs-red'
-                    : 'bg-gray-100 text-black/50',
-              )}
+              className={
+                'w-[30px] h-[30px] shrink-0 transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100 text-black/50'
+              }
             >
               <IconsaxIcons
                 color={'currentColor'}
