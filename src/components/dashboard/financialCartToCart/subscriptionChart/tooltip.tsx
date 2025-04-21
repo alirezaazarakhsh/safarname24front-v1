@@ -21,11 +21,11 @@ export default function Tooltip({
     const item = payload[0].payload as DataItem;
 
     return (
-      <div className="bg-white rounded-md border border-black/10 p-2">
-        <span className="truncate block text-right font-semibold text-cs65 mb-1">
+      <div className="bg-white rounded-md border border-black/10 py-2 px-3">
+        <span className="truncate block text-right font-medium text-cs65 mb-1">
           {`${numberSeparation(item.price)} تومان`}
         </span>
-        <span className="truncate block text-right font-nortmal text-black/50 text-xs">
+        <span className="truncate block text-right font-nortmal text-black/50 text-cs06">
           {`در تاریخ : ${item.month}`}
         </span>
       </div>

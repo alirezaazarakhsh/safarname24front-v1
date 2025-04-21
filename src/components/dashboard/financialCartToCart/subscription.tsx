@@ -75,7 +75,6 @@ export default function Subscription(): ReactNode {
               {subscription.discountCode}
             </span>
           </div>
-
           <div className="flex items-center justify-between gap-3 w-full">
             <span className="block text-right font-medium text-black text-cs07 truncate">
               مبلغ اشتراک :

@@ -13,18 +13,18 @@ import Tooltip from './tooltip';
 
 // Defining dummy data
 const chartData = [
-  { month: 'فروردین', price: 186 },
-  { month: 'اردیبهشت', price: 305 },
-  { month: 'خرداد', price: 237 },
-  { month: 'تیر', price: 73 },
-  { month: 'مرداد', price: 209 },
-  { month: 'شهریور', price: 209 },
-  { month: 'مهر', price: 186 },
-  { month: 'ابان', price: 305 },
-  { month: 'اذر', price: 237 },
-  { month: 'دی', price: 73 },
-  { month: 'بهمن', price: 209 },
-  { month: 'اسفند', price: 209 },
+  { month: 'فروردین', price: 180000 },
+  { month: 'اردیبهشت', price: 120000 },
+  { month: 'خرداد', price: 250000 },
+  { month: 'تیر', price: 80000 },
+  { month: 'مرداد', price: 220000 },
+  { month: 'شهریور', price: 220000 },
+  { month: 'مهر', price: 190000 },
+  { month: 'ابان', price: 190000 },
+  { month: 'اذر', price: 250000 },
+  { month: 'دی', price: 14000 },
+  { month: 'بهمن', price: 220000 },
+  { month: 'اسفند', price: 220000 },
 ];
 
 const chartConfig = {
@@ -38,7 +38,7 @@ const chartConfig = {
 export default function SubscriptionChart(): ReactNode {
   // Returning JSX
   return (
-    <ChartContainer config={chartConfig} className="h-[70%]">
+    <ChartContainer config={chartConfig} className="h-full">
       <AreaChart
         accessibilityLayer
         data={chartData}
