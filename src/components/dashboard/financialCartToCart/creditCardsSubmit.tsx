@@ -3,11 +3,14 @@
 
 // Importing part
 import { Button } from '@/components/ui/button';
+import { typeCreditCardsSubmitComponentPropsType } from '@/types/dashboard/component';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
 // Creating and exporting CreditCardsSubmit component as default
-export default function CreditCardsSubmit(): ReactNode {
+export default function CreditCardsSubmit({
+  selectedCreditCard,
+}: typeCreditCardsSubmitComponentPropsType): ReactNode {
   // Returning JSX
   return (
     <div className="flex flex-col justify-between items-center row-span-1 col-span-1 gap-5">
@@ -38,7 +41,7 @@ export default function CreditCardsSubmit(): ReactNode {
         </div>
       </div>
       <Button
-        disabled
+        disabled={!selectedCreditCard}
         className={
           'transition-all duration-500 rounded-lg flex items-center justify-center p-3 bg-green-500 hover:bg-green-600  text-white disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 shrink-0 w-full font-normal  truncate text-center text-xs'
         }

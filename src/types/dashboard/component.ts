@@ -1,5 +1,10 @@
 // Importing part
-import { InputHTMLAttributes, ReactNode } from 'react';
+import {
+  Dispatch,
+  InputHTMLAttributes,
+  ReactNode,
+  SetStateAction,
+} from 'react';
 import { IconsName } from '../SvgProp';
 
 // Creating and exporting type of components of dashboard pages
@@ -212,9 +217,33 @@ export interface EmergenciesComponentPropsType {
   };
 }
 
+export interface CreditCardType {
+  owner: string;
+  number: {
+    shaba: string | number;
+    card: string | number;
+  };
+  name: {
+    english: string;
+    persian: string;
+  };
+}
+
 export interface CreditCardComponentPropsType {
   className?: string;
-  name: string | number;
-  shabaNumber: string | number;
-  number: string;
+  info: CreditCardType | undefined;
 }
+
+export interface YourBankAccountComponentPropsType {
+  onChange: (creditCard: CreditCardType | undefined) => void;
+  creditCards: CreditCardType[];
+  selectedCard: CreditCardType | undefined;
+  setSelectedCard: Dispatch<SetStateAction<CreditCardType | undefined>>;
+}
+
+export interface ManagerBankAccountComponentPropsType {
+  selectedCreditCard: CreditCardType | undefined;
+}
+
+export type typeCreditCardsSubmitComponentPropsType =
+  ManagerBankAccountComponentPropsType;

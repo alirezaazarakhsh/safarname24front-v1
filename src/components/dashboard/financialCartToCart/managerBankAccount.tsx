@@ -7,18 +7,12 @@ import { ReactNode } from 'react';
 import CreditCard from './creditCard';
 import { numberSeparation } from '@/utils';
 import { Button } from '@/components/ui/button';
-
-// Defining info of bank account
-const accountInfo = {
-  name: 'Bank Pasargad',
-  shabaNumber: '469545964269785162354589',
-  number: '6068126536584598',
-  ownerName: 'به نام امیر حسین لامعی',
-  persianBankName: 'بانک پاسارگاد ایران',
-};
+import { ManagerBankAccountComponentPropsType } from '@/types/dashboard/component';
 
 // Creating and exporting ManagerBankAccount component as default
-export default function ManagerBankAccount(): ReactNode {
+export default function ManagerBankAccount({
+  selectedCreditCard,
+}: ManagerBankAccountComponentPropsType): ReactNode {
   // Defining a function to convert , remove white spaces and group the given number or string and return the last value
   const valueTransform = (val: string | number) =>
     numberSeparation(val.toString().replace(/\s+/g, ''), ' - ', 4);
@@ -51,9 +45,7 @@ export default function ManagerBankAccount(): ReactNode {
         <div className="bg-gray-100 rounded-lg p-4 flex items-center justify-center overflow-auto scrollbar-hide mb-3">
           <div className="w-[250px]">
             <CreditCard
-              name={accountInfo.name}
-              shabaNumber={accountInfo.shabaNumber}
-              number={accountInfo.number}
+              info={selectedCreditCard ? { ...selectedCreditCard } : undefined}
             />
           </div>
         </div>
@@ -63,15 +55,15 @@ export default function ManagerBankAccount(): ReactNode {
               صاحب کارت
             </span>
             <span className="text-cs07 font-normal block text-right truncate w-full overflow-hidden text-black/50">
-              {accountInfo.ownerName}
+              {selectedCreditCard ? selectedCreditCard.owner : '-'}
             </span>
           </div>
           <div>
             <span className="text-cs08 font-semibold block text-right truncate w-full overflow-hidden text-black mb-2">
-              صاحب کارت
+              بانک
             </span>
             <span className="text-cs07 font-normal block text-right truncate w-full overflow-hidden text-black/50">
-              {accountInfo.persianBankName}
+              {selectedCreditCard ? selectedCreditCard.name.persian : '-'}
             </span>
           </div>
           <div className="flex items-center justify-between gap-3">
@@ -80,12 +72,16 @@ export default function ManagerBankAccount(): ReactNode {
                 شماره کارت
               </span>
               <span className="text-cs07 font-normal block text-right truncate w-full overflow-hidden text-black/50">
-                {valueTransform(accountInfo.number)}
+                {selectedCreditCard
+                  ? valueTransform(selectedCreditCard.number.card)
+                  : valueTransform('0000000000000000')}
               </span>
             </div>
             <Button
               size="icon"
-              onClick={() => copyVal(accountInfo.number)}
+              onClick={() =>
+                selectedCreditCard && copyVal(selectedCreditCard.number.card)
+              }
               className={
                 'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-black shrink-0'
               }
@@ -103,12 +99,16 @@ export default function ManagerBankAccount(): ReactNode {
                 شماره شبا
               </span>
               <span className="text-cs07 font-normal block text-right truncate w-full overflow-hidden text-black/50">
-                IR {valueTransform(accountInfo.shabaNumber)}
+                {selectedCreditCard
+                  ? `IR ${valueTransform(selectedCreditCard.number.shaba)}`
+                  : `IR ${valueTransform('000000000000000000000000')}`}
               </span>
             </div>
             <Button
               size="icon"
-              onClick={() => copyVal(accountInfo.shabaNumber)}
+              onClick={() =>
+                selectedCreditCard && copyVal(selectedCreditCard.number.shaba)
+              }
               className={
                 'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-black shrink-0'
               }

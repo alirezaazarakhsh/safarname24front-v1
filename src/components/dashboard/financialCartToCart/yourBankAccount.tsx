@@ -8,34 +8,19 @@ import CreditCard from './creditCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Button } from '@/components/ui/button';
 import InputAndLabel from './inputAndLabel';
-import { CreditCardComponentPropsType } from '@/types/dashboard/component';
+import {
+  CreditCardType,
+  YourBankAccountComponentPropsType,
+} from '@/types/dashboard/component';
 import { numberSeparation } from '@/utils';
 
-// Defining fake credit cards data to render
-const creditCards: {
-  shabaNumber: string;
-  number: string;
-  name: string;
-}[] = [
-  {
-    shabaNumber: '123412341234123412341234',
-    number: '1234123412341234',
-    name: 'Safarname24',
-  },
-  {
-    shabaNumber: '123412341234123412341234',
-    number: '1234123412341234',
-    name: 'Safarname24',
-  },
-];
-
 // Creating and exporting YourBankAccout component as default
-export default function YourBankAccout(): ReactNode {
-  // defining states of component
-  const [selectedCard, setSelectedCard] = useState<
-    CreditCardComponentPropsType | undefined
-  >(creditCards[0]);
-
+export default function YourBankAccout({
+  onChange,
+  creditCards,
+  selectedCard,
+  setSelectedCard,
+}: YourBankAccountComponentPropsType): ReactNode {
   // Returning JSX
   return (
     <div className="bg-white border border-black/10 rounded-lg overflow-hidden row-span-2 col-span-1">
@@ -68,14 +53,19 @@ export default function YourBankAccout(): ReactNode {
                 const activeIndex = swiper.activeIndex;
 
                 // If Slider is on last index then set the selctedCard state to undefined becuase the last index is add button
-                activeIndex === lastSlideIndex
-                  ? setSelectedCard(undefined)
-                  : setSelectedCard(creditCards[activeIndex]);
+                // Appending onChange Props to component
+                if (activeIndex === lastSlideIndex) {
+                  setSelectedCard(undefined);
+                  onChange(undefined);
+                } else {
+                  setSelectedCard(creditCards[activeIndex]);
+                  onChange(creditCards[activeIndex]);
+                }
               }}
             >
               {creditCards.map((item, index) => (
                 <SwiperSlide key={index}>
-                  <CreditCard {...item} />
+                  <CreditCard info={{ ...item }} />
                 </SwiperSlide>
               ))}
               <SwiperSlide>
@@ -97,8 +87,8 @@ export default function YourBankAccout(): ReactNode {
                 بانک
               </span>
               <span className="text-cs07 font-normal block text-right truncate w-full overflow-hidden text-black/50">
-                {selectedCard?.name
-                  ? selectedCard.name
+                {selectedCard
+                  ? selectedCard.name.persian
                   : 'سیستم بانکی ناشناخته است!'}
               </span>
             </div>
@@ -145,7 +135,7 @@ export default function YourBankAccout(): ReactNode {
             disabled
             value={
               selectedCard
-                ? numberSeparation(selectedCard.number, ' - ', 4)
+                ? numberSeparation(selectedCard.number.card, ' - ', 4)
                 : ''
             }
           />
@@ -159,7 +149,7 @@ export default function YourBankAccout(): ReactNode {
             validationType="icon"
             value={
               selectedCard
-                ? numberSeparation(selectedCard.shabaNumber, ' - ', 4)
+                ? numberSeparation(selectedCard.number.shaba, ' - ', 4)
                 : ''
             }
           />
