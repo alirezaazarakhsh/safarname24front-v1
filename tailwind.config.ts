@@ -7,6 +7,15 @@ export default {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  safelist: [
+    {
+      pattern:
+        /(from|via|to)-(red|pink|purple|indigo|blue|cyan|teal|green|lime|yellow|amber|orange|rose)-(400|500|600)/,
+    },
+    {
+      pattern: /bg-gradient-to-(r|l|t|b|tr|tl|br|bl)/,
+    },
+  ],
   theme: {
     extend: {
       fontSize: {
