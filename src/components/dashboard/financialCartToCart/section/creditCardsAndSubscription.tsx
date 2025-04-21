@@ -8,6 +8,7 @@ import ManagerBankAccount from '../managerBankAccount';
 import Subscription from '../subscription';
 import CreditCardsSubmit from '../creditCardsSubmit';
 import { CreditCardType } from '@/types/dashboard/component';
+import moment from 'jalali-moment';
 
 // Defining fake credit cards data to render
 const creditCards: CreditCardType[] = [
@@ -20,6 +21,26 @@ const creditCards: CreditCardType[] = [
     name: {
       english: 'Mellat Bank',
       persian: 'بانک ملت',
+    },
+    subscription: {
+      chart: [
+        { month: 'فروردین', price: 12000 },
+        { month: 'اردیبهشت', price: 13500 },
+        { month: 'خرداد', price: 15000 },
+        { month: 'تیر', price: 12500 },
+        { month: 'مرداد', price: 14000 },
+        { month: 'شهریور', price: 15500 },
+        { month: 'مهر', price: 13000 },
+        { month: 'ابان', price: 14500 },
+        { month: 'اذر', price: 16000 },
+        { month: 'دی', price: 17000 },
+        { month: 'بهمن', price: 16500 },
+        { month: 'اسفند', price: 17500 },
+      ],
+      discountCode: 'SAF1HI20R8H',
+      endsAt: moment().add(2, 'days').toISOString(),
+      price: 42000000,
+      type: 'free',
     },
   },
   {
@@ -43,6 +64,26 @@ const creditCards: CreditCardType[] = [
       english: 'Parsian Bank',
       persian: 'بانک پارسیان',
     },
+    subscription: {
+      chart: [
+        { month: 'فروردین', price: 8000 },
+        { month: 'اردیبهشت', price: 9500 },
+        { month: 'خرداد', price: 10000 },
+        { month: 'تیر', price: 8700 },
+        { month: 'مرداد', price: 9200 },
+        { month: 'شهریور', price: 9800 },
+        { month: 'مهر', price: 8900 },
+        { month: 'ابان', price: 9700 },
+        { month: 'اذر', price: 10200 },
+        { month: 'دی', price: 11000 },
+        { month: 'بهمن', price: 10500 },
+        { month: 'اسفند', price: 11500 },
+      ],
+      discountCode: 'YEAHBUDDY',
+      endsAt: moment().add(12, 'days').toISOString(),
+      price: 42000000,
+      type: 'premium',
+    },
   },
 ];
 
@@ -63,7 +104,7 @@ export default function CreditCardsAndSubscription(): ReactNode {
         creditCards={creditCards}
       />
       <ManagerBankAccount selectedCreditCard={selectedCreditCard} />
-      <Subscription />
+      <Subscription subscription={selectedCreditCard?.subscription} />
       <CreditCardsSubmit selectedCreditCard={selectedCreditCard} />
     </section>
   );

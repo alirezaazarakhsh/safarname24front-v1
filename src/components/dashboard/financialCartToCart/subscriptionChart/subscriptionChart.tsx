@@ -10,23 +10,9 @@ import {
 } from '@/components/ui/chart';
 import { ReactNode } from 'react';
 import Tooltip from './tooltip';
+import { SubscriptionChartComponentPropsType } from '@/types/dashboard/component';
 
 // Defining dummy data
-const chartData = [
-  { month: 'فروردین', price: 180000 },
-  { month: 'اردیبهشت', price: 120000 },
-  { month: 'خرداد', price: 250000 },
-  { month: 'تیر', price: 80000 },
-  { month: 'مرداد', price: 220000 },
-  { month: 'شهریور', price: 220000 },
-  { month: 'مهر', price: 190000 },
-  { month: 'ابان', price: 190000 },
-  { month: 'اذر', price: 250000 },
-  { month: 'دی', price: 14000 },
-  { month: 'بهمن', price: 220000 },
-  { month: 'اسفند', price: 220000 },
-];
-
 const chartConfig = {
   price: {
     label: 'قیمت',
@@ -35,13 +21,15 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 // Creating and exporting SubscriptionChart as default
-export default function SubscriptionChart(): ReactNode {
+export default function SubscriptionChart({
+  chart,
+}: SubscriptionChartComponentPropsType): ReactNode {
   // Returning JSX
   return (
     <ChartContainer config={chartConfig} className="h-full">
       <AreaChart
         accessibilityLayer
-        data={chartData}
+        data={chart}
         margin={{ left: 0, right: 0, top: 0, bottom: 0 }}
       >
         <ChartTooltip cursor={false} content={<Tooltip />} />

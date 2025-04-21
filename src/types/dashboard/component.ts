@@ -217,8 +217,32 @@ export interface EmergenciesComponentPropsType {
   };
 }
 
+export type CreditCardSubscriptionChartType = [
+  { month: 'فروردین'; price: number },
+  { month: 'اردیبهشت'; price: number },
+  { month: 'خرداد'; price: number },
+  { month: 'تیر'; price: number },
+  { month: 'مرداد'; price: number },
+  { month: 'شهریور'; price: number },
+  { month: 'مهر'; price: number },
+  { month: 'ابان'; price: number },
+  { month: 'اذر'; price: number },
+  { month: 'دی'; price: number },
+  { month: 'بهمن'; price: number },
+  { month: 'اسفند'; price: number },
+];
+
+export interface CreditCardSubscriptionType {
+  type: 'premium' | 'free';
+  endsAt: string;
+  discountCode: string;
+  price: number;
+  chart: CreditCardSubscriptionChartType;
+}
+
 export interface CreditCardType {
   owner: string;
+  subscription?: CreditCardSubscriptionType;
   number: {
     shaba: string | number;
     card: string | number;
@@ -247,3 +271,11 @@ export interface ManagerBankAccountComponentPropsType {
 
 export type typeCreditCardsSubmitComponentPropsType =
   ManagerBankAccountComponentPropsType;
+
+export interface SubscriptionChartComponentPropsType {
+  chart: CreditCardSubscriptionChartType;
+}
+
+export interface SubscriptionComponentPropsType {
+  subscription?: CreditCardSubscriptionType;
+}
