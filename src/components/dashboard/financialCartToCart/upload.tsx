@@ -107,7 +107,7 @@ export default function Upload({
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between gap-4 px-3 py-4 shrink-0 w-full">
+      <div className="flex items-center justify-between gap-4 px-3 py-4 shrink-0 w-full overflow-auto scrollbar-hide">
         <div className="flex items-center justify-between gap-3">
           <Button className="bg-black rounded-lg flex items-center justify-center py-3 px-5">
             <span className="font-normal text-white truncate block w-full text-center text-xs">

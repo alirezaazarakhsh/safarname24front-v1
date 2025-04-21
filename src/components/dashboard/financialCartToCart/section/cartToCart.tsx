@@ -17,8 +17,8 @@ export default function CartToCart(): ReactNode {
 
   // Returning JSX
   return (
-    <section className="flex gap-5 items-start">
-      <div className="flex flex-col gap-5 items-start w-[70%] h-[474px] overflow-hidden">
+    <section className="gap-5 grid grid-cols-3">
+      <div className="flex flex-col gap-5 items-start overflow-hidden col-span-2">
         <div className="grid grid-cols-3 gap-5 grid-rows-1 col-span-2 h-fit w-full shrink-0">
           <Introduction />
           <IconedPrice
@@ -33,12 +33,7 @@ export default function CartToCart(): ReactNode {
           <Upload onChange={(file) => setFile(file)} />
         </div>
       </div>
-      <Emergencies
-        previousInfos={{
-          card: selctedCard,
-          file,
-        }}
-      />
+      <Emergencies previousInfos={{ card: selctedCard, file }} />
     </section>
   );
 }

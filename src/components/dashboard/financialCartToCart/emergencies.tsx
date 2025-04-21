@@ -76,7 +76,7 @@ export default function Emergencies({
   return (
     <form
       action="#"
-      className="bg-white border border-black/10 rounded-lg overflow-hidden row-span-3 w-[30%]"
+      className="bg-white border border-black/10 rounded-lg overflow-hidden"
       onSubmit={form.handleSubmit(handleSubmit)}
     >
       <div className="px-3 py-4 flex items-center justify-start border-b border-b-black/10 gap-3">
