@@ -1,5 +1,6 @@
 // Importing part
 import CartToCart from '@/components/dashboard/financialCartToCart/section/cartToCart';
+import CashOut from '@/components/dashboard/financialCartToCart/section/cashOut';
 import CreditCardsAndSubscription from '@/components/dashboard/financialCartToCart/section/creditCardsAndSubscription';
 import { ReactNode } from 'react';
 
@@ -10,6 +11,7 @@ export default function CartToCartFinancialPage(): ReactNode {
     <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
       <CartToCart />
       <CreditCardsAndSubscription />
+      <CashOut />
     </main>
   );
 }

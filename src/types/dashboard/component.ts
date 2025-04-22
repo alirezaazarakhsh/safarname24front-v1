@@ -158,6 +158,7 @@ export interface FinancialSectionComponentPropsType {
 }
 
 export interface CheckboxItemComponentPropsType {
+  className?: string;
   onClick?: () => void;
   disabled?: boolean;
   checked: boolean;
@@ -278,4 +279,11 @@ export interface SubscriptionChartComponentPropsType {
 
 export interface SubscriptionComponentPropsType {
   subscription?: CreditCardSubscriptionType;
+}
+
+export interface LabledCheckboxComponentPropsType {
+  label: string;
+  onChange: (checked: boolean) => void;
+  className?: string;
+  disabled?: boolean;
 }

@@ -22,7 +22,7 @@ export default function InputAndLabel({
 }: InputAndLabelPropsType): ReactNode {
   // Returning JSX
   return (
-    <div>
+    <div className="w-full">
       <Label
         className={cn(
           'mb-3 block truncate text-right w-full text-xs',

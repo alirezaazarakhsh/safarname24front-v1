@@ -16,6 +16,7 @@ export default function CheckboxItem({
   checked,
   disabledReason,
   isCardSelection = false,
+  className,
 }: CheckboxItemComponentPropsType): ReactNode {
   // Defining refrences
   const checkboxRef = useRef<HTMLButtonElement | null>(null);
@@ -25,7 +26,10 @@ export default function CheckboxItem({
     <div
       tabIndex={!disabled ? 0 : -1}
       data-disabled={disabled}
-      className="bg-white group lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[12px] py-[12px] flex items-center justify-between gap-3 cursor-pointer w-full"
+      className={cn(
+        'bg-white group lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[12px] py-[12px] flex items-center justify-between gap-3 cursor-pointer w-full',
+        className,
+      )}
       onClick={() => {
         if (!disabled) {
           const checkboxElement = checkboxRef.current;
@@ -75,7 +79,7 @@ export default function CheckboxItem({
       </div>
       <div
         className={cn(
-          'px-4 flex items-center justify-center rounded-md lg:h-[30px] h-[34px] transition-all duration-500 lg:w-[100px] w-[80px] shrink-0',
+          'px-4 flex items-center justify-center rounded-md lg:h-[30px] h-[34px] transition-all duration-500 lg:w-[80px] w-[80px] shrink-0',
           disabled || !checked
             ? 'bg-gray-100 text-black'
             : 'bg-blue-50 text-blue-600',
