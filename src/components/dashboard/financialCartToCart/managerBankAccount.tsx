@@ -8,6 +8,7 @@ import CreditCard from './creditCard';
 import { numberSeparation } from '@/utils';
 import { Button } from '@/components/ui/button';
 import { ManagerBankAccountComponentPropsType } from '@/types/dashboard/component';
+import { banks } from './creditCard';
 
 // Creating and exporting ManagerBankAccount component as default
 export default function ManagerBankAccount({
@@ -20,6 +21,10 @@ export default function ManagerBankAccount({
   // Defining a function to copy given value
   const copyVal = async (val: string | number) =>
     await navigator.clipboard.writeText(val.toString());
+
+  // Defining bankName
+  const bin = selectedCreditCard?.number.card.toString().slice(0, 6);
+  const binName = bin ? banks[bin] : 'مشخص نشده';
 
   // Returning JSX
   return (
@@ -63,7 +68,7 @@ export default function ManagerBankAccount({
               بانک
             </span>
             <span className="text-cs07 font-normal block text-right truncate w-full overflow-hidden text-black/50">
-              {selectedCreditCard ? selectedCreditCard.name.persian : '-'}
+              {selectedCreditCard ? binName : '-'}
             </span>
           </div>
           <div className="flex items-center justify-between gap-3">

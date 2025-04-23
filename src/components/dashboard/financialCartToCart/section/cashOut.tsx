@@ -38,7 +38,7 @@ const formSchema = z.object({
       const removedSigns = value.replace(/-/g, '');
       return removedSigns;
     })
-    .refine((val) => val.length !== 16, {
+    .refine((val) => val.length === 16, {
       message: 'شماره کارت بانکی باید 16 رقم باشد.',
     }),
   creditCardShabaNumber: z
@@ -49,7 +49,7 @@ const formSchema = z.object({
       const removedSigns = value.replace(/-/g, '').replace(/IR /g, '');
       return removedSigns;
     })
-    .refine((val) => val.length !== 24, {
+    .refine((val) => val.length === 24, {
       message: 'شماره شبا کارت بانکی باید 24 رقم باشد.',
     }),
   acceptTheNumbers: z.boolean({ message: 'لطفا این فیلد را پر کنید.' }),
@@ -60,7 +60,12 @@ type formType = z.infer<typeof formSchema>;
 // Creating and exporting CashOut section/component of cart-to-cart dashboard (financial) page as deafult
 export default function CashOut(): ReactNode {
   // Defining hooks
-  const form = useForm<formType>({ resolver: zodResolver(formSchema) });
+  const form = useForm<formType>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      profile: 'profile',
+    },
+  });
 
   // Defining a submit handler
   const handleSubmitEvent: SubmitHandler<formType> = async (data) => {
