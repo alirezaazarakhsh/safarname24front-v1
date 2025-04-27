@@ -3,7 +3,7 @@
 
 // Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import InputAndLabel from './inputAndLabel';
 import { Button } from '@/components/ui/button';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -13,6 +13,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { cn } from '@/utils/utils';
 import { EmergenciesComponentPropsType } from '@/types/dashboard/component';
 import toast from '../ui/customSonner/toast';
+import moment from 'jalali-moment';
+import CartToCartError from './dialog/cartToCartError';
+import CartToCartSuccess from './dialog/cartToCartSuccess';
 
 // Defining form type and its schema
 const formSchema = z.object({
@@ -45,8 +48,16 @@ export default function Emergencies({
   previousInfos: { card, file },
 }: EmergenciesComponentPropsType): ReactNode {
   // Defining hooks
+  const [submitState, setSubmitState] = useState<
+    'suceess' | 'error' | undefined
+  >();
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
+    values: {
+      additionalPrice: 20000000,
+      codePeigiri: '123456789012',
+      transactionDate: moment().format('jYYYY/jMM/jDD'),
+    },
   });
 
   // Defining a function to handle submit event of form
@@ -54,6 +65,7 @@ export default function Emergencies({
     if (card && file) {
       form.clearErrors();
       console.log({ ...data, card, file });
+      setSubmitState('suceess');
     } else if (card && !file) {
       toast({
         description: 'لطفا فایل مربوطه را اپلود کنید.',
@@ -77,8 +89,28 @@ export default function Emergencies({
     <form
       action="#"
       className="bg-white border border-black/10 rounded-lg overflow-hidden"
-      onSubmit={form.handleSubmit(handleSubmit)}
+      onSubmit={form.handleSubmit(handleSubmit, (e) => {
+        if (e.codePeigiri?.message)
+          toast({
+            title: 'خطایی رخ داد!',
+            description: e.codePeigiri.message,
+          });
+
+        if (e.additionalPrice?.message)
+          toast({
+            title: 'خطایی رخ داد!',
+            description: e.additionalPrice.message,
+          });
+      })}
     >
+      <CartToCartError
+        isOpened={submitState === 'error'}
+        closeFn={() => setSubmitState(undefined)}
+      />
+      <CartToCartSuccess
+        isOpened={submitState === 'suceess'}
+        closeFn={() => setSubmitState(undefined)}
+      />
       <div className="px-3 py-4 flex items-center justify-start border-b border-b-black/10 gap-3">
         <div className="shrink-0 w-[38px] h-[38px] rounded-md flex items-center justify-center border border-black/10 text-black">
           <IconsaxIcons
@@ -125,7 +157,7 @@ export default function Emergencies({
           label="تاریخ واریز وجه"
           type="date"
           error={form.formState.errors.transactionDate?.message}
-          {...form.register('transactionDate')}
+          value={form.getValues('transactionDate')}
         />
       </div>
       <div className="flex items-center justify-between gap-4 px-3 py-4">

@@ -46,11 +46,14 @@ export default function InputAndLabel({
           )}
         >
           <span
-            className={
-              'w-full block outline-0 border-0 bg-white text-xs group-data-[errored="false"]:text-black/50 group-data-[errored="true"]:text-cs-red text-right truncate'
-            }
+            className={cn(
+              'w-full block outline-0 border-0 bg-white text-xs text-right truncate',
+              props.value && props.value !== ''
+                ? 'text-black'
+                : 'group-data-[errored="false"]:text-black/50 group-data-[errored="true"]:text-cs-red',
+            )}
           >
-            {placeholder}
+            {props.value && props.value !== '' ? props.value : placeholder}
           </span>
         </Button>
       </div>
