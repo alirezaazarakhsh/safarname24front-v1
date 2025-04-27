@@ -9,6 +9,7 @@ import { numberSeparation } from '@/utils';
 import { Button } from '@/components/ui/button';
 import { ManagerBankAccountComponentPropsType } from '@/types/dashboard/component';
 import { banks } from './creditCard';
+import toast from '../ui/customSonner/toast';
 
 // Creating and exporting ManagerBankAccount component as default
 export default function ManagerBankAccount({
@@ -20,7 +21,13 @@ export default function ManagerBankAccount({
 
   // Defining a function to copy given value
   const copyVal = async (val: string | number) =>
-    await navigator.clipboard.writeText(val.toString());
+    await navigator.clipboard.writeText(val.toString()).then(() =>
+      toast({
+        description: 'مشتری عزیز شماره مورد نظر با موفقیت کپی شد.',
+        title: 'شماره کپی شد',
+        theme: 'green',
+      }),
+    );
 
   // Defining bankName
   const bin = selectedCreditCard?.number.card.toString().slice(0, 6);

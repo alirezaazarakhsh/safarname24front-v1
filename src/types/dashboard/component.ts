@@ -95,11 +95,13 @@ export interface DialogComponentPropsType {
 export interface ToastProps {
   title: string;
   description: string;
+  theme?: 'theme' | 'green';
 }
 
 export interface CircluarTimerComponentPropsType {
   className?: string;
   duration: number;
+  theme?: 'theme' | 'green';
 }
 
 export interface CanclationReasonDialogComponentProps
