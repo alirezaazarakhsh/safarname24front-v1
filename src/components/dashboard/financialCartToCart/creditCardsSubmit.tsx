@@ -5,12 +5,30 @@
 import { Button } from '@/components/ui/button';
 import { typeCreditCardsSubmitComponentPropsType } from '@/types/dashboard/component';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
+import toast from '../ui/customSonner/toast';
+import Loading from '../ui/loading';
 
 // Creating and exporting CreditCardsSubmit component as default
 export default function CreditCardsSubmit({
   selectedCreditCard,
 }: typeCreditCardsSubmitComponentPropsType): ReactNode {
+  // Defining states of components
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+
+  // Defining a function to validate fake data
+  const onSubmit = async () => {
+    setSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    setSubmitting(false);
+    toast({
+      title: 'پیام تستی.',
+      description: 'دسکریپشن تستی .',
+      theme: 'green',
+    });
+  };
+
   // Returning JSX
   return (
     <div className="flex flex-col justify-between items-center row-span-1 col-span-1 gap-5">
@@ -41,12 +59,13 @@ export default function CreditCardsSubmit({
         </div>
       </div>
       <Button
-        disabled={!selectedCreditCard}
+        disabled={!selectedCreditCard || isSubmitting}
+        onClick={() => selectedCreditCard && onSubmit()}
         className={
           'transition-all duration-500 rounded-lg flex items-center justify-center p-3 bg-green-500 hover:bg-green-600  text-white disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 shrink-0 w-full font-normal  truncate text-center text-xs'
         }
       >
-        ارسال اطلاعات (کارت به کارت)
+        {isSubmitting ? <Loading /> : 'ارسال اطلاعات (کارت به کارت)'}
       </Button>
     </div>
   );
