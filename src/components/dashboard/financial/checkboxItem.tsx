@@ -66,11 +66,15 @@ export default function CheckboxItem({
             )}
           />
           <IconsaxIcons
-            name="TickSquare"
+            name={disabled ? 'InfoCircle' : 'TickSquare'}
             variant={isCardSelection ? 'Outline' : 'Bold'}
-            color="currentColor"
+            color={!disabled ? 'currentColor' : 'black'}
             data-checked={checked}
-            className="w-[15px] h-[15px] aspect-square absolute transition-all duration-500 top-[50%] left-[50%] block -translate-y-[50%] -translate-x-[50%] data-[checked='false']:opacity-0 data-[checked='true']:opacity-100 pointer-events-none"
+            className={cn(
+              'w-[15px] h-[15px] aspect-square absolute transition-all duration-500 top-[50%] left-[50%] block -translate-y-[50%] -translate-x-[50%] pointer-events-none',
+              !disabled &&
+                "data-[checked='false']:opacity-0 data-[checked='true']:opacity-100",
+            )}
           />
         </div>
         <span className="lg:text-cs06 text-[12px] lg:font-normal font-semibold truncate block text-right text-black">
