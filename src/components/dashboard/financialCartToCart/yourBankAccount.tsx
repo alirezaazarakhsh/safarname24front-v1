@@ -8,11 +8,9 @@ import CreditCard from './creditCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Button } from '@/components/ui/button';
 import InputAndLabel from './inputAndLabel';
-import {
-  CreditCardType,
-  YourBankAccountComponentPropsType,
-} from '@/types/dashboard/component';
+import { YourBankAccountComponentPropsType } from '@/types/dashboard/component';
 import { numberSeparation } from '@/utils';
+import Tooltip from '../ui/tooltip';
 
 // Creating and exporting YourBankAccout component as default
 export default function YourBankAccout({
@@ -107,20 +105,35 @@ export default function YourBankAccout({
                   />
                 </Button>
               )}
-              <Button
-                className={
-                  'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 bg-white border border-black/10 text-black/50 hover:bg-black/5'
-                }
-              >
-                <IconsaxIcons
-                  name={'Add'}
-                  color="currentColor"
-                  className="h-[20px] w-[20px]"
-                />
-                <span className="font-normal  truncate block w-full text-right text-xs text-current">
-                  ثبت جدید کارت
-                </span>
-              </Button>
+              {creditCards.length >= 2 ? (
+                <Tooltip content="حداکثر ایجاد کردن کارت بانکی 2 عدد میباشد.">
+                  <Button
+                    disabled
+                    className={
+                      'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 bg-white border border-black/10 text-black/50 hover:bg-black/5 disabled:opacity-100 disabled:pointer-events-auto disabled:hover:bg-white'
+                    }
+                  >
+                    <span className="font-normal  truncate block w-full text-right text-xs text-current">
+                      تعداد کارت شما پر شد!
+                    </span>
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Button
+                  className={
+                    'transition-all duration-500 rounded-lg gap-2 flex items-center justify-center p-3 bg-white border border-black/10 text-black/50 hover:bg-black/5 disabled:opacity-100'
+                  }
+                >
+                  <IconsaxIcons
+                    name={'Add'}
+                    color="currentColor"
+                    className="h-[20px] w-[20px]"
+                  />
+                  <span className="font-normal  truncate block w-full text-right text-xs text-current">
+                    ثبت جدید کارت
+                  </span>
+                </Button>
+              )}
             </div>
           </div>
         </div>

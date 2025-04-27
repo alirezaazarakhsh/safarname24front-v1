@@ -54,37 +54,6 @@ const creditCards: CreditCardType[] = [
       persian: 'بانک سامان',
     },
   },
-  {
-    owner: 'حسین کریمی',
-    number: {
-      shaba: '320570000000202041056008',
-      card: '6274123456789012',
-    },
-    name: {
-      english: 'Parsian Bank',
-      persian: 'بانک پارسیان',
-    },
-    subscription: {
-      chart: [
-        { month: 'فروردین', price: 8000 },
-        { month: 'اردیبهشت', price: 9500 },
-        { month: 'خرداد', price: 10000 },
-        { month: 'تیر', price: 8700 },
-        { month: 'مرداد', price: 9200 },
-        { month: 'شهریور', price: 9800 },
-        { month: 'مهر', price: 8900 },
-        { month: 'ابان', price: 9700 },
-        { month: 'اذر', price: 10200 },
-        { month: 'دی', price: 11000 },
-        { month: 'بهمن', price: 10500 },
-        { month: 'اسفند', price: 11500 },
-      ],
-      discountCode: 'YEAHBUDDY',
-      endsAt: moment().add(12, 'days').toISOString(),
-      price: 42000000,
-      type: 'premium',
-    },
-  },
 ];
 
 // Creating and exporting CreditCardsAndSubscription section of cart to cart financial page as default

@@ -287,3 +287,8 @@ export interface LabledCheckboxComponentPropsType {
   className?: string;
   disabled?: boolean;
 }
+
+export interface TooltipComponentPropsType {
+  content: string;
+  children: ReactNode;
+}
