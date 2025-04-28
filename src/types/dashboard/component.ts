@@ -294,3 +294,9 @@ export interface TooltipComponentPropsType {
   content: string;
   children: ReactNode;
 }
+
+export interface DatePickerComponentPropsType {
+  className?: string;
+  isOpened: boolean;
+  closeFn: () => void;
+}

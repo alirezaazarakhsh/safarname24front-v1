@@ -6,8 +6,9 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Label } from '@/components/ui/label';
 import { InputAndLabelPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import DatePicker from '../ui/datePicker';
 
 // Creating and exporting InputAndLabel component as default
 export default function InputAndLabel({
@@ -22,6 +23,8 @@ export default function InputAndLabel({
   type,
   ...props
 }: InputAndLabelPropsType): ReactNode {
+  // Defining states of component
+  const [isDatePickerOpened, setDatePickerOpened] = useState<boolean>(false);
   // Conditional rendering and Returning JSX
   if (type === 'date') {
     return (
@@ -38,7 +41,7 @@ export default function InputAndLabel({
         <Button
           data-errored={error !== undefined}
           id={id}
-          onClick={() => console.log('Opend date picker component')}
+          onClick={() => setDatePickerOpened(true)}
           type="button"
           className={cn(
             'gap-3 border border-black/10 rounded-lg overflow-hidden p-3 h-[50px] group transition-all duration-500 w-full block bg-white hover:bg-white',
@@ -56,6 +59,10 @@ export default function InputAndLabel({
             {props.value && props.value !== '' ? props.value : placeholder}
           </span>
         </Button>
+        <DatePicker
+          isOpened={isDatePickerOpened}
+          closeFn={() => setDatePickerOpened(false)}
+        />
       </div>
     );
   } else {
