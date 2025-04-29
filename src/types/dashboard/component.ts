@@ -310,3 +310,9 @@ export interface DatePickerInputComponentPropsType {
   className?: string;
   placeholder: string;
 }
+
+export interface SheetComponentPropsType {
+  isOpened?: boolean;
+  closeFn?: () => void;
+  children: ReactNode;
+}

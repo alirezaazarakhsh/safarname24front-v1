@@ -6,7 +6,7 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { DatePickerComponentPropsType } from '@/types/dashboard/component';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import { cn } from '@/utils/utils';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import moment from 'jalali-moment';
@@ -75,12 +75,14 @@ export default function DatePicker({
     else if (isPassed) return 'passed';
     else return 'normal';
   }
+
   // A function to update current month
   const updateCurrentMonth = (newMonth: moment.Moment) => {
     setCurrentMonth(
       useJalali ? newMonth.clone().locale('fa') : newMonth.clone().locale('en'),
     );
   };
+
   // A function to handle month changes
   const handleMonthChange = (direction: 'previous' | 'next') => {
     setCurrentMonth((prev) =>
@@ -89,6 +91,15 @@ export default function DatePicker({
         : prev.clone().add(1, 'jMonth'),
     );
   };
+
+  // Using useEffect to remove availibilty to scroll when datePicker opens
+  useEffect(() => {
+    const bodyElement = document.body;
+
+    isOpened
+      ? (bodyElement.style.overflow = 'hidden')
+      : (bodyElement.style.overflow = 'auto');
+  }, [isOpened]);
 
   // Returning JSX
   return createPortal(

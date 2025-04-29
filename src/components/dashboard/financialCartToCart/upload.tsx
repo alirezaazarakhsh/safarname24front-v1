@@ -10,6 +10,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Loading from '../ui/loading';
 import toast from '../ui/customSonner/toast';
+import Sheet from '../ui/sheet';
 
 // Creating and exporting Upload component as default
 export default function Upload({
@@ -112,6 +113,7 @@ export default function Upload({
       </div>
       <div className="flex items-center justify-between gap-4 px-3 py-4 shrink-0 w-full overflow-auto scrollbar-hide">
         <div className="flex items-center justify-between gap-3">
+          <Sheet>HIHIHIHIH</Sheet>
           <Button
             onClick={async () => {
               setUploading(true);
