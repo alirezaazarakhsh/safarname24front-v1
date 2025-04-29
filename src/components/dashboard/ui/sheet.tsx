@@ -46,13 +46,13 @@ export default function Sheet({
           opacity: 0,
           visibility: 'hidden',
           pointerEvents: 'none',
-          right: '30vw',
+          right: '-30vw',
         }}
         initial={{
           opacity: 0,
           visibility: 'hidden',
           pointerEvents: 'none',
-          right: '30vw',
+          right: '-30vw',
         }}
         animate={
           isOpened
@@ -66,7 +66,7 @@ export default function Sheet({
                 opacity: 0,
                 visibility: 'hidden',
                 pointerEvents: 'none',
-                right: '30vw',
+                right: '-30vw',
               }
         }
       >
