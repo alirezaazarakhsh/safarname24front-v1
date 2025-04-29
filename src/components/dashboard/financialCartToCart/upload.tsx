@@ -8,6 +8,8 @@ import { UploadComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import Loading from '../ui/loading';
+import toast from '../ui/customSonner/toast';
 
 // Creating and exporting Upload component as default
 export default function Upload({
@@ -15,6 +17,7 @@ export default function Upload({
 }: UploadComponentPropsType): ReactNode {
   // Defining hooks
   const [isErrored, setErrored] = useState<boolean>(false);
+  const [isUploading, setUploading] = useState<boolean>(false);
   const [file, setFile] = useState<File | undefined>();
   const {
     getRootProps,
@@ -109,10 +112,30 @@ export default function Upload({
       </div>
       <div className="flex items-center justify-between gap-4 px-3 py-4 shrink-0 w-full overflow-auto scrollbar-hide">
         <div className="flex items-center justify-between gap-3">
-          <Button className="bg-black rounded-lg flex items-center justify-center py-3 px-5">
-            <span className="font-normal text-white truncate block w-full text-center text-xs">
-              آپلود فایل
-            </span>
+          <Button
+            onClick={async () => {
+              setUploading(true);
+              await new Promise((resolve) => setTimeout(resolve, 5000));
+
+              setUploading(false);
+              toast({
+                title: 'فایل مد نظر اپلود شد',
+                description: file
+                  ? file.name
+                  : 'فایل شما با موفقیت اپلود شد :)',
+                theme: 'green',
+              });
+            }}
+            disabled={file === undefined || isUploading}
+            className="bg-black rounded-lg flex items-center justify-center py-3 px-5 transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white"
+          >
+            {isUploading ? (
+              <Loading />
+            ) : (
+              <span className="font-normal text-current truncate block w-full text-center text-xs">
+                آپلود فایل
+              </span>
+            )}
           </Button>
           <Button
             className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50"

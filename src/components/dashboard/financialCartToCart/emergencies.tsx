@@ -54,11 +54,6 @@ export default function Emergencies({
   >();
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
-    values: {
-      additionalPrice: 20000000,
-      codePeigiri: '123456789012',
-      transactionDate: moment().format('jYYYY/jMM/jDD'),
-    },
   });
 
   // Defining a function to handle submit event of form
