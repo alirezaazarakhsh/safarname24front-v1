@@ -39,13 +39,13 @@ export default function FactorError({
         <DrawerContent>
           <DrawerHeader className="px-[24px] py-0 mb-[10px]">
             <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
-              اطلاعات شما ثبت نشد!
+              درخواست شما ناموفق بود!
             </DrawerTitle>
           </DrawerHeader>
           <div className="px-[24px] py-0">
             <DrawerDescription className="text-[12px] font-medium text-gray-500">
-              مشترک گرامی عزیز عملیات ارسال اطلاعات کارت به کارت ناموفق بود
-              لطفاً مجدد تلاش کنید از صبر و شکیبایی شما متشکریم.
+              مشترک گرامی عزیز عملیات برداشت وجه از کیف پول ناموفق بود لطفاً
+              مجدد تلاش کنید از صبر و شکیبایی شما متشکریم.
             </DrawerDescription>
           </div>
           <DrawerFooter className="px-[24px] mt-[20px] py-0 flex items-start justify-start gap-4 lg:flex-wrap">

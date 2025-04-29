@@ -39,12 +39,12 @@ export default function FactorErrorNotEnough({
         <DrawerContent>
           <DrawerHeader className="px-[24px] py-0 mb-[10px]">
             <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
-              اطلاعات شما ثبت نشد!
+              درخواست شما ناموفق بود!
             </DrawerTitle>
           </DrawerHeader>
           <div className="px-[24px] py-0">
             <DrawerDescription className="text-[12px] font-medium text-gray-500">
-              مشترک گرامی عزیز عملیات ارسال اطلاعات کارت به کارت ناموفق بود
+              مشترک گرامی عزیز موجودی کیف پول شما برای برداشت وجه کافی نمیباشد
               لطفاً مجدد تلاش کنید از صبر و شکیبایی شما متشکریم.
             </DrawerDescription>
           </div>

@@ -39,14 +39,13 @@ export default function FactorSuccess({
         <DrawerContent>
           <DrawerHeader className="px-[24px] py-0 mb-[10px]">
             <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
-              اطلاعات شما با موفقیت ثبت شد
+              درخواست شما با موفقیت ثبت شد
             </DrawerTitle>
           </DrawerHeader>
           <div className="px-[24px] py-0">
             <DrawerDescription className="text-[12px] font-medium text-gray-500">
-              مشترک گرامی عزیز پس از بررسی کارت به کارت شما توسط ادمین فاکتور
-              صادر خواهد شد و مبلغ درخواستی شما به کیف پول اضافه خواهد شد از
-              همراهی شما متشکریم.
+              مشترک گرامی عزیز پس از تایید برداشت وجه از کیف پول شما توسط ادمین
+              فاکتور صادر خواهد شد از همراهی شما متشکریم.
             </DrawerDescription>
           </div>
           <DrawerFooter className="px-[24px] py-0 mt-[10px]">
