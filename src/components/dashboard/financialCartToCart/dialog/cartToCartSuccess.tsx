@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/drawer';
 
 // Creating and exporting CartToCartSuccess component as default
-export default function ({
+export default function CartToCartSuccess({
   closeFn,
   isOpened = false,
 }: DialogComponentPropsType): ReactNode {

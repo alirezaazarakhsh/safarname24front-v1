@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import { typeCreditCardsSubmitComponentPropsType } from '@/types/dashboard/component';
 import Link from 'next/link';
 import { ReactNode, useState } from 'react';
-import toast from '../ui/customSonner/toast';
 import Loading from '../ui/loading';
+import FactorSuccess from './dialog/factorSuccess';
+import FactorError from './dialog/factorError';
+import FactorErrorNotEnough from './dialog/factorErrorNotEnough';
 
 // Creating and exporting CreditCardsSubmit component as default
 export default function CreditCardsSubmit({
@@ -15,6 +17,14 @@ export default function CreditCardsSubmit({
 }: typeCreditCardsSubmitComponentPropsType): ReactNode {
   // Defining states of components
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  const [factorSuccessDialogOpened, setFactorSuccessDialogOpened] =
+    useState<boolean>(false);
+  const [factorErrorDialogOpened, setFactorErrorDialogOpened] =
+    useState<boolean>(false);
+  const [
+    factorErrorNotEnoughDialogOpened,
+    setFactorErrorNotEnoughDialogOpened,
+  ] = useState<boolean>(false);
 
   // Defining a function to validate fake data
   const onSubmit = async () => {
@@ -22,16 +32,24 @@ export default function CreditCardsSubmit({
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
     setSubmitting(false);
-    toast({
-      title: 'پیام تستی.',
-      description: 'دسکریپشن تستی .',
-      theme: 'green',
-    });
+    setFactorSuccessDialogOpened(true);
   };
 
   // Returning JSX
   return (
     <div className="flex flex-col justify-between items-center row-span-1 col-span-1 gap-5">
+      <FactorSuccess
+        isOpened={factorSuccessDialogOpened}
+        closeFn={() => setFactorSuccessDialogOpened(false)}
+      />
+      <FactorError
+        isOpened={factorErrorDialogOpened}
+        closeFn={() => setFactorErrorDialogOpened(false)}
+      />
+      <FactorErrorNotEnough
+        isOpened={factorErrorNotEnoughDialogOpened}
+        closeFn={() => setFactorErrorNotEnoughDialogOpened(false)}
+      />
       <div className="bg-white border border-black/10 rounded-lg overflow-auto scrollbar-hide w-full h-full px-3 py-4 flex flex-col gap-3 items-center justify-between">
         <div>
           <span className="block text-right font-semibold text-black text-cs07 mb-1">
