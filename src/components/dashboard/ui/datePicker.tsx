@@ -6,32 +6,89 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { DatePickerComponentPropsType } from '@/types/dashboard/component';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import { cn } from '@/utils/utils';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from '@/components/ui/button';
+import moment from 'jalali-moment';
 
-// Creating and exporting DatePicker component as default
 export default function DatePicker({
   closeFn,
   isOpened,
   className,
+  onSubmit,
 }: DatePickerComponentPropsType): ReactNode {
+  // Defining states of component
+  const [currentMonth, setCurrentMonth] = useState<moment.Moment>(moment());
+  const [useJalali, setUseJalali] = useState<boolean>(true);
+  const [selectedDate, setSelectedDate] = useState<moment.Moment | undefined>(
+    moment().clone().add(7, 'jDay'),
+  );
+
   // Defining Variables
   const weekDayNames = ['ش', 'ی', 'د', 'س', 'ج', 'پ', 'ج'];
-  const persianMonthNames = [
-    'فروردین', // 0
-    'اردیبهشت', // 1
-    'خرداد', // 2
-    'تیر', // 3
-    'مرداد', // 4
-    'شهریور', // 5
-    'مهر', // 6
-    'آبان', // 7
-    'آذر', // 8
-    'دی', // 9
-    'بهمن', // 10
-    'اسفند', // 11
-  ];
+  const weekDayNamesUS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const nextMonth = currentMonth.clone().add(1, useJalali ? 'jMonth' : 'month');
+  const today = moment().locale('fa');
+  const daysInCurrentMonth = useJalali
+    ? currentMonth.jDaysInMonth()
+    : currentMonth.daysInMonth();
+  const startOfNextMonth = nextMonth
+    .clone()
+    .startOf(useJalali ? 'jMonth' : 'month');
+  const daysInNextMonth = useJalali
+    ? nextMonth.jDaysInMonth()
+    : nextMonth.daysInMonth();
+  const startOfCurrentMonth = currentMonth
+    .clone()
+    .startOf(useJalali ? 'jMonth' : 'month');
+  const daysToRender: moment.Moment[] = Array.from(
+    { length: daysInCurrentMonth },
+    (_, i) => startOfCurrentMonth.clone().add(i, 'day'),
+  );
+  const daysToRenderNextMonth: moment.Moment[] = Array.from(
+    { length: daysInNextMonth },
+    (_, i) => startOfNextMonth.clone().add(i, 'day'),
+  );
+
+  // Function to switch between Jalali and Gregorian
+  const toggleCalendar = () => {
+    setUseJalali((prev) => {
+      const newUseJalali = !prev;
+      const newMonth = newUseJalali
+        ? currentMonth.clone().locale('fa')
+        : currentMonth.clone().locale('en');
+      updateCurrentMonth(newMonth);
+      return newUseJalali;
+    });
+  };
+
+  // Defining a function to check state of rendered day element
+  function checkDayState(
+    day: moment.Moment,
+  ): 'passed' | 'today' | 'selected' | 'normal' {
+    const isToday = day.isSame(today, 'day');
+    const isSelected = selectedDate?.isSame(day, 'day');
+    const isPassed = day.isBefore(today, 'day');
+
+    if (isToday) return 'today';
+    else if (isSelected) return 'selected';
+    else if (isPassed) return 'passed';
+    else return 'normal';
+  }
+  // A function to update current month
+  const updateCurrentMonth = (newMonth: moment.Moment) => {
+    setCurrentMonth(
+      useJalali ? newMonth.clone().locale('fa') : newMonth.clone().locale('en'),
+    );
+  };
+  // A function to handle month changes
+  const handleMonthChange = (direction: 'previous' | 'next') => {
+    setCurrentMonth((prev) =>
+      direction === 'previous'
+        ? prev.clone().subtract(1, 'jMonth')
+        : prev.clone().add(1, 'jMonth'),
+    );
+  };
 
   // Returning JSX
   return createPortal(
@@ -49,7 +106,10 @@ export default function DatePicker({
         )}
       >
         <div className="grid grid-cols-2 gap-10 mb-4">
-          <button className="flex items-center">
+          <button
+            className="flex items-center"
+            onClick={() => handleMonthChange('previous')}
+          >
             <div className="w-5 h-5 aspect-square bg-gray-100 flex items-center justify-center rounded-md shrink-0">
               <IconsaxIcons
                 name="ArrowRight2"
@@ -58,12 +118,19 @@ export default function DatePicker({
               />
             </div>
             <span className="block mx-auto w-full text-center truncate text-cs08 font-semibold text-black">
-              X
+              {useJalali
+                ? currentMonth.locale('fa').format('jMMMM')
+                : currentMonth.locale('us').format('MMMM')}
             </span>
           </button>
-          <button className="flex items-center">
+          <button
+            className="flex items-center"
+            onClick={() => handleMonthChange('next')}
+          >
             <span className="block mx-auto w-full text-center truncate text-cs08 font-semibold text-black">
-              X
+              {useJalali
+                ? nextMonth.locale('fa').format('jMMMM')
+                : nextMonth.locale('us').format('MMMM')}
             </span>
             <div className="w-5 h-5 aspect-square bg-gray-100 flex items-center justify-center rounded-md shrink-0">
               <IconsaxIcons
@@ -76,81 +143,160 @@ export default function DatePicker({
         </div>
         <div className="grid grid-cols-2 mb-3">
           <div className="grid grid-cols-7 gap-3 pl-5 border-l border-l-black/10">
-            {weekDayNames.map((item, index) => (
-              <div
-                className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                key={`${index}-JWD-1`}
-              >
-                <span className="text-cs06 font-medium text-black">{item}</span>
-              </div>
-            ))}
-            {[...new Array(2)].map((item, index) => (
+            {useJalali
+              ? weekDayNames.map((item, index) => (
+                  <div
+                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
+                    key={`${index}-JWD-1`}
+                  >
+                    <span className="text-cs06 font-medium text-black">
+                      {item}
+                    </span>
+                  </div>
+                ))
+              : weekDayNamesUS.map((item, index) => (
+                  <div
+                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
+                    key={`${index}-JWD-1`}
+                  >
+                    <span className="text-cs06 font-medium text-black">
+                      {item}
+                    </span>
+                  </div>
+                ))}
+            {[
+              ...new Array(
+                currentMonth
+                  .clone()
+                  .startOf(useJalali ? 'jMonth' : 'month')
+                  .day(),
+              ),
+            ].map((item, index) => (
               <div key={`${index}-JDDX-1`} className="aspect-square" />
             ))}
-            {[...new Array(30)].map((item, index) => (
-              <div
+            {daysToRender.map((item, index) => (
+              <button
                 key={`${index}-JDD-1`}
-                data-role={'normal'}
+                data-role={checkDayState(item)}
+                onClick={() => {
+                  const dayState = checkDayState(item);
+                  if (dayState !== 'passed') {
+                    setSelectedDate(item);
+                  }
+                }}
                 className={cn(
-                  'flex items-center justify-center aspect-square rounded-md transition-all',
+                  'flex items-center justify-center aspect-square rounded-md transition-all duration-500',
                   "data-[role='passed']:bg-white data-[role='passed']:text-gray-200",
                   "data-[role='selected']:bg-cs-red data-[role='selected']:text-white",
                   "data-[role='today']:bg-black data-[role='today']:text-white",
                   "data-[role='normal']:bg-white data-[role='normal']:text-black",
                 )}
               >
-                <span className="text-cs06 font-medium text-current">
+                <span
+                  className={cn(
+                    'text-current',
+                    useJalali
+                      ? 'font-medium text-cs06'
+                      : 'font-mono font-medium text-cs06',
+                  )}
+                >
                   {handleZeroBeforeNumber((index + 1).toString())}
                 </span>
-              </div>
+              </button>
             ))}
           </div>
           <div className="grid grid-cols-7 gap-3 pr-5">
-            {weekDayNames.map((item, index) => (
-              <div
-                className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                key={`${index}-JWD-2`}
-              >
-                <span className="text-cs06 font-medium text-black">{item}</span>
-              </div>
-            ))}
-            {[...new Array(2)].map((item, index) => (
+            {useJalali
+              ? weekDayNames.map((item, index) => (
+                  <div
+                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
+                    key={`${index}-JWD-2`}
+                  >
+                    <span className="text-cs06 font-medium text-black">
+                      {item}
+                    </span>
+                  </div>
+                ))
+              : weekDayNamesUS.map((item, index) => (
+                  <div
+                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
+                    key={`${index}-JWD-2`}
+                  >
+                    <span className="text-cs06 font-medium text-black">
+                      {item}
+                    </span>
+                  </div>
+                ))}
+            {[
+              ...new Array(
+                nextMonth
+                  .clone()
+                  .startOf(useJalali ? 'jMonth' : 'month')
+                  .day(),
+              ),
+            ].map((item, index) => (
               <div key={`${index}-JDDX-2`} className="aspect-square" />
             ))}
-            {[...new Array(30)].map((item, index) => (
-              <div
+            {daysToRenderNextMonth.map((item, index) => (
+              <button
                 key={`${index}-JDD-2`}
-                data-role={'normal'}
+                data-role={checkDayState(item)}
+                onClick={() => {
+                  const dayState = checkDayState(item);
+                  if (dayState !== 'passed') {
+                    setSelectedDate(item);
+                  }
+                }}
                 className={cn(
-                  'flex items-center justify-center aspect-square rounded-md transition-all',
+                  'flex items-center justify-center aspect-square rounded-md transition-all duration-500',
                   "data-[role='passed']:bg-white data-[role='passed']:text-gray-200",
                   "data-[role='selected']:bg-cs-red data-[role='selected']:text-white",
                   "data-[role='today']:bg-black data-[role='today']:text-white",
                   "data-[role='normal']:bg-white data-[role='normal']:text-black",
                 )}
               >
-                <span className="text-cs06 font-medium text-current">
+                <span
+                  className={cn(
+                    'text-current',
+                    useJalali
+                      ? 'font-medium text-cs06'
+                      : 'font-mono font-medium text-cs06',
+                  )}
+                >
                   {handleZeroBeforeNumber((index + 1).toString())}
                 </span>
-              </div>
+              </button>
             ))}
           </div>
         </div>
         <div className="flex items-center justify-between gap-5">
-          <Button className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50">
+          <Button
+            onClick={toggleCalendar}
+            className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50"
+          >
             <span className="font-normal text-black/60 truncate block w-full text-center text-xs">
-              تبدیل به تقویم میلادی
+              {useJalali ? `تبدیل به تقویم میلادی` : `تبدیل به تقویم شمسی`}
             </span>
           </Button>
           <div className="flex items-center justify-end gap-3">
-            <Button className="bg-cs-red rounded-lg flex items-center justify-center py-3 px-5 hover:bg-cs-red">
+            <Button
+              disabled={selectedDate === undefined}
+              className="transition-all duration-500 bg-cs-red rounded-lg flex items-center justify-center py-3 px-5 hover:bg-cs-red disabled:opacity-50"
+              onClick={() => setSelectedDate(undefined)}
+            >
               <span className="font-normal text-white truncate block w-full text-center text-xs">
                 پاک کردن
               </span>
             </Button>
             <Button
-              onClick={closeFn}
-              className="bg-black rounded-lg flex items-center justify-center py-3 px-5 hover:bg-black"
+              disabled={selectedDate === undefined}
+              onClick={() => {
+                closeFn();
+                if (onSubmit && selectedDate !== undefined) {
+                  onSubmit(selectedDate);
+                }
+              }}
+              className="transition-all duration-500 bg-black rounded-lg flex items-center justify-center py-3 px-5 hover:bg-black disabled:opacity-50"
             >
               <span className="font-normal text-white truncate block w-full text-center text-xs">
                 تایید تاریخ

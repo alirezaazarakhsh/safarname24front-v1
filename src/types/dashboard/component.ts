@@ -6,6 +6,7 @@ import {
   SetStateAction,
 } from 'react';
 import { IconsName } from '../SvgProp';
+import moment from 'jalali-moment';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -299,4 +300,13 @@ export interface DatePickerComponentPropsType {
   className?: string;
   isOpened: boolean;
   closeFn: () => void;
+  onSubmit?: (date: moment.Moment) => void;
+}
+
+export interface DatePickerInputComponentPropsType {
+  onChange?: (date: moment.Moment) => void;
+  label: string;
+  error?: string;
+  className?: string;
+  placeholder: string;
 }

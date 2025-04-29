@@ -16,6 +16,7 @@ import toast from '../ui/customSonner/toast';
 import moment from 'jalali-moment';
 import CartToCartError from './dialog/cartToCartError';
 import CartToCartSuccess from './dialog/cartToCartSuccess';
+import DatePickerInput from './datePickerInput';
 
 // Defining form type and its schema
 const formSchema = z.object({
@@ -152,12 +153,16 @@ export default function Emergencies({
           }}
           {...form.register('additionalPrice')}
         />
-        <InputAndLabel
+        <DatePickerInput
           placeholder="* تاریخ واریز خود را انتخاب نمایید"
           label="تاریخ واریز وجه"
-          type="date"
           error={form.formState.errors.transactionDate?.message}
-          value={form.getValues('transactionDate')}
+          onChange={(date) =>
+            form.setValue(
+              'transactionDate',
+              date.locale('fa').format('jYYYY/jMM/jDD'),
+            )
+          }
         />
       </div>
       <div className="flex items-center justify-between gap-4 px-3 py-4">
