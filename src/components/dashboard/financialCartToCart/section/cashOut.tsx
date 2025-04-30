@@ -35,9 +35,9 @@ export default function CashOut(): ReactNode {
 
   // Returning JSX
   return (
-    <div className="bg-white border border-black/10 rounded-lg overflow-hidden w-full px-3 py-4 grid grid-cols-4 gap-12">
+    <section className="bg-white lg:border border-t border-black/10 lg:rounded-lg rounded-0 overflow-hidden w-full grid lg:grid-cols-4 lg:gap-12 gap-[24px] lg:px-3 lg:py-4 px-[20px] py-[20px]">
       <div>
-        <h3 className="block text-right font-bold text-cs08 text-black truncate w-full mb-3">
+        <h3 className="block text-right font-bold lg:text-cs08 text-[12px] text-black truncate w-full lg:mb-3 mb-5">
           بخش مالی - برداشت وجه
         </h3>
         <Label
@@ -47,7 +47,7 @@ export default function CashOut(): ReactNode {
         >
           پروفایل خود را انتخاب نمایید
         </Label>
-        <div className="flex flex-col items-center justify-between w-full gap-3">
+        <div className="flex flex-col items-center justify-between w-full lg:gap-3 gap-[24px]">
           <CheckboxItem
             onClick={() => setProfile('profile')}
             checked={profile === 'profile'}
@@ -64,7 +64,7 @@ export default function CashOut(): ReactNode {
           />
         </div>
       </div>
-      <div className="flex flex-col items-center justify-between w-full gap-2">
+      <div className="flex flex-col items-center justify-between w-full lg:gap-2 gap-[24px]">
         <InputAndLabel
           label="مبلغ برداشت کیف پول"
           isValid={priceAmountValid}
@@ -116,7 +116,7 @@ export default function CashOut(): ReactNode {
           }}
         />
       </div>
-      <div className="flex flex-col items-center justify-between w-full gap-2 col-span-2">
+      <div className="flex flex-col items-center justify-between w-full lg:gap-2 gap-[24px] lg:col-span-2">
         <InputAndLabel
           isValid={creditCardShabaNumberValid}
           label="شماره شبا کارت بانکی"
@@ -140,8 +140,9 @@ export default function CashOut(): ReactNode {
             e.currentTarget.value = `IR ${formattedValue}`;
           }}
         />
-        <div className="flex items-center justify-between gap-5 w-full">
+        <div className="flex items-center lg:justify-between justify-start gap-5 w-full lg:flex-row flex-col">
           <LabledCheckbox
+            className="lg:w-auto w-full"
             label="شماره کارت و شماره شبا را تایید میکنم."
             disabled={false}
             onChange={(checked) => setAcceptedNumbers(checked)}
@@ -171,12 +172,12 @@ export default function CashOut(): ReactNode {
                 acceptedNumbers
               )
             }
-            className="transition-all duration-500 rounded-lg flex items-center justify-center h-[50px] px-5 bg-black  text-white disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 shrink-0 w-fit font-normal truncate text-center text-xs"
+            className="transition-all duration-500 lg:rounded-lg rounded-[10px] flex items-center justify-center h-[50px] lg:px-5 px-[20px] bg-black  text-white disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 shrink-0 lg:w-fit w-full font-normal truncate text-center lg:text-xs text-[12px]"
           >
             ارسال درخواست (برداشت وجه)
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

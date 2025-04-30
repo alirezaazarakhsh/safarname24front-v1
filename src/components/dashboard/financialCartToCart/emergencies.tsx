@@ -13,7 +13,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { cn } from '@/utils/utils';
 import { EmergenciesComponentPropsType } from '@/types/dashboard/component';
 import toast from '../ui/customSonner/toast';
-import moment from 'jalali-moment';
 import CartToCartError from './dialog/cartToCartError';
 import CartToCartSuccess from './dialog/cartToCartSuccess';
 import DatePickerInput from './datePickerInput';
@@ -168,7 +167,7 @@ export default function Emergencies({
         </Button>
         <div
           className={cn(
-            'transition-all duration-500 lg:rounded-lg rounded-[8px] gap-2 flex items-center justify-center lg:px-3 lg:py-3 px-[11px] py-0 lg:h-0 h-[40px]',
+            'transition-all duration-500 lg:rounded-lg rounded-[8px] gap-2 flex items-center justify-center lg:px-3 lg:py-3 px-[11px] py-0 lg:h-auto h-[40px]',
             form.formState.isValid && card && file
               ? 'bg-green-100 text-green-500'
               : 'bg-gray-100 text-black/50',
