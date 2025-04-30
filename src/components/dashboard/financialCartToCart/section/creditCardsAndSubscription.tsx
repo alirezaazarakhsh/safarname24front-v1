@@ -65,7 +65,7 @@ export default function CreditCardsAndSubscription(): ReactNode {
 
   // Returning JSX
   return (
-    <section className="grid grid-cols-3 grid-rows-2 gap-5">
+    <section className="grid lg:grid-cols-3 lg:grid-rows-2 lg:gap-5 gap-[20px] lg:px-0 px-[24px]">
       <YourBankAccout
         onChange={(creditCard) => setSelectedCreditCard(creditCard)}
         setSelectedCard={setSelectedCreditCard}

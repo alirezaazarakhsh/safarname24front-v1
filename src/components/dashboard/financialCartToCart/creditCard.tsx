@@ -116,24 +116,24 @@ export default function CreditCard({
     <div
       dir="rtl"
       className={cn(
-        'w-[250px] h-[125px] rounded-lg relative p-3 flex flex-col items-center justify-between gap-3 overflow-hidden bg-black transition-all duration-500',
+        'w-[250px] h-[125px] rounded-[10px] relative lg:p-3 p-[12px] flex flex-col items-center justify-between gap-3 overflow-hidden bg-black transition-all duration-500',
         gradiant,
         className,
       )}
     >
       <div className="flex items-center justify-between gap-3 w-full">
         <ICUnion fill="white" />
-        <span className="text-cs75 font-medium block text-left truncate text-white">
+        <span className="lg:text-cs75 text-[10px] font-medium block text-left truncate text-white">
           {info ? info.name.english : '-'}
         </span>
       </div>
       <div className="w-full">
-        <span className="text-cs08 font-medium block text-left truncate text-white mb-2">
+        <span className="lg:text-cs08 text-[10px] font-medium block text-left truncate text-white mb-2">
           {info
             ? `IR ${valueTransform(info.number.shaba)}`
             : `IR ${valueTransform('000000000000000000000000')}`}
         </span>
-        <span className="text-cs75 font-medium block text-left truncate text-white">
+        <span className="lg:text-cs75 text-[10px] font-medium block text-left truncate text-white">
           {info
             ? valueTransform(info.number.card)
             : valueTransform('0000000000000000')}

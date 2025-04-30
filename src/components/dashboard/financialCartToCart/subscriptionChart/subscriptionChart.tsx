@@ -26,7 +26,7 @@ export default function SubscriptionChart({
 }: SubscriptionChartComponentPropsType): ReactNode {
   // Returning JSX
   return (
-    <ChartContainer config={chartConfig} className="h-full">
+    <ChartContainer config={chartConfig} className="h-full w-full">
       <AreaChart
         accessibilityLayer
         data={chart}
