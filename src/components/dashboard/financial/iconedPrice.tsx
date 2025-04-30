@@ -49,7 +49,7 @@ export default function IconedPrice({
                   'flex items-center justify-center overflow-hidden border lg:w-[38px] lg:h-[38px]',
                   iconVariant === 'fill'
                     ? 'lg:bg-gray-100 border-gray-100'
-                    : 'bg-white border-black/10',
+                    : 'bg-white lg:border-black/10 border-white',
                 )
               : 'group-data-[selected="false"]:bg-gray-100 group-data-[selected="true"]:bg-blue-50 lg:w-[38px] lg:h-[38px] w-[43px] h-[43px]',
           )}

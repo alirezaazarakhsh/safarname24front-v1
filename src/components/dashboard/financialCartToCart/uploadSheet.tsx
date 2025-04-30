@@ -45,10 +45,10 @@ export default function UploadSheet(): ReactNode {
   return (
     <>
       <Button
-        className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50"
+        className="bg-white border border-black/10 lg:rounded-lg rounded-[8px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[10px] hover:bg-gray-50 lg:h-auto h-[40px]"
         onClick={() => setSheetOpened(true)}
       >
-        <span className="font-normal text-black/60 truncate block w-full text-center text-xs">
+        <span className="font-normal text-black/60 truncate block w-full text-center lg:text-xs text-[10px]">
           مشاهده تمام فایل
         </span>
       </Button>

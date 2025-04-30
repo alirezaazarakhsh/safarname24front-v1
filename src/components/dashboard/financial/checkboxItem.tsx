@@ -45,7 +45,7 @@ export default function CheckboxItem({
           )}
         >
           {disabled && isCardSelection && disabledReason && (
-            <div className="p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute bottom-[calc(75%+20px)] lg:right-[-15px] left-[4px] lg:w-[200px] w-[218px] transition-all duration-500 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+            <div className="p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute bottom-[calc(75%+20px)] lg:right-[-15px] right-[-10px] lg:w-[200px] w-[218px] transition-all duration-500 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
               <p className="text-right text-current lg:font-light font-medium lg:text-[9px] text-[8px]">
                 {disabledReason}
               </p>

@@ -34,7 +34,9 @@ export default function DatePickerInput({
   // Returning JSX
   return (
     <div className="w-full">
-      <Label className={'mb-3 block truncate text-right w-full text-xs'}>
+      <Label
+        className={'mb-3 block truncate text-right w-full text-xs font-bold'}
+      >
         {label}
       </Label>
       <Button
