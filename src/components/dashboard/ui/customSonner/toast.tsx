@@ -8,7 +8,5 @@ import ToastComponent from '@/components/dashboard/ui/customSonner/toastComponen
 
 // Creating and exporting toast function which renders our headless toast
 export default function toast(toast: Omit<ToastProps, 'id'>) {
-  return sonnerToast.custom(() => (
-    <ToastComponent title={toast.title} description={toast.description} />
-  ));
+  return sonnerToast.custom(() => <ToastComponent {...toast} />);
 }
