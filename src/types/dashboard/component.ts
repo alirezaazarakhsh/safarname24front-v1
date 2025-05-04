@@ -320,3 +320,14 @@ export interface SheetComponentPropsType {
 export interface SearchFinancialDashboardPropsType {
   onChange?: (val: string) => void;
 }
+
+export interface FinancialFatorsDashboardTablePropsType {
+  data: {
+    type: 'cashOut' | 'cartToCart' | 'add';
+    amount: number;
+    createdAt: string;
+    status: 'successfull' | 'unsuccessfull';
+    id: number;
+  }[];
+  className?: string;
+}

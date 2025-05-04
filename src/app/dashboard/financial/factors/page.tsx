@@ -3,6 +3,7 @@
 
 // Importing part
 import Search from '@/components/dashboard/financialFactors/search';
+import FactorsTable from '@/components/dashboard/financialFactors/table';
 import { ReactNode, useState } from 'react';
 
 // Defining fake data to render for now
@@ -52,6 +53,7 @@ export default function CartToCartFinancialPage(): ReactNode {
   return (
     <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
       <Search onChange={(val) => setSearchVal(val)} />
+      <FactorsTable data={factorsData} />
     </main>
   );
 }
