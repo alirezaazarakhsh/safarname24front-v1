@@ -316,3 +316,7 @@ export interface SheetComponentPropsType {
   closeFn?: () => void;
   children: ReactNode;
 }
+
+export interface SearchFinancialDashboardPropsType {
+  onChange?: (val: string) => void;
+}
