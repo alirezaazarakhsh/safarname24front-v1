@@ -6,7 +6,6 @@ import moment from 'jalali-moment';
 import { FinancialFatorsDashboardTablePropsType } from '@/types/dashboard/component';
 import { ReactNode } from 'react';
 import { cn } from '@/utils/utils';
-import { Button } from '@/components/ui/button';
 import CustomPagination from '@/components/dashboard/ui/customPagination';
 import {
   Table,
@@ -19,7 +18,6 @@ import {
 import { handleZeroBeforeNumber } from '@/utils/string';
 import Link from 'next/link';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import Loading from '@/components/dashboard/ui/loading';
 import Image from 'next/image';
 import EmptyImage from '../../../../public/image/empty.png';
 import { numberSeparation } from '@/utils';
@@ -50,21 +48,12 @@ export default function FactorsTable({
             className="h-auto lg:w-[250px] w-[200px] aspect-square block mb-4 mx-auto"
           />
           <span className="block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold">
-            هیچ لیست رزروی فعلا ندارید!
+            موردی یافت نشد!
           </span>
           <span className="block text-center w-full lg:text-black text-gray-500 lg:text-cs09 text-[10px] font-normal lg:mb-0 mb-6">
-            مشتری گرامی برای ثبت رزرو هتل میتوانید از دکمه بالا اقدام نمایید از
-            همراهی شما متشکریم.
+            مشتری گرامی جستجوی که انجام دادید متاسفانه لیستی موردی پیدا نشد لطفا
+            مجدد تلاش نمایید از همراهی شما متشکریم.
           </span>
-          <Button className="lg:hidden flex items-center justify-center gap-2 mx-auto text-black bg-gray-100 rounded-[7px] p-[14px]">
-            <IconsaxIcons
-              name="Add"
-              className="w-[18px] h-[18px] text-gray-600 shrink-0"
-            />
-            <span className="block text-right truncate font-normal whitespace-nowrap text-[12px] text-current">
-              ثبت رزرو
-            </span>
-          </Button>
         </div>
       ) : (
         <>
