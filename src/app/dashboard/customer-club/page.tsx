@@ -1,12 +1,78 @@
-// Importing part 
-import { ReactNode } from 'react';
+// Forcing next.js to render this component as client side component
+'use client';
 
-// Creating and exporting customer club page as default 
-export default function CustomerClubPage():ReactNode {
-    // Returning JSX
-    return (
-        <main className="lg:p-5 lg:pb-5 p-[24px] pb-[100px] flex h-dvh items-center justify-center">
-            <h1>CustomerClub page</h1>
-        </main>
-    );
+// Importing part
+import { ReactNode, useState } from 'react';
+import SafarnameLogo from '../../../../public/image/logo/white.webp';
+import moment from 'jalali-moment';
+
+// Defining fake data to render
+const scores: {
+  companyImg: string;
+  title: string;
+  score: number;
+  status: 'used' | 'unused' | 'active' | 'deactive';
+  discount: {
+    code: string;
+    price: number;
+    endsAt: string;
+  };
+}[] = [
+  {
+    companyImg: SafarnameLogo.src,
+    title: 'اتاق دوبلکس هتل اوین',
+    score: 1365,
+    status: 'used',
+    discount: {
+      code: 'FGA6J85JI2K9',
+      price: 20000000,
+      endsAt: moment().add(12, 'jDay').toISOString(),
+    },
+  },
+  {
+    companyImg: SafarnameLogo.src,
+    title: 'اتاق دوبلکس هتل اوین',
+    score: 1365,
+    status: 'unused',
+    discount: {
+      code: 'FGA6J85JI2K9',
+      price: 20000000,
+      endsAt: moment().add(12, 'jDay').toISOString(),
+    },
+  },
+  {
+    companyImg: SafarnameLogo.src,
+    title: 'اتاق دوبلکس هتل اوین',
+    score: 1365,
+    status: 'active',
+    discount: {
+      code: 'FGA6J85JI2K9',
+      price: 20000000,
+      endsAt: moment().add(12, 'jDay').toISOString(),
+    },
+  },
+  {
+    companyImg: SafarnameLogo.src,
+    title: 'اتاق دوبلکس هتل اوین',
+    score: 1365,
+    status: 'deactive',
+    discount: {
+      code: 'FGA6J85JI2K9',
+      price: 20000000,
+      endsAt: moment().subtract(12, 'jDay').toISOString(),
+    },
+  },
+];
+
+// Creating and exporting customer club page as default
+export default function CustomerClubPage(): ReactNode {
+  // Defining states of component
+  const [giftsType, setGiftsType] = useState<'shoppingCentre' | 'hotel'>(
+    'shoppingCentre',
+  );
+
+  // Returning JSX
+  return (
+    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px]"></main>
+  );
 }
