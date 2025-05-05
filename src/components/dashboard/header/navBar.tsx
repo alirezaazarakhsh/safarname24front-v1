@@ -13,7 +13,7 @@ import { ICSave2 } from '@/components/icons/ICSave2';
 import { ICWallet } from '@/components/icons/ICWallet';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import useWindowSize from '@/hooks/useWindowSize';
 
 // Defining some data to render
@@ -134,6 +134,13 @@ export default function NavBar(): ReactNode {
 
   // Calling `calculateIndicatorStyles` function while activeLinkIndex or width of page changes
   useEffect(() => calculateIndicatorStyles(), [activeLinkIndex, windowSize]);
+
+  // Fixed initial rendering of indicator styles
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      calculateIndicatorStyles();
+    });
+  }, []);
 
   // Defining some functions to open and close dropdown
   const openDropdown = () => setDropdownOpened(true);
