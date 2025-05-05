@@ -331,3 +331,14 @@ export interface FinancialFatorsDashboardTablePropsType {
   }[];
   className?: string;
 }
+
+export interface FilterCustomClubPageComponentPropsType {
+  onChange?: (val: 'shoppingCentre' | 'hotel') => void;
+  totalScore: number;
+}
+
+export interface ToggleButtonsPropsType {
+  className?: string;
+  buttons: [string, string];
+  onChange?: (index: number) => void;
+}
