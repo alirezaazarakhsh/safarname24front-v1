@@ -22,24 +22,22 @@ export default function ToggleButtons({
   return (
     <div
       className={cn(
-        'flex gap-3 bg-white relative rounded-lg overflow-hidden',
+        'flex gap-3 bg-white relative lg:rounded-lg rounded-[6px] overflow-hidden',
         className,
       )}
     >
       <div
-        className="bg-blue-700 w-[100px] transition-all duration-500 h-full rounded-lg top-0 absolute z-0"
-        style={{
-          right: activeButtonIndex === 0 ? '0px' : '112px',
-        }}
+        className="bg-blue-700 lg:w-[100px] w-[50%] transition-all duration-500 h-full rounded-lg top-0 absolute z-0 data-[activeBtn='0']:right-0 lg:data-[activeBtn='1']:right-[112px] data-[activeBtn='1']:right-[50%]"
+        data-activeBtn={activeButtonIndex}
       />
       {buttons.map((item, index) => (
         <button
           data-active={activeButtonIndex === index}
-          className="z-10 w-[100px] px-3 bg-transparent rounded-lg transition-all duration-500 flex items-center justify-center data-[active='true']:text-white data-[active='false']:text-black"
+          className="z-10 lg:w-[100px] w-[50%] px-3 bg-transparent lg:rounded-lg rounded-[6px] transition-all duration-500 flex items-center justify-center data-[active='true']:text-white data-[active='false']:text-black"
           key={index}
           onClick={() => setActiveButtonIndex(index)}
         >
-          <span className="text-cs65 font-normal w-full block text-center truncate text-current">
+          <span className="lg:text-cs65 text-[12px] lg:font-normal font-semibold w-full block text-center truncate text-current">
             {item}
           </span>
         </button>

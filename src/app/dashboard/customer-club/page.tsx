@@ -93,7 +93,7 @@ export default function CustomerClubPage(): ReactNode {
 
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
+    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
       {!numberIsSavedForDiscount.data && <DiscountCodeNumber />}
       <Filter
         onChange={(val) => setGiftsType(val)}
