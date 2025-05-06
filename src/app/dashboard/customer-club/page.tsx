@@ -7,6 +7,8 @@ import SafarnameLogo from '../../../../public/image/logo/white.webp';
 import moment from 'jalali-moment';
 import Filter from '@/components/dashboard/customClub/filter';
 import CustomersClubTable from '@/components/dashboard/customClub/table';
+import DiscountCodeNumber from '@/components/dashboard/customClub/discountCodeNumber';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 // Defining fake data to render
 const scores: {
@@ -79,6 +81,11 @@ const scores: {
 
 // Creating and exporting customer club page as default
 export default function CustomerClubPage(): ReactNode {
+  // Defining hooks
+  const numberIsSavedForDiscount = useLocalStorage({
+    value: 'discountNumber',
+  });
+
   // Defining states of component
   const [giftsType, setGiftsType] = useState<'shoppingCentre' | 'hotel'>(
     'shoppingCentre',
@@ -87,6 +94,7 @@ export default function CustomerClubPage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
+      {!numberIsSavedForDiscount.data && <DiscountCodeNumber />}
       <Filter
         onChange={(val) => setGiftsType(val)}
         totalScore={scores.totalScores}
