@@ -6,6 +6,7 @@ import { ReactNode, useState } from 'react';
 import SafarnameLogo from '../../../../public/image/logo/white.webp';
 import moment from 'jalali-moment';
 import Filter from '@/components/dashboard/customClub/filter';
+import CustomersClubTable from '@/components/dashboard/customClub/table';
 
 // Defining fake data to render
 const scores: {
@@ -85,6 +86,7 @@ export default function CustomerClubPage(): ReactNode {
         onChange={(val) => setGiftsType(val)}
         totalScore={scores.totalScores}
       />
+      <CustomersClubTable data={scores.data} />
     </main>
   );
 }

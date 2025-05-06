@@ -3,7 +3,7 @@
 
 // Importing part
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { MobileProfileComponentPropsType } from '@/types/dashboard/component';
 import Image from 'next/image';
 import ProfileImage from '../../../public/image/profile/1.webp';

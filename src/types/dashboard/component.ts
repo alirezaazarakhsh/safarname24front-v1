@@ -342,3 +342,18 @@ export interface ToggleButtonsPropsType {
   buttons: [string, string];
   onChange?: (index: number) => void;
 }
+
+export interface CustomersClubTablePropsType {
+  className?: string;
+  data: {
+    companyImg: string;
+    title: string;
+    score: number;
+    status: 'used' | 'unused' | 'active' | 'deactive';
+    discount: {
+      code: string;
+      price: number;
+      endsAt: string;
+    };
+  }[];
+}
