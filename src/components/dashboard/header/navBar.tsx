@@ -65,6 +65,16 @@ const data: {
     icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'باشگاه مشتریان',
     href: '/dashboard/customer-club',
+    dropdown: [
+      {
+        label: 'جوایز هتل، مرکز خرید',
+        href: '/dashboard/customer-club',
+      },
+      {
+        label: 'لیست جایزه های دریافتی',
+        href: '/dashboard/customer-club/list',
+      },
+    ],
   },
   {
     icon: <ICMessageText className="w-[19px] h-[19px] text-current shrink-0" />,
@@ -90,7 +100,9 @@ export default function NavBar(): ReactNode {
   // Defining hooks
   const pathname = usePathname();
   const windowSize = useWindowSize();
-  const [dropdownOpened, setDropdownOpened] = useState<boolean>(false);
+  const [openedDropDownIndex, setOpenedDropDownIndex] = useState<
+    number | undefined
+  >(undefined);
   const [activeLinkIndex, setActiveLinkIndex] = useState<number>(0);
   const itemsParentRef = useRef<null | HTMLDivElement>(null);
   const [indicatorStyles, setIndicatorStyles] = useState<{
@@ -142,10 +154,6 @@ export default function NavBar(): ReactNode {
     });
   }, []);
 
-  // Defining some functions to open and close dropdown
-  const openDropdown = () => setDropdownOpened(true);
-  const closeDropdown = () => setDropdownOpened(false);
-
   // Returning JSX
   return (
     <nav className="border-b-[1.5px] border-b-black/10 bg-white lg:block hidden">
@@ -169,16 +177,16 @@ export default function NavBar(): ReactNode {
           ) : (
             <DropDown.DropdownMenu
               modal={false}
-              open={dropdownOpened}
+              open={index === openedDropDownIndex}
               key={index}
             >
               <DropDown.DropdownMenuTrigger
                 className="dashboard-nav-item"
                 data-active={activeLinkIndex === index}
                 asChild
-                onMouseLeave={closeDropdown}
-                onMouseEnter={openDropdown}
-                onMouseMove={openDropdown}
+                onMouseLeave={() => setOpenedDropDownIndex(undefined)}
+                onMouseEnter={() => setOpenedDropDownIndex(index)}
+                onMouseMove={() => setOpenedDropDownIndex(index)}
               >
                 <Link
                   key={index}
@@ -197,9 +205,9 @@ export default function NavBar(): ReactNode {
                 align="end"
                 className="w-[200px]"
                 sideOffset={0}
-                onMouseLeave={closeDropdown}
-                onMouseEnter={openDropdown}
-                onMouseMove={openDropdown}
+                onMouseLeave={() => setOpenedDropDownIndex(undefined)}
+                onMouseEnter={() => setOpenedDropDownIndex(index)}
+                onMouseMove={() => setOpenedDropDownIndex(index)}
               >
                 {item.dropdown.map((innerItem, innerIndex) => (
                   <div key={innerIndex}>
