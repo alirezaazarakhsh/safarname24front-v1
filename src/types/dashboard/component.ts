@@ -346,10 +346,14 @@ export interface ToggleButtonsPropsType {
 export interface CustomersClubTablePropsType {
   className?: string;
   data: {
-    companyImg: string;
-    id: number;
+    company: {
+      name: string;
+      persianName: string;
+      logo: string;
+    };
     title: string;
     score: number;
+    id: number;
     status: 'used' | 'unused' | 'active' | 'deactive';
     discount: {
       code: string;

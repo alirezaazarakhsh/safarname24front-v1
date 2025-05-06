@@ -62,7 +62,7 @@ export default function CustomersClubTable({
   return (
     <section
       className={cn(
-        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10',
+        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10 lg:px-0 px-[24px]',
         data.length === 0
           ? 'lg:h-[500px] h-[calc(100dvh-20dvh)] flex items-center justify-center lg:p-10 p-6'
           : '',
@@ -161,7 +161,7 @@ export default function CustomersClubTable({
                         alt={item.title}
                         width={40}
                         height={40}
-                        src={item.companyImg}
+                        src={item.company.logo}
                         className="w-full h-auto"
                       />
                     </div>
@@ -241,144 +241,169 @@ export default function CustomersClubTable({
               ))}
             </TableBody>
           </Table>
+          <div className="lg:hidden block mt-5">
+            <div className="flex flex-col">
+              {data.map((item, index) => (
+                <div
+                  key={index}
+                  className={
+                    'bg-transparent hover:bg-transparent border-b-[1.5px] border-b-black/10 py-3 mb-3'
+                  }
+                >
+                  <div className="flex items-center justify-between gap-3 mb-[25px]">
+                    <div className="flex items-center justify-start gap-[12px]">
+                      <div className="rounded-[8px] shrink-0 border border-black/10 bg-gray-100 flex items-center justify-center w-[60px] h-[60px] overflow-hidden p-1">
+                        <Image
+                          alt={item.title}
+                          width={60}
+                          height={60}
+                          src={item.company.logo}
+                          className="w-full h-auto"
+                        />
+                      </div>
+                      <div>
+                        <span className="text-black truncate block w-full mb-2 text-right font-semibold text-[12px]">
+                          {item.company.persianName}
+                        </span>
+                        <span className="text-gray-500 truncate block w-full text-right font-semibold text-[10px]">
+                          {item.company.name}
+                        </span>
+                      </div>
+                    </div>
+                    {item.status !== 'deactive' ? (
+                      <button
+                        onClick={() =>
+                          item.status === 'unused' &&
+                          setAcceptRulesDialogOpened(true)
+                        }
+                        className={cn(
+                          'w-[105px] h-[40px] transition-all duration-500 shrink-0 rounded-[7px] flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100',
+                          item.status === 'unused'
+                            ? 'text-black bg-white border border-black/20 hover:bg-gray-100'
+                            : item.status === 'active'
+                              ? 'text-green-600 bg-green-100 hover:bg-green-200'
+                              : 'text-gray-600 bg-gray-100',
+                        )}
+                      >
+                        <span className="text-[10px] text-current font-semibold">
+                          {item.status === 'used'
+                            ? 'استفاده شد'
+                            : item.status === 'active'
+                              ? 'فعال میباشد'
+                              : 'دریافت جایزه'}
+                        </span>
+                      </button>
+                    ) : (
+                      <div className="w-[105px] h-[40px] rounded-[7px] bg-cs-red/10 text-cs-red flex items-center justify-center shrin-0">
+                        <span className="text-[10px] text-current font-semibold">
+                          منقضی شده
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="DocumentText"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        عنوان :
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {item.title}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="DiscountShape"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        کد تخفیف :
+                      </span>
+                      <div className="flex items-center justify-start gap-[10px]">
+                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                          {item.title}
+                        </span>
+                        <button
+                          className="text-cs-red shrink-0"
+                          onClick={() =>
+                            hanldeClipboardCopy(item.discount.code)
+                          }
+                        >
+                          <IconsaxIcons
+                            name="DocumentCopy"
+                            color="currentColor"
+                            className="w-[14px] h-[14px]"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Money"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        مبلغ تخفیف :
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {`${numberSeparation(item.discount.price)} تومان`}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Star1"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        امتیاز مورد نیاز :
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {`${item.score} امتیاز`}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Calendar"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        تاریخ اعتبار کد تخفیف :
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {moment(item.discount.endsAt)
+                          .locale('fa')
+                          .format('jYYYY/jMM/jDD')}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <CustomPagination count={12} />
+          </div>
         </>
       )}
     </section>
   );
 }
-
-//<div className="lg:hidden block mt-5">
-//            <div className="flex flex-col">
-//              {data.map((item, index) => (
-//                <div
-//                  key={index}
-//                  className={
-//                    'bg-transparent hover:bg-transparent border-b-[1.5px] border-b-black/10 py-3 mb-3'
-//                  }
-//                >
-//                  <div className="flex items-center justify-between gap-3 mb-[20px]">
-//                    <div className="flex items-center justify-start gap-[10px]">
-//                      <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-//                        <IconsaxIcons
-//                          name="DocumentText"
-//                          className="w-[20px] h-[20px] text-black"
-//                        />
-//                      </div>
-//                      <div>
-//                        <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-//                          نوع خدمات :
-//                        </span>
-//                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-//                          {item.type === 'cashOut'
-//                            ? 'برداشت وجه'
-//                            : item.type === 'cartToCart'
-//                              ? 'کارت به کارت'
-//                              : 'افزایش کیف پول'}
-//                        </span>
-//                      </div>
-//                    </div>
-//                    <div className="flex items-center justify-between gap-[10px]">
-//                      {item.status === 'successfull' ? (
-//                        <Link
-//                          href={`/dashboard/financial/factors/${item.id}`}
-//                          className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"
-//                        >
-//                          <span className="text-[10px] text-current font-medium w-full text-right block truncate">
-//                            مشاهده فاکتور
-//                          </span>
-//                          <IconsaxIcons
-//                            name="Eye"
-//                            color="currentColor"
-//                            className="w-[17px] h-[17px]"
-//                          />
-//                        </Link>
-//                      ) : (
-//                        <div
-//                          className={
-//                            'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black px-[20px]'
-//                          }
-//                        >
-//                          <span className="text-[10px] text-current font-medium w-full text-right block truncate">
-//                            عملیات لغو شد!
-//                          </span>
-//                        </div>
-//                      )}
-//                    </div>
-//                  </div>
-//                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-//                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-//                      <IconsaxIcons
-//                        name="Moneys"
-//                        className="w-[20px] h-[20px] text-black"
-//                      />
-//                    </div>
-//                    <div>
-//                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-//                        مبلغ صورتحساب :
-//                      </span>
-//                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-//                        {`${numberSeparation(item.amount)} تومان`}
-//                      </span>
-//                    </div>
-//                  </div>
-//                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-//                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-//                      <IconsaxIcons
-//                        name="Calendar"
-//                        className="w-[20px] h-[20px] text-black"
-//                      />
-//                    </div>
-//                    <div>
-//                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-//                        تاریخ و زمان صدور :
-//                      </span>
-//                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-//                        {moment(item.createdAt)
-//                          .locale('fa')
-//                          .format('jYYYY/jMM/jDD A - HH:mm')}
-//                      </span>
-//                    </div>
-//                  </div>
-//                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-//                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-//                      <IconsaxIcons
-//                        name="Status"
-//                        className="w-[20px] h-[20px] text-black"
-//                      />
-//                    </div>
-//                    <div>
-//                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-//                        وضعیت مالی
-//                      </span>
-//                      <div className="flex items-center justify-start gap-[10px]">
-//                        <div
-//                          className="w-[4px] h-[4px] shrink-0 rounded-full"
-//                          style={{
-//                            backgroundColor:
-//                              item.status === 'unsuccessfull'
-//                                ? '#F30F26'
-//                                : '#35A346',
-//                          }}
-//                        />
-//                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-//                          {item.status === 'successfull' &&
-//                          item.type === 'cashOut'
-//                            ? 'انجام شده'
-//                            : item.status === 'successfull' &&
-//                                item.type === 'cartToCart'
-//                              ? 'تایید شده'
-//                              : item.status === 'successfull' &&
-//                                  item.type === 'add'
-//                                ? 'پرداخت شده'
-//                                : item.status === 'unsuccessfull'
-//                                  ? 'لغو شده'
-//                                  : 'لغو شده'}
-//                        </span>
-//                      </div>
-//                    </div>
-//                  </div>
-//                </div>
-//              ))}
-//            </div>
-//            <CustomPagination count={12} />
-//          </div>

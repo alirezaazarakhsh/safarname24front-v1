@@ -14,7 +14,11 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 const scores: {
   totalScores: number;
   data: {
-    companyImg: string;
+    company: {
+      name: string;
+      persianName: string;
+      logo: string;
+    };
     title: string;
     score: number;
     id: number;
@@ -29,7 +33,11 @@ const scores: {
   totalScores: 4698,
   data: [
     {
-      companyImg: SafarnameLogo.src,
+      company: {
+        name: 'Hadish Mall Cinema',
+        persianName: 'سینمایی هدیش مال',
+        logo: SafarnameLogo.src,
+      },
       id: 1,
       title: 'اتاق دوبلکس هتل اوین',
       score: 1365,
@@ -41,7 +49,11 @@ const scores: {
       },
     },
     {
-      companyImg: SafarnameLogo.src,
+      company: {
+        name: 'Hadish Mall Cinema',
+        persianName: 'سینمایی هدیش مال',
+        logo: SafarnameLogo.src,
+      },
       title: 'اتاق دوبلکس هتل اوین',
       id: 1,
       score: 1365,
@@ -53,7 +65,11 @@ const scores: {
       },
     },
     {
-      companyImg: SafarnameLogo.src,
+      company: {
+        name: 'Hadish Mall Cinema',
+        persianName: 'سینمایی هدیش مال',
+        logo: SafarnameLogo.src,
+      },
       title: 'اتاق دوبلکس هتل اوین',
       id: 1,
       score: 1365,
@@ -65,7 +81,11 @@ const scores: {
       },
     },
     {
-      companyImg: SafarnameLogo.src,
+      company: {
+        name: 'Hadish Mall Cinema',
+        persianName: 'سینمایی هدیش مال',
+        logo: SafarnameLogo.src,
+      },
       title: 'اتاق دوبلکس هتل اوین',
       id: 1,
       score: 1365,
