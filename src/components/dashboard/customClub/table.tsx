@@ -20,9 +20,11 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
 import EmptyImage from '../../../../public/image/empty.png';
 import { numberSeparation } from '@/utils';
-import Loading from '../ui/loading';
 import toast from '../ui/customSonner/toast';
 import Tooltip from '../ui/tooltip';
+import TakeGiftRuleDialog from './dialog/takeGiftRuleDialog';
+import GiftGainErrorDialog from './dialog/giftGainErrorDialog';
+import GiftGainedDialog from './dialog/giftGainedDialogOpened';
 
 // Creating and exporting CustomersClubTable component as default
 export default function CustomersClubTable({
@@ -30,9 +32,12 @@ export default function CustomersClubTable({
   data,
 }: CustomersClubTablePropsType): ReactNode {
   // Defining state of component
-  const [loadingItemIndex, setLoadingItemIndex] = useState<number | undefined>(
-    undefined,
-  );
+  const [acceptRulesDialogOpened, setAcceptRulesDialogOpened] =
+    useState<boolean>(false);
+  const [giftGainedDialogOpened, setGiftGainedDialogOpened] =
+    useState<boolean>(false);
+  const [giftGainErrorDialogOpened, setGiftGainErrorDialogOpened] =
+    useState<boolean>(false);
 
   // Defining a function to handle copy to clipboard
   function hanldeClipboardCopy(text: string): void {
@@ -64,6 +69,20 @@ export default function CustomersClubTable({
         className,
       )}
     >
+      <GiftGainErrorDialog
+        isOpened={giftGainErrorDialogOpened}
+        closeFn={() => setGiftGainErrorDialogOpened(false)}
+      />
+      <GiftGainedDialog
+        isOpened={giftGainedDialogOpened}
+        closeFn={() => setGiftGainedDialogOpened(false)}
+      />
+      <TakeGiftRuleDialog
+        isOpened={acceptRulesDialogOpened}
+        closeFn={() => setAcceptRulesDialogOpened(false)}
+        setGiftGainErrorDialogOpened={setGiftGainErrorDialogOpened}
+        setGiftGainedDialogOpened={setGiftGainedDialogOpened}
+      />
       {data.length === 0 ? (
         <div>
           <Image
@@ -189,21 +208,10 @@ export default function CustomersClubTable({
                   <TableCell className="p-3 flex items-center justify-end gap-3">
                     {item.status !== 'deactive' ? (
                       <button
-                        disabled={loadingItemIndex === index}
-                        onClick={async () => {
-                          setLoadingItemIndex(index);
-                          await new Promise((resolve) =>
-                            setTimeout(resolve, 5000),
-                          );
-
-                          setLoadingItemIndex(undefined);
-                          toast({
-                            theme: 'theme',
-                            title: 'خطایی رخ داد!',
-                            description:
-                              'مشتری گرامی برای دریافت جایزه امتیاز شما کافی نمیباشد.',
-                          });
-                        }}
+                        onClick={() =>
+                          item.status === 'unused' &&
+                          setAcceptRulesDialogOpened(true)
+                        }
                         className={cn(
                           'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100',
                           item.status === 'unused'
@@ -213,17 +221,13 @@ export default function CustomersClubTable({
                               : 'text-gray-600 bg-gray-100',
                         )}
                       >
-                        {loadingItemIndex !== index ? (
-                          <span className="text-xs text-current font-medium">
-                            {item.status === 'used'
-                              ? 'استفاده شد'
-                              : item.status === 'active'
-                                ? 'فعال میباشد'
-                                : 'دریافت جایزه'}
-                          </span>
-                        ) : (
-                          <Loading />
-                        )}
+                        <span className="text-xs text-current font-medium">
+                          {item.status === 'used'
+                            ? 'استفاده شد'
+                            : item.status === 'active'
+                              ? 'فعال میباشد'
+                              : 'دریافت جایزه'}
+                        </span>
                       </button>
                     ) : (
                       <div className="w-[125px] h-[40px] rounded-md bg-cs-red/10 text-cs-red flex items-center justify-center">

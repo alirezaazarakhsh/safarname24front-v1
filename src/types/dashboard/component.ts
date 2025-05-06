@@ -358,3 +358,8 @@ export interface CustomersClubTablePropsType {
     };
   }[];
 }
+
+export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
+  setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
+  setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
+}
