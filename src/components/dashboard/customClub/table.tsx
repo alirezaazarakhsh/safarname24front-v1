@@ -22,6 +22,7 @@ import EmptyImage from '../../../../public/image/empty.png';
 import { numberSeparation } from '@/utils';
 import Loading from '../ui/loading';
 import toast from '../ui/customSonner/toast';
+import Tooltip from '../ui/tooltip';
 
 // Creating and exporting CustomersClubTable component as default
 export default function CustomersClubTable({
@@ -147,9 +148,11 @@ export default function CustomersClubTable({
                     </div>
                   </TableCell>
                   <TableCell className="p-3">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.title}
-                    </span>
+                    <Tooltip content={item.title}>
+                      <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                        {item.title}
+                      </span>
+                    </Tooltip>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-start gap-2">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
