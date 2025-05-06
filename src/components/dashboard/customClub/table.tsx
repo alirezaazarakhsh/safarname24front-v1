@@ -4,7 +4,7 @@
 // Importing part
 import moment from 'jalali-moment';
 import { CustomersClubTablePropsType } from '@/types/dashboard/component';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { cn } from '@/utils/utils';
 import CustomPagination from '@/components/dashboard/ui/customPagination';
 import {
@@ -20,12 +20,38 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
 import EmptyImage from '../../../../public/image/empty.png';
 import { numberSeparation } from '@/utils';
+import Loading from '../ui/loading';
+import toast from '../ui/customSonner/toast';
 
 // Creating and exporting CustomersClubTable component as default
 export default function CustomersClubTable({
   className,
   data,
 }: CustomersClubTablePropsType): ReactNode {
+  // Defining state of component
+  const [loadingItemIndex, setLoadingItemIndex] = useState<number | undefined>(
+    undefined,
+  );
+
+  // Defining a function to handle copy to clipboard
+  function hanldeClipboardCopy(text: string): void {
+    window.navigator.clipboard
+      .writeText(text)
+      .then(() =>
+        toast({
+          title: 'کد با موفقیت کپی شد',
+          theme: 'green',
+          description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
+        }),
+      )
+      .catch(() =>
+        toast({
+          title: 'کد کپی نشد!',
+          description: 'خطایی در کپی کردن کد پیش امد.',
+        }),
+      );
+  }
+
   // Returning JSX
   return (
     <section
@@ -131,12 +157,7 @@ export default function CustomersClubTable({
                     </span>
                     <button
                       className="text-cs-red shrink-0"
-                      onClick={() => {
-                        window.navigator.clipboard
-                          .writeText(item.discount.code)
-                          .then(() => {})
-                          .catch(() => {});
-                      }}
+                      onClick={() => hanldeClipboardCopy(item.discount.code)}
                     >
                       <IconsaxIcons
                         name="DocumentCopy"
@@ -165,9 +186,23 @@ export default function CustomersClubTable({
                   <TableCell className="p-3 flex items-center justify-end gap-3">
                     {item.status !== 'deactive' ? (
                       <button
-                        disabled={item.status === 'used'}
+                        disabled={loadingItemIndex === index}
+                        onClick={async () => {
+                          setLoadingItemIndex(index);
+                          await new Promise((resolve) =>
+                            setTimeout(resolve, 5000),
+                          );
+
+                          setLoadingItemIndex(undefined);
+                          toast({
+                            theme: 'theme',
+                            title: 'خطایی رخ داد!',
+                            description:
+                              'مشتری گرامی برای دریافت جایزه امتیاز شما کافی نمیباشد.',
+                          });
+                        }}
                         className={cn(
-                          'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center',
+                          'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100',
                           item.status === 'unused'
                             ? 'text-black bg-white border border-black/20 hover:bg-gray-100'
                             : item.status === 'active'
@@ -175,13 +210,17 @@ export default function CustomersClubTable({
                               : 'text-gray-600 bg-gray-100',
                         )}
                       >
-                        <span className="text-xs text-current font-medium">
-                          {item.status === 'used'
-                            ? 'استفاده شد'
-                            : item.status === 'active'
-                              ? 'فعال میباشد'
-                              : 'دریافت جایزه'}
-                        </span>
+                        {loadingItemIndex !== index ? (
+                          <span className="text-xs text-current font-medium">
+                            {item.status === 'used'
+                              ? 'استفاده شد'
+                              : item.status === 'active'
+                                ? 'فعال میباشد'
+                                : 'دریافت جایزه'}
+                          </span>
+                        ) : (
+                          <Loading />
+                        )}
                       </button>
                     ) : (
                       <div className="w-[125px] h-[40px] rounded-md bg-cs-red/10 text-cs-red flex items-center justify-center">
