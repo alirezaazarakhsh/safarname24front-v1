@@ -347,6 +347,7 @@ export interface CustomersClubTablePropsType {
   className?: string;
   data: {
     companyImg: string;
+    id: number;
     title: string;
     score: number;
     status: 'used' | 'unused' | 'active' | 'deactive';

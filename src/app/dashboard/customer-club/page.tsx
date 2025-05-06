@@ -15,6 +15,7 @@ const scores: {
     companyImg: string;
     title: string;
     score: number;
+    id: number;
     status: 'used' | 'unused' | 'active' | 'deactive';
     discount: {
       code: string;
@@ -27,6 +28,7 @@ const scores: {
   data: [
     {
       companyImg: SafarnameLogo.src,
+      id: 1,
       title: 'اتاق دوبلکس هتل اوین',
       score: 1365,
       status: 'used',
@@ -39,6 +41,7 @@ const scores: {
     {
       companyImg: SafarnameLogo.src,
       title: 'اتاق دوبلکس هتل اوین',
+      id: 1,
       score: 1365,
       status: 'unused',
       discount: {
@@ -50,6 +53,7 @@ const scores: {
     {
       companyImg: SafarnameLogo.src,
       title: 'اتاق دوبلکس هتل اوین',
+      id: 1,
       score: 1365,
       status: 'active',
       discount: {
@@ -61,6 +65,7 @@ const scores: {
     {
       companyImg: SafarnameLogo.src,
       title: 'اتاق دوبلکس هتل اوین',
+      id: 1,
       score: 1365,
       status: 'deactive',
       discount: {
