@@ -342,6 +342,7 @@ export interface ToggleButtonsPropsType {
   className?: string;
   buttons: [string, string];
   onChange?: (index: number) => void;
+  width: string;
 }
 
 export interface CustomersClubTablePropsType {

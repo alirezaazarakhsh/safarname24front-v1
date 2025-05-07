@@ -50,8 +50,9 @@ export default function Filter({
         </div>
         <ToggleButtons
           buttons={['جوایز مرکز خرید', 'جوایز هتل']}
-          className="lg:h-[45px] h-[40px] lg:w-auto w-full lg:bg-white bg-gray-100 col-span-3"
+          className="lg:h-[45px] h-[40px] lg:bg-white bg-gray-100 col-span-3"
           onChange={(index) => setVal(index === 0 ? 'shoppingCentre' : 'hotel')}
+          width="lg:w-[250px] w-full"
         />
       </div>
     </div>
