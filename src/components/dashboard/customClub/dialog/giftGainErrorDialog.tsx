@@ -12,16 +12,9 @@ import {
   DialogClose,
   DialogFooter,
 } from '@/components/ui/dialog';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer';
 import { DialogComponentPropsType } from '@/types/dashboard/component';
 import { useMediaQuery } from '@/hooks';
+import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 
 // Creating and exporting GiftGainErrorDialog component as default
 export default function GiftGainErrorDialog({
@@ -34,28 +27,12 @@ export default function GiftGainErrorDialog({
   // conditional rendering
   if (isMobile) {
     return (
-      <Drawer open={isOpened} onClose={closeFn}>
-        <DrawerContent>
-          <DrawerHeader className="px-[24px] py-0 mb-[10px]">
-            <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
-              مشکلی در دریافت جایزه رخ داد!
-            </DrawerTitle>
-          </DrawerHeader>
-          <div className="px-[24px] py-0">
-            <DrawerDescription className="text-[12px] font-medium text-gray-500">
-              مشترک گرامی عزیز عملیات دریافت جایزه ناموفق بود لطفاً مجدد تلاش
-              کنید از صبر و شکیبایی شما متشکریم.
-            </DrawerDescription>
-          </div>
-          <DrawerFooter className="px-[24px] mt-[20px] py-0">
-            <button className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit">
-              <span className="text-[12px] font-semibold text-white">
-                تلاش مجدد
-              </span>
-            </button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+      <CanclationErrorDrawer
+        isOpened={isOpened}
+        closeFn={closeFn}
+        description="مشترک گرامی عزیز عملیات دریافت جایزه ناموفق بود لطفاً مجدد تلاش کنید از صبر و شکیبایی شما متشکریم."
+        title="مشکلی در دریافت جایزه رخ داد!"
+      />
     );
   } else {
     return (

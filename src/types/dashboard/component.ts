@@ -143,6 +143,7 @@ export interface CanclationErrorDrawerPropsType {
   closeFn?: () => void;
   title: string;
   description: string;
+  theme?: 'theme' | 'green';
 }
 
 export interface IconedPriceComponentPropsType {

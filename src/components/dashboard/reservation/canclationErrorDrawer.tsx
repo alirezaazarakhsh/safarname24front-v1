@@ -12,6 +12,7 @@ import {
   DrawerTitle,
 } from '@/components/ui/drawer';
 import { CanclationErrorDrawerPropsType } from '@/types/dashboard/component';
+import { cn } from '@/utils/utils';
 
 // Creating and exporting CanclationErrorDrawer component as default
 export default function CanclationErrorDrawer({
@@ -19,6 +20,7 @@ export default function CanclationErrorDrawer({
   isOpened = false,
   description,
   title,
+  theme = 'theme',
 }: CanclationErrorDrawerPropsType): ReactNode {
   // Defining states of component
   const [time, setTime] = useState<number>(0); // in Seconds
@@ -46,7 +48,12 @@ export default function CanclationErrorDrawer({
     >
       <DrawerContent>
         <DrawerHeader className="px-[24px] py-0 mb-[10px]">
-          <DrawerTitle className="text-[14px] font-bold text-cs-red truncate block text-right">
+          <DrawerTitle
+            className={cn(
+              'text-[14px] font-bold truncate block text-right',
+              theme === 'theme' ? 'text-cs-red' : 'text-green-500',
+            )}
+          >
             {title}
           </DrawerTitle>
         </DrawerHeader>
@@ -58,7 +65,10 @@ export default function CanclationErrorDrawer({
         <DrawerFooter>
           <div className="bg-gray-100 mt-[10px] overflow-hidden  rounded-[50rem]">
             <div
-              className="bg-red-600 h-[5px] rounded-[50rem] w-[30%] transition-all duration-500"
+              className={cn(
+                'h-[5px] rounded-[50rem] w-[30%] transition-all duration-500',
+                theme === 'theme' ? 'bg-red-600' : 'bg-green-500',
+              )}
               style={{ width: `${(time / 5) * 100}%` }}
             />
           </div>

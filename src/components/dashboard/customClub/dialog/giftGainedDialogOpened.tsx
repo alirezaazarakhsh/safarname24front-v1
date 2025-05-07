@@ -14,15 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { DialogComponentPropsType } from '@/types/dashboard/component';
 import { useMediaQuery } from '@/hooks';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer';
+import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 
 // Creating and exporting GiftGainedDialog component as default
 export default function GiftGainedDialog({
@@ -35,30 +27,13 @@ export default function GiftGainedDialog({
   // Conditional rendering
   if (isMobile) {
     return (
-      <Drawer open={isOpened} onClose={closeFn}>
-        <DrawerContent>
-          <DrawerHeader className="px-[24px] py-0 mb-[10px]">
-            <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
-              جایزه شما با موفقیت دریافت کردید
-            </DrawerTitle>
-          </DrawerHeader>
-          <div className="px-[24px] py-0">
-            <DrawerDescription className="text-[12px] font-medium text-gray-500">
-              مشترک گرامی عزیز جایزه شما با موفقیت ثبت شد و میتوانید از جایزه
-              خود استفاده نمایید از همراهی شما متشکریم.
-            </DrawerDescription>
-          </div>
-          <DrawerFooter className="px-[24px] py-0 mt-[10px]">
-            <DrawerClose asChild>
-              <button className="px-[50px] h-[43px] flex items-center justify-center bg-green-600 rounded-[8px] w-fit">
-                <span className="text-[12px] font-semibold text-white">
-                  متوجه شدم
-                </span>
-              </button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+      <CanclationErrorDrawer
+        isOpened={isOpened}
+        theme="green"
+        closeFn={closeFn}
+        description="مشترک گرامی عزیز جایزه شما با موفقیت ثبت شد و میتوانید از جایزه خود استفاده نمایید از همراهی شما متشکریم."
+        title="جایزه شما با موفقیت دریافت کردید"
+      />
     );
   } else {
     return (
