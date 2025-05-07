@@ -3,7 +3,7 @@
 
 // Importing part
 import { ReactNode, useState } from 'react';
-import SafarnameLogo from '../../../../public/image/logo/white.webp';
+import SafarnameLogo from '../../../../../public/image/logo/white.webp';
 import moment from 'jalali-moment';
 import Filter from '@/components/dashboard/customClub/filter';
 import CustomersClubTable from '@/components/dashboard/customClub/table';
