@@ -379,3 +379,20 @@ export interface CustomerClubListTablePropsType {
   }[];
   className?: string;
 }
+
+export interface NotificationType {
+  id: number;
+  title: string;
+  createdAt: string;
+  content: string;
+  status: 'seen' | 'unseen' | 'important';
+}
+
+export interface NotificationComponentPropsType {
+  data: NotificationType;
+  className?: string;
+}
+
+export interface NotificationSheetPropsType {
+  notifications: NotificationType[];
+}
