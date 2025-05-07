@@ -368,3 +368,13 @@ export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
   setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
   setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface CustomerClubListTablePropsType {
+  data: {
+    title: string;
+    createdAt: string;
+    price: number;
+    score: number;
+  }[];
+  className?: string;
+}

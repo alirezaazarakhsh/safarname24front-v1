@@ -64,11 +64,11 @@ const data: {
   {
     icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'باشگاه مشتریان',
-    href: '/dashboard/customer-club',
+    href: '/dashboard/customer-club/gifts',
     dropdown: [
       {
         label: 'جوایز هتل، مرکز خرید',
-        href: '/dashboard/customer-club',
+        href: '/dashboard/customer-club/gifts',
       },
       {
         label: 'لیست جایزه های دریافتی',
