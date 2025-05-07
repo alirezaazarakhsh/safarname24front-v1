@@ -3,7 +3,7 @@
 
 // Importing part
 import { ReactNode, useState } from 'react';
-import Filter from '@/components/dashboard/customerClubList/filter';
+import Filter from '@/components/dashboard/CustomerClubList/filter';
 import CustomerClubListTable from '@/components/dashboard/CustomerClubList/table';
 
 // Defining fake data to render
