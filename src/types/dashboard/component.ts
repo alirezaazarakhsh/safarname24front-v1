@@ -143,6 +143,7 @@ export interface CanclationErrorDrawerPropsType {
   closeFn?: () => void;
   title: string;
   description: string;
+  theme?: 'theme' | 'green';
 }
 
 export interface IconedPriceComponentPropsType {
@@ -315,4 +316,83 @@ export interface SheetComponentPropsType {
   isOpened?: boolean;
   closeFn?: () => void;
   children: ReactNode;
+}
+
+export interface SearchFinancialDashboardPropsType {
+  onChange?: (val: string) => void;
+}
+
+export interface FinancialFatorsDashboardTablePropsType {
+  data: {
+    type: 'cashOut' | 'cartToCart' | 'add';
+    amount: number;
+    createdAt: string;
+    status: 'successfull' | 'unsuccessfull';
+    id: number;
+  }[];
+  className?: string;
+}
+
+export interface FilterCustomClubPageComponentPropsType {
+  onChange?: (val: 'shoppingCentre' | 'hotel') => void;
+  totalScore: number;
+}
+
+export interface ToggleButtonsPropsType {
+  className?: string;
+  buttons: [string, string];
+  onChange?: (index: number) => void;
+  width: string;
+}
+
+export interface CustomersClubTablePropsType {
+  className?: string;
+  data: {
+    company: {
+      name: string;
+      persianName: string;
+      logo: string;
+    };
+    title: string;
+    score: number;
+    id: number;
+    status: 'used' | 'unused' | 'active' | 'deactive';
+    discount: {
+      code: string;
+      price: number;
+      endsAt: string;
+    };
+  }[];
+}
+
+export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
+  setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
+  setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface CustomerClubListTablePropsType {
+  data: {
+    title: string;
+    createdAt: string;
+    price: number;
+    score: number;
+  }[];
+  className?: string;
+}
+
+export interface NotificationType {
+  id: number;
+  title: string;
+  createdAt: string;
+  content: string;
+  status: 'seen' | 'unseen' | 'important';
+}
+
+export interface NotificationComponentPropsType {
+  data: NotificationType;
+  className?: string;
+}
+
+export interface NotificationSheetPropsType {
+  notifications: NotificationType[];
 }

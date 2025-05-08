@@ -3,7 +3,7 @@
 
 // Importing part
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { MobileProfileComponentPropsType } from '@/types/dashboard/component';
 import Image from 'next/image';
 import ProfileImage from '../../../public/image/profile/1.webp';
@@ -127,7 +127,7 @@ export default function MobileProfile({
   const pathname = usePathname();
 
   // Using useEffect to close the component when url changes
-  useEffect(() => closeFn(), [pathname, closeFn]);
+  useEffect(() => closeFn(), [pathname]);
 
   // Using useEffect to remove scroll feature from body while the component is opened
   useEffect(() => {
