@@ -69,6 +69,7 @@ export function HeroSection(props: Props) {
           >
             {image && (
               <Image
+                priority
                 src={image}
                 width={1280}
                 height={800}
