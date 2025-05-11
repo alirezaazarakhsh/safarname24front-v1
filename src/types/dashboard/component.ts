@@ -402,3 +402,7 @@ export interface NotificationSheetMobilePropsType
   extends NotificationSheetPropsType {
   index: number;
 }
+
+export interface FilterFavPageComponentPropsType {
+  onChange?: (val: 'savedHotels' | 'savedBlogs') => void;
+}
