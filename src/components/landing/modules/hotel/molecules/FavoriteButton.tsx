@@ -52,7 +52,7 @@ export default function FavoriteButton() {
       />
 
       <motion.button
-        className={`relative w-11 aspect-square flex-center overflow-hidden rounded-lg transition-all duration-300 ease-in-out ${isFavorite ? 'bg-cs-red/10' : 'bg-zinc-100'}`}
+        className={`relative w-11 aspect-square flex-center overflow-hidden rounded-lg transition-all duration-300 ease-in-out ${isFavorite ? 'bg-cs-red/10' : 'bg-zinc-200/50'}`}
         onClick={handleClick}
       >
         <AnimatePresence>

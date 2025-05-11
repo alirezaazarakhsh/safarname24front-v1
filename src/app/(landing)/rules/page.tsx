@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { rules } from '@/constants/landing';
-import StickyArea from '@/components/landing/shared/header/StickyArea';
+import StickyArea from '@/components/landing/shared/StickyArea';
 
 import {
   NavBar,

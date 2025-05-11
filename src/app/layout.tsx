@@ -34,8 +34,8 @@ const iranSansFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: '55875043',
-  description: '',
+  title: 'Safarname 24',
+  description: 'Agency Safarname 24 Hotel',
 };
 
 export default function RootLayout({

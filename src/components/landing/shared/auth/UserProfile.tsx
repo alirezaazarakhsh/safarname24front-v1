@@ -37,13 +37,13 @@ export default function UserProfile(props: Props) {
       {!isDesktop ? (
         <>
           {/* Drawer (Small-Device) */}
-          <Drawer open={isOpen} onOpenChange={setOpen}>
+          {/* <Drawer open={isOpen} onOpenChange={setOpen}>
             <DrawerContent className="lg:hidden">
               <DrawerTitle className="hidden"></DrawerTitle>
-              <DrawerDescription className="hidden"></DrawerDescription>
+              <DrawerDescription className="hidden"></DrawerDescription> */}
 
               {/* User-FullName */}
-              <div
+              {/* <div
                 dir={'rtl'}
                 className="text-zinc-800 text-cs09 font-extrabold pb-3 mb-2 border-b"
               >
@@ -52,10 +52,10 @@ export default function UserProfile(props: Props) {
                 ) : (
                   <span>کاربر محترم</span>
                 )}
-              </div>
+              </div> */}
 
               {/* Profile-Items */}
-              <div dir="rtl" className="grid divide-y divide-zinc-100/80">
+              {/* <div dir="rtl" className="grid divide-y divide-zinc-100/80">
                 <UserProfileItem
                   href="/"
                   type="link"
@@ -73,7 +73,7 @@ export default function UserProfile(props: Props) {
                 <LogoutButton />
               </div>
             </DrawerContent>
-          </Drawer>
+          </Drawer> */}
         </>
       ) : (
         <>

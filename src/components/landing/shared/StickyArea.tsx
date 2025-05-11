@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useScrollPosition } from '@/hooks';
-import SearchBar from '../search/SearchBar';
+import SearchBar from './search/SearchBar';
 import useScrollToBottom from '@/hooks/useScrollToBottom';
 
 type Props = {

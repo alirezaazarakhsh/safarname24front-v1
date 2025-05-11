@@ -1,1 +1,1 @@
-export * from './numberSeparation'
+export * from './numberSeparation';

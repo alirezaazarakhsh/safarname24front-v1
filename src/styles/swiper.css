@@ -5,8 +5,8 @@
   position: absolute !important;
   top: 50% !important;
   left: 1.5rem !important;
-  width: max-content;
-  height: max-content;
+  width: fit-content !important;
+  height: fit-content !important;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

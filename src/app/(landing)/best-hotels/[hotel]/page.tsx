@@ -22,11 +22,12 @@ import {
 import { hotel } from '@/constants/landing';
 import { TopBarConfig } from '@/components/landing/shared';
 import Configs from '@/components/landing/modules/hotel/Configs';
-import StickyArea from '@/components/landing/shared/header/StickyArea';
+import StickyArea from '@/components/landing/shared/StickyArea';
 import { Section } from '@/components/landing/modules/hotel/molecules/Section';
 import Sharing from '@/components/landing/modules/hotel/molecules/sharing/Sharing';
 import FavoriteButton from '@/components/landing/modules/hotel/molecules/FavoriteButton';
 import MImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/MImageGallery';
+import DImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/DImageGallery';
 
 // -----------------------------------------------------
 
@@ -79,6 +80,8 @@ export default function Hotel() {
               gallery={imageGallery}
               hotelName="اسپیناس پالاس"
             />
+
+            <DImageGallery gallery={imageGallery} />
           </div>
         </div>
 
@@ -109,11 +112,7 @@ export default function Hotel() {
         </div>
 
         <Section sectionID="rooms" setActiveSection={setActiveSection}>
-          <Rooms
-            rooms={rooms}
-            hotelName={initialInfo.hotelName}
-            numberOfRooms={initialInfo.numberOfRooms}
-          />
+          <Rooms rooms={rooms} hotelName={initialInfo.hotelName} />
         </Section>
 
         <AdditionalDetails details={desc} />

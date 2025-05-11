@@ -1,3 +1,4 @@
+import CopyLink from './CopyLink';
 import SharingItem from './SharingItem';
 
 // -----------------------------------------------------
@@ -11,7 +12,7 @@ export default function SharingContent() {
       </p>
 
       <div className="space-y-4">
-        <SharingItem icon="copy" title="کپی کردن لینک هتل" type="copy" />
+        <CopyLink />
         <SharingItem icon="telegram" title="تلگرام" />
         <SharingItem icon="whatsapp" title="واتساپ" />
         <SharingItem icon="instagram" title="اینستاگرام" />

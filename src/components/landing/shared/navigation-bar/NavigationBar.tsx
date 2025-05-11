@@ -10,6 +10,7 @@ import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import NavigationBarItem from './NavigationBarItem';
 import { useUserAccountContext } from '@/context/UserAccountContext';
+import Link from 'next/link';
 
 // ---------------------------------------
 
@@ -73,7 +74,8 @@ export function NavigationBar() {
 
             {/* User-Profile | User-Account Triggers */}
             {userIsLoggedIn !== null && userIsLoggedIn ? (
-              <button
+              <Link
+                href={'/dashboard'}
                 className="flex flex-col items-center gap-1.5"
                 onClick={() => setUserAccountOpen(true)}
               >
@@ -81,7 +83,7 @@ export function NavigationBar() {
                 <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.8rem)] font-bold">
                   پروفایل کاربری
                 </span>
-              </button>
+              </Link>
             ) : (
               <button
                 className="flex flex-col items-center gap-1.5"

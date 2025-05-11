@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useMediaQuery } from '@/hooks';
 
 interface Props {
@@ -29,7 +29,7 @@ export function Section(props: Props) {
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   // ====== Auto Active-Section On-Scroll
-  function handleScroll() {
+  const handleScroll = useCallback(() => {
     const section = document.getElementById(String(id));
     const rectTop = isDesktop ? 190 : 85;
 
@@ -37,7 +37,7 @@ export function Section(props: Props) {
       const rect = section.getBoundingClientRect();
       if (rect.top <= rectTop && rect.bottom >= 0) setActiveSection(id);
     }
-  }
+  }, [id, isDesktop, setActiveSection]);
 
   // ====== Initial-Set Of Active-Section
   useEffect(() => {
@@ -46,7 +46,7 @@ export function Section(props: Props) {
       setActiveSection(firstSectionID);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [id, setActiveSection, isDesktop, firstSectionID]);
+  }, [id, setActiveSection, isDesktop, firstSectionID, handleScroll]);
 
   return (
     <div

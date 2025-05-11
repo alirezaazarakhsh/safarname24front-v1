@@ -24,7 +24,7 @@ export function AmazingHotels(props: Props) {
   if (!amazingHotels?.length) return null;
 
   return (
-    <div className="overflow-hidden xl:overflow-visible">
+    <div className="overflow-hidden lg:overflow-visible">
       <TopBarConfig
         className="ml-0"
         timerDeadline="2025-04-12"
@@ -38,7 +38,6 @@ export function AmazingHotels(props: Props) {
           breakpoints={{
             0: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
           }}
           spaceBetween={20}
           modules={[Pagination]}

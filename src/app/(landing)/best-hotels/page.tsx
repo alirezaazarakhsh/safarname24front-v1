@@ -7,8 +7,7 @@ import {
 } from '@/components/landing/modules/best-hotels';
 
 import { bestHotels } from '@/constants/landing';
-import SearchBar from '@/components/landing/shared/search/SearchBar';
-import StickyArea from '@/components/landing/shared/header/StickyArea';
+import StickyArea from '@/components/landing/shared/StickyArea';
 
 // -------------------------------------
 
@@ -24,7 +23,7 @@ export default function BestHotels() {
       <div className="mt-8 lg:mt-12">
         <Setting />
 
-        <div className="grid gap-10 xl:grid-cols-[20rem_1fr]">
+        <div className="grid gap-10 lg:grid-cols-[20rem_1fr]">
           <div className="hidden lg:block">
             <Filters />
           </div>

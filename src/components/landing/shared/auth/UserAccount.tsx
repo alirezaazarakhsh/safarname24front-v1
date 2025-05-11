@@ -42,13 +42,16 @@ export default function UserAccount() {
           />
 
           {/* Dialog-Logo | Title */}
-          <div className="mt-12 flex flex-col items-center gap-3 md:mt-10">
-            <Image
-              alt="logo"
-              width={90}
-              height={90}
-              src={'/image/logo/red.png'}
-            />
+          <div className="mt-10 flex flex-col items-center gap-1">
+            <div className="relative w-[4.5rem] h-[4.5rem]">
+              <Image
+                fill
+                alt="logo"
+                sizes="100%"
+                src="/image/logo/red.png"
+                className="object-contain"
+              />
+            </div>
 
             <h1 className="font-inter font-bold capitalize md:hidden">
               safarname 24 hotel

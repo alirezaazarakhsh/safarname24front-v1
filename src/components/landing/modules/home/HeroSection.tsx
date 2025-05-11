@@ -35,7 +35,7 @@ export function HeroSection(props: Props) {
     }));
 
   return (
-    <div className="relative hidden xl:block">
+    <div className="relative hidden lg:block">
       <SearchAndFilter />
 
       <Swiper
@@ -60,7 +60,7 @@ export function HeroSection(props: Props) {
         allowSlidePrev={controlSlides.allowSlidePrev}
         allowSlideNext={controlSlides.allowSlideNext}
         modules={[Pagination, Autoplay, EffectFade]}
-        className="heroSection-swiper h-[40rem] rounded-2xl"
+        className="heroSection-swiper h-[36rem] rounded-2xl xl:h-[40rem]"
       >
         {images?.map((image, index) => (
           <SwiperSlide

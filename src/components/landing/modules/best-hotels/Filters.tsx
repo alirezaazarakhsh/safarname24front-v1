@@ -32,7 +32,7 @@ export function Filters(props: Props) {
   return (
     <>
       {/* Small-Screen */}
-      <div className="xl:hidden">
+      <div className="lg:hidden">
         {/* Dialog-Trigger | Number-Of-Hotels */}
         <div className="h-9 flex gap-3">
           <button
@@ -99,7 +99,7 @@ export function Filters(props: Props) {
       </div>
 
       {/* Large-Screen */}
-      <div className="sticky top-32 h-fit bg-white text-zinc-800 hidden divide-y overflow-hidden rounded-2xl shadow-light xl:block">
+      <div className="sticky top-32 h-fit bg-white text-zinc-800 hidden divide-y overflow-hidden rounded-2xl shadow-light lg:block">
         {/* Sort-Filters */}
         <div className="px-5 py-4 flex-between items-center">
           <span className="text-cs85 font-bold">فیلتر مرتب سازی</span>

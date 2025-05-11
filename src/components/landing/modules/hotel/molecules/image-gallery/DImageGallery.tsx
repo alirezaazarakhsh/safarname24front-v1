@@ -41,7 +41,13 @@ export default function DImageGallery(props: Props) {
 
   return (
     <Dialog>
-      <DialogTrigger className="absolute bottom-4 left-4 bg-white/20 text-zinc-100 text-cs75 font-semibold px-5 py-2.5 backdrop-blur-lg rounded-lg transition-colors duration-200 ease-in-out hover:bg-white/30">
+      {/* === Small-Screen */}
+      <DialogTrigger className="bg-zinc-100 text-zinc-700 text-[clamp(0.75rem,2vw,0.8rem)] font-bold flex-center gap-1 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/60 sm:px-6">
+        تصاویر هتل
+      </DialogTrigger>
+
+      {/* === Large-Screen */}
+      <DialogTrigger className="absolute bottom-4 left-4 bg-white/20 text-zinc-100 text-cs75 font-semibold px-5 py-2.5 hidden backdrop-blur-lg rounded-lg transition-colors duration-200 ease-in-out hover:bg-white/30 xl:block">
         مشاهده تصاویر هتل
       </DialogTrigger>
 

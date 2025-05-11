@@ -26,7 +26,7 @@ export function SectionLinks(props: Props) {
     const element = document.getElementById(id.toString());
     if (!element) return;
 
-    const offset = isDesktop ? 190 : 145;
+    const offset = isDesktop ? 105 : 145;
     const y = element.getBoundingClientRect().top + window.pageYOffset - offset;
 
     window.scrollTo({ top: y, behavior: 'smooth' });

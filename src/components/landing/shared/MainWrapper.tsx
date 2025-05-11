@@ -1,5 +1,6 @@
 'use client';
 
+import { SearchProvider } from '@/context/SearchContext';
 import { UserAccountProvider } from '@/context/UserAccountContext';
 
 type Props = {
@@ -11,7 +12,9 @@ type Props = {
 export default function MainWrapper(props: Props) {
   return (
     <>
-      <UserAccountProvider>{props.children}</UserAccountProvider>
+      <UserAccountProvider>
+        <SearchProvider>{props.children}</SearchProvider>
+      </UserAccountProvider>
     </>
   );
 }

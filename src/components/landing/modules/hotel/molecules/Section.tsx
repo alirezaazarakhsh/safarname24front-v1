@@ -22,7 +22,7 @@ export function Section(props: Props) {
   useEffect(() => {
     function handleScroll() {
       const section = document.getElementById(String(sectionID));
-      const rectTop = isDesktop ? 200 : 160;
+      const rectTop = isDesktop ? 140 : 160;
 
       if (section) {
         const rect = section.getBoundingClientRect();
