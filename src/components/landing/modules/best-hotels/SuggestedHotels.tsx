@@ -25,7 +25,7 @@ export function SuggestedHotels(props: Props) {
       />
 
       {/* Small-Screen */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:hidden">
+      <div className="grid gap-6 md:grid-cols-2 xl:hidden">
         {suggestedHotels?.map((hotel, index) => (
           <MHotelCard key={index} hotel={hotel} isSpecialOffer={false} />
         ))}

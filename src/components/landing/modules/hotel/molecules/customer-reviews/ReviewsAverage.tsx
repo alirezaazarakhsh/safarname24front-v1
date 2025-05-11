@@ -26,9 +26,9 @@ export default function ReviewsAverage(props: Props) {
       {/* Standards */}
       <div className='mt-6 space-y-6'>
         {standards?.map((standard, id) => (
-          <div key={id} className='space-y-2'>
+          <div key={id} className='space-y-2.5'>
             {/* Title | Value */}
-            <div className='text-zinc-800 text-cs75 font-bold flex-between'>
+            <div className='text-zinc-800 text-cs08 font-bold flex-between'>
               <span>{standard.title}</span>
               <span>{standard.value}</span>
             </div>

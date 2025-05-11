@@ -12,31 +12,28 @@ import {
 } from '@/components/landing/modules/home';
 
 import { home } from '@/constants/landing';
-import SearchBar from '@/components/landing/shared/search/SearchBar';
-import StickyArea from '@/components/landing/shared/header/StickyArea';
+import StickyArea from '@/components/landing/shared/StickyArea';
 
 // -----------------------------------------------
 
 export default function Home() {
   const {
-    advertisingBanners,
-    amazingHotels,
+    services,
     bestHotels,
-    bestSellingHotels,
-    customerReviews,
     heroSection,
+    amazingHotels,
+    customerReviews,
     interestingBLogs,
     mostVisitedCities,
-    services,
+    bestSellingHotels,
+    advertisingBanners,
   } = home;
 
   return (
     <>
-      <StickyArea>
-        <SearchBar />
-      </StickyArea>
+      <StickyArea />
 
-      <div className="mt-6 flex flex-col gap-14 lg:gap-20 xl:mt-0">
+      <div className="mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0">
         <HeroSection images={heroSection.images} />
         <Services services={services} />
         <SuggestedHotels suggestedHotels={home.suggestedHotels} />

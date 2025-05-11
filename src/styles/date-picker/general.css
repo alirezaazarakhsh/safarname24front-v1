@@ -1,0 +1,202 @@
+/* ========= Wrapper */
+/* ======================= */
+
+.general-calendar {
+  width: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  min-height: 22rem !important;
+  user-select: none !important;
+  position: relative !important;
+  font-family: 'Inter', 'IRANSansX';
+}
+
+/* ========= Header */
+/* ======================= */
+
+.general-calendar .rmdp-header div button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem !important;
+  outline: none !important;
+  height: 1.5rem !important;
+  border-radius: 0.3rem !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.general-calendar .rmdp-header div .rmdp-header-values {
+  gap: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content !important;
+  flex-direction: row-reverse !important;
+}
+
+/* ========= Day-Picker */
+/* ======================= */
+
+.general-calendar .rmdp-day-picker .rmdp-week-day {
+  width: 2rem !important;
+  height: 2rem !important;
+  color: black !important;
+  font-weight: 600 !important;
+  border-radius: 0.4rem !important;
+  font-size: clamp(0.75rem, 3vw, 0.8rem) !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.general-calendar .rmdp-day-picker .rmdp-day.rmdp-range,
+.general-calendar .rmdp-day-picker .rmdp-day.rmdp-range-hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.general-calendar .rmdp-day-picker .rmdp-day span {
+  border: none !important;
+  color: unset !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: none !important;
+  background-color: transparent !important;
+}
+
+.general-calendar .rmdp-day-picker .rmdp-day.start,
+.general-calendar .rmdp-day-picker .rmdp-day.end {
+  color: white !important;
+  background-color: rgb(37, 37, 37) !important;
+}
+
+.general-calendar .rmdp-day-picker .rmdp-day.start {
+  border-radius: 0.2rem 0.5rem 0.5rem 0.2rem !important;
+}
+
+.general-calendar .rmdp-day-picker .rmdp-day.end {
+  border-radius: 0.5rem 0.2rem 0.2rem 0.5rem !important;
+}
+
+.general-calendar
+  .rmdp-day-picker
+  .rmdp-week:not(first-child)
+  .rmdp-day.rmdp-range:first-child {
+  border-radius: 0 0.5rem 0.5rem 0 !important;
+}
+
+.general-calendar
+  .rmdp-day-picker
+  .rmdp-week:not(first-child)
+  .rmdp-day.rmdp-range:last-child {
+  border-radius: 0.5rem 0 0 0.5rem !important;
+}
+
+.general-calendar
+  .rmdp-day-picker
+  .rmdp-week:not(first-child)
+  .rmdp-day.rmdp-range-hover:first-child {
+  border-radius: 0 0.5rem 0.5rem 0 !important;
+}
+
+.general-calendar
+  .rmdp-day-picker
+  .rmdp-week:not(first-child)
+  .rmdp-day.rmdp-range-hover:last-child {
+  border-radius: 0.5rem 0 0 0.5rem !important;
+}
+
+/* ========= Exceptions */
+/* ======================= */
+
+.general-calendar .rmdp-day-picker .rmdp-day.start.end {
+  border-radius: 0.5rem !important;
+}
+
+.general-calendar .rmdp-day-picker .rmdp-day.rmdp-disabled {
+  opacity: 25% !important;
+}
+
+.general-calendar
+  .rmdp-day-picker
+  .rmdp-day.rmdp-today:not(.rmdp-day.rmdp-range) {
+  color: white !important;
+  border-radius: 0.5rem !important;
+  background-color: #f30f26 !important;
+}
+
+.general-calendar
+  .rmdp-day-picker
+  .rmdp-day:not(
+    .rmdp-day.end,
+    .rmdp-day.start,
+    .rmdp-day.rmdp-today,
+    .rmdp-day.rmdp-disabled
+  )
+  span.highlight.highlight-red {
+  color: #f30f26 !important;
+}
+
+/* ========= Month-Picker */
+/* ======================= */
+
+/* .general-calendar .rmdp-month-picker {
+  inset: 0 !important;
+}
+
+.general-calendar .rmdp-month-picker > div {
+  margin: 0 !important;
+}
+
+.general-calendar .rmdp-month-picker .rmdp-ym .rmdp-day {
+  height: 80% !important;
+}
+
+.general-calendar .rmdp-month-picker .rmdp-ym .rmdp-day span {
+  font-weight: 600 !important;
+}
+
+.general-calendar .rmdp-month-picker .rmdp-ym .rmdp-day.rmdp-today span {
+  color: white !important;
+  background-color: #f30f26 !important;
+}
+
+.general-calendar
+  .rmdp-month-picker
+  .rmdp-ym
+  .rmdp-day:not(.rmdp-disabled, .rmdp-today)
+  span:hover,
+.general-calendar .rmdp-month-picker .rmdp-ym .rmdp-day.rmdp-selected span {
+  background-color: rgb(37, 37, 37) !important;
+} */
+
+/* ========= Year-Picker */
+/* ======================= */
+
+/* .general-calendar .rmdp-year-picker {
+  inset: 0 !important;
+}
+
+.general-calendar .rmdp-year-picker > div {
+  margin: 0 !important;
+}
+
+.general-calendar .rmdp-year-picker .rmdp-ym .rmdp-day {
+  height: 80% !important;
+}
+
+.general-calendar .rmdp-year-picker .rmdp-ym .rmdp-day span {
+  font-weight: 600 !important;
+}
+
+.general-calendar .rmdp-year-picker .rmdp-ym .rmdp-day.rmdp-today span {
+  color: white !important;
+  background-color: #f30f26 !important;
+}
+
+.general-calendar
+  .rmdp-year-picker
+  .rmdp-ym
+  .rmdp-day:not(.rmdp-disabled, .rmdp-today)
+  span:hover,
+.general-calendar .rmdp-year-picker .rmdp-ym .rmdp-day.rmdp-selected span {
+  background-color: rgb(37, 37, 37) !important;
+} */

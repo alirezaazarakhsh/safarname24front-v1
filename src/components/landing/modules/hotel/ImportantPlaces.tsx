@@ -15,10 +15,14 @@ type Props = {
 
 export function ImportantPlaces(props: Props) {
   const { importantPlaces } = props;
+  if (!importantPlaces) return null;
 
   return (
-    <div id='nearby-places'>
-      {/* <TopBarConfig title='اماکن مهم اطراف هتل' className='mb-3 lg:mb-4' /> */}
+    <div id="nearby-places">
+      <TopBarConfig
+        className="mb-3 lg:mb-4"
+        title={{ type: 'single', text: 'اماکن مهم اطراف هتل' }}
+      />
 
       <MImportantPlaces importantPlaces={importantPlaces} />
       <DImportantPlaces importantPlaces={importantPlaces} />

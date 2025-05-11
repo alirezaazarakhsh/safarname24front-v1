@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Inter } from 'next/font/google';
 
+import MainWrapper from '@/components/landing/shared/MainWrapper';
+
 // ---------------------------------------------------
 
 const interFont = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -32,8 +34,8 @@ const iranSansFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: '8494190',
-  description: '',
+  title: 'Safarname 24',
+  description: 'Agency Safarname 24 Hotel',
 };
 
 export default function RootLayout({
@@ -46,7 +48,7 @@ export default function RootLayout({
       <body
         className={`${interFont.variable} ${iranSansFont.variable} font-sans antialiased ss01`}
       >
-        {children}
+        <MainWrapper>{children}</MainWrapper>
       </body>
     </html>
   );

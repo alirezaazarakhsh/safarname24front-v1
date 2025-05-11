@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogDescription,
 } from '@/components/ui/dialog';
+
 import {
   Drawer,
   DrawerClose,
@@ -20,7 +21,7 @@ import {
 
 type Props = {
   isOpen: boolean;
-  reactionType: 'success' | 'fail';
+  reactionType: 'saved' | 'unsaved' | 'fail';
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -29,11 +30,16 @@ type Props = {
 export default function FavoriteHotelReaction(props: Props) {
   const { isOpen, setOpen, reactionType } = props;
   const {
-    favoriteHotelReaction: { success, fail },
+    favoriteHotelReaction: { saved, unsaved, fail },
   } = bestHotels;
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  const content = reactionType === 'success' ? success : fail;
+  const content =
+    reactionType === 'saved'
+      ? saved
+      : reactionType === 'unsaved'
+        ? unsaved
+        : fail;
 
   return (
     <>
@@ -41,7 +47,7 @@ export default function FavoriteHotelReaction(props: Props) {
         <>
           {/* Dialog (Large-Device) */}
           <Dialog open={isOpen} onOpenChange={setOpen}>
-            <DialogContent className="max-w-[420px] text-cs85/6 font-semibold p-7 gap-0">
+            <DialogContent className="max-w-[450px] text-cs85/6 font-semibold p-7 pb-6 gap-0">
               <DialogTitle className="text-zinc-800 text-cs95 font-extrabold">
                 {content.title}
               </DialogTitle>
@@ -53,10 +59,10 @@ export default function FavoriteHotelReaction(props: Props) {
 
               <DialogClose
                 className={`w-max h-10 text-zinc-100 text-cs08 px-6 rounded-lg ${
-                  reactionType === 'success' ? 'bg-emerald-500' : 'bg-red-500'
+                  reactionType === 'fail' ? 'bg-red-500' : 'bg-emerald-500'
                 }`}
               >
-                {reactionType === 'success' ? 'متوجه شدم' : 'تلاش مجدد'}
+                {reactionType === 'fail' ? 'تلاش مجدد' : 'متوجه شدم'}
               </DialogClose>
             </DialogContent>
           </Dialog>
@@ -77,10 +83,10 @@ export default function FavoriteHotelReaction(props: Props) {
 
               <DrawerClose
                 className={`w-max h-10 text-zinc-100 text-cs08 px-6 rounded-lg ${
-                  reactionType === 'success' ? 'bg-emerald-500' : 'bg-red-500'
+                  reactionType === 'fail' ? 'bg-red-500' : 'bg-emerald-500'
                 }`}
               >
-                {reactionType === 'success' ? 'متوجه شدم' : 'تلاش مجدد'}
+                {reactionType === 'fail' ? 'تلاش مجدد' : 'متوجه شدم'}
               </DrawerClose>
             </DrawerContent>
           </Drawer>

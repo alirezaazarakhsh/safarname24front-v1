@@ -25,7 +25,7 @@ export default function PriceRange(props: Props) {
 
   return (
     <Accordion type="single" collapsible>
-      <AccordionItem value="price-range" className="xl:px-5">
+      <AccordionItem value="price-range" className="lg:px-5">
         <AccordionTrigger className="text-[0.85rem] font-bold">
           محدوده قیمت
         </AccordionTrigger>

@@ -41,8 +41,8 @@ export default function MImportantPlaces(props: Props) {
       >
         {importantPlaces?.map((importantPlace, index) => (
           <SwiperSlide key={index} className='select-none'>
-            <div className='bg-white h-28 p-4 pt-5 flex flex-col border-2 border-zinc-200 rounded-xl'>
-              <span className='text-zinc-800 text-cs85 font-extrabold'>{importantPlace.title}</span>
+            <div className='bg-white h-28 p-5 flex flex-col border-2 border-zinc-200 rounded-xl'>
+              <span className='text-zinc-800 text-cs85 font-extrabold truncate'>{importantPlace.title}</span>
 
               <div className='mt-auto flex-between items-center'>
                 <div className='text-zinc-800 text-cs08 font-semibold flex-center gap-1'>

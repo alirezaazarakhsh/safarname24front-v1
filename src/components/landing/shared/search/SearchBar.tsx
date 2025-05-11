@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import SearchBarTrigger from './SearchBarTrigger';
-import SearchBarContainer from './SearchBarContainer';
+import SearchBarContent from './SearchBarContent';
 
 type Props = {
   triggerType?: 'box' | 'none-box';
@@ -16,10 +16,7 @@ export default function SearchBar(props: Props) {
   return (
     <>
       <SearchBarTrigger setDialogOpen={() => setOpen(true)} />
-      <SearchBarContainer
-        isOpen={isOpen}
-        setDialogClose={() => setOpen(false)}
-      />
+      <SearchBarContent isOpen={isOpen} setDialogClose={() => setOpen(false)} />
     </>
   );
 }

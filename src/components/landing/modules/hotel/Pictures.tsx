@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import Image from 'next/image';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import DImageGallery from './molecules/DImageGallery';
+import DImageGallery from './molecules/image-gallery/DImageGallery';
 
 type Props = {
   pictures: string[];
@@ -22,8 +22,8 @@ export function Pictures(props: Props) {
   return (
     <div>
       {/* Small-Device */}
-      <div className='bg-white p-2 rounded-xl xl:hidden'>
-        <div className='overflow-hidden rounded-xl'>
+      <div className="bg-white p-2 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.06)] xl:hidden">
+        <div className="overflow-hidden rounded-xl">
           <Swiper
             spaceBetween={20}
             modules={[Pagination]}
@@ -39,12 +39,18 @@ export function Pictures(props: Props) {
               },
               1024: { slidesPerView: 3 },
             }}
-            className='hotelPictures-swiper'
+            className="hotelPictures-swiper"
           >
             {pictures?.map((picture, index) => (
-              <SwiperSlide key={index} className='select-none'>
-                <div className='bg-zinc-100 h-48 overflow-hidden rounded-xl'>
-                  <Image src={picture} alt='hotel-view' width={500} height={400} className='full-size object-cover' />
+              <SwiperSlide key={index} className="select-none">
+                <div className="bg-zinc-100 h-48 overflow-hidden rounded-xl">
+                  <Image
+                    src={picture}
+                    alt="hotel-view"
+                    width={500}
+                    height={400}
+                    className="full-size object-cover"
+                  />
                 </div>
               </SwiperSlide>
             ))}
@@ -53,19 +59,34 @@ export function Pictures(props: Props) {
       </div>
 
       {/* Large-Device */}
-      <div className='hidden grid-cols-[1.2fr_1fr] gap-6 xl:grid'>
+      <div className="hidden grid-cols-[1.2fr_1fr] gap-6 xl:grid">
         {/* Minor-Images */}
-        <div className='grid grid-cols-2 grid-rows-2 gap-4'>
+        <div className="grid grid-cols-2 grid-rows-2 gap-4">
           {pictures.slice(1).map((picture, index) => (
-            <div key={index} className='bg-zinc-200 h-40 overflow-hidden rounded-xl'>
-              <Image src={picture} alt='hotel-view' width={500} height={400} className='full-size object-cover' />
+            <div
+              key={index}
+              className="bg-zinc-200 h-44 overflow-hidden rounded-xl"
+            >
+              <Image
+                width={500}
+                height={400}
+                src={picture}
+                alt="hotel-view"
+                className="full-size object-cover"
+              />
             </div>
           ))}
         </div>
 
         {/* Main-Image */}
-        <div className='relative bg-zinc-200 overflow-hidden rounded-xl'>
-          <Image src={pictures[0]} alt='hotel-view' width={600} height={400} className='full-size object-cover' />
+        <div className="relative bg-zinc-200 overflow-hidden rounded-xl">
+          <Image
+            width={600}
+            height={400}
+            alt="hotel-view"
+            src={pictures[0]}
+            className="full-size object-cover"
+          />
 
           <DImageGallery gallery={gallery} />
         </div>

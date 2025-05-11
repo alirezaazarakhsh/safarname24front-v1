@@ -1,71 +1,57 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useMediaQuery } from '@/hooks';
 import PhoneNumber from './molecules/user-account/PhoneNumber';
+import useControlBodyOverflow from '@/hooks/useControlBodyOverflow';
+import { useUserAccountContext } from '@/context/UserAccountContext';
 import OTPVerification from './molecules/user-account/OTPVerification';
 import DialogCloseButton from './molecules/user-account/molecules/DialogCloseButton';
 
 type DialogStep = 'phone-number' | 'otp-verification';
 
-type Props = {
-  isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 // --------------------------------------------
 
-export default function UserAccount(props: Props) {
-  const { isOpen, setOpen } = props;
-
+export default function UserAccount() {
+  const { isOpen, toggle } = useUserAccountContext();
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const [dialogStep, setDialogStep] = useState<DialogStep>('phone-number');
 
   // Control Body-Overflow
-  useEffect(() => {
-    !isDesktop && isOpen
-      ? (document.body.style.overflow = 'hidden')
-      : (document.body.style.overflow = 'auto');
-
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen]);
-
-  // Reset dialogStep when dialog is closed
-  useEffect(() => {
-    if (!isOpen) setTimeout(() => setDialogStep('phone-number'), 300);
-  }, [isOpen]);
+  useControlBodyOverflow(isOpen);
 
   return (
     <>
       {/* Dialog */}
       <div
         className={`fixed inset-y-0 z-40 w-full h-dvh bg-white transition-all duration-500 ease-in-out md:bg-black/50 md:left-0 md:duration-300 ${isOpen ? 'visible left-0 md:opacity-100' : 'invisible left-full md:opacity-0'}`}
-        onClick={() => isDesktop && setOpen(false)}
+        onClick={() => isDesktop && toggle()}
       >
         <div
-          className={`absolute z-50 bg-white full-size text-zinc-800 grid grid-rows-[auto_1fr] transition-all duration-500 ease-in-out md:w-[28rem] md:h-[26rem] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:duration-300 ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+          className={`absolute z-50 bg-white full-size text-zinc-800 grid grid-rows-[auto_1fr] transition-all duration-500 ease-in-out md:w-[28rem] md:h-[26rem] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:duration-300 ${isOpen ? 'opacity-100 md:scale-100' : 'opacity-0 md:scale-95'}`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Dialog-Close-Button */}
           <DialogCloseButton
             dialogStep={dialogStep}
-            closeDialog={() => setOpen(false)}
+            closeDialog={() => toggle()}
             returnBack={() => setDialogStep('phone-number')}
           />
 
           {/* Dialog-Logo | Title */}
-          <div className="mt-12 flex flex-col items-center gap-3 md:mt-10">
-            <Image
-              alt="logo"
-              width={90}
-              height={90}
-              src={'/image/logo/red.png'}
-            />
+          <div className="mt-10 flex flex-col items-center gap-1">
+            <div className="relative w-[4.5rem] h-[4.5rem]">
+              <Image
+                fill
+                alt="logo"
+                sizes="100%"
+                src="/image/logo/red.png"
+                className="object-contain"
+              />
+            </div>
 
             <h1 className="font-inter font-bold capitalize md:hidden">
               safarname 24 hotel

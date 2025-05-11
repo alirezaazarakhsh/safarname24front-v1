@@ -28,7 +28,7 @@ export default function UserFavorites() {
     <>
       {/* Small-Device */}
       <button
-        className="flex flex-col items-center gap-2 overflow-hidden lg:hidden"
+        className="flex flex-col items-center gap-1.5 overflow-hidden lg:hidden"
         onClick={handleClick}
       >
         <IconsaxIcons
@@ -41,7 +41,7 @@ export default function UserFavorites() {
 
         <span
           className={clsx(
-            'text-zinc-500 text-cs75 font-bold transition-colors duration-300 ease-in-out',
+            'text-zinc-500 text-[clamp(0.7rem,2.5vw,0.8rem)] font-bold transition-colors duration-300 ease-in-out',
             isActive && 'text-zinc-800',
           )}
         >

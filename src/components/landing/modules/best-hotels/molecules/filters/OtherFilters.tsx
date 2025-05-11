@@ -15,7 +15,7 @@ export default function OtherFilters(props: Props) {
 
   return (
     <Accordion type="single" collapsible>
-      <AccordionItem value="other-filters" className="xl:px-5">
+      <AccordionItem value="other-filters" className="lg:px-5">
         <AccordionTrigger className="text-[0.85rem] font-bold">
           سایر فیلتر ها
         </AccordionTrigger>

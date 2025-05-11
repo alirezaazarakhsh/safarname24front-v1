@@ -5,7 +5,7 @@ import { sendTicket as formSchema } from '@/schema';
 import SendTicketReaction from './molecules/SendTicketReaction';
 
 import { z } from 'zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -14,10 +14,22 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 
+import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+
 type ReactionType = 'success' | 'fail';
+const url = 'https://cps.safarnameh24.com/api/v1/contact/message/';
 type FormStates = 'subject' | 'fullName' | 'phoneNumber' | 'email' | 'desc';
 
 // -----------------------------------------
+
+type Data = {
+  title: string;
+  full_name: string;
+  phone_number: string;
+  email: string;
+  text: string;
+};
 
 export function SendTicket() {
   const [reactionOpen, setReactionOpen] = useState(false);
@@ -26,13 +38,34 @@ export function SendTicket() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      subject: '',
-      fullName: '',
-      phoneNumber: '',
-      email: '',
-      desc: '',
+      subject: 'trhrhrthrthrthrthrthrth',
+      fullName: 'rthrthrthrthrthrth',
+      phoneNumber: '09399862846',
+      email: 'mtn@sdf.ocm',
+      desc: 'rthrthrth',
     },
   });
+
+  // const mutation = useMutation({
+  //   mutationFn: () => {
+  //     return fetch(url, {
+  //       method: 'post',
+  //       body: {
+  //         title: 'string',
+  //         full_name: 'string',
+  //         phone_number: '09399862846',
+  //         email: 'user@example.com',
+  //         text: 'string',
+  //       },
+  //     });
+  //   },
+  //   onSuccess: () => {
+  //     console.log('پیام شما با موفقیت ارسال شد!');
+  //   },
+  //   onError: (error) => {
+  //     console.error('خطا در ارسال پیام: ' + error.message);
+  //   },
+  // });
 
   function handleSetError(state: FormStates) {
     const errors = form.formState.errors;
@@ -44,12 +77,27 @@ export function SendTicket() {
     setReactionOpen(isOpen);
   }
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    values.subject === 'incorrect-subject'
-      ? handleSetReaction('fail', true)
-      : handleSetReaction('success', true);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // console.log(values);
+    // values.subject === 'incorrect-subject'
+    //   ? handleSetReaction('fail', true)
+    //   : handleSetReaction('success', true);
+    // mutation.mutate();
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch(
+        'https://cps.safarnameh24.com/api/v1/config/faqs/',
+      );
+
+      console.log(data);
+      const json = await data.json();
+      console.log(json);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -152,8 +200,8 @@ export function SendTicket() {
 
           {/* =============== Description */}
           <FormField
-            control={form.control}
             name="desc"
+            control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormControl>

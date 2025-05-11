@@ -1,14 +1,14 @@
 'use client';
 
 import Cookies from 'js-cookie';
-import { useState } from 'react';
 import { Heart } from 'iconsax-react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import AuthGuardReaction from './AuthGuardReaction';
 import FavoriteHotelReaction from './FavoriteHotelReaction';
 
-type ReactionType = 'success' | 'fail';
+type ReactionType = 'saved' | 'unsaved' | 'fail';
 
 // -------------------------------------
 
@@ -17,26 +17,38 @@ export default function FavoriteButton() {
   const [guardIsOpen, setGuardIsOpen] = useState(false);
 
   const [reactionOpen, setReactionOpen] = useState(false);
-  const [reactionType, setReactionType] = useState<ReactionType>('success');
+  const [reactionType, setReactionType] = useState<ReactionType>('fail');
 
-  function handleSetReaction(type: 'success' | 'fail', isOpen: boolean) {
+  // ==== Handle Set Reaction-Type
+  function handleSetReaction(type: ReactionType, isOpen: boolean) {
     setReactionType(type);
     setReactionOpen(isOpen);
   }
 
+  // ==== Handle Click On Favorite-Button
   function handleClick() {
-    handleSetReaction('fail', true);
-    // const userIsLoggedIn = Cookies.get('AUTH');
-    // if (!userIsLoggedIn) setGuardIsOpen(true);
+    const userIsLoggedIn = Cookies.get('AUTH');
+    if (!userIsLoggedIn) {
+      setGuardIsOpen(true);
+      return;
+    }
+
+    if (isFavorite) {
+      setIsFavorite(false);
+      handleSetReaction('unsaved', true);
+    } else {
+      setIsFavorite(true);
+      handleSetReaction('saved', true);
+    }
   }
 
   return (
     <>
       <AuthGuardReaction isOpen={guardIsOpen} setOpen={setGuardIsOpen} />
       <FavoriteHotelReaction
-        reactionType={reactionType}
         isOpen={reactionOpen}
         setOpen={setReactionOpen}
+        reactionType={reactionType}
       />
 
       <motion.button

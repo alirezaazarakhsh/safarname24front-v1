@@ -23,7 +23,7 @@ export function ReasonOfSelection(props: Props) {
       />
 
       <Swiper
-        spaceBetween={20}
+        spaceBetween={25}
         breakpoints={{
           0: { slidesPerView: 'auto', slidesOffsetAfter: 22 },
           1280: {
@@ -35,9 +35,9 @@ export function ReasonOfSelection(props: Props) {
         {src?.map((item, index) => (
           <SwiperSlide
             key={index}
-            className="max-w-72 select-none xl:max-w-full"
+            className="max-w-72 pb-4 select-none xl:max-w-full"
           >
-            <div className="relative bg-zinc-200 h-80 overflow-hidden rounded-2xl lg:h-96">
+            <div className="relative bg-zinc-200 h-80 overflow-hidden rounded-2xl shadow-[0_0.5rem_1rem_rgb(0,0,0,0.05)] lg:h-96">
               {item.image && (
                 <Image
                   width={500}
