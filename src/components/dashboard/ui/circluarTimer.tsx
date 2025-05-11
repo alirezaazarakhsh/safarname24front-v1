@@ -11,6 +11,7 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 export default function CircluarTimer({
   duration, // In Seconds
   className,
+  theme = 'theme',
 }: CircluarTimerComponentPropsType): ReactNode {
   // Returning JSX
   return (
@@ -24,12 +25,17 @@ export default function CircluarTimer({
         isPlaying
         size={40}
         duration={duration}
-        colors={'#F30F26'}
+        colors={theme === 'theme' ? '#F30F26' : '#22c55e'}
         strokeWidth={3}
         trailColor="#EFEFEF"
       >
         {({ remainingTime }) => (
-          <span className="text-cs07 font-bold text-cs-red">
+          <span
+            className={cn(
+              'text-cs07 font-bold',
+              theme === 'theme' ? 'text-cs-red' : 'text-green-500',
+            )}
+          >
             {remainingTime}
           </span>
         )}

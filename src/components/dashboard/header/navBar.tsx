@@ -13,7 +13,7 @@ import { ICSave2 } from '@/components/icons/ICSave2';
 import { ICWallet } from '@/components/icons/ICWallet';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import useWindowSize from '@/hooks/useWindowSize';
 
 // Defining some data to render
@@ -41,7 +41,7 @@ const data: {
   {
     icon: <ICWallet className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'بخش مالی',
-    href: '/dashboard/financial',
+    href: '/dashboard/financial/wallet',
     dropdown: [
       {
         label: 'شارژ کیف پول',
@@ -64,7 +64,17 @@ const data: {
   {
     icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
     label: 'باشگاه مشتریان',
-    href: '/dashboard/customer-club',
+    href: '/dashboard/customer-club/gifts',
+    dropdown: [
+      {
+        label: 'جوایز هتل، مرکز خرید',
+        href: '/dashboard/customer-club/gifts',
+      },
+      {
+        label: 'لیست جایزه های دریافتی',
+        href: '/dashboard/customer-club/list',
+      },
+    ],
   },
   {
     icon: <ICMessageText className="w-[19px] h-[19px] text-current shrink-0" />,
@@ -90,7 +100,9 @@ export default function NavBar(): ReactNode {
   // Defining hooks
   const pathname = usePathname();
   const windowSize = useWindowSize();
-  const [dropdownOpened, setDropdownOpened] = useState<boolean>(false);
+  const [openedDropDownIndex, setOpenedDropDownIndex] = useState<
+    number | undefined
+  >(undefined);
   const [activeLinkIndex, setActiveLinkIndex] = useState<number>(0);
   const itemsParentRef = useRef<null | HTMLDivElement>(null);
   const [indicatorStyles, setIndicatorStyles] = useState<{
@@ -122,18 +134,25 @@ export default function NavBar(): ReactNode {
 
   // Using useEffect to set active link index
   useEffect(() => {
-    const objToSet = data.find((item) => item.href.includes(pathname));
-    const objIndexInData = objToSet ? data.indexOf(objToSet) : 1;
-
-    setActiveLinkIndex(objIndexInData);
+    const parentIndex = data.findIndex((item) => {
+      if (item.href === pathname) return true;
+      if (item.dropdown) {
+        return item.dropdown.some((drop) => drop.href === pathname);
+      }
+      return false;
+    });
+    setActiveLinkIndex(parentIndex);
   }, [pathname]);
 
   // Calling `calculateIndicatorStyles` function while activeLinkIndex or width of page changes
   useEffect(() => calculateIndicatorStyles(), [activeLinkIndex, windowSize]);
 
-  // Defining some functions to open and close dropdown
-  const openDropdown = () => setDropdownOpened(true);
-  const closeDropdown = () => setDropdownOpened(false);
+  // Fixed initial rendering of indicator styles
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      calculateIndicatorStyles();
+    });
+  }, []);
 
   // Returning JSX
   return (
@@ -158,16 +177,16 @@ export default function NavBar(): ReactNode {
           ) : (
             <DropDown.DropdownMenu
               modal={false}
-              open={dropdownOpened}
+              open={index === openedDropDownIndex}
               key={index}
             >
               <DropDown.DropdownMenuTrigger
                 className="dashboard-nav-item"
                 data-active={activeLinkIndex === index}
                 asChild
-                onMouseLeave={closeDropdown}
-                onMouseEnter={openDropdown}
-                onMouseMove={openDropdown}
+                onMouseLeave={() => setOpenedDropDownIndex(undefined)}
+                onMouseEnter={() => setOpenedDropDownIndex(index)}
+                onMouseMove={() => setOpenedDropDownIndex(index)}
               >
                 <Link
                   key={index}
@@ -186,9 +205,9 @@ export default function NavBar(): ReactNode {
                 align="end"
                 className="w-[200px]"
                 sideOffset={0}
-                onMouseLeave={closeDropdown}
-                onMouseEnter={openDropdown}
-                onMouseMove={openDropdown}
+                onMouseLeave={() => setOpenedDropDownIndex(undefined)}
+                onMouseEnter={() => setOpenedDropDownIndex(index)}
+                onMouseMove={() => setOpenedDropDownIndex(index)}
               >
                 {item.dropdown.map((innerItem, innerIndex) => (
                   <div key={innerIndex}>

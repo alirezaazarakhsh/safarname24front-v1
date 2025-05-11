@@ -111,7 +111,7 @@ export default function MobileNav(): ReactNode {
               </span>
             </Link>
           ) : (
-            <>
+            <div key={index}>
               {createPortal(
                 <MobileProfile
                   isOpened={profileOpened}
@@ -120,7 +120,6 @@ export default function MobileNav(): ReactNode {
                 document.body,
               )}
               <button
-                key={index}
                 data-active={profileOpened}
                 className="flex flex-col items-center justify-center gap-1.5 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
                 onClick={() => setProfileOpened((prev) => !prev)}
@@ -135,7 +134,7 @@ export default function MobileNav(): ReactNode {
                   {item.title}
                 </span>
               </button>
-            </>
+            </div>
           ),
         )}
       </nav>

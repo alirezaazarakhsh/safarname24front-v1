@@ -1,6 +1,12 @@
 // Importing part
-import { InputHTMLAttributes, ReactNode } from 'react';
+import {
+  Dispatch,
+  InputHTMLAttributes,
+  ReactNode,
+  SetStateAction,
+} from 'react';
 import { IconsName } from '../SvgProp';
+import moment from 'jalali-moment';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -90,11 +96,13 @@ export interface DialogComponentPropsType {
 export interface ToastProps {
   title: string;
   description: string;
+  theme?: 'theme' | 'green';
 }
 
 export interface CircluarTimerComponentPropsType {
   className?: string;
   duration: number;
+  theme?: 'theme' | 'green';
 }
 
 export interface CanclationReasonDialogComponentProps
@@ -135,6 +143,7 @@ export interface CanclationErrorDrawerPropsType {
   closeFn?: () => void;
   title: string;
   description: string;
+  theme?: 'theme' | 'green';
 }
 
 export interface IconedPriceComponentPropsType {
@@ -145,6 +154,7 @@ export interface IconedPriceComponentPropsType {
   onClick?: () => void;
   selected?: boolean;
   disabled?: boolean;
+  iconVariant?: 'fill' | 'outline';
 }
 
 export interface FinancialSectionComponentPropsType {
@@ -152,10 +162,13 @@ export interface FinancialSectionComponentPropsType {
 }
 
 export interface CheckboxItemComponentPropsType {
+  className?: string;
   onClick?: () => void;
   disabled?: boolean;
   checked: boolean;
   title: string;
+  isCardSelection?: boolean;
+  disabledReason?: string;
 }
 
 export interface SwitchItemComponentPropsType {
@@ -183,4 +196,203 @@ export interface TransactionsTablePropsType {
     bank: string;
     status: 'successfull' | 'unsucessfull';
   }[];
+}
+
+export interface InputAndLabelPropsType
+  extends InputHTMLAttributes<HTMLInputElement> {
+  error?: string;
+  validation?: string;
+  label: string;
+  isValid?: boolean;
+  validationType?: 'text' | 'icon';
+}
+
+export interface CreditCardSelectionComponentPropsType {
+  onChange: (selectedVal: string) => void;
+}
+
+export interface UploadComponentPropsType {
+  onChange: (file: File | undefined) => void;
+}
+
+export interface EmergenciesComponentPropsType {
+  previousInfos: {
+    file: File | undefined;
+    card: string | undefined;
+  };
+}
+
+export type CreditCardSubscriptionChartType = [
+  { month: 'فروردین'; price: number },
+  { month: 'اردیبهشت'; price: number },
+  { month: 'خرداد'; price: number },
+  { month: 'تیر'; price: number },
+  { month: 'مرداد'; price: number },
+  { month: 'شهریور'; price: number },
+  { month: 'مهر'; price: number },
+  { month: 'ابان'; price: number },
+  { month: 'اذر'; price: number },
+  { month: 'دی'; price: number },
+  { month: 'بهمن'; price: number },
+  { month: 'اسفند'; price: number },
+];
+
+export interface CreditCardSubscriptionType {
+  type: 'premium' | 'free';
+  endsAt: string;
+  discountCode: string;
+  price: number;
+  chart: CreditCardSubscriptionChartType;
+}
+
+export interface CreditCardType {
+  owner: string;
+  subscription?: CreditCardSubscriptionType;
+  number: {
+    shaba: string | number;
+    card: string | number;
+  };
+  name: {
+    english: string;
+    persian: string;
+  };
+}
+
+export interface CreditCardComponentPropsType {
+  className?: string;
+  info: CreditCardType | undefined;
+}
+
+export interface YourBankAccountComponentPropsType {
+  onChange: (creditCard: CreditCardType | undefined) => void;
+  creditCards: CreditCardType[];
+  selectedCard: CreditCardType | undefined;
+  setSelectedCard: Dispatch<SetStateAction<CreditCardType | undefined>>;
+}
+
+export interface ManagerBankAccountComponentPropsType {
+  selectedCreditCard: CreditCardType | undefined;
+}
+
+export type typeCreditCardsSubmitComponentPropsType =
+  ManagerBankAccountComponentPropsType;
+
+export interface SubscriptionChartComponentPropsType {
+  chart: CreditCardSubscriptionChartType;
+}
+
+export interface SubscriptionComponentPropsType {
+  subscription?: CreditCardSubscriptionType;
+}
+
+export interface LabledCheckboxComponentPropsType {
+  label: string;
+  onChange: (checked: boolean) => void;
+  className?: string;
+  disabled?: boolean;
+}
+
+export interface TooltipComponentPropsType {
+  content: string;
+  children: ReactNode;
+}
+
+export interface DatePickerComponentPropsType {
+  className?: string;
+  isOpened: boolean;
+  closeFn: () => void;
+  onSubmit?: (date: moment.Moment) => void;
+}
+
+export interface DatePickerInputComponentPropsType {
+  onChange?: (date: moment.Moment) => void;
+  label: string;
+  error?: string;
+  className?: string;
+  placeholder: string;
+}
+
+export interface SheetComponentPropsType {
+  isOpened?: boolean;
+  closeFn?: () => void;
+  children: ReactNode;
+}
+
+export interface SearchFinancialDashboardPropsType {
+  onChange?: (val: string) => void;
+}
+
+export interface FinancialFatorsDashboardTablePropsType {
+  data: {
+    type: 'cashOut' | 'cartToCart' | 'add';
+    amount: number;
+    createdAt: string;
+    status: 'successfull' | 'unsuccessfull';
+    id: number;
+  }[];
+  className?: string;
+}
+
+export interface FilterCustomClubPageComponentPropsType {
+  onChange?: (val: 'shoppingCentre' | 'hotel') => void;
+  totalScore: number;
+}
+
+export interface ToggleButtonsPropsType {
+  className?: string;
+  buttons: [string, string];
+  onChange?: (index: number) => void;
+  width: string;
+}
+
+export interface CustomersClubTablePropsType {
+  className?: string;
+  data: {
+    company: {
+      name: string;
+      persianName: string;
+      logo: string;
+    };
+    title: string;
+    score: number;
+    id: number;
+    status: 'used' | 'unused' | 'active' | 'deactive';
+    discount: {
+      code: string;
+      price: number;
+      endsAt: string;
+    };
+  }[];
+}
+
+export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
+  setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
+  setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface CustomerClubListTablePropsType {
+  data: {
+    title: string;
+    createdAt: string;
+    price: number;
+    score: number;
+  }[];
+  className?: string;
+}
+
+export interface NotificationType {
+  id: number;
+  title: string;
+  createdAt: string;
+  content: string;
+  status: 'seen' | 'unseen' | 'important';
+}
+
+export interface NotificationComponentPropsType {
+  data: NotificationType;
+  className?: string;
+}
+
+export interface NotificationSheetPropsType {
+  notifications: NotificationType[];
 }

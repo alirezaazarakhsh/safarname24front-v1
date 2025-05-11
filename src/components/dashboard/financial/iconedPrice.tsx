@@ -20,6 +20,7 @@ export default function IconedPrice({
   onClick,
   selected,
   disabled = false,
+  iconVariant = 'fill',
 }: IconedPriceComponentPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -44,7 +45,12 @@ export default function IconedPrice({
           className={cn(
             'rounded-md aspect-square overflow-hidden shrink-0 text-current',
             !onClick
-              ? 'flex items-center justify-center overflow-hidden lg:bg-gray-100 lg:w-[38px] lg:h-[38px]'
+              ? cn(
+                  'flex items-center justify-center overflow-hidden border lg:w-[38px] lg:h-[38px]',
+                  iconVariant === 'fill'
+                    ? 'lg:bg-gray-100 border-gray-100'
+                    : 'bg-white lg:border-black/10 border-white',
+                )
               : 'group-data-[selected="false"]:bg-gray-100 group-data-[selected="true"]:bg-blue-50 lg:w-[38px] lg:h-[38px] w-[43px] h-[43px]',
           )}
         >

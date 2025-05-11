@@ -5,7 +5,6 @@
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { PageComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { Loader } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createContext, ReactNode } from 'react';
 import Header from './header';

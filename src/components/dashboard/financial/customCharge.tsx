@@ -86,8 +86,8 @@ export default function CustomCharge({
         </p>
       </div>
       <div className="w-full">
-        <div className="flex items-center justify-start gap-3 lg:flex-wrap lg:mb-2 lg:w-auto w-full">
-          <div className="flex items-center justify-start gap-[8px] lg:w-auto w-full">
+        <div className="flex items-center lg:justify-start justify-between gap-3 flex-wrap lg:mb-2 lg:w-auto w-full">
+          <div className="flex items-center justify-start gap-[8px] lg:w-auto w-fit">
             <input
               className="bg-white border border-blac/10 rounded-md px-3 block w-[250px] h-[40px] placeholder:text-cs75 placeholder:font-normal text-cs75 font-normal text-black placeholder:black transition-all duration-500 opacity-80 focus:opacity-100 data-[errored='true']:bg-cs-red/10 data-[errored='true']:placeholder:text-cs-red data-[errored='true']:text-cs-red data-[errored='true']:border-cs-red"
               placeholder="مثال : 21,000,000 تومان"
