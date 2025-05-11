@@ -7,6 +7,7 @@ import Sheet from '../ui/sheet';
 import { ICNotificationStatus } from '@/components/icons/ICNotifcationStatus';
 import * as NotificationComponent from '@/components/dashboard/notification';
 import { NotificationSheetPropsType } from '@/types/dashboard/component';
+import DeleteNotificationDialog from '../dialog/deleteNotificationDialog';
 
 // Creating and exporting Notification component as default
 export default function Notification({
@@ -34,7 +35,11 @@ export default function Notification({
           اعلان ها
         </span>
       </button>
-      <Sheet isOpened={sheetOpened} closeFn={() => setSheetOpened(false)}>
+      <Sheet
+        className="lg:block hidden"
+        isOpened={sheetOpened}
+        closeFn={() => setSheetOpened(false)}
+      >
         <div>
           <div className="flex items-center justify-between gap-3 pb-3">
             <span className="text-cs75 font-semibold text-right text-black truncate w-full">

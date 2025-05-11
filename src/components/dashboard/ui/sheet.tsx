@@ -14,6 +14,7 @@ export default function Sheet({
   children,
   closeFn,
   isOpened,
+  className,
 }: SheetComponentPropsType): ReactNode {
   // Using useEffect to remove availibilty to scroll when datePicker opens
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Sheet({
 
   // Returning JSX
   return createPortal(
-    <>
+    <div className={className}>
       <motion.div
         transition={{ duration: 0.5 }}
         exit={{ opacity: 0, visibility: 'hidden', pointerEvents: 'none' }}
@@ -40,7 +41,7 @@ export default function Sheet({
         onClick={closeFn}
       />
       <motion.div
-        className="bg-white w-[30vw] h-dvh overflow-auto custom-scrollbar fixed top-0 z-50 gap-3 p-5"
+        className="bg-white lg:w-[30vw] w-dvw h-dvh overflow-auto custom-scrollbar fixed top-0 z-50 gap-3 p-5"
         transition={{ duration: 0.5 }}
         exit={{
           opacity: 0,
@@ -70,15 +71,15 @@ export default function Sheet({
               }
         }
       >
-        <div className="flex items-start justify-between gap-3 mb-10">
+        <div className="flex lg:items-start items-center justify-between gap-3 lg:mb-10 mb-[12px]">
           <Logo />
           <button onClick={closeFn}>
-            <ICX className="w-3 h-3 text-gray-400" />
+            <ICX className="lg:w-3 lg:h-3 w-[16px] h-[16px] text-gray-400" />
           </button>
         </div>
         <div>{children}</div>
       </motion.div>
-    </>,
+    </div>,
     document.body,
   );
 }

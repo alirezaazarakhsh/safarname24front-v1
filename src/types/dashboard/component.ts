@@ -316,6 +316,7 @@ export interface SheetComponentPropsType {
   isOpened?: boolean;
   closeFn?: () => void;
   children: ReactNode;
+  className?: string;
 }
 
 export interface SearchFinancialDashboardPropsType {
@@ -395,4 +396,9 @@ export interface NotificationComponentPropsType {
 
 export interface NotificationSheetPropsType {
   notifications: NotificationType[];
+}
+
+export interface NotificationSheetMobilePropsType
+  extends NotificationSheetPropsType {
+  index: number;
 }

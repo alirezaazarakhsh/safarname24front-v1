@@ -81,63 +81,63 @@ export default function MobileNav(): ReactNode {
   }, [lastScrollTop]);
 
   // returning JSX
-  if (hideMobileNavUrls.includes(pathname)) return false;
-  else {
-    return (
-      <nav
-        className={cn(
-          'fixed z-50 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0',
-          isAtBottom || scrollDirection === 'down' ? '-bottom-20' : 'bottom-0',
-        )}
-      >
-        {data.map((item, index) =>
-          item.type === 'link' ? (
-            <Link
-              key={index}
-              data-active={pathname === item.href && !profileOpened}
-              className="flex flex-col items-center justify-center gap-[5px] transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
-              href={item.href || '#'}
+  //if (hideMobileNavUrls.includes(pathname)) return false;
+  //else {
+  return (
+    <nav
+      className={cn(
+        'fixed z-50 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0',
+        isAtBottom || scrollDirection === 'down' ? '-bottom-20' : 'bottom-0',
+      )}
+    >
+      {data.map((item, index) =>
+        item.type === 'link' ? (
+          <Link
+            key={index}
+            data-active={pathname === item.href && !profileOpened}
+            className="flex flex-col items-center justify-center gap-[5px] transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
+            href={item.href || '#'}
+          >
+            <IconsaxIcons
+              name={item.icon}
+              className="w-[17px] h-[17px]"
+              color="currentColor"
+              variant={
+                pathname === item.href && !profileOpened ? 'Bold' : 'Outline'
+              }
+            />
+            <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+              {item.title}
+            </span>
+          </Link>
+        ) : (
+          <div key={index}>
+            {createPortal(
+              <MobileProfile
+                isOpened={profileOpened}
+                closeFn={() => setProfileOpened(false)}
+              />,
+              document.body,
+            )}
+            <button
+              data-active={profileOpened}
+              className="flex flex-col items-center justify-center gap-1.5 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
+              onClick={() => setProfileOpened((prev) => !prev)}
             >
               <IconsaxIcons
                 name={item.icon}
                 className="w-[17px] h-[17px]"
                 color="currentColor"
-                variant={
-                  pathname === item.href && !profileOpened ? 'Bold' : 'Outline'
-                }
+                variant={profileOpened ? 'Bold' : 'Outline'}
               />
               <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
                 {item.title}
               </span>
-            </Link>
-          ) : (
-            <div key={index}>
-              {createPortal(
-                <MobileProfile
-                  isOpened={profileOpened}
-                  closeFn={() => setProfileOpened(false)}
-                />,
-                document.body,
-              )}
-              <button
-                data-active={profileOpened}
-                className="flex flex-col items-center justify-center gap-1.5 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black shrink"
-                onClick={() => setProfileOpened((prev) => !prev)}
-              >
-                <IconsaxIcons
-                  name={item.icon}
-                  className="w-[17px] h-[17px]"
-                  color="currentColor"
-                  variant={profileOpened ? 'Bold' : 'Outline'}
-                />
-                <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
-                  {item.title}
-                </span>
-              </button>
-            </div>
-          ),
-        )}
-      </nav>
-    );
-  }
+            </button>
+          </div>
+        ),
+      )}
+    </nav>
+  );
+  //}
 }
