@@ -1,18 +1,16 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
+import Collection from '@/components/dashboard/favorites/collection';
+// Importing part
 import Filter from '@/components/dashboard/favorites/filter';
+import { CollectionComponentPropsType } from '@/types/dashboard/component';
 import Image from 'next/image';
 import Link from 'next/link';
-// Importing part
 import { ReactNode } from 'react';
 
 // Defining fake data for collection to render later
-const collections: {
-  id: number;
-  title: string;
-  images: [string, string, string];
-}[] = [
+const collections: CollectionComponentPropsType[] = [
   {
     id: 1,
     title: 'لیست هتل های مورد پسندم',
@@ -77,38 +75,7 @@ export default function Favorites(): ReactNode {
       <Filter />
       <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-4 gap-[24px]">
         {collections.map((item, index) => (
-          <Link
-            href={`/dashboard/favorites/${item.id}`}
-            key={index}
-            className="block"
-          >
-            <div className="grid grid-cols-2 grid-rows-2 gap-[10px] overflow-hidden rounded-md h-[200px] mb-2">
-              <Image
-                width={500}
-                height={500}
-                alt={'عکس شماره 1 مجموعه'}
-                src={item.images[0]}
-                className="rounded-md object-cover  row-span-2 w-full h-full"
-              />
-              <Image
-                width={500}
-                height={500}
-                alt={'عکس شماره 2 مجموعه'}
-                src={item.images[1]}
-                className="rounded-md object-cover w-full h-full"
-              />
-              <Image
-                width={500}
-                height={500}
-                alt={'عکس شماره 3 مجموعه'}
-                src={item.images[2]}
-                className="rounded-md object-cover w-full h-full"
-              />
-            </div>
-            <span className="font-semibold truncate block text-right text-black text-cs07">
-              {item.title}
-            </span>
-          </Link>
+          <Collection key={index} {...item} />
         ))}
       </div>
     </main>

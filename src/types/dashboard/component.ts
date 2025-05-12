@@ -417,3 +417,9 @@ export interface BlogComponentPropsType {
   createdAt: string;
   className?: string;
 }
+
+export interface CollectionComponentPropsType {
+  id: number;
+  images: [string, string, string];
+  title: string;
+}
