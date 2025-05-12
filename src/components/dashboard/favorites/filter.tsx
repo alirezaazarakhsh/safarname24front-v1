@@ -1,4 +1,3 @@
-// MHotelCard.tsx
 // Forcing next.js to render this component as client side component
 'use client';
 
@@ -22,7 +21,9 @@ export default function Filter({
   return (
     <div className="flex items-center justify-between gap-3 lg:w-auto w-full lg:p-0 p-[24px] lg:bg-transparent bg-white rounded-[10px] lg:border-0 border border-black/10">
       <span className="lg:block hidden truncate text-right w-full font-bold text-cs85 text-black">
-        My Favourite List
+        {val === 'savedBlogs'
+          ? 'لیست مورد علاقه وبلاگ های خودم'
+          : 'My Favourite List'}
       </span>
       <div
         className={

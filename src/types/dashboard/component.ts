@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
+import { StringToBoolean } from 'class-variance-authority/types';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -405,4 +406,13 @@ export interface NotificationSheetMobilePropsType
 
 export interface FilterFavPageComponentPropsType {
   onChange?: (val: 'savedHotels' | 'savedBlogs') => void;
+}
+
+export interface BlogComponentPropsType {
+  image: string;
+  mostVisited?: boolean;
+  title: string;
+  desc: string;
+  createdAt: string;
+  className?: string;
 }
