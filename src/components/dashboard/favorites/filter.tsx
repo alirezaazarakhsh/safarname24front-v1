@@ -2,58 +2,41 @@
 'use client';
 
 // Importing part
-import { FilterFavPageComponentPropsType } from '@/types/dashboard/component';
-import { ReactNode, useEffect, useState } from 'react';
-import ToggleButtons from '../ui/toggleButtons';
+import { ReactNode } from 'react';
 import Link from 'next/link';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
-// Creating and exporting Filter component/section of Customers club page as default
-export default function Filter({
-  onChange,
-}: FilterFavPageComponentPropsType): ReactNode {
-  // Defining states of component
-  const [val, setVal] = useState<'savedHotels' | 'savedBlogs'>('savedHotels');
-
-  // Using useEffect to attach onChange prop to component
-  useEffect(() => onChange && onChange(val), [val]);
-
+// Creating and exporting Filter component/section of Favorites page as default
+export default function Filter(): ReactNode {
   // Returning JSX
   return (
-    <div className="flex items-center justify-between gap-3 lg:w-auto w-full lg:p-0 p-[24px] lg:bg-transparent bg-white rounded-[10px] lg:border-0 border border-black/10">
-      <span className="lg:block hidden truncate text-right w-full font-bold text-cs85 text-black">
-        {val === 'savedBlogs'
-          ? 'لیست مورد علاقه وبلاگ های خودم'
-          : 'My Favourite List'}
+    <div className="lg:flex block items-center justify-between gap-3 lg:w-auto w-full">
+      <span className="block truncate text-right w-full lg:font-bold font-semibold lg:text-cs85 text-[12px] text-black lg:mb-0 mb-[12px]">
+        لیست مورد علاقه ها
       </span>
       <div
         className={
-          'lg:flex block items-center justify-end lg:gap-3 lg:w-auto w-full'
+          'flex items-center justify-end lg:gap-3 gap-[10px] lg:w-auto w-full'
         }
       >
-        <div className="lg:hidden block mb-[12px]">
-          <span className="text-[12px] font-semibold text-black w-full truncate block text-right mb-[10px]">
-            دسته بندی :
-          </span>
-          <span className="text-[10px] font-semibold text-gray-500 w-full truncate block text-right">
-            My Favourite List
-          </span>
-        </div>
         <Link
-          href="/"
-          className="lg:flex hidden items-center justify-center lg:gap-2 gap-[12px] bg-cs-red/10 lg:rounded-lg rounded-[6px] lg:px-4 px-2 lg:h-[45px] h-[40px] text-cs-red col-span-2 transition-all duration-500 hover:bg-cs-red/20"
+          href="/dashboard/favorites"
+          className="flex items-center justify-center lg:gap-2 gap-[12px] bg-cs-red/10 lg:rounded-lg rounded-[6px] lg:px-4 px-2 lg:h-[45px] h-[40px] text-cs-red col-span-2 transition-all duration-500 hover:bg-cs-red/20 lg:w-auto w-[50%]"
         >
           <span className="lg:text-cs07 text-[10px] lg:font-bold font-semibold text-current block text-right truncate">
-            برگشت به صفحه
+            بازگشت به حالت اولیه
           </span>
         </Link>
-        <ToggleButtons
-          buttons={['هتل های ذخیره شده', 'وبلاگ های ذخیره شده']}
-          className="h-[45px] lg:bg-white bg-gray-100 col-span-3"
-          onChange={(index) =>
-            setVal(index === 0 ? 'savedHotels' : 'savedBlogs')
-          }
-          width="lg:w-[250px] w-full"
-        />
+        <button className="flex items-center justify-center lg:gap-2 gap-[12px] bg-white lg:rounded-lg rounded-[6px] lg:px-4 px-2 lg:h-[45px] h-[40px] text-black/50 border border-black/10 col-span-2 transition-all duration-500 hover:bg-black/5 lg:w-auto w-[50%]">
+          <IconsaxIcons
+            name="Add"
+            className="lg:w-4 lg:h-4 w-[20px] h-[20px] shrink-0"
+            color="currentColor"
+          />
+          <span className="lg:text-cs07 text-[10px] lg:font-bold font-semibold text-current block text-right truncate">
+            ثبت لیست جدید
+          </span>
+        </button>
       </div>
     </div>
   );

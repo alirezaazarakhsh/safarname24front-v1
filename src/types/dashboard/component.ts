@@ -406,6 +406,7 @@ export interface NotificationSheetMobilePropsType
 
 export interface FilterFavPageComponentPropsType {
   onChange?: (val: 'savedHotels' | 'savedBlogs') => void;
+  favName: string;
 }
 
 export interface BlogComponentPropsType {
