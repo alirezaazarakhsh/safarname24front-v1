@@ -41,7 +41,7 @@ export default function DeletePassangerDialog({
       <>
         <CanclationErrorDrawer
           title="خطایی رخ داد!"
-          description="در ایجاد مسافر مشکلی رخ داد مجدد تلاش کنید."
+          description="مشکلی در حذف مسافر به وجود امد."
           isOpened={errorMobileDrawerOpened}
           closeFn={() => setErrorMobileDrawerOpened(false)}
         />
@@ -102,7 +102,7 @@ export default function DeletePassangerDialog({
                 closeFn && closeFn();
                 toast({
                   title: 'خطایی رخ داد!',
-                  description: 'در حذف لیست مشکلی پیش آمد مجدد تلاش کنید.',
+                  description: 'مشکلی در حذف مسافر به وجود امد.',
                   theme: 'theme',
                 });
               }}

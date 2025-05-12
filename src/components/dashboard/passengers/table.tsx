@@ -17,11 +17,10 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { handleZeroBeforeNumber } from '@/utils/string';
-import Link from 'next/link';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import Loading from '@/components/dashboard/ui/loading';
 import Image from 'next/image';
 import EmptyImage from '../../../../public/image/empty.png';
+import DeletePassangerDialog from './dialog/deletePassangarDialog';
 
 // Creating and exporting PassengersTable component as default
 export default function PassengersTable({
@@ -29,6 +28,7 @@ export default function PassengersTable({
   data,
 }: PassengersTableComponentPropsType): ReactNode {
   // Defining states of component
+  const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
 
   // Returning JSX
   return (
@@ -41,6 +41,10 @@ export default function PassengersTable({
         className,
       )}
     >
+      <DeletePassangerDialog
+        isOpened={deleteDialogOpened}
+        closeFn={() => setDeleteDialogOpened(false)}
+      />
       {data.length === 0 ? (
         <div>
           <Image
@@ -139,7 +143,10 @@ export default function PassengersTable({
                     </span>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-end gap-3">
-                    <button className="px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs transition-all duration-500 hover:bg-red-100">
+                    <button
+                      onClick={() => setDeleteDialogOpened(true)}
+                      className="px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs transition-all duration-500 hover:bg-red-100"
+                    >
                       حذف
                     </button>
                     <button className="px-6 h-[40px] rounded-md border border-black/10 bg-white text-black font-medium text-xs transition-all duration-500 hover:bg-black/5">
@@ -178,7 +185,10 @@ export default function PassengersTable({
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-[10px]">
-                      <button className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center">
+                      <button
+                        onClick={() => setDeleteDialogOpened(true)}
+                        className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
+                      >
                         <IconsaxIcons
                           name="Trash"
                           color="currentColor"
