@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -23,6 +23,7 @@ import {
 import { DialogComponentPropsType } from '@/types/dashboard/component';
 import { useMediaQuery } from '@/hooks';
 import toast from '../../ui/customSonner/toast';
+import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 
 // Creating and exporting DeleteCollectionDialog component as default
 export default function DeleteCollectionDialog({
@@ -31,42 +32,48 @@ export default function DeleteCollectionDialog({
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [errorMobileDrawerOpened, setErrorMobileDrawerOpened] =
+    useState<boolean>(false);
 
   // conditional rendering
   if (isMobile) {
     return (
-      <Drawer open={isOpened} onClose={closeFn}>
-        <DrawerContent>
-          <DrawerHeader className="px-[24px] py-0 mb-[10px]">
-            <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
-              آیا از حذف شدن لیست خود مطمئن هستید؟
-            </DrawerTitle>
-          </DrawerHeader>
-          <div className="px-[24px] py-0">
-            <DrawerDescription className="text-[12px] font-medium text-gray-500">
-              مشترک گرامی عزیز لازم به ذکر میباشد که در صورت تایید کردن، لیست
-              محتوای داخل مورد علاقه شما به طور کامل حذف میشود.
-            </DrawerDescription>
-          </div>
-          <DrawerFooter className="px-[24px] mt-[20px] py-0">
-            <button
-              onClick={() => {
-                closeFn && closeFn();
-                toast({
-                  title: 'خطایی رخ داد!',
-                  description: 'در حذف لیست مشکلی پیش آمد مجدد تلاش کنید.',
-                  theme: 'theme',
-                });
-              }}
-              className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit"
-            >
-              <span className="text-[12px] font-semibold text-white">
-                تایید اطلاعات
-              </span>
-            </button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+      <>
+        <CanclationErrorDrawer
+          title="خطایی رخ داد"
+          description="در حذف لیست مشکلی پیش آمد مجدد تلاش کنید."
+          isOpened={errorMobileDrawerOpened}
+          closeFn={() => setErrorMobileDrawerOpened(false)}
+        />
+        <Drawer open={isOpened} onClose={closeFn}>
+          <DrawerContent>
+            <DrawerHeader className="px-[24px] py-0 mb-[10px]">
+              <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
+                آیا از حذف شدن لیست خود مطمئن هستید؟
+              </DrawerTitle>
+            </DrawerHeader>
+            <div className="px-[24px] py-0">
+              <DrawerDescription className="text-[12px] font-medium text-gray-500">
+                مشترک گرامی عزیز لازم به ذکر میباشد که در صورت تایید کردن، لیست
+                محتوای داخل مورد علاقه شما به طور کامل حذف میشود.
+              </DrawerDescription>
+            </div>
+            <DrawerFooter className="px-[24px] mt-[20px] py-0">
+              <button
+                onClick={() => {
+                  closeFn && closeFn();
+                  setErrorMobileDrawerOpened(true);
+                }}
+                className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit"
+              >
+                <span className="text-[12px] font-semibold text-white">
+                  تایید اطلاعات
+                </span>
+              </button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      </>
     );
   } else {
     return (
