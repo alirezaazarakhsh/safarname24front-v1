@@ -7,7 +7,6 @@ import {
 } from 'react';
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
-import { StringToBoolean } from 'class-variance-authority/types';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -431,4 +430,23 @@ export interface CollectionComponentPropsType {
 export interface FilterFavPageComponentPropsTypeOrginal {
   setDeleteState: Dispatch<SetStateAction<boolean>>;
   deleteState: boolean;
+}
+
+export interface PassnegersPageFilterComponentPropsType {
+  onChange?: (val: string) => void;
+  className?: string;
+  dataNotEmpty: boolean;
+}
+
+export interface PassengersTableComponentPropsType {
+  className?: string;
+  data: {
+    name: {
+      firstName: string;
+      lastName: string;
+    };
+    tell: string;
+    id: number;
+    meliCodeOrPassportNumber: string;
+  }[];
 }
