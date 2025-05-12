@@ -7,9 +7,9 @@ import PackedRoom from './molecules/rooms/PackedRoom';
 import SeeMoreButton from './molecules/rooms/atoms/SeeMoreButton';
 
 import RoomTypeSwitchCase from './molecules/rooms/RoomTypeSwitchCase';
+import NumberOfNights from '../../shared/search/molecules/NumberOfNights';
 import Passengers from '../../shared/search/molecules/passengers/Passengers';
 import DDatePicker from '../../shared/search/molecules/date-picker/DDatePicker';
-import NumberOfNights from '../../shared/search/molecules/NumberOfNights';
 
 type Props = {
   rooms: any;
@@ -23,8 +23,8 @@ type RoomTypes = 'normal' | 'packed';
 export function Rooms(props: Props) {
   const { hotelName, rooms } = props;
 
-  const [roomTypes, setRoomTypes] = useState<RoomTypes>('normal');
   const numberOfNights = 9;
+  const [roomTypes, setRoomTypes] = useState<RoomTypes>('normal');
 
   return (
     <div id="rooms">

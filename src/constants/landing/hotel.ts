@@ -633,4 +633,34 @@ export const hotel = {
       price: 2_500_000,
     },
   ],
+  priceCalendar: [
+    {
+      day: 'پنجشنبه',
+      date: '1403/06/14',
+      capacity: 'open',
+      price: 5_000_000,
+      discountPercentage: 0,
+    },
+    {
+      day: 'جمعه',
+      date: '1403/06/15',
+      capacity: 'open',
+      price: 2_000_000,
+      discountPercentage: 50,
+    },
+    {
+      day: 'شنبه',
+      date: '1403/06/16',
+      capacity: 'open',
+      price: 0,
+      discountPercentage: 0,
+    },
+    {
+      day: 'یکشنبه',
+      date: '1403/06/17',
+      capacity: 'full',
+      price: 5_000_000,
+      discountPercentage: 0,
+    },
+  ],
 };
