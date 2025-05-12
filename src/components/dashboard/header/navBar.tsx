@@ -13,7 +13,7 @@ import { ICSave2 } from '@/components/icons/ICSave2';
 import { ICWallet } from '@/components/icons/ICWallet';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import useWindowSize from '@/hooks/useWindowSize';
 
 // Defining some data to render
@@ -136,10 +136,11 @@ export default function NavBar(): ReactNode {
   useEffect(() => {
     const parentIndex = data.findIndex((item) => {
       if (item.href === pathname) return true;
-      if (item.dropdown) {
+      else if (item.dropdown) {
         return item.dropdown.some((drop) => drop.href === pathname);
+      } else {
+        return false;
       }
-      return false;
     });
     setActiveLinkIndex(parentIndex);
   }, [pathname]);
@@ -165,7 +166,11 @@ export default function NavBar(): ReactNode {
           !item.dropdown ? (
             <Link
               key={index}
-              data-active={activeLinkIndex === index}
+              data-active={
+                activeLinkIndex !== -1
+                  ? activeLinkIndex === index
+                  : pathname.startsWith(item.href)
+              }
               className="dashboard-nav-item shrink-0 w-auto px-3 flex h-[50px] items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
               href={item.href}
             >
