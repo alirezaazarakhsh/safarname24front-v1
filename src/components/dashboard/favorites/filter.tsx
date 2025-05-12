@@ -3,11 +3,14 @@
 
 // Importing part
 import { ReactNode } from 'react';
-import Link from 'next/link';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import { FilterFavPageComponentPropsTypeOrginal } from '@/types/dashboard/component';
 
 // Creating and exporting Filter component/section of Favorites page as default
-export default function Filter(): ReactNode {
+export default function Filter({
+  deleteState,
+  setDeleteState,
+}: FilterFavPageComponentPropsTypeOrginal): ReactNode {
   // Returning JSX
   return (
     <div className="lg:flex block items-center justify-between gap-3 lg:w-auto w-full">
@@ -19,14 +22,14 @@ export default function Filter(): ReactNode {
           'flex items-center justify-end lg:gap-3 gap-[10px] lg:w-auto w-full'
         }
       >
-        <Link
-          href="/dashboard/favorites"
+        <button
           className="flex items-center justify-center lg:gap-2 gap-[12px] bg-cs-red/10 lg:rounded-lg rounded-[6px] lg:px-4 px-2 lg:h-[45px] h-[40px] text-cs-red col-span-2 transition-all duration-500 hover:bg-cs-red/20 lg:w-auto w-[50%]"
+          onClick={() => setDeleteState((prev) => !prev)}
         >
           <span className="lg:text-cs07 text-[10px] lg:font-bold font-semibold text-current block text-right truncate">
-            بازگشت به حالت اولیه
+            {deleteState ? 'بازگشت به حالت اولیه' : 'حذف لیست مورد علاقه'}
           </span>
-        </Link>
+        </button>
         <button className="flex items-center justify-center lg:gap-2 gap-[12px] bg-white lg:rounded-lg rounded-[6px] lg:px-4 px-2 lg:h-[45px] h-[40px] text-black/50 border border-black/10 col-span-2 transition-all duration-500 hover:bg-black/5 lg:w-auto w-[50%]">
           <IconsaxIcons
             name="Add"

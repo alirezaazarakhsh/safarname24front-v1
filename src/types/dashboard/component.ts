@@ -419,7 +419,16 @@ export interface BlogComponentPropsType {
 }
 
 export interface CollectionComponentPropsType {
-  id: number;
-  images: [string, string, string];
-  title: string;
+  className?: string;
+  isDeletingByUser?: boolean;
+  data: {
+    id: number;
+    images: [string, string, string];
+    title: string;
+  };
+}
+
+export interface FilterFavPageComponentPropsTypeOrginal {
+  setDeleteState: Dispatch<SetStateAction<boolean>>;
+  deleteState: boolean;
 }
