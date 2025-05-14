@@ -95,7 +95,7 @@ export default function LatestReservationsTable({
                     <ICBank className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       نام هتل :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -112,7 +112,7 @@ export default function LatestReservationsTable({
                     <ICMoneyTick className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       مبلغ :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -129,7 +129,7 @@ export default function LatestReservationsTable({
                     <ICStatus className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       وضعیت :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">

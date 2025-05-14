@@ -100,7 +100,7 @@ export default function LatestTicketsTable({
                     />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       شناسه :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -120,7 +120,7 @@ export default function LatestTicketsTable({
                     />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       عنوان :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -137,7 +137,7 @@ export default function LatestTicketsTable({
                     <ICStatus className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       وضعیت :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
