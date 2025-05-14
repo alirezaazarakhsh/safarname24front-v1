@@ -134,7 +134,7 @@ export default function EditPassengersDialog({
           onSubmit={form.handleSubmit(submitEventHandler)}
           className="px-3 lg:py-3 py-4 w-full flex flex-col items-center justify-between gap-3 lg:h-auto h-[calc(100%-40px)]"
         >
-          <div className="lg:space-y-6 space-y-[12px] w-full">
+          <div className="lg:gap-6 gap-[12px] flex flex-col w-full">
             <DialogTitle className="text-right text-[12px] font-bold text-black lg:hidden block truncate w-full">
               تغییرات اطلاعات
             </DialogTitle>
