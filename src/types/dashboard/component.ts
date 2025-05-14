@@ -450,3 +450,23 @@ export interface PassengersTableComponentPropsType {
     meliCodeOrPassportNumber: string;
   }[];
 }
+
+export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
+  data:
+    | {
+        name: {
+          firstName: string;
+          lastName: string;
+        };
+        tell: string;
+        id: number;
+        meliCodeOrPassportNumber: string;
+      }
+    | undefined;
+}
+
+export interface DialogInputPassengersComponentPropsType
+  extends InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  error?: string;
+}

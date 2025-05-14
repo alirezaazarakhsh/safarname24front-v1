@@ -2,7 +2,6 @@
 'use client';
 
 // Importing part
-import moment from 'jalali-moment';
 import { PassengersTableComponentPropsType } from '@/types/dashboard/component';
 import { ReactNode, useState } from 'react';
 import { cn } from '@/utils/utils';
@@ -21,6 +20,7 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
 import EmptyImage from '../../../../public/image/empty.png';
 import DeletePassangerDialog from './dialog/deletePassangarDialog';
+import EditPassengersDialog from './dialog/editPassengerDialog';
 
 // Creating and exporting PassengersTable component as default
 export default function PassengersTable({
@@ -29,6 +29,10 @@ export default function PassengersTable({
 }: PassengersTableComponentPropsType): ReactNode {
   // Defining states of component
   const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
+  const [editDialogOpened, setEditDialogOpened] = useState<boolean>(false);
+  const [editingDialogInfo, setEditDialogInfo] = useState<
+    (typeof data)[0] | undefined
+  >(undefined);
 
   // Returning JSX
   return (
@@ -41,6 +45,14 @@ export default function PassengersTable({
         className,
       )}
     >
+      <EditPassengersDialog
+        isOpened={editDialogOpened}
+        data={editingDialogInfo}
+        closeFn={() => {
+          setEditDialogOpened(false);
+          setEditDialogInfo(undefined);
+        }}
+      />
       <DeletePassangerDialog
         isOpened={deleteDialogOpened}
         closeFn={() => setDeleteDialogOpened(false)}
@@ -149,7 +161,13 @@ export default function PassengersTable({
                     >
                       حذف
                     </button>
-                    <button className="px-6 h-[40px] rounded-md border border-black/10 bg-white text-black font-medium text-xs transition-all duration-500 hover:bg-black/5">
+                    <button
+                      className="px-6 h-[40px] rounded-md border border-black/10 bg-white text-black font-medium text-xs transition-all duration-500 hover:bg-black/5"
+                      onClick={() => {
+                        setEditDialogOpened(true);
+                        setEditDialogInfo(item);
+                      }}
+                    >
                       ویرایش اطلاعات
                     </button>
                   </TableCell>
@@ -195,7 +213,13 @@ export default function PassengersTable({
                           className="w-[17px] h-[17px]"
                         />
                       </button>
-                      <button className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/10 rounded-[7px] text-black">
+                      <button
+                        className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/10 rounded-[7px] text-black"
+                        onClick={() => {
+                          setEditDialogOpened(true);
+                          setEditDialogInfo(item);
+                        }}
+                      >
                         <span className="text-[10px] text-current font-medium w-full text-right block truncate">
                           ویرایش اطلاعات
                         </span>
