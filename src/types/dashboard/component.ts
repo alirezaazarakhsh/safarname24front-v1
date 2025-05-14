@@ -13,6 +13,10 @@ export interface RootLayoutPropsType {
   children: ReactNode;
 }
 
+export interface LogoComponentPropsType {
+  onlyLogo?: boolean;
+}
+
 export interface PageComponentPropsType {
   children: ReactNode;
   className?: string;
@@ -469,4 +473,8 @@ export interface DialogInputPassengersComponentPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
+}
+
+export interface LoadingComponentPropsType {
+  className?: string;
 }
