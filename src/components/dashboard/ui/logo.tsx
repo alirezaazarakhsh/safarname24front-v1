@@ -44,8 +44,11 @@ export default function Logo({
           <span className="font-bold text-cs75 text-black block truncate mb-1">
             سفرنامه 24
           </span>
-          <span className="font-bold text-cs75 text-black block truncate">
-            Agency Safarnameh 24
+          <span
+            className="font-bold text-cs75 text-black block truncate"
+            dir="ltr"
+          >
+            Agency Safarnameh <span className="text-num-en">24</span>
           </span>
         </div>
       </div>

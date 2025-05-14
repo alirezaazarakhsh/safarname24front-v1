@@ -31,6 +31,7 @@ export default {
       fontFamily: {
         sans: ['var(--font-sans)'],
         inter: ['var(--font-inter)'],
+        latin: ['Arial', 'sans-serif'],
       },
       colors: {
         'cs-red': '#F30F26',
