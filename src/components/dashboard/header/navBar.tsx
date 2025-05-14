@@ -196,7 +196,7 @@ export default function NavBar(): ReactNode {
                 <Link
                   key={index}
                   data-active={activeLinkIndex === index}
-                  className="h-[50px] shrink-0 w-auto px-3 flex items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
+                  className="h-[50px] shrink-0 outline-none w-auto px-3 flex items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
                   href={item.href}
                 >
                   {item.icon}
