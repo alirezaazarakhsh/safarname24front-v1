@@ -100,7 +100,7 @@ export default function FactorsTable({
                 >
                   <TableCell className="p-3 w-[30px]">
                     <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
-                      <span className="font-normal text-[12px] text-black block">
+                      <span className="font-normal text-[12px] text-black block text-num-en">
                         {handleZeroBeforeNumber(index + 1)}
                       </span>
                     </div>

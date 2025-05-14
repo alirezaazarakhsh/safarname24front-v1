@@ -83,7 +83,7 @@ export default function LatestTicketsTable({
                 className={cn('px-0 w-8', index === 0 ? 'pt-0 pb-5' : 'py-5')}
               >
                 <div className="h-12 w-8 rounded-md bg-gray-100 flex items-center justify-center">
-                  <span className="font-normal text-cs06 text-black block">
+                  <span className="font-normal text-cs06 text-black block text-num-en">
                     {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>
@@ -191,7 +191,7 @@ export default function LatestTicketsTable({
             <div className="flex items-center justify-between gap-3 mb-[20px]">
               <div className="flex items-center justify-start gap-[10px]">
                 <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center">
-                  <span className="font-bold text-[12px] text-black block">
+                  <span className="font-bold text-[12px] text-black block text-num-en">
                     {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>

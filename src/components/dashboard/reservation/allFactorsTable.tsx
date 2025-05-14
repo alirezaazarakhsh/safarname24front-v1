@@ -138,7 +138,7 @@ export default function AllFactorsTable({
                 >
                   <TableCell className="p-3 w-[30px]">
                     <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
-                      <span className="font-normal text-[12px] text-black block">
+                      <span className="font-normal text-[12px] text-black block text-num-en">
                         {handleZeroBeforeNumber(index + 1)}
                       </span>
                     </div>
@@ -232,7 +232,7 @@ export default function AllFactorsTable({
                   <div className="flex items-center justify-between gap-3 mb-[20px]">
                     <div className="flex items-center justify-start gap-[10px]">
                       <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                        <span className="font-bold text-[12px] text-black block">
+                        <span className="font-bold text-[12px] text-black block text-num-en">
                           {handleZeroBeforeNumber(index + 1)}
                         </span>
                       </div>

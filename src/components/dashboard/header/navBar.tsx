@@ -175,7 +175,7 @@ export default function NavBar(): ReactNode {
               href={item.href}
             >
               {item.icon}
-              <span className="block truncate text-right text-cs75 font-medium">
+              <span className="block truncate text-right text-cs75 font-bold">
                 {item.label}
               </span>
             </Link>
@@ -200,7 +200,7 @@ export default function NavBar(): ReactNode {
                   href={item.href}
                 >
                   {item.icon}
-                  <span className="block truncate text-right text-cs75 font-medium">
+                  <span className="block truncate text-right text-cs75 font-bold">
                     {item.label}
                   </span>
                   <ICChevronBottom className="w-3 h-3 text-current shrink-0" />
