@@ -102,24 +102,24 @@ export default function AllFactorsTable({
             />
           </div>
           <Table dir="rtl" className="border-none lg:table hidden">
-            <TableHeader className="bg-gray-100 border-y border-y-black/10">
+            <TableHeader className="bg-[#f7f7f7] border-y border-y-black/10">
               <TableRow className="border-none">
-                <TableHead className="text-right p-3 w-8 truncate text-xs font-medium text-gray-400">
+                <TableHead className="text-right p-[20px] w-8 truncate text-xs font-medium text-[#3d4046]">
                   ردیف
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                   کد پیگیری
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                   هتل
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                   تاریخ ورود و خروج
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                   مسافران
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                   وضعیت مالی
                 </TableHead>
                 <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
@@ -136,34 +136,34 @@ export default function AllFactorsTable({
                       : 'border-b-0',
                   )}
                 >
-                  <TableCell className="p-3 w-[30px]">
+                  <TableCell className="p-[20px] w-[30px]">
                     <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
                       <span className="font-normal text-[12px] text-black block text-num-en">
                         {handleZeroBeforeNumber(index + 1)}
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="p-3">
+                  <TableCell className="p-[20px]">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
                       {item.code}
                     </span>
                   </TableCell>
-                  <TableCell className="p-3">
+                  <TableCell className="p-[20px]">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
                       {item.hotel}
                     </span>
                   </TableCell>
-                  <TableCell className="p-3">
+                  <TableCell className="p-[20px]">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
                       {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
                     </span>
                   </TableCell>
-                  <TableCell className="p-3">
+                  <TableCell className="p-[20px]">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
                       {item.passengers}
                     </span>
                   </TableCell>
-                  <TableCell className="p-3">
+                  <TableCell className="p-[20px]">
                     <div className="flex items-center justify-start gap-2">
                       <div
                         className="w-2 h-2 shrink-0 rounded-full"
@@ -185,7 +185,7 @@ export default function AllFactorsTable({
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="p-3 flex items-center justify-end gap-3">
+                  <TableCell className="p-[20px] flex items-center justify-end gap-3">
                     {item.financialStatus === 'payed' && (
                       <button
                         className="px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs transition-all duration-500 hover:bg-red-100"

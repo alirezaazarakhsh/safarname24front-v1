@@ -23,8 +23,8 @@ export default function Filter({
           className,
         )}
       >
-        <span className="lg:block hidden truncate text-right w-full font-bold text-cs85 text-black">
-          داشبورد سفرنامه
+        <span className="lg:block hidden truncate text-right w-full font-bold text-[16px] text-black">
+          لیست رزرو  هتل های من
         </span>
         <div className="lg:flex grid grid-cols-4 items-center justify-end lg:gap-4 gap-[14px]">
           {dataNotEmpty && (
@@ -38,9 +38,9 @@ export default function Filter({
           <Button className="flex items-center justify-center gap-2 lg:h-10 h-[45px] text-black lg:bg-white lg:hover:bg-white hover:bg-gray-100 bg-gray-100 lg:rounded-md rounded-[7px] lg:px-3 px-[10px]">
             <IconsaxIcons
               name="Add"
-              className="lg:w-3 lg:h-3 w-[18px] h-[18px] text-gray-600 shrink-0"
+              className="w-[18px] h-[18px] text-gray-600 shrink-0"
             />
-            <span className="block text-right truncate font-normal whitespace-nowrap lg:text-sm text-[12px] text-current">
+            <span className="block text-right truncate font-bold whitespace-nowrap text-[12px] text-current">
               ثبت رزرو
             </span>
           </Button>
