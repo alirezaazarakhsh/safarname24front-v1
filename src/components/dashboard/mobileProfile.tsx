@@ -416,7 +416,7 @@ export default function MobileProfile({
               </motion.div>
             </div>
           ) : (
-            <MobileNotification notifications={notifications} index={index} />
+            <MobileNotification notifications={notifications} key={index} index={index} />
           ),
         )}
         <button className="flex items-center justify-center gap-[10px] rounded-[10px] bg-cs-red/10 text-cs-red p-[17px]">

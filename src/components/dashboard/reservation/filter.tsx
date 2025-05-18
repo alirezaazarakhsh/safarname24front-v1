@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 export default function Filter({
   className,
   dataNotEmpty,
+  onChange
 }: ReservationsFilterComponentPropsType): ReactNode {
   // Returning JSX
   return (
@@ -33,6 +34,7 @@ export default function Filter({
               icon="SearchStatus"
               className="lg:h-10 h-[45px]"
               placeholder="جستجو مسافر، هتل"
+              onChange={(e) => onChange && onChange(e.target.value)}
             />
           )}
           <Button className="flex items-center justify-center gap-2 lg:h-10 h-[45px] text-black lg:bg-white lg:hover:bg-white hover:bg-gray-100 bg-gray-100 lg:rounded-md rounded-[7px] lg:px-3 px-[10px]">

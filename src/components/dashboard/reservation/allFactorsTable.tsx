@@ -43,7 +43,7 @@ export default function AllFactorsTable({
   return (
     <section
       className={cn(
-        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10 lg:pb-[50px] pb-0',
+        'lg:bg-white bg-transparent overflow-hidden lg:rounded-[10px] lg:border border-black/10 lg:pb-[50px] pb-0',
         data.length === 0
           ? 'lg:h-[500px] h-[calc(100dvh-20dvh)] flex items-center justify-center lg:p-10 p-6'
           : '',
@@ -92,7 +92,7 @@ export default function AllFactorsTable({
         </div>
       ) : (
         <>
-          <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
+          <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-[20px]">
             <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
               مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
             </span>

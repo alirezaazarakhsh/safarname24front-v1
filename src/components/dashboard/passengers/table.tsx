@@ -265,7 +265,7 @@ export default function PassengersTable({
                         className="w-[20px] h-[20px] text-black"
                       />
                     </div>
-                    <div>
+                    <div className="bg-slate-900 thves">
                       <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                         شماره ملی / شماره پاسپورت :
                       </span>
@@ -284,3 +284,5 @@ export default function PassengersTable({
     </section>
   );
 }
+
+

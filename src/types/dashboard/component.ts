@@ -65,6 +65,7 @@ export interface MobileProfileComponentPropsType {
 export interface ReservationsFilterComponentPropsType {
   className?: string;
   dataNotEmpty: boolean;
+  onChange?: (val: string) => void;
 }
 
 export interface IconInputComponentPropsType
