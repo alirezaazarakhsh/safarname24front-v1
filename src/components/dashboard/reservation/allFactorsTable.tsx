@@ -43,7 +43,7 @@ export default function AllFactorsTable({
   return (
     <section
       className={cn(
-        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10',
+        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10 lg:pb-[50px] pb-0',
         data.length === 0
           ? 'lg:h-[500px] h-[calc(100dvh-20dvh)] flex items-center justify-center lg:p-10 p-6'
           : '',
@@ -129,12 +129,9 @@ export default function AllFactorsTable({
               {data.map((item, index) => (
                 <TableRow
                   key={index}
-                  className={cn(
-                    'bg-white hover:bg-white',
-                    index + 1 !== data.length
-                      ? 'border-b border-b-black/10'
-                      : 'border-b-0',
-                  )}
+                  className={
+                    'bg-white !border-b border-b-black/10 hover:bg-white'
+                  }
                 >
                   <TableCell className="p-[20px] w-[30px]">
                     <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
@@ -188,7 +185,7 @@ export default function AllFactorsTable({
                   <TableCell className="p-[20px] flex items-center justify-end gap-3">
                     {item.financialStatus === 'payed' && (
                       <button
-                        className="px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs transition-all duration-500 hover:bg-red-100"
+                        className="px-6 h-[40px] rounded-md border border-red-600/50 bg-red-50 text-red-600 font-bold text-[12px] transition-all duration-500 hover:bg-red-100"
                         onClick={() => setCanclationReasonDialogOpened(true)}
                       >
                         کنسل
@@ -197,17 +194,17 @@ export default function AllFactorsTable({
                     {item.financialStatus === 'payed' ? (
                       <Link
                         href={`/dashboard/reservations/${item.id}`}
-                        className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black hover:bg-gray-100"
+                        className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-100"
                       >
-                        <IconsaxIcons name="Eye" className="w-3 h-3 shrink-0" />
-                        <span className="text-xs text-current font-medium">
+                        <IconsaxIcons name="Eye" className="w-[16px] h-[16px] shrink-0" color="currentColor" />
+                        <span className="text-[12px] text-current font-bold">
                           مشاهده فاکتور
                         </span>
                       </Link>
                     ) : (
-                      <div className="h-[40px] w-[125px] bg-white border border-black/20 rounded-md text-black flex items-center justify-center">
+                      <div className="h-[40px] w-[125px] bg-white border border-[#d8d8d8] rounded-md text-black flex items-center justify-center">
                         {item.financialStatus === 'cancled' ? (
-                          <span className="text-xs font-medium text-current">
+                          <span className="text-[12px] font-bold text-current">
                             رزرواسیون رد شد!
                           </span>
                         ) : (
