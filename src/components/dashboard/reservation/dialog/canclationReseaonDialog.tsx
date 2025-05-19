@@ -94,7 +94,7 @@ export default function CanclationReasonDialog({
 
     console.log({ message, reason });
     closeFn && closeFn();
-    randomNum === 1 ? openAcceptDialog() : openFailedDialog();
+    openFailedDialog();
   };
 
   // Returning JSX
@@ -123,7 +123,7 @@ export default function CanclationReasonDialog({
           </DialogClose>
         </div>
         <div className="px-6 py-3 border-b border-b-black/10 lg:flex hidden items-center justify-between gap-3">
-          <DialogTitle className="text-right text-[14px] font-bold text-black block truncate w-full">
+          <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] block truncate w-full">
             دلیل کنسلی شما چیست ؟
           </DialogTitle>
           <DialogClose asChild>
@@ -160,25 +160,25 @@ export default function CanclationReasonDialog({
             {radioGroupData.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-start lg:gap-2 gap-[10px] overflow-hidden"
+                className="flex items-center justify-start lg:gap-2 gap-[10px] overflow-hidden group"
               >
-                <div className="relative shrink-0 lg:w-5 lg:h-5 w-[21px] h-[21px]">
+                <div className="relative shrink-0 w-[20px] h-[20px] cursor-pointer">
                   <RadioGroupItem
                     id={`canclation-reason-${index + 1}`}
                     value={item.value}
-                    className="data-[state='unchecked']:bg-gray-100 lg:rounded-md rounded-[4px] lg:w-4 lg:h-4 w-[21px] h-[21px] aspect-square data-[state='checked']:bg-green-500 transition-all duration-500 peer cursor-pointer"
+                    className="data-[state='unchecked']:bg-gray-100 lg:rounded-md rounded-[4px] w-[20px] h-[20px] aspect-square group-hover:bg-[#4b5bce] data-[state='checked']:bg-[#4b5bce] transition-all duration-500 peer cursor-pointer"
                     {...formHook.register('reason')}
                   />
                   <IconsaxIcons
                     name="TickSquare"
                     variant="Bold"
                     color="white"
-                    className="lg:w-2 lg:h-2 w-[12px] h-[12px] aspect-square absolute top-[50%] left-[50%] block lg:translate-y-[-75%] -translate-y-[50%] lg:translate-x-[-25%] -translate-x-[50%] peer-data-[state=unchecked]:opacity-0 peer-data-[state=checked]:opacity-100 pointer-events-none"
+                    className="w-[12px] h-[12px] aspect-square absolute top-[50%] left-[50%] block -translate-y-[50%] -translate-x-[50%] peer-data-[state=unchecked]:opacity-0 peer-data-[state=checked]:opacity-100 pointer-events-none transition-all duration-500"
                   />
                 </div>
                 <Label
                   htmlFor={`canclation-reason-${index + 1}`}
-                  className="truncate block text-right w-full lg:text-cs07 text-[12px] lg:font-medium font-semibold text-black"
+                  className="truncate block text-right w-full lg:text-cs07 cursor-pointer text-[12px] lg:font-bold font-semibold text-[#2b2b2b]"
                 >
                   {item.label}
                 </Label>
@@ -187,7 +187,7 @@ export default function CanclationReasonDialog({
             <Button
               variant="default"
               disabled={formHook.formState.isSubmitting}
-              className="bg-blue-700 rounded-md transition-all duration-500 hover:bg-blue-800 w-full mt-3 lg:flex items-center justify-center hidden"
+              className="bg-[#4b5bce] rounded-md transition-all duration-500 hover:bg-blue-800 w-full mt-3 lg:flex items-center justify-center hidden"
             >
               {!formHook.formState.isSubmitting ? (
                 <span className="text-white text-cs65 font-normal">
@@ -200,7 +200,7 @@ export default function CanclationReasonDialog({
           </RadioGroup>
           <div className="h-full lg:col-span-3 lg:mt-0 mt-[25px] w-full lg:block flex flex-col items-start justify-between">
             <textarea
-              className="w-full resize-none h-full bg-gray-100 lg:rounded-md rounded-[10px] lg:p-3 p-6 outline-0 lg:placeholder:text-cs65 placeholder:text-[12px] placeholder:text-gray-400 lg:text-cs65 text-[12px] text-black border-none"
+              className="w-full resize-none h-full bg-gray-100 lg:rounded-md rounded-[10px] lg:p-3 p-6 outline-0 placeholder:font-semibold font-semibold lg:placeholder:text-cs65 placeholder:text-[12px] placeholder:text-gray-400 lg:text-cs65 text-[12px] text-black border-none"
               placeholder="توضیحات خود را وارد نمایید..."
               {...formHook.register('message')}
             />
@@ -210,7 +210,7 @@ export default function CanclationReasonDialog({
               className="bg-blue-700 rounded-[10px] w-full mt-3 lg:hidden flex items-center justify-center h-[50px] shrink-0 hover:bg-blue-700 transition-all duration-500"
             >
               {!formHook.formState.isSubmitting ? (
-                <span className="text-white text-[14px] font-semibold">
+                <span className="text-white text-[11px] font-semibold">
                   ارسال کنسلی
                 </span>
               ) : (

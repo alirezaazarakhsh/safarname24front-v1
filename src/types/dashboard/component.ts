@@ -96,6 +96,7 @@ export interface CustomPaginationComponentPropsType {
 export interface DialogComponentPropsType {
   isOpened?: boolean;
   closeFn?: () => void;
+  tryAgainFn?: () => void;
 }
 
 export interface ToastProps {

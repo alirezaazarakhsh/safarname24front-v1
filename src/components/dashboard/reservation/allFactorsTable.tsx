@@ -57,6 +57,7 @@ export default function AllFactorsTable({
       <FailedToCancleDialog
         isOpened={failedToCancleDialogOpened}
         closeFn={() => setFailedToCancleDialogOpened(false)}
+        tryAgainFn={() => setAcceptCanclationDialogOpened(true)}
       />
       <CanclationReasonDialog
         isOpened={canclationReasonDialogOpened}
