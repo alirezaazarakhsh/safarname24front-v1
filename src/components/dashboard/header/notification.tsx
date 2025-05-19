@@ -8,6 +8,7 @@ import { ICNotificationStatus } from '@/components/icons/ICNotifcationStatus';
 import * as NotificationComponent from '@/components/dashboard/notification';
 import { NotificationSheetPropsType } from '@/types/dashboard/component';
 import DeleteNotificationDialog from '../dialog/deleteNotificationDialog';
+import { ICDashedBorder } from '@/components/icons/ICDashedBorder';
 
 // Creating and exporting Notification component as default
 export default function Notification({
@@ -41,22 +42,23 @@ export default function Notification({
         closeFn={() => setSheetOpened(false)}
       >
         <div>
-          <div className="flex items-center justify-between gap-3 pb-3">
-            <span className="text-cs75 font-semibold text-right text-black truncate w-full">
+          <div className="flex items-center justify-between gap-3 pb-4">
+            <span className="text-[14px] font-bold text-right text-[#2b2b2b] truncate w-full">
               نوتیفیکشن ها
             </span>
             {unseenCount !== 0 && (
               <div className="bg-cs-red/10 text-cs-red px-3 py-3 rounded-md shrink-0 flex items-center justify-center">
-                <span className="text-[9px] font-semibold text-current block text-center">{`${unseenCount} پیام ناخوانده`}</span>
+                <span className="text-[12px] font-bold text-current block text-center">{`${unseenCount} پیام ناخوانده`}</span>
               </div>
             )}
           </div>
-          <div className="flex flex-col gap-3 border-t-2 border-dashed border-gray-200 pt-3">
+          <ICDashedBorder className="w-full text-[#d4d4d4]" />
+          <div className="flex flex-col gap-3 pt-4">
             {notifications.map((item, index) => (
               <NotificationComponent.default
                 className={
                   index + 1 !== notifications.length
-                    ? 'border-b border-b-black/20 pb-3'
+                    ? 'border-b border-b-black/20 pb-4'
                     : ''
                 }
                 key={index}

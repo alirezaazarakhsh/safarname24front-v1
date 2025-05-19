@@ -41,7 +41,7 @@ export default function Sheet({
         onClick={closeFn}
       />
       <motion.div
-        className="bg-white lg:w-[30vw] w-dvw h-dvh overflow-auto custom-scrollbar fixed top-0 z-50 gap-3 p-5"
+        className="bg-white lg:w-[27vw] w-dvw h-dvh overflow-auto custom-scrollbar fixed top-0 z-50 gap-3 p-5"
         transition={{ duration: 0.5 }}
         exit={{
           opacity: 0,

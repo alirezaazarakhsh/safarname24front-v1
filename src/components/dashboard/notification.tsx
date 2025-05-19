@@ -27,7 +27,7 @@ export default function Notification({
         closeFn={() => setDeleteDialogOpened(false)}
       />
       <div className="flex lg:items-start items-center justify-between gap-4 lg:mb-3 mb-[15px] cursor-pointer">
-        <span className="lg:text-cs85 text-[12px] lg:font-medium font-semibold text-right block w-full text-black lg:line-clamp-2 line-clamp-1">
+        <span className="lg:text-cs85 text-[12px] lg:font-bold font-semibold text-right block w-full text-[#2b2b2b] lg:line-clamp-2 line-clamp-1">
           {data.title}
         </span>
         <div className="flex items-center justify-between lg:gap-3 gap-[10px] shrink-0">
