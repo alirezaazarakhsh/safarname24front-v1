@@ -35,6 +35,9 @@ export default function Page({
   const pathname = usePathname();
   const x = 's';
 
+  // Defining a variables 
+const isReservationSubPage = /^\/dashboard\/reservations\/[^/]+$/.test(pathname);
+
   // Making fake waiting to show the loading modal
   // TODO: Remove Later
   useEffect(() => {
@@ -78,11 +81,20 @@ export default function Page({
         <MobileNav />
         <div
           className={cn(
-            'max-w-screen-template overflow-x-hidden overflow-y-auto mx-auto bg-[#F9F9F9]',
+            'overflow-x-hidden overflow-y-auto',
+            (!isReservationSubPage) ? "bg-[#F9F9F9] mx-auto max-w-screen-template " : "bg-white w-full",
             className,
           )}
         >
-          {children}
+          {
+            (!isReservationSubPage)
+              ? children
+              : (
+                <div className="bg-white max-w-screen-template mx-auto">
+                  {children}
+                </div>
+              )
+          }
         </div>
       </uidContext.Provider>
     );

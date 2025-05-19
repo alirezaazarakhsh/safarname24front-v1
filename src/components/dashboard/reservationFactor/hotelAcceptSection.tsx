@@ -33,7 +33,7 @@ export default function HotelAcceptSection({
           </span>
         </div>
         <div className="flex items-center justify-between gap-2 shrink-0">
-          <button className="lg:h-10 h-[40px] lg:px-3 px-[22px] border border-green-500 bg-green-100 lg:rounded-md rounded-[7px] transition-all duration-500 lg:hover:bg-green-200 text-green-600 lg:text-cs75 text-[12px] lg:font-normal font-semibold">
+          <button className="lg:h-10 h-[40px] lg:px-3 px-[22px] border border-green-500 bg-[#e3ffed] rounded-[7px] transition-all duration-500 lg:hover:bg-green-200 text-[#178941] lg:text-cs75 text-[12px] font-semibold">
             دانلود
           </button>
           <Link
@@ -53,24 +53,24 @@ export default function HotelAcceptSection({
       </div>
       <div className="border border-black/10 bg-white rounded-lg overflow-hidden lg:block hidden">
         <Table dir="rtl">
-          <TableHeader className="bg-gray-100 border-b border-b-black/10">
+          <TableHeader className="bg-[#f8f8f8] border-b border-b-black/10">
             <TableRow className="border-none">
-              <TableHead className="text-right p-3 w-8 truncate text-xs font-medium text-gray-400">
+              <TableHead className="text-right p-3 w-8 truncate text-xs font-semibold text-[#515a6a]">
                 ردیف
               </TableHead>
-              <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+              <TableHead className="text-right p-3 truncate text-xs font-semibold text-[#515a6a]">
                 رزرو کننده
               </TableHead>
-              <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+              <TableHead className="text-right p-3 truncate text-xs font-semibold text-[#515a6a]">
                 تاریخ رزرو
               </TableHead>
-              <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+              <TableHead className="text-right p-3 truncate text-xs font-semibold text-[#515a6a]">
                 کد پیگیری
               </TableHead>
-              <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+              <TableHead className="text-right p-3 truncate text-xs font-semibold text-[#515a6a]">
                 شماره تماس
               </TableHead>
-              <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+              <TableHead className="text-right p-3 truncate text-xs font-semibold text-[#515a6a]">
                 تاریخ ورود و خروج
               </TableHead>
               <TableHead className="p-3 w-[500px]" />
@@ -88,36 +88,36 @@ export default function HotelAcceptSection({
                 )}
               >
                 <TableCell className="p-3 w-[30px]">
-                  <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
+                  <div className="rounded-[5px] bg-[#f8f8f8] flex items-center justify-center h-[40px] w-full">
                     <span className="font-normal text-[12px] text-black block text-num-en">
                       {handleZeroBeforeNumber(index + 1)}
                     </span>
                   </div>
                 </TableCell>
                 <TableCell className="p-3">
-                  <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
                     {item.reserver}
                   </span>
                 </TableCell>
                 <TableCell className="p-3">
-                  <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
                     {moment(item.createdAt)
                       .locale('fa')
                       .format('jYYYY/jMM/jDD')}
                   </span>
                 </TableCell>
                 <TableCell className="p-3">
-                  <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
                     {item.codePeigiri}
                   </span>
                 </TableCell>
                 <TableCell className="p-3">
-                  <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
                     {item.phoneNumber}
                   </span>
                 </TableCell>
                 <TableCell className="p-3">
-                  <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
                     {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
                   </span>
                 </TableCell>
@@ -137,7 +137,7 @@ export default function HotelAcceptSection({
                 <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                   رزرو کننده
                 </span>
-                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
                   {item.reserver}
                 </span>
               </div>
@@ -153,7 +153,7 @@ export default function HotelAcceptSection({
                 <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                   تاریخ رزرو
                 </span>
-                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
                   {moment(item.createdAt).locale('fa').format('jYYYY/jMM/jDD')}
                 </span>
               </div>
@@ -166,7 +166,7 @@ export default function HotelAcceptSection({
                 <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                   کد پیگیری
                 </span>
-                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
                   {item.codePeigiri}
                 </span>
               </div>
@@ -185,7 +185,7 @@ export default function HotelAcceptSection({
                 <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                   شماره تماس
                 </span>
-                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
                   {item.phoneNumber}
                 </span>
               </div>
@@ -198,7 +198,7 @@ export default function HotelAcceptSection({
                 <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                   تاریخ ورود و خروج
                 </span>
-                <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
                   {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
                 </span>
               </div>

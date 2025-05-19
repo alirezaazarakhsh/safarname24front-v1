@@ -69,11 +69,11 @@ const data: {
 export default function SingleReservationPage(): ReactNode {
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] lg:bg-transparent bg-white">
+    <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] bg-white">
       <Header />
       <HotelAcceptSection data={data.accept} />
-      <div className="p-3 lg:h-16 bg-gray-100 border border-black/10 rounded-lg lg:flex hidden items-center justify-between gap-5">
-        <p className="font-medium  text-black text-cs75 block text-right truncate">{`${data.location.label} ادرس هتل :`}</p>
+      <div className="p-3 lg:h-16 bg-[#f8f8f8] border border-black/10 rounded-lg lg:flex hidden items-center justify-between gap-5">
+        <p className="font-semibold text-[#2c2c2c] text-cs75 block text-right truncate">{`${data.location.label}`}</p>
         <Link
           href={data.location.googleMapURL}
           className="h-10 px-3 border border-blue-500 bg-blue-100 rounded-md transition-all duration-500 hover:bg-blue-200 text-blue-600 flex items-center justify-center"
