@@ -49,11 +49,11 @@ export default function CanclationErrorDrawer({
   return (
     <Drawer
       open={isOpened}
+      dismissible={time === 5}
       onClose={() => {
         closeFn && closeFn();
         setTime(0);
       }}
-      dismissible={time === 5}
     >
       <DrawerContent>
         <DrawerHeader className='px-[24px] py-0 mb-[10px]'>
