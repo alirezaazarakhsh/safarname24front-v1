@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 export default function Filter({
   className,
   dataNotEmpty,
-  onChange
+  onChange,
 }: ReservationsFilterComponentPropsType): ReactNode {
   // Returning JSX
   return (
@@ -24,25 +24,25 @@ export default function Filter({
           className,
         )}
       >
-        <span className="lg:block hidden truncate text-right w-full font-bold text-[16px] text-black">
-          لیست رزرو  هتل های من
+        <span className='lg:block hidden truncate text-right w-full font-bold text-[16px] text-black'>
+          لیست رزرو هتل های من
         </span>
-        <div className="lg:flex grid grid-cols-4 items-center justify-end lg:gap-4 gap-[14px]">
+        <div className='flex items-center justify-end lg:gap-4 gap-[14px]'>
           {dataNotEmpty && (
             <IconInput
-              wholeClassName="lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100"
-              icon="SearchStatus"
-              className="lg:h-10 h-[45px]"
-              placeholder="جستجو مسافر، هتل"
+              wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-auto w-full'
+              icon='SearchStatus'
+              className='lg:h-10 h-[45px]'
+              placeholder='جستجو مسافر، هتل'
               onChange={(e) => onChange && onChange(e.target.value)}
             />
           )}
-          <Button className="flex items-center justify-center gap-2 lg:h-10 h-[45px] text-black lg:bg-white lg:hover:bg-white hover:bg-gray-100 bg-gray-100 lg:rounded-md rounded-[7px] lg:px-3 px-[10px]">
+          <Button className='flex items-center justify-center gap-2 lg:h-10 h-[45px] lg:bg-white lg:hover:bg-white hover:bg-gray-100 bg-gray-100 lg:rounded-md rounded-[7px] lg:px-3 px-[10px] lg:shrink shrink-0 text-[#2b2b2b]'>
             <IconsaxIcons
-              name="Add"
-              className="w-[18px] h-[18px] text-gray-600 shrink-0"
+              name='Add'
+              className='w-[18px] h-[18px]  shrink-0 text-current'
             />
-            <span className="block text-right truncate font-bold whitespace-nowrap text-[12px] text-current">
+            <span className='block text-right truncate font-semibold whitespace-nowrap text-[12px] text-current'>
               ثبت رزرو
             </span>
           </Button>
