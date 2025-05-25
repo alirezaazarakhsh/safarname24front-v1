@@ -100,13 +100,13 @@ export default function MobileNav(): ReactNode {
           >
             <IconsaxIcons
               name={item.icon}
-              className="w-[17px] h-[17px]"
-              color="currentColor"
+              className='w-[17px] h-[17px]'
+              color='currentColor'
               variant={
                 pathname === item.href && !profileOpened ? 'Bold' : 'Outline'
               }
             />
-            <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+            <span className='block w-full truncate text-center text-[10px] font-semibold text-current'>
               {item.title}
             </span>
           </Link>
@@ -126,11 +126,11 @@ export default function MobileNav(): ReactNode {
             >
               <IconsaxIcons
                 name={item.icon}
-                className="w-[17px] h-[17px]"
-                color="currentColor"
+                className='w-[17px] h-[17px]'
+                color='currentColor'
                 variant={profileOpened ? 'Bold' : 'Outline'}
               />
-              <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+              <span className='block w-full truncate text-center text-[10px] font-semibold text-current'>
                 {item.title}
               </span>
             </button>
@@ -139,5 +139,4 @@ export default function MobileNav(): ReactNode {
       )}
     </nav>
   );
-  //}
 }

@@ -1,5 +1,5 @@
 // Forcing next.js to render this component as client side component
-"use client";
+'use client';
 
 // Importing part
 import AllFactorsTable from '@/components/dashboard/reservation/allFactorsTable';
@@ -62,7 +62,7 @@ const data: {
     passengers: 'محمد مهدی تاشا',
     financialStatus: 'pending',
   },
-{
+  {
     id: 1,
     code: 'ZMA45362',
     hotel: 'اسپیناس پالاس تهران',
@@ -112,28 +112,29 @@ const data: {
 // Creating and exporting Reservations page as default
 export default function ReservationsPage(): ReactNode {
   // Defining states of component
-  const [filterVal, setFilterVal] = useState<string>("");
+  const [filterVal, setFilterVal] = useState<string>('');
   const [filtredData, setFiltredData] = useState<typeof data>(data);
 
   // Using useEffect to filter data object while filterVal changes
   useEffect(() => {
-    if (filterVal === "") {
+    if (filterVal === '') {
       setFiltredData(data);
     } else {
       const filtredObj = data.filter((item) => {
-        const combinedStrings = `${item.passengers} ${item.hotel}`.toLowerCase(); // In case of being english 
+        const combinedStrings =
+          `${item.passengers} ${item.hotel}`.toLowerCase(); // In case of being english
         return combinedStrings.includes(filterVal.toLowerCase());
-      })
+      });
 
       setFiltredData(filtredObj);
     }
-  }, [filterVal])
+  }, [filterVal]);
 
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white">
+    <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
       <Filter
-      onChange={(val) => setFilterVal(val)}
+        onChange={(val) => setFilterVal(val)}
         className={cn(data.length === 0 ? 'lg:block hidden' : '')}
         dataNotEmpty={data.length !== 0}
       />
