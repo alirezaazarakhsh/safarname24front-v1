@@ -460,16 +460,16 @@ export interface PassengersTableComponentPropsType {
 
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
   data:
-  | {
-    name: {
-      firstName: string;
-      lastName: string;
-    };
-    tell: string;
-    id: number;
-    meliCodeOrPassportNumber: string;
-  }
-  | undefined;
+    | {
+        name: {
+          firstName: string;
+          lastName: string;
+        };
+        tell: string;
+        id: number;
+        meliCodeOrPassportNumber: string;
+      }
+    | undefined;
 }
 
 export interface DialogInputPassengersComponentPropsType
@@ -492,4 +492,9 @@ export interface CartBalanceComponentPropsType {
   className?: string;
   balance: number;
   hasMobileView?: boolean;
-} 
+}
+
+export interface SubscriptionTypeComponentPropsType {
+  type: 'premium' | 'silver';
+  className?: string;
+}
