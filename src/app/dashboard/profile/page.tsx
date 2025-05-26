@@ -18,7 +18,11 @@ export default function ProfilePage(): ReactNode {
   return (
     <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
       <div className='grid grid-cols-4 gap-5'>
-        <ProfileToggler className='col-span-2' defaultVal={profileState} />
+        <ProfileToggler
+          className='col-span-2'
+          defaultVal={profileState}
+          onToggleChange={(val) => setProfileState(val)}
+        />
         <CartBalance hasMobileView balance={112459000} />
         <SubscriptionType type='premium' />
       </div>
