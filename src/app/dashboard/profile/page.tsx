@@ -2,6 +2,7 @@
 'use client';
 
 // Importing part
+import CartBalance from '@/components/dashboard/profile/cartBalance';
 import ProfileToggler from '@/components/dashboard/profile/profileToggler';
 import { ReactNode, useState } from 'react';
 
@@ -15,8 +16,9 @@ export default function ProfilePage(): ReactNode {
   // Returning JSX
   return (
     <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
-      <div className='grid grid-cols-4 gap-3'>
+      <div className='grid grid-cols-4 gap-5'>
         <ProfileToggler className='col-span-2' defaultVal={profileState} />
+        <CartBalance hasMobileView balance={112459000} />
       </div>
     </main>
   );

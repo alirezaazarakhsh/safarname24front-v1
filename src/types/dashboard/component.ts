@@ -460,16 +460,16 @@ export interface PassengersTableComponentPropsType {
 
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
   data:
-    | {
-        name: {
-          firstName: string;
-          lastName: string;
-        };
-        tell: string;
-        id: number;
-        meliCodeOrPassportNumber: string;
-      }
-    | undefined;
+  | {
+    name: {
+      firstName: string;
+      lastName: string;
+    };
+    tell: string;
+    id: number;
+    meliCodeOrPassportNumber: string;
+  }
+  | undefined;
 }
 
 export interface DialogInputPassengersComponentPropsType
@@ -487,3 +487,9 @@ export interface ProfileTogglerComponentPropsType {
   defaultVal?: 'personal' | 'legal';
   onToggleChange?: (val: 'personal' | 'legal') => void;
 }
+
+export interface CartBalanceComponentPropsType {
+  className?: string;
+  balance: number;
+  hasMobileView?: boolean;
+} 
