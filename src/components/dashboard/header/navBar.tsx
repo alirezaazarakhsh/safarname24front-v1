@@ -20,26 +20,26 @@ import useWindowSize from '@/hooks/useWindowSize';
 const data: {
   icon: ReactNode;
   label: string;
-  href: `/dashboard/${string}` | '/dashboard';
+  href: string;
   dropdown?: {
     label: string;
-    href: `/dashboard/${string}`;
+    href: string;
   }[];
 }[] = [
   {
-    icon: <ICCategory className="w-[19px] h-[19px] text-current shrink-0" />,
+    icon: <ICCategory className='w-[19px] h-[19px] text-current shrink-0' />,
     label: 'داشبورد',
     href: '/dashboard',
   },
   {
     icon: (
-      <ICDocumentText className="w-[19px] h-[19px] text-current shrink-0" />
+      <ICDocumentText className='w-[19px] h-[19px] text-current shrink-0' />
     ),
     label: 'لیست رزرو من',
     href: '/dashboard/reservations',
   },
   {
-    icon: <ICWallet className="w-[19px] h-[19px] text-current shrink-0" />,
+    icon: <ICWallet className='w-[19px] h-[19px] text-current shrink-0' />,
     label: 'بخش مالی',
     href: '/dashboard/financial/wallet',
     dropdown: [
@@ -62,7 +62,7 @@ const data: {
     ],
   },
   {
-    icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
+    icon: <ICCrown className='w-[19px] h-[19px] text-current shrink-0' />,
     label: 'باشگاه مشتریان',
     href: '/dashboard/customer-club/gifts',
     dropdown: [
@@ -77,18 +77,18 @@ const data: {
     ],
   },
   {
-    icon: <ICMessageText className="w-[19px] h-[19px] text-current shrink-0" />,
+    icon: <ICMessageText className='w-[19px] h-[19px] text-current shrink-0' />,
     label: 'مدیریت تیکت ها',
     href: '/dashboard/tickets',
   },
   {
-    icon: <ICSave2 className="w-[19px] h-[19px] text-current shrink-0" />,
+    icon: <ICSave2 className='w-[19px] h-[19px] text-current shrink-0' />,
     label: 'علاقه مندی های من',
     href: '/dashboard/favorites',
   },
   {
     icon: (
-      <ICProfile2User className="w-[19px] h-[19px] text-current shrink-0" />
+      <ICProfile2User className='w-[19px] h-[19px] text-current shrink-0' />
     ),
     label: 'مسافران من',
     href: '/dashboard/passengers',
@@ -100,11 +100,11 @@ export default function NavBar(): ReactNode {
   // Defining hooks
   const pathname = usePathname();
   const windowSize = useWindowSize();
+  const [activeLinkIndex, setActiveLinkIndex] = useState<number>(0);
+  const itemsParentRef = useRef<null | HTMLDivElement>(null);
   const [openedDropDownIndex, setOpenedDropDownIndex] = useState<
     number | undefined
   >(undefined);
-  const [activeLinkIndex, setActiveLinkIndex] = useState<number>(0);
-  const itemsParentRef = useRef<null | HTMLDivElement>(null);
   const [indicatorStyles, setIndicatorStyles] = useState<{
     right: number;
     width: number;
@@ -112,6 +112,10 @@ export default function NavBar(): ReactNode {
     right: 0,
     width: 0,
   });
+
+  // Defining variables
+  const pathnameExistsInData =
+    data.find((item) => item.href === pathname) !== undefined;
 
   // Defining a function to calculate styles of indicator
   function calculateIndicatorStyles() {
@@ -157,25 +161,27 @@ export default function NavBar(): ReactNode {
 
   // Returning JSX
   return (
-    <nav className="border-b-[1.5px] border-b-black/10 bg-white lg:block hidden">
+    <nav className='border-b-[1.5px] border-b-black/10 bg-white lg:block hidden'>
       <div
         ref={itemsParentRef}
-        className="max-w-screen-template mx-auto flex items-center justify-start overflow-auto scrollbar-hide relative px-5 gap-5"
+        className='max-w-screen-template mx-auto flex items-center justify-start overflow-auto scrollbar-hide relative px-5 gap-5'
       >
         {data.map((item, index) =>
           !item.dropdown ? (
             <Link
               key={index}
-              data-active={
-                activeLinkIndex !== -1
-                  ? activeLinkIndex === index
-                  : pathname.startsWith(item.href)
-              }
               className="dashboard-nav-item shrink-0 w-auto px-3 flex h-[50px] items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
               href={item.href}
+              data-active={
+                pathnameExistsInData
+                  ? activeLinkIndex !== -1
+                    ? activeLinkIndex === index
+                    : pathname.startsWith(item.href)
+                  : false
+              }
             >
               {item.icon}
-              <span className="block truncate text-right text-cs75 font-bold">
+              <span className='block truncate text-right text-cs75 font-bold'>
                 {item.label}
               </span>
             </Link>
@@ -186,7 +192,7 @@ export default function NavBar(): ReactNode {
               key={index}
             >
               <DropDown.DropdownMenuTrigger
-                className="dashboard-nav-item"
+                className='dashboard-nav-item'
                 data-active={activeLinkIndex === index}
                 asChild
                 onMouseLeave={() => setOpenedDropDownIndex(undefined)}
@@ -200,15 +206,15 @@ export default function NavBar(): ReactNode {
                   href={item.href}
                 >
                   {item.icon}
-                  <span className="block truncate text-right text-cs75 font-bold">
+                  <span className='block truncate text-right text-cs75 font-bold'>
                     {item.label}
                   </span>
-                  <ICChevronBottom className="w-3 h-3 text-current shrink-0" />
+                  <ICChevronBottom className='w-3 h-3 text-current shrink-0' />
                 </Link>
               </DropDown.DropdownMenuTrigger>
               <DropDown.DropdownMenuContent
-                align="end"
-                className="w-[200px]"
+                align='end'
+                className='w-[200px]'
                 sideOffset={0}
                 onMouseLeave={() => setOpenedDropDownIndex(undefined)}
                 onMouseEnter={() => setOpenedDropDownIndex(index)}
@@ -218,16 +224,16 @@ export default function NavBar(): ReactNode {
                   <div key={innerIndex}>
                     <DropDown.DropdownMenuItem
                       asChild
-                      className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
+                      className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
                     >
                       <Link href={innerItem.href}>
-                        <span className="text-cs08 font-normal text-current text-right truncate block">
+                        <span className='text-cs08 font-normal text-current text-right truncate block'>
                           {innerItem.label}
                         </span>
                       </Link>
                     </DropDown.DropdownMenuItem>
                     {innerIndex + 1 !== item.dropdown?.length && (
-                      <DropDown.DropdownMenuSeparator className="mx-3" />
+                      <DropDown.DropdownMenuSeparator className='mx-3' />
                     )}
                   </div>
                 ))}
@@ -235,10 +241,15 @@ export default function NavBar(): ReactNode {
             </DropDown.DropdownMenu>
           ),
         )}
-        <div
-          className="absolute h-[1.5px] rounded-[45rem] top-[98%] right-0 bg-cs-red transition-all duration-500 ease-in-out pointer-events-none"
-          style={{ right: indicatorStyles.right, width: indicatorStyles.width }}
-        />
+        {pathnameExistsInData && (
+          <div
+            className='absolute h-[1.5px] rounded-[45rem] top-[98%] right-0 bg-cs-red transition-all duration-500 ease-in-out pointer-events-none'
+            style={{
+              right: indicatorStyles.right,
+              width: indicatorStyles.width,
+            }}
+          />
+        )}
       </div>
     </nav>
   );
