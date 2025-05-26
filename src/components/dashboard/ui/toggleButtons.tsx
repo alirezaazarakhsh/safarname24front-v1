@@ -13,9 +13,11 @@ export default function ToggleButtons({
   className,
   onChange,
   width,
+  defaultVal = 0,
 }: ToggleButtonsPropsType): ReactNode {
   // Defining states of component
-  const [activeButtonIndex, setActiveButtonIndex] = useState<number>(0);
+  const [activeButtonIndex, setActiveButtonIndex] =
+    useState<number>(defaultVal);
 
   // Attaching onChange prop to component
   useEffect(() => onChange && onChange(activeButtonIndex), [activeButtonIndex]);
@@ -30,8 +32,8 @@ export default function ToggleButtons({
       )}
     >
       <div
-        className="bg-blue-700 w-[50%] transition-all duration-500 h-full rounded-lg top-0 absolute z-0 data-[activeBtn='0']:right-0 data-[activeBtn='1']:right-[50%]"
-        data-activeBtn={activeButtonIndex}
+        className="bg-blue-700 w-[50%] transition-all duration-500 h-full rounded-lg top-0 absolute z-0 data-[activebtn='0']:right-0 data-[activebtn='1']:right-[50%]"
+        data-activebtn={activeButtonIndex}
       />
       {buttons.map((item, index) => (
         <button
@@ -40,7 +42,7 @@ export default function ToggleButtons({
           key={index}
           onClick={() => setActiveButtonIndex(index)}
         >
-          <span className="lg:text-cs65 text-[12px] lg:font-normal font-semibold w-full block text-center truncate text-current">
+          <span className='lg:text-cs65 text-[12px] lg:font-normal font-semibold w-full block text-center truncate text-current'>
             {item}
           </span>
         </button>

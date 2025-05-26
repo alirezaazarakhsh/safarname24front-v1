@@ -350,6 +350,7 @@ export interface ToggleButtonsPropsType {
   buttons: [string, string];
   onChange?: (index: number) => void;
   width: string;
+  defaultVal?: number;
 }
 
 export interface CustomersClubTablePropsType {
@@ -479,4 +480,10 @@ export interface DialogInputPassengersComponentPropsType
 
 export interface LoadingComponentPropsType {
   className?: string;
+}
+
+export interface ProfileTogglerComponentPropsType {
+  className?: string;
+  defaultVal?: 'personal' | 'legal';
+  onToggleChange?: (val: 'personal' | 'legal') => void;
 }
