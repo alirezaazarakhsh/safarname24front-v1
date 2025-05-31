@@ -1,8 +1,8 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
-import BankInfoForm from '@/components/dashboard/profile/bankInfoForm';
 // Importing part
+import BankInfoForm from '@/components/dashboard/profile/bankInfoForm';
 import CartBalance from '@/components/dashboard/profile/cartBalance';
 import PersonalInfoForm from '@/components/dashboard/profile/personalInfoForm';
 import ProfileToggler from '@/components/dashboard/profile/profileToggler';

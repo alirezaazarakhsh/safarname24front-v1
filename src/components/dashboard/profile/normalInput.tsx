@@ -19,7 +19,7 @@ export default function NormalInput({
         required={required}
         placeholder={required ? `* ${placeholder}` : placeholder}
         className={cn(
-          'px-4 py-4 w-full block bg-white placeholder:text-black/10 text-black/10 border border-black/10 rounded-lg text-cs65 placeholder:text-cs65 font-medium placeholder:font-medium transition-all duration-500 focus:border-black focus:text-black focus:placeholder:text-black',
+          'px-4 py-4 h-[50px] w-full block bg-white placeholder:text-black/10 text-black/10 border border-black/10 rounded-lg text-cs65 placeholder:text-cs65 font-medium placeholder:font-medium transition-all duration-500 focus:border-black focus:text-black focus:placeholder:text-black',
           className,
         )}
         {...props}

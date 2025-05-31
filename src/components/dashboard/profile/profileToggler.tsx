@@ -39,7 +39,7 @@ export default function ProfileToggler({
       </div>
       <ToggleButtons
         buttons={['پروفایل حقیقی', 'پروفایل حقوقی']}
-        className='h-[45px] shrink-0'
+        className='h-[50px] shrink-0'
         width={'w-[250px]'}
         defaultVal={defaultVal === 'legal' ? 1 : 0}
         onChange={(index) =>

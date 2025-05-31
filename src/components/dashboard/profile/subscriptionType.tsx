@@ -32,7 +32,7 @@ export default function SubscriptionType({
           height={180}
           className='absolute top-0 left-0 w-full object-cover scale-105 h-full pointer-events-none'
         />
-        <div className='border-2 border-current w-[45px] h-[45px] aspect-square shrink-0 flex items-center justify-center rounded-md'>
+        <div className='border-2 border-current w-[50px] h-[50px] aspect-square shrink-0 flex items-center justify-center rounded-md'>
           <IconsaxIcons
             name='Rank'
             className='w-[20px] h-[20px]'

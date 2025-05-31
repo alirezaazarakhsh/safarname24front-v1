@@ -96,7 +96,7 @@ export default function CartBalance({
           )}
         >
           <div className='flex items-center justify-start gap-3 overflow-hidden'>
-            <div className='flex items-center justify-center w-[45px] h-[45px] border border-black/10 shrink-0 rounded-md'>
+            <div className='flex items-center justify-center w-[50px] h-[50px] border border-black/10 shrink-0 rounded-md'>
               <IconsaxIcons
                 name='Wallet'
                 className='w-[20px] h-[20px] shrink-0 text-current'
