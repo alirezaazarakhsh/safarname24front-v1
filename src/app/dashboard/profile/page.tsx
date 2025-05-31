@@ -3,6 +3,7 @@
 
 // Importing part
 import CartBalance from '@/components/dashboard/profile/cartBalance';
+import PersonalInfoForm from '@/components/dashboard/profile/personalInfoForm';
 import ProfileToggler from '@/components/dashboard/profile/profileToggler';
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
 import { ReactNode, useState } from 'react';
@@ -25,6 +26,7 @@ export default function ProfilePage(): ReactNode {
         />
         <CartBalance hasMobileView balance={112459000} />
         <SubscriptionType type='premium' />
+        <PersonalInfoForm className='col-span-2' />
       </div>
     </main>
   );

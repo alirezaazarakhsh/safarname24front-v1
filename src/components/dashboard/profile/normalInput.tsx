@@ -1,0 +1,34 @@
+// Importing part
+import { NormalInputComponentPropsType } from '@/types/dashboard/component';
+import { cn } from '@/utils/utils';
+import { ReactNode } from 'react';
+
+// Creating and exporting NormalInput component as default
+export default function NormalInput({
+  error,
+  className,
+  wholeClassName,
+  required,
+  placeholder,
+  ...props
+}: NormalInputComponentPropsType): ReactNode {
+  // Returning JSX
+  return (
+    <div className={cn('w-full', wholeClassName)}>
+      <input
+        required={required}
+        placeholder={required ? `* ${placeholder}` : placeholder}
+        className={cn(
+          'px-4 py-4 w-full block bg-white placeholder:text-black/10 text-black/10 border border-black/10 rounded-lg text-cs65 placeholder:text-cs65 font-medium placeholder:font-medium transition-all duration-500 focus:border-black focus:text-black focus:placeholder:text-black',
+          className,
+        )}
+        {...props}
+      />
+      {error && (
+        <p className='text-cs07 font-medium text-cs-red block text-right mt-2'>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}

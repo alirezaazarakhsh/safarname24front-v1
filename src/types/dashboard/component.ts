@@ -498,3 +498,13 @@ export interface SubscriptionTypeComponentPropsType {
   type: 'premium' | 'silver';
   className?: string;
 }
+
+export interface PersonalInfoFormComponentPropsType {
+  className?: string;
+}
+
+export interface NormalInputComponentPropsType
+  extends InputHTMLAttributes<HTMLInputElement> {
+  error?: string;
+  wholeClassName?: string;
+}
