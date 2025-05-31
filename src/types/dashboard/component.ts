@@ -512,3 +512,7 @@ export interface NormalInputComponentPropsType
 export interface BankInfoFormComponentPropsType {
   className?: string;
 }
+
+export interface DescriptionProfileComponentPropsType {
+  className?: string;
+}

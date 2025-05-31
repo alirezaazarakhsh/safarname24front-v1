@@ -4,6 +4,7 @@
 // Importing part
 import BankInfoForm from '@/components/dashboard/profile/bankInfoForm';
 import CartBalance from '@/components/dashboard/profile/cartBalance';
+import Description from '@/components/dashboard/profile/description';
 import PersonalInfoForm from '@/components/dashboard/profile/personalInfoForm';
 import ProfileToggler from '@/components/dashboard/profile/profileToggler';
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
@@ -29,6 +30,7 @@ export default function ProfilePage(): ReactNode {
         <SubscriptionType type='premium' />
         <PersonalInfoForm className='col-span-2' />
         <BankInfoForm className='col-span-2' />
+        <Description className='col-span-4' />
       </div>
     </main>
   );
