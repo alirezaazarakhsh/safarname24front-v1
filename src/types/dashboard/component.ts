@@ -208,7 +208,7 @@ export interface InputAndLabelPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   validation?: string;
-  label: string;
+  label?: string;
   isValid?: boolean;
   validationType?: 'text' | 'icon';
 }
@@ -507,4 +507,8 @@ export interface NormalInputComponentPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   wholeClassName?: string;
+}
+
+export interface BankInfoFormComponentPropsType {
+  className?: string;
 }

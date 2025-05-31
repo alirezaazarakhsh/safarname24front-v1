@@ -1,6 +1,7 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
+import BankInfoForm from '@/components/dashboard/profile/bankInfoForm';
 // Importing part
 import CartBalance from '@/components/dashboard/profile/cartBalance';
 import PersonalInfoForm from '@/components/dashboard/profile/personalInfoForm';
@@ -10,7 +11,7 @@ import { ReactNode, useState } from 'react';
 
 // Creating and exporting Profile page as default
 export default function ProfilePage(): ReactNode {
-  // Defining states of component
+  // Defining hooks
   const [profileState, setProfileState] = useState<'personal' | 'legal'>(
     'personal',
   );
@@ -27,6 +28,7 @@ export default function ProfilePage(): ReactNode {
         <CartBalance hasMobileView balance={112459000} />
         <SubscriptionType type='premium' />
         <PersonalInfoForm className='col-span-2' />
+        <BankInfoForm className='col-span-2' />
       </div>
     </main>
   );
