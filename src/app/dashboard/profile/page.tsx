@@ -9,10 +9,47 @@ import PersonalInfoForm from '@/components/dashboard/profile/personalInfoForm';
 import ProfileToggler from '@/components/dashboard/profile/profileToggler';
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
 import { ReactNode, useState } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+// Defining form schema
+const formSchema = z.object({
+  name: z.string().min(2, { message: 'نام باید حداقل ۲ حرف باشد' }),
+  fullName: z
+    .string()
+    .min(3, { message: 'نام و نام خانوادگی باید حداقل ۳ حرف باشد' }),
+  meliCode: z
+    .string()
+    .length(10, { message: 'کد ملی باید ۱۰ رقم و معتبر باشد' }),
+  tell: z.string().regex(/^09\d{9}$/, {
+    message: 'شماره تلفن باید با 09 شروع شده و ۱۱ رقم باشد',
+  }),
+  email: z.string().email({ message: 'ایمیل وارد شده معتبر نیست' }).optional(),
+  postCode: z
+    .string()
+    .length(10, { message: 'کد پستی باید ۱۰ رقم باشد' })
+    .optional(),
+  creditCard: z.string().length(15, { message: 'شماره کارت باید ۱۶ رقم باشد' }),
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'شماره شبا باید 24 رفم باشد.' }),
+  address: z
+    .string()
+    .min(5, { message: 'کمترین مقدار ادرس 5 کارکتر میباشد' })
+    .optional(),
+});
+
+// Defining formType
+type formType = z.infer<typeof formSchema>;
 
 // Creating and exporting Profile page as default
 export default function ProfilePage(): ReactNode {
   // Defining hooks
+  const form = useForm<formType>({
+    resolver: zodResolver(formSchema),
+  });
+
   const [profileState, setProfileState] = useState<'personal' | 'legal'>(
     'personal',
   );
@@ -28,8 +65,8 @@ export default function ProfilePage(): ReactNode {
         />
         <CartBalance hasMobileView balance={112459000} />
         <SubscriptionType type='premium' />
-        <PersonalInfoForm className='col-span-2' />
-        <BankInfoForm className='col-span-2' />
+        <PersonalInfoForm className='col-span-2' form={form} />
+        <BankInfoForm className='col-span-2' form={form} />
         <Description className='col-span-4' />
       </div>
     </main>

@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
+import { UseFormReturn } from 'react-hook-form';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -499,8 +500,21 @@ export interface SubscriptionTypeComponentPropsType {
   className?: string;
 }
 
+export interface PersonalInfoType {
+  name: string;
+  meliCode: string;
+  fullName: string;
+  tell: string;
+  email?: string;
+  address?: string;
+  postCode?: string;
+  creditCard: string;
+  shabaNumber: string;
+}
+
 export interface PersonalInfoFormComponentPropsType {
   className?: string;
+  form: UseFormReturn<PersonalInfoType>;
 }
 
 export interface NormalInputComponentPropsType
@@ -511,6 +525,7 @@ export interface NormalInputComponentPropsType
 
 export interface BankInfoFormComponentPropsType {
   className?: string;
+  form: UseFormReturn<PersonalInfoType>;
 }
 
 export interface DescriptionProfileComponentPropsType {

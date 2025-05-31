@@ -11,6 +11,7 @@ import NormalInput from './normalInput';
 // Creating and exporting PersonalInfoForm component as default
 export default function PersonalInfoForm({
   className,
+  form,
 }: PersonalInfoFormComponentPropsType): ReactNode {
   // Returning JSX
   return (
@@ -42,24 +43,42 @@ export default function PersonalInfoForm({
           placeholder='نام خود را وارد نمایید'
           required
           type='text'
+          error={form.formState.errors.name?.message}
+          {...form.register('name')}
         />
         <NormalInput
           placeholder='کد ملی خود را وارد نمایید'
           required
           type='text'
+          error={form.formState.errors.meliCode?.message}
+          {...form.register('meliCode')}
         />
         <NormalInput
           placeholder='نام و نام خانوادگی خود را وارد نمایید'
           required
           type='text'
+          error={form.formState.errors.fullName?.message}
+          {...form.register('fullName')}
         />
-        <NormalInput placeholder='ایمیل خود را وارد نمایید' type='email' />
+        <NormalInput
+          placeholder='ایمیل خود را وارد نمایید'
+          type='email'
+          error={form.formState.errors.email?.message}
+          {...form.register('email')}
+        />
         <NormalInput
           placeholder='شماره همراه خود را وارد نمایید'
           type='tell'
           required
+          error={form.formState.errors.tell?.message}
+          {...form.register('tell')}
         />
-        <NormalInput placeholder='کد پستی خود را وارد نمایید' type='text' />
+        <NormalInput
+          placeholder='کد پستی خود را وارد نمایید'
+          type='text'
+          error={form.formState.errors.postCode?.message}
+          {...form.register('postCode')}
+        />
       </div>
     </div>
   );
