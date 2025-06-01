@@ -1,41 +1,41 @@
-'use client';
-
-import { useState } from 'react';
-
 import {
   Filters,
+  Setting,
+  Pagination,
   AmazingHotels,
   SuggestedHotels,
-  Pagination,
-  Setting,
 } from '@/components/landing/modules/best-hotels';
-import { bestHotelsPage } from '@/constants';
+
+import { bestHotels } from '@/constants/landing';
+import StickyArea from '@/components/landing/shared/StickyArea';
 
 // -------------------------------------
 
 export default function BestHotels() {
-  const [currentPage, setCurrentPage] = useState(0);
-
-  function handleSetCurrentPage(pageNumber: number) {
-    setCurrentPage(pageNumber);
-  }
+  const { amazingHotels, suggestedHotels } = bestHotels;
 
   return (
-    <div>
-      <Setting />
-      <div className="grid gap-10 xl:grid-cols-[20rem_1fr]">
+    <>
+      <StickyArea>
         <Filters />
+      </StickyArea>
 
-        <div className="space-y-20 overflow-hidden">
-          <AmazingHotels amazingHotels={bestHotelsPage.amazingHotels} />
-          <SuggestedHotels suggestedHotels={bestHotelsPage.suggestedHotels} />
+      <div className="mt-8 lg:mt-12">
+        <Setting />
+
+        <div className="grid gap-10 lg:grid-cols-[20rem_1fr]">
+          <div className="hidden lg:block">
+            <Filters />
+          </div>
+
+          <div className="space-y-14 overflow-hidden lg:space-y-20">
+            <AmazingHotels amazingHotels={amazingHotels} />
+            <SuggestedHotels suggestedHotels={suggestedHotels} />
+          </div>
         </div>
-      </div>
 
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={handleSetCurrentPage}
-      />
-    </div>
+        <Pagination />
+      </div>
+    </>
   );
 }

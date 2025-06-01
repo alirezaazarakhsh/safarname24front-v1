@@ -11,11 +11,18 @@ type Props = {
 export function AdditionalDetails(props: Props) {
   const { details } = props;
 
-  return (
-    <div id=''>
-      <TopBarConfig title='توضیحات تکمیلی' className='mb-1 lg:mb-1' />
+  if (!details) return null;
 
-      <p className='text-zinc-600 text-cs75/6 text-justify font-semibold overflow-hidden'>{details}</p>
+  return (
+    <div id="additional-detail">
+      <TopBarConfig
+        className="mb-1 lg:mb-2"
+        title={{ type: 'single', text: 'توضیحات تکمیلی' }}
+      />
+
+      <p className="text-zinc-600 text-cs08/6 text-justify font-semibold overflow-hidden lg:text-cs85/7">
+        {details}
+      </p>
     </div>
   );
 }

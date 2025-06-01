@@ -1,40 +1,38 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { Header } from '@/components/landing/shared';
+import { Footer } from '@/components/landing/shared';
 
-import Header from '@/components/landing/modules/header/Header';
-import Footer from '@/components/landing/modules/footer/Footer';
-import ComingSoon from '@/components/landing/modules/coming-soon/ComingSoon';
-import NavigationBar from '@/components/landing/shared/navigation-bar/NavigationBar';
+import { ComingSoon } from '@/components/landing/modules/coming-soon';
+import UserAccount from '@/components/landing/shared/auth/UserAccount';
+import { NavigationBar } from '@/components/landing/shared/navigation-bar';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 type Props = Readonly<{
   children: React.ReactNode;
 }>;
 
+const comingSoonIsActive = false;
+const queryClient = new QueryClient();
+
 // --------------------------------------------
 
 export default function LandingLayout(props: Props) {
-  const pathname = usePathname();
+  if (comingSoonIsActive) return <ComingSoon />;
 
   return (
     <>
-      {false ? (
-        <ComingSoon date='2025-02-20' />
-      ) : (
-        <main className='max-w-screen-template min-h-dvh mx-auto flex flex-col'>
-          <Header />
-          <section
-            className={`mx-5 mt-8 mb-16 flex flex-col gap-y-12 lg:gap-y-20 ${
-              pathname === '/' ? 'lg:mt-28 xl:mt-24' : 'lg:mt-32'
-            }`}
-          >
-            {props.children}
-          </section>
+      <QueryClientProvider client={queryClient}>
+        <UserAccount />
 
+        <main className="max-w-screen-template min-h-dvh mx-auto">
+          <Header />
+          <section className="mb-20 mx-5">{props.children}</section>
           <NavigationBar />
           <Footer />
         </main>
-      )}
+      </QueryClientProvider>
     </>
   );
 }

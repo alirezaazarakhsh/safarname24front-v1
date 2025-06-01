@@ -38,59 +38,68 @@ export default function DImportantPlaces(props: Props) {
   if (!isDesktop) return null;
 
   return (
-    <div className='relative h-96 mb-20 flex gap-8 xl:gap-10'>
+    <div className="relative h-96 mb-20 flex gap-8 xl:gap-10">
       {/* Import-places info */}
-      <div className='w-1/2'>
+      <div className="w-1/2">
         <Swiper
           spaceBetween={15}
           slidesPerView={3}
-          direction='vertical'
+          direction="vertical"
           modules={[Pagination]}
           pagination={{
             el: '.hotelDImportantPlaces-swiper-pagination',
             clickable: true,
           }}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
-          className='hotelDImportantPlaces-swiper'
+          className="hotelDImportantPlaces-swiper"
         >
           {importantPlaces?.map((importantPlace, index) => (
-            <SwiperSlide key={index} className='select-none cursor-pointer' onClick={() => setActiveSlide(index)}>
-              <DImportantPlaceCard importantPlace={importantPlace} slideIsActive={activeSlide === index} />
+            <SwiperSlide
+              key={index}
+              className="select-none cursor-pointer"
+              onClick={() => setActiveSlide(index)}
+            >
+              <DImportantPlaceCard
+                importantPlace={importantPlace}
+                slideIsActive={activeSlide === index}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
 
         {/* Custom Swiper-Pagination */}
-        <div className='hotelDImportantPlaces-swiper-pagination swiper-pagination-horizontal' />
+        <div className="hotelDImportantPlaces-swiper-pagination swiper-pagination-horizontal" />
       </div>
 
       {/* Import-place Image | Map */}
-      <div className='relative w-1/2 overflow-hidden rounded-[14px]'>
-        <Image
-          src={importantPlace.image}
-          alt='place0view'
-          width={600}
-          height={400}
-          className='full-size object-cover'
-        />
+      <div className="relative w-1/2 overflow-hidden rounded-[14px]">
+        {importantPlace.image && (
+          <Image
+            width={800}
+            height={600}
+            alt="place0view"
+            src={importantPlace.image}
+            className="full-size object-cover"
+          />
+        )}
 
         <ImportantPlaceMap geoLocation={importantPlace.geolocation} />
       </div>
 
       {/* Navigation */}
-      <div className='absolute -bottom-16 right-0 h-9 flex gap-4'>
+      <div className="absolute -bottom-16 right-0 h-9 flex gap-4">
         <button
-          className='bg-zinc-200/50 w-9 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-200/70'
+          className="bg-zinc-200/50 w-9 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-200/70"
           onClick={() => swiperRef.current?.slidePrev()}
         >
-          <ICArrowLeft className='w-3.5 h-3.5 stroke-zinc-400 rotate-180' />
+          <ICArrowLeft className="w-3.5 h-3.5 stroke-zinc-400 rotate-180" />
         </button>
 
         <button
-          className='bg-zinc-200/50 w-9 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-200/70'
+          className="bg-zinc-200/50 w-9 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-200/70"
           onClick={() => swiperRef.current?.slideNext()}
         >
-          <ICArrowLeft className='w-3.5 h-3.5 stroke-zinc-400' />
+          <ICArrowLeft className="w-3.5 h-3.5 stroke-zinc-400" />
         </button>
       </div>
     </div>

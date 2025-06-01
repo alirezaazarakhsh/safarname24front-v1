@@ -24,11 +24,12 @@ export function AmazingHotels(props: Props) {
   if (!amazingHotels?.length) return null;
 
   return (
-    <div className="overflow-hidden xl:overflow-visible">
+    <div className="overflow-hidden lg:overflow-visible">
       <TopBarConfig
-        titleA="هتل های"
-        titleB="شگفت انگیز"
+        className="ml-0"
+        timerDeadline="2025-04-12"
         subtitle="هتل های لحظه ای سفرنامه رو از دست نده !"
+        title={{ type: 'double', first: 'هتل های', second: 'شگفت انگیز' }}
       />
 
       {/* Small-Screen */}
@@ -37,7 +38,6 @@ export function AmazingHotels(props: Props) {
           breakpoints={{
             0: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
-            1150: { slidesPerView: 3 },
           }}
           spaceBetween={20}
           modules={[Pagination]}
@@ -45,7 +45,7 @@ export function AmazingHotels(props: Props) {
           pagination={{ clickable: true, dynamicBullets: true }}
         >
           {amazingHotels?.map((hotel, index) => (
-            <SwiperSlide key={index} className="">
+            <SwiperSlide key={index}>
               <MHotelCard hotel={hotel} />
             </SwiperSlide>
           ))}

@@ -1,42 +1,50 @@
 import {
-  amazingHotels,
-  bestHotels,
-  bestSellingHotels,
-  customerReviews,
-  interestingBLogs,
-  mostVisitedCities,
-  services,
-  suggestedHotels,
-} from '@/constants';
-
-import {
   Services,
-  SuggestedHotels,
-  MostVisitedCities,
-  AmazingHotels,
-  AdvertisingBanners,
   BestHotels,
-  InterestingBlogs,
-  CustomerReviews,
   HeroSection,
+  AmazingHotels,
+  SuggestedHotels,
+  CustomerReviews,
+  InterestingBlogs,
   BestSellingHotels,
+  MostVisitedCities,
+  AdvertisingBanners,
 } from '@/components/landing/modules/home';
+
+import { home } from '@/constants/landing';
+import StickyArea from '@/components/landing/shared/StickyArea';
 
 // -----------------------------------------------
 
 export default function Home() {
+  const {
+    services,
+    bestHotels,
+    heroSection,
+    amazingHotels,
+    customerReviews,
+    interestingBLogs,
+    mostVisitedCities,
+    bestSellingHotels,
+    advertisingBanners,
+  } = home;
+
   return (
     <>
-      <HeroSection />
-      <Services services={services} />
-      <SuggestedHotels suggestedHotels={suggestedHotels} />
-      <MostVisitedCities cities={mostVisitedCities} />
-      <AmazingHotels hotels={amazingHotels} />
-      <AdvertisingBanners />
-      <BestSellingHotels hotels={bestSellingHotels} />
-      <BestHotels hotels={bestHotels} />
-      <InterestingBlogs blogs={interestingBLogs} />
-      <CustomerReviews reviews={customerReviews} />
+      <StickyArea />
+
+      <div className="mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0">
+        <HeroSection images={heroSection.images} />
+        <Services services={services} />
+        <SuggestedHotels suggestedHotels={home.suggestedHotels} />
+        <MostVisitedCities cities={mostVisitedCities} />
+        <AmazingHotels hotels={amazingHotels} />
+        <AdvertisingBanners banners={advertisingBanners} />
+        <BestSellingHotels hotels={bestSellingHotels} />
+        <BestHotels hotels={bestHotels} />
+        <InterestingBlogs blogs={interestingBLogs} />
+        <CustomerReviews reviews={customerReviews} />
+      </div>
     </>
   );
 }

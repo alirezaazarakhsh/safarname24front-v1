@@ -18,8 +18,8 @@ export default function HotelStar(props: Props) {
 
   return (
     <Accordion type="single" collapsible>
-      <AccordionItem value="item-1" className="xl:px-5">
-        <AccordionTrigger className="text-[0.8rem] font-bold">
+      <AccordionItem value="item-1" className="lg:px-5">
+        <AccordionTrigger className="text-[0.85rem] font-bold">
           ستاره هتل
         </AccordionTrigger>
 

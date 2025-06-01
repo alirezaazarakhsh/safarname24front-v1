@@ -1,12 +1,13 @@
 'use client';
 
-import { TopBarConfig } from '../../shared';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+
+import { TopBarConfig } from '../../shared';
 
 type Props = {
   src: { title: string; desc: string }[];
@@ -21,9 +22,14 @@ export function FrequentlyQuestions(props: Props) {
   const column1 = src.slice(0, half);
   const column2 = src.slice(half);
 
+  if (!src) return null;
+
   return (
     <div id="frequently-questions">
-      <TopBarConfig title="سوالات متداول" className="mb-0 lg:mb-1" />
+      <TopBarConfig
+        className="mb-0 lg:mb-1"
+        title={{ type: 'single', text: 'سوالات متداول' }}
+      />
 
       {/* Small-Device */}
       <div className="lg:hidden">
@@ -58,7 +64,7 @@ function Questions(props: QuestionProps) {
             {item.title}
           </AccordionTrigger>
 
-          <AccordionContent className="text-cs08">
+          <AccordionContent className="text-cs08/6">
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ است لورم
             ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از
             طراحان گرافیک است. لورم ایپسوم لورم ایپسوم متن ساختگی با تولید سادگی

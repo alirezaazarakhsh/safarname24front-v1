@@ -54,7 +54,7 @@ export function Description(props: Props) {
                 : `${minLines * 1.8}em`,
         }}
         transition={{ duration: 0.6, ease: 'easeInOut' }}
-        className="text-zinc-600 text-cs75/[1.3rem] text-justify font-semibold overflow-hidden lg:text-cs08/6"
+        className="text-zinc-600 text-cs08/6 text-justify font-semibold overflow-hidden lg:text-cs85/7"
       >
         {description}
       </motion.div>

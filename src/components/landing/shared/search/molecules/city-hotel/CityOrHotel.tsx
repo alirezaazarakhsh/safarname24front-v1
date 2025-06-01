@@ -1,0 +1,128 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+} from '@/components/ui/dropdown-menu';
+
+import { useState } from 'react';
+
+import { useMediaQuery } from '@/hooks';
+import CityOrHotelContent from './CityOrHotelContent';
+import { useSearchContext } from '@/context/SearchContext';
+import {
+  Sheet,
+  SheetTrigger,
+  SheetTitle,
+  SheetContent,
+} from '@/components/ui/sheet';
+import CityOrHotelTrigger from './CityOrHotelTrigger';
+
+type CommonProps = {
+  sideOffset?: number;
+  triggerType?: 'home' | 'else';
+  alignOffset?: number | undefined;
+};
+
+type Props =
+  | ({
+      scrollBehavior?: false;
+    } & CommonProps)
+  | ({
+      scrollBehavior?: true;
+      scrollPosition?: number;
+    } & CommonProps);
+
+// -----------------------------------
+
+export default function CityOrHotel(props: Props) {
+  const {
+    triggerType = 'else',
+    alignOffset,
+    sideOffset,
+    scrollBehavior,
+  } = props;
+
+  const [isOpen, setOpen] = useState(false);
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+  const {
+    cityOrHotel: { confirmedValues, inputValue, values },
+  } = useSearchContext();
+
+  return (
+    <>
+      {!isDesktop ? (
+        // === Small-Device
+        <Sheet open={isOpen} onOpenChange={setOpen}>
+          <SheetTrigger className="bg-zinc-200/50 text-zinc-600 text-cs08 font-semibold h-12 px-5 rounded-cs-10">
+            {confirmedValues.city ? (
+              <div className="flex items-center gap-1">
+                {confirmedValues.hotel ? (
+                  <>
+                    <span>هتل</span>
+                    <span>{confirmedValues.hotel}</span>
+                    <span>-</span>
+                    <span>{confirmedValues.city}</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{confirmedValues.city}</span>
+                    <span>-</span>
+                    <span>استان</span>
+                    <span>{confirmedValues.province}</span>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <span>شهر یا هتل</span>
+                <span>(داخلی , خارجی)</span>
+              </div>
+            )}
+          </SheetTrigger>
+
+          <SheetContent
+            side={'left'}
+            aria-describedby={undefined}
+            className="bg-[#f8f8f8] w-full h-dvh pt-8 grid grid-rows-[auto_auto_auto_1fr_3rem] gap-0 border-none"
+          >
+            <SheetTitle className="hidden" />
+            <CityOrHotelContent
+              isOpen={isOpen}
+              handleClose={() => setOpen(false)}
+            />
+          </SheetContent>
+        </Sheet>
+      ) : (
+        // === Large-Device
+        <DropdownMenu
+          dir="rtl"
+          modal={false}
+          open={isOpen}
+          onOpenChange={setOpen}
+        >
+          <CityOrHotelTrigger
+            isOpen={isOpen}
+            type={triggerType}
+            scrollBehavior={scrollBehavior}
+            handleSetOpen={() => setOpen(true)}
+            scrollPosition={scrollBehavior ? props.scrollPosition : undefined}
+          />
+
+          <DropdownMenuContent
+            align="start"
+            side="bottom"
+            sideOffset={sideOffset}
+            avoidCollisions={false}
+            alignOffset={alignOffset}
+            className="w-[21rem] max-h-[28rem] z-10 p-5 rounded-xl shadow-[0_0.5rem_2rem_rgba(0,0,0,0.06)]"
+          >
+            <CityOrHotelContent
+              isOpen={isOpen}
+              handleClose={() => setOpen(false)}
+            />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+    </>
+  );
+}

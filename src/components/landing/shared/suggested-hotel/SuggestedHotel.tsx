@@ -14,6 +14,8 @@ type Props = {
   showLike?: boolean;
 };
 
+// -----------------------------------------------
+
 export function SuggestedHotel(props: Props) {
   const {
     hotel: {
@@ -49,6 +51,24 @@ export function SuggestedHotel(props: Props) {
         {showDiscount && (
           <DiscountPercentage discountPercentage={discountPercentage} />
         )}
+
+    <div className="bg-white p-2 rounded-xl shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)]">
+      {/* Image | Discount-Percentage | Timer */}
+      <div className="relative bg-zinc-100 h-44 overflow-hidden rounded-cs-10">
+        {image && (
+          <Image
+            src={image}
+            alt="hotel"
+            width={300}
+            height={300}
+            className="full-size object-cover"
+          />
+        )}
+
+        {showDiscount && (
+          <DiscountPercentage discountPercentage={discountPercentage} />
+        )}
+
         {showTimer && <DynamicSuggestedHotelTimer timer={timer} />}
       </div>
 
@@ -56,12 +76,16 @@ export function SuggestedHotel(props: Props) {
       <div className="text-zinc-900 text-cs08 font-semibold p-1 mt-3 flex flex-col gap-2">
         {/* Hotel-Name */}
         <h3 className="text-cs85 font-bold flex items-center gap-1">
+      <div className="text-zinc-800 text-cs08 font-bold p-1.5 pb-1 mt-2.5 flex flex-col gap-2">
+        {/* Hotel-Name */}
+        <h3 className="text-cs09 mb-1 font-extrabold flex items-center gap-1">
           <span>هتل</span>
           <span>{hotelName}</span>
         </h3>
 
         {/* Province | City | Stars */}
         <div className="flex items-center gap-2 mb-1">
+        <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
             <span>استان</span>
 
@@ -104,6 +128,8 @@ export function SuggestedHotel(props: Props) {
         <Link
           href={''}
           className="bg-zinc-100 text-zinc-600 text-cs75 h-9 mt-2 flex-center rounded-cs-10 transition-colors duration-200 ease-in-out hover:bg-[#252525] hover:text-zinc-100"
+          href={'/best-hotels/hotel'}
+          className="bg-zinc-100 text-zinc-600 h-10 mt-2 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-[#252525] hover:text-zinc-100"
         >
           مشاهده رزرو هتل
         </Link>

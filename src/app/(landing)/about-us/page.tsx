@@ -1,28 +1,30 @@
-import { aboutUsStory, aboutUsInformation, aboutUsReasons } from '@/constants';
 import {
-  FrequentlyQuestions,
   Gallery,
-  LookingAtServices,
   OurStory,
   ReasonOfSelection,
+  LookingAtServices,
+  FrequentlyQuestions,
 } from '@/components/landing/modules/about-us';
-
-const services = [
-  { title: 'دپارتمان برگزاری مراسم و همایش', desc: '' },
-  { title: 'خدمات ترانسفر فرودگاهی', desc: '' },
-  { title: 'برگزاری مراسم های بین المللی شرکت ها', desc: '' },
-];
+import { aboutUs } from '@/constants/landing';
 
 // -----------------------------------------------
 
 export default function AboutUs() {
+  const { information, reasons, services, story } = aboutUs;
+
   return (
-    <>
-      <OurStory story={aboutUsStory} imageUrl='/image/background/about-us/story.png' information={aboutUsInformation} />
-      <ReasonOfSelection src={aboutUsReasons} />
-      <FrequentlyQuestions src={[...services, ...services]} />
-      <Gallery src={[]} />
-      <LookingAtServices src={services} />
-    </>
+    <div className="mt-8 flex flex-col gap-14 lg:gap-20 xl:mt-12">
+      <OurStory
+        story={story}
+        imageUrl="/image/background/about-us/story.png"
+        information={information}
+      />
+
+      <ReasonOfSelection src={reasons} />
+      <FrequentlyQuestions src={[...services.services, ...services.services]} />
+
+      <Gallery src={aboutUs.gallery} />
+      <LookingAtServices src={services.services} image={services.image} />
+    </div>
   );
 }

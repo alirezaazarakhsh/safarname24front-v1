@@ -1,44 +1,38 @@
 import Image from 'next/image';
 
-export function AdvertisingBanners() {
-  return (
-    <div className='h-60 hidden grid-cols-2 gap-8 xl:grid'>
-      {/* Right-Banner */}
-      <div className='relative'>
-        <Image
-          src={'/image/banner/red-star-banner.png'}
-          alt='hotel-sale-banner'
-          width={800}
-          height={600}
-          className='full-size object-contain'
-        />
+type Props = { banners: string[] };
 
-        <Image
-          src={'/image/banner/graphical-suitcase.png'}
-          alt='graphical-suitcase'
-          width={400}
-          height={400}
-          className='absolute -top-4 -left-4 w-60 h-60'
-        />
+// -----------------------------------------------
+
+export function AdvertisingBanners(props: Props) {
+  const { banners } = props;
+
+  return (
+    <div className="hidden grid-cols-2 items-end gap-8 xl:grid">
+      {/* Right-Banner */}
+      <div>
+        {banners[0] && (
+          <Image
+            width={600}
+            height={300}
+            src={banners[0]}
+            alt="graphical-hotel"
+            className="full-size object-contain"
+          />
+        )}
       </div>
 
       {/* Left-Banner */}
-      <div className='relative'>
-        <Image
-          src={'/image/banner/blue-star-banner.png'}
-          alt='hotel-sale-banner'
-          width={800}
-          height={600}
-          className='full-size object-contain'
-        />
-
-        <Image
-          src={'/image/banner/graphical-hotel.png'}
-          alt='graphical-hotel'
-          width={400}
-          height={400}
-          className='absolute top-4 -left-4 w-60 h-60'
-        />
+      <div>
+        {banners[1] && (
+          <Image
+            width={600}
+            height={300}
+            src={banners[1]}
+            alt="graphical-hotel"
+            className="full-size object-contain"
+          />
+        )}
       </div>
     </div>
   );

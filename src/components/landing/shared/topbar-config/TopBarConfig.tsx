@@ -1,71 +1,87 @@
+'use client';
+
 import Link from 'next/link';
-import { ICArrowLeft } from '@/components/icons';
-import { DynamicTopBarTimer } from './TopBarTimer';
 import { cn } from '@/utils/utils';
+
+import { DynamicTopBarTimer } from './TopBarTimer';
+import TopBarSwiperNavigation from './TopBarSwiperNavigation';
 
 type commonProps = {
   subtitle?: string;
-  timer?: string;
-  seeAllHref?: string;
   className?: string;
-  backBtnFunc?: () => void;
-  nextBtnFunc?: () => void;
+  viewAllHref?: string;
+  timerDeadline?: string;
+  prevClickFunc?: () => void;
+  nextClickFunc?: () => void;
 };
 
-type Props = (commonProps & { title: string }) | (commonProps & { titleA: string; titleB: string });
+type Props =
+  | (commonProps & { title: { type: 'single'; text: string } })
+  | (commonProps & {
+      title: { type: 'double'; first: string; second: string };
+    });
+
+// -----------------------------------------------
 
 export function TopBarConfig(props: Props) {
-  const { subtitle, timer, seeAllHref, backBtnFunc, nextBtnFunc, className } = props;
+  const {
+    subtitle,
+    className,
+    viewAllHref,
+    prevClickFunc,
+    nextClickFunc,
+    timerDeadline,
+  } = props;
 
   return (
-    <div className={cn('mb-4 ml-5 flex-between items-center lg:mb-6 lg:ml-0', className)}>
-      <div className='space-y-2'>
-        <h4 className='text-cs85 font-extrabold lg:text-cs09'>
-          {'title' in props ? (
-            <span className='text-zinc-800'>{props.title}</span>
+    <div
+      className={cn(
+        'mb-4 ml-5 flex-between items-center lg:mb-6 lg:ml-0',
+        className,
+      )}
+    >
+      {/* Title | Subtitle */}
+      <div className="space-y-1.5">
+        <h6 className="text-[clamp(0.8rem,2vw,0.9rem)] font-extrabold lg:text-cs95">
+          {props.title.type === 'single' ? (
+            <span className="text-zinc-800">{props.title.text}</span>
           ) : (
             <>
-              <span className='text-zic-800'>{props.titleA}</span>
-              <span className='inline-block w-1'></span>
-              <span className='text-cs-red'>{props.titleB}</span>
+              <span className="text-zic-800">{props.title.first}</span>
+              <span className="inline-block w-1"></span>
+              <span className="text-cs-red">{props.title.second}</span>
             </>
           )}
-        </h4>
+        </h6>
 
-        {subtitle && <p className='text-zinc-500 text-cs08 font-semibold hidden lg:block'>{subtitle}</p>}
+        {subtitle && (
+          <p className="text-zinc-500 text-cs08 font-semibold hidden lg:block">
+            {subtitle}
+          </p>
+        )}
       </div>
 
-      <div className='h-10 flex gap-3'>
-        {timer && <DynamicTopBarTimer timer={timer} />}
+      {/* Timer | See-All Link | Back-Next Button */}
+      <div className="h-10 flex gap-5">
+        {timerDeadline && <DynamicTopBarTimer timer={timerDeadline} />}
 
-        <div className='hidden gap-3 lg:flex'>
-          {seeAllHref && (
-            <Link
-              href={seeAllHref}
-              className='bg-zinc-200/50 text-zinc-800 text-cs07 font-semibold px-5 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/70'
-            >
-              مشاهده همه
-            </Link>
-          )}
-
-          {backBtnFunc && nextBtnFunc && (
-            <>
-              <button
-                className='bg-zinc-200/50 w-10 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-200/70'
-                onClick={backBtnFunc}
+        {(viewAllHref || prevClickFunc || nextClickFunc) && (
+          <div className="hidden gap-3 xl:flex">
+            {viewAllHref && (
+              <Link
+                href={viewAllHref}
+                className="bg-zinc-200/50 text-zinc-800 text-cs75 font-bold px-6 flex-center rounded-[7px] transition-colors duration-200 ease-in-out hover:bg-zinc-200/70"
               >
-                <ICArrowLeft className='w-4 h-4 stroke-zinc-400 rotate-180' />
-              </button>
+                مشاهده همه
+              </Link>
+            )}
 
-              <button
-                className='bg-zinc-200/50 w-10 flex-center rounded-md transition-colors duration-200 ease-in-out hover:bg-zinc-200/70'
-                onClick={nextBtnFunc}
-              >
-                <ICArrowLeft className='w-4 h-4 stroke-zinc-400' />
-              </button>
-            </>
-          )}
-        </div>
+            <TopBarSwiperNavigation
+              prevClickFunc={prevClickFunc}
+              nextClickFunc={nextClickFunc}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
