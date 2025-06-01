@@ -1,64 +1,112 @@
 'use client';
 
-import Link from 'next/link';
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { Profile2User } from 'iconsax-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import { navigationBar } from '@/constants';
+import { useMediaQuery } from '@/hooks';
+import UserProfile from '../auth/UserProfile';
+import UserFavorites from '../auth/UserFavorites';
+import NavigationBarItem from './NavigationBarItem';
+import { useUserAccountContext } from '@/context/UserAccountContext';
+import Link from 'next/link';
 
 // ---------------------------------------
 
-export default function NavigationBar() {
-  const [isAtBottom, setIsAtBottom] = useState(false);
-  const [lastScrollTop, setLastScrollTop] = useState(0);
-  const [scrollDirection, setScrollDirection] = useState('');
+export function NavigationBar() {
+  const [userAccountIsOpen, setUserAccountOpen] = useState(false);
+  const [userIsLoggedIn, setUserIsLoggedIn] = useState<boolean | null>(null);
 
-  // Check Scroll-Position (End)
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const scrollHeight = document.documentElement.scrollHeight;
-  //     const clientHeight = document.documentElement.clientHeight;
-  //     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  const { toggle } = useUserAccountContext();
+  const [showNav, setShowNav] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-  //     const condition = scrollTop + clientHeight >= scrollHeight - 10;
-  //     condition ? setIsAtBottom(true) : setIsAtBottom(false);
-  //   };
+  // Check if user is logged in
+  useEffect(() => {
+    const cookie = Cookies.get('AUTH');
+    setUserIsLoggedIn(!!cookie);
+  }, []);
 
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-
-  // Check Scroll-Direction
+  // Hide/show navigation bar on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const currentScrollY = window.scrollY;
+      const direction = currentScrollY > lastScrollY ? 'down' : 'up';
 
-      if (currentScrollTop > lastScrollTop) {
-        setScrollDirection('down');
-      } else {
-        setScrollDirection('up');
-      }
-
-      setLastScrollTop(currentScrollTop <= 0 ? 0 : currentScrollTop);
+      direction === 'down' ? setShowNav(false) : setShowNav(true);
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollTop]);
+  }, [lastScrollY]);
+
+  if (isDesktop) return null;
 
   return (
-    <nav
-      className={`fixed z-30 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden ${
-        isAtBottom || scrollDirection === 'down' ? '-bottom-20' : 'bottom-0'
-      }`}
-    >
-      {navigationBar.map((nav) => (
-        <Link key={nav.id} href={nav.href} className='flex flex-col items-center gap-1.5'>
-          <span className=''>{nav.icon}</span>
-          <span className='text-zinc-400 text-cs65 font-bold'>{nav.title}</span>
-        </Link>
-      ))}
-    </nav>
+    <>
+      <AnimatePresence>
+        {showNav && (
+          <motion.nav
+            key="navigation-bar"
+            animate={{ transform: 'translateY(0)' }}
+            exit={{ transform: 'translateY(100%)' }}
+            initial={{ transform: 'translateY(100%)' }}
+            className={`fixed z-30 bottom-0 inset-x-0 bg-white h-[4.6rem] px-3 flex-between items-center overflow-hidden border-t shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:flex-center md:gap-8 lg:hidden`}
+          >
+            <NavigationBarItem title="خانه" href="/" icon={'Home2'} />
+
+            <NavigationBarItem
+              icon={'Book'}
+              title="مجله گردشگری"
+              href="/tourism-magazine"
+            />
+
+            <NavigationBarItem
+              icon={'Flash'}
+              href="/best-hotels"
+              title="بهترین هتل ها"
+            />
+
+            <UserFavorites />
+
+            {/* User-Profile | User-Account Triggers */}
+            {userIsLoggedIn !== null && userIsLoggedIn ? (
+              <Link
+                href={'/dashboard'}
+                className="flex flex-col items-center gap-1.5"
+                onClick={() => setUserAccountOpen(true)}
+              >
+                <Profile2User size={20} color="#71717a" />
+                <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.8rem)] font-bold">
+                  پروفایل کاربری
+                </span>
+              </Link>
+            ) : (
+              <button
+                className="flex flex-col items-center gap-1.5"
+                onClick={() => toggle()}
+              >
+                <Profile2User size={20} color="#71717a" />
+                <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.8rem)] font-bold">
+                  حساب کاربری
+                </span>
+              </button>
+            )}
+          </motion.nav>
+        )}
+      </AnimatePresence>
+
+      {/* User-Profile Content */}
+      {userIsLoggedIn && (
+        <UserProfile
+          isOpen={userAccountIsOpen}
+          setOpen={setUserAccountOpen}
+          userFullName={'علیرضا آذرخش'}
+        />
+      )}
+    </>
   );
 }

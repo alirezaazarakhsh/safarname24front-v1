@@ -1,13 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import url('../styles/loader.css');
 @import url('../styles/navlink.css');
 @import url('../styles/scrollbar.css');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --clr-main-light: #f8f8f8;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* ------------------------------------ */
@@ -65,4 +69,8 @@
     transparent 10px,
     transparent 20px
   );
+}
+
+.no-ss01 * {
+  font-feature-settings: 'ss01' 0;
 }

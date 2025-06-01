@@ -15,8 +15,8 @@ export default function ResidenceType(props: Props) {
 
   return (
     <Accordion type="single" collapsible>
-      <AccordionItem value="residence-type" className="xl:px-5">
-        <AccordionTrigger className="text-[0.8rem] font-bold">
+      <AccordionItem value="residence-type" className="lg:px-5">
+        <AccordionTrigger className="text-[0.85rem] font-bold">
           نوع اقامتگاه
         </AccordionTrigger>
 

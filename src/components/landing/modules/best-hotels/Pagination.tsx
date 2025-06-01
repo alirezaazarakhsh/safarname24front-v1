@@ -1,22 +1,29 @@
 'use client';
 
 import ReactPaginate from 'react-paginate';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
-
-type Props = {
-  currentPage: number;
-  setCurrentPage: (pageNumber: number) => void;
-};
 
 // -------------------------------------
 
-export function Pagination(props: Props) {
-  const { currentPage, setCurrentPage } = props;
+export function Pagination() {
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Setting Current-Page at URL
+  useEffect(() => {
+    router.push(`${pathname}/?current-page=${currentPage + 1}`, {
+      scroll: false,
+    });
+  }, [currentPage, pathname, router]);
 
   return (
     <ReactPaginate
-      pageCount={6}
-      containerClassName="hidden mt-16 justify-end gap-2 xl:flex"
+      pageCount={20}
+      containerClassName="flex flex-wrap mt-14 justify-center gap-x-2 gap-y-4 xl:justify-end"
       activeClassName="bg-[#333] text-white"
       pageClassName="w-9 h-9 flex-center cursor-pointer border overflow-hidden rounded-lg"
       pageLinkClassName="full-size text-[0.8rem] font-semibold pt-1 flex-center"

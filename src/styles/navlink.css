@@ -1,7 +1,13 @@
+/* =================================== */
+/* NAVIGATION-BAR (SMALL-SCREEN) */
+
+/* =================================== */
+/* HEADER-NAVBAR (LARGE-SCREEN) */
+
 .nav-link {
   position: relative;
   padding: 8px 14px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   text-decoration: none;
   color: #777;
   transition: all 0.3s ease-in-out;
@@ -29,8 +35,8 @@
   width: 30%;
 }
 
-@media screen and (min-width: 1280px) {
+/* @media screen and (min-width: 1280px) {
   .nav-link {
     font-size: 0.8rem;
   }
-}
+} */

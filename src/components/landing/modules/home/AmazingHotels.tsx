@@ -2,9 +2,9 @@
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
+import { Autoplay, Navigation } from 'swiper/modules';
 
 import { useRef } from 'react';
 import { SuggestedHotel as Hotel } from '@/types';
@@ -20,29 +20,36 @@ export function AmazingHotels(props: Props) {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
-    <div className='mt-4 -ml-5 lg:ml-0'>
+    <div className="-ml-5 lg:ml-0">
       <TopBarConfig
-        titleA='هتل های'
-        titleB='شگفت انگیز'
-        subtitle='هتل های تخفیف دار رو  از دست نده !'
-        timer='2025-02-25'
-        seeAllHref='/'
+        timerDeadline="2025-04-25"
+        viewAllHref="/best-hotels"
+        subtitle="هتل های تخفیف دار رو  از دست نده !"
+        title={{ type: 'double', first: 'هتل های', second: 'شگفت انگیز' }}
       />
 
       <Swiper
         spaceBetween={20}
         breakpoints={{
-          0: { slidesPerView: 'auto' },
+          0: { slidesPerView: 'auto', slidesOffsetAfter: 22 },
           1280: {
             slidesPerView: 4,
+            slidesOffsetAfter: 0,
           },
         }}
-        modules={[Navigation]}
+        speed={500}
+        autoplay={{
+          delay: 4000,
+          pauseOnMouseEnter: true,
+        }}
+        modules={[Navigation, Autoplay]}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
-        className='amazingHotels-swiper'
       >
         {hotels.map((hotel) => (
-          <SwiperSlide key={hotel.id} className='max-w-72 select-none xl:max-w-full'>
+          <SwiperSlide
+            key={hotel.id}
+            className="max-w-72 select-none xl:max-w-full"
+          >
             <SuggestedHotel hotel={hotel} showTimer={false} />
           </SwiperSlide>
         ))}

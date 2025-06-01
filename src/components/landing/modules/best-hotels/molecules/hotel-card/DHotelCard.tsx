@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { numberSeparation } from '@/utils';
-import FavoriteButton from '../FavoriteButton';
 import { AmazingHotel as Hotel } from '@/types/landing';
+import FavoriteButton from '../Favorite-hotel/FavoriteButton';
 
 type Props = {
   hotel: Hotel;
@@ -33,7 +33,7 @@ export default function DHotelCard(props: Props) {
 
   return (
     <div className="bg-white grid grid-cols-[1fr_2px_15rem] overflow-hidden rounded-2xl shadow-light">
-      <div className="p-4 grid grid-cols-[14rem_1fr] gap-5">
+      <div className="p-4 grid grid-cols-[16rem_1fr] gap-5">
         {/* Image | Favorite-Status */}
         <div className="relative bg-zinc-100 h-44 overflow-hidden rounded-xl">
           <FavoriteButton />
@@ -49,8 +49,8 @@ export default function DHotelCard(props: Props) {
         </div>
 
         {/* HotelName | Province | City | Stars | Score | Address | NumberOfNights */}
-        <div className="text-zinc-800 text-cs08 font-bold pt-1 flex flex-col gap-2 overflow-hidden">
-          <h3 className="text-cs09 font-extrabold mb-1 flex items-center gap-1 overflow-hidden">
+        <div className="text-zinc-800 text-cs08 font-bold pt-2 flex flex-col gap-2 overflow-hidden">
+          <h3 className="text-cs95 font-extrabold mb-1 flex items-center gap-1 overflow-hidden">
             <span>هتل</span>
             <span className="truncate">{hotelName}</span>
           </h3>
@@ -86,7 +86,7 @@ export default function DHotelCard(props: Props) {
       <div className="text-zinc-800 text-cs08 font-bold p-5 flex flex-col gap-3">
         <div className="flex-between">
           {isSpecialOffer && (
-            <div className="bg-cs-blue/10 text-cs-blue text-cs07 px-3 py-2 flex flex-col gap-0.5 items-center rounded-lg">
+            <div className="bg-cs-blue/10 text-cs-blue text-cs75 px-3 py-2 flex flex-col gap-0.5 items-center rounded-lg">
               <span>پیشنهاد</span>
               <span>ویژه</span>
             </div>
@@ -100,7 +100,7 @@ export default function DHotelCard(props: Props) {
           )}
 
           {discountPercentage > 0 && (
-            <div className="h-9 bg-cs-red/10 text-cs-red text-cs07 font-extrabold px-4 pt-1 mr-auto flex-center gap-0.5 border-2 border-cs-red border-dashed rounded-lg">
+            <div className="h-9 bg-cs-red/10 text-cs-red text-cs75 font-extrabold px-4 pt-1 mr-auto flex-center gap-0.5 border-2 border-cs-red border-dashed rounded-lg">
               <span>%</span>
               <span>{discountPercentage}</span>
               <span className="mr-0.5">تخفیف</span>
@@ -124,7 +124,7 @@ export default function DHotelCard(props: Props) {
         </div>
 
         <Link
-          href={''}
+          href={'/best-hotels/hotel'}
           className="bg-cs-dark-blue text-white text-cs75 font-semibold h-10 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-cs-dark-blue/95"
         >
           مشاهده اتاق ها
