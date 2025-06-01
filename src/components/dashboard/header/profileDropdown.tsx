@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
 import AvatarImage from '../../../../public/image/profile/1.webp';
 import { ICWallet } from '@/components/icons/ICWallet';
+import Link from 'next/link';
 
 // Creating and exporting ProfileDropdown component as defualt
 export default function ProfileDropdown(): ReactNode {
@@ -15,61 +16,61 @@ export default function ProfileDropdown(): ReactNode {
   return (
     <DropDown.DropdownMenu>
       <DropDown.DropdownMenuTrigger asChild>
-        <button className="flex items-center justify-start gap-2 w-[200px] overflow-hidden">
+        <button className='flex items-center justify-start gap-2 w-[200px] overflow-hidden'>
           <Image
             width={100}
             height={100}
             alt={'عکس پروفایل شما'}
             src={AvatarImage.src}
-            className="aspect-square object-cover w-12 h-12 rounded-lg overflow-hidden shrink-0"
+            className='aspect-square object-cover w-12 h-12 rounded-lg overflow-hidden shrink-0'
           />
-          <div className="w-full overflow-hidden">
-            <div className="mb-1 flex items-center justify-start gap-3 text-black">
-              <span className="font-bold text-cs75 text-current block truncate w-full text-right">
+          <div className='w-full overflow-hidden'>
+            <div className='mb-1 flex items-center justify-start gap-3 text-black'>
+              <span className='font-bold text-cs75 text-current block truncate w-full text-right'>
                 علیرضا آذرخش عزیز!
               </span>
-              <ICChevronBottom className="w-3 h-3 shrink-0 text-current" />
+              <ICChevronBottom className='w-3 h-3 shrink-0 text-current' />
             </div>
-            <span className="font-bold text-cs75 text-gray-500 block truncate text-right">
+            <span className='font-bold text-cs75 text-gray-500 block truncate text-right'>
               Alirezaazarakhsh@gmail.com
             </span>
           </div>
         </button>
       </DropDown.DropdownMenuTrigger>
-      <DropDown.DropdownMenuContent className="w-[200px]" align="start">
-        <DropDown.DropdownMenuLabel className="flex items-center justify-center gap-3 p-3 text-black">
-          <span className="truncate block text-cs08 font-medium text-current">
+      <DropDown.DropdownMenuContent className='w-[200px]' align='start'>
+        <DropDown.DropdownMenuLabel className='flex items-center justify-center gap-3 p-3 text-black'>
+          <span className='truncate block text-cs08 font-medium text-current'>
             حساب شما صفر میباشد!
           </span>
-          <ICWallet className="w-4 h-4 text-current shrink-0" />
+          <ICWallet className='w-4 h-4 text-current shrink-0' />
         </DropDown.DropdownMenuLabel>
-        <DropDown.DropdownMenuSeparator className="mx-3 mb-3" />
+        <DropDown.DropdownMenuSeparator className='mx-3 mb-3' />
         <DropDown.DropdownMenuItem
           asChild
-          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
+          className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
         >
-          <button>
-            <span className="text-cs08 font-normal text-current text-right truncate block">
+          <Link href='/dashboard/profile'>
+            <span className='text-cs08 font-normal text-current text-right truncate block'>
               ویرایش پروفایل
             </span>
-          </button>
+          </Link>
         </DropDown.DropdownMenuItem>
         <DropDown.DropdownMenuItem
           asChild
-          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
+          className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
         >
-          <button>
-            <span className="text-cs08 font-normal text-current text-right truncate block">
+          <Link href='/dashboard/financial/wallet'>
+            <span className='text-cs08 font-normal text-current text-right truncate block'>
               شارژ کیف پول
             </span>
-          </button>
+          </Link>
         </DropDown.DropdownMenuItem>
         <DropDown.DropdownMenuItem
           asChild
-          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
+          className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
         >
           <button>
-            <span className="text-cs08 font-normal text-current text-right truncate block">
+            <span className='text-cs08 font-normal text-current text-right truncate block'>
               خروج از حساب
             </span>
           </button>

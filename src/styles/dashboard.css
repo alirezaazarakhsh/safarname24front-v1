@@ -1,0 +1,6 @@
+/*Defining some custom css tweaks for dashboard pages*/
+.text-num-en {
+  unicode-bidi: plaintext;
+  font-feature-settings: 'lnum';
+  font-family: sans-serif;
+}

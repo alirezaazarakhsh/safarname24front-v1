@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -22,14 +22,17 @@ import {
 } from '@/components/ui/drawer';
 import { DialogComponentPropsType } from '@/types/dashboard/component';
 import { useMediaQuery } from '@/hooks';
+import Loading from '../../ui/loading';
 
 // Creating and exporting FailedToCancleDialog component as default
 export default function FailedToCancleDialog({
   closeFn,
   isOpened = false,
+    tryAgainFn
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [isFetching, setFetching] = useState<boolean>(false);
 
   // conditional rendering
   if (isMobile) {
@@ -74,13 +77,26 @@ export default function FailedToCancleDialog({
             <DialogClose asChild>
               <button
                 onClick={closeFn}
-                className="flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-black border border-black/10"
+                className="flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-black border border-black/10 h-[40px]"
               >
                 بستن
               </button>
             </DialogClose>
-            <button className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600">
-              تلاش مجدد
+            <button disabled={isFetching} onClick={async () => {
+              if (tryAgainFn) {
+                setFetching(true);
+                await new Promise(resolve => setTimeout(resolve, 5000)); 
+
+                setFetching(false);
+                tryAgainFn();  // TODO: FIX LATER
+                closeFn && closeFn();
+              }
+            }} className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600 h-[40px] transition-all duration-500 disabled:opacity-50">
+              {
+                (isFetching)
+                  ? <Loading />
+                  : "تلاش مجدد"
+              }
             </button>
           </DialogFooter>
         </DialogContent>

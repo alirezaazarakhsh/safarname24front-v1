@@ -47,7 +47,7 @@ export default function Subscription({
             <SubscriptionChart chart={subscription.chart} />
           </div>
         ) : (
-          <div className="lg:w-[125px] w-full lg:h-full h-[145px] bg-gray-100 border-[1.5px] border-black/10 lg:rounded-lg rounded-[10px] shrink-0 overflow-auto scrollbar-hide flex items-end justify-start">
+          <div className="lg:w-[125px] w-full lg:h-full h-[145px] bg-gray-100 border-[1.5px] border-black/10 lg:rounded-lg rounded-[10px] shrink-0 overflow-auto scrollbar-hide flex items-center flex-col justify-center">
             <ICChartDown
               className="lg:w-[60px] w-[40px] aspect-square block lg:mb-3 mb-2"
               fill="currentColor"

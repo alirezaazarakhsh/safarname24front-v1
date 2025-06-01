@@ -7,10 +7,15 @@ import {
 } from 'react';
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
+import { UseFormReturn } from 'react-hook-form';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
   children: ReactNode;
+}
+
+export interface LogoComponentPropsType {
+  onlyLogo?: boolean;
 }
 
 export interface PageComponentPropsType {
@@ -61,6 +66,7 @@ export interface MobileProfileComponentPropsType {
 export interface ReservationsFilterComponentPropsType {
   className?: string;
   dataNotEmpty: boolean;
+  onChange?: (val: string) => void;
 }
 
 export interface IconInputComponentPropsType
@@ -91,6 +97,7 @@ export interface CustomPaginationComponentPropsType {
 export interface DialogComponentPropsType {
   isOpened?: boolean;
   closeFn?: () => void;
+  tryAgainFn?: () => void;
 }
 
 export interface ToastProps {
@@ -202,7 +209,7 @@ export interface InputAndLabelPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   validation?: string;
-  label: string;
+  label?: string;
   isValid?: boolean;
   validationType?: 'text' | 'icon';
 }
@@ -316,6 +323,7 @@ export interface SheetComponentPropsType {
   isOpened?: boolean;
   closeFn?: () => void;
   children: ReactNode;
+  className?: string;
 }
 
 export interface SearchFinancialDashboardPropsType {
@@ -343,6 +351,7 @@ export interface ToggleButtonsPropsType {
   buttons: [string, string];
   onChange?: (index: number) => void;
   width: string;
+  defaultVal?: number;
 }
 
 export interface CustomersClubTablePropsType {
@@ -395,4 +404,130 @@ export interface NotificationComponentPropsType {
 
 export interface NotificationSheetPropsType {
   notifications: NotificationType[];
+}
+
+export interface NotificationSheetMobilePropsType
+  extends NotificationSheetPropsType {
+  index: number;
+}
+
+export interface FilterFavPageComponentPropsType {
+  onChange?: (val: 'savedHotels' | 'savedBlogs') => void;
+  favName: string;
+}
+
+export interface BlogComponentPropsType {
+  image: string;
+  mostVisited?: boolean;
+  title: string;
+  desc: string;
+  createdAt: string;
+  className?: string;
+}
+
+export interface CollectionComponentPropsType {
+  className?: string;
+  isDeletingByUser?: boolean;
+  data: {
+    id: number;
+    images: [string, string, string];
+    title: string;
+  };
+}
+
+export interface FilterFavPageComponentPropsTypeOrginal {
+  setDeleteState: Dispatch<SetStateAction<boolean>>;
+  deleteState: boolean;
+}
+
+export interface PassnegersPageFilterComponentPropsType {
+  onChange?: (val: string) => void;
+  className?: string;
+  dataNotEmpty: boolean;
+}
+
+export interface PassengersTableComponentPropsType {
+  className?: string;
+  data: {
+    name: {
+      firstName: string;
+      lastName: string;
+    };
+    tell: string;
+    id: number;
+    meliCodeOrPassportNumber: string;
+  }[];
+}
+
+export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
+  data:
+    | {
+        name: {
+          firstName: string;
+          lastName: string;
+        };
+        tell: string;
+        id: number;
+        meliCodeOrPassportNumber: string;
+      }
+    | undefined;
+}
+
+export interface DialogInputPassengersComponentPropsType
+  extends InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  error?: string;
+}
+
+export interface LoadingComponentPropsType {
+  className?: string;
+}
+
+export interface ProfileTogglerComponentPropsType {
+  className?: string;
+  defaultVal?: 'personal' | 'legal';
+  onToggleChange?: (val: 'personal' | 'legal') => void;
+}
+
+export interface CartBalanceComponentPropsType {
+  className?: string;
+  balance: number;
+  hasMobileView?: boolean;
+}
+
+export interface SubscriptionTypeComponentPropsType {
+  type: 'premium' | 'silver';
+  className?: string;
+}
+
+export interface PersonalInfoType {
+  name: string;
+  meliCode: string;
+  fullName: string;
+  tell: string;
+  email?: string;
+  address?: string;
+  postCode?: string;
+  creditCard: string;
+  shabaNumber: string;
+}
+
+export interface PersonalInfoFormComponentPropsType {
+  className?: string;
+  form: UseFormReturn<PersonalInfoType>;
+}
+
+export interface NormalInputComponentPropsType
+  extends InputHTMLAttributes<HTMLInputElement> {
+  error?: string;
+  wholeClassName?: string;
+}
+
+export interface BankInfoFormComponentPropsType {
+  className?: string;
+  form: UseFormReturn<PersonalInfoType>;
+}
+
+export interface DescriptionProfileComponentPropsType {
+  className?: string;
 }

@@ -23,21 +23,22 @@ export default function IconInput({
   // Returning JSX
   return (
     <div
+      data-focused={isFocused}
       className={cn(
-        'bg-white lg:rounded-md rounded-[7px] flex items-center justify-between text-black lg:w-[200px] w-auto col-span-3',
+        'bg-white lg:rounded-md rounded-[7px] flex items-center justify-between text-black lg:w-[200px] w-auto col-span-3 text-[#2b2b2b]',
         wholeClassName,
       )}
-      data-focused={isFocused}
     >
       <div className="lg:h-8 h-[45px] aspect-square flex items-center justify-center">
         <IconsaxIcons
           name={icon}
-          className="lg:h-3 lg:w-3 w-[18px] h-[18px] text-current shrink-0 aspect-square"
+          className="w-[18px] h-[18px] text-current shrink-0 aspect-square"
+          color="currentColor"
         />
       </div>
       <input
         className={cn(
-          'lg:h-8 h-10 lg:px-2 lg:py-2 px-[10px] py-[10px]  w-full block lg:placeholder:text-xs placeholder:text-[12px] lg:text-xs text-[12px] placeholder:font-normal font-normal text-current placeholder:text-current outline-0 bg-transparent',
+          'lg:h-8 h-10 lg:px-2 lg:py-2 px-[10px] py-[10px]  w-full block placeholder:text-[12px] text-[12px] placeholder:font-bold font-bold text-current placeholder:text-current outline-0 bg-transparent',
           className,
         )}
         autoFocus={autoFocus}
