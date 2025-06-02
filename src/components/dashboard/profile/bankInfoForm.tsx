@@ -12,6 +12,7 @@ import { ReactNode } from 'react';
 import InputAndLabel from '../financialCartToCart/inputAndLabel';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
+import NormalInput from './normalInput';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -69,9 +70,10 @@ export default function BankInfoForm({
             error={form.formState.errors.shabaNumber?.message}
             {...form.register('shabaNumber')}
           />
-          <InputAndLabel
+          <NormalInput
             placeholder='آدرس مسکونی '
             error={form.formState.errors.address?.message}
+            noErrorText
             {...form.register('address')}
           />
         </div>

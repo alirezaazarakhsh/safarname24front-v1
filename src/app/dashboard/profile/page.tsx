@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 // Defining form schema
-const formSchema = z.object({
+const personalFormSchema = z.object({
   name: z.string().min(2, { message: 'نام باید حداقل ۲ حرف باشد' }),
   fullName: z
     .string()
@@ -47,13 +47,13 @@ const formSchema = z.object({
 });
 
 // Defining formType
-type formType = z.infer<typeof formSchema>;
+type personalFormType = z.infer<typeof personalFormSchema>;
 
 // Creating and exporting Profile page as default
 export default function ProfilePage(): ReactNode {
   // Defining hooks
-  const form = useForm<formType>({
-    resolver: zodResolver(formSchema),
+  const personalForm = useForm<personalFormType>({
+    resolver: zodResolver(personalFormSchema),
   });
 
   const [profileState, setProfileState] = useState<'personal' | 'legal'>(
@@ -69,11 +69,17 @@ export default function ProfilePage(): ReactNode {
           defaultVal={profileState}
           onToggleChange={(val) => setProfileState(val)}
         />
-        <CartBalance hasMobileView balance={112459000} />
-        <SubscriptionType type='premium' />
-        <PersonalInfoForm className='col-span-2' form={form} />
-        <BankInfoForm className='col-span-2' form={form} />
-        <Description className='col-span-4' />
+        {profileState === 'personal' ? (
+          <>
+            <CartBalance hasMobileView balance={112459000} />
+            <SubscriptionType type='premium' />
+            <PersonalInfoForm className='col-span-2' form={personalForm} />
+            <BankInfoForm className='col-span-2' form={personalForm} />
+            <Description className='col-span-4' />
+          </>
+        ) : (
+          'k'
+        )}
       </div>
     </main>
   );

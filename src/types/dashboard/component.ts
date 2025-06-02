@@ -521,6 +521,7 @@ export interface NormalInputComponentPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   wholeClassName?: string;
+  noErrorText?: boolean;
 }
 
 export interface BankInfoFormComponentPropsType {

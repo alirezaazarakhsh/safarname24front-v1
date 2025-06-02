@@ -10,6 +10,7 @@ export default function NormalInput({
   wholeClassName,
   required,
   placeholder,
+  noErrorText = false,
   ...props
 }: NormalInputComponentPropsType): ReactNode {
   // Returning JSX
@@ -18,13 +19,14 @@ export default function NormalInput({
       <input
         required={required}
         placeholder={required ? `* ${placeholder}` : placeholder}
+        data-errored={error ? true : false}
         className={cn(
-          'px-4 py-4 h-[50px] w-full block bg-white placeholder:text-black/10 text-black/10 border border-black/10 rounded-lg text-cs65 placeholder:text-cs65 font-medium placeholder:font-medium transition-all duration-500 focus:border-black focus:text-black focus:placeholder:text-black',
+          'px-4 py-4 h-[50px] w-full block bg-white placeholder:text-black/10 text-black/10 border border-black/10 rounded-lg text-cs65 placeholder:text-cs65 font-medium placeholder:font-medium transition-all duration-500 focus:border-black focus:text-black focus:placeholder:text-black data-[errored="true"]:border-cs-red data-[errored="true"]:focus:border-cs-red data-[errored="true"]:text-cs-red',
           className,
         )}
         {...props}
       />
-      {error && (
+      {error && !noErrorText && (
         <p className='text-cs07 font-medium text-cs-red block text-right mt-2'>
           {error}
         </p>
