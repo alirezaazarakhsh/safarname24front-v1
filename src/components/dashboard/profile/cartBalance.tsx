@@ -36,10 +36,16 @@ export default function CartBalance({
               موجودی شما :
             </span>
           </div>
-          <p className='shrink-0 text-black'>
-            <span className='text-[16px] font-bold'>{`${numberSeparation(balance)} `}</span>
-            <span className='text-[12px] font-semibold'>تومان</span>
-          </p>
+          {balance !== 0 ? (
+            <p className='shrink-0 text-black'>
+              <span className='text-[16px] font-bold'>{`${numberSeparation(balance)} `}</span>
+              <span className='text-[12px] font-semibold'>تومان</span>
+            </p>
+          ) : (
+            <p className='shrink-0 text-black text-[16px] font-bold'>
+              حساب شما خالی میباشد!
+            </p>
+          )}
         </div>
         <Link
           href='/dashboard/charge'
@@ -71,10 +77,16 @@ export default function CartBalance({
                 موجودی شما :
               </span>
             </div>
-            <p className='shrink-0 text-black'>
-              <span className='text-[16px] font-bold'>{`${numberSeparation(balance)} `}</span>
-              <span className='text-[12px] font-semibold'>تومان</span>
-            </p>
+            {balance !== 0 ? (
+              <p className='shrink-0 text-black'>
+                <span className='text-[16px] font-bold'>{`${numberSeparation(balance)} `}</span>
+                <span className='text-[12px] font-semibold'>تومان</span>
+              </p>
+            ) : (
+              <p className='shrink-0 text-black text-[16px] font-bold'>
+                حساب شما خالی میباشد!
+              </p>
+            )}
           </div>
           <Link
             href='/dashboard/charge'
@@ -106,7 +118,11 @@ export default function CartBalance({
               <span className='font-semibold text-cs08 text-black block text-right truncate mb-2'>
                 موجودی شما
               </span>
-              <span className='font-semibold text-cs08 text-black block text-right truncate'>{`${numberSeparation(balance)} تومان`}</span>
+              <span className='font-semibold text-cs08 text-black block text-right truncate'>
+                {balance === 0
+                  ? 'حساب شما خالی میباشد!'
+                  : `${numberSeparation(balance)} تومان`}
+              </span>
             </div>
           </div>
           <Link

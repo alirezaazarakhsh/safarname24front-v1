@@ -22,6 +22,7 @@ import Loading from '../../ui/loading';
 export default function LegalBankInfo({
   className,
   form,
+  documentImage,
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
@@ -45,7 +46,7 @@ export default function LegalBankInfo({
   // Defining a function to handle submit event
   const submitHandleFunction: SubmitHandler<LegalInfoType> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log({ ...data, file });
+    console.log({ ...data, file, documentImage });
   };
 
   // Defining variables

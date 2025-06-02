@@ -546,6 +546,7 @@ export interface BankInfoFormComponentPropsType {
 export interface LegalBankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<LegalInfoType>;
+  documentImage?: File;
 }
 
 export interface LegalInfoFormComponentPropsType {

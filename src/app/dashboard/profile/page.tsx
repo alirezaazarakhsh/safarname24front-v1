@@ -162,7 +162,7 @@ export default function ProfilePage(): ReactNode {
         )}
         {profileState === 'personal' ? (
           <>
-            <CartBalance hasMobileView balance={112459000} />
+            <CartBalance hasMobileView balance={0} />
             <SubscriptionType type='premium' />
             <PersonalInfoForm className='col-span-2' form={personalForm} />
             <BankInfoForm className='col-span-2' form={personalForm} />
@@ -173,6 +173,7 @@ export default function ProfilePage(): ReactNode {
             <LegalBankInfo
               className='col-span-2 h-[458px] overflow-auto scrollbar-hide'
               form={legalForm}
+              documentImage={file}
             />
             <div className='col-span-4 flex gap-5'>
               <Upload onChange={(file) => setFile(file)} className='w-[50%]' />
