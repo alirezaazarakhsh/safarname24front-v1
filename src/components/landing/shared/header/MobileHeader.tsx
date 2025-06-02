@@ -1,25 +1,40 @@
 'use client';
 
-import { ArrowRight } from 'iconsax-react';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMemo } from 'react';
+
+import { ArrowRight } from 'iconsax-react';
+import { useQuery } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 
-type Props = {
-  logo: string;
-  title: string;
-  subtitle: string;
+import { generalInstance } from '@/utils/services';
+import { Skeleton } from '@/components/ui/skeleton';
+
+type Data = {
+  header_logo: string;
+  header_title: string;
+  header_sub_title: string;
 };
 
-// --------------------------------------------
+type ApiResponse = {
+  data: Data;
+};
 
-export default function MobileHeader(props: Props) {
-  const { logo, title, subtitle } = props;
+// --------------------------------
+
+export default function MobileHeader() {
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['main-configs'],
+    queryFn: () => generalInstance('/config/main'),
+  });
 
   const router = useRouter();
   const pathname = usePathname();
+
+  const logo = data?.data.header_logo;
+  const title = data?.data.header_title;
+  const subtitle = data?.data.header_sub_title;
 
   const noDisplayCondition = useMemo(() => {
     return (
@@ -32,28 +47,39 @@ export default function MobileHeader(props: Props) {
   if (noDisplayCondition) return null;
 
   return (
-    <header className="pt-5 mx-5 flex-between items-center lg:hidden">
+    <header className="pt-4 mx-5 flex-between items-center lg:hidden">
       {/* Logo | Titles */}
       <div className="flex items-center gap-3">
-        <Link
-          href={'/'}
-          className="w-16 h-16 flex-center overflow-hidden rounded-lg"
-        >
-          {logo && (
-            <Image
-              src={logo}
-              alt="logo"
-              width={100}
-              height={100}
-              className="w-full aspect-auto"
-            />
-          )}
-        </Link>
+        {status === 'pending' ? (
+          <Skeleton className="w-14 h-14" />
+        ) : (
+          <Link
+            href={'/'}
+            className="w-16 h-16 flex-center overflow-hidden rounded-lg"
+          >
+            {logo && (
+              <Image
+                src={logo}
+                alt="logo"
+                width={100}
+                height={100}
+                className="w-full aspect-auto"
+              />
+            )}
+          </Link>
+        )}
 
-        <div className="text-cs85 text-zinc-800 space-y-0.5">
-          <h1 className="font-extrabold">{title}</h1>
-          <h2 className="font-inter font-bold capitalize">{subtitle}</h2>
-        </div>
+        {status === 'pending' ? (
+          <div className="space-y-3">
+            <Skeleton className="w-40 h-4" />
+            <Skeleton className="w-40 h-4" />
+          </div>
+        ) : (
+          <div className="text-cs85 text-zinc-800 space-y-0.5">
+            <h1 className="font-extrabold">{title}</h1>
+            <h2 className="font-inter font-bold capitalize">{subtitle}</h2>
+          </div>
+        )}
       </div>
 
       {pathname === '/best-hotels' && (

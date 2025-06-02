@@ -42,8 +42,17 @@ export default function PassengersContent(props: Props) {
   return (
     <>
       {/* === Rooms */}
-      <div
+      {/* <div
         className={`h-[8.5rem] grid gap-4 overflow-auto custom-scrollbar transition-all lg:h-fit lg:max-h-[19.3rem] ${(isDesktop && rooms.length > 2) || (!isDesktop && rooms.length > 1) ? 'pl-3' : ''}`}
+      >
+        {rooms.map((passenger) => (
+          <PassengerRoom key={passenger.id} passenger={passenger} />
+        ))}
+      </div> */}
+
+      <div
+        dir="rtl"
+        className="h-[8.5rem] grid gap-4 overflow-auto transition-all lg:h-fit lg:max-h-[19.3rem]"
       >
         {rooms.map((passenger) => (
           <PassengerRoom key={passenger.id} passenger={passenger} />

@@ -66,7 +66,7 @@ export default function NumberOfNights(props: Props) {
 
               <div className="bg-zinc-200/50 text-zinc-600 font-semibold h-12 px-4 flex items-center gap-1 rounded-lg">
                 <span>{numberOfNights}</span>
-                <span>َشب</span>
+                <span>شب</span>
               </div>
             </div>
           )}

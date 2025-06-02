@@ -1,32 +1,21 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { Profile2User } from 'iconsax-react';
 import { usePathname } from 'next/navigation';
 
-import NavLink from './NavLink';
+import NavLinks from './NavLinks';
+import DHeaderStatics from './DHeaderStatics';
+
 import { useScrollPosition } from '@/hooks';
-import { global } from '@/constants/landing';
-import UserAccount from '../auth/UserAccount';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import { useUserAccountContext } from '@/context/UserAccountContext';
 
-type Props = {
-  logo: string;
-  title: string;
-  subtitle: string;
-  userFullName: string;
-};
+// --------------------------------
 
-// --------------------------------------------
-
-export default function DesktopHeader(props: Props) {
-  const { logo, title, subtitle, userFullName } = props;
-
+export default function DesktopHeader() {
   const pathname = usePathname();
   const { toggle } = useUserAccountContext();
   const scrollPosition = useScrollPosition();
@@ -54,35 +43,9 @@ export default function DesktopHeader(props: Props) {
       <header className="sticky top-0 z-30 max-w-screen-template h-[5rem] mx-auto hidden lg:flex-center">
         <section className="w-full font-bold mx-5 flex-between items-center gap-4">
           {/* Logo | Title | Subtitle */}
-          <Link href={'/'} className="flex items-center gap-3.5">
-            <div className="w-16 h-16 flex-center overflow-hidden rounded-cs-10">
-              {logo && (
-                <Image
-                  src={logo}
-                  alt="logo"
-                  width={100}
-                  height={100}
-                  className="w-full aspect-auto"
-                />
-              )}
-            </div>
-
-            <div className="max-w-48 text-zinc-800 text-cs08 space-y-0.5">
-              <h1 className="font-extrabold truncate">{title}</h1>
-              <h2 className="font-inter font-semibold capitalize truncate">
-                {subtitle}
-              </h2>
-            </div>
-          </Link>
-
-          {/* Nav-Links */}
-          <nav className="flex-center">
-            {global.navLinks?.map((nav, index) => (
-              <NavLink key={index} href={nav.href}>
-                {nav.title}
-              </NavLink>
-            ))}
-          </nav>
+          <DHeaderStatics />
+          {/* -------- */}
+          <NavLinks />
 
           {/* User-Favorites - User-Profile */}
           <div className="h-10 text-zinc-800 text-cs07 flex gap-2 xl:gap-3">
@@ -112,7 +75,7 @@ export default function DesktopHeader(props: Props) {
             {userIsLoggedIn && (
               <UserProfile
                 isOpen={userAccountIsOpen}
-                userFullName={userFullName}
+                userFullName={'علشرضا آذرخش'}
                 setOpen={setUserAccountOpen}
               />
             )}

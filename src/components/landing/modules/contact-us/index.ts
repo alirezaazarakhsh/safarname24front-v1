@@ -1,3 +1,3 @@
-export * from './ContactUsWays';
-export * from './SocialMedias';
 export * from './SendTicket';
+export * from './SocialMedias';
+export * from './ContactUsWays';

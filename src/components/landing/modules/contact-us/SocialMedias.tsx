@@ -1,11 +1,26 @@
 'use client';
 
 import 'swiper/css';
+
 import dynamic from 'next/dynamic';
+import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { TopBarConfig } from '../../shared';
 import SocialMedia from './molecules/SocialMedia';
+
+import { Skeleton } from '@/components/ui/skeleton';
+import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+
+type Data = {
+  link: string;
+  type: string;
+  type_fa: string;
+};
+
+type ApiResponse = {
+  data: Data[];
+};
 
 export const ContactUsMap = dynamic(
   () =>
@@ -15,19 +30,15 @@ export const ContactUsMap = dynamic(
   },
 );
 
-type Props = {
-  src: {
-    icon: React.ReactNode;
-    title: string;
-    link: string;
-    href: string;
-  }[];
-};
-
 // ---------------------------------------
 
-export function SocialMedias(props: Props) {
-  const { src } = props;
+export function SocialMedias() {
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['social-media'],
+    queryFn: () => generalInstance('/config/social-media'),
+  });
+
+  if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <div>
@@ -44,22 +55,38 @@ export function SocialMedias(props: Props) {
             slidesPerView={'auto'}
             slidesOffsetAfter={22}
           >
-            {src?.map((item, index) => (
-              <SwiperSlide key={index} className="max-w-60 pb-4 select-none">
-                <SocialMedia media={item} />
-              </SwiperSlide>
-            ))}
+            {status === 'pending' ? (
+              <Skeleton className="w-full h-44 rounded-l-none rounded-r-xl" />
+            ) : (
+              data?.data.map((socialMedia, index) => (
+                <SwiperSlide key={index} className="max-w-60 pb-4 select-none">
+                  <SocialMedia {...socialMedia} />
+                </SwiperSlide>
+              ))
+            )}
           </Swiper>
         </div>
 
         {/* Social-Media (Large-Device) */}
-        <div className="hidden grid-cols-2 gap-6 xl:grid">
-          {src?.map((item, index) => <SocialMedia key={index} media={item} />)}
+        <div className="hidden h-[23rem] grid-cols-2 gap-6 xl:grid">
+          {status === 'pending' ? (
+            <>
+              {Array(4)
+                .fill(null)
+                .map((_, index) => (
+                  <Skeleton key={index} className="rounded-xl" />
+                ))}
+            </>
+          ) : (
+            data?.data.map((socialMedia, index) => (
+              <SocialMedia key={index} {...socialMedia} />
+            ))
+          )}
         </div>
 
         {/* Map */}
-        <div className="bg-zinc-200 h-64 mt-8 overflow-hidden rounded-2xl xl:h-auto xl:mt-0">
-          <ContactUsMap lat={50} lng={20} />
+        <div className="bg-zinc-200/70 h-64 mt-6 overflow-hidden rounded-2xl xl:h-auto xl:mt-0">
+          <ContactUsMap />
         </div>
       </div>
     </div>

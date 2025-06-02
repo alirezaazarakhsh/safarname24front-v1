@@ -5,8 +5,10 @@ import { sendTicket as formSchema } from '@/schema';
 import SendTicketReaction from './molecules/SendTicketReaction';
 
 import { z } from 'zod';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { generalInstance } from '@/utils/services';
+import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from '@/components/ui/input';
@@ -14,22 +16,18 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 
-import axios from 'axios';
-import { useMutation } from '@tanstack/react-query';
-
 type ReactionType = 'success' | 'fail';
-const url = 'https://cps.safarnameh24.com/api/v1/contact/message/';
-type FormStates = 'subject' | 'fullName' | 'phoneNumber' | 'email' | 'desc';
+type FormStates = 'title' | 'full_name' | 'phone_number' | 'email' | 'text';
 
-// -----------------------------------------
-
-type Data = {
+type Form = {
+  email: string;
   title: string;
+  text: string;
   full_name: string;
   phone_number: string;
-  email: string;
-  text: string;
 };
+
+// -----------------------------------------
 
 export function SendTicket() {
   const [reactionOpen, setReactionOpen] = useState(false);
@@ -38,34 +36,25 @@ export function SendTicket() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      subject: 'trhrhrthrthrthrthrthrth',
-      fullName: 'rthrthrthrthrthrth',
-      phoneNumber: '09399862846',
-      email: 'mtn@sdf.ocm',
-      desc: 'rthrthrth',
+      text: '',
+      title: '',
+      email: '',
+      full_name: '',
+      phone_number: '',
     },
   });
 
-  // const mutation = useMutation({
-  //   mutationFn: () => {
-  //     return fetch(url, {
-  //       method: 'post',
-  //       body: {
-  //         title: 'string',
-  //         full_name: 'string',
-  //         phone_number: '09399862846',
-  //         email: 'user@example.com',
-  //         text: 'string',
-  //       },
-  //     });
-  //   },
-  //   onSuccess: () => {
-  //     console.log('پیام شما با موفقیت ارسال شد!');
-  //   },
-  //   onError: (error) => {
-  //     console.error('خطا در ارسال پیام: ' + error.message);
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationFn: (values: Form) => {
+      return generalInstance({
+        data: values,
+        method: 'POST',
+        url: '/contact/message/',
+      });
+    },
+    onError: () => handleSetReaction('fail', true),
+    onSuccess: () => handleSetReaction('success', true),
+  });
 
   function handleSetError(state: FormStates) {
     const errors = form.formState.errors;
@@ -77,27 +66,9 @@ export function SendTicket() {
     setReactionOpen(isOpen);
   }
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // console.log(values);
-    // values.subject === 'incorrect-subject'
-    //   ? handleSetReaction('fail', true)
-    //   : handleSetReaction('success', true);
-    // mutation.mutate();
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    mutation.mutate(values);
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch(
-        'https://cps.safarnameh24.com/api/v1/config/faqs/',
-      );
-
-      console.log(data);
-      const json = await data.json();
-      console.log(json);
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <div>
@@ -107,9 +78,9 @@ export function SendTicket() {
       />
 
       <SendTicketReaction
-        reactionType={reactionType}
         isOpen={reactionOpen}
         setOpen={setReactionOpen}
+        reactionType={reactionType}
       />
 
       <Form {...form}>
@@ -121,21 +92,21 @@ export function SendTicket() {
             {/* =============== Subject */}
             <FormField
               control={form.control}
-              name="subject"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <div className="relative">
                       <Input
                         {...field}
-                        className={`pl-28 ${handleSetError('subject')}`}
+                        className={`pl-28 ${handleSetError('title')}`}
                         placeholder="* موضوع مورد نظر را وارد نمایید"
                       />
 
                       <div className="absolute top-1/2 -translate-y-1/2 left-4 h-7 px-3 bg-zinc-100 text-zinc-500 text-cs07 font-extrabold pt-0.5 flex-center gap-1 rounded-md">
                         <span className="w-3 text-center">
-                          {35 - form.getValues('subject').length >= 0
-                            ? 35 - form.getValues('subject').length
+                          {35 - form.getValues('title').length >= 0
+                            ? 35 - form.getValues('title').length
                             : 0}
                         </span>
                         <span>کاراکتر</span>
@@ -149,13 +120,13 @@ export function SendTicket() {
             {/* =============== FullName */}
             <FormField
               control={form.control}
-              name="fullName"
+              name="full_name"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       {...field}
-                      className={handleSetError('fullName')}
+                      className={handleSetError('full_name')}
                       placeholder="* نام و نام خانوادگی خود را وارد نمایید"
                     />
                   </FormControl>
@@ -166,13 +137,13 @@ export function SendTicket() {
             {/* =============== PhoneNumber */}
             <FormField
               control={form.control}
-              name="phoneNumber"
+              name="phone_number"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       {...field}
-                      className={handleSetError('phoneNumber')}
+                      className={handleSetError('phone_number')}
                       placeholder="* شماره همراه خود را وارد نمایید"
                     />
                   </FormControl>
@@ -200,7 +171,7 @@ export function SendTicket() {
 
           {/* =============== Description */}
           <FormField
-            name="desc"
+            name="text"
             control={form.control}
             render={({ field }) => (
               <FormItem>
@@ -208,15 +179,20 @@ export function SendTicket() {
                   <Textarea
                     {...field}
                     placeholder="* توضیحات خود را وارد نمایید ..."
-                    className={`h-full resize-none ${handleSetError('desc')}`}
+                    className={`h-full resize-none ${handleSetError('text')}`}
                   />
                 </FormControl>
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="w-max px-8">
-            ارسال پیام
+          {/* Submit-Button */}
+          <Button type="submit" className="w-28">
+            {mutation.isPending ? (
+              <span className="loader-dots" />
+            ) : (
+              <span>ارسال پیام</span>
+            )}
           </Button>
         </form>
       </Form>
