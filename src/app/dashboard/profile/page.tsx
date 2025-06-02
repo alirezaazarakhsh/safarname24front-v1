@@ -17,6 +17,8 @@ import LegalInfoForm from '@/components/dashboard/profile/legal/legalInfoForm';
 import Upload from '@/components/dashboard/financialCartToCart/upload';
 import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAcceptDialog';
+import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/personalAccountBannedDialog';
+import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/legalAccountBannedDialog';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -99,8 +101,18 @@ type legalFormType = z.infer<typeof legalFormSchema>;
 export default function ProfilePage(): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
+
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
+
+  const [legalAccountBannedDialogOpened, setLegalAccountBannedDialogOpened] =
+    useState<boolean>(false);
+
+  const [
+    personalAccountBannedDialogOpened,
+    setPersonalAccountBannedDialogOpened,
+  ] = useState<boolean>(false);
+
   const [profileState, setProfileState] = useState<'personal' | 'legal'>(
     'personal',
   );
@@ -116,6 +128,14 @@ export default function ProfilePage(): ReactNode {
   // Returning JSX
   return (
     <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
+      <LegalAccountBannedDialog
+        isOpened={legalAccountBannedDialogOpened}
+        closeFn={() => setLegalAccountBannedDialogOpened(false)}
+      />
+      <PersonalAccountBannedDialog
+        isOpened={personalAccountBannedDialogOpened}
+        closeFn={() => setPersonalAccountBannedDialogOpened(false)}
+      />
       <WaitForAcceptDialog
         isOpened={waitingDialogOpened}
         closeFn={() => setWaitingDialogOpened(false)}
