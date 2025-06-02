@@ -38,7 +38,7 @@ export default function LegalInfoForm({
           </p>
         </div>
       </div>
-      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] grid grid-cols-2 gap-6'>
+      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] grid lg:grid-cols-2 lg:gap-6 gap-[16px]'>
         <NormalInput
           placeholder='نام شرکت خود را وارد نمایید'
           required

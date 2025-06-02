@@ -80,8 +80,15 @@ export default function BankInfoForm({
           </p>
         </div>
       </div>
-      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] grid grid-cols-2 gap-6'>
-        <div className='grid grid-cols-1 gap-6'>
+      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] lg:grid flex flex-col-reverse grid-cols-2 lg:gap-6 gap-[20px]'>
+        <button
+          onClick={form.handleSubmit(submitHandleFunction)}
+          disabled={form.formState.isSubmitting}
+          className='bg-green-500 w-full lg:text-cs07 text-[12px] hover:bg-green-600 transition-all duration-500 text-white lg:rounded-lg rounded-[8px] lg:px-5 px-3 h-[50px] lg:font-medium font-semibold disabled:bg-gray-400 disabled:hover:bg-gray-400 lg:hidden flex items-center justify-center'
+        >
+          {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
+        </button>
+        <div className='flex flex-col lg:gap-5 gap-[16px]'>
           <InputAndLabel
             validationType='icon'
             isValid={!form.getFieldState('creditCard').invalid}
@@ -105,9 +112,9 @@ export default function BankInfoForm({
             {...form.register('address')}
           />
         </div>
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col lg:gap-6 gap-[16px]'>
           <div className='flex items-center justify-start w-full gap-3'>
-            <div className='shrink-0 aspect-square w-[50px] h-[50px] flex items-center justify-center text-black border border-black/10 rounded-md'>
+            <div className='shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md'>
               <IconsaxIcons
                 name='Bank'
                 color='currentColor'
@@ -128,7 +135,7 @@ export default function BankInfoForm({
             className='flex items-center justify-start w-full gap-3 group'
           >
             <input {...getInputProps()} hidden />
-            <div className='shrink-0 aspect-square w-[50px] h-[50px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden'>
+            <div className='shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden'>
               {acceptedFiles.length === 0 ? (
                 <IconsaxIcons
                   name='Image'
@@ -163,7 +170,7 @@ export default function BankInfoForm({
               </p>
             </div>
           </button>
-          <div className='flex items-center justify-end'>
+          <div className='lg:flex hidden items-center justify-end'>
             <button
               onClick={form.handleSubmit(submitHandleFunction)}
               disabled={form.formState.isSubmitting}

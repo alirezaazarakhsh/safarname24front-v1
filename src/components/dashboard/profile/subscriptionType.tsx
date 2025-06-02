@@ -20,7 +20,7 @@ export default function SubscriptionType({
     >
       <div
         className={cn(
-          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr from-[#282828] lg:px-3 lg:py-4 px-[16px] py-[16px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
+          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr from-[#282828] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
           type === 'premium' ? 'to-[#E4BF45]' : 'to-[#616161]',
           className,
         )}
@@ -32,18 +32,18 @@ export default function SubscriptionType({
           height={180}
           className='absolute top-0 left-0 w-full object-cover scale-105 h-full pointer-events-none'
         />
-        <div className='border-2 border-current w-[50px] h-[50px] aspect-square shrink-0 flex items-center justify-center rounded-md'>
+        <div className='border-2 border-current lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] aspect-square shrink-0 flex items-center justify-center lg:rounded-md rounded-[8px]'>
           <IconsaxIcons
             name='Rank'
-            className='w-[20px] h-[20px]'
+            className='lg:w-[20px] lg:h-[20px] w-[27px] h-[27px]'
             color='currentColor'
           />
         </div>
         <div className='w-full overflow-hidden'>
-          <span className='font-semibold text-cs08 text-current block text-right truncate mb-2'>
+          <span className='font-semibold lg:text-cs08 text-[12px] text-current block text-right truncate lg:mb-2 mb-[4px]'>
             سطح کاربری شما
           </span>
-          <span className='font-semibold text-cs08 text-current block text-right truncate'>
+          <span className='lg:font-semibold font-bold lg:text-cs08 text-[14px] text-current block text-right truncate'>
             {type === 'premium' ? 'پریمیوم' : 'نقره ای'}
           </span>
         </div>

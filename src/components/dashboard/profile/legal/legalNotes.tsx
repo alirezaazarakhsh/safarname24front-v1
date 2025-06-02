@@ -24,11 +24,14 @@ export default function LegalNotes({
         className,
       )}
     >
+      <span className='lg:text-cs75 text-[14px] font-semibold text-black truncate block text-right mb-3'>
+        توضیحات مهم برای ارسال مدارک شرکت :
+      </span>
       <ol className='flex flex-col gap-3'>
         {notes.map((item, index) => (
           <li
             key={index}
-            className='text-gray-600 font-normal text-right text-cs08 indent-0'
+            className='text-right text-black/50 lg:text-cs75 text-[12px] lg:font-semibold font-bold'
           >
             {`${index + 1} - ${item}`}
           </li>

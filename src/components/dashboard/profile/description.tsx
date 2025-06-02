@@ -18,7 +18,7 @@ export default function Description({
       <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
         توضیحات تکمیلی :
       </span>
-      <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
+      <p className='text-right text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
         مشتری گرامی لازم به ذکر میباشد که پروفایل حقیقی خود را با دقت پر کنید و
         در صورت خطا به تیم پشتیبانی سفرنامه 24 پیام دهید تا مشکلاتان را برطرف
         کنند از همراهی شما سپاسگزاریم.

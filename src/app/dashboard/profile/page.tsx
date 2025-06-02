@@ -127,7 +127,7 @@ export default function ProfilePage(): ReactNode {
 
   // Returning JSX
   return (
-    <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
+    <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]'>
       <LegalAccountBannedDialog
         isOpened={legalAccountBannedDialogOpened}
         closeFn={() => setLegalAccountBannedDialogOpened(false)}
@@ -140,15 +140,15 @@ export default function ProfilePage(): ReactNode {
         isOpened={waitingDialogOpened}
         closeFn={() => setWaitingDialogOpened(false)}
       />
-      <div className='grid grid-cols-4 gap-5'>
+      <div className='grid lg:grid-cols-4 lg:gap-5 gap-[20px]'>
         {profileState === 'personal' ? (
           <ProfileToggler
-            className='col-span-2'
+            className='lg:col-span-2'
             defaultVal={profileState}
             onToggleChange={(val) => setProfileState(val)}
           />
         ) : (
-          <div className='col-span-2 flex flex-col items-start gap-[24px] justify-between h-[458px]'>
+          <div className='lg:col-span-2 flex flex-col items-start gap-[24px] justify-between lg:h-[458px] h-auto'>
             <ProfileToggler
               className='shrink-0 w-full'
               defaultVal={profileState}
@@ -164,20 +164,23 @@ export default function ProfilePage(): ReactNode {
           <>
             <CartBalance hasMobileView balance={0} />
             <SubscriptionType type='premium' />
-            <PersonalInfoForm className='col-span-2' form={personalForm} />
-            <BankInfoForm className='col-span-2' form={personalForm} />
-            <Description className='col-span-4' />
+            <PersonalInfoForm className='lg:col-span-2' form={personalForm} />
+            <BankInfoForm className='lg:col-span-2' form={personalForm} />
+            <Description className='lg:col-span-4' />
           </>
         ) : (
           <>
             <LegalBankInfo
-              className='col-span-2 h-[458px] overflow-auto scrollbar-hide'
+              className='lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide'
               form={legalForm}
               documentImage={file}
             />
-            <div className='col-span-4 flex gap-5'>
-              <Upload onChange={(file) => setFile(file)} className='w-[50%]' />
-              <LegalNotes className='w-[50%]' />
+            <div className='lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]'>
+              <Upload
+                onChange={(file) => setFile(file)}
+                className='lg:w-[50%] w-full lg:h-auto h-[350px]'
+              />
+              <LegalNotes className='lg:w-[50%] w-full' />
             </div>
           </>
         )}
