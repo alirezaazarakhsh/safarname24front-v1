@@ -29,20 +29,20 @@ export default function RulesSection(): ReactNode {
   return (
     <section className="flex lg:gap-10 gap-[30px] lg:justify-between lg:items-end lg:flex-row flex-col">
       <div className="overflow-hidden">
-        <div className="flex items-center justify-start lg:gap-2 gap-[10px] overflow-hidden">
+        <div className="flex items-center justify-start lg:gap-2 gap-[10px] overflow-hidden text-[#2c2c2c]">
           <IconsaxIcons
             name="Judge"
             color="currentColor"
-            className="lg:w-4 lg:h-4 w-[22px] h-[22px] text-black shrink-0 aspect-square"
+            className="lg:w-4 lg:h-4 w-[22px] h-[22px] shrink-0 aspect-square"
           />
-          <span className="block w-full truncate text-right lg:text-cs08 text-[12px] lg:font-bold font-semibold">
+          <span className="block w-full truncate text-right lg:text-cs08 text-[12px] font-semibold text-current">
             قوانین و مقرارت هتل و رزرواسیون
           </span>
         </div>
         <ol className="lg:gap-3 gap-[12px] lg:mt-5 mt-[20px] list-none list-inside flex flex-col overflow-hidden">
           {rules.map((item, index) => (
             <li
-              className="lg:text-cs75 text-[10px] lg:font-medium font-semibold text-gray-500 lg:truncate"
+              className="lg:text-cs75 text-[10px] lg:font-medium font-semibold text-[#6e6e70] lg:truncate"
               key={index}
             >
               {`${handleZeroBeforeNumber(index + 1)} - ${item}`}
@@ -53,7 +53,7 @@ export default function RulesSection(): ReactNode {
       <div className="flex items-center lg:justify-end lg:gap-6 gap-[23px] lg:shrink-0">
         <Link
           href="tel:02122490842"
-          className="bg-gray-100 lg:transition-all lg:duration-500 lg:hover:bg-gray-200 border lg:rounded-lg rounded-[12px] border-black/10 aspect-square lg:h-40 h-auto lg:w-auto w-[50%] flex items-center justify-center p-4"
+          className="bg-[#f8f8f8] border lg:rounded-lg rounded-[12px] border-black/10 aspect-square lg:h-40 h-auto lg:w-auto w-[50%] flex items-center justify-center p-4"
         >
           <div>
             <Image
@@ -72,13 +72,14 @@ export default function RulesSection(): ReactNode {
           </div>
         </Link>
         <button
-          className="bg-gray-100 lg:transition-all lg:duration-500 lg:hover:bg-gray-200 border lg:rounded-lg rounded-[12px] border-black/10 aspect-square lg:h-40 h-auto lg:w-auto w-[50%] flex items-center justify-center p-4"
+          className="bg-[#f8f8f8] lg:transition-all lg:duration-500 lg:hover:bg-gray-100 border lg:rounded-lg rounded-[12px] border-black/10 aspect-square lg:h-40 h-auto lg:w-auto w-[50%] flex items-center justify-center p-4"
           onClick={() => {
             navigator.clipboard.writeText(qrCodeUrl);
 
             toast({
-              description: 'کپی شد !',
-              title: 'لینک qr code کپی شد !',
+              description: 'لینک تاییدیه هتل خودرا میتوانید به اشتراک بزارید.',
+              title: 'لینک Qr Code کپی شد !',
+              theme: "green"
             });
           }}
         >

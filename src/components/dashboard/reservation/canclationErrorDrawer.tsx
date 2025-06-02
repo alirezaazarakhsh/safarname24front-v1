@@ -36,18 +36,27 @@ export default function CanclationErrorDrawer({
     }
   }, [time, isOpened]);
 
+  // Using useEffect to blur from focused input (just in case)
+  useEffect(() => {
+    const allTextArea = document.querySelectorAll('textarea');
+    const allInput = document.querySelectorAll('input');
+    const allInputElements = [...allTextArea, ...allInput];
+
+    isOpened && allInputElements.forEach((item) => (item.disabled = true));
+  }, [isOpened]);
+
   // Returning JSX
   return (
     <Drawer
       open={isOpened}
+      dismissible={time === 5}
       onClose={() => {
         closeFn && closeFn();
         setTime(0);
       }}
-      dismissible={time === 5}
     >
       <DrawerContent>
-        <DrawerHeader className="px-[24px] py-0 mb-[10px]">
+        <DrawerHeader className='px-[24px] py-0 mb-[10px]'>
           <DrawerTitle
             className={cn(
               'text-[14px] font-bold truncate block text-right',
@@ -57,13 +66,13 @@ export default function CanclationErrorDrawer({
             {title}
           </DrawerTitle>
         </DrawerHeader>
-        <div className="px-[24px] py-0">
-          <DrawerDescription className="text-[14px] font-medium text-black">
+        <div className='px-[24px] py-0'>
+          <DrawerDescription className='text-[14px] font-medium text-black'>
             {description}
           </DrawerDescription>
         </div>
         <DrawerFooter>
-          <div className="bg-gray-100 mt-[10px] overflow-hidden  rounded-[50rem]">
+          <div className='bg-gray-100 mt-[10px] overflow-hidden  rounded-[50rem]'>
             <div
               className={cn(
                 'h-[5px] rounded-[50rem] w-[30%] transition-all duration-500',

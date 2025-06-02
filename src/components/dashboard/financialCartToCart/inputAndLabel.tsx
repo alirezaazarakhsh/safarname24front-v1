@@ -23,18 +23,20 @@ export default function InputAndLabel({
 }: InputAndLabelPropsType): ReactNode {
   // Returning JSX
   return (
-    <div className="w-full">
-      <Label
-        className={cn(
-          'mb-3 block truncate text-right w-full text-xs',
-          validationType === 'text' ? 'font-bold' : 'font-semibold',
-        )}
-        htmlFor={id}
-      >
-        {label}
-      </Label>
+    <div className='w-full'>
+      {label && (
+        <Label
+          className={cn(
+            'mb-3 block truncate text-right w-full text-xs',
+            validationType === 'text' ? 'font-bold' : 'font-semibold',
+          )}
+          htmlFor={id}
+        >
+          {label}
+        </Label>
+      )}
       {validation ? (
-        <div className="flex items-center justify-between gap-3 border border-black/10 rounded-lg overflow-hidden p-3 h-[50px]">
+        <div className='flex items-center justify-between gap-3 border border-black/10 rounded-lg overflow-hidden p-3 h-[50px]'>
           <input
             id={id}
             placeholder={placeholder}
@@ -56,7 +58,7 @@ export default function InputAndLabel({
                     : 'bg-gray-100 text-black/50',
               )}
             >
-              <span className="text-xs font-normal text-current">
+              <span className='text-xs font-normal text-current'>
                 {error ? 'اشتباه است' : validation}
               </span>
             </div>
@@ -69,7 +71,7 @@ export default function InputAndLabel({
               <IconsaxIcons
                 color={'currentColor'}
                 name={isValid ? 'TickSquare' : 'CloseSquare'}
-                className="w-[15px] h-[15px]"
+                className='w-[15px] h-[15px]'
               />
             </div>
           )}

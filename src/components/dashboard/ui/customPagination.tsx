@@ -31,7 +31,7 @@ export default function CustomPagination({
 
   // Defining classname for buttons
   const buttonClassName =
-    "lg:w-10 lg:h-10 w-[37px] h-[37px] lg:rounded-lg rounded-[7px] flex items-center justify-center transition-all duration-500 border data-[active='false']:border-black/20 data-[active='false']:bg-white data-[active='false']:text-black data-[active='true']:border-blue-50 data-[active='true']:bg-blue-50 data-[active='true']:text-blue-500 data-[active='false']:hover:border-blue-50 data-[active='false']:hover:bg-blue-50 data-[active='false']:hover:text-blue-500";
+    "lg:w-10 lg:h-10 w-[37px] h-[37px] lg:rounded-lg rounded-[7px] flex items-center justify-center transition-all duration-500 border data-[active='false']:border-[#d8d8d8] data-[active='false']:bg-white data-[active='false']:text-[#2b2b2b] data-[active='true']:border-blue-50 data-[active='true']:bg-blue-50 data-[active='true']:text-[#4b5bce] data-[active='false']:hover:border-blue-50 data-[active='false']:hover:bg-blue-50 data-[active='false']:hover:text-[#4b5bce]";
 
   // Returning JSX
   return (
@@ -45,7 +45,7 @@ export default function CustomPagination({
       <PaginationContent className="lg:w-auto w-full lg:gap-3 gap-[17px] lg:justify-start justify-center">
         <PaginationItem>
           <button
-            className="lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-gray-50 hover:bg-gray-100"
+            className="lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]"
             onClick={() => {
               const prevIndex = activeIndex - 1;
               if (prevIndex > -1) setActiveIndex(prevIndex);
@@ -65,7 +65,7 @@ export default function CustomPagination({
                 className={buttonClassName}
                 onClick={() => setActiveIndex(0)}
               >
-                <span className="lg:text-sm text-[12px] font-normal text-current">
+                <span className="text-[12px] font-bold text-current">
                   1
                 </span>
               </button>
@@ -76,7 +76,7 @@ export default function CustomPagination({
                 className={buttonClassName}
                 onClick={() => setActiveIndex(1)}
               >
-                <span className="lg:text-sm text-[12px] font-normal text-current">
+                <span className="text-[12px] font-bold text-current">
                   2
                 </span>
               </button>
@@ -93,7 +93,7 @@ export default function CustomPagination({
                 className={buttonClassName}
                 onClick={() => setActiveIndex(count - 1)}
               >
-                <span className="lg:text-sm text-[12px] font-normal text-current">
+                <span className="text-[12px] font-bold text-current">
                   {count}
                 </span>
               </button>
@@ -107,7 +107,7 @@ export default function CustomPagination({
                 className={buttonClassName}
                 onClick={() => setActiveIndex(index)}
               >
-                <span className="lg:text-sm text-[12px] font-normal text-current">
+                <span className="text-[12px] font-bold text-current">
                   {index + 1}
                 </span>
               </button>
@@ -116,7 +116,7 @@ export default function CustomPagination({
         )}
         <PaginationItem>
           <button
-            className="lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-gray-50 hover:bg-gray-100"
+            className="lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]"
             onClick={() => {
               const nextIndex = activeIndex + 1;
               if (nextIndex < count) setActiveIndex(nextIndex);

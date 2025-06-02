@@ -8,12 +8,10 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import Link from 'next/link';
 import { cn } from '@/utils/utils';
 import { ICHashtagUp } from '@/components/icons/ICHashtagUp';
-import { ICDocumentText } from '@/components/icons/ICDocumentText';
 import { ICStatus } from '@/components/icons/ICStatus';
 import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
 import { LatestTicketsTableProps } from '@/types/dashboard/component';
 import { handleZeroBeforeNumber } from '@/utils/string';
-import { ICCup } from '@/components/icons/ICCup';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 // Defining some fake data to render
@@ -83,7 +81,7 @@ export default function LatestTicketsTable({
                 className={cn('px-0 w-8', index === 0 ? 'pt-0 pb-5' : 'py-5')}
               >
                 <div className="h-12 w-8 rounded-md bg-gray-100 flex items-center justify-center">
-                  <span className="font-normal text-cs06 text-black block">
+                  <span className="font-normal text-cs06 text-black block text-num-en">
                     {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>
@@ -96,10 +94,13 @@ export default function LatestTicketsTable({
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
-                    <ICCup className="w-5 h-5 text-black" />
+                    <IconsaxIcons
+                      name="HashtagUp"
+                      className="w-5 h-5 text-black"
+                    />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       شناسه :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -119,7 +120,7 @@ export default function LatestTicketsTable({
                     />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       عنوان :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -136,7 +137,7 @@ export default function LatestTicketsTable({
                     <ICStatus className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       وضعیت :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -191,7 +192,7 @@ export default function LatestTicketsTable({
             <div className="flex items-center justify-between gap-3 mb-[20px]">
               <div className="flex items-center justify-start gap-[10px]">
                 <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center">
-                  <span className="font-bold text-[12px] text-black block">
+                  <span className="font-bold text-[12px] text-black block text-num-en">
                     {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>

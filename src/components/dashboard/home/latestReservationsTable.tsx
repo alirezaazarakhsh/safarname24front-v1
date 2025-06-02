@@ -79,7 +79,7 @@ export default function LatestReservationsTable({
                 className={cn('px-0 w-8', index === 0 ? 'pt-0 pb-5' : 'py-5')}
               >
                 <div className="h-12 w-8 rounded-md bg-gray-100 flex items-center justify-center">
-                  <span className="font-normal text-cs06 text-black block">
+                  <span className="font-normal text-cs06 text-black block text-num-en">
                     {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>
@@ -95,7 +95,7 @@ export default function LatestReservationsTable({
                     <ICBank className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       نام هتل :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -112,7 +112,7 @@ export default function LatestReservationsTable({
                     <ICMoneyTick className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       مبلغ :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -129,7 +129,7 @@ export default function LatestReservationsTable({
                     <ICStatus className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <span className="text-cs75 font-medium text-black truncate block text-right mb-1">
+                    <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       وضعیت :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
@@ -200,7 +200,7 @@ export default function LatestReservationsTable({
             <div className="flex items-center justify-between gap-3 mb-[20px]">
               <div className="flex items-center justify-start gap-[10px]">
                 <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center">
-                  <span className="font-bold text-[12px] text-black block">
+                  <span className="font-bold text-[12px] text-black block text-num-en">
                     {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>

@@ -8,6 +8,7 @@ import IconsaxIcons from '../icons/iconsaxIcons';
 import moment from 'jalali-moment';
 import { motion } from 'framer-motion';
 import { cn } from '@/utils/utils';
+import DeleteNotificationDialog from './dialog/deleteNotificationDialog';
 
 // Creating and exporting Notification component as default
 export default function Notification({
@@ -16,22 +17,28 @@ export default function Notification({
 }: NotificationComponentPropsType): ReactNode {
   // Defining state of component
   const [opened, setOpened] = useState<boolean>(false);
+  const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
 
   // Returning JSX
   return (
     <div className={cn('overflow-hidden', className)}>
-      <div
-        className="flex items-start justify-between gap-4 mb-3 cursor-pointer"
-        onClick={() => setOpened((prev) => !prev)}
-      >
-        <span className="text-cs85 font-medium text-right block w-full text-black line-clamp-2">
+      <DeleteNotificationDialog
+        isOpened={deleteDialogOpened}
+        closeFn={() => setDeleteDialogOpened(false)}
+      />
+      <div className="flex lg:items-start items-center justify-between gap-4 lg:mb-3 mb-[15px] cursor-pointer">
+        <span className="lg:text-cs85 text-[12px] lg:font-bold font-semibold text-right block w-full text-[#2b2b2b] lg:line-clamp-2 line-clamp-1">
           {data.title}
         </span>
-        <div className="flex items-center justify-between gap-3 shrink-0">
-          <button>
-            <IconsaxIcons name="Trash" color="black" className="w-4 h-4" />
+        <div className="flex items-center justify-between lg:gap-3 gap-[10px] shrink-0">
+          <button onClick={() => setDeleteDialogOpened(true)}>
+            <IconsaxIcons
+              name="Trash"
+              color="black"
+              className="lg:w-4 lg:h-4 w-[18px] h-[18px]"
+            />
           </button>
-          <button>
+          <button onClick={() => setOpened((prev) => !prev)}>
             <IconsaxIcons
               name="ArrowUp2"
               color="black"
@@ -47,12 +54,12 @@ export default function Notification({
         animate={{ height: opened ? 'auto' : '0' }}
         className="overflow-hidden"
       >
-        <p className="text-cs75 text-gray-500 font-normal text-right mb-3">
+        <p className="lg:text-cs75 text-[12px] text-gray-500 font-normal text-right lg:mb-3 mb-[12px]">
           {data.content}
         </p>
       </motion.div>
-      <div className="flex items-center justify-start gap-3 flex-wrap">
-        <span className="text-cs07 block text-gray-500 font-normal text-right">
+      <div className="flex items-center justify-start lg:gap-3 gap-[15px] flex-wrap">
+        <span className="lg:text-cs07 text-[12px] block text-gray-500 font-normal text-right">
           {moment(data.createdAt).locale('fa').format('jYYYY/jMM/jDD')}
         </span>
         {data.status !== 'seen' && (

@@ -18,42 +18,42 @@ const data: {
   href?: `/${string}` | '/';
   type: 'link' | 'profile-toggler';
 }[] = [
-  {
-    icon: 'Home2',
-    title: 'خانه',
-    href: '/dashboard',
-    type: 'link',
-  },
-  {
-    icon: 'Heart',
-    title: 'علاقه مندی ها',
-    href: '/dashboard/favorites',
-    type: 'link',
-  },
-  {
-    icon: 'Flash',
-    title: 'بهترین هتل ها',
-    href: '/best-hotels',
-    type: 'link',
-  },
-  {
-    icon: 'Messages3',
-    title: 'چت تایم ',
-    href: '/dashboard/tickets',
-    type: 'link',
-  },
-  {
-    icon: 'Profile2User',
-    title: 'پروفایل کاربری',
-    type: 'profile-toggler',
-  },
-];
+    {
+      icon: 'Home2',
+      title: 'خانه',
+      href: '/dashboard',
+      type: 'link',
+    },
+    {
+      icon: 'Heart',
+      title: 'علاقه مندی ها',
+      href: '/dashboard/favorites',
+      type: 'link',
+    },
+    {
+      icon: 'Flash',
+      title: 'بهترین هتل ها',
+      href: '/best-hotels',
+      type: 'link',
+    },
+    {
+      icon: 'Messages3',
+      title: 'چت تایم ',
+      href: '/dashboard/tickets',
+      type: 'link',
+    },
+    {
+      icon: 'Profile2User',
+      title: 'پروفایل کاربری',
+      type: 'profile-toggler',
+    },
+  ];
 
 // Creating and exporting MobileNav component as defualt
 export default function MobileNav(): ReactNode {
   // Defining hooks
   const pathname = usePathname();
-  const hideMobileNavUrls = ['/dashboard'];
+  const showNavInUrls = ['/dashboard'];
 
   // Defining states of component
   const [profileOpened, setProfileOpened] = useState<boolean>(false);
@@ -81,7 +81,7 @@ export default function MobileNav(): ReactNode {
   }, [lastScrollTop]);
 
   // returning JSX
-  if (hideMobileNavUrls.includes(pathname)) return false;
+  if (!showNavInUrls.includes(pathname)) return false;
   else {
     return (
       <nav
@@ -100,13 +100,13 @@ export default function MobileNav(): ReactNode {
             >
               <IconsaxIcons
                 name={item.icon}
-                className="w-[17px] h-[17px]"
-                color="currentColor"
+                className='w-[17px] h-[17px]'
+                color='currentColor'
                 variant={
                   pathname === item.href && !profileOpened ? 'Bold' : 'Outline'
                 }
               />
-              <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+              <span className='block w-full truncate text-center text-[10px] font-semibold text-current'>
                 {item.title}
               </span>
             </Link>
@@ -126,11 +126,11 @@ export default function MobileNav(): ReactNode {
               >
                 <IconsaxIcons
                   name={item.icon}
-                  className="w-[17px] h-[17px]"
-                  color="currentColor"
+                  className='w-[17px] h-[17px]'
+                  color='currentColor'
                   variant={profileOpened ? 'Bold' : 'Outline'}
                 />
-                <span className="block w-full truncate text-center text-[10px] font-semibold text-current">
+                <span className='block w-full truncate text-center text-[10px] font-semibold text-current'>
                   {item.title}
                 </span>
               </button>

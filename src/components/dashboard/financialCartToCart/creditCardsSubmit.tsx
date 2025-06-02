@@ -80,7 +80,7 @@ export default function CreditCardsSubmit({
         disabled={!selectedCreditCard || isSubmitting}
         onClick={() => selectedCreditCard && onSubmit()}
         className={
-          'transition-all duration-500 lg:rounded-lg rounded-[10px] flex items-center justify-center lg:px-3 lg:py-3 px-[20px] py-0 lg:h-auto h-[50px] bg-green-500 hover:bg-green-600  text-white disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 shrink-0 w-full lg:font-normal font-semibold truncate text-center lg:text-xs text-[12px]'
+          'transition-all duration-500 lg:rounded-lg rounded-[10px] flex items-center justify-center lg:px-3 lg:py-3 px-[20px] py-0 lg:h-[40px] h-[50px] bg-green-500 hover:bg-green-600  text-white disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 shrink-0 w-full lg:font-normal font-semibold truncate text-center lg:text-xs text-[12px]'
         }
       >
         {isSubmitting ? <Loading /> : 'ارسال اطلاعات (کارت به کارت)'}

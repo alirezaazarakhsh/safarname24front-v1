@@ -8,6 +8,7 @@ import { ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import 'swiper/css';
 import '@/styles/scrollbar.css';
+import '@/styles/dashboard.css';
 import Page from '@/components/dashboard/page';
 
 // Defining some variables to user later
