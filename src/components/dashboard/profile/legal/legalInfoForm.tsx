@@ -56,7 +56,7 @@ export default function LegalInfoForm({
           {...form.register('id')}
         />
         <NormalInput
-          placeholder='* شماره ثبت شرکت خود را وارد نمایید'
+          placeholder='شماره ثبت شرکت خود را وارد نمایید'
           required
           type='text'
           error={form.formState.errors.registrationId?.message}
@@ -82,7 +82,7 @@ export default function LegalInfoForm({
         <NormalInput
           placeholder='ایمیل شرکت خود را وارد نمایید'
           type='email'
-          error={form.formState.errors.postCode?.message}
+          error={form.formState.errors.email?.message}
           noErrorText
           {...form.register('email')}
         />

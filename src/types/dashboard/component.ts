@@ -556,3 +556,7 @@ export interface LegalInfoFormComponentPropsType {
 export interface DescriptionProfileComponentPropsType {
   className?: string;
 }
+
+export interface LegalNotesProfileComponentPropsType {
+  className?: string;
+}

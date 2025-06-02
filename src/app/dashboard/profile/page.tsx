@@ -15,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import LegalBankInfo from '@/components/dashboard/profile/legal/legalBankInfo';
 import LegalInfoForm from '@/components/dashboard/profile/legal/legalInfoForm';
 import Upload from '@/components/dashboard/financialCartToCart/upload';
+import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -147,11 +148,9 @@ export default function ProfilePage(): ReactNode {
               className='col-span-2 h-[458px] overflow-auto scrollbar-hide'
               form={legalForm}
             />
-            <div className='col-span-4'>
-              <Upload
-                onChange={(file) => setFile(file)}
-                className='col-span-2  h-[350px]'
-              />
+            <div className='col-span-4 flex gap-5'>
+              <Upload onChange={(file) => setFile(file)} className='w-[50%]' />
+              <LegalNotes className='w-[50%]' />
             </div>
           </>
         )}
