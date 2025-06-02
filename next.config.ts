@@ -1,7 +1,17 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        port: '',
+        search: '',
+        protocol: 'http',
+        // pathname: '/media/images/**',
+        hostname: 'cps.safarnameh24.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

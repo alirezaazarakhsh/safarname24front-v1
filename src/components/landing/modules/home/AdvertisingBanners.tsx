@@ -1,39 +1,60 @@
+'use client';
+
 import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
 
-type Props = { banners: string[] };
+import { generalInstance } from '@/utils/services';
+import { Skeleton } from '@/components/ui/skeleton';
 
-// -----------------------------------------------
+type Data = {
+  order: number;
+  image: string;
+  link: string | null;
+};
 
-export function AdvertisingBanners(props: Props) {
-  const { banners } = props;
+type ApiResponse = {
+  data: { banners: Data[] };
+};
+
+// --------------------------
+
+export function AdvertisingBanners() {
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['config-banners'],
+    queryFn: () => generalInstance('/config/banners?page=1'),
+  });
+
+  if (status !== 'pending' && !data?.data?.banners?.length) return null;
 
   return (
-    <div className="hidden grid-cols-2 items-end gap-8 xl:grid">
-      {/* Right-Banner */}
-      <div>
-        {banners[0] && (
+    <div className="hidden -my-4 grid-cols-2 items-end gap-8 xl:grid">
+      {status === 'pending' ? (
+        <Skeleton className="h-60 rounded-2xl" />
+      ) : (
+        data?.data.banners[0].image && (
           <Image
             width={600}
             height={300}
-            src={banners[0]}
             alt="graphical-hotel"
+            src={data?.data.banners[0].image}
             className="full-size object-contain"
           />
-        )}
-      </div>
+        )
+      )}
 
-      {/* Left-Banner */}
-      <div>
-        {banners[1] && (
+      {status === 'pending' ? (
+        <Skeleton className="h-60 rounded-2xl" />
+      ) : (
+        data?.data.banners[1].image && (
           <Image
             width={600}
             height={300}
-            src={banners[1]}
             alt="graphical-hotel"
+            src={data?.data.banners[1].image}
             className="full-size object-contain"
           />
-        )}
-      </div>
+        )
+      )}
     </div>
   );
 }

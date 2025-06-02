@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react';
 import { Profile2User } from 'iconsax-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import Link from 'next/link';
 import { useMediaQuery } from '@/hooks';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import NavigationBarItem from './NavigationBarItem';
 import { useUserAccountContext } from '@/context/UserAccountContext';
-import Link from 'next/link';
 
 // ---------------------------------------
 

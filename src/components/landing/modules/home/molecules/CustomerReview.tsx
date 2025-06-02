@@ -5,21 +5,17 @@ import 'react-circular-progressbar/dist/styles.css';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 
 type Props = {
-  review: {
-    id: number;
-    image: string;
-    fullname: string;
-    rate: number;
-    desc: string;
-  };
+  rate: number;
+  text: string;
+  commenter: string;
+  evaluation: string;
+  commenter_image: string;
 };
 
 // ------------------------------------------------
 
 export default function CustomerReview(props: Props) {
-  const {
-    review: { desc, fullname, image, rate },
-  } = props;
+  const { text, commenter, commenter_image, rate, evaluation } = props;
 
   function exportBasedOnImport(
     rate: number,
@@ -50,11 +46,11 @@ export default function CustomerReview(props: Props) {
       <div className="h-12 flex gap-3">
         {/* Image */}
         <div className="relative bg-zinc-100 w-12 overflow-hidden rounded-lg">
-          {image && (
+          {commenter_image && (
             <Image
               width={100}
               height={100}
-              src={image}
+              src={commenter_image}
               alt="customer-avatar"
               className="full-size object-cover"
             />
@@ -64,12 +60,13 @@ export default function CustomerReview(props: Props) {
         {/* Full-Name | Vote-Type */}
         <div className="flex flex-col justify-center gap-1">
           <span className="max-w-32 text-zinc-800 text-cs85 font-bold truncate">
-            {fullname}
+            {commenter}
           </span>
+
           <span
             className={`text-cs08 font-semibold ${exportBasedOnImport(rate, 'colorText')}`}
           >
-            {exportBasedOnImport(rate, 'text')}
+            {evaluation}
           </span>
         </div>
 
@@ -78,15 +75,15 @@ export default function CustomerReview(props: Props) {
           <CircularProgressbar
             value={rate}
             maxValue={5}
-            text={`${rate}`}
             strokeWidth={9}
+            text={`${Number(rate)}`}
+            className="font-extrabold"
             styles={buildStyles({
-              textSize: '24px',
+              textSize: '30px',
               textColor: `${exportBasedOnImport(rate, 'color')}`,
               trailColor: '#f4f4f5',
               pathColor: `${exportBasedOnImport(rate, 'color')}`,
             })}
-            className="font-extrabold"
           />
         </div>
       </div>
@@ -96,7 +93,7 @@ export default function CustomerReview(props: Props) {
 
       {/* Description */}
       <p className="text-zinc-500 text-cs08/5 text-justify font-medium line-clamp-6">
-        {desc}
+        {text}
       </p>
 
       {/* Stars */}
