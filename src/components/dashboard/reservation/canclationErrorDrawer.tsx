@@ -38,11 +38,21 @@ export default function CanclationErrorDrawer({
 
   // Using useEffect to blur from focused input (just in case)
   useEffect(() => {
-    const allTextArea = document.querySelectorAll('textarea');
-    const allInput = document.querySelectorAll('input');
-    const allInputElements = [...allTextArea, ...allInput];
+    const handleFocusIn = (e: FocusEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target &&
+        (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')
+      ) {
+        target.blur();
+      }
+    };
 
-    isOpened && allInputElements.forEach((item) => (item.disabled = true));
+    isOpened
+      ? document.addEventListener('focusin', handleFocusIn)
+      : document.removeEventListener('focusin', handleFocusIn);
+
+    return () => document.removeEventListener('focusin', handleFocusIn);
   }, [isOpened]);
 
   // Returning JSX
