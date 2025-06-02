@@ -25,10 +25,15 @@ const formSchema = z.object({
   tell: z.string().regex(/^09\d{9}$/, {
     message: 'شماره تلفن باید با 09 شروع شده و ۱۱ رقم باشد',
   }),
-  email: z.string().email({ message: 'ایمیل وارد شده معتبر نیست' }).optional(),
+  email: z
+    .string()
+    .email({ message: 'ایمیل وارد شده معتبر نیست' })
+    .or(z.literal(''))
+    .optional(),
   postCode: z
     .string()
     .length(10, { message: 'کد پستی باید ۱۰ رقم باشد' })
+    .or(z.literal(''))
     .optional(),
   creditCard: z.string().length(15, { message: 'شماره کارت باید ۱۶ رقم باشد' }),
   shabaNumber: z
@@ -37,6 +42,7 @@ const formSchema = z.object({
   address: z
     .string()
     .min(5, { message: 'کمترین مقدار ادرس 5 کارکتر میباشد' })
+    .or(z.literal(''))
     .optional(),
 });
 
