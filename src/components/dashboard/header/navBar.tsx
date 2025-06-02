@@ -241,7 +241,7 @@ export default function NavBar(): ReactNode {
             </DropDown.DropdownMenu>
           ),
         )}
-        {pathnameExistsInData && (
+        {activeLinkIndex !== -1 && (
           <div
             className='absolute h-[1.5px] rounded-[45rem] top-[98%] right-0 bg-cs-red transition-all duration-500 ease-in-out pointer-events-none'
             style={{

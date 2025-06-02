@@ -220,6 +220,7 @@ export interface CreditCardSelectionComponentPropsType {
 
 export interface UploadComponentPropsType {
   onChange: (file: File | undefined) => void;
+  className?: string;
 }
 
 export interface EmergenciesComponentPropsType {
@@ -512,6 +513,19 @@ export interface PersonalInfoType {
   shabaNumber: string;
 }
 
+export interface LegalInfoType {
+  name: string;
+  id: string;
+  registrationId: string;
+  economicCode: string;
+  tell: string;
+  email?: string;
+  address?: string;
+  postCode: string;
+  creditCard: string;
+  shabaNumber: string;
+}
+
 export interface PersonalInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<PersonalInfoType>;
@@ -521,6 +535,7 @@ export interface NormalInputComponentPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   wholeClassName?: string;
+  noErrorText?: boolean;
 }
 
 export interface BankInfoFormComponentPropsType {
@@ -528,6 +543,21 @@ export interface BankInfoFormComponentPropsType {
   form: UseFormReturn<PersonalInfoType>;
 }
 
+export interface LegalBankInfoFormComponentPropsType {
+  className?: string;
+  form: UseFormReturn<LegalInfoType>;
+  documentImage?: File;
+}
+
+export interface LegalInfoFormComponentPropsType {
+  className?: string;
+  form: UseFormReturn<LegalInfoType>;
+}
+
 export interface DescriptionProfileComponentPropsType {
+  className?: string;
+}
+
+export interface LegalNotesProfileComponentPropsType {
   className?: string;
 }

@@ -38,12 +38,13 @@ export default function PersonalInfoForm({
           </p>
         </div>
       </div>
-      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] grid grid-cols-2 gap-6'>
+      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] grid lg:grid-cols-2 lg:gap-6 gap-[15px]'>
         <NormalInput
           placeholder='نام خود را وارد نمایید'
           required
           type='text'
           error={form.formState.errors.name?.message}
+          noErrorText
           {...form.register('name')}
         />
         <NormalInput
@@ -51,6 +52,7 @@ export default function PersonalInfoForm({
           required
           type='text'
           error={form.formState.errors.meliCode?.message}
+          noErrorText
           {...form.register('meliCode')}
         />
         <NormalInput
@@ -58,12 +60,14 @@ export default function PersonalInfoForm({
           required
           type='text'
           error={form.formState.errors.fullName?.message}
+          noErrorText
           {...form.register('fullName')}
         />
         <NormalInput
           placeholder='ایمیل خود را وارد نمایید'
           type='email'
           error={form.formState.errors.email?.message}
+          noErrorText
           {...form.register('email')}
         />
         <NormalInput
@@ -71,12 +75,14 @@ export default function PersonalInfoForm({
           type='tell'
           required
           error={form.formState.errors.tell?.message}
+          noErrorText
           {...form.register('tell')}
         />
         <NormalInput
           placeholder='کد پستی خود را وارد نمایید'
           type='text'
           error={form.formState.errors.postCode?.message}
+          noErrorText
           {...form.register('postCode')}
         />
       </div>
