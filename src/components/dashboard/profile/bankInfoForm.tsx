@@ -25,30 +25,23 @@ export default function BankInfoForm({
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    acceptedFiles,
-    inputRef,
-    rootRef,
-    isFileDialogActive,
-  } = useDropzone({
-    maxFiles: 1,
-    maxSize: 10 * 1024 * 1024, // 30MB in bytes
-    onDropRejected: () => {
-      toast({
-        title: 'خطایی رخ داد!',
-        description: 'مشتری گرامی حداکثر اپلود عکس 10MB هست.',
-      });
-    },
-    onDropAccepted: (files) => {
-      setFile(files[0]);
-    },
-    accept: {
-      'image/*': [],
-    },
-  });
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
+    useDropzone({
+      maxFiles: 1,
+      maxSize: 10 * 1024 * 1024, // 30MB in bytes
+      onDropRejected: () => {
+        toast({
+          title: 'خطایی رخ داد!',
+          description: 'مشتری گرامی حداکثر اپلود عکس 10MB هست.',
+        });
+      },
+      onDropAccepted: (files) => {
+        setFile(files[0]);
+      },
+      accept: {
+        'image/*': [],
+      },
+    });
 
   // Defining a function to handle submit event
   const submitHandleFunction: SubmitHandler<PersonalInfoType> = async (
@@ -59,7 +52,7 @@ export default function BankInfoForm({
   };
 
   // Defining variables
-  const slicedCreditCardNumber = form.watch('creditCard').slice(0, 6);
+  const slicedCreditCardNumber = form.getValues('creditCard');
   const bankName = banks[slicedCreditCardNumber];
 
   // Returning JSX
