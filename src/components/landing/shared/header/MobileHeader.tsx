@@ -51,7 +51,7 @@ export default function MobileHeader() {
       {/* Logo | Titles */}
       <div className="flex items-center gap-3">
         {status === 'pending' ? (
-          <Skeleton className="w-14 h-14" />
+          <Skeleton className="w-14 h-14 mt-2" />
         ) : (
           <Link
             href={'/'}
@@ -70,7 +70,7 @@ export default function MobileHeader() {
         )}
 
         {status === 'pending' ? (
-          <div className="space-y-3">
+          <div className="space-y-3 mt-2">
             <Skeleton className="w-40 h-4" />
             <Skeleton className="w-40 h-4" />
           </div>

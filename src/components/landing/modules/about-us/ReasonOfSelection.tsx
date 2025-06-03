@@ -71,6 +71,7 @@ export function ReasonOfSelection() {
                 {item.image && (
                   <Image
                     fill
+                    sizes='500'
                     src={item.image}
                     alt="image-reason"
                     className="full-size object-cover"

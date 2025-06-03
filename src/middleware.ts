@@ -1,12 +1,23 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const comingSoonIsActive = false;
+let comingSoonIsActive = false;
 
 // =====================================
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Fetching ComingSoon-Data for Activate
+  try {
+    const response = await fetch(
+      'https://cps.safarnameh24.com/api/v1/config/coming-soon/',
+    );
+    const json = await response.json();
+    comingSoonIsActive = json.data.is_active;
+  } catch (error) {
+    // console.error(error);
+  }
 
   const isSystemPath =
     pathname.startsWith('/_next') ||

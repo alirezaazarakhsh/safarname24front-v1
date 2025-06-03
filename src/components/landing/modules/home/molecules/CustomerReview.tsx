@@ -89,15 +89,15 @@ export default function CustomerReview(props: Props) {
       </div>
 
       {/* Separator */}
-      <div className="bg-zinc-200 h-[1px] my-5 rounded"></div>
+      <div className="bg-zinc-200 h-[1px] my-4 rounded"></div>
 
       {/* Description */}
-      <p className="text-zinc-500 text-cs08/5 text-justify font-medium line-clamp-6">
+      <p className="h-[7.5rem] text-zinc-500 text-cs08/5 text-justify font-medium line-clamp-6">
         {text}
       </p>
 
       {/* Stars */}
-      <div className="relative w-max mt-6 mb-2 mx-auto flex-center gap-1.5">
+      <div className="relative w-max mt-4 mx-auto flex-center gap-1.5">
         {/* All-Stars */}
         {[1, 2, 3, 4, 5].map((_) => (
           <Star1

@@ -8,19 +8,21 @@ import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type Data = {
   value: string;
-  icon: IconsName;
   show_in_footer: boolean;
+  icon: { svg_code: string };
 };
 
 type ApiResponse = { data: Data[] };
 
-// ----------------------------------------
+// ------------------------------
 
 export default function CommunicationWays() {
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['contact-info'],
     queryFn: () => generalInstance('/config/contact-info'),
   });
+
+  // console.log(data?.data);
 
   if (isEmptyOrInvalid({ data, status })) return null;
 
@@ -52,9 +54,9 @@ export default function CommunicationWays() {
 // ----------------------------------------
 
 type CommunicationWayProps = {
-  icon: IconsName;
   children: React.ReactNode;
   type: 'phone' | 'email' | 'address';
+  icon: { svg_code: string };
 };
 
 function CommunicationWay(props: CommunicationWayProps) {
@@ -63,7 +65,12 @@ function CommunicationWay(props: CommunicationWayProps) {
   return (
     <div className="bg-zinc-100 w-full h-14 p-2.5 flex items-center gap-3 rounded-cs-10">
       <div className="bg-zinc-200 w-10 aspect-square flex-center rounded-lg">
-        <IconsaxIcons name={icon} size={19} />
+        {/* <IconsaxIcons name={icon} size={19} /> */}
+
+        <div
+          dangerouslySetInnerHTML={{ __html: icon.svg_code }}
+          aria-hidden="true"
+        />
       </div>
 
       <div

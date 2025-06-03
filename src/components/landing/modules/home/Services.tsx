@@ -16,8 +16,8 @@ import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type Data = {
   title: string;
-  icon: IconsName;
   subtitle: string;
+  icon: { svg_code: string; url: string };
 };
 
 type ApiResponse = {
@@ -85,8 +85,9 @@ function Service(props: Data) {
 
   return (
     <div className="relative bg-white p-5 flex flex-col gap-2 rounded-xl shadow-[0_1rem_1rem_rgba(0,0,0,0.02)] transition-all duration-300 delay-100 ease-in-out group xl:bg-[#F8F8F8] xl:shadow-none xl:hover:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.08)]">
-      <div className="bg-cs-red/20 w-12 h-12 mb-2 flex-center rounded-cs-10">
-        <IconsaxIcons name={icon} size={24} color="#f30f26" />
+      <div className="bg-cs-red/20 w-12 h-12 mb-2 p-2.5 flex-center rounded-cs-10">
+        {/* <IconsaxIcons name={icon} size={24} color="#f30f26" /> */}
+        <img src={icon.url} />
       </div>
 
       <span className="text-zinc-800 text-cs85 font-bold xl:text-cs09">
