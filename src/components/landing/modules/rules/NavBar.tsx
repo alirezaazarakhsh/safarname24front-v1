@@ -1,16 +1,17 @@
 'use client';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 import { useMediaQuery } from '@/hooks';
 import { useEffect, useRef } from 'react';
 
-import 'swiper/css';
-import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 
 type Props = {
   activeSection: string;
-  navList: Array<{ id: string; title: string }>;
+  navList?: Array<{ id: string; tab_title: string }>;
 };
 
 // --------------------------------------------
@@ -24,7 +25,7 @@ export function NavBar(props: Props) {
   // ====== Handle Click-Scroll
   const scrollToWithOffset = (id: string) => {
     const element = document.getElementById(id.toString());
-    if (!element) return;
+    if (!element || !navList) return;
 
     const offset = isDesktop ? 190 : id === navList[0]?.id ? 30 : 75;
     const y = element.getBoundingClientRect().top + window.pageYOffset - offset;
@@ -34,6 +35,8 @@ export function NavBar(props: Props) {
 
   // ====== Auto Slide-Change
   useEffect(() => {
+    if (!swiperRef.current || !navList) return;
+
     if (swiperRef.current && activeSection) {
       const index = navList.findIndex((nav) => nav.id === activeSection);
       if (index !== -1) swiperRef.current.slideTo(index);
@@ -69,7 +72,7 @@ export function NavBar(props: Props) {
               className={`relative bg-white h-full text-cs08 font-bold pt-2 flex-center cursor-pointer rounded-lg transition-colors duration-300 ease-in-out lg:px-4 lg:pt-0 lg:border ${activeSection === nav.id ? 'text-red-500 lg:bg-cs-red/10 lg:border-cs-red' : 'text-zinc-400 lg:bg-transparent lg:border-transparent'}`}
               onClick={() => scrollToWithOffset(nav.id)}
             >
-              {nav.title}
+              {nav.tab_title}
 
               {/* Small-Device Flag */}
               <div

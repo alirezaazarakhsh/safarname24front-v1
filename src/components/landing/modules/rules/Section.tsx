@@ -6,8 +6,8 @@ import { useMediaQuery } from '@/hooks';
 interface Props {
   section: {
     id: string;
-    desc: string;
-    title: string;
+    text: string;
+    tab_title: string;
   };
   sectionIsFirst: boolean;
   durationOfStudy: number;
@@ -23,7 +23,7 @@ export function Section(props: Props) {
     firstSectionID,
     durationOfStudy,
     setActiveSection,
-    section: { id, desc, title },
+    section: { id, text, tab_title },
   } = props;
 
   const isDesktop = useMediaQuery('(min-width: 1024px)');
@@ -55,7 +55,7 @@ export function Section(props: Props) {
     >
       <div className="flex-between items-center gap-4">
         <span className="text-zinc-800 text-[clamp(0.85rem,2vw,0.9rem)] font-bold lg:text-base">
-          {title}
+          {tab_title}
         </span>
 
         {sectionIsFirst && durationOfStudy && (
@@ -69,7 +69,7 @@ export function Section(props: Props) {
       </div>
 
       <p className="text-zinc-600 text-cs85/6 text-justify font-medium lg:text-cs09/7">
-        {desc}
+        {text}
       </p>
     </div>
   );

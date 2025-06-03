@@ -27,7 +27,7 @@
   }
 }
 
-/* ======================================= */
+/* ============================== */
 
 .loader-dots-dark {
   width: 2.8px;
@@ -58,6 +58,8 @@
   }
 }
 
+/* ============================== */
+
 .skeleton {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
@@ -71,5 +73,50 @@
 
   100% {
     background-position: 100% 0;
+  }
+}
+
+/* ============================== */
+
+.bars {
+  width: 64.8px;
+  height: 57.6px;
+  --c: linear-gradient(#4a4a4a 0 0);
+  background:
+    var(--c) 0% 100%,
+    var(--c) 50% 100%,
+    var(--c) 100% 100%;
+  background-size: 13px 100%;
+  background-repeat: no-repeat;
+  animation: bars-mbi2jdlg 1s infinite linear;
+}
+
+@keyframes bars-mbi2jdlg {
+  20% {
+    background-size:
+      13px 60%,
+      13px 100%,
+      13px 100%;
+  }
+
+  40% {
+    background-size:
+      13px 80%,
+      13px 60%,
+      13px 100%;
+  }
+
+  60% {
+    background-size:
+      13px 100%,
+      13px 80%,
+      13px 60%;
+  }
+
+  80% {
+    background-size:
+      13px 100%,
+      13px 100%,
+      13px 80%;
   }
 }

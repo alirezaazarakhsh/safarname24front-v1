@@ -38,6 +38,8 @@ export function SocialMedias() {
     queryFn: () => generalInstance('/config/social-media'),
   });
 
+  console.log(data?.data)
+
   if (isEmptyOrInvalid({ data, status })) return null;
 
   return (

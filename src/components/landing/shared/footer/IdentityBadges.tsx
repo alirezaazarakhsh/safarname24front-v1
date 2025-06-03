@@ -48,21 +48,30 @@ export default function IdentityBadges() {
         </div>
       ) : (
         <div className="w-full mt-4 mb-2 grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4 lg:grid-cols-3">
-          {licenses?.map((badge, index) => (
-            <Link
-              key={index}
-              href={badge.link}
-              className="bg-zinc-100 h-28 p-4 flex-center overflow-hidden rounded-cs-10"
-            >
-              <Image
-                width={200}
-                height={200}
-                src={badge.image}
-                alt="identity-badge"
-                className="full-size object-contain"
-              />
-            </Link>
-          ))}
+          {licenses?.map(
+            (badge, index) => (
+              // badge.link && (
+              //   <Link
+              //     key={index}
+              //     href={badge.link}
+              //     className="bg-zinc-100 h-28 p-4 flex-center overflow-hidden rounded-cs-10"
+              //   >
+              <div
+                key={index}
+                className="bg-zinc-100 h-28 p-4 flex-center overflow-hidden rounded-cs-10"
+              >
+                <Image
+                  width={200}
+                  height={200}
+                  src={badge.image}
+                  alt="identity-badge"
+                  className="full-size object-contain"
+                />
+              </div>
+            ),
+            //   </Link>
+            // ),
+          )}
 
           {enamadResponse?.data && (
             <div

@@ -8,12 +8,12 @@ import {
 } from '@/components/ui/accordion';
 
 import Image from 'next/image';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { TopBarConfig } from '../../shared';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
-import { useState } from 'react';
 
 type Data = {
   image: string;
