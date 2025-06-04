@@ -5,39 +5,23 @@
 
 // Importing part
 import Loading from '@/components/dashboard/ui/loading';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { ReactNode } from 'react';
 
 // Defining type of returned data from api
-type TodoAPIReturnType = {
+type ApiReturnedType = {
   userId: number;
   id: number;
   title: string;
-  completed: boolean;
+  complete: boolean;
 }[];
-
-// Defining fetching scripts
-// Creating an instance for better axios support
-const axiosInstance = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// A fetching function to do the fetch which has to be asnc and return typed value of fetched data
-const fetchTodos = async (): Promise<TodoAPIReturnType[]> => {
-  const res = await axiosInstance.get<TodoAPIReturnType[]>('/todos');
-  return res.data;
-};
 
 // Creating and exporting ApiTest page as default
 export default function ApiTest(): ReactNode {
   // Defining react query
-  const todos = useQuery<TodoAPIReturnType[]>({
-    queryKey: ['todos'],
-    queryFn: fetchTodos,
+  const todos = useApiQuery<ApiReturnedType>({
+    url: 'https://jsonplaceholder.typicode.com/todos',
+    queryKey: ['publicTodos', 'todo'],
   });
 
   // Returning JSX
