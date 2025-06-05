@@ -17,6 +17,7 @@ import {
 
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 const formSchema = z.object({
   otp: z.string().min(4),
@@ -35,6 +36,10 @@ export default function OTPVerification(props: Props) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isSubmitted, setSubmitted] = useState(false);
 
+  const authLocalStorage = useLocalStorage({
+    value: 'AUTH_VALUE',
+  });
+
   // Get Encrypted PhoneNumber
   useEffect(() => {
     const encryptedPhoneNumber = Cookies.get('UPN');
@@ -49,8 +54,11 @@ export default function OTPVerification(props: Props) {
 
   const otp = form.watch('otp');
 
-  // Defining a function
-  const submitPost = useApiMutation({
+  // Defining a mutataion function
+  const submitPost = useApiMutation<{
+    access: string;
+    refresh: string;
+  }>({
     url: '/token/',
     method: 'post',
     options: {
@@ -59,7 +67,7 @@ export default function OTPVerification(props: Props) {
           message: 'مشکلی پیش امد. لطفا مجددا تلاش کنید.',
         });
       },
-      onSuccess: () => {
+      onSuccess: (data) => {
         Cookies.set('AUTH', form.getValues('otp'), {
           path: '/',
           expires: 3,
@@ -67,7 +75,16 @@ export default function OTPVerification(props: Props) {
           sameSite: 'Strict',
         });
 
-        // window.location.reload();
+        authLocalStorage.setData(
+          JSON.stringify({
+            otp: form.getValues('otp'),
+            phoneNumber: Cookies.get('UPN'),
+            accessUID: data.access,
+            refreshUID: data.refresh,
+          }),
+        );
+
+        window.location.reload();
       },
     },
   });
@@ -87,7 +104,7 @@ export default function OTPVerification(props: Props) {
     const phone = Cookies.get('UPN');
     const otp = values.otp;
 
-    submitPost.mutate({ phone, otp });
+    submitPost.mutate({ otp, phone: `0${phone}` });
   }
 
   return (
@@ -132,7 +149,14 @@ export default function OTPVerification(props: Props) {
             )}
           />
 
-          <ResendOTPToken />
+          <ResendOTPToken
+            handleMutate={() => {
+              const phone = Cookies.get('UPN');
+              const otp = form.getValues('otp');
+
+              submitPost.mutate({ otp, phone: `0${phone}` });
+            }}
+          />
         </div>
 
         {/* Edit-Phone-Number */}

@@ -4,12 +4,18 @@ import { GrRotateLeft } from 'react-icons/gr';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --------------------------------------------
+interface propsType {
+  handleMutate: () => void;
+}
 
-const ResendOTPToken = memo(function ResendOTPToken() {
+const ResendOTPToken = memo(function ResendOTPToken({
+  handleMutate,
+}: propsType) {
   const [countDownKey, setCountDownKey] = useState(0);
 
   function resetCountDown() {
     setCountDownKey((prev) => prev + 1);
+    handleMutate();
   }
 
   return (
