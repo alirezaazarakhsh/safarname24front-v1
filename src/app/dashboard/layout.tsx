@@ -117,7 +117,7 @@ export default function RootLayout({
 }: RootLayoutPropsType): ReactNode {
   // Returning JSX
   return (
-    <html lang="fa" dir="rtl" suppressHydrationWarning>
+    <html lang='fa' dir='rtl' suppressHydrationWarning>
       <body
         className={cn(
           'min-h-dvh overflow-x-hidden overflow-y-auto bg-[#F9F9F9]',
@@ -125,7 +125,7 @@ export default function RootLayout({
           iranSansFont.className,
         )}
       >
-        <Toaster position="bottom-left" duration={5000} />
+        <Toaster position='bottom-left' duration={5000} />
         <Page>{children}</Page>
       </body>
     </html>
