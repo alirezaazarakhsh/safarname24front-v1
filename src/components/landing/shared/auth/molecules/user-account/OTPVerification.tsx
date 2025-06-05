@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/input-otp';
 
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 const formSchema = z.object({
   otp: z.string().min(4),
@@ -48,6 +49,32 @@ export default function OTPVerification(props: Props) {
 
   const otp = form.watch('otp');
 
+  // Defining a function
+  const submitPost = useApiMutation({
+    url: '/token/',
+    method: 'post',
+    options: {
+      onError: () => {
+        form.setError('otp', {
+          message: 'مشکلی پیش امد. لطفا مجددا تلاش کنید.',
+        });
+      },
+      onSuccess: () => {
+        Cookies.set('AUTH', form.getValues('otp'), {
+          path: '/',
+          expires: 3,
+          secure: true,
+          sameSite: 'Strict',
+        });
+
+        // window.location.reload();
+      },
+    },
+  });
+
+  // Using useEffect to setLoading to true or false
+  useEffect(() => setLoading(submitPost.isPending), [submitPost.isPending]);
+
   // Submit Form ( OTP Full-Length[4] )
   useEffect(() => {
     if (otp.length === 4 && !isSubmitted) {
@@ -57,34 +84,25 @@ export default function OTPVerification(props: Props) {
   }, [form, otp, isSubmitted]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const phone = Cookies.get('UPN');
+    const otp = values.otp;
 
-    setLoading(true);
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
-
-    Cookies.set('AUTH', values.otp, {
-      path: '/',
-      expires: 3,
-      secure: true,
-      sameSite: 'Strict',
-    });
+    submitPost.mutate({ phone, otp });
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="h-full flex flex-col md:items-center"
+        className='h-full flex flex-col md:items-center'
       >
-        <span className="text-zinc-800 text-cs09 font-extrabold mb-2.5">
+        <span className='text-zinc-800 text-cs09 font-extrabold mb-2.5'>
           تایید شماره همراه
         </span>
 
-        <p className="text-zinc-600 text-cs08 font-semibold flex gap-1 md:items-center">
+        <p className='text-zinc-600 text-cs08 font-semibold flex gap-1 md:items-center'>
           <span>کد 4 رقمی به شماره</span>
-          <span dir="ltr" className="tracking-wider">
+          <span dir='ltr' className='tracking-wider'>
             (+98 {phoneNumber})
           </span>
           <span>ارسال شد .</span>
@@ -92,17 +110,17 @@ export default function OTPVerification(props: Props) {
 
         {/* OPT-Input | Resend */}
         <div
-          dir="ltr"
-          className="w-full h-10 mt-6 flex items-center justify-end gap-4 md:justify-center"
+          dir='ltr'
+          className='w-full h-10 mt-6 flex items-center justify-end gap-4 md:justify-center'
         >
           <FormField
-            name="otp"
+            name='otp'
             control={form.control}
             render={({ field }) => (
-              <FormItem className="space-y-0">
+              <FormItem className='space-y-0'>
                 <FormControl>
-                  <InputOTP {...field} maxLength={4} pattern="^[0-9۰-۹]+$">
-                    <InputOTPGroup className="text-zinc-600 text-[0.9rem] gap-2">
+                  <InputOTP {...field} maxLength={4} pattern='^[0-9۰-۹]+$'>
+                    <InputOTPGroup className='text-zinc-600 text-[0.9rem] gap-2'>
                       <InputOTPSlot index={0} />
                       <InputOTPSlot index={1} />
                       <InputOTPSlot index={2} />
@@ -119,16 +137,21 @@ export default function OTPVerification(props: Props) {
 
         {/* Edit-Phone-Number */}
         <button
-          type="button"
-          className="w-fit text-zinc-500 text-cs08 font-bold my-6 flex-center gap-2 rounded-md transition-colors md:mt-5 hover:text-zinc-600"
+          type='button'
+          className='w-fit text-zinc-500 text-cs08 font-bold my-6 flex-center gap-2 rounded-md transition-colors md:mt-5 hover:text-zinc-600'
           onClick={setDialogStep}
         >
           <span>ویرایش شماره همراه</span>
         </button>
-
-        <div className="hidden md:flex">
+        <div className='hidden md:flex'>
           <RulesAndRegulation />
         </div>
+
+        {form.formState.errors.otp?.message && (
+          <p className='text-center mb-3 text-cs-red text-cs07 font-semibold'>
+            {form.formState.errors.otp.message}
+          </p>
+        )}
 
         {/* Submit-Button */}
         <button
@@ -144,7 +167,7 @@ export default function OTPVerification(props: Props) {
           <div
             className={`absolute inset-0 flex-center pointer-events-none transition-all duration-300 ease-in-out ${isLoading ? 'opacity-100 visible left-0' : 'opacity-0 invisible -left-8'}`}
           >
-            <div className="loader-dots" />
+            <div className='loader-dots' />
           </div>
         </button>
       </form>

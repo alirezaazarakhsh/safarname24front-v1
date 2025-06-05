@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import RulesAndRegulation from './RulesAndRegulation';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 const formSchema = z.object({
   phoneNumber: z.string().regex(/^\d+$/).min(10).max(10),
@@ -43,44 +44,56 @@ export default function PhoneNumber(props: Props) {
     form.reset({ phoneNumber });
   }, [phoneNumber, form]);
 
+  // Defining mutations hook
+  const mutataion = useApiMutation({
+    url: '/auth/',
+    method: 'post',
+    options: {
+      onError: () =>
+        form.setError('phoneNumber', { message: 'مشکلی پیش امو.' }),
+      onSuccess: () => {
+        setDialogStep();
+        Cookies.set('UPN', form.getValues().phoneNumber, {
+          path: '/',
+          secure: true,
+          expires: 1 / 24,
+          sameSite: 'Strict',
+        });
+      },
+    },
+  });
+
+  // Using useEffect to setLoading to true or false
+  useEffect(() => setLoading(mutataion.isPending), [mutataion.isPending]);
+
   // Form-Submission
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
-    setLoading(true);
-    setTimeout(() => setDialogStep(), 2000);
-
-    Cookies.set('UPN', form.getValues().phoneNumber, {
-      path: '/',
-      secure: true,
-      expires: 1 / 24,
-      sameSite: 'Strict',
-    });
+    mutataion.mutate({ phone: `0${values.phoneNumber}` });
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="h-full flex flex-col md:items-center"
+        className='h-full flex flex-col md:items-center'
       >
-        <span className="text-zinc-800 text-cs09 font-extrabold mb-2.5">
+        <span className='text-zinc-800 text-cs09 font-extrabold mb-2.5'>
           ورود به حساب کاربری
         </span>
 
-        <p className="text-zinc-600 text-cs08 font-semibold">
+        <p className='text-zinc-600 text-cs08 font-semibold'>
           برای ورود به سفرنامه 24 شماره همراه خود را وارد نمایید :
         </p>
 
         <div
-          dir="ltr"
+          dir='ltr'
           className={`w-full h-12 text-zinc-600 mt-6 mb-4 grid grid-cols-[1fr_3fr] overflow-hidden border-2 rounded-lg ${form.formState.errors.phoneNumber ? 'border-cs-red/50' : 'border-zinc-200'}`}
         >
-          <div className="text-[0.9rem] flex-center border-r-2">+ 98</div>
+          <div className='text-[0.9rem] flex-center border-r-2'>+ 98</div>
 
           {/* Phone-Number-Input */}
           <FormField
-            name="phoneNumber"
+            name='phoneNumber'
             control={form.control}
             render={({ field }) => (
               <FormItem>
@@ -93,7 +106,7 @@ export default function PhoneNumber(props: Props) {
                       );
                     }}
                     onBlur={() => form.clearErrors('phoneNumber')}
-                    className="h-full text-[0.9rem] pl-6 tracking-[0.2rem] border-none rounded-none"
+                    className='h-full text-[0.9rem] pl-6 tracking-[0.2rem] border-none rounded-none'
                   />
                 </FormControl>
               </FormItem>
@@ -117,7 +130,7 @@ export default function PhoneNumber(props: Props) {
           <span
             className={`absolute inset-0 flex-center pointer-events-none transition-all duration-300 ease-in-out ${isLoading ? 'opacity-100 visible left-0' : 'opacity-0 invisible -left-8'}`}
           >
-            <span className="loader-dots" />
+            <span className='loader-dots' />
           </span>
         </button>
       </form>

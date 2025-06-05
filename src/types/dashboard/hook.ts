@@ -1,5 +1,5 @@
 // Importing part
-import { UseQueryOptions } from '@tanstack/react-query';
+import { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 
 // Creating and exporting type of hooks of dashboard pages
 export interface UseLocalStoragePropsType {
@@ -20,4 +20,10 @@ export interface UseApiQueryProps<T> {
     UseQueryOptions<T, Error, T, string[]>,
     'queryKey' | 'queryFn'
   >;
+}
+
+export interface UseApiMutationProps<TData, TVariables> {
+  url: string;
+  method: 'post' | 'put' | 'delete' | 'patch';
+  options?: UseMutationOptions<TData, Error, TVariables>;
 }

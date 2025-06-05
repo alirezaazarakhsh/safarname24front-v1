@@ -4,11 +4,12 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from 'axios';
 
 // defining axios instance
-const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || '',
+export const axiosInstance = axios.create({
+  baseURL: 'https://cps.safarnameh24.com/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 // Creating and exporting useApiQuery function which is a mix of axios and react query to fetch given url (the project apis)

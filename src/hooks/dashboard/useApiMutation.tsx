@@ -1,0 +1,34 @@
+// Importing part
+import { useMutation } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
+import { axiosInstance } from './useApiQuery';
+import { UseApiMutationProps } from '@/types/dashboard/hook';
+
+// creating and Exporting useApiMutation custom hook as default
+// Used for non-get methods (CRUD)
+export default function useApiMutation<TData = unknown, TVariables = unknown>({
+  url,
+  method,
+  options,
+}: UseApiMutationProps<TData, TVariables>) {
+  return useMutation<TData, AxiosError, TVariables>({
+    mutationFn: async (variables) => {
+      const isFullUrl = /^https?:\/\//i.test(url);
+      const client = isFullUrl ? axios : axiosInstance;
+
+      const { data } = await client.request<TData>({
+        url,
+        method: method.toUpperCase(),
+        data: variables,
+      });
+
+      return data;
+    },
+    onError: (error, variables, context) => {
+      console.error('Mutation Error:', error.response?.data || error.message);
+      options?.onError?.(error, variables, context);
+    },
+    onSuccess: options?.onSuccess,
+    ...options,
+  });
+}
