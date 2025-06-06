@@ -1,5 +1,5 @@
 // Importing part
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 import ProfileDropdown from './profileDropdown';
 import { ICLogOut } from '@/components/icons/ICLogOut';
 import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
@@ -7,7 +7,9 @@ import Logo from '../ui/logo';
 import { usePathname, useRouter } from 'next/navigation';
 import Notification from './notification';
 import { NotificationType } from '@/types/dashboard/component';
-import { Regex } from 'lucide-react';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import Cookies from 'js-cookie';
 
 // Defining fake notification items
 const notifications: NotificationType[] = [
@@ -169,6 +171,37 @@ export default function TopSide(): ReactNode {
   // Defining hooks
   const router = useRouter();
   const pathname = usePathname();
+  const authLocalStorage = useLocalStorage({
+    value: 'AUTH_VALUE',
+  });
+
+  const authObj: {
+    acessUID: string;
+    otp: string;
+    phoneNumber: string;
+    refreshUID: string;
+  } = authLocalStorage.data
+    ? JSON.parse(authLocalStorage.data)
+    : {
+        acessUID: '',
+        otp: '',
+        phoneNumber: '',
+        refreshUID: '',
+      };
+
+  const mutation = useApiMutation({
+    url: '/auth/logout/',
+    method: 'post',
+    options: {
+      onSuccess: () => {
+        Cookies.remove('AUTH');
+        Cookies.remove('UPN');
+        authLocalStorage.removeItem();
+
+        router.push('/');
+      },
+    },
+  });
 
   // Using iseMemo
   const matched = urlTitles.find((item) => {
@@ -185,7 +218,14 @@ export default function TopSide(): ReactNode {
       <div className='p-5 max-w-screen-template mx-auto lg:flex hidden items-center justify-between'>
         <Logo />
         <div className='flex items-center justify-between gap-4'>
-          <button className='aspect-square w-12 h-12 bg-cs-red/10 transition-all duration-500 hover:bg-cs-red/20 text-cs-red rounded-lg flex items-center justify-center'>
+          <button
+            className='aspect-square w-12 h-12 bg-cs-red/10 transition-all duration-500 hover:bg-cs-red/20 text-cs-red rounded-lg flex items-center justify-center'
+            onClick={() => {
+              mutation.mutate({
+                refresh_token: authObj.refreshUID,
+              });
+            }}
+          >
             <ICLogOut className='w-5 h-5 text-current' />
           </button>
           <Notification notifications={notifications} />

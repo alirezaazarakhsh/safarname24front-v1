@@ -97,11 +97,14 @@ export default function UserProfile(props: Props) {
           <DropdownMenu open={isOpen} onOpenChange={setOpen}>
             <DropdownMenuTrigger className='bg-zinc-200/50 px-4 flex-center gap-2 rounded-cs-10 transition-colors duration-300 ease-in-out hover:bg-zinc-200/80'>
               <span className='max-w-24 truncate hidden xl:block'>
-                {profileInfo.isLoading ? (
-                  <span>در حاب پردازش</span>
-                ) : (
-                  <span>{profileInfo.data?.first_name}</span>
-                )}
+                جناب اذرخش
+                {
+                  //   profileInfo.isLoading ? (
+                  //   <span>در حاب پردازش</span>
+                  // ) : (
+                  //   <span>{profileInfo.data?.first_name}</span>
+                  // )
+                }
               </span>
               <Profile2User size={19} color='#292D32' className='xl:hidden' />
               <IoIosArrowBack
@@ -119,11 +122,14 @@ export default function UserProfile(props: Props) {
                 dir={'rtl'}
                 className='text-zinc-800 text-cs75 font-bold px-4 py-3 pt-3.5 truncate border-b'
               >
-                {profileInfo.isLoading ? (
-                  <span>در حاب پردازش</span>
-                ) : (
-                  <span>{`${profileInfo.data?.first_name} ${profileInfo.data?.last_name}`}</span>
-                )}
+                جناب اذرخش
+                {
+                  //   profileInfo.isLoading ? (
+                  //   <span>در حاب پردازش</span>
+                  // ) : (
+                  //   <span>{`${profileInfo.data?.first_name} ${profileInfo.data?.last_name}`}</span>
+                  // )
+                }
               </div>
 
               {/* Profile-Items */}

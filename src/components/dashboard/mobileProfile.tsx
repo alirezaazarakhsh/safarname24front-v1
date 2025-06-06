@@ -14,11 +14,14 @@ import { IconsName } from '@/types';
 import Link from 'next/link';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import { ICLogOut } from '../icons/ICLogOut';
+import Cookies from 'js-cookie';
 import { numberSeparation } from '@/utils';
 import { ICArrowFlashRight } from '../icons/ICArrowFlashRight';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import MobileNotification from './mobileNotification';
 import CartBalance from './profile/cartBalance';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 // Defining fake notification items
 const notifications: NotificationType[] = [
@@ -204,7 +207,38 @@ export default function MobileProfile({
 
   // Definint pathname
   const pathname = usePathname();
+  const router = useRouter();
+  const authLocalStorage = useLocalStorage({
+    value: 'AUTH_VALUE',
+  });
 
+  const authObj: {
+    acessUID: string;
+    otp: string;
+    phoneNumber: string;
+    refreshUID: string;
+  } = authLocalStorage.data
+    ? JSON.parse(authLocalStorage.data)
+    : {
+        acessUID: '',
+        otp: '',
+        phoneNumber: '',
+        refreshUID: '',
+      };
+
+  const mutation = useApiMutation({
+    url: '/auth/logout/',
+    method: 'post',
+    options: {
+      onSuccess: () => {
+        Cookies.remove('AUTH');
+        Cookies.remove('UPN');
+        authLocalStorage.removeItem();
+
+        router.push('/');
+      },
+    },
+  });
   // Using useEffect to close the component when url changes
   useEffect(() => closeFn(), [pathname]);
 
@@ -399,7 +433,14 @@ export default function MobileProfile({
             />
           ),
         )}
-        <button className='flex items-center justify-center gap-[10px] rounded-[10px] bg-cs-red/10 text-cs-red p-[17px]'>
+        <button
+          className='flex items-center justify-center gap-[10px] rounded-[10px] bg-cs-red/10 text-cs-red p-[17px]'
+          onClick={() => {
+            mutation.mutate({
+              refresh_token: authObj.refreshUID,
+            });
+          }}
+        >
           <ICLogOut className='shrink-0 w-[24px] h-[24px] text-current' />
           <span className='text-current text-[12px] font-semibold truncate block text-right'>
             خروج از حساب کاربری
