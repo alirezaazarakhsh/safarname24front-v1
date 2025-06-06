@@ -2,9 +2,7 @@
 
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-
 import { generalInstance } from '@/utils/services';
-import { Skeleton } from '@/components/ui/skeleton';
 
 type Data = {
   order: number;
@@ -23,8 +21,6 @@ export function Gallery() {
     queryKey: ['config-banners'],
     queryFn: () => generalInstance('/config/banners?page=4'),
   });
-
-  console.log(data);
 
   if (status !== 'pending' && !data?.data?.banners?.length) return null;
 

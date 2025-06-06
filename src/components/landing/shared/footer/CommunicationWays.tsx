@@ -1,15 +1,15 @@
 'use client';
 
-import { IconsName } from '@/types';
+import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
+
 import { Skeleton } from '@/components/ui/skeleton';
-import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type Data = {
   value: string;
+  icon: { link: string };
   show_in_footer: boolean;
-  icon: { svg_code: string };
 };
 
 type ApiResponse = { data: Data[] };
@@ -21,8 +21,6 @@ export default function CommunicationWays() {
     queryKey: ['contact-info'],
     queryFn: () => generalInstance('/config/contact-info'),
   });
-
-  // console.log(data?.data);
 
   if (isEmptyOrInvalid({ data, status })) return null;
 
@@ -54,9 +52,9 @@ export default function CommunicationWays() {
 // ----------------------------------------
 
 type CommunicationWayProps = {
+  icon: { link: string };
   children: React.ReactNode;
   type: 'phone' | 'email' | 'address';
-  icon: { svg_code: string };
 };
 
 function CommunicationWay(props: CommunicationWayProps) {
@@ -65,12 +63,9 @@ function CommunicationWay(props: CommunicationWayProps) {
   return (
     <div className="bg-zinc-100 w-full h-14 p-2.5 flex items-center gap-3 rounded-cs-10">
       <div className="bg-zinc-200 w-10 aspect-square flex-center rounded-lg">
-        {/* <IconsaxIcons name={icon} size={19} /> */}
-
-        <div
-          dangerouslySetInnerHTML={{ __html: icon.svg_code }}
-          aria-hidden="true"
-        />
+        {icon.link && (
+          <Image alt="icon" width={20} height={20} src={icon.link} />
+        )}
       </div>
 
       <div

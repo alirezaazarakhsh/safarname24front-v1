@@ -8,13 +8,14 @@ import { TopBarConfig } from '../../shared';
 import { Skeleton } from '@/components/ui/skeleton';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+import Image from 'next/image';
 
 type Data = {
   title: string;
-  icon: IconsName;
   subtitle: string;
   link: string | null;
   value: string | null;
+  icon: { link: string };
 };
 
 type ApiResponse = { data: Data[] };
@@ -53,7 +54,14 @@ export function ContactUsWays() {
             >
               {/* Icon */}
               <div className="w-10 h-10 flex-center border border-zinc-200 rounded-md">
-                {item.icon && <IconsaxIcons name={item.icon} size={20} />}
+                {item.icon.link && (
+                  <Image
+                    alt="icon"
+                    width={20}
+                    height={20}
+                    src={item.icon.link}
+                  />
+                )}
               </div>
 
               {/* {/* Title | Subtitle | Detail */}

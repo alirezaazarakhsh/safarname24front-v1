@@ -11,8 +11,24 @@ import { useRef } from 'react';
 import { SuggestedHotel as Hotel } from '@/types';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
 
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+import { Skeleton } from '@/components/ui/skeleton';
+import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+
 type Props = {
   suggestedHotels: Hotel[];
+};
+
+type Data = {
+  image: string;
+  title: string;
+  description: string;
+};
+
+type ApiResponse = {
+  data: Data[];
 };
 
 // -----------------------------------------------
@@ -20,6 +36,13 @@ type Props = {
 export function SuggestedHotels(props: Props) {
   const { suggestedHotels } = props;
   const swiperRef = useRef<SwiperType>(null);
+
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['suggested-hotels'],
+    queryFn: () => generalInstance('/hotel/best-hotels'),
+  });
+
+  if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <div className="-ml-5 xl:ml-0">

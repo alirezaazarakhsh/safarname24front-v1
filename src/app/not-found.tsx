@@ -25,7 +25,7 @@ export default function NotFound() {
           width={3900}
           height={1700}
           src={'/image/logo/404.png'}
-          className="w-full max-w-[40rem] px-5 object-contain"
+          className="w-full max-w-[30rem] px-5 object-contain"
         />
 
         <Link

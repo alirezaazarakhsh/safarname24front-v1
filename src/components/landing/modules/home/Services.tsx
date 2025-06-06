@@ -4,20 +4,18 @@ import 'swiper/css';
 import '@/styles/swiper.css';
 import 'swiper/css/pagination';
 
+import Image from 'next/image';
 import { Pagination } from 'swiper/modules';
+import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { useQuery } from '@tanstack/react-query';
-import IconsaxIcons from '@/components/icons/iconsaxIcons';
-
-import { IconsName } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type Data = {
   title: string;
   subtitle: string;
-  icon: { svg_code: string; url: string };
+  icon: { url: string };
 };
 
 type ApiResponse = {
@@ -86,8 +84,7 @@ function Service(props: Data) {
   return (
     <div className="relative bg-white p-5 flex flex-col gap-2 rounded-xl shadow-[0_1rem_1rem_rgba(0,0,0,0.02)] transition-all duration-300 delay-100 ease-in-out group xl:bg-[#F8F8F8] xl:shadow-none xl:hover:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.08)]">
       <div className="bg-cs-red/20 w-12 h-12 mb-2 p-2.5 flex-center rounded-cs-10">
-        {/* <IconsaxIcons name={icon} size={24} color="#f30f26" /> */}
-        <img src={icon.url} />
+        {icon.url && <Image alt="icon" width={24} height={24} src={icon.url} />}
       </div>
 
       <span className="text-zinc-800 text-cs85 font-bold xl:text-cs09">

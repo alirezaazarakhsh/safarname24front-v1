@@ -1,39 +1,22 @@
-import {
-  FaFacebook,
-  FaLinkedin,
-  FaTelegram,
-  FaWhatsapp,
-  FaInstagram,
-} from 'react-icons/fa';
-
 import Link from 'next/link';
-import { SlSocialBehance } from 'react-icons/sl';
+import Image from 'next/image';
 
 type Props = {
   link: string;
   type: string;
   type_fa: string;
+  icon: { url: string };
 };
 
 // ----------------------------------------
 
 export default function SocialMedia(props: Props) {
-  const { link, type, type_fa } = props;
+  const { link, type, type_fa, icon } = props;
 
   return (
     <div className="relative bg-white p-6 flex flex-col gap-2 group rounded-xl shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)] transition-all duration-500 ease-in-out xl:bg-[#f8f8f8] xl:shadow-none xl:hover:shadow-[0_0_4rem_0_rgba(0,0,0,0.08)]">
       <div className="bg-cs-red/10 w-12 h-12 p-2.5 flex-center rounded-lg">
-        {type === 'telegram' ? (
-          <FaTelegram className="full-size" color="#f30f26" />
-        ) : type === 'instagram' ? (
-          <FaInstagram className="full-size" color="#f30f26" />
-        ) : type === 'linkedin' ? (
-          <FaLinkedin className="full-size" color="#f30f26" />
-        ) : type === 'facebook' ? (
-          <FaFacebook className="full-size" color="#f30f26" />
-        ) : (
-          <SlSocialBehance className="full-size" color="#f30f26" />
-        )}
+        {icon.url && <Image alt="icon" width={25} height={25} src={icon.url} />}
       </div>
 
       <div className="flex items-center gap-2">
@@ -54,7 +37,6 @@ export default function SocialMedia(props: Props) {
           target="_blank"
           className="text-zinc-500 text-cs75 font-inter font-semibold"
         >
-          <span className="font-sans">لینک : </span>
           <span className="underline">{link}</span>
         </Link>
       )}
