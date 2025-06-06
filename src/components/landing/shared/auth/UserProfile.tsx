@@ -19,18 +19,34 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 
 type Props = {
   isOpen: boolean;
-  userFullName: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 // --------------------------------------------
 
 export default function UserProfile(props: Props) {
-  const { userFullName, isOpen, setOpen } = props;
+  const { isOpen, setOpen } = props;
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+  const profileInfo = useApiQuery<{
+    base_user: number;
+    phone_number: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    national_code: string;
+    image: string;
+    postal_code: string;
+    address: string;
+    wallet_balance: string;
+  }>({
+    url: '/profile/real/',
+    queryKey: ['userProfile'],
+  });
 
   return (
     <>
@@ -42,8 +58,8 @@ export default function UserProfile(props: Props) {
               <DrawerTitle className="hidden"></DrawerTitle>
               <DrawerDescription className="hidden"></DrawerDescription> */}
 
-              {/* User-FullName */}
-              {/* <div
+          {/* User-FullName */}
+          {/* <div
                 dir={'rtl'}
                 className="text-zinc-800 text-cs09 font-extrabold pb-3 mb-2 border-b"
               >
@@ -54,8 +70,8 @@ export default function UserProfile(props: Props) {
                 )}
               </div> */}
 
-              {/* Profile-Items */}
-              {/* <div dir="rtl" className="grid divide-y divide-zinc-100/80">
+          {/* Profile-Items */}
+          {/* <div dir="rtl" className="grid divide-y divide-zinc-100/80">
                 <UserProfileItem
                   href="/"
                   type="link"
@@ -79,16 +95,15 @@ export default function UserProfile(props: Props) {
         <>
           {/* DropDownMenu (Large-Device) */}
           <DropdownMenu open={isOpen} onOpenChange={setOpen}>
-            <DropdownMenuTrigger className="bg-zinc-200/50 px-4 flex-center gap-2 rounded-cs-10 transition-colors duration-300 ease-in-out hover:bg-zinc-200/80">
-              <span className="max-w-24 truncate hidden xl:block">
-                {userFullName ? (
-                  <span>{userFullName}</span>
+            <DropdownMenuTrigger className='bg-zinc-200/50 px-4 flex-center gap-2 rounded-cs-10 transition-colors duration-300 ease-in-out hover:bg-zinc-200/80'>
+              <span className='max-w-24 truncate hidden xl:block'>
+                {profileInfo.isLoading ? (
+                  <span>در حاب پردازش</span>
                 ) : (
-                  <span>کاربر محترم</span>
+                  <span>{profileInfo.data?.first_name}</span>
                 )}
               </span>
-
-              <Profile2User size={19} color="#292D32" className="xl:hidden" />
+              <Profile2User size={19} color='#292D32' className='xl:hidden' />
               <IoIosArrowBack
                 size={14}
                 className={`text-zinc-600 hidden transition-all duration-300 ease-in-out xl:block ${isOpen ? '-rotate-90' : ''}`}
@@ -96,34 +111,34 @@ export default function UserProfile(props: Props) {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent
-              align="start"
-              className="w-48 mt-2 hidden rounded-lg shadow-[0_1rem_1rem_rgba(0,0,0,0.05)] lg:grid"
+              align='start'
+              className='w-48 mt-2 hidden rounded-lg shadow-[0_1rem_1rem_rgba(0,0,0,0.05)] lg:grid'
             >
               {/* User-FullName */}
               <div
                 dir={'rtl'}
-                className="text-zinc-800 text-cs75 font-bold px-4 py-3 pt-3.5 truncate border-b"
+                className='text-zinc-800 text-cs75 font-bold px-4 py-3 pt-3.5 truncate border-b'
               >
-                {userFullName ? (
-                  <span>{userFullName}</span>
+                {profileInfo.isLoading ? (
+                  <span>در حاب پردازش</span>
                 ) : (
-                  <span>کاربر محترم</span>
+                  <span>{`${profileInfo.data?.first_name} ${profileInfo.data?.last_name}`}</span>
                 )}
               </div>
 
               {/* Profile-Items */}
-              <div dir="rtl" className="grid divide-y divide-zinc-100/80">
+              <div dir='rtl' className='grid divide-y divide-zinc-100/80'>
                 <UserProfileItem
-                  href="/"
-                  type="link"
-                  title="اطلاعات حساب کاربری"
+                  href='/dashboard/profile'
+                  type='link'
+                  title='اطلاعات حساب کاربری'
                   handleCloseModal={() => setOpen(false)}
                 />
 
                 <UserProfileItem
-                  href="/"
-                  type="link"
-                  title="درخواست پشتیبانی"
+                  href='/'
+                  type='link'
+                  title='درخواست پشتیبانی'
                   handleCloseModal={() => setOpen(false)}
                 />
 

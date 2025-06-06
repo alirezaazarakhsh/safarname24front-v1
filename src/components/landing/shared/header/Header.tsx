@@ -23,7 +23,6 @@ export function Header() {
         logo={staticData.logo}
         title={staticData.title}
         subtitle={staticData.subtitle}
-        userFullName={staticData.userFullName}
       />
     </>
   );
