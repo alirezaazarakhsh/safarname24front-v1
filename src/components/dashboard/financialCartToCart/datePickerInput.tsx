@@ -29,11 +29,11 @@ export default function DatePickerInput({
     if (onChange && dateInputValueState) {
       onChange(dateInputValueState);
     }
-  }, [dateInputValueState]);
+  }, [dateInputValueState, onChange]);
 
   // Returning JSX
   return (
-    <div className="w-full">
+    <div className='w-full'>
       <Label
         className={'mb-3 block truncate text-right w-full text-xs font-bold'}
       >
@@ -42,7 +42,7 @@ export default function DatePickerInput({
       <Button
         data-errored={error !== undefined}
         onClick={() => setDatePickerOpened(true)}
-        type="button"
+        type='button'
         className={cn(
           'gap-3 border border-black/10 rounded-lg overflow-hidden p-3 h-[50px] group transition-all duration-500 w-full block bg-white hover:bg-white',
           className,

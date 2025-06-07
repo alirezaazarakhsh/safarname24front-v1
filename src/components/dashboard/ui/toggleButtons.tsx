@@ -20,7 +20,10 @@ export default function ToggleButtons({
     useState<number>(defaultVal);
 
   // Attaching onChange prop to component
-  useEffect(() => onChange && onChange(activeButtonIndex), [activeButtonIndex]);
+  useEffect(
+    () => onChange && onChange(activeButtonIndex),
+    [activeButtonIndex, onChange],
+  );
 
   // Returning JSX
   return (

@@ -15,8 +15,6 @@ import Link from 'next/link';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import { ICLogOut } from '../icons/ICLogOut';
 import Cookies from 'js-cookie';
-import { numberSeparation } from '@/utils';
-import { ICArrowFlashRight } from '../icons/ICArrowFlashRight';
 import { usePathname, useRouter } from 'next/navigation';
 import MobileNotification from './mobileNotification';
 import CartBalance from './profile/cartBalance';
@@ -239,8 +237,9 @@ export default function MobileProfile({
       },
     },
   });
+
   // Using useEffect to close the component when url changes
-  useEffect(() => closeFn(), [pathname]);
+  useEffect(() => closeFn(), [pathname, closeFn]);
 
   // Using useEffect to remove scroll feature from body while the component is opened
   useEffect(() => {

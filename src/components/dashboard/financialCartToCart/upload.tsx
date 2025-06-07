@@ -46,7 +46,7 @@ export default function Upload({
   });
 
   // Using useEffect to attach onChange prop to component
-  useEffect(() => onChange(file), [file]);
+  useEffect(() => onChange(file), [file, onChange]);
 
   // Returning JSX
   return (

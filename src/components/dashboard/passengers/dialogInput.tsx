@@ -34,22 +34,22 @@ export default function DialogInput({
         setErrorDialogOpened(true);
       }
     }
-  }, [error]);
+  }, [error, isMobile]);
 
   // Returning JSX
   return (
-    <div className="w-full block">
+    <div className='w-full block'>
       {error && isMobile && (
         <CanclationErrorDrawer
-          title="خطایی رخ داد!"
+          title='خطایی رخ داد!'
           description={error}
-          theme="theme"
+          theme='theme'
           closeFn={() => setErrorDialogOpened(false)}
           isOpened={errorDialogOpened}
         />
       )}
-      <Label className="block text-right font-medium lg:text-cs07 text-[12px] truncate text-black lg:mb-4 mb-[7px]">
-        {required && <span className="text-cs-red">* </span>}
+      <Label className='block text-right font-medium lg:text-cs07 text-[12px] truncate text-black lg:mb-4 mb-[7px]'>
+        {required && <span className='text-cs-red'>* </span>}
         {label}
       </Label>
       <input

@@ -98,7 +98,7 @@ export default function OTPVerification(props: Props) {
       setSubmitted(true);
       form.handleSubmit(onSubmit)();
     }
-  }, [form, otp, isSubmitted]);
+  }, [form, otp, isSubmitted, onSubmit]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const phone = Cookies.get('UPN');

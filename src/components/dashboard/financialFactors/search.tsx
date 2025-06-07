@@ -14,19 +14,19 @@ export default function Search({
   const [val, setVal] = useState<string>('');
 
   // Using useEffect to attach onChange prop to component
-  useEffect(() => onChange && onChange(val), [val]);
+  useEffect(() => onChange && onChange(val), [val, onChange]);
 
   // Returning JSX
   return (
-    <div className="flex items-center justify-between gap-3 lg:w-auto w-full">
-      <span className="lg:block hidden truncate text-right w-full font-bold text-cs85 text-black">
+    <div className='flex items-center justify-between gap-3 lg:w-auto w-full'>
+      <span className='lg:block hidden truncate text-right w-full font-bold text-cs85 text-black'>
         لیست فاکتور های واریز و برداشت وجه
       </span>
       <IconInput
-        wholeClassName="lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-auto w-full"
-        icon="SearchStatus"
-        className="lg:h-10 h-[45px] lg:w-[200px] w-full"
-        placeholder="جستجو مسافر، هتل"
+        wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-auto w-full'
+        icon='SearchStatus'
+        className='lg:h-10 h-[45px] lg:w-[200px] w-full'
+        placeholder='جستجو مسافر، هتل'
         onChange={({ target: { value } }) => setVal(value)}
       />
     </div>
