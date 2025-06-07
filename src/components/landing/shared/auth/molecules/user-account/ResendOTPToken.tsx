@@ -2,20 +2,23 @@ import { memo, useState } from 'react';
 import Countdown from 'react-countdown';
 import { GrRotateLeft } from 'react-icons/gr';
 import { motion, AnimatePresence } from 'framer-motion';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import Cookies from 'js-cookie';
 
-// --------------------------------------------
-interface propsType {
-  handleMutate: () => void;
-}
-
-const ResendOTPToken = memo(function ResendOTPToken({
-  handleMutate,
-}: propsType) {
+const ResendOTPToken = memo(function ResendOTPToken() {
   const [countDownKey, setCountDownKey] = useState(0);
+
+  // Defining mutations hook
+  const mutataion = useApiMutation({
+    url: '/auth/',
+    method: 'post',
+  });
 
   function resetCountDown() {
     setCountDownKey((prev) => prev + 1);
-    handleMutate();
+    mutataion.mutate({
+      phone: `0${Cookies.get('UPN')}`,
+    });
   }
 
   return (

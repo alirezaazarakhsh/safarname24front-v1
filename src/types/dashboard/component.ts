@@ -224,6 +224,12 @@ export interface CreditCardSelectionComponentPropsType {
 export interface UploadComponentPropsType {
   onChange: (file: File | undefined) => void;
   className?: string;
+  setCustomIsUploading?: SetStateAction<Dispatch<boolean>>;
+  customIsUploading?: boolean;
+  onSubmit?: (
+    file: File,
+    setUploadingState: Dispatch<SetStateAction<boolean>>,
+  ) => void;
 }
 
 export interface EmergenciesComponentPropsType {
@@ -532,6 +538,7 @@ export interface LegalInfoType {
 export interface PersonalInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<PersonalInfoType>;
+  loading?: boolean;
 }
 
 export interface NormalInputComponentPropsType
@@ -550,11 +557,13 @@ export interface LegalBankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<LegalInfoType>;
   documentImage?: File;
+  loading: boolean;
 }
 
 export interface LegalInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<LegalInfoType>;
+  loading: boolean;
 }
 
 export interface DescriptionProfileComponentPropsType {
@@ -563,4 +572,9 @@ export interface DescriptionProfileComponentPropsType {
 
 export interface LegalNotesProfileComponentPropsType {
   className?: string;
+}
+
+export interface ErrorTableComponentPropsType {
+  className?: string;
+  refetch?: () => void;
 }

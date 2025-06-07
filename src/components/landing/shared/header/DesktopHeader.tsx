@@ -9,6 +9,7 @@ import NavLinks from './NavLinks';
 import DHeaderStatics from './DHeaderStatics';
 
 import { useScrollPosition } from '@/hooks';
+import { global } from '@/constants/landing';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import { useUserAccountContext } from '@/context/UserAccountContext';

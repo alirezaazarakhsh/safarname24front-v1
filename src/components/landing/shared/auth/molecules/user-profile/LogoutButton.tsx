@@ -3,6 +3,7 @@ import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import Cookies from 'js-cookie';
 import { motion } from 'framer-motion';
+import toast from '@/components/dashboard/ui/customSonner/toast';
 
 // --------------------------------------------
 
@@ -17,8 +18,8 @@ export default function LogoutButton() {
     phoneNumber: string;
     refreshUID: string;
   } = authLocalStorage.data
-    ? JSON.parse(authLocalStorage.data)
-    : {
+      ? JSON.parse(authLocalStorage.data)
+      : {
         acessUID: '',
         otp: '',
         phoneNumber: '',
@@ -29,6 +30,14 @@ export default function LogoutButton() {
     url: '/auth/logout/',
     method: 'post',
     options: {
+      onError: () => {
+        toast({
+          title: 'خطا در دریافت اطلاعات',
+          description:
+            'در دریافت داده‌ها مشکلی به‌وجود آمده است. لطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
+          theme: 'theme',
+        });
+      },
       onSuccess: () => {
         Cookies.remove('AUTH');
         Cookies.remove('UPN');
@@ -68,13 +77,13 @@ export default function LogoutButton() {
         animate={
           mutation.isPending
             ? {
-                x: '-50%',
-                opacity: 1,
-              }
+              x: '-50%',
+              opacity: 1,
+            }
             : {
-                x: 0,
-                opacity: 0,
-              }
+              x: 0,
+              opacity: 0,
+            }
         }
       >
         <Loading className='bg-cs-red' />

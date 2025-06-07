@@ -16,6 +16,7 @@ import UploadSheet from './uploadSheet';
 export default function Upload({
   onChange,
   className,
+  onSubmit,
 }: UploadComponentPropsType): ReactNode {
   // Defining hooks
   const [isErrored, setErrored] = useState<boolean>(false);
@@ -121,20 +122,24 @@ export default function Upload({
         <div className='flex items-center justify-between gap-3'>
           <Button
             onClick={async () => {
-              setUploading(true);
-              await new Promise((resolve) => setTimeout(resolve, 5000));
+              if (onSubmit && file) {
+                onSubmit(file, setUploading);
+              } else {
+                setUploading(true);
+                await new Promise((resolve) => setTimeout(resolve, 5000));
 
-              setUploading(false);
-              toast({
-                title: 'فایل مد نظر اپلود شد',
-                description: file
-                  ? file.name
-                  : 'فایل شما با موفقیت اپلود شد :)',
-                theme: 'green',
-              });
+                setUploading(false);
+                toast({
+                  title: 'فایل مد نظر اپلود شد',
+                  description: file
+                    ? file.name
+                    : 'فایل شما با موفقیت اپلود شد :)',
+                  theme: 'green',
+                });
+              }
             }}
             disabled={file === undefined || isUploading}
-            className='bg-black lg:rounded-lg rounded-[8px] lg:h-auto h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white'
+            className='bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white'
           >
             {isUploading ? (
               <Loading />
@@ -159,7 +164,7 @@ export default function Upload({
             }
           }}
           className={
-            'transition-all duration-500 lg:w-auto lg:h-auto w-[40px] h-[40px] lg:rounded-lg rounded-[10px] lg:gap-2 flex items-center justify-center lg:p-3 bg-cs-red/10 hover:bg-cs-red/15  text-cs-red disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 disabled:hover:bg-gray-100'
+            'transition-all duration-500 lg:w-auto w-[40px] h-[40px] lg:rounded-lg rounded-[10px] lg:gap-2 flex items-center justify-center lg:p-3 bg-cs-red/10 hover:bg-cs-red/15  text-cs-red disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 disabled:hover:bg-gray-100'
           }
         >
           <IconsaxIcons

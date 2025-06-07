@@ -10,6 +10,7 @@ import { NotificationType } from '@/types/dashboard/component';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Cookies from 'js-cookie';
+import toast from '../ui/customSonner/toast';
 
 // Defining fake notification items
 const notifications: NotificationType[] = [
@@ -193,6 +194,14 @@ export default function TopSide(): ReactNode {
     url: '/auth/logout/',
     method: 'post',
     options: {
+      onError: () => {
+        toast({
+          title: 'خطا در دریافت اطلاعات',
+          description:
+            'در دریافت داده‌ها مشکلی به‌وجود آمده است. لطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
+          theme: 'theme',
+        });
+      },
       onSuccess: () => {
         Cookies.remove('AUTH');
         Cookies.remove('UPN');

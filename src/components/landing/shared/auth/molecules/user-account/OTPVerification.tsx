@@ -148,15 +148,7 @@ export default function OTPVerification(props: Props) {
               </FormItem>
             )}
           />
-
-          <ResendOTPToken
-            handleMutate={() => {
-              const phone = Cookies.get('UPN');
-              const otp = form.getValues('otp');
-
-              submitPost.mutate({ otp, phone: `0${phone}` });
-            }}
-          />
+          <ResendOTPToken />
         </div>
 
         {/* Edit-Phone-Number */}
@@ -170,13 +162,6 @@ export default function OTPVerification(props: Props) {
         <div className='hidden md:flex'>
           <RulesAndRegulation />
         </div>
-
-        {form.formState.errors.otp?.message && (
-          <p className='text-center mb-3 text-cs-red text-cs07 font-semibold'>
-            {form.formState.errors.otp.message}
-          </p>
-        )}
-
         {/* Submit-Button */}
         <button
           disabled={isLoading}

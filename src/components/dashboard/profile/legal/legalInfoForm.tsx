@@ -7,11 +7,13 @@ import { LegalInfoFormComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { ReactNode } from 'react';
 import NormalInput from '../normalInput';
+import Loading from '../../ui/loading';
 
 // Creating and exporting LegalInfoForm component as default
 export default function LegalInfoForm({
   className,
   form,
+  loading,
 }: LegalInfoFormComponentPropsType): ReactNode {
   // Returning JSX
   return (
@@ -23,11 +25,15 @@ export default function LegalInfoForm({
     >
       <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full'>
         <div className='shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black'>
-          <IconsaxIcons
-            name='TaskSquare'
-            className='w-[20px] h-[20px]'
-            color='currentColor'
-          />
+          {loading ? (
+            <Loading className='bg-current w-[5px] h-[5px]' />
+          ) : (
+            <IconsaxIcons
+              name='TaskSquare'
+              className='w-[20px] h-[20px]'
+              color='currentColor'
+            />
+          )}
         </div>
         <div className='overflow-hidden w-full'>
           <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
@@ -45,6 +51,7 @@ export default function LegalInfoForm({
           type='text'
           error={form.formState.errors.name?.message}
           noErrorText
+          disabled={loading}
           {...form.register('name')}
         />
         <NormalInput
@@ -53,6 +60,7 @@ export default function LegalInfoForm({
           type='text'
           error={form.formState.errors.id?.message}
           noErrorText
+          disabled={loading}
           {...form.register('id')}
         />
         <NormalInput
@@ -61,6 +69,7 @@ export default function LegalInfoForm({
           type='text'
           error={form.formState.errors.registrationId?.message}
           noErrorText
+          disabled={loading}
           {...form.register('registrationId')}
         />
         <NormalInput
@@ -69,14 +78,16 @@ export default function LegalInfoForm({
           error={form.formState.errors.economicCode?.message}
           noErrorText
           required
+          disabled={loading}
           {...form.register('economicCode')}
         />
         <NormalInput
-          placeholder='* شماره شرکت خود را وارد نمایید'
+          placeholder='شماره شرکت خود را وارد نمایید'
           type='tell'
           required
           error={form.formState.errors.tell?.message}
           noErrorText
+          disabled={loading}
           {...form.register('tell')}
         />
         <NormalInput
@@ -84,6 +95,7 @@ export default function LegalInfoForm({
           type='email'
           error={form.formState.errors.email?.message}
           noErrorText
+          disabled={loading}
           {...form.register('email')}
         />
       </div>
