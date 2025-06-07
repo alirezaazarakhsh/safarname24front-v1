@@ -43,7 +43,7 @@ export default function AllFactorsTable({
   return (
     <section
       className={cn(
-        'lg:bg-white bg-transparent overflow-hidden lg:rounded-[10px] lg:border border-black/10 lg:pb-[50px] pb-0',
+        'lg:bg-white bg-transparent overflow-hidden lg:rounded-[14px] lg:border border-black/10 lg:pb-[50px] pb-0',
         data.length === 0
           ? 'lg:h-[500px] h-[calc(100dvh-20dvh)] flex items-center justify-center lg:p-10 p-6'
           : '',
@@ -70,9 +70,9 @@ export default function AllFactorsTable({
           <Image
             alt='هیچ لیست رزروی فعلا ندارید!'
             src={EmptyImage.src}
-            width={500}
-            height={500}
-            className='h-auto lg:w-[250px] w-[200px] aspect-square block mb-4 mx-auto'
+            width={210}
+            height={210}
+            className='h-auto lg:w-[210px] w-[210px] aspect-square block mb-4 mx-auto'
           />
           <span className='block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold'>
             هیچ لیست رزروی فعلا ندارید!

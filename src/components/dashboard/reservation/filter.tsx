@@ -30,7 +30,7 @@ export default function Filter({
         <div className='flex items-center justify-end lg:gap-4 gap-[14px]'>
           {dataNotEmpty && (
             <IconInput
-              wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-auto w-full'
+              wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-[200px] w-full'
               icon='SearchStatus'
               className='lg:h-10 h-[45px]'
               placeholder='جستجو مسافر، هتل'
