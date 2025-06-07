@@ -11,11 +11,13 @@ import {
 } from '@/components/ui/pagination';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { cn } from '@/utils/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Creating and exporting CustomPagination component as default
 export default function CustomPagination({
   count,
   className,
+  loading = false,
   onChange,
 }: CustomPaginationComponentPropsType): ReactNode {
   // defining states of component
@@ -42,61 +44,83 @@ export default function CustomPagination({
     return pages;
   };
 
-  // Returning JSX
-  return (
-    <Pagination
-      className={cn(
-        'lg:w-auto w-full lg:overflow-visible overflow-auto scrollbar-hide mx-0',
-        className,
-      )}
-      dir='ltr'
-    >
-      <PaginationContent className='lg:w-auto w-full lg:gap-3 gap-[17px] lg:justify-start justify-center'>
-        <PaginationItem>
-          <button
-            className='lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]'
-            onClick={() => {
-              const prevIndex = activeIndex - 1;
-              if (prevIndex > -1) setActiveIndex(prevIndex);
-            }}
-          >
-            <IconsaxIcons
-              name='ArrowUp2'
-              className='-rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current'
+  // Conditional rendering
+  if (loading) {
+    return (
+      <div
+        className={cn(
+          'lg:w-auto w-full lg:overflow-visible overflow-auto scrollbar-hide mx-0 flex items-center',
+          className,
+        )}
+      >
+        <div className='lg:w-auto w-full lg:gap-3 gap-[17px] flex justify-between items-center'>
+          {[...new Array(4)].map((index) => (
+            <Skeleton
+              className={
+                'lg:w-10 lg:h-10 w-[37px] h-[37px] lg:rounded-lg rounded-[7px]'
+              }
+              key={index}
             />
-          </button>
-        </PaginationItem>
-
-        {/* Dynamic pagination buttons based on activeIndex */}
-        {getPageNumbers().map((pageIndex) => (
-          <PaginationItem key={pageIndex}>
+          ))}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <Pagination
+        className={cn(
+          'lg:w-auto w-full lg:overflow-visible overflow-auto scrollbar-hide mx-0',
+          className,
+        )}
+        dir='ltr'
+      >
+        <PaginationContent className='lg:w-auto w-full lg:gap-3 gap-[17px] lg:justify-start justify-center'>
+          <PaginationItem>
             <button
-              data-active={activeIndex === pageIndex}
-              className={buttonClassName}
-              onClick={() => setActiveIndex(pageIndex)}
+              className='lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]'
+              onClick={() => {
+                const prevIndex = activeIndex - 1;
+                if (prevIndex > -1) setActiveIndex(prevIndex);
+              }}
             >
-              <span className='text-[12px] font-bold text-current'>
-                {pageIndex + 1}
-              </span>
+              <IconsaxIcons
+                name='ArrowUp2'
+                className='-rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current'
+              />
             </button>
           </PaginationItem>
-        ))}
 
-        <PaginationItem>
-          <button
-            className='lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]'
-            onClick={() => {
-              const nextIndex = activeIndex + 1;
-              if (nextIndex < count) setActiveIndex(nextIndex);
-            }}
-          >
-            <IconsaxIcons
-              name='ArrowUp2'
-              className='rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current'
-            />
-          </button>
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-  );
+          {/* Dynamic pagination buttons based on activeIndex */}
+          {getPageNumbers().map((pageIndex) => (
+            <PaginationItem key={pageIndex}>
+              <button
+                data-active={activeIndex === pageIndex}
+                className={buttonClassName}
+                onClick={() => setActiveIndex(pageIndex)}
+              >
+                <span className='text-[12px] font-bold text-current'>
+                  {pageIndex + 1}
+                </span>
+              </button>
+            </PaginationItem>
+          ))}
+
+          <PaginationItem>
+            <button
+              className='lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]'
+              onClick={() => {
+                const nextIndex = activeIndex + 1;
+                if (nextIndex < count) setActiveIndex(nextIndex);
+              }}
+            >
+              <IconsaxIcons
+                name='ArrowUp2'
+                className='rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current'
+              />
+            </button>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    );
+  }
 }

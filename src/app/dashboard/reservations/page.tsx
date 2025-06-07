@@ -4,6 +4,8 @@
 // Importing part
 import AllFactorsTable from '@/components/dashboard/reservation/allFactorsTable';
 import Filter from '@/components/dashboard/reservation/filter';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETReservation } from '@/types/dashboard/api/get';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useState } from 'react';
 
@@ -115,6 +117,12 @@ export default function ReservationsPage(): ReactNode {
   const [filterVal, setFilterVal] = useState<string>('');
   const [filtredData, setFiltredData] = useState<typeof data>(data);
 
+  // Fetching the data
+  const getData = useApiQuery<GETReservation>({
+    url: '/hotel/reservations/',
+    queryKey: ['reservations', 'hotels', 'reserved-hotels'],
+  });
+
   // Using useEffect to filter data object while filterVal changes
   useEffect(() => {
     if (filterVal === '') {
@@ -137,8 +145,9 @@ export default function ReservationsPage(): ReactNode {
         onChange={(val) => setFilterVal(val)}
         className={cn(data.length === 0 ? 'lg:block hidden' : '')}
         dataNotEmpty={data.length !== 0}
+        loading={getData.isLoading}
       />
-      <AllFactorsTable data={filtredData} />
+      <AllFactorsTable data={filtredData} loading={getData.isLoading} />
     </main>
   );
 }

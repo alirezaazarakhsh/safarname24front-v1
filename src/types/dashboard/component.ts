@@ -67,6 +67,7 @@ export interface ReservationsFilterComponentPropsType {
   className?: string;
   dataNotEmpty: boolean;
   onChange?: (val: string) => void;
+  loading: boolean;
 }
 
 export interface IconInputComponentPropsType
@@ -77,6 +78,7 @@ export interface IconInputComponentPropsType
 
 export interface AllFactorsTableComponentPropsType {
   className?: string;
+  loading: boolean;
   data: {
     id: number;
     code: string;
@@ -92,6 +94,7 @@ export interface CustomPaginationComponentPropsType {
   className?: string;
   count: number;
   onChange?: (index: number) => void;
+  loading?: boolean;
 }
 
 export interface DialogComponentPropsType {

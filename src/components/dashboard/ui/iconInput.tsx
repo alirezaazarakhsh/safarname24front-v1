@@ -25,15 +25,15 @@ export default function IconInput({
     <div
       data-focused={isFocused}
       className={cn(
-        'bg-white lg:rounded-md rounded-[7px] flex items-center justify-between text-black lg:w-[200px] w-auto col-span-3 text-[#2b2b2b]',
+        'bg-white lg:rounded-md rounded-[7px] flex items-center justify-between col-span-3 text-[#2b2b2b]',
         wholeClassName,
       )}
     >
-      <div className="lg:h-8 h-[45px] aspect-square flex items-center justify-center">
+      <div className='lg:h-8 h-[45px] aspect-square flex items-center justify-center'>
         <IconsaxIcons
           name={icon}
-          className="w-[18px] h-[18px] text-current shrink-0 aspect-square"
-          color="currentColor"
+          className='w-[18px] h-[18px] text-current shrink-0 aspect-square'
+          color='currentColor'
         />
       </div>
       <input
