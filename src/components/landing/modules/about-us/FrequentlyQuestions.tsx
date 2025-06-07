@@ -7,14 +7,17 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-import { TopBarConfig } from '../../shared';
+import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
+
+import { TopBarConfig } from '../../shared';
 import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type Data = {
   answer: string;
   question: string;
+  icon: { link: string };
 };
 
 type ApiResponse = { data: { faqs: Data[] } };
@@ -96,7 +99,13 @@ function Questions(props: QuestionProps) {
           className="border-b last:border-none"
         >
           <AccordionTrigger className="text-zinc-800 text-cs85 font-bold py-5">
-            {item.question}
+            <div className='flex items-center gap-3'>
+              {item.icon.link && (
+                <Image src={item.icon.link} alt="icon" width={24} height={24} />
+              )}
+
+              <span>{item.question}</span>
+            </div>
           </AccordionTrigger>
 
           <AccordionContent className="text-cs08/6">

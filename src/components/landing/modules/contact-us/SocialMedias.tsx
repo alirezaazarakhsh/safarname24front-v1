@@ -16,6 +16,7 @@ type Data = {
   link: string;
   type: string;
   type_fa: string;
+  icon: { url: string };
 };
 
 type ApiResponse = {
@@ -37,8 +38,6 @@ export function SocialMedias() {
     queryKey: ['social-media'],
     queryFn: () => generalInstance('/config/social-media'),
   });
-
-  console.log(data?.data)
 
   if (isEmptyOrInvalid({ data, status })) return null;
 

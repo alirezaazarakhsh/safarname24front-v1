@@ -18,14 +18,10 @@ import StickyArea from '@/components/landing/shared/StickyArea';
 
 export default function Home() {
   const {
-    services,
-    bestHotels,
     amazingHotels,
-    customerReviews,
     interestingBLogs,
     mostVisitedCities,
     bestSellingHotels,
-    advertisingBanners,
   } = home;
 
   return (
@@ -40,7 +36,7 @@ export default function Home() {
         <AmazingHotels hotels={amazingHotels} />
         <AdvertisingBanners />
         <BestSellingHotels hotels={bestSellingHotels} />
-        <BestHotels hotels={bestHotels} />
+        <BestHotels />
         <InterestingBlogs blogs={interestingBLogs} />
         <CustomerReviews />
       </div>

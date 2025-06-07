@@ -30,7 +30,7 @@ function RecenterMap({ lat, lng }: { lat: number; lng: number }) {
   const map = useMap();
 
   useEffect(() => {
-    map.setView([lat, lng], 13);
+    map.setView([lat, lng], 16);
   }, [lat, lng, map]);
 
   return null;
@@ -53,10 +53,10 @@ export function ContactUsMap() {
   return (
     <>
       <MapContainer
-        className="full-size z-10"
+        zoom={16}
         center={[0, 0]}
-        zoom={13}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
+        className="full-size z-10"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
