@@ -13,6 +13,7 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import toast from '../ui/customSonner/toast';
 
 // Creating and exporting ProfileDropdown component as defualt
 export default function ProfileDropdown(): ReactNode {
@@ -29,8 +30,8 @@ export default function ProfileDropdown(): ReactNode {
     phoneNumber: string;
     refreshUID: string;
   } = authLocalStorage.data
-    ? JSON.parse(authLocalStorage.data)
-    : {
+      ? JSON.parse(authLocalStorage.data)
+      : {
         acessUID: '',
         otp: '',
         phoneNumber: '',
@@ -41,6 +42,14 @@ export default function ProfileDropdown(): ReactNode {
     url: '/auth/logout/',
     method: 'post',
     options: {
+      onError: () => {
+        toast({
+          title: 'خطا در دریافت اطلاعات',
+          description:
+            'در دریافت داده‌ها مشکلی به‌وجود آمده است. لطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
+          theme: 'theme',
+        });
+      },
       onSuccess: () => {
         Cookies.remove('AUTH');
         Cookies.remove('UPN');

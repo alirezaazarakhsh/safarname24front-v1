@@ -465,16 +465,16 @@ export interface PassengersTableComponentPropsType {
 
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
   data:
-    | {
-        name: {
-          firstName: string;
-          lastName: string;
-        };
-        tell: string;
-        id: number;
-        meliCodeOrPassportNumber: string;
-      }
-    | undefined;
+  | {
+    name: {
+      firstName: string;
+      lastName: string;
+    };
+    tell: string;
+    id: number;
+    meliCodeOrPassportNumber: string;
+  }
+  | undefined;
 }
 
 export interface DialogInputPassengersComponentPropsType
@@ -563,4 +563,9 @@ export interface DescriptionProfileComponentPropsType {
 
 export interface LegalNotesProfileComponentPropsType {
   className?: string;
+}
+
+export interface ErrorTableComponentPropsType {
+  className?: string;
+  refetch?: () => void;
 }
