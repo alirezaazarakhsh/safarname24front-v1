@@ -43,7 +43,7 @@ export default function AllFactorsTable({
   return (
     <section
       className={cn(
-        'lg:bg-white bg-transparent overflow-hidden lg:rounded-[14px] lg:border border-black/10 lg:pb-[50px] pb-0',
+        'lg:bg-white bg-transparent overflow-hidden lg:rounded-[14px] lg:border border-black/10',
         data.length === 0
           ? 'lg:h-[500px] h-[calc(100dvh-20dvh)] flex items-center justify-center lg:p-10 p-6'
           : '',
@@ -131,7 +131,9 @@ export default function AllFactorsTable({
                 <TableRow
                   key={index}
                   className={
-                    'bg-white !border-b border-b-black/10 hover:bg-white'
+                    data.length !== index + 1
+                      ? 'bg-white !border-b border-b-black/10 hover:bg-white'
+                      : ''
                   }
                 >
                   <TableCell className='p-[20px] w-[30px]'>
