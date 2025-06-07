@@ -20,76 +20,78 @@ import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAc
 import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/personalAccountBannedDialog';
 import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/legalAccountBannedDialog';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETLegalProfiles } from '@/types/dashboard/api/get';
 
 // Defining form schemas
 const personalFormSchema = z.object({
-  name: z.string().min(2, { message: 'نام باید حداقل ۲ حرف باشد' }),
+  name: z.string().min(2, { message: 'ERROR' }).max(32, { message: 'ERROR' }),
   fullName: z
     .string()
-    .min(3, { message: 'نام و نام خانوادگی باید حداقل ۳ حرف باشد' }),
-  meliCode: z
-    .string()
-    .length(10, { message: 'کد ملی باید ۱۰ رقم و معتبر باشد' }),
+    .min(3, { message: 'ERROR' })
+    .max(32, { message: 'ERROR' }),
+  meliCode: z.string().length(10, { message: 'ERROR' }),
   tell: z.string().regex(/^09\d{9}$/, {
-    message: 'شماره تلفن باید با 09 شروع شده و ۱۱ رقم باشد',
+    message: 'ERROR',
   }),
   email: z
     .string()
-    .email({ message: 'ایمیل وارد شده معتبر نیست' })
+    .max(254, { message: 'ERROR' })
+    .email({ message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
   postCode: z
     .string()
-    .length(10, { message: 'کد پستی باید ۱۰ رقم باشد' })
+    .length(10, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z.string().length(15, { message: 'شماره کارت باید ۱۶ رقم باشد' }),
-  shabaNumber: z
-    .string()
-    .length(24, { message: 'شماره شبا باید 24 رفم باشد.' }),
+  creditCard: z.string().length(15, { message: 'ERROR' }),
+  shabaNumber: z.string().length(24, { message: 'ERROR' }),
   address: z
     .string()
-    .min(5, { message: 'کمترین مقدار ادرس 5 کارکتر میباشد' })
+    .min(5, { message: 'ERROR' })
+    .max(256, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
 });
 
 const legalFormSchema = z.object({
-  name: z.string().min(2, { message: 'نام باید حداقل ۲ حرف باشد' }),
+  name: z.string().min(2, { message: 'ERROR' }).max(64, { message: 'ERROR' }),
   id: z
     .string()
-    .length(11, { message: 'شناسه ملی باید ۱۱ رقم باشد' })
+    .length(11, { message: 'ERROR' })
     .regex(/^[1-9][0-9]{10}$/, {
-      message: 'شناسه ملی باید فقط شامل اعداد معتبر باشد',
+      message: 'ERROR',
     })
     .refine((val) => !/^(\d)\1+$/.test(val), {
-      message: 'شناسه ملی معتبر نیست',
+      message: 'ERROR',
     }),
   registrationId: z
     .string()
-    .min(5, { message: 'شماره ثبت باید حداقل ۵ رقم باشد' })
-    .max(10, { message: 'شماره ثبت نمی‌تواند بیشتر از ۱۰ رقم باشد' })
-    .regex(/^\d+$/, { message: 'شماره ثبت باید فقط شامل عدد باشد' }),
+    .min(1, { message: 'ERROR' })
+    .max(16, { message: 'ERROR' })
+    .regex(/^\d+$/, { message: 'ERROR' }),
   economicCode: z
     .string()
-    .length(12, { message: 'کد اقتصادی باید ۱۲ رقم باشد' })
-    .regex(/^\d+$/, { message: 'کد اقتصادی باید فقط شامل عدد باشد' }),
+    .min(1, { message: 'ERROR' })
+    .max(16, { message: 'ERROR' })
+    .regex(/^\d+$/, { message: 'ERROR' }),
   tell: z.string().regex(/^09\d{9}$/, {
-    message: 'شماره تلفن باید با 09 شروع شده و ۱۱ رقم باشد',
+    message: 'ERROR',
   }),
   email: z
     .string()
-    .email({ message: 'ایمیل وارد شده معتبر نیست' })
+    .max(254, { message: 'ERROR' })
+    .email({ message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  postCode: z.string().length(10, { message: 'کد پستی باید ۱۰ رقم باشد' }),
-  creditCard: z.string().length(15, { message: 'شماره کارت باید ۱۶ رقم باشد' }),
-  shabaNumber: z
-    .string()
-    .length(24, { message: 'شماره شبا باید 24 رفم باشد.' }),
+  postCode: z.string().length(10, { message: 'ERROR' }),
+  creditCard: z.string().length(15, { message: 'ERROR' }),
+  shabaNumber: z.string().length(24, { message: 'ERROR' }),
   address: z
     .string()
-    .min(5, { message: 'کمترین مقدار ادرس 5 کارکتر میباشد' })
+    .min(5, { message: 'ERROR' })
+    .max(254, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
 });
@@ -103,7 +105,6 @@ export default function ProfilePage(): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
   const userInfo = useUserInfo();
-
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
 
@@ -127,6 +128,7 @@ export default function ProfilePage(): ReactNode {
     resolver: zodResolver(legalFormSchema),
   });
 
+  // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {
     personalForm.setValue('address', userInfo.address);
     personalForm.setValue('name', userInfo.first_name);
@@ -135,6 +137,35 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
   }, [personalForm, userInfo]);
+
+  // Getting infos of legal user infos
+  const legalUserFetching = useApiQuery<GETLegalProfiles>({
+    url: '/juridical-profiles/',
+    queryKey: ['legalUserInfo'],
+    options: {
+      enabled: profileState === 'legal',
+      staleTime: Infinity,
+    },
+  });
+
+  // Setting form values (legal profiles)
+  useEffect(() => {
+    if (
+      legalUserFetching &&
+      legalUserFetching.data &&
+      !legalUserFetching.isLoading
+    ) {
+      const legalInfo = legalUserFetching.data[0];
+
+      legalForm.setValue('name', legalInfo.organization_name);
+      legalForm.setValue('id', legalInfo.national_id);
+      legalForm.setValue('registrationId', legalInfo.registeration_number);
+      legalForm.setValue('economicCode', legalInfo.economical_code);
+      legalForm.setValue('email', legalInfo.email);
+      legalForm.setValue('address', legalInfo.address);
+      legalForm.setValue('postCode', legalInfo.postal_code);
+    }
+  }, [legalForm, legalUserFetching.isLoading]);
 
   // Returning JSX
   return (
@@ -166,6 +197,7 @@ export default function ProfilePage(): ReactNode {
               onToggleChange={(val) => setProfileState(val)}
             />
             <LegalInfoForm
+              loading={legalUserFetching.isLoading}
               form={legalForm}
               className='overflow-auto scrollbar-hide w-full h-full'
             />
@@ -182,6 +214,7 @@ export default function ProfilePage(): ReactNode {
         ) : (
           <>
             <LegalBankInfo
+              loading={legalUserFetching.isLoading}
               className='lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide'
               form={legalForm}
               documentImage={file}

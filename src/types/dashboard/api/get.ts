@@ -34,5 +34,25 @@ export interface GETPersonalProfileItem {
   level: number;
 }
 
+export interface GETLegalProfileItem {
+  organization_name: string;
+  national_id: string;
+  registeration_number: string;
+  economical_code: string;
+  phone_number: string;
+  postal_code: string;
+  address: string;
+  email: string;
+  image: string;
+  status: 'checking' | 'accpeted' | 'rejected';
+  reject_reason: string;
+  documents: {
+    id: string;
+    file: string;
+    profile: number;
+  }[];
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETPersonalProfiles = GETPersonalProfileItem[];
+export type GETLegalProfiles = GETLegalProfileItem[];

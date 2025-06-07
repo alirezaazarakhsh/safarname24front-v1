@@ -224,6 +224,7 @@ export interface CreditCardSelectionComponentPropsType {
 export interface UploadComponentPropsType {
   onChange: (file: File | undefined) => void;
   className?: string;
+  onSubmit?: (file: File | undefined) => void;
 }
 
 export interface EmergenciesComponentPropsType {
@@ -551,11 +552,13 @@ export interface LegalBankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<LegalInfoType>;
   documentImage?: File;
+  loading: boolean;
 }
 
 export interface LegalInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<LegalInfoType>;
+  loading: boolean;
 }
 
 export interface DescriptionProfileComponentPropsType {

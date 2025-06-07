@@ -16,6 +16,7 @@ import UploadSheet from './uploadSheet';
 export default function Upload({
   onChange,
   className,
+  onSubmit,
 }: UploadComponentPropsType): ReactNode {
   // Defining hooks
   const [isErrored, setErrored] = useState<boolean>(false);
