@@ -204,9 +204,9 @@ export default function FavoritesPage(): ReactNode {
 
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]">
-      <Filter favName="لیست مورد علاقه" onChange={(val) => setSavedType(val)} />
-      <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-4 gap-[24px]">
+    <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]'>
+      <Filter favName='لیست مورد علاقه' onChange={(val) => setSavedType(val)} />
+      <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-4 gap-[24px]'>
         {savedType === 'savedHotels'
           ? hotels.map((item, index) => (
               <SuggestedHotel
@@ -218,7 +218,7 @@ export default function FavoritesPage(): ReactNode {
             ))
           : blogs.map((item, index) => <Blog key={index} {...item} />)}
       </div>
-      <div className="flex items-center lg:justify-end justify-center">
+      <div className='flex items-center lg:justify-end justify-center'>
         <CustomPagination count={12} />
       </div>
     </main>
