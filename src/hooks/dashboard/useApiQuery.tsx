@@ -12,6 +12,23 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+// Add Bearer Token from localStorage if exists
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const localStorageItem = localStorage.getItem('AUTH_VALUE');
+    const parsedLocalStorageItem =
+      localStorageItem && JSON.parse(localStorageItem).accessUID;
+
+    if (parsedLocalStorageItem) {
+      config.headers.Authorization = `Bearer ${parsedLocalStorageItem}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
 // Creating and exporting useApiQuery function which is a mix of axios and react query to fetch given url (the project apis)
 export function useApiQuery<T>({
   url,

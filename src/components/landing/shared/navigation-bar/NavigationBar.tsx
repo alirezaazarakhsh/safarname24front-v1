@@ -104,7 +104,6 @@ export function NavigationBar() {
         <UserProfile
           isOpen={userAccountIsOpen}
           setOpen={setUserAccountOpen}
-          userFullName={'علیرضا آذرخش'}
         />
       )}
     </>

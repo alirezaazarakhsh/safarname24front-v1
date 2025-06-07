@@ -34,10 +34,9 @@ export default function Page({
   });
 
   // Defining hooks to use later
-  const uid = useLocalStorage({ value: 'uid' });
+  const uid = useLocalStorage({ value: 'AUTH_VALUE' });
   const router = useRouter();
   const pathname = usePathname();
-  const x = 's';
 
   // Defining a variables
   const isReservationSubPage = /^\/dashboard\/reservations\/[^/]+$/.test(
@@ -79,8 +78,7 @@ export default function Page({
         </div>
       </>
     );
-  } else if (!userLoginStatus.loading && userLoginStatus.uid) {
-    // else if (uid.data)
+  } else if (uid.data) {
     return (
       <uidContext.Provider value={uid.data ? uid.data : 'undefined_user_id'}>
         <QueryClientProvider client={queryClient}>
@@ -106,18 +104,17 @@ export default function Page({
         </QueryClientProvider>
       </uidContext.Provider>
     );
+  } else if (!uid.data) {
+    // redirecting user
+    router.push('/');
+
+    // Returning JSX
+    return (
+      <div className='max-w-screen-template min-h-dvh mx-auto flex items-center justify-center'>
+        <span className='font-medium text-center text-lg block'>
+          شما درحال انتقال به صفحه ورود هستید.
+        </span>
+      </div>
+    );
   }
-  // else if (!uid.data) {
-  //  // redirecting user to auth page
-  //  router.push("/auth/login");
-  //
-  //  // Returning JSX
-  //  return (
-  //    <div className="max-w-screen-template min-h-dvh mx-auto flex items-center justify-center">
-  //      <span className="font-medium text-center text-lg block">
-  //        شما درحال انتقال به صفحه ورود هستید.
-  //      </span>
-  //    </div>
-  //  );
-  //}
 }

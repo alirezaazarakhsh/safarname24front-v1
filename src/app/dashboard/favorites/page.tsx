@@ -77,7 +77,7 @@ export default function Favorites(): ReactNode {
   return (
     <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]'>
       <Filter deleteState={deleteState} setDeleteState={setDeleteState} />
-      <div className='grid lg:grid-cols-3 grid-cols-1 lg:gap-10 gap-[24px]'>
+      <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
         {collections.map((item, index) => (
           <Collection isDeletingByUser={deleteState} key={index} data={item} />
         ))}

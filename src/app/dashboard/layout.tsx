@@ -53,7 +53,6 @@ export const metadata: Metadata = {
     'بلیط ارزان',
     'بهترین سامانه رزرواسیون',
   ],
-  themeColor: '#F30F26',
   openGraph: {
     type: 'website',
     locale: 'fa_IR',

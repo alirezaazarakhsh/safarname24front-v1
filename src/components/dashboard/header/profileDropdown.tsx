@@ -9,9 +9,48 @@ import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
 import AvatarImage from '../../../../public/image/profile/1.webp';
 import { ICWallet } from '@/components/icons/ICWallet';
 import Link from 'next/link';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 // Creating and exporting ProfileDropdown component as defualt
 export default function ProfileDropdown(): ReactNode {
+  // Defining variables
+  // Defining hooks
+  const router = useRouter();
+  const authLocalStorage = useLocalStorage({
+    value: 'AUTH_VALUE',
+  });
+
+  const authObj: {
+    acessUID: string;
+    otp: string;
+    phoneNumber: string;
+    refreshUID: string;
+  } = authLocalStorage.data
+    ? JSON.parse(authLocalStorage.data)
+    : {
+        acessUID: '',
+        otp: '',
+        phoneNumber: '',
+        refreshUID: '',
+      };
+
+  const mutation = useApiMutation({
+    url: '/auth/logout/',
+    method: 'post',
+    options: {
+      onSuccess: () => {
+        Cookies.remove('AUTH');
+        Cookies.remove('UPN');
+        authLocalStorage.removeItem();
+
+        router.push('/');
+      },
+    },
+  });
+
   // Returning JSX
   return (
     <DropDown.DropdownMenu>
@@ -69,7 +108,13 @@ export default function ProfileDropdown(): ReactNode {
           asChild
           className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
         >
-          <button>
+          <button
+            onClick={() => {
+              mutation.mutate({
+                refresh_token: authObj.refreshUID,
+              });
+            }}
+          >
             <span className='text-cs08 font-normal text-current text-right truncate block'>
               خروج از حساب
             </span>
