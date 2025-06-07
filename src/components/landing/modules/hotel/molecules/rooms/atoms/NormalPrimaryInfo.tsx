@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { numberSeparation } from '@/utils';
 import DeadlineTimer from './DeadlineTimer';
+import PriceCalendar from '../price-calendar/PriceCalendar';
 
 type Props = {
   info: {
@@ -60,9 +61,7 @@ export default function NormalPrimaryInfo(props: Props) {
             </div>
           )}
 
-          <button className="bg-cs-blue/10 text-cs-blue h-11 rounded-lg">
-            مشاهده تقویم قیمتی
-          </button>
+          <PriceCalendar />
 
           <div className="bg-zinc-100 h-11 flex-center gap-1 rounded-lg">
             <span>{numberOfNights}</span>
@@ -103,9 +102,7 @@ export default function NormalPrimaryInfo(props: Props) {
 
         {/* PriceCalendar | NumberOfNights */}
         <div className="h-10 mt-auto grid grid-cols-[2fr_1fr] gap-3">
-          <button className="bg-cs-blue/10 text-cs-blue rounded-lg">
-            مشاهده تقویم قیمتی
-          </button>
+          <PriceCalendar />
 
           <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
             <span>{numberOfNights}</span>

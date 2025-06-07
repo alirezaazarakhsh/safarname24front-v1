@@ -1,19 +1,18 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { Profile2User } from 'iconsax-react';
 import { usePathname } from 'next/navigation';
 
-import NavLink from './NavLink';
+import NavLinks from './NavLinks';
+import DHeaderStatics from './DHeaderStatics';
+
 import { useScrollPosition } from '@/hooks';
-import { global } from '@/constants/landing';
-import UserAccount from '../auth/UserAccount';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import { useUserAccountContext } from '@/context/UserAccountContext';
+
 
 type Props = {
   logo: string;
@@ -25,7 +24,11 @@ type Props = {
 
 export default function DesktopHeader(props: Props) {
   const { logo, title, subtitle } = props;
+=======
+// --------------------------------
 
+
+export default function DesktopHeader() {
   const pathname = usePathname();
   const { toggle } = useUserAccountContext();
   const scrollPosition = useScrollPosition();
@@ -52,6 +55,7 @@ export default function DesktopHeader(props: Props) {
       <header className='sticky top-0 z-30 max-w-screen-template h-[5rem] mx-auto hidden lg:flex-center'>
         <section className='w-full font-bold mx-5 flex-between items-center gap-4'>
           {/* Logo | Title | Subtitle */}
+
           <Link href={'/'} className='flex items-center gap-3.5'>
             <div className='w-16 h-16 flex-center overflow-hidden rounded-cs-10'>
               {logo && (
@@ -82,6 +86,11 @@ export default function DesktopHeader(props: Props) {
             ))}
           </nav>
 
+          <DHeaderStatics />
+          {/* -------- */}
+          <NavLinks />
+
+
           {/* User-Favorites - User-Profile */}
           <div className='h-10 text-zinc-800 text-cs07 flex gap-2 xl:gap-3'>
             <UserFavorites />
@@ -110,6 +119,10 @@ export default function DesktopHeader(props: Props) {
             {userIsLoggedIn && (
               <UserProfile
                 isOpen={userAccountIsOpen}
+
+
+                userFullName={'علشرضا آذرخش'}
+
                 setOpen={setUserAccountOpen}
               />
             )}

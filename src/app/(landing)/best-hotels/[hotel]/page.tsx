@@ -29,7 +29,7 @@ import FavoriteButton from '@/components/landing/modules/hotel/molecules/Favorit
 import MImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/MImageGallery';
 import DImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/DImageGallery';
 
-// -----------------------------------------------------
+// ----------------------------------
 
 export default function Hotel() {
   const {

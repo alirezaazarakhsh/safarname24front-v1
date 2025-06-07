@@ -20,7 +20,6 @@ export default function Home() {
   const {
     services,
     bestHotels,
-    heroSection,
     amazingHotels,
     customerReviews,
     interestingBLogs,
@@ -34,16 +33,16 @@ export default function Home() {
       <StickyArea />
 
       <div className="mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0">
-        <HeroSection images={heroSection.images} />
-        <Services services={services} />
+        <HeroSection />
+        <Services />
         <SuggestedHotels suggestedHotels={home.suggestedHotels} />
         <MostVisitedCities cities={mostVisitedCities} />
         <AmazingHotels hotels={amazingHotels} />
-        <AdvertisingBanners banners={advertisingBanners} />
+        <AdvertisingBanners />
         <BestSellingHotels hotels={bestSellingHotels} />
         <BestHotels hotels={bestHotels} />
         <InterestingBlogs blogs={interestingBLogs} />
-        <CustomerReviews reviews={customerReviews} />
+        <CustomerReviews />
       </div>
     </>
   );

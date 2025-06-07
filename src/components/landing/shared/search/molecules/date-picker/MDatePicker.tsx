@@ -77,7 +77,7 @@ export default function MDatePicker() {
           disableMonthPicker
           monthYearSeparator=" "
           onChange={handleDateChange}
-          className="general-calendar mobile-calendar no-ss01"
+          className={`general-calendar mobile-calendar no-ss01 ${calendarType === 'persian' ? 'font-sans' : 'font-inter'}`}
           weekDays={
             calendarType === 'persian' ? weekDays.persian : weekDays.gregorian
           }

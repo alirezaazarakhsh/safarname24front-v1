@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
 export const sendTicket = z.object({
-  subject: z.string().min(15).max(35),
-  fullName: z.string().min(1),
-  phoneNumber: z.string().regex(/^\d+$/).min(10).max(11),
+  text: z.string().min(1),
   email: z.string().email(),
-  desc: z.string().min(1),
+  full_name: z.string().min(1),
+  title: z.string().min(15).max(35),
+  phone_number: z.string().regex(/^\d+$/).min(10).max(11),
 });
