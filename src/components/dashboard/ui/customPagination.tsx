@@ -7,7 +7,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
 } from '@/components/ui/pagination';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
