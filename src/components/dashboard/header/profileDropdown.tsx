@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import * as DropDown from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
@@ -14,12 +14,13 @@ import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import toast from '../ui/customSonner/toast';
+import { userFetchedInfoContext } from '../page';
 
 // Creating and exporting ProfileDropdown component as defualt
 export default function ProfileDropdown(): ReactNode {
-  // Defining variables
   // Defining hooks
   const router = useRouter();
+  const userInfo = useContext(userFetchedInfoContext);
   const authLocalStorage = useLocalStorage({
     value: 'AUTH_VALUE',
   });
@@ -30,8 +31,8 @@ export default function ProfileDropdown(): ReactNode {
     phoneNumber: string;
     refreshUID: string;
   } = authLocalStorage.data
-      ? JSON.parse(authLocalStorage.data)
-      : {
+    ? JSON.parse(authLocalStorage.data)
+    : {
         acessUID: '',
         otp: '',
         phoneNumber: '',
@@ -60,6 +61,29 @@ export default function ProfileDropdown(): ReactNode {
     },
   });
 
+  // Defining variables
+  const user: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    national_code: string;
+    image: string;
+    postal_code: string;
+    address: string;
+    level: number;
+  } = userInfo
+    ? userInfo[0]
+    : {
+        address: 'معلوم نیست',
+        email: 'معلوم نیست',
+        first_name: 'معلوم نیست',
+        image: 'معلوم نیست',
+        last_name: 'معلوم نیست',
+        level: 0,
+        national_code: 'معلوم نیست',
+        postal_code: 'معلوم نیست',
+      };
+
   // Returning JSX
   return (
     <DropDown.DropdownMenu>
@@ -69,18 +93,18 @@ export default function ProfileDropdown(): ReactNode {
             width={100}
             height={100}
             alt={'عکس پروفایل شما'}
-            src={AvatarImage.src}
+            src={user.image}
             className='aspect-square object-cover w-12 h-12 rounded-lg overflow-hidden shrink-0'
           />
           <div className='w-full overflow-hidden'>
             <div className='mb-1 flex items-center justify-start gap-3 text-black'>
               <span className='font-bold text-cs75 text-current block truncate w-full text-right'>
-                علیرضا آذرخش عزیز!
+                {`${user.first_name} ${user.last_name} عزیز!`}
               </span>
               <ICChevronBottom className='w-3 h-3 shrink-0 text-current' />
             </div>
             <span className='font-bold text-cs75 text-gray-500 block truncate text-right'>
-              Alirezaazarakhsh@gmail.com
+              {user.email}
             </span>
           </div>
         </button>

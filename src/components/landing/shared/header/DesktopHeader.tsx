@@ -10,7 +10,6 @@ import { usePathname } from 'next/navigation';
 import NavLink from './NavLink';
 import { useScrollPosition } from '@/hooks';
 import { global } from '@/constants/landing';
-import UserAccount from '../auth/UserAccount';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import { useUserAccountContext } from '@/context/UserAccountContext';
@@ -43,10 +42,11 @@ export default function DesktopHeader(props: Props) {
   return (
     <>
       <div
-        className={`fixed top-0 inset-x-0 z-20 bg-[#f8f8f8] h-[5rem] hidden border-b transition-all duration-500 ease-in-out lg:block ${desktopCondition
+        className={`fixed top-0 inset-x-0 z-20 bg-[#f8f8f8] h-[5rem] hidden border-b transition-all duration-500 ease-in-out lg:block ${
+          desktopCondition
             ? 'shadow-[0_0_2rem_rgba(0,0,0,0.1)]'
             : 'border-transparent'
-          }`}
+        }`}
       ></div>
 
       <header className='sticky top-0 z-30 max-w-screen-template h-[5rem] mx-auto hidden lg:flex-center'>

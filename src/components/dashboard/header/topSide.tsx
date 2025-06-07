@@ -10,7 +10,6 @@ import { NotificationType } from '@/types/dashboard/component';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Cookies from 'js-cookie';
-import { title } from 'process';
 import toast from '../ui/customSonner/toast';
 
 // Defining fake notification items
@@ -90,15 +89,15 @@ const notifications: NotificationType[] = [
 
 type urlTitleType =
   | {
-    type: 'normal';
-    href: `/dashboard/${string}` | '/dashboard';
-    title: string;
-  }
+      type: 'normal';
+      href: `/dashboard/${string}` | '/dashboard';
+      title: string;
+    }
   | {
-    type: 'regexp';
-    regexp: RegExp;
-    title: string;
-  };
+      type: 'regexp';
+      regexp: RegExp;
+      title: string;
+    };
 
 const urlTitles: urlTitleType[] = [
   {
@@ -183,8 +182,8 @@ export default function TopSide(): ReactNode {
     phoneNumber: string;
     refreshUID: string;
   } = authLocalStorage.data
-      ? JSON.parse(authLocalStorage.data)
-      : {
+    ? JSON.parse(authLocalStorage.data)
+    : {
         acessUID: '',
         otp: '',
         phoneNumber: '',

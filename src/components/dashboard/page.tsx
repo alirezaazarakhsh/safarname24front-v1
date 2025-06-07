@@ -2,19 +2,23 @@
 'use client';
 
 // Imporitng part
-import useLocalStorage from '@/hooks/useLocalStorage';
 import { PageComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { usePathname, useRouter } from 'next/navigation';
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { createContext, ReactNode } from 'react';
 import Header from './header';
 import MobileNav from './mobileNav';
 import Loading from './ui/loading';
 import Logo from './ui/logo';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETPersonalProfiles } from '@/types/dashboard/api/get';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
+export const userFetchedInfoContext = createContext<
+  GETPersonalProfiles | undefined
+>(undefined);
 
 // defining query client for react query
 const queryClient = new QueryClient();
@@ -24,43 +28,47 @@ export default function Page({
   children,
   className,
 }: PageComponentPropsType): ReactNode {
-  // Defining states of component
-  const [userLoginStatus, setUserLoginStatus] = useState<{
-    uid: string | undefined;
-    loading: boolean;
-  }>({
-    uid: undefined,
-    loading: true,
-  });
-
   // Defining hooks to use later
-  const uid = useLocalStorage({ value: 'AUTH_VALUE' });
   const router = useRouter();
   const pathname = usePathname();
+
+  // Wrapping everything in QueryClientProvider so hooks below work correctly
+  return (
+    <QueryClientProvider client={queryClient}>
+      <InnerPage router={router} pathname={pathname} className={className}>
+        {children}
+      </InnerPage>
+    </QueryClientProvider>
+  );
+}
+
+// Inner component to allow hooks after QueryClientProvider
+function InnerPage({
+  children,
+  className,
+  router,
+  pathname,
+}: {
+  children: ReactNode;
+  className?: string;
+  router: ReturnType<typeof useRouter>;
+  pathname: string;
+}) {
+  const personalDataFetch = useApiQuery<GETPersonalProfiles>({
+    url: '/natural-profiles/',
+    queryKey: ['personalProfile', 'persoanl', 'profile'],
+    options: {
+      staleTime: Infinity,
+    },
+  });
 
   // Defining a variables
   const isReservationSubPage = /^\/dashboard\/reservations\/[^/]+$/.test(
     pathname,
   );
 
-  // Making fake waiting to show the loading modal
-  // TODO: Remove Later
-  useEffect(() => {
-    const interval = setInterval(
-      () =>
-        setUserLoginStatus({
-          uid: 'FakeUIDToPass',
-          loading: false,
-        }),
-      5000,
-    );
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Condititional rendering for conditions of :
-  // loading the user id in local storage, uid exists in local storage which means user is logged in , and if user is not logged in
-  if (userLoginStatus.loading) {
+  // Condititional rendering
+  if (personalDataFetch.isLoading) {
     return (
       <>
         <div className='bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0' />
@@ -78,33 +86,31 @@ export default function Page({
         </div>
       </>
     );
-  } else if (uid.data) {
+  } else if (!personalDataFetch.isError) {
     return (
-      <uidContext.Provider value={uid.data ? uid.data : 'undefined_user_id'}>
-        <QueryClientProvider client={queryClient}>
-          {!pathname.startsWith('/dashboard/reservations/') && <Header />}
-          <MobileNav />
-          <div
-            className={cn(
-              'overflow-x-hidden overflow-y-auto',
-              !isReservationSubPage
-                ? 'bg-[#F9F9F9] mx-auto max-w-screen-template '
-                : 'bg-white w-full',
-              className,
-            )}
-          >
-            {!isReservationSubPage ? (
-              children
-            ) : (
-              <div className='bg-white max-w-screen-template mx-auto'>
-                {children}
-              </div>
-            )}
-          </div>
-        </QueryClientProvider>
-      </uidContext.Provider>
+      <userFetchedInfoContext.Provider value={personalDataFetch.data}>
+        {!pathname.startsWith('/dashboard/reservations/') && <Header />}
+        <MobileNav />
+        <div
+          className={cn(
+            'overflow-x-hidden overflow-y-auto',
+            !isReservationSubPage
+              ? 'bg-[#F9F9F9] mx-auto max-w-screen-template '
+              : 'bg-white w-full',
+            className,
+          )}
+        >
+          {!isReservationSubPage ? (
+            children
+          ) : (
+            <div className='bg-white max-w-screen-template mx-auto'>
+              {children}
+            </div>
+          )}
+        </div>
+      </userFetchedInfoContext.Provider>
     );
-  } else if (!uid.data) {
+  } else {
     // redirecting user
     router.push('/');
 

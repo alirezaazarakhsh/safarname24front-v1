@@ -23,4 +23,16 @@ interface GETReservationItem {
   updated: string;
 }
 
+export interface GETPersonalProfileItem {
+  first_name: string;
+  last_name: string;
+  email: string;
+  national_code: string;
+  image: string;
+  postal_code: string;
+  address: string;
+  level: number;
+}
+
 export type GETReservation = GETReservationItem[];
+export type GETPersonalProfiles = GETPersonalProfileItem[];

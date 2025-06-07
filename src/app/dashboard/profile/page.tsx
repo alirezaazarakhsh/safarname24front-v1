@@ -8,7 +8,7 @@ import Description from '@/components/dashboard/profile/description';
 import PersonalInfoForm from '@/components/dashboard/profile/personalInfoForm';
 import ProfileToggler from '@/components/dashboard/profile/profileToggler';
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,6 +19,7 @@ import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAcceptDialog';
 import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/personalAccountBannedDialog';
 import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/legalAccountBannedDialog';
+import useUserInfo from '@/hooks/dashboard/useUserInfo';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -101,6 +102,7 @@ type legalFormType = z.infer<typeof legalFormSchema>;
 export default function ProfilePage(): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
+  const userInfo = useUserInfo();
 
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
@@ -124,6 +126,15 @@ export default function ProfilePage(): ReactNode {
   const legalForm = useForm<legalFormType>({
     resolver: zodResolver(legalFormSchema),
   });
+
+  useEffect(() => {
+    personalForm.setValue('address', userInfo.address);
+    personalForm.setValue('name', userInfo.first_name);
+    personalForm.setValue('meliCode', userInfo.national_code);
+    personalForm.setValue('fullName', userInfo.last_name);
+    personalForm.setValue('email', userInfo.email);
+    personalForm.setValue('postCode', userInfo.postal_code);
+  }, [personalForm, userInfo]);
 
   // Returning JSX
   return (

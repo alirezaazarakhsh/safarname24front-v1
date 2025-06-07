@@ -17,6 +17,8 @@ import { banks } from '../financialCartToCart/creditCard';
 import { useDropzone } from 'react-dropzone';
 import toast from '../ui/customSonner/toast';
 import Image from 'next/image';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import useUserInfo from '@/hooks/dashboard/useUserInfo';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -25,30 +27,60 @@ export default function BankInfoForm({
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({
-      maxFiles: 1,
-      maxSize: 10 * 1024 * 1024, // 30MB in bytes
-      onDropRejected: () => {
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    maxFiles: 1,
+    maxSize: 10 * 1024 * 1024, // 30MB in bytes
+    onDropRejected: () => {
+      toast({
+        title: 'خطایی رخ داد!',
+        description: 'مشتری گرامی حداکثر اپلود عکس 10MB هست.',
+      });
+    },
+    onDropAccepted: (files) => {
+      setFile(files[0]);
+    },
+    accept: {
+      'image/*': [],
+    },
+  });
+
+  // Handling api fetches
+  const setPersonalInfoFetch = useApiMutation({
+    url: '/natural-profiles/1/',
+    method: 'put',
+    options: {
+      onSuccess: () => {
         toast({
-          title: 'خطایی رخ داد!',
-          description: 'مشتری گرامی حداکثر اپلود عکس 10MB هست.',
+          title: 'ارسال با موفقیت انجام شد!',
+          description: 'مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.',
+          theme: 'green',
         });
       },
-      onDropAccepted: (files) => {
-        setFile(files[0]);
+      onError: () => {
+        toast({
+          title: 'خطایی رخ داد!',
+          description: 'در ارسال اطلاعات مشکلی پیش امد.',
+          theme: 'theme',
+        });
       },
-      accept: {
-        'image/*': [],
-      },
-    });
+    },
+  });
+
+  const userInfo = useUserInfo();
 
   // Defining a function to handle submit event
   const submitHandleFunction: SubmitHandler<PersonalInfoType> = async (
     data,
   ) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log({ ...data, file });
+    await setPersonalInfoFetch.mutateAsync({
+      first_name: data.name,
+      last_name: data.fullName,
+      email: data.email,
+      national_code: data.meliCode,
+      postal_code: data.postCode,
+      address: data.address,
+      level: userInfo.level,
+    });
   };
 
   // Defining variables
