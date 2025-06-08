@@ -22,8 +22,6 @@ import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/lega
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfiles } from '@/types/dashboard/api/get';
-import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import toast from '@/components/dashboard/ui/customSonner/toast';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -150,27 +148,6 @@ export default function ProfilePage(): ReactNode {
     },
   });
 
-  const uploadComponentFetching = useApiMutation({
-    url: '/juridical-profile-documents/',
-    method: 'post',
-    options: {
-      onError: () => {
-        toast({
-          title: 'مشکلی در اپلود فایل رخ داد!',
-          description: 'کاربر گرامی, فایل مد نظر شما اپلود نشد!',
-          theme: 'theme',
-        });
-      },
-      onSuccess: () => {
-        toast({
-          title: 'اپلود شد!',
-          description: 'کاربر گرامی, فایل مد نظر شما اپلود شد!',
-          theme: 'green',
-        });
-      },
-    },
-  });
-
   // Setting form values (legal profiles)
   useEffect(() => {
     if (
@@ -246,17 +223,7 @@ export default function ProfilePage(): ReactNode {
               <Upload
                 onChange={(file) => setFile(file)}
                 className='lg:w-[50%] w-full lg:h-auto h-[350px]'
-                onSubmit={async (file, setUploading) => {
-                  setUploading(true);
-
-                  await uploadComponentFetching.mutateAsync({
-                    id: '0',
-                    file: URL.createObjectURL(file),
-                    profile: 1,
-                  });
-
-                  setUploading(false);
-                }}
+                fetchURL='/juridical-profile-documents/'
               />
               <LegalNotes className='lg:w-[50%] w-full' />
             </div>

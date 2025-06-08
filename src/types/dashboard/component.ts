@@ -224,12 +224,7 @@ export interface CreditCardSelectionComponentPropsType {
 export interface UploadComponentPropsType {
   onChange: (file: File | undefined) => void;
   className?: string;
-  setCustomIsUploading?: SetStateAction<Dispatch<boolean>>;
-  customIsUploading?: boolean;
-  onSubmit?: (
-    file: File,
-    setUploadingState: Dispatch<SetStateAction<boolean>>,
-  ) => void;
+  fetchURL?: string;
 }
 
 export interface EmergenciesComponentPropsType {
