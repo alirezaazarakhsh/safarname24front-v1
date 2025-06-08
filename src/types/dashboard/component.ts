@@ -224,12 +224,7 @@ export interface CreditCardSelectionComponentPropsType {
 export interface UploadComponentPropsType {
   onChange: (file: File | undefined) => void;
   className?: string;
-  setCustomIsUploading?: SetStateAction<Dispatch<boolean>>;
-  customIsUploading?: boolean;
-  onSubmit?: (
-    file: File,
-    setUploadingState: Dispatch<SetStateAction<boolean>>,
-  ) => void;
+  fetchURL?: string;
 }
 
 export interface EmergenciesComponentPropsType {
@@ -577,4 +572,21 @@ export interface LegalNotesProfileComponentPropsType {
 export interface ErrorTableComponentPropsType {
   className?: string;
   refetch?: () => void;
+}
+
+export interface UploadSheetComponentPropsType {
+  fetchURL?: string;
+}
+
+export interface UploadedFileComponentPropsType {
+  isLastItem?: boolean;
+  index: number;
+  isLoading?: boolean;
+  onDelete?: () => void;
+  fetchURL?: string;
+  data?: {
+    name: string;
+    id: number;
+    size?: number;
+  };
 }

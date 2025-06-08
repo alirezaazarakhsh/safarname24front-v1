@@ -86,7 +86,7 @@ function InnerPage({
         </div>
       </>
     );
-  } else if (!personalDataFetch.isError) {
+  } else if (!personalDataFetch.isError && personalDataFetch.data) {
     return (
       <userFetchedInfoContext.Provider value={personalDataFetch.data}>
         {!pathname.startsWith('/dashboard/reservations/') && <Header />}

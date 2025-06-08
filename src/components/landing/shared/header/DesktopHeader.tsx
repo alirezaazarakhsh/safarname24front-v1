@@ -13,6 +13,9 @@ import { global } from '@/constants/landing';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import { useUserAccountContext } from '@/context/UserAccountContext';
+import { GETPersonalProfiles } from '@/types/dashboard/api/get';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import toast from '@/components/dashboard/ui/customSonner/toast';
 
 // --------------------------------
 
@@ -30,6 +33,23 @@ export default function DesktopHeader() {
     const cookie = Cookies.get('AUTH');
     setUserLoggedIn(!!cookie);
   }, []);
+
+  const personalDataFetch = useApiQuery<GETPersonalProfiles>({
+    url: '/natural-profiles/',
+    queryKey: ['personalProfile', 'persoanl', 'profile'],
+    options: {
+      staleTime: Infinity,
+    },
+  });
+
+  // Using useEffect to handle errors of personal data fetching
+  useEffect(() => {
+    toast({
+      title: 'مشکلی رخ داد!',
+      description: 'در دریافت اطلاعات مشکلی پیش امد.',
+      theme: 'theme',
+    });
+  }, [personalDataFetch.isError]);
 
   return (
     <>
@@ -50,18 +70,21 @@ export default function DesktopHeader() {
           {/* User-Favorites - User-Profile */}
           <div className='h-10 text-zinc-800 text-cs07 flex gap-2 xl:gap-3'>
             <UserFavorites />
-
-            {/* User-Status Loading ... */}
-            {userIsLoggedIn === null && (
+            {personalDataFetch.isLoading ? (
               <button className='bg-zinc-200/50 w-16 flex-center gap-2 rounded-lg xl:w-28'>
                 <span className='loader-dots-dark'></span>
               </button>
-            )}
-
-            {/* --------------------------------- */}
-
-            {/* User-Account-Trigger */}
-            {userIsLoggedIn === false && (
+            ) : userIsLoggedIn ? (
+              <UserProfile
+                userName={
+                  personalDataFetch.isError || !personalDataFetch.data
+                    ? 'خطا در دریافت اطلاغات!'
+                    : `${personalDataFetch.data[0].first_name} ${personalDataFetch.data[0].last_name}`
+                }
+                isOpen={userAccountIsOpen}
+                setOpen={setUserAccountOpen}
+              />
+            ) : (
               <button
                 className='bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-300 ease-in-out hover:bg-zinc-200/80'
                 onClick={() => toggle()}
@@ -69,14 +92,6 @@ export default function DesktopHeader() {
                 <Profile2User size={19} color='#292D32' />
                 <span className='hidden xl:block'>حساب کاربری</span>
               </button>
-            )}
-
-            {/* User-Profile Content */}
-            {userIsLoggedIn && (
-              <UserProfile
-                isOpen={userAccountIsOpen}
-                setOpen={setUserAccountOpen}
-              />
             )}
           </div>
         </section>

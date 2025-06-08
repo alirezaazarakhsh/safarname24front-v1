@@ -53,6 +53,13 @@ export interface GETLegalProfileItem {
   }[];
 }
 
+export interface GETUploadedDocumentItem {
+  id: number;
+  file: string;
+  profile: number;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETPersonalProfiles = GETPersonalProfileItem[];
 export type GETLegalProfiles = GETLegalProfileItem[];
+export type GETUploadedDocuments = GETUploadedDocumentItem[];
