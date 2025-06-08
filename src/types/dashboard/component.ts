@@ -573,3 +573,20 @@ export interface ErrorTableComponentPropsType {
   className?: string;
   refetch?: () => void;
 }
+
+export interface UploadSheetComponentPropsType {
+  fetchURL?: string;
+}
+
+export interface UploadedFileComponentPropsType {
+  isLastItem?: boolean;
+  index: number;
+  isLoading?: boolean;
+  onDelete?: () => void;
+  fetchURL?: string;
+  data?: {
+    name: string;
+    id: number;
+    size?: number;
+  };
+}

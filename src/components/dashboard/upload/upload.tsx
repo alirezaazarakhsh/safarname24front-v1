@@ -189,7 +189,7 @@ export default function Upload({
               </span>
             )}
           </Button>
-          <UploadSheet />
+          <UploadSheet fetchURL={fetchURL} />
         </div>
         <Button
           disabled={acceptedFiles.length === 0}

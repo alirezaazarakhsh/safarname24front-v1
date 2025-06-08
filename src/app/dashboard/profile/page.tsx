@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import LegalBankInfo from '@/components/dashboard/profile/legal/legalBankInfo';
 import LegalInfoForm from '@/components/dashboard/profile/legal/legalInfoForm';
-import Upload from '@/components/dashboard/financialCartToCart/upload';
+import Upload from '@/components/dashboard/upload/upload';
 import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAcceptDialog';
 import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/personalAccountBannedDialog';
