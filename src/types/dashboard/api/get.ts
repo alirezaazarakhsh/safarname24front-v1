@@ -59,7 +59,22 @@ export interface GETUploadedDocumentItem {
   profile: number;
 }
 
+export interface GETPassengerItem {
+  first_name: string;
+  last_name: string;
+  is_foreign: boolean;
+  national_code: string;
+  passport_code: string;
+  phone_number: string;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETPersonalProfiles = GETPersonalProfileItem[];
 export type GETLegalProfiles = GETLegalProfileItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
+export type GETPasssengers = {
+  count: number;
+  total_pages: number;
+  current_page: number;
+  results: GETPassengerItem[];
+};

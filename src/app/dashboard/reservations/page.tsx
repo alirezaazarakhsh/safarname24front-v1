@@ -7,7 +7,6 @@ import AllFactorsTable from '@/components/dashboard/reservation/allFactorsTable'
 import Filter from '@/components/dashboard/reservation/filter';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETReservation } from '@/types/dashboard/api/get';
-import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useState } from 'react';
 
 // Creating and exporting Reservations page as default

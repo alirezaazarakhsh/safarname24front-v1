@@ -1,9 +1,12 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
+import ErrorTable from '@/components/dashboard/api/errorTable';
 // Importing part
 import Filter from '@/components/dashboard/passengers/filter';
 import PassengersTable from '@/components/dashboard/passengers/table';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETPasssengers } from '@/types/dashboard/api/get';
 import { ReactNode, useState } from 'react';
 
 // Defining some fake data to render later in table
@@ -83,14 +86,35 @@ export default function PassengersPage(): ReactNode {
   // Defining states of component
   const [filter, setFilter] = useState<string>('');
 
+  // Fetching the data
+  const getData = useApiQuery<GETPasssengers>({
+    url: '/profile/passengers/',
+    queryKey: ['passengers', 'list'],
+    options: {
+      staleTime: 30000, // 30 Sec
+    },
+  });
+
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white">
-      <Filter
-        dataNotEmpty={passengers.length !== 0}
-        onChange={(val) => setFilter(val)}
-      />
-      <PassengersTable data={passengers} />
+    <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
+      {!getData.isLoading && getData.isError ? (
+        <ErrorTable refetch={() => getData.refetch()} />
+      ) : (
+        <>
+          <Filter
+            onChange={(val) => setFilter(val)}
+            dataNotEmpty={
+              getData.data ? getData.data.results.length !== 0 : false
+            }
+            loading={getData.isLoading}
+          />
+          <PassengersTable
+            data={getData.data ? getData.data.results : []}
+            loading={getData.isLoading}
+          />
+        </>
+      )}
     </main>
   );
 }

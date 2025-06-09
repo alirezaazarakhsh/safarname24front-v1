@@ -79,7 +79,7 @@ export default function AddPassengersDialog({
 
   // Defining api fetching hooks
   const addNewPassenger = useApiMutation({
-    url: '/passengers/',
+    url: '/profile/passengers/',
     method: 'post',
     options: {
       onSuccess: () => {
