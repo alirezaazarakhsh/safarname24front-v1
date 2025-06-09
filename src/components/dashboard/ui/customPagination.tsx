@@ -3,7 +3,7 @@
 
 // Importing part
 import { CustomPaginationComponentPropsType } from '@/types/dashboard/component';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import {
   Pagination,
   PaginationContent,
@@ -18,30 +18,20 @@ export default function CustomPagination({
   count,
   className,
   loading = false,
-  onChange,
+  activeIndex = 0,
+  setActiveIndex,
 }: CustomPaginationComponentPropsType): ReactNode {
-  // defining states of component
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-
-  // Using useEffect to set onChange
-  useEffect(() => {
-    if (onChange) {
-      onChange(activeIndex);
-    }
-  }, [onChange, activeIndex]);
-
   // Defining classname for buttons
   const buttonClassName =
     "lg:w-10 lg:h-10 w-[37px] h-[37px] lg:rounded-lg rounded-[7px] flex items-center justify-center transition-all duration-500 border data-[active='false']:border-[#d8d8d8] data-[active='false']:bg-white data-[active='false']:text-[#2b2b2b] data-[active='true']:border-blue-50 data-[active='true']:bg-blue-50 data-[active='true']:text-[#4b5bce] data-[active='false']:hover:border-blue-50 data-[active='false']:hover:bg-blue-50 data-[active='false']:hover:text-[#4b5bce]";
 
   // Generate relative page numbers based on current active index
+  const totalPages = Math.ceil(count / 18);
+
   const getPageNumbers = () => {
-    const pages: number[] = [];
-    for (let i = 0; i < 3; i++) {
-      const page = activeIndex + i;
-      if (page < count) pages.push(page);
-    }
-    return pages;
+    if (activeIndex !== undefined) {
+      return Array.from({ length: totalPages }, (_, i) => i);
+    } else return [0, 1, 2, 3, 5];
   };
 
   // Conditional rendering
@@ -54,7 +44,7 @@ export default function CustomPagination({
         )}
       >
         <div className='lg:w-auto w-full lg:gap-3 gap-[17px] flex justify-between items-center'>
-          {[...new Array(4)].map((_, index) => (
+          {[...new Array(5)].map((_, index) => (
             <Skeleton
               key={index}
               className={
@@ -65,7 +55,7 @@ export default function CustomPagination({
         </div>
       </div>
     );
-  } else {
+  } else if (count > 18) {
     return (
       <Pagination
         className={cn(
@@ -79,8 +69,10 @@ export default function CustomPagination({
             <button
               className='lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]'
               onClick={() => {
-                const prevIndex = activeIndex - 1;
-                if (prevIndex > -1) setActiveIndex(prevIndex);
+                if (activeIndex !== undefined && setActiveIndex) {
+                  const prevIndex = activeIndex - 1;
+                  if (prevIndex > -1) setActiveIndex(prevIndex);
+                }
               }}
             >
               <IconsaxIcons
@@ -89,14 +81,12 @@ export default function CustomPagination({
               />
             </button>
           </PaginationItem>
-
-          {/* Dynamic pagination buttons based on activeIndex */}
           {getPageNumbers().map((_, pageIndex) => (
             <PaginationItem key={pageIndex}>
               <button
                 data-active={activeIndex === pageIndex}
                 className={buttonClassName}
-                onClick={() => setActiveIndex(pageIndex)}
+                onClick={() => setActiveIndex && setActiveIndex(pageIndex)}
               >
                 <span className='text-[12px] font-bold text-current'>
                   {pageIndex + 1}
@@ -104,13 +94,14 @@ export default function CustomPagination({
               </button>
             </PaginationItem>
           ))}
-
           <PaginationItem>
             <button
               className='lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]'
               onClick={() => {
-                const nextIndex = activeIndex + 1;
-                if (nextIndex < count) setActiveIndex(nextIndex);
+                if (activeIndex !== undefined && setActiveIndex) {
+                  const nextIndex = activeIndex + 1;
+                  if (nextIndex < totalPages) setActiveIndex(nextIndex);
+                }
               }}
             >
               <IconsaxIcons
@@ -122,5 +113,5 @@ export default function CustomPagination({
         </PaginationContent>
       </Pagination>
     );
-  }
+  } else return false;
 }

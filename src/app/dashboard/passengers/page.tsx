@@ -7,21 +7,31 @@ import Filter from '@/components/dashboard/passengers/filter';
 import PassengersTable from '@/components/dashboard/passengers/table';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETPasssengers } from '@/types/dashboard/api/get';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 // Creating and exporting passengers page as default
 export default function PassengersPage(): ReactNode {
   // Defining states of component
   const [filter, setFilter] = useState<string>('');
+  const [paginationNumber, setPaginationNumber] = useState<number>(0);
 
   // Fetching the data
   const getData = useApiQuery<GETPasssengers>({
-    url: '/profile/passengers/',
+    url: `/profile/passengers?p=${paginationNumber + 1}`,
     queryKey: ['passengers', 'list'],
     options: {
       staleTime: 30000, // 30 Sec
     },
   });
+
+  // Using useEffect to make useApiQuery Fetch again while pagination number changes
+  useEffect(() => {
+    async function handleRefetch() {
+      await getData.refetch();
+    }
+
+    handleRefetch();
+  }, [paginationNumber]);
 
   // Returning JSX
   return (
@@ -32,13 +42,16 @@ export default function PassengersPage(): ReactNode {
         <>
           <Filter
             onChange={(val) => setFilter(val)}
-            loading={getData.isLoading}
+            loading={getData.isLoading || getData.isRefetching}
             dataNotEmpty={
               getData.data ? getData.data.results.length !== 0 : false
             }
           />
           <PassengersTable
-            loading={getData.isLoading}
+            loading={getData.isLoading || getData.isRefetching}
+            paginationCount={getData.data && getData.data.count}
+            paginationActiveIndex={paginationNumber}
+            setPaginationActiveIndex={setPaginationNumber}
             data={
               getData.data
                 ? filter === ''

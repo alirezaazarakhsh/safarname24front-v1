@@ -88,6 +88,8 @@ export interface CustomPaginationComponentPropsType {
   count: number;
   onChange?: (index: number) => void;
   loading?: boolean;
+  activeIndex?: number;
+  setActiveIndex?: Dispatch<SetStateAction<number>>;
 }
 
 export interface DialogComponentPropsType {
@@ -449,6 +451,9 @@ export interface PassengersTableComponentPropsType {
   className?: string;
   loading?: boolean;
   data: GETPasssengers['results'];
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
 }
 
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {

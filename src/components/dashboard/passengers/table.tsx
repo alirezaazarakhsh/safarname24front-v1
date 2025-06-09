@@ -28,6 +28,9 @@ export default function PassengersTable({
   className,
   data,
   loading = false,
+  paginationCount = 12,
+  paginationActiveIndex,
+  setPaginationActiveIndex,
 }: PassengersTableComponentPropsType): ReactNode {
   // Defining states of component
   const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
@@ -234,8 +237,9 @@ export default function PassengersTable({
                 دارید.
               </span>
               <CustomPagination
-                count={12}
-                // onChange={(index) => console.log(index)}
+                count={paginationCount}
+                activeIndex={paginationActiveIndex}
+                setActiveIndex={setPaginationActiveIndex}
               />
             </div>
             <Table dir='rtl' className='border-none lg:table hidden'>
@@ -448,7 +452,11 @@ export default function PassengersTable({
                   </div>
                 ))}
               </div>
-              <CustomPagination count={12} />
+              <CustomPagination
+                count={paginationCount}
+                activeIndex={paginationActiveIndex}
+                setActiveIndex={setPaginationActiveIndex}
+              />
             </div>
           </>
         )}
