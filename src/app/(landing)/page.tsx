@@ -17,12 +17,7 @@ import StickyArea from '@/components/landing/shared/StickyArea';
 // -----------------------------------------------
 
 export default function Home() {
-  const {
-    amazingHotels,
-    interestingBLogs,
-    mostVisitedCities,
-    bestSellingHotels,
-  } = home;
+  const { amazingHotels, interestingBLogs, bestSellingHotels } = home;
 
   return (
     <>
@@ -32,7 +27,7 @@ export default function Home() {
         <HeroSection />
         <Services />
         <SuggestedHotels suggestedHotels={home.suggestedHotels} />
-        <MostVisitedCities cities={mostVisitedCities} />
+        <MostVisitedCities />
         <AmazingHotels hotels={amazingHotels} />
         <AdvertisingBanners />
         <BestSellingHotels hotels={bestSellingHotels} />
