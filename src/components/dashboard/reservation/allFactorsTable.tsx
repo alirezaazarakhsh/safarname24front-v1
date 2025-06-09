@@ -26,6 +26,7 @@ import AcceptCanclationDialog from '@/components/dashboard/reservation/dialog/ac
 import FailedToCancleDialog from '@/components/dashboard/reservation/dialog/failedToCancleDialog';
 import CanclationReasonDialog from './dialog/canclationReseaonDialog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { GETReservationItem } from '@/types/dashboard/api/get';
 
 // Creating and exporting AllFactorsTable component as default
 export default function AllFactorsTable({
@@ -40,6 +41,19 @@ export default function AllFactorsTable({
     useState<boolean>(false);
   const [canclationReasonDialogOpened, setCanclationReasonDialogOpened] =
     useState<boolean>(false);
+
+  // Defining a function to return status infos based on given props
+  type StatusTypes = GETReservationItem["status"];
+
+  function returnStatus(status: StatusTypes): {
+    color: string;
+    title: string
+  } {
+    return {
+      color: (status === "failed" || status === "rejected" || status === "expired") ? '#F30F26' : (status === "payment" || status === "pending_approve") ? "#4B5BCE" : (status === "success" || status === "approved") ? "#35A346" : "#00000",
+      title: (status === "payment") ? "پرداهت شده" : (status === "expired") ? "منقضی شده" : (status === "failed") ? "با شکست روبه رو شد" : (status === "rejected") ? "تایید نشده" : status === "success" ? "موفقیت امیز" : status === "approved" ? "تایید شده" : status === "pending_approve" ? "در حال تایید" : "نا معلوم"
+    };
+  }
 
   // Conditional rendering
   if (loading) {
@@ -239,7 +253,7 @@ export default function AllFactorsTable({
               </span>
               <CustomPagination
                 count={12}
-                // onChange={(index) => console.log(index)}
+              // onChange={(index) => console.log(index)}
               />
             </div>
             <Table dir='rtl' className='border-none lg:table hidden'>
@@ -285,17 +299,17 @@ export default function AllFactorsTable({
                     </TableCell>
                     <TableCell className='p-[20px]'>
                       <span className='text-xs font-600 text-gray-600 truncate block text-right'>
-                        {item.code}
+                        {item.uuid}
                       </span>
                     </TableCell>
                     <TableCell className='p-[20px]'>
                       <span className='text-xs font-600 text-gray-600 truncate block text-right'>
-                        {item.hotel}
+                        {item.additional_details}
                       </span>
                     </TableCell>
                     <TableCell className='p-[20px]'>
                       <span className='text-xs font-600 text-gray-600 truncate block text-right'>
-                        {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
+                        {`${moment(item.created).locale('fa').format('YYYY/MM/DD')} - ${item.expired_date ? moment(item.expired_date).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
                       </span>
                     </TableCell>
                     <TableCell className='p-[20px]'>
@@ -308,35 +322,35 @@ export default function AllFactorsTable({
                         <div
                           className='w-2 h-2 shrink-0 rounded-full'
                           style={{
-                            backgroundColor:
-                              item.financialStatus === 'cancled'
-                                ? '#F30F26'
-                                : item.financialStatus === 'payed'
-                                  ? '#35A346'
-                                  : '#4B5BCE',
+                            backgroundColor: returnStatus(item.status).color
                           }}
                         />
                         <span className='text-xs font-600 text-gray-600 truncate block text-right'>
-                          {item.financialStatus === 'payed'
-                            ? 'پرداخت شده'
-                            : item.financialStatus === 'cancled'
-                              ? 'لغو شده'
-                              : 'انتظار پرداخت کاربر'}
+                          {returnStatus(item.status).title}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell className='p-[20px] flex items-center justify-end gap-3'>
-                      {item.financialStatus === 'payed' && (
-                        <button
-                          className='px-6 h-[40px] rounded-md border border-red-600/50 bg-red-50 text-red-600 font-bold text-[12px] transition-all duration-500 hover:bg-red-100'
-                          onClick={() => setCanclationReasonDialogOpened(true)}
-                        >
-                          کنسل
-                        </button>
-                      )}
-                      {item.financialStatus === 'payed' ? (
+                      {(
+                        item.status === 'approved' ||
+                        item.status === 'payment' ||
+                        item.status === 'success' ||
+                        item.status === 'pending_approve'
+                      ) && (
+                          <button
+                            className='px-6 h-[40px] rounded-md border border-red-600/50 bg-red-50 text-red-600 font-bold text-[12px] transition-all duration-500 hover:bg-red-100'
+                            onClick={() => setCanclationReasonDialogOpened(true)}
+                          >
+                            کنسل
+                          </button>
+                        )}
+                      {(
+                        item.status === 'approved' ||
+                        item.status === 'payment' ||
+                        item.status === 'success'
+                      ) ? (
                         <Link
-                          href={`/dashboard/reservations/${item.id}`}
+                          href={`/dashboard/reservations/${item.uuid}`}
                           className='w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-100'
                         >
                           <IconsaxIcons
@@ -350,13 +364,15 @@ export default function AllFactorsTable({
                         </Link>
                       ) : (
                         <div className='h-[40px] w-[125px] bg-white border border-[#d8d8d8] rounded-md text-black flex items-center justify-center'>
-                          {item.financialStatus === 'cancled' ? (
-                            <span className='text-[12px] font-bold text-current'>
-                              رزرواسیون رد شد!
-                            </span>
-                          ) : (
-                            <Loading />
-                          )}
+                          {
+                            item.status === "pending_approve"
+                              ? <Loading />
+                              : (
+                                <span className='text-[12px] font-bold text-current'>
+                                  رزرواسیون رد شد!
+                                </span>
+                              )
+                          }
                         </div>
                       )}
                     </TableCell>
@@ -385,57 +401,68 @@ export default function AllFactorsTable({
                             کد پیگیری
                           </span>
                           <span className='text-[10px] font-600 text-gray-600 truncate block text-right text-num-en'>
-                            {item.code}
+                            {item.uuid}
                           </span>
                         </div>
                       </div>
                       <div className='flex items-center justify-between gap-[10px]'>
-                        {item.financialStatus === 'payed' && (
-                          <button
-                            className='h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center'
-                            onClick={() =>
-                              setCanclationReasonDialogOpened(true)
-                            }
-                          >
-                            <IconsaxIcons
-                              name='Forbidden2'
-                              color='currentColor'
-                              className='w-[20px] h-[20px]'
-                            />
-                          </button>
-                        )}
-                        {item.financialStatus === 'payed' ? (
-                          <Link
-                            href={`/dashboard/reservations/${item.id}`}
-                            className='h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black'
-                          >
-                            <span className='text-[10px] text-current font-semibold w-full text-right block truncate'>
-                              مشاهده فاکتور
-                            </span>
-                            <IconsaxIcons
-                              name='Eye'
-                              color='currentColor'
-                              className='w-[17px] h-[17px] shrink-0'
-                            />
-                          </Link>
-                        ) : (
-                          <div
-                            className={cn(
-                              'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black',
-                              item.financialStatus === 'cancled'
-                                ? 'px-[10px]'
-                                : 'px-[20px]',
-                            )}
-                          >
-                            {item.financialStatus === 'cancled' ? (
-                              <span className='text-cs07 font-normal text-current'>
-                                رزرواسیون رد شد!
+                        {(
+                          item.status === 'approved' ||
+                          item.status === 'payment' ||
+                          item.status === 'success' ||
+                          item.status === 'pending_approve'
+                        ) && (
+                            <button
+                              className='h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center'
+                              onClick={() =>
+                                setCanclationReasonDialogOpened(true)
+                              }
+                            >
+                              <IconsaxIcons
+                                name='Forbidden2'
+                                color='currentColor'
+                                className='w-[20px] h-[20px]'
+                              />
+                            </button>
+                          )}
+                        {(
+                          item.status === 'approved' ||
+                          item.status === 'payment' ||
+                          item.status === 'success') ?
+                          (
+                            <Link
+                              href={`/dashboard/reservations/${item.uuid}`}
+                              className='h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black'
+                            >
+                              <span className='text-[10px] text-current font-semibold w-full text-right block truncate'>
+                                مشاهده فاکتور
                               </span>
-                            ) : (
-                              <Loading />
-                            )}
-                          </div>
-                        )}
+                              <IconsaxIcons
+                                name='Eye'
+                                color='currentColor'
+                                className='w-[17px] h-[17px] shrink-0'
+                              />
+                            </Link>
+                          ) : (
+                            <div
+                              className={cn(
+                                'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black',
+                                item.status === 'failed'
+                                  ? 'px-[10px]'
+                                  : 'px-[20px]',
+                              )}
+                            >
+                              {
+                                item.status === "pending_approve"
+                                  ? <Loading />
+                                  : (
+                                    <span className='text-cs07 font-normal text-current'>
+                                      رزرواسیون رد شد!
+                                    </span>
+                                  )
+                              }
+                            </div>
+                          )}
                       </div>
                     </div>
                     <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
@@ -450,7 +477,7 @@ export default function AllFactorsTable({
                           هتل :
                         </span>
                         <span className='text-[10px] font-600 text-gray-600 truncate block text-right'>
-                          {item.hotel}
+                          {item.additional_details}
                         </span>
                       </div>
                     </div>
@@ -466,7 +493,7 @@ export default function AllFactorsTable({
                           تاریخ ورود و خروج :
                         </span>
                         <span className='text-[10px] font-600 text-gray-600 truncate block text-right'>
-                          {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
+                          {`${moment(item.created).locale('fa').format('YYYY/MM/DD')} - ${item.expired_date ? moment(item.expired_date).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
                         </span>
                       </div>
                     </div>
@@ -501,20 +528,11 @@ export default function AllFactorsTable({
                           <div
                             className='w-[4px] h-[4px] shrink-0 rounded-full'
                             style={{
-                              backgroundColor:
-                                item.financialStatus === 'cancled'
-                                  ? '#F30F26'
-                                  : item.financialStatus === 'payed'
-                                    ? '#35A346'
-                                    : '#4B5BCE',
+                              backgroundColor: returnStatus(item.status).color
                             }}
                           />
                           <span className='text-[10px] font-600 text-gray-600 truncate block text-right'>
-                            {item.financialStatus === 'payed'
-                              ? 'پرداخت شده'
-                              : item.financialStatus === 'cancled'
-                                ? 'لغو شده'
-                                : 'انتظار پرداخت کاربر'}
+                            {returnStatus(item.status).title}
                           </span>
                         </div>
                       </div>

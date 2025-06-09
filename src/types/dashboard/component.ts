@@ -8,6 +8,7 @@ import {
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
+import { GETReservation } from './api/get';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -79,15 +80,7 @@ export interface IconInputComponentPropsType
 export interface AllFactorsTableComponentPropsType {
   className?: string;
   loading: boolean;
-  data: {
-    id: number;
-    code: string;
-    hotel: string;
-    enterAt: string;
-    exitAt: string | null;
-    passengers: string;
-    financialStatus: 'payed' | 'cancled' | 'pending';
-  }[];
+  data: GETReservation;
 }
 
 export interface CustomPaginationComponentPropsType {
@@ -449,6 +442,7 @@ export interface PassnegersPageFilterComponentPropsType {
   onChange?: (val: string) => void;
   className?: string;
   dataNotEmpty: boolean;
+  loading?: boolean;
 }
 
 export interface PassengersTableComponentPropsType {

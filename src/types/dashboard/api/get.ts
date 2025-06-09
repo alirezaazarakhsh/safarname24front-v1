@@ -1,5 +1,5 @@
 // Creating the type of returned data from api (GET)
-interface GETReservationItem {
+export interface GETReservationItem {
   uuid: string;
   user: number;
   room_dates: number[];
