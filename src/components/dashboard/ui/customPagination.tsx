@@ -54,12 +54,12 @@ export default function CustomPagination({
         )}
       >
         <div className='lg:w-auto w-full lg:gap-3 gap-[17px] flex justify-between items-center'>
-          {[...new Array(4)].map((index) => (
+          {[...new Array(4)].map((_, index) => (
             <Skeleton
+              key={index}
               className={
                 'lg:w-10 lg:h-10 w-[37px] h-[37px] lg:rounded-lg rounded-[7px]'
               }
-              key={index}
             />
           ))}
         </div>
@@ -91,7 +91,7 @@ export default function CustomPagination({
           </PaginationItem>
 
           {/* Dynamic pagination buttons based on activeIndex */}
-          {getPageNumbers().map((pageIndex) => (
+          {getPageNumbers().map((_, pageIndex) => (
             <PaginationItem key={pageIndex}>
               <button
                 data-active={activeIndex === pageIndex}
