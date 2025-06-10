@@ -1,19 +1,5 @@
 'use client';
 
-import 'swiper/css';
-import '@/styles/swiper.css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Swiper as SwiperType } from 'swiper/types';
-import { Navigation, Pagination } from 'swiper/modules';
-
-import Image from 'next/image';
-import { useMediaQuery } from '@/hooks';
-import { useRef, useState } from 'react';
-import { IoClose } from 'react-icons/io5';
-
 import {
   Dialog,
   DialogClose,
@@ -23,21 +9,49 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 
+import 'swiper/css';
+import '@/styles/swiper.css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+import Image from 'next/image';
+import { useMediaQuery } from '@/hooks';
+import { useRef, useState } from 'react';
+import { IoClose } from 'react-icons/io5';
+import { useQuery } from '@tanstack/react-query';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper/types';
+import { Navigation, Pagination } from 'swiper/modules';
+
+import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+
+type Data = {
+  title: string;
+  images: { image: string }[];
+};
+
+type ApiResponse = { data: Data[] };
+
 type Props = {
-  gallery: { title: string; pictures: string[] }[];
+  hotelSlug: string;
 };
 
 // ---------------------------------------
 
 export default function DImageGallery(props: Props) {
-  const { gallery } = props;
-
   const swiperRef = useRef<SwiperType>(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [categoryIndex, setCategoryIndex] = useState(0);
 
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['hotel-gallery'],
+    queryFn: () => generalInstance(`/hotel/hotels/${props.hotelSlug}/gallery`),
+  });
+
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  if (!isDesktop) return null;
+  if (!isDesktop || isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <Dialog>
@@ -47,9 +61,11 @@ export default function DImageGallery(props: Props) {
       </DialogTrigger>
 
       {/* === Large-Screen */}
-      <DialogTrigger className="absolute bottom-4 left-4 bg-white/20 text-zinc-100 text-cs75 font-semibold px-5 py-2.5 hidden backdrop-blur-lg rounded-lg transition-colors duration-200 ease-in-out hover:bg-white/30 xl:block">
-        مشاهده تصاویر هتل
-      </DialogTrigger>
+      {status !== 'pending' && (
+        <DialogTrigger className="absolute bottom-4 left-4 bg-zinc-100 text-cs75 font-bold px-4 py-2 hidden backdrop-blur-lg rounded-lg xl:block">
+          مشاهده تصاویر هتل
+        </DialogTrigger>
+      )}
 
       <DialogContent className="max-w-[70%] w-full h-[30rem] flex p-5 flex-col gap-4 lg:max-w-[42rem] lg:h-[32rem]">
         <DialogTitle className="hidden"></DialogTitle>
@@ -67,7 +83,7 @@ export default function DImageGallery(props: Props) {
             </span>
             <span>/</span>
             <span className="inline-block w-4 text-center">
-              {gallery[categoryIndex].pictures.length}
+              {data?.data[categoryIndex].images.length}
             </span>
           </div>
 
@@ -85,15 +101,15 @@ export default function DImageGallery(props: Props) {
             pagination={{ clickable: true, dynamicBullets: true }}
             onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
           >
-            {gallery[categoryIndex].pictures?.map((picture, index) => (
+            {data?.data[categoryIndex].images?.map((image, index) => (
               <SwiperSlide key={index} className="select-none">
                 <div className="bg-zinc-100 h-full overflow-hidden rounded-xl">
-                  {picture && (
+                  {image && (
                     <Image
                       width={800}
                       height={600}
-                      src={picture}
                       alt="hotel-view"
+                      src={image.image}
                       className="full-size object-cover"
                     />
                   )}
@@ -104,7 +120,7 @@ export default function DImageGallery(props: Props) {
         </div>
 
         {/* Categories */}
-        <div className="h-36">
+        <div>
           <Swiper
             spaceBetween={10}
             breakpoints={{
@@ -113,7 +129,7 @@ export default function DImageGallery(props: Props) {
             }}
             className="h-full"
           >
-            {gallery?.map((picture, index) => (
+            {data?.data?.map((picture, index) => (
               <SwiperSlide
                 key={index}
                 className="select-none"
@@ -125,29 +141,29 @@ export default function DImageGallery(props: Props) {
                 <div className="h-full flex flex-col">
                   {/* Image */}
                   <div
-                    className={`relative bg-zinc-100 h-[7rem] overflow-hidden border-2 rounded-xl transition-colors duration-200 ease-in-out hover:border-cs-red ${
+                    className={`relative bg-zinc-100 h-24 overflow-hidden border-2 rounded-xl transition-colors duration-200 ease-in-out hover:border-cs-red ${
                       categoryIndex === index
                         ? 'border-cs-red'
                         : 'border-transparent'
                     }`}
                   >
-                    {picture.pictures[0] && (
+                    {picture.images[0].image && (
                       <Image
                         alt="hotel-view"
                         width={300}
                         height={200}
-                        src={picture.pictures[0]}
+                        src={picture.images[0].image}
                         className="full-size object-cover"
                       />
                     )}
 
                     <div className="absolute top-2 left-2 w-8 h-6 pt-0.5 bg-white text-zinc-800 text-cs07 font-bold flex-center rounded-md">
-                      {picture.pictures.length}
+                      {picture.images.length}
                     </div>
                   </div>
 
                   {/* Title */}
-                  <div className="text-zinc-700 text-cs75 font-bold mt-auto">
+                  <div className="text-zinc-700 text-cs75 font-bold mt-3">
                     {picture.title}
                   </div>
                 </div>

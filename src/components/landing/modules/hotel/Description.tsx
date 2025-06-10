@@ -1,20 +1,38 @@
 'use client';
 
-import { useMediaQuery } from '@/hooks';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { useMediaQuery } from '@/hooks';
+import { generalInstance } from '@/utils/services';
+import { Skeleton } from '@/components/ui/skeleton';
+
+type Data = {
+  description: string;
+};
+
+type ApiResponse = {
+  data: Data;
+};
+
+type Props = {
+  hotelSlug: string;
+};
 
 const buttonStyle =
   'bg-zinc-200 text-zinc-800 text-cs75 font-semibold px-4 py-1.5 rounded-md';
 
-type Props = {
-  description: string;
-};
-
 // -----------------------------------------
 
 export function Description(props: Props) {
-  const { description } = props;
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['hotel-description'],
+    queryFn: () =>
+      generalInstance(`/hotel/hotels/${props.hotelSlug}/description`),
+  });
+
+  const description = data?.data.description;
 
   const [linesCount, setLinesCount] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -38,7 +56,8 @@ export function Description(props: Props) {
 
   const minLines = 4;
   const isDesktop = useMediaQuery('(min-width: 1024px)');
-  if (!description) return null;
+
+  if (status !== 'pending' && !description) return null;
 
   return (
     <div>
@@ -56,7 +75,17 @@ export function Description(props: Props) {
         transition={{ duration: 0.6, ease: 'easeInOut' }}
         className="text-zinc-600 text-cs08/6 text-justify font-semibold overflow-hidden lg:text-cs85/7"
       >
-        {description}
+        {status === 'pending' ? (
+          <div className="grid gap-2">
+            {Array(5)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton key={index} className="h-6" />
+              ))}
+          </div>
+        ) : (
+          description
+        )}
       </motion.div>
 
       {/* Show (More/Less) Button */}

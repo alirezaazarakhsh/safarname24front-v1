@@ -10,6 +10,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import { useRef } from 'react';
 import { SuggestedHotel as Hotel } from '@/types';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
+import { Section } from './molecules/Section';
 
 type Props = {
   city: string;
@@ -29,7 +30,7 @@ export function SuggestedHotels(props: Props) {
   if (!suggestedHotels) return null;
 
   return (
-    <div className="-ml-5 lg:ml-0">
+    <Section sectionID="suggested-hotels" className="-ml-5 lg:ml-0">
       <TopBarConfig
         viewAllHref="/best-hotels"
         title={{ type: 'single', text: topbarConfigTitle }}
@@ -63,6 +64,6 @@ export function SuggestedHotels(props: Props) {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </Section>
   );
 }

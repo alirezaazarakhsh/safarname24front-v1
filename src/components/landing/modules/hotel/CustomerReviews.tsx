@@ -10,6 +10,7 @@ import ReviewsAverage from './molecules/customer-reviews/ReviewsAverage';
 
 import { AddCommentProvider } from '@/context/AddCommentContext';
 import AddCommentWrapper from './molecules/customer-review/AddCommentWrapper';
+import { Section } from './molecules/Section';
 
 type Props = {
   customerReviews: {
@@ -28,7 +29,7 @@ export function CustomerReviews(props: Props) {
   const [addCommentIsOpen, setAddCommentIsOpen] = useState(false);
 
   return (
-    <div id="passengers-viewpoint" className="relative">
+    <Section sectionID="customer-reviews" className="relative">
       <TopBarConfig
         className="mb-3 lg:mb-4"
         subtitle={`${16} نظر از سوی کاربران ثبت شد`}
@@ -57,6 +58,6 @@ export function CustomerReviews(props: Props) {
           setOpen={setAddCommentIsOpen}
         />
       </AddCommentProvider>
-    </div>
+    </Section>
   );
 }

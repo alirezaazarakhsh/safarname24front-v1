@@ -1,5 +1,6 @@
 'use client';
 
+import { useActiveSection } from '@/context/HotelActiveSectionContext';
 import { useMediaQuery } from '@/hooks';
 import { useEffect, useRef } from 'react';
 
@@ -9,16 +10,16 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 
 type Props = {
-  activeSection: string;
   sectionList: Array<{ id: string; title: string }>;
 };
 
 // --------------------------------------------
 
 export function SectionLinks(props: Props) {
-  const { activeSection, sectionList } = props;
+  const { sectionList } = props;
 
   const swiperRef = useRef<SwiperType>(null);
+  const { activeSection } = useActiveSection();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   // ====== Handle Click-Scroll

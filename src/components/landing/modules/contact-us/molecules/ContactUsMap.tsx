@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+
 import { generalInstance } from '@/utils/services';
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 

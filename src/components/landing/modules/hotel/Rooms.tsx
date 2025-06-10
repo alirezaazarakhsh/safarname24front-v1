@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { TopBarConfig } from '../../shared';
+
 import NormalRoom from './molecules/rooms/NormalRoom';
 import PackedRoom from './molecules/rooms/PackedRoom';
 import SeeMoreButton from './molecules/rooms/atoms/SeeMoreButton';
@@ -10,6 +11,7 @@ import RoomTypeSwitchCase from './molecules/rooms/RoomTypeSwitchCase';
 import NumberOfNights from '../../shared/search/molecules/NumberOfNights';
 import Passengers from '../../shared/search/molecules/passengers/Passengers';
 import DDatePicker from '../../shared/search/molecules/date-picker/DDatePicker';
+import { Section } from './molecules/Section';
 
 type Props = {
   rooms: any;
@@ -27,7 +29,7 @@ export function Rooms(props: Props) {
   const [roomTypes, setRoomTypes] = useState<RoomTypes>('normal');
 
   return (
-    <div id="rooms">
+    <Section sectionID="rooms">
       <TopBarConfig
         title={{
           type: 'single',
@@ -83,6 +85,6 @@ export function Rooms(props: Props) {
 
         <SeeMoreButton />
       </div>
-    </div>
+    </Section>
   );
 }
