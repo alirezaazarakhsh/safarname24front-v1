@@ -22,6 +22,7 @@ import EmptyImage from '../../../../public/image/empty.png';
 import DeletePassangerDialog from './dialog/deletePassangarDialog';
 import EditPassengersDialog from './dialog/editPassengerDialog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { GETPassengerItem } from '@/types/dashboard/api/get';
 
 // Creating and exporting PassengersTable component as default
 export default function PassengersTable({
@@ -36,7 +37,7 @@ export default function PassengersTable({
   const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
   const [editDialogOpened, setEditDialogOpened] = useState<boolean>(false);
   const [editingDialogInfo, setEditDialogInfo] = useState<
-    (typeof data)[0] | undefined
+    GETPassengerItem | undefined
   >(undefined);
 
   // Conditional rendering
@@ -185,15 +186,7 @@ export default function PassengersTable({
       >
         <EditPassengersDialog
           isOpened={editDialogOpened}
-          data={{
-            id: 0,
-            meliCodeOrPassportNumber: '',
-            name: {
-              firstName: '',
-              lastName: '',
-            },
-            tell: '',
-          }}
+          data={editingDialogInfo}
           closeFn={() => {
             setEditDialogOpened(false);
             setEditDialogInfo(undefined);

@@ -8,7 +8,7 @@ import {
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
-import { GETPasssengers, GETReservation } from './api/get';
+import { GETPassengerItem, GETPasssengers, GETReservation } from './api/get';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -457,17 +457,7 @@ export interface PassengersTableComponentPropsType {
 }
 
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
-  data:
-    | {
-        name: {
-          firstName: string;
-          lastName: string;
-        };
-        tell: string;
-        id: number;
-        meliCodeOrPassportNumber: string;
-      }
-    | undefined;
+  data?: GETPassengerItem;
 }
 
 export interface DialogInputPassengersComponentPropsType
