@@ -428,6 +428,7 @@ export interface BlogComponentPropsType {
 export interface CollectionComponentPropsType {
   className?: string;
   isDeletingByUser?: boolean;
+  loading?: boolean;
   data: {
     id: number;
     images: [string, string, string];
@@ -438,6 +439,7 @@ export interface CollectionComponentPropsType {
 export interface FilterFavPageComponentPropsTypeOrginal {
   setDeleteState: Dispatch<SetStateAction<boolean>>;
   deleteState: boolean;
+  loading?: boolean;
 }
 
 export interface PassnegersPageFilterComponentPropsType {
@@ -554,6 +556,10 @@ export interface LegalNotesProfileComponentPropsType {
 export interface ErrorTableComponentPropsType {
   className?: string;
   refetch?: () => void;
+}
+
+export interface EmptyTableComponentPropsType {
+  className?: string;
 }
 
 export interface UploadSheetComponentPropsType {

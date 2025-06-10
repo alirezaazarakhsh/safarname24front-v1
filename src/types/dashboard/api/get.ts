@@ -1,4 +1,11 @@
 // Creating the type of returned data from api (GET)
+export interface GETPaginationAPILayout<T> {
+  count: number;
+  total_pages: number;
+  current_page: number;
+  results: T;
+}
+
 export interface GETReservationItem {
   uuid: string;
   user: number;
@@ -7,13 +14,13 @@ export interface GETReservationItem {
   extra_passengers: number[];
   paid_price: number;
   status:
-    | 'payment'
-    | 'pending_approve'
-    | 'approved'
-    | 'rejected'
-    | 'failed'
-    | 'success'
-    | 'expired';
+  | 'payment'
+  | 'pending_approve'
+  | 'approved'
+  | 'rejected'
+  | 'failed'
+  | 'success'
+  | 'expired';
   fail_reason: string;
   expired_date: string;
   additional_details: string;
@@ -68,13 +75,15 @@ export interface GETPassengerItem {
   phone_number: string;
 }
 
+export interface GETFavoriteItem {
+  id: number;
+  title: string;
+  images: string;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETPersonalProfiles = GETPersonalProfileItem[];
 export type GETLegalProfiles = GETLegalProfileItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
-export type GETPasssengers = {
-  count: number;
-  total_pages: number;
-  current_page: number;
-  results: GETPassengerItem[];
-};
+export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
+export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;

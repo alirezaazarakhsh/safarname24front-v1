@@ -112,7 +112,7 @@ function InnerPage({
     );
   } else {
     // redirecting user
-    router.push('/');
+    router.push('/?auth_open=true');
 
     // Returning JSX
     return (

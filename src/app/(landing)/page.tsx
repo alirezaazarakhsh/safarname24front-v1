@@ -33,7 +33,7 @@ export default function Home() {
     <>
       <StickyArea />
 
-      <div className="mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0">
+      <div className='mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0'>
         <HeroSection images={heroSection.images} />
         <Services services={services} />
         <SuggestedHotels suggestedHotels={home.suggestedHotels} />
