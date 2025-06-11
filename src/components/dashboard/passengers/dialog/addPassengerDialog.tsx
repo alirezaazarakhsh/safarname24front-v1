@@ -62,6 +62,7 @@ type formType = z.infer<typeof formSchema>;
 export default function AddPassengersDialog({
   closeFn,
   isOpened = false,
+  refetch,
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
   const [errorDrawerOpenedMobile, setErrorDrawerOpenedMobile] =
@@ -84,6 +85,8 @@ export default function AddPassengersDialog({
     options: {
       onSuccess: () => {
         closeFn && closeFn();
+        refetch && refetch();
+
         if (!isMobile) {
           toast({
             title: 'با موفقیت بروزرسانی شد',

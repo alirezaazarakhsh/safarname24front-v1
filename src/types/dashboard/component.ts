@@ -96,6 +96,7 @@ export interface DialogComponentPropsType {
   isOpened?: boolean;
   closeFn?: () => void;
   tryAgainFn?: () => void;
+  refetch?: () => void;
 }
 
 export interface ToastProps {
@@ -447,6 +448,7 @@ export interface PassnegersPageFilterComponentPropsType {
   className?: string;
   dataNotEmpty: boolean;
   loading?: boolean;
+  refetch?: () => void;
 }
 
 export interface PassengersTableComponentPropsType {

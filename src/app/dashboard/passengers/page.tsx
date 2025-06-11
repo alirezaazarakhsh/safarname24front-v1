@@ -43,6 +43,7 @@ export default function PassengersPage(): ReactNode {
           <Filter
             onChange={(val) => setFilter(val)}
             loading={getData.isLoading || getData.isRefetching}
+            refetch={getData.refetch}
             dataNotEmpty={
               getData.data ? getData.data.results.length !== 0 : false
             }
