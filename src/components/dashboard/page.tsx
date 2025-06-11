@@ -12,12 +12,12 @@ import Loading from './ui/loading';
 import Logo from './ui/logo';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETPersonalProfiles } from '@/types/dashboard/api/get';
+import { GETPersonalProfile } from '@/types/dashboard/api/get';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
 export const userFetchedInfoContext = createContext<
-  GETPersonalProfiles | undefined
+  GETPersonalProfile | undefined
 >(undefined);
 
 // defining query client for react query
@@ -54,7 +54,7 @@ function InnerPage({
   router: ReturnType<typeof useRouter>;
   pathname: string;
 }) {
-  const personalDataFetch = useApiQuery<GETPersonalProfiles>({
+  const personalDataFetch = useApiQuery<GETPersonalProfile>({
     url: '/natural-profiles/',
     queryKey: ['personalProfile', 'persoanl', 'profile'],
     options: {

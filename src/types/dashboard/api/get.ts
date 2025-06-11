@@ -14,13 +14,13 @@ export interface GETReservationItem {
   extra_passengers: number[];
   paid_price: number;
   status:
-  | 'payment'
-  | 'pending_approve'
-  | 'approved'
-  | 'rejected'
-  | 'failed'
-  | 'success'
-  | 'expired';
+    | 'payment'
+    | 'pending_approve'
+    | 'approved'
+    | 'rejected'
+    | 'failed'
+    | 'success'
+    | 'expired';
   fail_reason: string;
   expired_date: string;
   additional_details: string;
@@ -30,18 +30,19 @@ export interface GETReservationItem {
   updated: string;
 }
 
-export interface GETPersonalProfileItem {
+export interface GETPersonalProfile {
   first_name: string;
   last_name: string;
   email: string;
   national_code: string;
-  image: string;
+  image: string | null;
   postal_code: string;
   address: string;
-  level: number;
+  level: number | null;
+  level_name: null | string;
 }
 
-export interface GETLegalProfileItem {
+export interface GETLegalProfile {
   organization_name: string;
   national_id: string;
   registeration_number: string;
@@ -49,15 +50,11 @@ export interface GETLegalProfileItem {
   phone_number: string;
   postal_code: string;
   address: string;
-  email: string;
+  email: string | null;
   image: string;
   status: 'checking' | 'accpeted' | 'rejected';
-  reject_reason: string;
-  documents: {
-    id: string;
-    file: string;
-    profile: number;
-  }[];
+  reject_reason: string | null;
+  documents: string | null;
 }
 
 export interface GETUploadedDocumentItem {
@@ -82,8 +79,6 @@ export interface GETFavoriteItem {
 }
 
 export type GETReservation = GETReservationItem[];
-export type GETPersonalProfiles = GETPersonalProfileItem[];
-export type GETLegalProfiles = GETLegalProfileItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;

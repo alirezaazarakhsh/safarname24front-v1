@@ -21,7 +21,7 @@ import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/p
 import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/legalAccountBannedDialog';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETLegalProfiles } from '@/types/dashboard/api/get';
+import { GETLegalProfile } from '@/types/dashboard/api/get';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -139,7 +139,7 @@ export default function ProfilePage(): ReactNode {
   }, [personalForm, userInfo]);
 
   // Fetching stuff
-  const legalUserFetching = useApiQuery<GETLegalProfiles>({
+  const legalUserFetching = useApiQuery<GETLegalProfile>({
     url: '/juridical-profiles/',
     queryKey: ['legalUserInfo'],
     options: {
@@ -155,13 +155,13 @@ export default function ProfilePage(): ReactNode {
       legalUserFetching.data &&
       !legalUserFetching.isLoading
     ) {
-      const legalInfo = legalUserFetching.data[0];
+      const legalInfo = legalUserFetching.data;
 
       legalForm.setValue('name', legalInfo.organization_name);
       legalForm.setValue('id', legalInfo.national_id);
       legalForm.setValue('registrationId', legalInfo.registeration_number);
       legalForm.setValue('economicCode', legalInfo.economical_code);
-      legalForm.setValue('email', legalInfo.email);
+      legalForm.setValue('email', legalInfo.email || '');
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
     }

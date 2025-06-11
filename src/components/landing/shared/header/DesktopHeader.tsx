@@ -13,7 +13,7 @@ import { global } from '@/constants/landing';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import { useUserAccountContext } from '@/context/UserAccountContext';
-import { GETPersonalProfiles } from '@/types/dashboard/api/get';
+import { GETPersonalProfile } from '@/types/dashboard/api/get';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import toast from '@/components/dashboard/ui/customSonner/toast';
 
@@ -42,7 +42,7 @@ export default function DesktopHeader(props: Props) {
     setUserLoggedIn(!!cookie);
   }, []);
 
-  const personalDataFetch = useApiQuery<GETPersonalProfiles>({
+  const personalDataFetch = useApiQuery<GETPersonalProfile>({
     url: '/natural-profiles/',
     queryKey: ['personalProfile', 'persoanl', 'profile'],
     options: {
@@ -114,7 +114,7 @@ export default function DesktopHeader(props: Props) {
                 userName={
                   personalDataFetch.isError || !personalDataFetch.data
                     ? 'خطا در دریافت اطلاغات!'
-                    : `${personalDataFetch.data[0].first_name} ${personalDataFetch.data[0].last_name}`
+                    : `${personalDataFetch.data.first_name} ${personalDataFetch.data.last_name}`
                 }
                 isOpen={userAccountIsOpen}
                 setOpen={setUserAccountOpen}

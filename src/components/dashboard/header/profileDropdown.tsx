@@ -15,6 +15,7 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import toast from '../ui/customSonner/toast';
 import { userFetchedInfoContext } from '../page';
+import { GETPersonalProfile } from '@/types/dashboard/api/get';
 
 // Creating and exporting ProfileDropdown component as defualt
 export default function ProfileDropdown(): ReactNode {
@@ -62,22 +63,14 @@ export default function ProfileDropdown(): ReactNode {
   });
 
   // Defining variables
-  const user: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    national_code: string;
-    image: string;
-    postal_code: string;
-    address: string;
-    level: number;
-  } = userInfo
-    ? userInfo[0]
+  const user: GETPersonalProfile = userInfo
+    ? userInfo
     : {
+        level_name: '',
         address: 'معلوم نیست',
         email: 'معلوم نیست',
         first_name: 'معلوم نیست',
-        image: 'معلوم نیست',
+        image: null,
         last_name: 'معلوم نیست',
         level: 0,
         national_code: 'معلوم نیست',
@@ -93,7 +86,7 @@ export default function ProfileDropdown(): ReactNode {
             width={100}
             height={100}
             alt={'عکس پروفایل شما'}
-            src={user.image}
+            src={user.image || AvatarImage.src}
             className='aspect-square object-cover w-12 h-12 rounded-lg overflow-hidden shrink-0'
           />
           <div className='w-full overflow-hidden'>
