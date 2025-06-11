@@ -25,6 +25,7 @@ import { useMediaQuery } from '@/hooks';
 import toast from '../../ui/customSonner/toast';
 import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import Loading from '../../ui/loading';
 
 // Creating and exporting DeleteCollectionDialog component as default
 export default function DeleteCollectionDialog({
@@ -145,9 +146,14 @@ export default function DeleteCollectionDialog({
             </DialogClose>
             <button
               onClick={async () => await fetchingData.mutateAsync({})}
-              className='flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600'
+              disabled={fetchingData.isPending}
+              className='flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600 transition-all duration-500 disabled:bg-gray-100'
             >
-              تایید اطلاعات
+              {fetchingData.isPending ? (
+                <Loading className='bg-black' />
+              ) : (
+                'تایید اطلاعات'
+              )}
             </button>
           </DialogFooter>
         </DialogContent>

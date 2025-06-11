@@ -38,43 +38,68 @@ export default function Favorites(): ReactNode {
   // Returning JSX
   return (
     <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]'>
-      {!getData.isLoading && getData.isError && !getData.data ? (
+      {(getData.isLoading && !getData.data) || getData.isRefetching ? (
+        <>
+          <Filter
+            loading
+            deleteState={deleteState}
+            setDeleteState={setDeleteState}
+            listIsEmpty={false}
+          />
+          <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
+            {[...new Array(12)].map((_, index) => (
+              <Collection
+                loading
+                isDeletingByUser={deleteState}
+                key={index}
+                refetch={getData.refetch}
+                data={{
+                  id: index,
+                  title: 'TITLE',
+                  images: [
+                    '/image/hotel/hotel-1.png',
+                    '/image/hotel/hotel-1.png',
+                    '/image/hotel/hotel-1.png',
+                  ],
+                }}
+              />
+            ))}
+          </div>
+        </>
+      ) : getData.isError ? (
         <ErrorTable />
+      ) : getData.data?.count === 0 ? (
+        <EmptyTable
+          className='lg:col-span-4 col-span-1'
+          title='هیچ علاقه مندی فعلا ندارید!'
+          description='مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم.'
+        />
       ) : (
         <>
           <Filter
             refetch={getData.refetch}
-            loading={getData.isLoading || getData.isRefetching}
             deleteState={deleteState}
             setDeleteState={setDeleteState}
             listIsEmpty={getData.data?.results.length === 0}
           />
           <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
-            {getData.data && getData.data.results.length !== 0 ? (
-              getData.data.results.map((item, index) => (
-                <Collection
-                  refetch={getData.refetch}
-                  loading={getData.isLoading || getData.isRefetching}
-                  isDeletingByUser={deleteState}
-                  key={index}
-                  data={{
-                    id: item.id,
-                    images: [
-                      '/image/hotel/hotel-1.png',
-                      '/image/hotel/hotel-1.png',
-                      '/image/hotel/hotel-1.png',
-                    ],
-                    title: item.title,
-                  }}
-                />
-              ))
-            ) : (
-              <EmptyTable
-                className='lg:col-span-4 col-span-1'
-                title='هیچ علاقه مندی فعلا ندارید!'
-                description='مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم.'
+            {getData.data?.results.map((item, index) => (
+              <Collection
+                refetch={getData.refetch}
+                loading={getData.isLoading || getData.isRefetching}
+                isDeletingByUser={deleteState}
+                key={index}
+                data={{
+                  id: item.id,
+                  images: [
+                    '/image/hotel/hotel-1.png',
+                    '/image/hotel/hotel-1.png',
+                    '/image/hotel/hotel-1.png',
+                  ],
+                  title: item.title,
+                }}
               />
-            )}
+            ))}
           </div>
           <div className='flex items-center lg:justify-end justify-center'>
             <CustomPagination
