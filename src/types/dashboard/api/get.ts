@@ -78,7 +78,17 @@ export interface GETFavoriteItem {
   images: string;
 }
 
+export interface GETFavoriteItemSingle {
+  id: number;
+  title: string;
+  favorites: {
+    id: number;
+    title: string;
+  }[];
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
+export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;

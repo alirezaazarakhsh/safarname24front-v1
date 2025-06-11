@@ -104,6 +104,8 @@ export interface DeleteCollectionDialogPropsType
   id: number;
 }
 
+export type DeleteItemDialogPropsType = DeleteCollectionDialogPropsType;
+
 export interface ToastProps {
   title: string;
   description: string;
@@ -420,6 +422,7 @@ export interface NotificationSheetMobilePropsType
 export interface FilterFavPageComponentPropsType {
   onChange?: (val: 'savedHotels' | 'savedBlogs') => void;
   favName: string;
+  loading?: boolean;
 }
 
 export interface BlogComponentPropsType {
@@ -429,6 +432,17 @@ export interface BlogComponentPropsType {
   desc: string;
   createdAt: string;
   className?: string;
+}
+
+export interface FavItemComponentPropsType {
+  className?: string;
+  isDeletingByUser?: boolean;
+  loading?: boolean;
+  refetch: () => void;
+  data: {
+    id: number;
+    title: string;
+  };
 }
 
 export interface CollectionComponentPropsType {
