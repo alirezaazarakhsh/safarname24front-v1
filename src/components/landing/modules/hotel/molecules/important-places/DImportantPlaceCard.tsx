@@ -1,12 +1,8 @@
+import { Data } from '../../ImportantPlaces';
 import { ICCarInRoad, ICUser } from '@/components/icons';
 
 type Props = {
-  importantPlace: {
-    title: string;
-    image: string;
-    distances: { byCar: number; onFoot: number; totalDistance: number };
-    geolocation: { lat: number; lng: number };
-  };
+  importantPlace: Data;
   slideIsActive: boolean;
 };
 
@@ -14,11 +10,8 @@ type Props = {
 
 export default function DImportantPlaceCard(props: Props) {
   const {
-    importantPlace: {
-      title,
-      distances: { totalDistance, byCar, onFoot },
-    },
     slideIsActive,
+    importantPlace: { title, distance, driving_time, walking_time },
   } = props;
 
   return (
@@ -28,40 +21,40 @@ export default function DImportantPlaceCard(props: Props) {
       }`}
     >
       {/* Title */}
-      <span className='text-zinc-800 text-cs85 font-extrabold'>{title}</span>
+      <span className="text-zinc-800 text-cs09 font-extrabold">{title}</span>
 
       {/* Distance => by-car | on-foot | Total */}
-      <div className='text-cs75 font-semibold mt-auto flex-between items-center'>
-        <div className='flex-center gap-2'>
-          <div className='w-9 h-9 flex-center border-2 border-zinc-200 rounded-md'>
+      <div className="text-cs75 font-semibold mt-auto flex-between items-center">
+        <div className="flex-center gap-2">
+          <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
             <ICCarInRoad />
           </div>
 
-          <div className='flex-center gap-1'>
+          <div className="flex-center gap-1">
             <span>ماشین</span>
             <span>:</span>
-            <span>{byCar}</span>
+            <span>{driving_time}</span>
             <span>دقیقه</span>
           </div>
         </div>
 
-        <div className='flex-center gap-2'>
-          <div className='w-9 h-9 flex-center border-2 border-zinc-200 rounded-md'>
+        <div className="flex-center gap-2">
+          <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
             <ICUser />
           </div>
 
-          <div className='flex-center gap-1'>
+          <div className="flex-center gap-1">
             <span>پیاده روی</span>
             <span>:</span>
-            <span>{onFoot}</span>
+            <span>{walking_time}</span>
             <span>دقیقه</span>
           </div>
         </div>
 
-        <div className='absolute top-5 left-5 text-zinc-800 font-semibold flex-center gap-1 xl:static'>
+        <div className="absolute top-5 left-5 text-zinc-800 font-semibold flex-center gap-1 xl:static">
           <span>مسافت کلی</span>
           <span>:</span>
-          <span>{totalDistance}</span>
+          <span>{distance}</span>
           <span>کیلومتر</span>
         </div>
       </div>

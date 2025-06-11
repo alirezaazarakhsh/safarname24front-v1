@@ -1,31 +1,35 @@
 'use client';
 
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import { ICLocation } from '@/components/icons';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-
 import {
   Dialog,
   DialogClose,
-  DialogContent,
-  DialogDescription,
   DialogTitle,
+  DialogContent,
   DialogTrigger,
+  DialogDescription,
 } from '@/components/ui/dialog';
-import { IoClose } from 'react-icons/io5';
+
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+import { useEffect } from 'react';
 import { Map } from 'iconsax-react';
+
+import { IoClose } from 'react-icons/io5';
+import { ICLocation } from '@/components/icons';
+
+import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 
 type Props = {
   hotelInfo: {
-    hotelName: string;
-    city: string;
-    address: string;
+    city?: string;
+    address?: string;
+    hotelName?: string;
   };
-  geoLocation: { lat: number; lng: number };
+  geoLocation: { lat?: number; lng?: number };
 };
-
-// ---------------------------------------
+  
+// ---------------------------------
 
 //* delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -34,6 +38,18 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
 });
+
+function RecenterMap({ lat, lng }: { lat: number; lng: number }) {
+  const map = useMap();
+
+  useEffect(() => {
+    map.setView([lat, lng], 16);
+  }, [lat, lng, map]);
+
+  return null;
+}
+
+// ---------------------------------
 
 export function HotelMap(props: Props) {
   const {
@@ -59,16 +75,22 @@ export function HotelMap(props: Props) {
           </DialogClose>
 
           <MapContainer
+            zoom={16}
+            center={[0, 0]}
+            scrollWheelZoom={true}
             className="full-size z-10"
-            center={[lat ?? 0, lng ?? 0]}
-            zoom={13}
-            scrollWheelZoom={false}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[lat ?? 0, lng ?? 0]}></Marker>
+
+            {lat && lng && (
+              <>
+                <Marker position={[lat, lng]} />
+                <RecenterMap lat={lat} lng={lng} />
+              </>
+            )}
           </MapContainer>
 
           <div className="absolute z-20 bottom-0 inset-x-0 bg-white p-3.5 space-y-1.5 border-t-2 md:space-y-2 md:p-5">

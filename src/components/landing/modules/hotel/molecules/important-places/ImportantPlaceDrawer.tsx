@@ -1,23 +1,38 @@
+import {
+  Drawer,
+  DrawerTitle,
+  DrawerContent,
+  DrawerTrigger,
+  DrawerDescription,
+} from '@/components/ui/drawer';
+
 import Image from 'next/image';
-import { ImportantPlaceMap } from './ImportantPlaceMap';
+import dynamic from 'next/dynamic';
+
+import { Data } from '../../ImportantPlaces';
 import { ICCarInRoad, ICUser } from '@/components/icons';
 
-import { Drawer, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
-
-type Props = {
-  importantPlace: {
-    title: string;
-    image: string;
-    distances: { byCar: number; onFoot: number; totalDistance: number };
-    geolocation: { lat: number; lng: number };
-  };
-};
+export const ImportantPlaceMap = dynamic(
+  () =>
+    import('./ImportantPlaceMap').then(
+      ({ ImportantPlaceMap }) => ImportantPlaceMap,
+    ),
+  {
+    ssr: false,
+  },
+);
 
 // -----------------------------------------
 
-export default function ImportantPlaceDrawer(props: Props) {
+export default function ImportantPlaceDrawer(props: Data) {
   const {
-    importantPlace: { title, image, distances, geolocation },
+    image,
+    title,
+    latitude,
+    distance,
+    longitude,
+    driving_time,
+    walking_time,
   } = props;
 
   return (
@@ -32,13 +47,15 @@ export default function ImportantPlaceDrawer(props: Props) {
 
         {/* Image */}
         <div className="h-56 overflow-hidden rounded-xl">
-          <Image
-            src={image}
-            alt="place-view"
-            width={500}
-            height={400}
-            className="full-size object-cover"
-          />
+          {image && (
+            <Image
+              src={image}
+              width={500}
+              height={400}
+              alt="place-view"
+              className="full-size object-cover"
+            />
+          )}
         </div>
 
         {/* Title */}
@@ -56,7 +73,7 @@ export default function ImportantPlaceDrawer(props: Props) {
             <div className="flex-center gap-1">
               <span>ماشین</span>
               <span>:</span>
-              <span>{distances.byCar}</span>
+              <span>{driving_time}</span>
               <span>دقیقه</span>
             </div>
           </div>
@@ -69,22 +86,24 @@ export default function ImportantPlaceDrawer(props: Props) {
             <div className="flex-center gap-1">
               <span>پیاده روی</span>
               <span>:</span>
-              <span>{distances.onFoot}</span>
+              <span>{walking_time}</span>
               <span>دقیقه</span>
             </div>
           </div>
         </div>
 
         {/* Total-Distance | Map */}
-        <div className="h-10 text-zinc-700 mt-5 flex gap-3">
+        <div className="h-10 text-zinc-700 mt-4 flex gap-3">
           <div className="bg-cs-blue text-zinc-100 w-2/3 flex-center gap-1 rounded-lg">
             <span>مسافت کلی</span>
             <span>:</span>
-            <span>{distances.byCar}</span>
+            <span>{distance}</span>
             <span>کیلومتر</span>
           </div>
 
-          <ImportantPlaceMap geoLocation={geolocation} />
+          <ImportantPlaceMap
+            geoLocation={{ lat: Number(latitude), lng: Number(longitude) }}
+          />
         </div>
       </DrawerContent>
     </Drawer>
