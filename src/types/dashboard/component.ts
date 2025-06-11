@@ -99,6 +99,11 @@ export interface DialogComponentPropsType {
   refetch?: () => void;
 }
 
+export interface DeleteCollectionDialogPropsType
+  extends DialogComponentPropsType {
+  id: number;
+}
+
 export interface ToastProps {
   title: string;
   description: string;
@@ -430,6 +435,7 @@ export interface CollectionComponentPropsType {
   className?: string;
   isDeletingByUser?: boolean;
   loading?: boolean;
+  refetch: () => void;
   data: {
     id: number;
     images: [string, string, string];
@@ -441,6 +447,8 @@ export interface FilterFavPageComponentPropsTypeOrginal {
   setDeleteState: Dispatch<SetStateAction<boolean>>;
   deleteState: boolean;
   loading?: boolean;
+  listIsEmpty?: boolean;
+  refetch?: () => void;
 }
 
 export interface PassnegersPageFilterComponentPropsType {
@@ -562,6 +570,8 @@ export interface ErrorTableComponentPropsType {
 
 export interface EmptyTableComponentPropsType {
   className?: string;
+  title?: string;
+  description?: string;
 }
 
 export interface UploadSheetComponentPropsType {

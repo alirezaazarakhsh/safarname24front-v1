@@ -16,6 +16,7 @@ export default function Collection({
   isDeletingByUser,
   data: { id, images, title },
   loading = false,
+  refetch,
 }: CollectionComponentPropsType): ReactNode {
   // Defining states of component
   const [dialogOpened, setDialogOpened] = useState<boolean>(false);
@@ -36,6 +37,8 @@ export default function Collection({
     return (
       <>
         <DeleteCollectionDialog
+          id={id}
+          refetch={refetch}
           isOpened={dialogOpened}
           closeFn={() => setDialogOpened(false)}
         />

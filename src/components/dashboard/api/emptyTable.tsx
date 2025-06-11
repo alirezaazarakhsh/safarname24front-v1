@@ -12,6 +12,8 @@ import EmptyImage from '../../../../public/image/empty.png';
 // Ths component has to be rendred on conditions and not via props like open or etc
 export default function EmptyTable({
   className,
+  title = 'هیچ لیست رزروی فعلا ندارید!',
+  description = 'مشتری گرامی برای ثبت رزرو هتل میتوانید از دکمه بالا اقدام نمایید از همراهی شما متشکریم.',
 }: EmptyTableComponentPropsType): ReactNode {
   // Returning JSX
   return (
@@ -30,11 +32,10 @@ export default function EmptyTable({
           className='h-auto lg:w-[250px] w-[200px] aspect-square block mb-4 mx-auto'
         />
         <span className='block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold'>
-          هیچ لیست رزروی فعلا ندارید!
+          {title}
         </span>
         <span className='block text-center w-full lg:text-black text-gray-500 lg:text-cs09 text-[10px] font-normal lg:mb-0 mb-6'>
-          مشتری گرامی برای ثبت رزرو هتل میتوانید از دکمه بالا اقدام نمایید از
-          همراهی شما متشکریم.
+          {description}
         </span>
       </div>
     </section>
