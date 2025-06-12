@@ -49,7 +49,7 @@ export default function MImageGallery(props: Props) {
   });
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  // if (isDesktop) return null;
+  if (isDesktop || isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <Sheet>

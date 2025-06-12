@@ -27,7 +27,7 @@ type ApiResponse = { data: { faqs: Data[] } };
 export function FrequentlyQuestions() {
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['config-faqs'],
-    queryFn: () => generalInstance('/config/faqs/?page=4'),
+    queryFn: () => generalInstance('/config/faqs/?path=/about-us'),
   });
 
   const source = data?.data.faqs;
@@ -99,7 +99,7 @@ function Questions(props: QuestionProps) {
           className="border-b last:border-none"
         >
           <AccordionTrigger className="text-zinc-800 text-cs85 font-bold py-5">
-            <div className='flex items-center gap-3'>
+            <div className="flex items-center gap-3">
               {item.icon.link && (
                 <Image src={item.icon.link} alt="icon" width={24} height={24} />
               )}

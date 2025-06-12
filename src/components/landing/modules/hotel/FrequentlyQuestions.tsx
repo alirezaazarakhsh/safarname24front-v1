@@ -44,7 +44,7 @@ export function FrequentlyQuestions(props: Props) {
   if (status !== 'pending' && (!source || !source?.length)) return null;
 
   return (
-    <Section sectionID='frequently-questions'>
+    <Section sectionID="frequently-questions">
       <TopBarConfig
         title={{ type: 'single', text: 'سوالات متداول' }}
         subtitle="پرسش و پاسخ های مهم در رابط با رزرواسیون !"
