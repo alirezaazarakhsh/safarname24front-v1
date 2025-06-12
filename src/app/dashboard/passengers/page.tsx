@@ -17,7 +17,7 @@ export default function PassengersPage(): ReactNode {
 
   // Fetching the data
   const getData = useApiQuery<GETPasssengers>({
-    url: `/profile/passengers?p=${paginationNumber + 1}`,
+    url: `/hotel/passengers?p=${paginationNumber + 1}`,
     queryKey: ['passengers', 'list'],
     options: {
       staleTime: 30000, // 30 Sec

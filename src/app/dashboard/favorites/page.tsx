@@ -67,7 +67,7 @@ export default function Favorites(): ReactNode {
           </div>
         </>
       ) : getData.isError ? (
-        <ErrorTable />
+        <ErrorTable refetch={getData.refetch} />
       ) : getData.data?.count === 0 ? (
         <EmptyTable
           className='lg:col-span-4 col-span-1'
@@ -83,23 +83,24 @@ export default function Favorites(): ReactNode {
             listIsEmpty={getData.data?.results.length === 0}
           />
           <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
-            {getData.data?.results.map((item, index) => (
-              <Collection
-                refetch={getData.refetch}
-                loading={getData.isLoading || getData.isRefetching}
-                isDeletingByUser={deleteState}
-                key={index}
-                data={{
-                  id: item.id,
-                  images: [
-                    '/image/hotel/hotel-1.png',
-                    '/image/hotel/hotel-1.png',
-                    '/image/hotel/hotel-1.png',
-                  ],
-                  title: item.title,
-                }}
-              />
-            ))}
+            {Array.isArray(getData.data?.results) &&
+              getData.data?.results.map((item, index) => (
+                <Collection
+                  refetch={getData.refetch}
+                  loading={getData.isLoading || getData.isRefetching}
+                  isDeletingByUser={deleteState}
+                  key={index}
+                  data={{
+                    id: item.id,
+                    images: [
+                      '/image/hotel/hotel-1.png',
+                      '/image/hotel/hotel-1.png',
+                      '/image/hotel/hotel-1.png',
+                    ],
+                    title: item.title,
+                  }}
+                />
+              ))}
           </div>
           <div className='flex items-center lg:justify-end justify-center'>
             <CustomPagination

@@ -28,6 +28,7 @@ export default function FavoritesPage(): ReactNode {
     queryKey: ['favorites', 'collections'],
     options: {
       staleTime: 30000, // 30 Sec
+      enabled: !!id,
     },
   });
 
@@ -61,7 +62,7 @@ export default function FavoritesPage(): ReactNode {
           </div>
         </>
       ) : getData.isError ? (
-        <ErrorTable />
+        <ErrorTable refetch={() => getData.refetch()} />
       ) : getData.data?.count === 0 ? (
         <EmptyTable
           className='lg:col-span-4 col-span-1'
@@ -75,17 +76,26 @@ export default function FavoritesPage(): ReactNode {
             onChange={(val) => setSavedType(val)}
           />
           <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
-            {getData.data?.results.favorites.map((item, index) => (
-              <FavItem
-                loading
-                key={index}
-                refetch={getData.refetch}
-                data={{
-                  id: item.id,
-                  title: item.title,
-                }}
-              />
-            ))}
+            {Array.isArray(getData.data?.results?.favorites) &&
+              getData.data?.results.favorites.map((item, index) => (
+                <FavItem
+                  loading
+                  key={index}
+                  refetch={getData.refetch}
+                  data={{
+                    id: item.id,
+                    title: item.title,
+                  }}
+                />
+              ))}
+          </div>
+          <div className='flex items-center lg:justify-end justify-center'>
+            <CustomPagination
+              loading={getData.isLoading || getData.isRefetching}
+              count={getData.data ? getData.data.count : 12}
+              activeIndex={paginationNumber}
+              setActiveIndex={setPaginationNumber}
+            />
           </div>
         </>
       )}

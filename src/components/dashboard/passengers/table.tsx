@@ -32,10 +32,18 @@ export default function PassengersTable({
   paginationCount = 12,
   paginationActiveIndex,
   setPaginationActiveIndex,
+  refetch,
 }: PassengersTableComponentPropsType): ReactNode {
   // Defining states of component
   const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
   const [editDialogOpened, setEditDialogOpened] = useState<boolean>(false);
+
+  const [deleteItemId, setDeleteItemId] = useState<number | undefined>(
+    undefined,
+  );
+
+  const [editItemId, setEditItemId] = useState<number | undefined>(undefined);
+
   const [editingDialogInfo, setEditDialogInfo] = useState<
     GETPassengerItem | undefined
   >(undefined);
@@ -187,13 +195,17 @@ export default function PassengersTable({
         <EditPassengersDialog
           isOpened={editDialogOpened}
           data={editingDialogInfo}
+          refetch={refetch}
+          id={editItemId}
           closeFn={() => {
             setEditDialogOpened(false);
             setEditDialogInfo(undefined);
           }}
         />
         <DeletePassangerDialog
+          id={deleteItemId}
           isOpened={deleteDialogOpened}
+          refetch={refetch}
           closeFn={() => setDeleteDialogOpened(false)}
         />
         {data.length === 0 ? (

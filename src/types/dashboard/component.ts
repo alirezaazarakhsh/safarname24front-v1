@@ -97,6 +97,7 @@ export interface DialogComponentPropsType {
   closeFn?: () => void;
   tryAgainFn?: () => void;
   refetch?: () => void;
+  id?: number;
 }
 
 export interface DeleteCollectionDialogPropsType
@@ -474,6 +475,7 @@ export interface PassnegersPageFilterComponentPropsType {
 }
 
 export interface PassengersTableComponentPropsType {
+  refetch?: () => void;
   className?: string;
   loading?: boolean;
   data: GETPasssengers['results'];
@@ -484,6 +486,7 @@ export interface PassengersTableComponentPropsType {
 
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
   data?: GETPassengerItem;
+  id?: number;
 }
 
 export interface DialogInputPassengersComponentPropsType

@@ -23,6 +23,7 @@ import { useMediaQuery } from '@/hooks';
 import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 import { Label } from '@radix-ui/react-label';
 import { Checkbox } from '@/components/ui/checkbox';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 // Defining form schema
 const formSchema = z.object({
@@ -62,12 +63,15 @@ export default function EditPassengersDialog({
   closeFn,
   isOpened = false,
   data,
+  id = 1,
+  refetch,
 }: EditPassengerDialogPropsType): ReactNode {
   // Defining hooks
   const [errorDrawerOpenedMobile, setErrorDrawerOpenedMobile] =
     useState<boolean>(false);
   const [successDrawerOpenedMobile, setSuccessDrawerOpenedMobile] =
     useState<boolean>(false);
+
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
@@ -83,19 +87,51 @@ export default function EditPassengersDialog({
     },
   });
 
+  // Defining fetching data
+  const fetchData = useApiMutation({
+    url: `/hotel/passengers/${id}/`,
+    method: 'put',
+    options: {
+      onError: () => {
+        closeFn && closeFn();
+
+        if (!isMobile) {
+          toast({
+            title: 'مشکلی پیش امد!',
+            description: 'در ارسال اطلاعات مسافر جدید مشکلی رخ داد',
+            theme: 'theme',
+          });
+        } else {
+          setErrorDrawerOpenedMobile(true);
+        }
+      },
+      onSuccess: () => {
+        closeFn && closeFn();
+        refetch && refetch();
+
+        if (isMobile) {
+          setSuccessDrawerOpenedMobile(true);
+        } else {
+          toast({
+            title: 'تغیرات موفقیت امیز بود!',
+            description: 'تغیرات انجام شده برای مسافر انجام شد!',
+            theme: 'green',
+          });
+        }
+      },
+    },
+  });
+
   // Defining submit handler
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    closeFn && closeFn();
-    if (isMobile) {
-      setSuccessDrawerOpenedMobile(true);
-    } else {
-      toast({
-        title: 'تغیرات موفقیت امیز بود!',
-        description: 'تغیرات انجام شده برای مسافر انجام شد!',
-        theme: 'green',
-      });
-    }
+    await fetchData.mutateAsync({
+      first_name: data.firstName,
+      last_name: data.lastName,
+      is_foreign: data.isForeign,
+      national_code: data.nationalCode,
+      passport_code: data.passportCode,
+      phone_number: data.phoneNumber,
+    });
   };
 
   // Returning JSX
@@ -219,10 +255,15 @@ export default function EditPassengersDialog({
           </div>
           <DialogFooter className='grid lg:grid-cols-2 grid-cols-1 gap-3 w-full shrink-0'>
             <button
-              className='bg-black lg:rounded-md rounded-[10px] flex items-center justify-center text-white lg:font-medium font-semibold lg:text-cs07 text-[14px] h-[45px] px-3 truncate'
+              disabled={form.formState.isSubmitting}
+              className='bg-black lg:rounded-md rounded-[10px] flex items-center justify-center text-white lg:font-medium font-semibold lg:text-cs07 text-[14px] h-[45px] px-3 truncate disabled:bg-gray-100 transition-all duration-500'
               type='submit'
             >
-              {form.formState.isSubmitting ? <Loading /> : 'بروزرسانی'}
+              {form.formState.isSubmitting ? (
+                <Loading className='bg-black' />
+              ) : (
+                'بروزرسانی'
+              )}
             </button>
             <DialogClose asChild>
               <button

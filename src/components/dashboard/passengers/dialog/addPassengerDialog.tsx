@@ -80,7 +80,7 @@ export default function AddPassengersDialog({
 
   // Defining api fetching hooks
   const addNewPassenger = useApiMutation({
-    url: '/profile/passengers/',
+    url: '/hotel/passengers/',
     method: 'post',
     options: {
       onSuccess: () => {
@@ -123,9 +123,6 @@ export default function AddPassengersDialog({
       phone_number: data.phoneNumber,
     });
   };
-
-  // Defining variables
-  const isUserForeginForm = form.getValues('isForeign');
 
   // Returning JSX
   return (
