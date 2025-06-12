@@ -4,6 +4,7 @@ export * from './rules';
 export * from './search';
 export * from './global';
 export * from './footer';
+export * from './payment';
 export * from './about-us';
 export * from './contact-us';
 export * from './date-picker';
