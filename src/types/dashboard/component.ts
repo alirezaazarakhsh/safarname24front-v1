@@ -8,7 +8,12 @@ import {
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
-import { GETPassengerItem, GETPasssengers, GETReservation } from './api/get';
+import {
+  GETCustomerClubListItem,
+  GETPassengerItem,
+  GETPasssengers,
+  GETReservation,
+} from './api/get';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -353,6 +358,7 @@ export interface FinancialFatorsDashboardTablePropsType {
 export interface FilterCustomClubPageComponentPropsType {
   onChange?: (val: 'shoppingCentre' | 'hotel') => void;
   totalScore: number;
+  loading?: boolean;
 }
 
 export interface ToggleButtonsPropsType {
@@ -365,22 +371,11 @@ export interface ToggleButtonsPropsType {
 
 export interface CustomersClubTablePropsType {
   className?: string;
-  data: {
-    company: {
-      name: string;
-      persianName: string;
-      logo: string;
-    };
-    title: string;
-    score: number;
-    id: number;
-    status: 'used' | 'unused' | 'active' | 'deactive';
-    discount: {
-      code: string;
-      price: number;
-      endsAt: string;
-    };
-  }[];
+  loading?: boolean;
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
+  data?: GETCustomerClubListItem[];
 }
 
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {

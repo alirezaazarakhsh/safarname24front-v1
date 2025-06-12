@@ -87,8 +87,21 @@ export interface GETFavoriteItemSingle {
   }[];
 }
 
+export interface GETCustomerClubListItem {
+  prize: {
+    title: string;
+    expired_date: string;
+    discount_price: string;
+    discount_code: string;
+  };
+  created: string;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
+export type GETCustomerClubList = GETPaginationAPILayout<
+  GETCustomerClubListItem[]
+>;

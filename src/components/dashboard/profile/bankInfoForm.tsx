@@ -85,7 +85,7 @@ export default function BankInfoForm({
   };
 
   // Defining name and image of banks
-  const creditCardVal = form.watch('creditCard');
+  const creditCardVal = form.watch('creditCard') || '';
 
   useEffect(() => {
     const value = creditCardVal.slice(0, 6);
