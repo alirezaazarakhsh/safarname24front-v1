@@ -36,7 +36,7 @@ export function TopBarConfig(props: Props) {
   return (
     <div
       className={cn(
-        'mb-4 ml-5 flex-between items-center lg:mb-6 lg:ml-0',
+        'mb-4 ml-5 flex-between items-center lg:ml-0',
         className,
       )}
     >

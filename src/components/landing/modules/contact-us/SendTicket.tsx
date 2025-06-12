@@ -53,7 +53,10 @@ export function SendTicket() {
       });
     },
     onError: () => handleSetReaction('fail', true),
-    onSuccess: () => handleSetReaction('success', true),
+    onSuccess: () => {
+      handleSetReaction('success', true);
+      form.reset();
+    },
   });
 
   function handleSetError(state: FormStates) {

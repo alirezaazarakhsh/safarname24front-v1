@@ -46,7 +46,7 @@ export function Pictures(props: Props) {
     <>
       {/* Small-Device */}
       {status === 'pending' ? (
-        <Skeleton className="h-52 xl:hidden" />
+        <Skeleton className="h-52 xl:hidden rounded-xl" />
       ) : (
         <div className="bg-white h-52 p-2 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.06)] xl:hidden">
           <Swiper

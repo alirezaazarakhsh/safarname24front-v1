@@ -36,21 +36,8 @@ type Props = {
 // ----------------------------------
 
 export default async function Hotel(props: Props) {
-  const {
-    tags,
-    desc,
-    rules,
-    rooms,
-    services,
-    pictures,
-    facilities,
-    initialInfo,
-    sectionLinks,
-    imageGallery,
-    importantPlaces,
-    suggestedHotels,
-    customerReviews,
-  } = hotel;
+  const { rooms, initialInfo, sectionLinks, suggestedHotels, customerReviews } =
+    hotel;
 
   const { hotel: hotelSlug } = await props.params;
 
@@ -61,14 +48,14 @@ export default async function Hotel(props: Props) {
           scrollFromTop={500}
           showInStatic={false}
           fixedClassName="pb-0"
-          staticClassName="mt-6"
+          staticClassName="mt-5"
         >
-          <div className="-mx-5">
+          <div className="-mx-5 -mt-2">
             <SectionLinks sectionList={sectionLinks} />
           </div>
         </StickyArea>
 
-        <div className="relative mt-8 flex flex-col gap-14 lg:mt-12 lg:gap-20">
+        <div className="relative mt-6 flex flex-col gap-14 lg:mt-12 lg:gap-20">
           <Pictures hotelSlug={hotelSlug} />
 
           {/* === (Small-Screen) */}
@@ -89,6 +76,8 @@ export default async function Hotel(props: Props) {
 
           {/* === Large-Screen */}
           <Configs sectionList={sectionLinks} />
+
+          {/* -------------------------- */}
 
           <div>
             <TopBarConfig
