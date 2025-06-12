@@ -8,7 +8,7 @@ import {
   PersonalInfoType,
 } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import InputAndLabel from '../financialCartToCart/inputAndLabel';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
@@ -27,6 +27,7 @@ export default function BankInfoForm({
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
+  const [bankName, setBankName] = useState<string>('سیستم بانکی ناشناخته است!');
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 30MB in bytes
@@ -83,9 +84,15 @@ export default function BankInfoForm({
     });
   };
 
-  // Defining variables
-  const slicedCreditCardNumber = form.getValues('creditCard');
-  const bankName = banks[slicedCreditCardNumber];
+  // Defining name and image of banks
+  const creditCardVal = form.watch('creditCard');
+
+  useEffect(() => {
+    const value = creditCardVal.slice(0, 6);
+    const bankName = banks[value];
+
+    bankName ? setBankName(bankName) : setBankName('سیستم بانکی ناشناخته است!');
+  }, [creditCardVal]);
 
   // Returning JSX
   return (
@@ -158,7 +165,7 @@ export default function BankInfoForm({
                 نام بانک
               </span>
               <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
-                {bankName ? bankName : 'سیستم بانکی ناشناخته است!'}
+                {bankName}
               </p>
             </div>
           </div>

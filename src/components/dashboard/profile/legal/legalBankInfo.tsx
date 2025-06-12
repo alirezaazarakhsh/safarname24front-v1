@@ -8,7 +8,7 @@ import {
   LegalInfoType,
 } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
@@ -28,6 +28,7 @@ export default function LegalBankInfo({
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
+  const [bankName, setBankName] = useState<string>('سیستم بانکی ناشناخته است!');
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 10MB in bytes
@@ -45,9 +46,15 @@ export default function LegalBankInfo({
     },
   });
 
-  // Defining variables
-  const slicedCreditCardNumber = form.getValues('creditCard');
-  const bankName = banks[slicedCreditCardNumber];
+  // Defining name and image of banks
+  const creditCardVal = form.watch('creditCard');
+
+  useEffect(() => {
+    const value = creditCardVal.slice(0, 6);
+    const bankName = banks[value];
+
+    bankName ? setBankName(bankName) : setBankName('سیستم بانکی ناشناخته است!');
+  }, [creditCardVal]);
 
   // Handling api fetches
   const setLegalInfoFetch = useApiMutation({
@@ -244,7 +251,7 @@ export default function LegalBankInfo({
               نام بانک
             </span>
             <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
-              {bankName ? bankName : 'سیستم بانکی ناشناخته است!'}
+              {bankName}
             </p>
           </div>
         </div>
