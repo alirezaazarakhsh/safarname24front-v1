@@ -51,17 +51,7 @@ export default function CustomerClubList(): ReactNode {
               activeIndex={paginationNumber}
               setActiveIndex={setPaginationNumber}
               paginationCount={getData.data.count}
-              data={[
-                {
-                  created: new Date().toISOString(),
-                  prize: {
-                    discount_code: '!!!',
-                    discount_price: '12234234',
-                    expired_date: new Date().toISOString(),
-                    title: 'XXXXX',
-                  },
-                },
-              ]}
+              data={getData.data.results}
             />
           </>
         )
