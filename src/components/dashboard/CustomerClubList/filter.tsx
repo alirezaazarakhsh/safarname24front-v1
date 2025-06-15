@@ -5,10 +5,12 @@
 import { SearchFinancialDashboardPropsType } from '@/types/dashboard/component';
 import { ReactNode, useEffect, useState } from 'react';
 import IconInput from '../ui/iconInput';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Creating and exporting Search component/section of customer club list page as default
 export default function Search({
   onChange,
+  loading = false,
 }: SearchFinancialDashboardPropsType): ReactNode {
   // Defining states of component
   const [val, setVal] = useState<string>('');
@@ -22,13 +24,17 @@ export default function Search({
       <span className='lg:block hidden truncate text-right w-full font-bold text-cs85 text-black'>
         باشگاه مشتریان - لیست جایزه های دریافتی
       </span>
-      <IconInput
-        wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-auto w-full'
-        icon='SearchStatus'
-        className='lg:h-10 h-[45px] lg:w-[200px] w-full'
-        placeholder='جستجو مسافر، هتل'
-        onChange={({ target: { value } }) => setVal(value)}
-      />
+      {loading ? (
+        <Skeleton className='lg:w-[200px] w-auto lg:h-10 h-[45px]' />
+      ) : (
+        <IconInput
+          wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-auto w-full'
+          icon='SearchStatus'
+          className='lg:h-10 h-[45px] lg:w-[200px] w-full'
+          placeholder='جستجو مسافر، هتل'
+          onChange={({ target: { value } }) => setVal(value)}
+        />
+      )}
     </div>
   );
 }

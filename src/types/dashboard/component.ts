@@ -342,6 +342,7 @@ export interface SheetComponentPropsType {
 
 export interface SearchFinancialDashboardPropsType {
   onChange?: (val: string) => void;
+  loading?: boolean;
 }
 
 export interface FinancialFatorsDashboardTablePropsType {
@@ -384,13 +385,12 @@ export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
 }
 
 export interface CustomerClubListTablePropsType {
-  data: {
-    title: string;
-    createdAt: string;
-    price: number;
-    score: number;
-  }[];
+  data: GETCustomerClubListItem[];
   className?: string;
+  loading?: boolean;
+  activeIndex?: number;
+  setActiveIndex?: Dispatch<SetStateAction<number>>;
+  paginationCount?: number;
 }
 
 export interface NotificationType {
