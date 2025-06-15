@@ -108,7 +108,7 @@ export default function LegalBankInfo({
             <Loading className='bg-current w-[5px] h-[5px]' />
           ) : (
             <IconsaxIcons
-              name='TaskSquare'
+              name='Bank'
               className='w-[20px] h-[20px]'
               color='currentColor'
             />

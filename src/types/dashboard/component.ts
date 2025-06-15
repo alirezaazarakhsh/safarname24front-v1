@@ -507,7 +507,7 @@ export interface CartBalanceComponentPropsType {
 }
 
 export interface SubscriptionTypeComponentPropsType {
-  type: 'premium' | 'silver';
+  type: 'premium' | 'silver' | 'guest';
   className?: string;
 }
 

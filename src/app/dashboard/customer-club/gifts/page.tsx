@@ -59,22 +59,18 @@ export default function CustomerClubPage(): ReactNode {
           <EmptyTable />
         ) : (
           <>
-            <Filter onChange={setGiftsType} totalScore={0} />
+            <Filter
+              onChange={setGiftsType}
+              totalScore={getData.data.results.reduce(
+                (sum, item) => sum + Number(item.prize.discount_price),
+                0,
+              )}
+            />
             <CustomersClubTable
               paginationCount={getData.data.count}
               paginationActiveIndex={paginationNumber}
               setPaginationActiveIndex={setPaginationNumber}
-              data={[
-                {
-                  created: new Date().toISOString(),
-                  prize: {
-                    discount_code: '1111111',
-                    discount_price: '2222222',
-                    expired_date: new Date().toISOString(),
-                    title: 'HJIOHIHIHI',
-                  },
-                },
-              ]}
+              data={getData.data.results}
             />
           </>
         )

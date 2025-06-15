@@ -8,6 +8,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import ToggleButtons from '../ui/toggleButtons';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
+import { numberSeparation } from '@/utils';
 
 // Creating and exporting Filter component/section of Customers club page as default
 export default function Filter({
@@ -54,7 +55,7 @@ export default function Filter({
                 color='currentColor'
               />
               <span className='lg:text-cs07 text-[10px] lg:font-bold font-semibold text-current block text-right truncate'>
-                جمع دریافتی : {totalScore} امتیاز
+                جمع دریافتی : {numberSeparation(totalScore)} امتیاز
               </span>
             </div>
             <ToggleButtons

@@ -206,7 +206,15 @@ export default function ProfilePage(): ReactNode {
         {profileState === 'personal' ? (
           <>
             <CartBalance hasMobileView balance={0} />
-            <SubscriptionType type='premium' />
+            <SubscriptionType
+              type={
+                userInfo.level === 0
+                  ? 'guest'
+                  : userInfo.level === 1
+                    ? 'silver'
+                    : 'premium'
+              }
+            />
             <PersonalInfoForm className='lg:col-span-2' form={personalForm} />
             <BankInfoForm className='lg:col-span-2' form={personalForm} />
             <Description className='lg:col-span-4' />
