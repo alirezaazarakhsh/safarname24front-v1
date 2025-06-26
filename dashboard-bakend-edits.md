@@ -1,5 +1,11 @@
 ### Profile Page
 
+#### Info for natural and juridical profiles
+
+- User should have 1 profile with natural and juridical
+- The `PUT` methods on both of them shouldn't get `<ID>` of user . since user can have 1 profile at time we edit the profile by default
+- For any related api for these remove any usable `<ID>` or `{ profile: 1 // Number of profile }`
+
 #### General
 
 - [ ] The required api for fetching balance of user is not found in redoc
@@ -7,15 +13,16 @@
 
 #### /natural-profiles/
 
-- [ ] `GET` Shouldn't return `level_name` Prop
-- [ ] `GET` Explain `level` prop for `Mahdi Tasha`
-- [ ] `PUT` Shouln't use id at the end of url to change the info.
+- [ ] `GET` Remove `level_name`
+- [ ] `PUT` Shouln't use id at the end of url to change the info of user.
+- [ ] Api for uploading image is not defined . in section of `اطلاعات بانکی و پروفایل` in actual ui.
 
 #### /juridical-profiles/
 
+- [ ] Api for uploading image is not defined . in section of `اطلاعات بانکی شرکت` in actual ui.
 - [ ] `PUT` Shouln't use id at the end of url to change the info.
 
-#### /juridical-profile-documents/<ID>
+#### /juridical-profile-documents/
 
 - [ ] `POST` It shouln't accept the profile object inside sent body.
 

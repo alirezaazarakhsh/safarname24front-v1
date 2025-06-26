@@ -19,6 +19,8 @@ import toast from '../ui/customSonner/toast';
 import Image from 'next/image';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import { useMediaQuery } from '@/hooks';
+import CanclationErrorDrawer from '../reservation/canclationErrorDrawer';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -45,24 +47,38 @@ export default function BankInfoForm({
     },
   });
 
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [mobileErrorDrawerOpened, setMobileErrorDrawerOpened] =
+    useState<boolean>(false);
+  const [mobileSuccessDrawerOpened, setMobileSuccessDrawerOpened] =
+    useState<boolean>(false);
+
   // Handling api fetches
   const setPersonalInfoFetch = useApiMutation({
     url: '/natural-profiles/',
     method: 'put',
     options: {
       onSuccess: () => {
-        toast({
-          title: 'ارسال با موفقیت انجام شد!',
-          description: 'مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.',
-          theme: 'green',
-        });
+        if (isMobile) {
+          setMobileSuccessDrawerOpened(true);
+        } else {
+          toast({
+            title: 'تغیرات با موفقیت اعمال شد!',
+            description: 'مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.',
+            theme: 'green',
+          });
+        }
       },
       onError: () => {
-        toast({
-          title: 'خطایی رخ داد!',
-          description: 'در ارسال اطلاعات مشکلی پیش امد.',
-          theme: 'theme',
-        });
+        if (isMobile) {
+          setMobileErrorDrawerOpened(true);
+        } else {
+          toast({
+            title: 'خطایی رخ داد!',
+            description: 'در ارسال اطلاعات مشکلی پیش امد.',
+            theme: 'theme',
+          });
+        }
       },
     },
   });
@@ -102,6 +118,24 @@ export default function BankInfoForm({
         className,
       )}
     >
+      {isMobile && (
+        <>
+          <CanclationErrorDrawer
+            title='تغیرات با موفقیت اعمال شد!'
+            description='مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.'
+            closeFn={() => setMobileSuccessDrawerOpened(false)}
+            isOpened={mobileSuccessDrawerOpened}
+            theme='green'
+          />
+          <CanclationErrorDrawer
+            title='خطایی رخ داد!'
+            description='در ارسال اطلاعات مشکلی پیش امد.'
+            closeFn={() => setMobileErrorDrawerOpened(false)}
+            isOpened={mobileErrorDrawerOpened}
+            theme='theme'
+          />
+        </>
+      )}
       <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full'>
         <div className='shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black'>
           <IconsaxIcons

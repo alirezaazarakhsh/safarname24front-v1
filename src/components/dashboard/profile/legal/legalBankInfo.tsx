@@ -18,12 +18,13 @@ import InputAndLabel from '../../financialCartToCart/inputAndLabel';
 import NormalInput from '../normalInput';
 import Loading from '../../ui/loading';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
+import { useMediaQuery } from '@/hooks';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
   className,
   form,
-  documentImage,
   loading,
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
@@ -56,24 +57,38 @@ export default function LegalBankInfo({
     bankName ? setBankName(bankName) : setBankName('سیستم بانکی ناشناخته است!');
   }, [creditCardVal]);
 
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [mobileErrorDrawerOpened, setMobileErrorDrawerOpened] =
+    useState<boolean>(false);
+  const [mobileSuccessDrawerOpened, setMobileSuccessDrawerOpened] =
+    useState<boolean>(false);
+
   // Handling api fetches
   const setLegalInfoFetch = useApiMutation({
     url: '/juridical-profiles/',
     method: 'put',
     options: {
       onSuccess: () => {
-        toast({
-          title: 'ارسال با موفقیت انجام شد!',
-          description: 'مشتری گرامی, اطلاعات پروفایل حقوقی شما ارسال شد.',
-          theme: 'green',
-        });
+        if (isMobile) {
+          setMobileSuccessDrawerOpened(true);
+        } else {
+          toast({
+            title: 'تغیرات با موفقیت اعمال شد!',
+            description: 'مشتری گرامی, اطلاعات پروفایل حقوقی شما ارسال شد.',
+            theme: 'green',
+          });
+        }
       },
       onError: () => {
-        toast({
-          title: 'خطایی رخ داد!',
-          description: 'در ارسال اطلاعات مشکلی پیش امد.',
-          theme: 'theme',
-        });
+        if (isMobile) {
+          setMobileErrorDrawerOpened(true);
+        } else {
+          toast({
+            title: 'خطایی رخ داد!',
+            description: 'در ارسال اطلاعات مشکلی پیش امد.',
+            theme: 'theme',
+          });
+        }
       },
     },
   });
@@ -102,6 +117,24 @@ export default function LegalBankInfo({
         className,
       )}
     >
+      {isMobile && (
+        <>
+          <CanclationErrorDrawer
+            title='تغیرات با موفقیت اعمال شد!'
+            description='مشتری گرامی, اطلاعات پروفایل حقوقی شما ارسال شد.'
+            closeFn={() => setMobileSuccessDrawerOpened(false)}
+            isOpened={mobileSuccessDrawerOpened}
+            theme='green'
+          />
+          <CanclationErrorDrawer
+            title='خطایی رخ داد!'
+            description='در ارسال اطلاعات مشکلی پیش امد.'
+            closeFn={() => setMobileErrorDrawerOpened(false)}
+            isOpened={mobileErrorDrawerOpened}
+            theme='theme'
+          />
+        </>
+      )}
       <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full'>
         <div className='shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black'>
           {loading ? (
@@ -123,10 +156,10 @@ export default function LegalBankInfo({
           </p>
         </div>
       </div>
-      <div className='px-[14px] py-[14px] lg:hidden grid grid-cols-1 gap-[16px]'>
+      <div className='px-3 py-4 grid lg:grid-cols-2 grid-cols-1 lg:gap-6 gap-[16px]'>
         <div
           data-loading={loading}
-          className='flex items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
+          className='lg:hidden flex items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
         >
           <div className='shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md'>
             <IconsaxIcons
@@ -147,7 +180,7 @@ export default function LegalBankInfo({
         <button
           {...getRootProps()}
           disabled={loading}
-          className='flex items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none'
+          className='lg:hidden flex items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none'
         >
           <input {...getInputProps()} hidden />
           <div className='shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden'>
@@ -194,50 +227,10 @@ export default function LegalBankInfo({
           disabled={loading}
           {...form.register('creditCard')}
         />
-        <InputAndLabel
-          validationType='icon'
-          isValid={!form.getFieldState('shabaNumber').invalid}
-          validation='shabaNumberValidation'
-          placeholder='24 رقم شماره شبا کارت را وارد نمایید'
-          error={form.formState.errors.shabaNumber?.message}
-          disabled={loading}
-          {...form.register('shabaNumber')}
-        />
-        <NormalInput
-          placeholder='آدرس شرکت '
-          error={form.formState.errors.address?.message}
-          noErrorText
-          disabled={loading}
-          {...form.register('address')}
-        />
-        <NormalInput
-          placeholder='کد پستی شرکت'
-          error={form.formState.errors.postCode?.message}
-          noErrorText
-          disabled={loading}
-          {...form.register('postCode')}
-        />
-        <button
-          onClick={form.handleSubmit(submitHandleFunction)}
-          disabled={form.formState.isSubmitting || loading}
-          className='bg-green-500 w-full lg:text-cs07 text-[12px] hover:bg-green-600 transition-all duration-500 text-white lg:rounded-lg rounded-[8px] lg:px-5 px-3 h-[50px] lg:font-medium font-semibold disabled:bg-gray-400 disabled:hover:bg-gray-400 lg:hidden flex items-center justify-center'
-        >
-          {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
-        </button>
-      </div>
-      <div className='px-3 py-4 lg:grid hidden grid-cols-2 gap-6'>
-        <InputAndLabel
-          validationType='icon'
-          isValid={!form.getFieldState('creditCard').invalid}
-          validation='creditCardNumberValidation'
-          placeholder='16 رقم شماره کارت را وارد نمایید'
-          error={form.formState.errors.creditCard?.message}
-          disabled={loading}
-          {...form.register('creditCard')}
-        />
+
         <div
           data-loading={loading}
-          className='flex items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
+          className='lg:flex hidden items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
         >
           <div className='shrink-0 aspect-square w-[50px] h-[50px] flex items-center justify-center text-black border border-black/10 rounded-md'>
             <IconsaxIcons
@@ -267,7 +260,7 @@ export default function LegalBankInfo({
         <button
           {...getRootProps()}
           disabled={loading}
-          className='flex items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none'
+          className='lg:flex hidden items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none'
         >
           <input {...getInputProps()} hidden />
           <div className='shrink-0 aspect-square w-[50px] h-[50px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden'>
@@ -309,7 +302,7 @@ export default function LegalBankInfo({
           placeholder='آدرس شرکت '
           error={form.formState.errors.address?.message}
           noErrorText
-          wholeClassName='col-span-2'
+          wholeClassName='lg:col-span-2'
           disabled={loading}
           {...form.register('address')}
         />
@@ -321,7 +314,7 @@ export default function LegalBankInfo({
           {...form.register('postCode')}
         />
         <div />
-        <div className='col-span-2'>
+        <div className='lg:col-span-2'>
           <button
             onClick={form.handleSubmit(submitHandleFunction)}
             disabled={form.formState.isSubmitting || loading}

@@ -225,7 +225,6 @@ export default function ProfilePage(): ReactNode {
               loading={legalUserFetching.isLoading}
               className='lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide'
               form={legalForm}
-              documentImage={file}
             />
             <div className='lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]'>
               <Upload
