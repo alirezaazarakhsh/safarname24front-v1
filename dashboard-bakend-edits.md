@@ -42,5 +42,7 @@
 
 #### General
 
+- [ ] The current score of user is not returned
+- [ ] The required score for purchasing the prizes it not being returned
 - [ ] `GET` All apis of this page Doesnt seem to return id and the current users score
 - [ ] The api for `اطلاع رسانی کد تخفیف!` is not defined
