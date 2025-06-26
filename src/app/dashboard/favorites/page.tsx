@@ -38,11 +38,11 @@ export default function Favorites(): ReactNode {
   // Returning JSX
   return (
     <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]'>
-      {(getData.isLoading && !getData.data) || getData.isRefetching ? (
+      {getData.isLoading || getData.isRefetching ? (
         <>
           <Filter
             loading
-            deleteState={deleteState}
+            deleteState={false}
             setDeleteState={setDeleteState}
             listIsEmpty={false}
           />
@@ -68,49 +68,49 @@ export default function Favorites(): ReactNode {
         </>
       ) : getData.isError ? (
         <ErrorTable refetch={getData.refetch} />
-      ) : getData.data?.count === 0 ? (
-        <EmptyTable
-          className='lg:col-span-4 col-span-1'
-          title='هیچ علاقه مندی فعلا ندارید!'
-          description='مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم.'
-        />
-      ) : (
+      ) : getData.data && getData.data.count === 0 ? (
+        <>
+          <Filter
+            deleteState={deleteState}
+            setDeleteState={setDeleteState}
+            listIsEmpty
+            refetch={getData.refetch}
+          />
+          <EmptyTable
+            className='lg:col-span-4 col-span-1'
+            title='هیچ علاقه مندی فعلا ندارید!'
+            description='مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم.'
+          />
+        </>
+      ) : getData.data && getData.data.count !== 0 ? (
         <>
           <Filter
             refetch={getData.refetch}
             deleteState={deleteState}
             setDeleteState={setDeleteState}
-            listIsEmpty={getData.data?.results.length === 0}
+            listIsEmpty={false}
           />
           <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
-            {Array.isArray(getData.data?.results) &&
-              getData.data?.results.map((item, index) => (
-                <Collection
-                  refetch={getData.refetch}
-                  loading={getData.isLoading || getData.isRefetching}
-                  isDeletingByUser={deleteState}
-                  key={index}
-                  data={{
-                    id: item.id,
-                    images: [
-                      '/image/hotel/hotel-1.png',
-                      '/image/hotel/hotel-1.png',
-                      '/image/hotel/hotel-1.png',
-                    ],
-                    title: item.title,
-                  }}
-                />
-              ))}
-          </div>
-          <div className='flex items-center lg:justify-end justify-center'>
-            <CustomPagination
-              loading={getData.isLoading || getData.isRefetching}
-              count={getData.data ? getData.data.count : 12}
-              activeIndex={paginationNumber}
-              setActiveIndex={setPaginationNumber}
-            />
+            {getData.data.results.map((item, index) => (
+              <Collection
+                refetch={getData.refetch}
+                isDeletingByUser={deleteState}
+                key={index}
+                data={{
+                  id: item.id,
+                  images: [
+                    '/image/hotel/hotel-1.png',
+                    '/image/hotel/hotel-1.png',
+                    '/image/hotel/hotel-1.png',
+                  ],
+                  title: item.title,
+                }}
+              />
+            ))}
           </div>
         </>
+      ) : (
+        false
       )}
     </main>
   );

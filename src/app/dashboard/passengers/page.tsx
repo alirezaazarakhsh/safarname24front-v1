@@ -37,15 +37,15 @@ export default function PassengersPage(): ReactNode {
   // Returning JSX
   return (
     <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
-      {getData.isLoading ? (
+      {getData.isLoading || getData.isRefetching ? (
         <>
+          <Filter loading dataNotEmpty />
           <PassengersTable
             data={[]}
             loading
             paginationActiveIndex={paginationNumber}
             setPaginationActiveIndex={setPaginationNumber}
           />
-          <Filter loading dataNotEmpty />
         </>
       ) : getData.isError ? (
         <ErrorTable refetch={() => getData.refetch()} />
@@ -62,12 +62,10 @@ export default function PassengersPage(): ReactNode {
           <>
             <Filter
               onChange={(val) => setFilter(val)}
-              loading={getData.isLoading || getData.isRefetching}
               refetch={getData.refetch}
               dataNotEmpty
             />
             <PassengersTable
-              loading={getData.isLoading || getData.isRefetching}
               paginationCount={getData.data.count}
               paginationActiveIndex={paginationNumber}
               setPaginationActiveIndex={setPaginationNumber}
