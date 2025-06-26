@@ -18,8 +18,8 @@ export default function CustomerClubList(): ReactNode {
 
   // Fetching the data
   const getData = useApiQuery<GETCustomerClubList>({
-    url: `/profile/customer-club/prizes/?p=${paginationNumber + 1}`,
-    queryKey: ['prize', 'customerClub'],
+    url: `/profile/customer-club/my-prizes/?p=${paginationNumber + 1}`,
+    queryKey: ['my-prizes'],
   });
 
   // Using useEffect to make useApiQuery Fetch again while pagination number changes
@@ -30,6 +30,18 @@ export default function CustomerClubList(): ReactNode {
 
     handleRefetch();
   }, [paginationNumber]);
+
+  const dataToRender = getData.data
+    ? filterVal === ''
+      ? getData.data.results
+      : getData.data.results.filter((item) =>
+          [
+            item.prize.title,
+            item.prize.discount_code,
+            item.prize.expired_date,
+          ].some((field) => field?.toLowerCase().includes(filterVal)),
+        )
+    : [];
 
   // Returning JSX
   return (
@@ -43,16 +55,26 @@ export default function CustomerClubList(): ReactNode {
         <ErrorTable />
       ) : !getData.isError && getData.data ? (
         getData.data.count === 0 ? (
-          <EmptyTable />
+          <EmptyTable
+            title='لیست جوایز خالی میباشد!'
+            description='لطفا بعدا به این صفحه سر بزنید.'
+          />
         ) : (
           <>
             <Filter onChange={(val) => setFilterVal(val)} />
-            <CustomerClubListTable
-              activeIndex={paginationNumber}
-              setActiveIndex={setPaginationNumber}
-              paginationCount={getData.data.count}
-              data={getData.data.results}
-            />
+            {dataToRender.length === 0 ? (
+              <EmptyTable
+                title='لیست جوایز خالی میباشد!'
+                description='لطفا بعدا به این صفحه سر بزنید.'
+              />
+            ) : (
+              <CustomerClubListTable
+                activeIndex={paginationNumber}
+                setActiveIndex={setPaginationNumber}
+                paginationCount={getData.data.count}
+                data={dataToRender}
+              />
+            )}
           </>
         )
       ) : (

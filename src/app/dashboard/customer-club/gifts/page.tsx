@@ -26,8 +26,8 @@ export default function CustomerClubPage(): ReactNode {
 
   // Fetching the data
   const getData = useApiQuery<GETCustomerClubList>({
-    url: `/profile/customer-club/my-prizes/?p=${paginationNumber + 1}`,
-    queryKey: ['myPrizes', 'prize', 'customerClub'],
+    url: `/profile/customer-club/prizes/?p=${paginationNumber + 1}`,
+    queryKey: ['prizes'],
   });
 
   // Using useEffect to make useApiQuery Fetch again while pagination number changes
@@ -56,7 +56,10 @@ export default function CustomerClubPage(): ReactNode {
         <ErrorTable />
       ) : !getData.isError && getData.data ? (
         getData.data.count === 0 ? (
-          <EmptyTable />
+          <EmptyTable
+            title='لیست جوایز خالی میباشد!'
+            description='لطفا بعدا به این صفحه سر بزنید.'
+          />
         ) : (
           <>
             <Filter

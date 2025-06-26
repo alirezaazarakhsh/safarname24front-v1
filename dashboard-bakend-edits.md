@@ -42,5 +42,5 @@
 
 #### General
 
-- [ ] `GET` All 2 apis Dont return id and the current users score
+- [ ] `GET` All apis of this page Doesnt seem to return id and the current users score
 - [ ] The api for `اطلاع رسانی کد تخفیف!` is not defined
