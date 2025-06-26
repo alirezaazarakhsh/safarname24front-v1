@@ -1,6 +1,7 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
+import EmptyTable from '@/components/dashboard/api/emptyTable';
 // Importing part
 import ErrorTable from '@/components/dashboard/api/errorTable';
 import Filter from '@/components/dashboard/passengers/filter';
@@ -36,39 +37,61 @@ export default function PassengersPage(): ReactNode {
   // Returning JSX
   return (
     <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
-      {!getData.isLoading && getData.isError ? (
-        <ErrorTable refetch={() => getData.refetch()} />
-      ) : (
+      {getData.isLoading ? (
         <>
-          <Filter
-            onChange={(val) => setFilter(val)}
-            loading={getData.isLoading || getData.isRefetching}
-            refetch={getData.refetch}
-            dataNotEmpty={
-              getData.data ? getData.data.results.length !== 0 : false
-            }
-          />
           <PassengersTable
-            loading={getData.isLoading || getData.isRefetching}
-            paginationCount={getData.data && getData.data.count}
+            data={[]}
+            loading
             paginationActiveIndex={paginationNumber}
             setPaginationActiveIndex={setPaginationNumber}
-            data={
-              getData.data
-                ? filter === ''
-                  ? getData.data.results
-                  : getData.data.results.filter((item) =>
-                      [
-                        item.first_name,
-                        item.last_name,
-                        item.national_code,
-                        item.phone_number,
-                      ].some((field) => field?.toLowerCase().includes(filter)),
-                    )
-                : []
-            }
           />
+          <Filter loading dataNotEmpty />
         </>
+      ) : getData.isError ? (
+        <ErrorTable refetch={() => getData.refetch()} />
+      ) : getData.data ? (
+        getData.data?.count === 0 ? (
+          <>
+            <Filter refetch={getData.refetch} dataNotEmpty={false} />
+            <EmptyTable
+              title='لسیت مسافاران خالی میباشد!'
+              description='لطفا از بالا مسافران خود را اضافه کنید'
+            />
+          </>
+        ) : (
+          <>
+            <Filter
+              onChange={(val) => setFilter(val)}
+              loading={getData.isLoading || getData.isRefetching}
+              refetch={getData.refetch}
+              dataNotEmpty
+            />
+            <PassengersTable
+              loading={getData.isLoading || getData.isRefetching}
+              paginationCount={getData.data.count}
+              paginationActiveIndex={paginationNumber}
+              setPaginationActiveIndex={setPaginationNumber}
+              data={
+                getData.data
+                  ? filter === ''
+                    ? getData.data.results
+                    : getData.data.results.filter((item) =>
+                        [
+                          item.first_name,
+                          item.last_name,
+                          item.national_code,
+                          item.phone_number,
+                        ].some((field) =>
+                          field?.toLowerCase().includes(filter),
+                        ),
+                      )
+                  : []
+              }
+            />
+          </>
+        )
+      ) : (
+        false
       )}
     </main>
   );
