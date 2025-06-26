@@ -20,7 +20,7 @@ export default function Favorites(): ReactNode {
   // Fetching the data
   const getData = useApiQuery<GETFavorites>({
     url: `/profile/favorite-collections?p=${paginationNumber + 1}`,
-    queryKey: ['favorites', 'collections'],
+    queryKey: ['favoritesCollection'],
     options: {
       staleTime: 30000, // 30 Sec
     },
@@ -64,6 +64,9 @@ export default function Favorites(): ReactNode {
                 }}
               />
             ))}
+            <div className='flex items-center lg:justify-end justify-center'>
+              <CustomPagination count={18} loading />
+            </div>
           </div>
         </>
       ) : getData.isError ? (
@@ -108,6 +111,15 @@ export default function Favorites(): ReactNode {
               />
             ))}
           </div>
+          {getData.data.count > 18 && (
+            <div className='flex items-center lg:justify-end justify-center'>
+              <CustomPagination
+                count={getData.data.count}
+                activeIndex={paginationNumber}
+                setActiveIndex={setPaginationNumber}
+              />
+            </div>
+          )}
         </>
       ) : (
         false

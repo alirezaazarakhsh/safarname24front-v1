@@ -36,9 +36,9 @@
 
 #### /profile/favorite-collections/<ID>/
 
-- [ ] `GET` has `500` Error while includes item
+- [ ] Images are not loading by server. Test them out
 
-### Custom Club
+### Customer Club
 
 #### General
 

@@ -1,3 +1,5 @@
+import { StringToBoolean } from 'class-variance-authority/types';
+
 // Creating the type of returned data from api (GET)
 export interface GETPaginationAPILayout<T> {
   count: number;
@@ -78,23 +80,57 @@ export interface GETFavoriteItem {
   images: string;
 }
 
+export interface GETHotel {
+  type: 'hotel';
+  id: number;
+  item_data: {
+    address: string;
+    is_best_seller: boolean;
+    is_flash_sale: boolean;
+    is_special_offer: boolean;
+    main_image: string;
+    min_price: number | null;
+    name: string;
+    rating: number;
+    slug: string;
+    stars: number;
+    city: {
+      name: string;
+      image: string;
+      province: string;
+      show_in_homepage: boolean;
+    };
+  };
+}
+
+export interface GETArticle {
+  type: 'article';
+  id: number;
+  item_data: {
+    body: string;
+    published_date: string;
+    published_date_jalali: string;
+    slug: string;
+    summary: string;
+    thumbnail: string;
+    title: string;
+  };
+}
+
 export interface GETFavoriteItemSingle {
   id: number;
   title: string;
-  favorites: {
-    id: number;
-    title: string;
-  }[];
+  favorites: Array<GETHotel | GETArticle>;
 }
 
 export interface GETCustomerClubListItem {
+  created: string;
   prize: {
     title: string;
     expired_date: string;
     discount_price: string;
     discount_code: string;
   };
-  created: string;
 }
 
 export type GETReservation = GETReservationItem[];
