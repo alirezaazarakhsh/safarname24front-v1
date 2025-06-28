@@ -55,7 +55,7 @@ export default function BankInfoForm({
 
   // Handling api fetches
   const setPersonalInfoFetch = useApiMutation({
-    url: '/natural-profile/',
+    url: '/natural-profiles/me/',
     method: 'put',
     options: {
       onSuccess: () => {
@@ -85,19 +85,21 @@ export default function BankInfoForm({
 
   const userInfo = useUserInfo();
 
-  // Defining a function to handle submit event
   const submitHandleFunction: SubmitHandler<PersonalInfoType> = async (
     data,
   ) => {
-    await setPersonalInfoFetch.mutateAsync({
-      first_name: data.name,
-      last_name: data.fullName,
-      email: data.email,
-      national_code: data.meliCode,
-      postal_code: data.postCode,
-      address: data.address,
-      level: userInfo.level,
-    });
+    const formData = new FormData();
+
+    formData.append('first_name', data.name);
+    formData.append('last_name', data.fullName);
+    formData.append('email', data.email || '');
+    formData.append('national_code', data.meliCode);
+    formData.append('postal_code', data.postCode || '');
+    formData.append('address', data.address || '');
+    formData.append('level', userInfo.level?.toString() || '0');
+    formData.append('image', file ? file : '');
+
+    await setPersonalInfoFetch.mutateAsync(formData);
   };
 
   // Defining name and image of banks

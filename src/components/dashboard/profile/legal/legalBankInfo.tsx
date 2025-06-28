@@ -65,7 +65,7 @@ export default function LegalBankInfo({
 
   // Handling api fetches
   const setLegalInfoFetch = useApiMutation({
-    url: '/juridical-profile/',
+    url: '/juridical-profiles/me/',
     method: 'put',
     options: {
       onSuccess: () => {
@@ -95,18 +95,21 @@ export default function LegalBankInfo({
 
   // Defining a function to handle submit event
   const submitHandleFunction: SubmitHandler<LegalInfoType> = async (data) => {
-    await setLegalInfoFetch.mutateAsync({
-      organization_name: data.name,
-      national_id: data.id,
-      registeration_number: data.registrationId,
-      economical_code: data.economicCode,
-      phone_number: data.tell,
-      postal_code: data.postCode,
-      address: data.address,
-      email: data.email,
-      status: 'checking',
-      reject_reason: '',
-    });
+    const formData = new FormData();
+
+    formData.append('organization_name', data.name);
+    formData.append('national_id', data.id);
+    formData.append('registeration_number', data.registrationId);
+    formData.append('economical_code', data.economicCode);
+    formData.append('phone_number', data.tell);
+    formData.append('postal_code', data.postCode);
+    formData.append('address', data.address || '');
+    formData.append('email', data.email || '');
+    formData.append('status', 'checking');
+    formData.append('reject_reason', '');
+    formData.append('image', file ? file : '');
+
+    await setLegalInfoFetch.mutateAsync(formData);
   };
 
   // Returning JSX

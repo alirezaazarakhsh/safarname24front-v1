@@ -46,3 +46,43 @@
 - [ ] The required score for purchasing the prizes it not being returned
 - [ ] `GET` All apis of this page Doesnt seem to return id and the current users score
 - [ ] The api for `اطلاع رسانی کد تخفیف!` is not defined
+
+### Financial
+
+#### Wallet
+
+- [ ] Api For Charging the wallet is not defined. it should return success for now
+- [ ] Api For getting history of users transactions
+
+#### Cart to Cart
+
+- [ ] Api For Takout is not definied
+- [ ] Api For emergency fields is not defined
+- [ ] `GET` for getting credit card should return these infos :
+
+  ```ts
+  export interface CreditCardSubscriptionType {
+    type: 'premium' | 'free';
+    endsAt: string;
+    discountCode: string;
+    price: number;
+    chart: CreditCardSubscriptionChartType;
+  }
+
+  export interface CreditCardType {
+    owner: string;
+    subscription?: CreditCardSubscriptionType;
+    number: {
+      shaba: string | number;
+      card: string | number;
+    };
+    name: {
+      english: string;
+      persian: string;
+    };
+  }
+  ```
+
+#### Factors
+
+- [ ] Api is not defined for `get`
