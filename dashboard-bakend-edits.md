@@ -1,3 +1,8 @@
+### General
+
+- [ ] Api for getting notifications is not defined
+  - `DELETE`, `GET`
+
 ### Profile Page
 
 #### Info for natural and juridical profiles
@@ -13,7 +18,6 @@
 
 #### /natural-profiles/
 
-- [ ] `GET` Remove `level_name`
 - [ ] `PUT` Shouln't use id at the end of url to change the info of user.
 - [ ] Api for uploading image is not defined . in section of `اطلاعات بانکی و پروفایل` in actual ui.
 
@@ -24,7 +28,7 @@
 
 #### /juridical-profile-documents/
 
-- [ ] `POST` It shouln't accept the profile object inside sent body.
+- [ ] `POST` It shouln't accept the `profile` and `id` object inside sending body.
 
 ### Passengers Page
 
@@ -86,3 +90,19 @@
 #### Factors
 
 - [ ] Api is not defined for `get`
+
+### Reservations
+
+- [ ] `GET` Api for list of reservations is not defined
+- [ ] Api for canclation of reservations is not defined
+- [ ] Api for getting infos of single reservation item is not defined
+
+### Home Page (Dashboard => `/dashboard`)
+
+- [ ] Api for getting infos of dashboard is not defined. Should return :
+  - Successfull Reservations count and its chart data
+  - Total ticket counts and its chart data
+  - Users score in customer Club and its chart data
+  - Total purchases price and its chart data
+  - List of latest tickets
+  - List of Latest reservations
