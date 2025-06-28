@@ -18,36 +18,36 @@ const data: {
   href?: `/${string}` | '/';
   type: 'link' | 'profile-toggler';
 }[] = [
-    {
-      icon: 'Home2',
-      title: 'خانه',
-      href: '/dashboard',
-      type: 'link',
-    },
-    {
-      icon: 'Heart',
-      title: 'علاقه مندی ها',
-      href: '/dashboard/favorites',
-      type: 'link',
-    },
-    {
-      icon: 'Flash',
-      title: 'بهترین هتل ها',
-      href: '/best-hotels',
-      type: 'link',
-    },
-    {
-      icon: 'Messages3',
-      title: 'چت تایم ',
-      href: '/dashboard/tickets',
-      type: 'link',
-    },
-    {
-      icon: 'Profile2User',
-      title: 'پروفایل کاربری',
-      type: 'profile-toggler',
-    },
-  ];
+  {
+    icon: 'Home2',
+    title: 'خانه',
+    href: '/dashboard',
+    type: 'link',
+  },
+  {
+    icon: 'Heart',
+    title: 'علاقه مندی ها',
+    href: '/dashboard/favorites',
+    type: 'link',
+  },
+  {
+    icon: 'Flash',
+    title: 'بهترین هتل ها',
+    href: '/best-hotels',
+    type: 'link',
+  },
+  {
+    icon: 'Messages3',
+    title: 'چت تایم ',
+    href: '/dashboard/tickets',
+    type: 'link',
+  },
+  {
+    icon: 'Profile2User',
+    title: 'پروفایل کاربری',
+    type: 'profile-toggler',
+  },
+];
 
 // Creating and exporting MobileNav component as defualt
 export default function MobileNav(): ReactNode {

@@ -502,7 +502,6 @@ export interface ProfileTogglerComponentPropsType {
 
 export interface CartBalanceComponentPropsType {
   className?: string;
-  balance: number;
   hasMobileView?: boolean;
 }
 

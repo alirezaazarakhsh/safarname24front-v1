@@ -133,6 +133,10 @@ export interface GETCustomerClubListItem {
   };
 }
 
+export interface GETWalletBalance {
+  balance: number;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;

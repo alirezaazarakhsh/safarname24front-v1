@@ -16,12 +16,14 @@ import { useRouter } from 'next/navigation';
 import toast from '../ui/customSonner/toast';
 import { userFetchedInfoContext } from '../page';
 import { GETPersonalProfile } from '@/types/dashboard/api/get';
+import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import useUserWalletBalance from '@/hooks/dashboard/useUserWalletBalance';
+import { numberSeparation } from '@/utils';
 
 // Creating and exporting ProfileDropdown component as defualt
 export default function ProfileDropdown(): ReactNode {
   // Defining hooks
   const router = useRouter();
-  const userInfo = useContext(userFetchedInfoContext);
   const authLocalStorage = useLocalStorage({
     value: 'AUTH_VALUE',
   });
@@ -63,19 +65,8 @@ export default function ProfileDropdown(): ReactNode {
   });
 
   // Defining variables
-  const user: GETPersonalProfile = userInfo
-    ? userInfo
-    : {
-        level_name: '',
-        address: 'معلوم نیست',
-        email: 'معلوم نیست',
-        first_name: 'معلوم نیست',
-        image: null,
-        last_name: 'معلوم نیست',
-        level: 0,
-        national_code: 'معلوم نیست',
-        postal_code: 'معلوم نیست',
-      };
+  const user = useUserInfo();
+  const walletBalance = useUserWalletBalance();
 
   // Returning JSX
   return (
@@ -105,7 +96,9 @@ export default function ProfileDropdown(): ReactNode {
       <DropDown.DropdownMenuContent className='w-[200px]' align='start'>
         <DropDown.DropdownMenuLabel className='flex items-center justify-center gap-3 p-3 text-black'>
           <span className='truncate block text-cs08 font-medium text-current'>
-            حساب شما صفر میباشد!
+            {walletBalance.balance === 0
+              ? 'حساب شما صفر میباشد!'
+              : `${numberSeparation(walletBalance.balance)} تومان`}
           </span>
           <ICWallet className='w-4 h-4 text-current shrink-0' />
         </DropDown.DropdownMenuLabel>

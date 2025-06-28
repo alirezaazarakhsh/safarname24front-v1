@@ -55,7 +55,7 @@ export default function BankInfoForm({
 
   // Handling api fetches
   const setPersonalInfoFetch = useApiMutation({
-    url: '/natural-profiles/',
+    url: '/natural-profile/',
     method: 'put',
     options: {
       onSuccess: () => {

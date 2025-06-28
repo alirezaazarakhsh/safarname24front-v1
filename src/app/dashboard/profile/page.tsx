@@ -205,7 +205,7 @@ export default function ProfilePage(): ReactNode {
         )}
         {profileState === 'personal' ? (
           <>
-            <CartBalance hasMobileView balance={0} />
+            <CartBalance hasMobileView />
             <SubscriptionType
               type={
                 userInfo.level === 0

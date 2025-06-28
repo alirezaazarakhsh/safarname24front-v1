@@ -12,12 +12,18 @@ import Loading from './ui/loading';
 import Logo from './ui/logo';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETPersonalProfile } from '@/types/dashboard/api/get';
+import {
+  GETPersonalProfile,
+  GETWalletBalance,
+} from '@/types/dashboard/api/get';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
 export const userFetchedInfoContext = createContext<
   GETPersonalProfile | undefined
+>(undefined);
+export const userWalletBalanceContext = createContext<
+  GETWalletBalance | undefined
 >(undefined);
 
 // defining query client for react query
@@ -63,12 +69,21 @@ function InnerPage({
     },
   });
 
+  const walletBalanceFetch = useApiQuery<GETWalletBalance>({
+    url: '/finance/wallet/',
+    queryKey: ['walletBalance'],
+    options: {
+      enabled: personalDataFetch.isLoading && personalDataFetch.data,
+      staleTime: Infinity,
+    },
+  });
+
   const isReservationSubPage = /^\/dashboard\/reservations\/[^/]+$/.test(
     pathname,
   );
 
   // Condititional rendering
-  if (personalDataFetch.isLoading) {
+  if (personalDataFetch.isLoading || walletBalanceFetch.isLoading) {
     return (
       <>
         <div className='bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0' />
@@ -86,28 +101,35 @@ function InnerPage({
         </div>
       </>
     );
-  } else if (!personalDataFetch.isError && personalDataFetch.data) {
+  } else if (
+    !personalDataFetch.isError &&
+    !walletBalanceFetch.isError &&
+    personalDataFetch.data &&
+    walletBalanceFetch.data
+  ) {
     return (
       <userFetchedInfoContext.Provider value={personalDataFetch.data}>
-        {!pathname.startsWith('/dashboard/reservations/') && <Header />}
-        <MobileNav />
-        <div
-          className={cn(
-            'overflow-x-hidden overflow-y-auto',
-            !isReservationSubPage
-              ? 'bg-[#F9F9F9] mx-auto max-w-screen-template '
-              : 'bg-white w-full',
-            className,
-          )}
-        >
-          {!isReservationSubPage ? (
-            children
-          ) : (
-            <div className='bg-white max-w-screen-template mx-auto'>
-              {children}
-            </div>
-          )}
-        </div>
+        <userWalletBalanceContext.Provider value={walletBalanceFetch.data}>
+          {!pathname.startsWith('/dashboard/reservations/') && <Header />}
+          <MobileNav />
+          <div
+            className={cn(
+              'overflow-x-hidden overflow-y-auto',
+              !isReservationSubPage
+                ? 'bg-[#F9F9F9] mx-auto max-w-screen-template '
+                : 'bg-white w-full',
+              className,
+            )}
+          >
+            {!isReservationSubPage ? (
+              children
+            ) : (
+              <div className='bg-white max-w-screen-template mx-auto'>
+                {children}
+              </div>
+            )}
+          </div>
+        </userWalletBalanceContext.Provider>
       </userFetchedInfoContext.Provider>
     );
   } else {

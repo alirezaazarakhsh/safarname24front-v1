@@ -65,7 +65,7 @@ export default function LegalBankInfo({
 
   // Handling api fetches
   const setLegalInfoFetch = useApiMutation({
-    url: '/juridical-profiles/',
+    url: '/juridical-profile/',
     method: 'put',
     options: {
       onSuccess: () => {
