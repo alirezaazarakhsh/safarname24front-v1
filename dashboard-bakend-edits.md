@@ -8,7 +8,7 @@
 
 #### General
 
-- [ ] The required api for fetching balance of user is not found in redoc
+- [x] The required api for fetching balance of user is not found in redoc
 - [ ] For `/natural-profiles/` and `/juridical-profiles/` if user has no profile in them it should return the object with null or `""` values not `404` Error
 
 #### /natural-profiles/
