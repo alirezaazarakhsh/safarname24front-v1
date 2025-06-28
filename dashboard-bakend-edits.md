@@ -3,8 +3,8 @@
 #### Info for natural and juridical profiles
 
 - User should have 1 profile with natural and juridical
-- The `PUT` methods on both of them shouldn't get `<ID>` of user . since user can have 1 profile at time we edit the profile by default
-- For any related api for these remove any usable `<ID>` or `{ profile: 1 // Number of profile }`
+- [x] The `PUT` methods on both of them shouldn't get `<ID>` of user . since user can have 1 profile at time we edit the profile by default
+- [x] For any related api for these remove any usable `<ID>` or `{ profile: 1 // Number of profile }`
 
 #### General
 
