@@ -14,27 +14,27 @@
 #### General
 
 - [x] The required api for fetching balance of user is not found in redoc
-- [ ] For `/natural-profiles/` and `/juridical-profiles/` if user has no profile in them it should return the object with null or `""` values not `404` Error
+- [x] For `/natural-profiles/` and `/juridical-profiles/` if user has no profile in them it should return the object with null or `""` values not `404` Error
 
 #### /natural-profiles/
 
-- [ ] `PUT` Shouln't use id at the end of url to change the info of user.
+- [x] `PUT` Shouln't use id at the end of url to change the info of user.
 - [ ] Api for uploading image is not defined . in section of `اطلاعات بانکی و پروفایل` in actual ui.
 
 #### /juridical-profiles/
 
 - [ ] Api for uploading image is not defined . in section of `اطلاعات بانکی شرکت` in actual ui.
-- [ ] `PUT` Shouln't use id at the end of url to change the info.
+- [x] `PUT` Shouln't use id at the end of url to change the info.
 
 #### /juridical-profile-documents/
 
-- [ ] `POST` It shouln't accept the `profile` and `id` object inside sending body.
+- [x] `POST` It shouln't accept the `profile` and `id` object inside sending body.
 
 ### Passengers Page
 
 #### /hotel/passengers/
 
-- [ ] `GET` Doesnt return `id` prop which will be needed in editing and deleting passengers
+- [x] `GET` Doesnt return `id` prop which will be needed in editing and deleting passengers
 
 ### Favorites
 
