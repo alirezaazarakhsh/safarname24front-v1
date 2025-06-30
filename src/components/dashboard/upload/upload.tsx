@@ -147,12 +147,7 @@ export default function Upload({
             className='bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white'
             onClick={async () => {
               if (fetchURL && file) {
-                const formData = new FormData();
-                formData.append('id', '0');
-                formData.append('file', file);
-                formData.append('profile', '1');
-
-                await uploadComponentFetching.mutateAsync(formData);
+                await uploadComponentFetching.mutateAsync(file);
               } else {
                 setUploading(true);
                 await new Promise((resolve) => setTimeout(resolve, 5000));

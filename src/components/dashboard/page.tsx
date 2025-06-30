@@ -91,8 +91,8 @@ function InnerPage({
       enabled:
         personalDataFetch.data !== undefined &&
         walletBalanceFetch.data !== undefined,
-      staleTime: 5000,
-      refetchInterval: 5000,
+      staleTime: 10000,
+      refetchInterval: 10000,
     },
   });
 

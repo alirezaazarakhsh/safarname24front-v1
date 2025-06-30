@@ -7,7 +7,7 @@ import axios from 'axios';
 export const axiosInstance = axios.create({
   baseURL: 'https://cps.safarnameh24.com/api/v1',
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'multipart/form-data',
   },
   withCredentials: true,
 });

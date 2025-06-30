@@ -19,11 +19,11 @@
 #### /natural-profiles/
 
 - [x] `PUT` Shouln't use id at the end of url to change the info of user.
-- [ ] Api for uploading image is not defined . in section of `اطلاعات بانکی و پروفایل` in actual ui.
+- [x] Api for uploading image is not defined . in section of `اطلاعات بانکی و پروفایل` in actual ui.
 
 #### /juridical-profiles/
 
-- [ ] Api for uploading image is not defined . in section of `اطلاعات بانکی شرکت` in actual ui.
+- [x] Api for uploading image is not defined . in section of `اطلاعات بانکی شرکت` in actual ui.
 - [x] `PUT` Shouln't use id at the end of url to change the info.
 
 #### /juridical-profile-documents/
