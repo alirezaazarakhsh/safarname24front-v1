@@ -1,46 +1,13 @@
-### General
-
-- [x] Api for getting notifications is not defined
-  - `DELETE`, `GET`
-
-### Profile Page
-
-#### Info for natural and juridical profiles
-
-- User should have 1 profile with natural and juridical
-- [x] The `PUT` methods on both of them shouldn't get `<ID>` of user . since user can have 1 profile at time we edit the profile by default
-- [x] For any related api for these remove any usable `<ID>` or `{ profile: 1 // Number of profile }`
-
-#### General
-
-- [x] The required api for fetching balance of user is not found in redoc
-- [x] For `/natural-profiles/` and `/juridical-profiles/` if user has no profile in them it should return the object with null or `""` values not `404` Error
-
-#### /natural-profiles/
-
-- [x] `PUT` Shouln't use id at the end of url to change the info of user.
-- [x] Api for uploading image is not defined . in section of `اطلاعات بانکی و پروفایل` in actual ui.
-
-#### /juridical-profiles/
-
-- [x] Api for uploading image is not defined . in section of `اطلاعات بانکی شرکت` in actual ui.
-- [x] `PUT` Shouln't use id at the end of url to change the info.
-
 #### /juridical-profile-documents/
 
-- [x] `POST` It shouln't accept the `profile` and `id` object inside sending body.
-
-### Passengers Page
-
-#### /hotel/passengers/
-
-- [x] `GET` Doesnt return `id` prop which will be needed in editing and deleting passengers
+- [ ] `POST` It shouln't accept the `profile` and `id` object inside sending body.
 
 ### Favorites
 
 #### /profile/favorite-collections/<ID>/
 
-- [ ] Images are not loading by server. Test them out
+- [x] Images of hotels are not loading by server. Test them out
+- [ ] Images of blogs are not loading by server. Test them out
 
 ### Customer Club
 

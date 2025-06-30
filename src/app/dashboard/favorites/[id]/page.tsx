@@ -48,8 +48,8 @@ export default function FavoritesPage(): ReactNode {
     : savedType === 'savedHotels'
       ? getData.data.results.favorites.filter((item) => item.type === 'hotel')
       : getData.data.results.favorites.filter(
-          (item) => item.type === 'article',
-        );
+        (item) => item.type === 'article',
+      );
 
   // Returning JSX
   return (
@@ -98,7 +98,7 @@ export default function FavoritesPage(): ReactNode {
                   {savedType === 'savedHotels' && item.type === 'hotel' ? (
                     <SuggestedHotel
                       key={index}
-                      showLike
+                      showLike={false}
                       showDiscount={false}
                       showTimer={false}
                       hotel={{
