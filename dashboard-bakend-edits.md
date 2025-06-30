@@ -1,6 +1,6 @@
 ### General
 
-- [ ] Api for getting notifications is not defined
+- [x] Api for getting notifications is not defined
   - `DELETE`, `GET`
 
 ### Profile Page
