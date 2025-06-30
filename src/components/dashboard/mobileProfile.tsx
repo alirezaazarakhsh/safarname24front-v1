@@ -22,81 +22,6 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import toast from './ui/customSonner/toast';
 
-// Defining fake notification items
-const notifications: NotificationType[] = [
-  {
-    id: 1,
-    title: 'تکمیل پروفایل شما',
-    createdAt: '2025-05-01T08:30:00Z',
-    content: 'لطفاً پروفایل خود را برای استفاده بهتر از امکانات تکمیل کنید.',
-    status: 'unseen',
-  },
-  {
-    id: 2,
-    title: 'امتیاز جدید در باشگاه مشتریان',
-    createdAt: '2025-04-30T14:15:00Z',
-    content:
-      'شما ۲۰ امتیاز جدید کسب کرده‌اید. برای مشاهده جزئیات به باشگاه مشتریان بروید.',
-    status: 'seen',
-  },
-  {
-    id: 3,
-    title: 'تخفیف ویژه نوروزی',
-    createdAt: '2025-03-20T12:00:00Z',
-    content: 'از تخفیف ۳۰٪ نوروزی ما استفاده کنید. فقط تا پایان تعطیلات!',
-    status: 'important',
-  },
-  {
-    id: 4,
-    title: 'سفر شما تایید شد',
-    createdAt: '2025-05-02T09:45:00Z',
-    content: 'سفر شما به مشهد تایید شد. اطلاعات بیشتر را در پروفایل ببینید.',
-    status: 'unseen',
-  },
-  {
-    id: 5,
-    title: 'پیام جدید از پشتیبانی',
-    createdAt: '2025-05-03T11:20:00Z',
-    content: 'پشتیبانی به درخواست شما پاسخ داده است. لطفاً بررسی کنید.',
-    status: 'seen',
-  },
-  {
-    id: 6,
-    title: 'به روزرسانی قوانین استفاده',
-    createdAt: '2025-04-28T10:00:00Z',
-    content: 'قوانین استفاده از پلتفرم به‌روزرسانی شد. لطفاً مطالعه فرمایید.',
-    status: 'important',
-  },
-  {
-    id: 7,
-    title: 'پیشنهاد ویژه فقط برای شما',
-    createdAt: '2025-05-04T13:00:00Z',
-    content: 'پیشنهاد خاصی برای شما داریم. از آن بهره ببرید!',
-    status: 'unseen',
-  },
-  {
-    id: 8,
-    title: 'نظر خود را ثبت کنید',
-    createdAt: '2025-05-01T16:30:00Z',
-    content: 'نظر شما برای ما مهم است. لطفاً درباره سفر اخیرتان نظر دهید.',
-    status: 'seen',
-  },
-  {
-    id: 9,
-    title: 'خطای پرداخت اصلاح شد',
-    createdAt: '2025-04-25T08:50:00Z',
-    content: 'مشکل پرداخت شما با موفقیت برطرف شد.',
-    status: 'seen',
-  },
-  {
-    id: 10,
-    title: 'در قرعه‌کشی شرکت کردید',
-    createdAt: '2025-05-05T07:30:00Z',
-    content: 'شما در قرعه‌کشی این ماه شرکت داده شدید. موفق باشید!',
-    status: 'important',
-  },
-];
-
 // Creating some data to render
 const data: {
   type: 'containable' | 'single' | 'notification';
@@ -111,87 +36,87 @@ const data: {
     subTitle: string;
   }[];
 }[] = [
-  {
-    type: 'notification',
-    icon: 'NotificationStatus',
-    title: 'اعلان ها',
-    subTitle: 'هیچ پیامی دریافت نکردید!',
-  },
-  {
-    type: 'single',
-    icon: 'Category',
-    title: 'داشبورد',
-    subTitle: 'مشاهده و ویرایش اطلاعات شخصی',
-    link: '/dashboard',
-  },
-  {
-    type: 'single',
-    icon: 'DocumentText',
-    title: 'لیست رزرو من',
-    subTitle: 'رزرواسیون سفرهای لیست شده من',
-    link: '/dashboard/reservations',
-  },
-  {
-    type: 'containable',
-    icon: 'Wallet',
-    title: 'بخش مالی',
-    subTitle: 'دریافت اعتبار برای سفر، افزایش موجودی',
-    containable: [
-      {
-        icon: 'CardSend',
-        title: 'شارژ کیف پول',
-        subTitle: 'افزایش اعتبار خرید هتل',
-        link: '/dashboard/financial/wallet',
-      },
-      {
-        icon: 'CardPos',
-        title: 'کارت به کارت',
-        subTitle: 'عملیات واریز وجه بنیانگذار',
-        link: '/dashboard/financial/card-to-card',
-      },
-      {
-        icon: 'Cards',
-        title: 'برداشت وجه',
-        subTitle: 'عملیات برداشت وجه کیف پول',
-        link: '/dashboard/financial/card-to-card',
-      },
-      {
-        icon: 'Receipt',
-        title: 'فاکتور ها',
-        subTitle: 'صدور واچر اختصاصی',
-        link: '/dashboard/financial/factors',
-      },
-    ],
-  },
-  {
-    type: 'single',
-    icon: 'Crown',
-    title: 'باشگاه مشتریان',
-    subTitle: 'امتیاز، جوایز دریافتی های ویژه',
-    link: '/dashboard/customer-club',
-  },
-  {
-    type: 'single',
-    icon: 'MessageText',
-    title: 'مدیریت تیکت ها',
-    subTitle: 'مشاهده و ویرایش اطلاعات شخصی',
-    link: '/dashboard/tickets',
-  },
-  {
-    type: 'single',
-    icon: 'Save2',
-    title: 'علاقه مندی های من',
-    subTitle: 'هتل و مقاله های جذاب ذخیره شده',
-    link: '/dashboard/favorites',
-  },
-  {
-    type: 'single',
-    icon: 'Profile2User',
-    title: 'مسافران من',
-    subTitle: 'لیست هم سفر های من',
-    link: '/dashboard/passengers',
-  },
-];
+    {
+      type: 'notification',
+      icon: 'NotificationStatus',
+      title: 'اعلان ها',
+      subTitle: 'هیچ پیامی دریافت نکردید!',
+    },
+    {
+      type: 'single',
+      icon: 'Category',
+      title: 'داشبورد',
+      subTitle: 'مشاهده و ویرایش اطلاعات شخصی',
+      link: '/dashboard',
+    },
+    {
+      type: 'single',
+      icon: 'DocumentText',
+      title: 'لیست رزرو من',
+      subTitle: 'رزرواسیون سفرهای لیست شده من',
+      link: '/dashboard/reservations',
+    },
+    {
+      type: 'containable',
+      icon: 'Wallet',
+      title: 'بخش مالی',
+      subTitle: 'دریافت اعتبار برای سفر، افزایش موجودی',
+      containable: [
+        {
+          icon: 'CardSend',
+          title: 'شارژ کیف پول',
+          subTitle: 'افزایش اعتبار خرید هتل',
+          link: '/dashboard/financial/wallet',
+        },
+        {
+          icon: 'CardPos',
+          title: 'کارت به کارت',
+          subTitle: 'عملیات واریز وجه بنیانگذار',
+          link: '/dashboard/financial/card-to-card',
+        },
+        {
+          icon: 'Cards',
+          title: 'برداشت وجه',
+          subTitle: 'عملیات برداشت وجه کیف پول',
+          link: '/dashboard/financial/card-to-card',
+        },
+        {
+          icon: 'Receipt',
+          title: 'فاکتور ها',
+          subTitle: 'صدور واچر اختصاصی',
+          link: '/dashboard/financial/factors',
+        },
+      ],
+    },
+    {
+      type: 'single',
+      icon: 'Crown',
+      title: 'باشگاه مشتریان',
+      subTitle: 'امتیاز، جوایز دریافتی های ویژه',
+      link: '/dashboard/customer-club',
+    },
+    {
+      type: 'single',
+      icon: 'MessageText',
+      title: 'مدیریت تیکت ها',
+      subTitle: 'مشاهده و ویرایش اطلاعات شخصی',
+      link: '/dashboard/tickets',
+    },
+    {
+      type: 'single',
+      icon: 'Save2',
+      title: 'علاقه مندی های من',
+      subTitle: 'هتل و مقاله های جذاب ذخیره شده',
+      link: '/dashboard/favorites',
+    },
+    {
+      type: 'single',
+      icon: 'Profile2User',
+      title: 'مسافران من',
+      subTitle: 'لیست هم سفر های من',
+      link: '/dashboard/passengers',
+    },
+  ];
 
 // Creating and exporting MobileProfile component as default
 export default function MobileProfile({
@@ -217,8 +142,8 @@ export default function MobileProfile({
     phoneNumber: string;
     refreshUID: string;
   } = authLocalStorage.data
-    ? JSON.parse(authLocalStorage.data)
-    : {
+      ? JSON.parse(authLocalStorage.data)
+      : {
         acessUID: '',
         otp: '',
         phoneNumber: '',
@@ -397,11 +322,11 @@ export default function MobileProfile({
                 animate={
                   index === activeItemIndex
                     ? {
-                        height: 'auto',
-                        opacity: 1,
-                        paddingTop: 20,
-                        marginTop: 20,
-                      }
+                      height: 'auto',
+                      opacity: 1,
+                      paddingTop: 20,
+                      marginTop: 20,
+                    }
                     : { height: 0, opacity: 0, paddingTop: 0, marginTop: 0 }
                 }
                 exit={{ height: 0, opacity: 0, paddingTop: 0, marginTop: 0 }}
@@ -434,11 +359,7 @@ export default function MobileProfile({
               </motion.div>
             </div>
           ) : (
-            <MobileNotification
-              notifications={notifications}
-              key={index}
-              index={index}
-            />
+            <MobileNotification key={index} index={index} />
           ),
         )}
         <button

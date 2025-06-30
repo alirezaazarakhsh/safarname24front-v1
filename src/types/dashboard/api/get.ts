@@ -1,5 +1,3 @@
-import { StringToBoolean } from 'class-variance-authority/types';
-
 // Creating the type of returned data from api (GET)
 export interface GETPaginationAPILayout<T> {
   count: number;
@@ -16,13 +14,13 @@ export interface GETReservationItem {
   extra_passengers: number[];
   paid_price: number;
   status:
-    | 'payment'
-    | 'pending_approve'
-    | 'approved'
-    | 'rejected'
-    | 'failed'
-    | 'success'
-    | 'expired';
+  | 'payment'
+  | 'pending_approve'
+  | 'approved'
+  | 'rejected'
+  | 'failed'
+  | 'success'
+  | 'expired';
   fail_reason: string;
   expired_date: string;
   additional_details: string;
@@ -137,7 +135,19 @@ export interface GETWalletBalance {
   balance: number;
 }
 
+export interface GETNotificationItem {
+  id: number;
+  title: string;
+  message: string;
+  status: 'new' | 'important';
+  users: string;
+  created_date_jalali: string;
+  created_time: string;
+  send_to_all: boolean;
+}
+
 export type GETReservation = GETReservationItem[];
+export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;

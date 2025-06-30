@@ -399,6 +399,7 @@ export interface NotificationType {
   createdAt: string;
   content: string;
   status: 'seen' | 'unseen' | 'important';
+  isForAll: boolean;
 }
 
 export interface NotificationComponentPropsType {
@@ -406,12 +407,7 @@ export interface NotificationComponentPropsType {
   className?: string;
 }
 
-export interface NotificationSheetPropsType {
-  notifications: NotificationType[];
-}
-
-export interface NotificationSheetMobilePropsType
-  extends NotificationSheetPropsType {
+export interface NotificationSheetMobilePropsType {
   index: number;
 }
 

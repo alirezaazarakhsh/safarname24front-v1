@@ -6,98 +6,22 @@ import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
 import Logo from '../ui/logo';
 import { usePathname, useRouter } from 'next/navigation';
 import Notification from './notification';
-import { NotificationType } from '@/types/dashboard/component';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Cookies from 'js-cookie';
 import toast from '../ui/customSonner/toast';
 
-// Defining fake notification items
-const notifications: NotificationType[] = [
-  {
-    id: 1,
-    title: 'تکمیل پروفایل شما',
-    createdAt: '2025-05-01T08:30:00Z',
-    content: 'لطفاً پروفایل خود را برای استفاده بهتر از امکانات تکمیل کنید.',
-    status: 'unseen',
-  },
-  {
-    id: 2,
-    title: 'امتیاز جدید در باشگاه مشتریان',
-    createdAt: '2025-04-30T14:15:00Z',
-    content:
-      'شما ۲۰ امتیاز جدید کسب کرده‌اید. برای مشاهده جزئیات به باشگاه مشتریان بروید.',
-    status: 'seen',
-  },
-  {
-    id: 3,
-    title: 'تخفیف ویژه نوروزی',
-    createdAt: '2025-03-20T12:00:00Z',
-    content: 'از تخفیف ۳۰٪ نوروزی ما استفاده کنید. فقط تا پایان تعطیلات!',
-    status: 'important',
-  },
-  {
-    id: 4,
-    title: 'سفر شما تایید شد',
-    createdAt: '2025-05-02T09:45:00Z',
-    content: 'سفر شما به مشهد تایید شد. اطلاعات بیشتر را در پروفایل ببینید.',
-    status: 'unseen',
-  },
-  {
-    id: 5,
-    title: 'پیام جدید از پشتیبانی',
-    createdAt: '2025-05-03T11:20:00Z',
-    content: 'پشتیبانی به درخواست شما پاسخ داده است. لطفاً بررسی کنید.',
-    status: 'seen',
-  },
-  {
-    id: 6,
-    title: 'به روزرسانی قوانین استفاده',
-    createdAt: '2025-04-28T10:00:00Z',
-    content: 'قوانین استفاده از پلتفرم به‌روزرسانی شد. لطفاً مطالعه فرمایید.',
-    status: 'important',
-  },
-  {
-    id: 7,
-    title: 'پیشنهاد ویژه فقط برای شما',
-    createdAt: '2025-05-04T13:00:00Z',
-    content: 'پیشنهاد خاصی برای شما داریم. از آن بهره ببرید!',
-    status: 'unseen',
-  },
-  {
-    id: 8,
-    title: 'نظر خود را ثبت کنید',
-    createdAt: '2025-05-01T16:30:00Z',
-    content: 'نظر شما برای ما مهم است. لطفاً درباره سفر اخیرتان نظر دهید.',
-    status: 'seen',
-  },
-  {
-    id: 9,
-    title: 'خطای پرداخت اصلاح شد',
-    createdAt: '2025-04-25T08:50:00Z',
-    content: 'مشکل پرداخت شما با موفقیت برطرف شد.',
-    status: 'seen',
-  },
-  {
-    id: 10,
-    title: 'در قرعه‌کشی شرکت کردید',
-    createdAt: '2025-05-05T07:30:00Z',
-    content: 'شما در قرعه‌کشی این ماه شرکت داده شدید. موفق باشید!',
-    status: 'important',
-  },
-];
-
 type urlTitleType =
   | {
-      type: 'normal';
-      href: `/dashboard/${string}` | '/dashboard';
-      title: string;
-    }
+    type: 'normal';
+    href: `/dashboard/${string}` | '/dashboard';
+    title: string;
+  }
   | {
-      type: 'regexp';
-      regexp: RegExp;
-      title: string;
-    };
+    type: 'regexp';
+    regexp: RegExp;
+    title: string;
+  };
 
 const urlTitles: urlTitleType[] = [
   {
@@ -182,8 +106,8 @@ export default function TopSide(): ReactNode {
     phoneNumber: string;
     refreshUID: string;
   } = authLocalStorage.data
-    ? JSON.parse(authLocalStorage.data)
-    : {
+      ? JSON.parse(authLocalStorage.data)
+      : {
         acessUID: '',
         otp: '',
         phoneNumber: '',
@@ -237,7 +161,7 @@ export default function TopSide(): ReactNode {
           >
             <ICLogOut className='w-5 h-5 text-current' />
           </button>
-          <Notification notifications={notifications} />
+          <Notification />
           <ProfileDropdown />
         </div>
       </div>
