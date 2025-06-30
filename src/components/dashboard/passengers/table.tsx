@@ -42,8 +42,6 @@ export default function PassengersTable({
     undefined,
   );
 
-  const [editItemId, setEditItemId] = useState<number | undefined>(undefined);
-
   const [editingDialogInfo, setEditDialogInfo] = useState<
     GETPassengerItem | undefined
   >(undefined);
@@ -196,7 +194,6 @@ export default function PassengersTable({
           isOpened={editDialogOpened}
           data={editingDialogInfo}
           refetch={refetch}
-          id={editItemId}
           closeFn={() => {
             setEditDialogOpened(false);
             setEditDialogInfo(undefined);
@@ -206,7 +203,10 @@ export default function PassengersTable({
           id={deleteItemId}
           isOpened={deleteDialogOpened}
           refetch={refetch}
-          closeFn={() => setDeleteDialogOpened(false)}
+          closeFn={() => {
+            setDeleteDialogOpened(false);
+            setDeleteItemId(undefined);
+          }}
         />
         {data.length === 0 ? (
           <div>
@@ -316,7 +316,10 @@ export default function PassengersTable({
                     </TableCell>
                     <TableCell className='p-3 flex items-center justify-end gap-3'>
                       <button
-                        onClick={() => setDeleteDialogOpened(true)}
+                        onClick={() => {
+                          setDeleteDialogOpened(true);
+                          setDeleteItemId(item.id);
+                        }}
                         className='px-6 h-[40px] rounded-md border border-red-600 bg-red-50 text-red-600 font-medium text-xs transition-all duration-500 hover:bg-red-100'
                       >
                         حذف
@@ -364,7 +367,10 @@ export default function PassengersTable({
                       </div>
                       <div className='flex items-center justify-between gap-[10px]'>
                         <button
-                          onClick={() => setDeleteDialogOpened(true)}
+                          onClick={() => {
+                            setDeleteDialogOpened(true);
+                            setDeleteItemId(item.id);
+                          }}
                           className='h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center'
                         >
                           <IconsaxIcons

@@ -64,6 +64,7 @@ export interface GETUploadedDocumentItem {
 }
 
 export interface GETPassengerItem {
+  id: number;
   first_name: string;
   last_name: string;
   is_foreign: boolean;

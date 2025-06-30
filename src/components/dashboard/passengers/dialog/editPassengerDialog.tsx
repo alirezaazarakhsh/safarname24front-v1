@@ -63,7 +63,6 @@ export default function EditPassengersDialog({
   closeFn,
   isOpened = false,
   data,
-  id = 1,
   refetch,
 }: EditPassengerDialogPropsType): ReactNode {
   // Defining hooks
@@ -89,7 +88,7 @@ export default function EditPassengersDialog({
 
   // Defining fetching data
   const fetchData = useApiMutation({
-    url: `/hotel/passengers/${id}/`,
+    url: `/hotel/passengers/${data?.id || 1}/`,
     method: 'put',
     options: {
       onError: () => {

@@ -69,20 +69,21 @@ export default function PassengersPage(): ReactNode {
               paginationCount={getData.data.count}
               paginationActiveIndex={paginationNumber}
               setPaginationActiveIndex={setPaginationNumber}
+              refetch={getData.refetch}
               data={
                 getData.data
                   ? filter === ''
                     ? getData.data.results
                     : getData.data.results.filter((item) =>
-                        [
-                          item.first_name,
-                          item.last_name,
-                          item.national_code,
-                          item.phone_number,
-                        ].some((field) =>
-                          field?.toLowerCase().includes(filter),
-                        ),
-                      )
+                      [
+                        item.first_name,
+                        item.last_name,
+                        item.national_code,
+                        item.phone_number,
+                      ].some((field) =>
+                        field?.toLowerCase().includes(filter),
+                      ),
+                    )
                   : []
               }
             />
