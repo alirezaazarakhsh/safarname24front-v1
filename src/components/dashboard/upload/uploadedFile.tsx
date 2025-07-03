@@ -18,18 +18,21 @@ export default function UploadedFile({
   isLoading = false,
   onDelete,
   fetchURL,
+  refetch,
 }: UploadedFileComponentPropsType): ReactNode {
   // Fetching api
   const removeUploadedFile = useApiMutation({
     method: 'delete',
     url: `${fetchURL}${data?.id}/` || '/',
     options: {
-      onSuccess: () =>
+      onSuccess: () => {
+        refetch && refetch();
         toast({
           title: 'فایل پاک شد!',
           description: `فایل شماره ${index + 1} شما با موفقیت پاک شد.`,
           theme: 'green',
-        }),
+        });
+      },
       onError: () =>
         toast({
           title: 'خطایی به وجود امد!',

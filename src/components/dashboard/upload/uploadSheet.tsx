@@ -82,7 +82,7 @@ export default function UploadSheet({
         </div>
         <div className='flex flex-col'>
           {fetchURL ? (
-            fetchUploadedFiles.isLoading ? (
+            fetchUploadedFiles.isLoading || fetchUploadedFiles.isRefetching ? (
               [...new Array(5)].map((_, index) => (
                 <UploadedFile
                   key={index}
@@ -106,6 +106,7 @@ export default function UploadSheet({
                   index={index}
                   key={index}
                   isLastItem={fetchUploadedFiles.data.length === index + 1}
+                  refetch={fetchUploadedFiles.refetch}
                   data={{
                     name: item.file,
                     id: item.id,
@@ -118,7 +119,6 @@ export default function UploadSheet({
               <UploadedFile
                 index={index}
                 key={index}
-                onDelete={() => alert('asdfasdf')}
                 isLastItem={files.length === index + 1}
                 data={{ id: index + 1, ...item }}
               />

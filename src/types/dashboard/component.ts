@@ -590,6 +590,7 @@ export interface UploadedFileComponentPropsType {
   isLoading?: boolean;
   onDelete?: () => void;
   fetchURL?: string;
+  refetch?: () => void;
   data?: {
     name: string;
     id: number;

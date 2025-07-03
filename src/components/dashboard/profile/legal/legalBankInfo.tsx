@@ -105,7 +105,7 @@ export default function LegalBankInfo({
     formData.append('postal_code', data.postCode);
     formData.append('address', data.address || '');
     formData.append('email', data.email || '');
-    formData.append('status', 'checking');
+    formData.append('status', 'accpeted');
     formData.append('reject_reason', '');
     formData.append('image', file ? file : '');
 
