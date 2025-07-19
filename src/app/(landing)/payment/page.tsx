@@ -1,6 +1,9 @@
 import {
   Stepper,
   DiscountCode,
+  PaymentInvoice,
+  WalletBallance,
+  ApplyDiscountCode,
   ReservationDetails,
 } from '@/components/landing/modules/payment';
 
@@ -9,9 +12,12 @@ import {
 export default function page() {
   return (
     <div className="mt-12 flex flex-col gap-8">
-      <Stepper />
+      {/* <Stepper />
       <DiscountCode />
-      <ReservationDetails />
+      <ReservationDetails /> */}
+      {/* <WalletBallance /> */}
+      {/* <ApplyDiscountCode /> */}
+      <PaymentInvoice />
     </div>
   );
 }
