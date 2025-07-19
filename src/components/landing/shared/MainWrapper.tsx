@@ -4,6 +4,7 @@ import { SearchProvider } from '@/context/SearchContext';
 import { UserAccountProvider } from '@/context/UserAccountContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AuthHandler from './AuthHandler';
+import { Suspense } from 'react';
 
 type Props = {
   children: React.ReactNode;
@@ -16,7 +17,9 @@ export default function MainWrapper(props: Props) {
     <QueryClientProvider client={queryClient}>
       <UserAccountProvider>
         <SearchProvider>
-          <AuthHandler />
+          <Suspense fallback={null}>
+            <AuthHandler />
+          </Suspense>
           {props.children}
         </SearchProvider>
       </UserAccountProvider>
