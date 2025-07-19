@@ -24,10 +24,10 @@ import StickyArea from '@/components/landing/shared/StickyArea';
 import { Section } from '@/components/landing/modules/hotel/molecules/Section';
 import Sharing from '@/components/landing/modules/hotel/molecules/sharing/Sharing';
 
+import HotelWrapper from '@/components/landing/modules/hotel/molecules/HotelWrapper';
 import FavoriteButton from '@/components/landing/modules/hotel/molecules/FavoriteButton';
 import MImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/MImageGallery';
 import DImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/DImageGallery';
-import HotelWrapper from '@/components/landing/modules/hotel/molecules/HotelWrapper';
 
 type Props = {
   params: Promise<{ hotel: string }>;
@@ -36,9 +36,7 @@ type Props = {
 // ----------------------------------
 
 export default async function Hotel(props: Props) {
-  const { rooms, initialInfo, sectionLinks, suggestedHotels, customerReviews } =
-    hotel;
-
+  const { rooms, initialInfo, sectionLinks, suggestedHotels } = hotel;
   const { hotel: hotelSlug } = await props.params;
 
   return (
@@ -108,7 +106,7 @@ export default async function Hotel(props: Props) {
           <ImportantPlaces hotelSlug={hotelSlug} />
           <Facilities hotelSlug={hotelSlug} />
           <FrequentlyQuestions hotelSlug={hotelSlug} />
-          <CustomerReviews customerReviews={customerReviews} />
+          <CustomerReviews hotelSlug={hotelSlug} />
           <Tags hotelSlug={hotelSlug} />
 
           <SuggestedHotels

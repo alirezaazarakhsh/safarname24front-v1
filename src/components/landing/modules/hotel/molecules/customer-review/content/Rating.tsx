@@ -3,14 +3,47 @@ import {
   useAddCommentDispatch,
 } from '@/context/AddCommentContext';
 
+import { useEffect } from 'react';
 import ReactSlider from 'react-slider';
+import { useQuery } from '@tanstack/react-query';
+
 import AccordionCard from '../AccordionCard';
+import { generalInstance } from '@/utils/services';
+
+type ApiResponse = {
+  data: {
+    suggested_comment_items: {
+      id: number;
+      title: string;
+    }[];
+  };
+};
 
 // --------------------------------------
 
 export function Rating() {
   const dispatch = useAddCommentDispatch();
   const { standards } = useAddCommentContext();
+
+  const { data } = useQuery<ApiResponse>({
+    queryKey: ['hotel-comments-items'],
+    queryFn: () =>
+      generalInstance('/hotel/hotels/comments/points-and-suggestions/'),
+  });
+
+  // === Set Initial-State
+  useEffect(() => {
+    const stopCondition = !data?.data.suggested_comment_items;
+    if (stopCondition) return;
+
+    dispatch({
+      type: 'STANDARDS-INIT',
+      payload: data?.data.suggested_comment_items.map((item) => ({
+        ...item,
+        value: 0,
+      })),
+    });
+  }, [data?.data]);
 
   return (
     <AccordionCard trigger="امتیاز هر کدام از گزینه های زیر را وارد نمایید">
@@ -32,8 +65,8 @@ export function Rating() {
               onChange={(value: number | number[]) => {
                 const newValue = Array.isArray(value) ? value[0] : value;
                 dispatch({
-                  type: 'STANDARDS',
-                  payload: { title: standard.title, value: newValue },
+                  type: 'STANDARDS-CHANGE',
+                  payload: { id: standard.id, value: newValue },
                 });
               }}
               renderTrack={(props, state) => {

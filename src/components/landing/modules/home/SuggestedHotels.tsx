@@ -63,7 +63,7 @@ export function SuggestedHotels(props: Props) {
             slidesOffsetAfter: 0,
           },
         }}
-        speed={500}
+        speed={600}
         autoplay={{
           delay: 4000,
           pauseOnMouseEnter: true,

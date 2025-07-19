@@ -3,14 +3,51 @@ import {
   useAddCommentDispatch,
 } from '@/context/AddCommentContext';
 
-import AccordionCard from '../AccordionCard';
+import { useEffect } from 'react';
 import { GrFormCheckmark } from 'react-icons/gr';
+import { useQuery } from '@tanstack/react-query';
+
+import AccordionCard from '../AccordionCard';
+import { generalInstance } from '@/utils/services';
+
+type ApiResponse = {
+  data: {
+    comment_point_items: {
+      id: number;
+      title: string;
+      is_positive: boolean;
+      is_negative: boolean;
+    }[];
+  };
+};
 
 // --------------------------------------
 
 export function NegativePoints() {
   const dispatch = useAddCommentDispatch();
   const { negativePoints } = useAddCommentContext();
+
+  const { data } = useQuery<ApiResponse>({
+    queryKey: ['hotel-comments-items'],
+    queryFn: () =>
+      generalInstance('/hotel/hotels/comments/points-and-suggestions/'),
+  });
+
+  // === Set Initial-State
+  useEffect(() => {
+    const stopCondition = !data?.data.comment_point_items;
+    if (stopCondition) return;
+
+    dispatch({
+      type: 'NEGATIVE-POINTS-INIT',
+      payload: data?.data.comment_point_items
+        .filter((item) => item.is_negative)
+        .map((item) => ({
+          ...item,
+          isSelected: false,
+        })),
+    });
+  }, [data?.data]);
 
   return (
     <AccordionCard trigger="نظرات منفی خود را انتخاب نمایید">
@@ -21,8 +58,8 @@ export function NegativePoints() {
             className="flex items-center gap-2.5 select-none"
             onClick={() =>
               dispatch({
-                type: 'NEGATIVE-POINTS',
-                payload: { title: point.title },
+                type: 'NEGATIVE-POINTS-CHANGE',
+                payload: { id: point.id },
               })
             }
           >
