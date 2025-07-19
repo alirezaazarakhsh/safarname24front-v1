@@ -1,3 +1,5 @@
+'use client';
+
 import { ComingSoon } from '@/components/landing/modules/coming-soon';
 import { generalInstance } from '@/utils/services';
 import { SearchProvider } from '@/context/SearchContext';
@@ -28,9 +30,7 @@ export default function MainWrapper(props: Props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response: any = await generalInstance(
-          '/config/coming-soon',
-        );
+        const response: any = await generalInstance('/config/coming-soon');
 
         setActive(response?.data.data.is_active);
       } catch (error) {
