@@ -21,7 +21,11 @@ export default function SubscriptionType({
       <div
         className={cn(
           'lg:rounded-lg rounded-[12px] bg-gradient-to-tr from-[#282828] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
-          type === 'premium' ? 'to-[#E4BF45]' : 'to-[#616161]',
+          type === 'premium'
+            ? 'to-[#E4BF45]'
+            : type === 'silver'
+              ? 'to-[#616161]'
+              : 'to-cs-red',
           className,
         )}
       >
@@ -44,7 +48,11 @@ export default function SubscriptionType({
             سطح کاربری شما
           </span>
           <span className='lg:font-semibold font-bold lg:text-cs08 text-[14px] text-current block text-right truncate'>
-            {type === 'premium' ? 'پریمیوم' : 'نقره ای'}
+            {type === 'premium'
+              ? 'پریمیوم'
+              : type === 'silver'
+                ? 'نقره ای'
+                : 'مهمان'}
           </span>
         </div>
       </div>

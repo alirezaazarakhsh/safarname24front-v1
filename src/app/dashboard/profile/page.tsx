@@ -21,7 +21,7 @@ import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/p
 import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/legalAccountBannedDialog';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETLegalProfiles } from '@/types/dashboard/api/get';
+import { GETLegalProfile } from '@/types/dashboard/api/get';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -45,7 +45,7 @@ const personalFormSchema = z.object({
     .length(10, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z.string().length(15, { message: 'ERROR' }),
+  creditCard: z.string().length(16, { message: 'ERROR' }),
   shabaNumber: z.string().length(24, { message: 'ERROR' }),
   address: z
     .string()
@@ -86,7 +86,7 @@ const legalFormSchema = z.object({
     .or(z.literal(''))
     .optional(),
   postCode: z.string().length(10, { message: 'ERROR' }),
-  creditCard: z.string().length(15, { message: 'ERROR' }),
+  creditCard: z.string().length(16, { message: 'ERROR' }),
   shabaNumber: z.string().length(24, { message: 'ERROR' }),
   address: z
     .string()
@@ -139,7 +139,7 @@ export default function ProfilePage(): ReactNode {
   }, [personalForm, userInfo]);
 
   // Fetching stuff
-  const legalUserFetching = useApiQuery<GETLegalProfiles>({
+  const legalUserFetching = useApiQuery<GETLegalProfile>({
     url: '/juridical-profiles/',
     queryKey: ['legalUserInfo'],
     options: {
@@ -155,13 +155,13 @@ export default function ProfilePage(): ReactNode {
       legalUserFetching.data &&
       !legalUserFetching.isLoading
     ) {
-      const legalInfo = legalUserFetching.data[0];
+      const legalInfo = legalUserFetching.data;
 
       legalForm.setValue('name', legalInfo.organization_name);
       legalForm.setValue('id', legalInfo.national_id);
       legalForm.setValue('registrationId', legalInfo.registeration_number);
       legalForm.setValue('economicCode', legalInfo.economical_code);
-      legalForm.setValue('email', legalInfo.email);
+      legalForm.setValue('email', legalInfo.email || '');
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
     }
@@ -205,8 +205,16 @@ export default function ProfilePage(): ReactNode {
         )}
         {profileState === 'personal' ? (
           <>
-            <CartBalance hasMobileView balance={0} />
-            <SubscriptionType type='premium' />
+            <CartBalance hasMobileView />
+            <SubscriptionType
+              type={
+                userInfo.level === 0
+                  ? 'guest'
+                  : userInfo.level === 1
+                    ? 'silver'
+                    : 'premium'
+              }
+            />
             <PersonalInfoForm className='lg:col-span-2' form={personalForm} />
             <BankInfoForm className='lg:col-span-2' form={personalForm} />
             <Description className='lg:col-span-4' />
@@ -217,7 +225,6 @@ export default function ProfilePage(): ReactNode {
               loading={legalUserFetching.isLoading}
               className='lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide'
               form={legalForm}
-              documentImage={file}
             />
             <div className='lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]'>
               <Upload

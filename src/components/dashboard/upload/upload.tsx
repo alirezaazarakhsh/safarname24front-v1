@@ -148,10 +148,8 @@ export default function Upload({
             onClick={async () => {
               if (fetchURL && file) {
                 const formData = new FormData();
-                formData.append('id', '0');
-                formData.append('file', file);
-                formData.append('profile', '1');
 
+                formData.append('file', file);
                 await uploadComponentFetching.mutateAsync(formData);
               } else {
                 setUploading(true);

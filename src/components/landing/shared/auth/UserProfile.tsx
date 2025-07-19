@@ -21,13 +21,13 @@ import {
 type Props = {
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  userName: string;
+  userName?: string;
 };
 
 // --------------------------------------------
 
 export default function UserProfile(props: Props) {
-  const { isOpen, userName, setOpen } = props;
+  const { isOpen, userName = 'مقدار داده نشده!', setOpen } = props;
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   return (

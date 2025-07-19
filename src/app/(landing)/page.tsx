@@ -28,9 +28,15 @@ export default function Home() {
     <>
       <StickyArea />
 
+<<<<<<< HEAD
       <div className="mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0">
         <HeroSection />
         <Services />
+=======
+      <div className="mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0">
+        <HeroSection />
+        <Services />
+>>>>>>> mahdi-tasha
         <SuggestedHotels suggestedHotels={home.suggestedHotels} />
         <MostVisitedCities cities={mostVisitedCities} />
         <AmazingHotels hotels={amazingHotels} />

@@ -8,7 +8,7 @@ import {
   PersonalInfoType,
 } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import InputAndLabel from '../financialCartToCart/inputAndLabel';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
@@ -19,6 +19,8 @@ import toast from '../ui/customSonner/toast';
 import Image from 'next/image';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import { useMediaQuery } from '@/hooks';
+import CanclationErrorDrawer from '../reservation/canclationErrorDrawer';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -27,6 +29,7 @@ export default function BankInfoForm({
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
+  const [bankName, setBankName] = useState<string>('سیستم بانکی ناشناخته است!');
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 30MB in bytes
@@ -44,48 +47,70 @@ export default function BankInfoForm({
     },
   });
 
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [mobileErrorDrawerOpened, setMobileErrorDrawerOpened] =
+    useState<boolean>(false);
+  const [mobileSuccessDrawerOpened, setMobileSuccessDrawerOpened] =
+    useState<boolean>(false);
+
   // Handling api fetches
   const setPersonalInfoFetch = useApiMutation({
-    url: '/natural-profiles/1/',
+    url: '/natural-profiles/me/',
     method: 'put',
     options: {
       onSuccess: () => {
-        toast({
-          title: 'ارسال با موفقیت انجام شد!',
-          description: 'مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.',
-          theme: 'green',
-        });
+        if (isMobile) {
+          setMobileSuccessDrawerOpened(true);
+        } else {
+          toast({
+            title: 'تغیرات با موفقیت اعمال شد!',
+            description: 'مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.',
+            theme: 'green',
+          });
+        }
       },
       onError: () => {
-        toast({
-          title: 'خطایی رخ داد!',
-          description: 'در ارسال اطلاعات مشکلی پیش امد.',
-          theme: 'theme',
-        });
+        if (isMobile) {
+          setMobileErrorDrawerOpened(true);
+        } else {
+          toast({
+            title: 'خطایی رخ داد!',
+            description: 'در ارسال اطلاعات مشکلی پیش امد.',
+            theme: 'theme',
+          });
+        }
       },
     },
   });
 
   const userInfo = useUserInfo();
 
-  // Defining a function to handle submit event
   const submitHandleFunction: SubmitHandler<PersonalInfoType> = async (
     data,
   ) => {
-    await setPersonalInfoFetch.mutateAsync({
-      first_name: data.name,
-      last_name: data.fullName,
-      email: data.email,
-      national_code: data.meliCode,
-      postal_code: data.postCode,
-      address: data.address,
-      level: userInfo.level,
-    });
+    const formData = new FormData();
+
+    formData.append('first_name', data.name);
+    formData.append('last_name', data.fullName);
+    formData.append('email', data.email || '');
+    formData.append('national_code', data.meliCode);
+    formData.append('postal_code', data.postCode || '');
+    formData.append('address', data.address || '');
+    formData.append('level', userInfo.level?.toString() || '0');
+    formData.append('image', file ? file : '');
+
+    await setPersonalInfoFetch.mutateAsync(formData);
   };
 
-  // Defining variables
-  const slicedCreditCardNumber = form.getValues('creditCard');
-  const bankName = banks[slicedCreditCardNumber];
+  // Defining name and image of banks
+  const creditCardVal = form.watch('creditCard') || '';
+
+  useEffect(() => {
+    const value = creditCardVal.slice(0, 6);
+    const bankName = banks[value];
+
+    bankName ? setBankName(bankName) : setBankName('سیستم بانکی ناشناخته است!');
+  }, [creditCardVal]);
 
   // Returning JSX
   return (
@@ -95,6 +120,24 @@ export default function BankInfoForm({
         className,
       )}
     >
+      {isMobile && (
+        <>
+          <CanclationErrorDrawer
+            title='تغیرات با موفقیت اعمال شد!'
+            description='مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.'
+            closeFn={() => setMobileSuccessDrawerOpened(false)}
+            isOpened={mobileSuccessDrawerOpened}
+            theme='green'
+          />
+          <CanclationErrorDrawer
+            title='خطایی رخ داد!'
+            description='در ارسال اطلاعات مشکلی پیش امد.'
+            closeFn={() => setMobileErrorDrawerOpened(false)}
+            isOpened={mobileErrorDrawerOpened}
+            theme='theme'
+          />
+        </>
+      )}
       <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full'>
         <div className='shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black'>
           <IconsaxIcons
@@ -158,7 +201,7 @@ export default function BankInfoForm({
                 نام بانک
               </span>
               <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
-                {bankName ? bankName : 'سیستم بانکی ناشناخته است!'}
+                {bankName}
               </p>
             </div>
           </div>

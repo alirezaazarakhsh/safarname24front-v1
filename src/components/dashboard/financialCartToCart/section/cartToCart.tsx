@@ -8,12 +8,14 @@ import IconedPrice from '../../financial/iconedPrice';
 import CreditCardSelection from '../creditCardSelection';
 import Emergencies from '../emergencies';
 import Upload from '../../upload/upload';
+import useUserWalletBalance from '@/hooks/dashboard/useUserWalletBalance';
 
 // Creating and exporting CartToCart section of its financial page as default
 export default function CartToCart(): ReactNode {
   // Defining hooks of component
   const [selctedCard, setSelectedCard] = useState<string | undefined>();
   const [file, setFile] = useState<File | undefined>();
+  const wallet = useUserWalletBalance();
 
   // Returning JSX
   return (
@@ -25,13 +27,16 @@ export default function CartToCart(): ReactNode {
             <IconedPrice
               icon='Wallet'
               title='موجودی شما'
-              price={112459000}
+              price={wallet.balance}
               iconVariant='outline'
             />
           </div>
           <div className='h-[calc(100%-100px)] flex flex-row gap-5 w-full'>
             <CreditCardSelection onChange={(card) => setSelectedCard(card)} />
-            <Upload onChange={(file) => setFile(file)} />
+            <Upload
+              onChange={(file) => setFile(file)}
+              fetchURL='/juridical-profile-documents/'
+            />
           </div>
         </div>
         <Emergencies previousInfos={{ card: selctedCard, file }} />

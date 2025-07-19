@@ -1,16 +1,16 @@
 // Importing part
-
 import { userFetchedInfoContext } from '@/components/dashboard/page';
-import { GETPersonalProfileItem } from '@/types/dashboard/api/get';
+import { GETPersonalProfile } from '@/types/dashboard/api/get';
 import { useContext } from 'react';
 
 // Creating and exporting useUserInfo custom hook which takes info of user which was once fetched while getting inside dashboard pages
 // Via React context
-export default function useUserInfo(): GETPersonalProfileItem {
+export default function useUserInfo(): GETPersonalProfile {
   const context = useContext(userFetchedInfoContext);
-  const data: GETPersonalProfileItem = context
-    ? context[0]
+  const data: GETPersonalProfile = context
+    ? context
     : {
+        level_name: '',
         address: '',
         email: '',
         first_name: '',

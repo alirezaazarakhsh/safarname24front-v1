@@ -1,22 +1,16 @@
-'use client';
-
+import { ComingSoon } from '@/components/landing/modules/coming-soon';
 import { generalInstance } from '@/utils/services';
 import { SearchProvider } from '@/context/SearchContext';
 import { UserAccountProvider } from '@/context/UserAccountContext';
-import { ComingSoon } from '@/components/landing/modules/coming-soon';
-
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-type ApiResponse = {
-  data: { data: { is_active: boolean } };
-};
+import AuthHandler from './AuthHandler';
 
 type Props = {
   children: React.ReactNode;
 };
 
-// --------------------------------------------
+const queryClient = new QueryClient();
 
 export default function MainWrapper(props: Props) {
   const [comingSoonIsActive, setActive] = useState(false);
@@ -34,7 +28,7 @@ export default function MainWrapper(props: Props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response: ApiResponse = await generalInstance(
+        const response: any = await generalInstance(
           '/config/coming-soon',
         );
 
@@ -48,16 +42,19 @@ export default function MainWrapper(props: Props) {
   }, []);
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        {comingSoonIsActive ? (
-          <ComingSoon />
-        ) : (
-          <UserAccountProvider>
-            <SearchProvider>{props.children}</SearchProvider>
-          </UserAccountProvider>
-        )}
-      </QueryClientProvider>
-    </>
+    <QueryClientProvider client={queryClient}>
+      {comingSoonIsActive ? (
+        <ComingSoon />
+      ) : (
+        <UserAccountProvider>
+          <SearchProvider>
+            <Suspense fallback={null}>
+              <AuthHandler />
+            </Suspense>
+            {props.children}
+          </SearchProvider>
+        </UserAccountProvider>
+      )}
+    </QueryClientProvider>
   );
 }
