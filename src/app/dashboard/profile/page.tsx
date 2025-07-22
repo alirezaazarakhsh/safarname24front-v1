@@ -22,6 +22,7 @@ import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/lega
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
+import Cookies from 'js-cookie';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -137,6 +138,14 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
   }, [personalForm, userInfo]);
+
+  // Setting value of legal and personal form (phone number)
+  useEffect(() => {
+    const savedTelNumber = Cookies.get('UPN') ? `0${Cookies.get('UPN')}` : '';
+
+    personalForm.setValue('tell', savedTelNumber);
+    legalForm.setValue('tell', savedTelNumber);
+  }, []);
 
   // Fetching stuff
   const legalUserFetching = useApiQuery<GETLegalProfile>({
