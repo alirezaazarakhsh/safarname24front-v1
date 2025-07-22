@@ -46,8 +46,16 @@ const personalFormSchema = z.object({
     .length(10, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z.string().length(16, { message: 'ERROR' }),
-  shabaNumber: z.string().length(24, { message: 'ERROR' }),
+  creditCard: z
+    .string()
+    .length(16, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
   address: z
     .string()
     .min(5, { message: 'ERROR' })
@@ -87,8 +95,16 @@ const legalFormSchema = z.object({
     .or(z.literal(''))
     .optional(),
   postCode: z.string().length(10, { message: 'ERROR' }),
-  creditCard: z.string().length(16, { message: 'ERROR' }),
-  shabaNumber: z.string().length(24, { message: 'ERROR' }),
+  creditCard: z
+    .string()
+    .length(16, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
   address: z
     .string()
     .min(5, { message: 'ERROR' })
