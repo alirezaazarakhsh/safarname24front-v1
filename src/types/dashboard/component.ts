@@ -4,6 +4,7 @@ import {
   InputHTMLAttributes,
   ReactNode,
   SetStateAction,
+  SVGProps,
 } from 'react';
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
@@ -14,6 +15,7 @@ import {
   GETPasssengers,
   GETReservation,
 } from './api/get';
+import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -506,34 +508,9 @@ export interface SubscriptionTypeComponentPropsType {
   className?: string;
 }
 
-export interface PersonalInfoType {
-  name: string;
-  meliCode: string;
-  fullName: string;
-  tell: string;
-  email?: string;
-  address?: string;
-  postCode?: string;
-  creditCard: string;
-  shabaNumber: string;
-}
-
-export interface LegalInfoType {
-  name: string;
-  id: string;
-  registrationId: string;
-  economicCode: string;
-  tell: string;
-  email?: string;
-  address?: string;
-  postCode: string;
-  creditCard: string;
-  shabaNumber: string;
-}
-
 export interface PersonalInfoFormComponentPropsType {
   className?: string;
-  form: UseFormReturn<PersonalInfoType>;
+  form: UseFormReturn<personalFormType>;
   loading?: boolean;
 }
 
@@ -546,18 +523,18 @@ export interface NormalInputComponentPropsType
 
 export interface BankInfoFormComponentPropsType {
   className?: string;
-  form: UseFormReturn<PersonalInfoType>;
+  form: UseFormReturn<personalFormType>;
 }
 
 export interface LegalBankInfoFormComponentPropsType {
   className?: string;
-  form: UseFormReturn<LegalInfoType>;
+  form: UseFormReturn<legalFormType>;
   loading: boolean;
 }
 
 export interface LegalInfoFormComponentPropsType {
   className?: string;
-  form: UseFormReturn<LegalInfoType>;
+  form: UseFormReturn<legalFormType>;
   loading: boolean;
 }
 
@@ -596,4 +573,54 @@ export interface UploadedFileComponentPropsType {
     id: number;
     size?: number;
   };
+}
+
+export type BankNameType =
+  | 'ayandeh'
+  | 'markazi'
+  | 'blue'
+  | 'caspian'
+  | 'dey'
+  | 'eghtesaade-novin'
+  | 'future'
+  | 'gardeshgari'
+  | 'iran-europe'
+  | 'iran-venezuela'
+  | 'iran-zamin'
+  | 'karafarin'
+  | 'keshavarzi'
+  | 'khavar-mianeh'
+  | 'maskan'
+  | 'mehr-iran'
+  | 'melall'
+  | 'mellat'
+  | 'melli'
+  | 'noor'
+  | 'parsian'
+  | 'pasargad'
+  | 'post'
+  | 'refah'
+  | 'resalat'
+  | 'saderat'
+  | 'saman'
+  | 'sanat-madan'
+  | 'sarmayeh'
+  | 'sepah'
+  | 'shahr'
+  | 'sina'
+  | 'standard-chartered'
+  | 'taavon-eslami'
+  | 'tejarat'
+  | 'tosee'
+  | 'tosee-sedarat'
+  | 'tossee-taavon'
+  | 'kosar'
+  | 'mehr-eghtesaad'
+  | 'ghavamin'
+  | 'hekmat'
+  | 'ansar';
+
+export interface BankIconPropsType extends SVGProps<SVGSVGElement> {
+  name: BankNameType;
+  isColored?: boolean;
 }

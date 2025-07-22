@@ -94,7 +94,11 @@ const legalFormSchema = z.object({
     .email({ message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  postCode: z.string().length(10, { message: 'ERROR' }),
+  postCode: z
+    .string()
+    .length(10, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
   creditCard: z
     .string()
     .length(16, { message: 'ERROR' })
@@ -114,8 +118,8 @@ const legalFormSchema = z.object({
 });
 
 // Defining formType
-type personalFormType = z.infer<typeof personalFormSchema>;
-type legalFormType = z.infer<typeof legalFormSchema>;
+export type personalFormType = z.infer<typeof personalFormSchema>;
+export type legalFormType = z.infer<typeof legalFormSchema>;
 
 // Creating and exporting Profile page as default
 export default function ProfilePage(): ReactNode {
@@ -145,6 +149,9 @@ export default function ProfilePage(): ReactNode {
     resolver: zodResolver(legalFormSchema),
   });
 
+  // Defining small variables
+  const savedTellNumber = Cookies.get('UPN') ? `0${Cookies.get('UPN')}` : '';
+
   // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {
     personalForm.setValue('address', userInfo.address);
@@ -153,15 +160,8 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('fullName', userInfo.last_name);
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
+    personalForm.setValue('tell', savedTellNumber);
   }, [personalForm, userInfo]);
-
-  // Setting value of legal and personal form (phone number)
-  useEffect(() => {
-    const savedTelNumber = Cookies.get('UPN') ? `0${Cookies.get('UPN')}` : '';
-
-    personalForm.setValue('tell', savedTelNumber);
-    legalForm.setValue('tell', savedTelNumber);
-  }, []);
 
   // Fetching stuff
   const legalUserFetching = useApiQuery<GETLegalProfile>({
@@ -189,6 +189,7 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('email', legalInfo.email || '');
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
+      legalForm.setValue('tell', savedTellNumber);
     }
   }, [legalForm, legalUserFetching.isLoading]);
 

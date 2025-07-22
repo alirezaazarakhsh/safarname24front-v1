@@ -3,17 +3,13 @@
 
 // Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import {
-  BankInfoFormComponentPropsType,
-  PersonalInfoType,
-} from '@/types/dashboard/component';
+import { BankInfoFormComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useState } from 'react';
 import InputAndLabel from '../financialCartToCart/inputAndLabel';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
 import NormalInput from './normalInput';
-import { banks } from '../financialCartToCart/creditCard';
 import { useDropzone } from 'react-dropzone';
 import toast from '../ui/customSonner/toast';
 import Image from 'next/image';
@@ -21,6 +17,10 @@ import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useMediaQuery } from '@/hooks';
 import CanclationErrorDrawer from '../reservation/canclationErrorDrawer';
+import { personalFormType } from '@/app/dashboard/profile/page';
+import { BankInfo } from '@/types/utils';
+import { getBankFromCard } from '@/utils/string';
+import BankIcon from '../ui/bankIcon';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -29,7 +29,7 @@ export default function BankInfoForm({
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
-  const [bankName, setBankName] = useState<string>('سیستم بانکی ناشناخته است!');
+  const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 30MB in bytes
@@ -85,7 +85,7 @@ export default function BankInfoForm({
 
   const userInfo = useUserInfo();
 
-  const submitHandleFunction: SubmitHandler<PersonalInfoType> = async (
+  const submitHandleFunction: SubmitHandler<personalFormType> = async (
     data,
   ) => {
     const formData = new FormData();
@@ -107,9 +107,9 @@ export default function BankInfoForm({
 
   useEffect(() => {
     const value = creditCardVal.slice(0, 6);
-    const bankName = banks[value];
+    const info = getBankFromCard(value);
 
-    bankName ? setBankName(bankName) : setBankName('سیستم بانکی ناشناخته است!');
+    setBankInfo(info);
   }, [creditCardVal]);
 
   // Returning JSX
@@ -190,18 +190,18 @@ export default function BankInfoForm({
         <div className='flex flex-col lg:gap-6 gap-[16px]'>
           <div className='flex items-center justify-start w-full gap-3'>
             <div className='shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md'>
-              <IconsaxIcons
-                name='Bank'
-                color='currentColor'
-                className='w-[20px] h-[20px]'
-              />
+              {bankInfo ? (
+                <BankIcon name={bankInfo.type} className='w-[30px] h-[30px]' />
+              ) : (
+                <IconsaxIcons name='Bank' color='currentColor' />
+              )}
             </div>
             <div className='overflow-hidden w-full'>
               <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
                 نام بانک
               </span>
               <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
-                {bankName}
+                {bankInfo?.name || 'سیستم بانکی ناشناخته است!'}
               </p>
             </div>
           </div>
