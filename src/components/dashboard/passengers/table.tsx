@@ -301,17 +301,17 @@ export default function PassengersTable({
                     </TableCell>
                     <TableCell className='p-3'>
                       <span className='text-xs font-medium text-gray-600 truncate block text-right'>
-                        {item.phone_number !== '' ? item.phone_number : 'N/A'}
+                        {item.phone_number !== '' ? item.phone_number : '-'}
                       </span>
                     </TableCell>
                     <TableCell className='p-3'>
                       <span className='text-xs font-medium text-gray-600 truncate block text-right'>
-                        {item.national_code !== '' ? item.national_code : 'N/A'}
+                        {item.national_code !== '' ? item.national_code : '-'}
                       </span>
                     </TableCell>
                     <TableCell className='p-3'>
                       <span className='text-xs font-medium text-gray-600 truncate block text-right'>
-                        {item.passport_code !== '' ? item.passport_code : 'N/A'}
+                        {item.passport_code !== '' ? item.passport_code : '-'}
                       </span>
                     </TableCell>
                     <TableCell className='p-3 flex items-center justify-end gap-3'>
@@ -420,7 +420,7 @@ export default function PassengersTable({
                           شماره همراه :
                         </span>
                         <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
-                          {item.phone_number !== '' ? item.phone_number : 'N/A'}
+                          {item.phone_number !== '' ? item.phone_number : '-'}
                         </span>
                       </div>
                     </div>
@@ -436,9 +436,7 @@ export default function PassengersTable({
                           شماره ملی :
                         </span>
                         <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
-                          {item.national_code !== ''
-                            ? item.national_code
-                            : 'N/A'}
+                          {item.national_code !== '' ? item.national_code : '-'}
                         </span>
                       </div>
                     </div>
@@ -454,9 +452,7 @@ export default function PassengersTable({
                           شماره پاسپورت :
                         </span>
                         <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
-                          {item.passport_code !== ''
-                            ? item.passport_code
-                            : 'N/A'}
+                          {item.passport_code !== '' ? item.passport_code : '-'}
                         </span>
                       </div>
                     </div>
