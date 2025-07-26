@@ -105,7 +105,7 @@ export interface DialogComponentPropsType {
   tryAgainFn?: () => void;
   refetch?: () => void;
   id?: number;
-  phoneNumbers: string[];
+  phoneNumbers?: string[];
 }
 
 export interface DeleteCollectionDialogPropsType
