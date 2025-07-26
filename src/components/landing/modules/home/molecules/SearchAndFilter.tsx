@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import NumberOfNights from '@/components/landing/shared/search/molecules/NumberOfNights';
 import Passengers from '@/components/landing/shared/search/molecules/passengers/Passengers';
 import CityOrHotel from '@/components/landing/shared/search/molecules/city-hotel/CityOrHotel';
-import DDatePicker from '@/components/landing/shared/search/molecules/date-picker/DDatePicker';
+import {DDatePicker} from '@/components/landing/shared/search/date-picker/DDatePicker';
 
 // -----------------------------------
 

@@ -7,6 +7,7 @@ import { ComingSoon } from '@/components/landing/modules/coming-soon';
 
 import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { DatePickerProvider } from '@/context';
 
 type ApiResponse = {
   data: { data: { is_active: boolean } };
@@ -54,7 +55,9 @@ export default function MainWrapper(props: Props) {
           <ComingSoon />
         ) : (
           <UserAccountProvider>
-            <SearchProvider>{props.children}</SearchProvider>
+            <DatePickerProvider>
+              <SearchProvider>{props.children}</SearchProvider>
+            </DatePickerProvider>
           </UserAccountProvider>
         )}
       </QueryClientProvider>

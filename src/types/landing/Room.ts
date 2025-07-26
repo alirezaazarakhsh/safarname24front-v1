@@ -1,26 +1,45 @@
-type BaseInfo = {
-  title: string;
-  desc: string;
+type Room = {
+  accept_need: number;
   capacity: number;
-  services: string;
-  extraCapacity: number;
-  customerClub: number;
-  totalPrice: number;
-};
-
-type NormalRoom = BaseInfo & {
-  discount: {
-    purchase: number | null;
-    percentage: number | null;
-    deadline: string | null;
+  customer_club_points: number;
+  descriptions: string;
+  dont_accept_need: number;
+  extra_capacity: number;
+  hotel: number;
+  hotel_name: string;
+  id: number;
+  name: string;
+  night_count: number;
+  room_number: number;
+  room_services: string;
+  price: {
+    discount_amount: number;
+    discount_date: string;
+    discount_percentage: number;
+    extra_capacity_price: number;
+    is_fixed_discount_one_time: boolean;
+    total_price: number;
+    total_price_discount: number;
+    tourist_price: number;
+    user_level: string;
   };
+  price_calendar: {
+    date: string;
+    day: string;
+    month: string;
+    status: 'open' | 'close';
+    price: {
+      discount_amount: number;
+      discount_date: string;
+      discount_percentage: number;
+      extra_capacity_price: number;
+      is_fixed_discount_one_time: boolean;
+      price: number;
+      price_after_discount: number;
+      tourist_price: number;
+      user_level: string;
+    };
+  }[];
 };
 
-type PackedRoom = BaseInfo & {
-  pricePerNight: number;
-  discount: {
-    purchase: number | null;
-  };
-};
-
-export type { NormalRoom, PackedRoom };
+export type { Room };

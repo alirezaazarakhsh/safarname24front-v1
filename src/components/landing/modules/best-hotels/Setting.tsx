@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import Passengers from '../../shared/search/molecules/passengers/Passengers';
 import CityOrHotel from '../../shared/search/molecules/city-hotel/CityOrHotel';
-import DDatePicker from '../../shared/search/molecules/date-picker/DDatePicker';
+import { DDatePicker } from '../../shared/search/date-picker';
 import NumberOfNights from '../../shared/search/molecules/NumberOfNights';
 import { Skeleton } from '@/components/ui/skeleton';
 

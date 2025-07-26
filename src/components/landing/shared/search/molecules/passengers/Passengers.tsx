@@ -12,7 +12,6 @@ import {
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
 
-import { useMediaQuery } from '@/hooks';
 import PassengersContent from './PassengersContent';
 import PassengersTrigger from './PassengersTrigger';
 import { useSearchContext } from '@/context/SearchContext';
@@ -43,18 +42,15 @@ export default function Passengers(props: Props) {
   } = props;
 
   const [isOpen, setOpen] = useState(false);
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
-
   const {
     passengers: { confirmedPeople },
   } = useSearchContext();
 
   return (
     <>
-      {!isDesktop ? (
-        // === Small-Device
+      <div className="lg:hidden">
         <Drawer open={isOpen} onOpenChange={setOpen}>
-          <DrawerTrigger className="bg-zinc-200/50 text-zinc-600 text-cs08 font-semibold h-12 px-5 flex items-center rounded-cs-10">
+          <DrawerTrigger className="bg-zinc-200/50 w-full text-zinc-600 text-cs08 font-semibold h-12 px-5 flex items-center rounded-cs-10">
             {confirmedPeople.passengers ? (
               <div className="flex-center gap-1">
                 <span>{confirmedPeople.passengers}</span>
@@ -73,8 +69,9 @@ export default function Passengers(props: Props) {
             <PassengersContent handleClose={() => setOpen(false)} />
           </DrawerContent>
         </Drawer>
-      ) : (
-        // === Large-Device
+      </div>
+
+      <div className="hidden lg:block">
         <DropdownMenu
           dir="rtl"
           modal={false}
@@ -100,7 +97,7 @@ export default function Passengers(props: Props) {
             <PassengersContent handleClose={() => setOpen(false)} />
           </DropdownMenuContent>
         </DropdownMenu>
-      )}
+      </div>
     </>
   );
 }

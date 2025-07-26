@@ -1,14 +1,19 @@
-import { useSearchDispatch } from '@/context/SearchContext';
+import { useDatePickerDispatch } from '@/context';
 
 // --------------------------------
 
-export default function ClearDateRangeButton() {
-  const dispatch = useSearchDispatch();
+export function ClearDateRangeButton() {
+  const dispatch = useDatePickerDispatch();
 
   function handleClearDateRange() {
     dispatch({
-      type: 'DATE',
-      payload: { actionType: 'DATE-VALUES', values: undefined },
+      type: 'value',
+      payload: undefined,
+    });
+
+    dispatch({
+      type: 'confirmed-value',
+      payload: undefined,
     });
   }
 

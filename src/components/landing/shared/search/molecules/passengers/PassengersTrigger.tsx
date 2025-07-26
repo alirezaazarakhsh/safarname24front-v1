@@ -51,7 +51,7 @@ export default function PassengersTrigger(props: Props) {
   }
 
   return (
-    <DropdownMenuTrigger asChild>
+    <DropdownMenuTrigger asChild className='w-full'>
       <button onPointerDown={(e) => handleDropDownTrigger(e)}>
         {type === 'home' ? (
           <div className="flex flex-col items-start gap-y-2">

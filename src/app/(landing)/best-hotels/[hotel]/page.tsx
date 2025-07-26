@@ -92,7 +92,8 @@ export default async function Hotel(props: Props) {
             </div>
           </div>
 
-          <Rooms rooms={rooms} hotelName={initialInfo.hotelName} />
+          <Rooms hotelSlug={hotelSlug} hotelName={initialInfo.hotelName} />
+
           <AdditionalDetails hotelSlug={hotelSlug} />
 
           <Section

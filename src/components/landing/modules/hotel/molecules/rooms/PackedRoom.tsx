@@ -1,11 +1,11 @@
 import { numberSeparation } from '@/utils';
-import { PackedRoom as Room } from '@/types/landing';
+// import { PackedRoom as Room } from '@/types/landing';
 import { SecondaryInfo } from './atoms/SecondaryInfo';
 import { Building, Moon } from 'iconsax-react';
 import PackedPrimaryInfo from './atoms/PackedPrimaryInfo';
 
 type Props = {
-  room: { totalPrice: number; rooms: Room[] };
+  room: { totalPrice: number; rooms: any[] };
   numberOfNights: number;
 };
 

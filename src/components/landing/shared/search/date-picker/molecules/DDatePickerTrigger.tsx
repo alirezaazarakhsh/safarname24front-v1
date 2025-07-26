@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 import { useScrollPosition } from '@/hooks';
-import { useSearchContext } from '@/context/SearchContext';
+import { useDatePickerContext } from '@/context';
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 type CommonProps = {
@@ -21,17 +21,13 @@ type Props =
 
 // -----------------------------------
 
-export default function DatePickerTrigger(props: Props) {
+export function DDatePickerTrigger(props: Props) {
   const { type, isOpen, handleSetOpen, scrollBehavior } = props;
 
-  const {
-    date: { values },
-  } = useSearchContext();
-
+  const { value } = useDatePickerContext();
   const scrollPosition = useScrollPosition();
   const delayRef = useRef<NodeJS.Timeout | null>(null);
 
-  // === Handle Trigger-OnClick
   function handleDropDownTrigger(e: React.PointerEvent) {
     e.preventDefault();
     if (delayRef.current) clearTimeout(delayRef.current);
@@ -59,11 +55,11 @@ export default function DatePickerTrigger(props: Props) {
               تاریخ ورود و خروج
             </span>
 
-            {values ? (
+            {value ? (
               <div className="text-zinc-500 text-cs08 font-semibold flex-center gap-1.5">
-                <span>{values[0].format()}</span>
+                <span>{value[0].format()}</span>
                 <span>-</span>
-                <span>{values[1] && values[1].format()}</span>
+                <span>{value[1] && value[1].format()}</span>
               </div>
             ) : (
               <span className="text-zinc-500 text-cs08 font-semibold">
@@ -78,11 +74,11 @@ export default function DatePickerTrigger(props: Props) {
             </span>
 
             <div className="bg-zinc-200/50 w-full h-12 font-semibold px-4 flex items-center rounded-lg">
-              {values ? (
+              {value ? (
                 <div className="text-zinc-700 flex-center gap-1">
-                  <span>{values[0].format()}</span>
+                  <span>{value[0].format()}</span>
                   <span>-</span>
-                  <span>{values[1] && values[1].format()}</span>
+                  <span>{value[1] && value[1].format()}</span>
                 </div>
               ) : (
                 <span className="text-zinc-500">تاریخ را وارد نمایید</span>
