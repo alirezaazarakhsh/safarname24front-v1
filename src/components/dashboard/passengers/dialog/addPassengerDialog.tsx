@@ -63,6 +63,7 @@ export default function AddPassengersDialog({
   closeFn,
   isOpened = false,
   refetch,
+  phoneNumbers,
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
   const [errorDrawerOpenedMobile, setErrorDrawerOpenedMobile] =
@@ -89,8 +90,8 @@ export default function AddPassengersDialog({
 
         if (!isMobile) {
           toast({
-            title: 'با موفقیت بروزرسانی شد',
-            description: 'مشتری گرامی مسافر مد نظر خود به لیست اضافه شد.',
+            title: 'با موفقیت اضافه شد',
+            description: 'مشتری گرامی مسار مد نظر خود به لیست اضافه شد.',
             theme: 'green',
           });
         } else {
@@ -114,14 +115,20 @@ export default function AddPassengersDialog({
 
   // Defining submit handler
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    await addNewPassenger.mutateAsync({
-      first_name: data.firstName,
-      last_name: data.lastName,
-      is_foreign: data.isForeign,
-      national_code: data.nationalCode,
-      passport_code: data.passportCode,
-      phone_number: data.phoneNumber,
-    });
+    if (data.phoneNumber && phoneNumbers.includes(data.phoneNumber)) {
+      form.setError('phoneNumber', {
+        message: 'این شماره تلفن ثبلا به ثبت رسیده.',
+      });
+    } else {
+      await addNewPassenger.mutateAsync({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        is_foreign: data.isForeign,
+        national_code: data.nationalCode,
+        passport_code: data.passportCode,
+        phone_number: data.phoneNumber,
+      });
+    }
   };
 
   // Returning JSX

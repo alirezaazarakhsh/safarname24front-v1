@@ -18,6 +18,7 @@ export default function Filter({
   dataNotEmpty,
   loading = false,
   refetch,
+  phoneNumbers,
 }: PassnegersPageFilterComponentPropsType): ReactNode {
   // Defining states of component
   const [addDialogOpened, setAddDialogOpened] = useState<boolean>(false);
@@ -26,6 +27,7 @@ export default function Filter({
   return (
     <section>
       <AddPassengersDialog
+        phoneNumbers={phoneNumbers}
         isOpened={addDialogOpened}
         closeFn={() => setAddDialogOpened(false)}
         refetch={refetch}

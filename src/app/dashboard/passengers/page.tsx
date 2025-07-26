@@ -34,12 +34,22 @@ export default function PassengersPage(): ReactNode {
     handleRefetch();
   }, [paginationNumber]);
 
+  // Defining variables
+  const phoneNumbers = getData.data?.results
+    .map((item) => item.phone_number)
+    .filter((num): num is string => typeof num === 'string')
+    .reduce((acc: string[], num) => {
+      const count = acc.filter((n) => n === num).length;
+      if (count < 2) acc.push(num);
+      return acc;
+    }, []);
+
   // Returning JSX
   return (
     <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
       {getData.isLoading || getData.isRefetching ? (
         <>
-          <Filter loading dataNotEmpty />
+          <Filter phoneNumbers={[]} loading dataNotEmpty />
           <PassengersTable
             data={[]}
             loading
@@ -52,7 +62,11 @@ export default function PassengersPage(): ReactNode {
       ) : getData.data ? (
         getData.data?.count === 0 ? (
           <>
-            <Filter refetch={getData.refetch} dataNotEmpty={false} />
+            <Filter
+              phoneNumbers={[]}
+              refetch={getData.refetch}
+              dataNotEmpty={false}
+            />
             <EmptyTable
               title='لسیت مسافاران خالی میباشد!'
               description='لطفا از بالا مسافران خود را اضافه کنید'
@@ -61,6 +75,7 @@ export default function PassengersPage(): ReactNode {
         ) : (
           <>
             <Filter
+              phoneNumbers={phoneNumbers || []}
               onChange={(val) => setFilter(val)}
               refetch={getData.refetch}
               dataNotEmpty
@@ -75,15 +90,15 @@ export default function PassengersPage(): ReactNode {
                   ? filter === ''
                     ? getData.data.results
                     : getData.data.results.filter((item) =>
-                      [
-                        item.first_name,
-                        item.last_name,
-                        item.national_code,
-                        item.phone_number,
-                      ].some((field) =>
-                        field?.toLowerCase().includes(filter),
-                      ),
-                    )
+                        [
+                          item.first_name,
+                          item.last_name,
+                          item.national_code,
+                          item.phone_number,
+                        ].some((field) =>
+                          field?.toLowerCase().includes(filter),
+                        ),
+                      )
                   : []
               }
             />
