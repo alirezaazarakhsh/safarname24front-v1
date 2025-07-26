@@ -214,7 +214,7 @@ export interface TransactionsTablePropsType {
     codePeigiri: string;
     price: number;
     createdAt: string;
-    bank: string;
+    paymentType: 'card-to-card' | 'portal';
     status: 'successfull' | 'unsucessfull';
   }[];
 }
