@@ -22,6 +22,7 @@ import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/lega
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
+import Cookies from 'js-cookie';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -45,8 +46,16 @@ const personalFormSchema = z.object({
     .length(10, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z.string().length(16, { message: 'ERROR' }),
-  shabaNumber: z.string().length(24, { message: 'ERROR' }),
+  creditCard: z
+    .string()
+    .length(16, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
   address: z
     .string()
     .min(5, { message: 'ERROR' })
@@ -85,9 +94,21 @@ const legalFormSchema = z.object({
     .email({ message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  postCode: z.string().length(10, { message: 'ERROR' }),
-  creditCard: z.string().length(16, { message: 'ERROR' }),
-  shabaNumber: z.string().length(24, { message: 'ERROR' }),
+  postCode: z
+    .string()
+    .length(10, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
+  creditCard: z
+    .string()
+    .length(16, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
   address: z
     .string()
     .min(5, { message: 'ERROR' })
@@ -97,8 +118,8 @@ const legalFormSchema = z.object({
 });
 
 // Defining formType
-type personalFormType = z.infer<typeof personalFormSchema>;
-type legalFormType = z.infer<typeof legalFormSchema>;
+export type personalFormType = z.infer<typeof personalFormSchema>;
+export type legalFormType = z.infer<typeof legalFormSchema>;
 
 // Creating and exporting Profile page as default
 export default function ProfilePage(): ReactNode {
@@ -128,6 +149,9 @@ export default function ProfilePage(): ReactNode {
     resolver: zodResolver(legalFormSchema),
   });
 
+  // Defining small variables
+  const savedTellNumber = Cookies.get('UPN') ? `0${Cookies.get('UPN')}` : '';
+
   // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {
     personalForm.setValue('address', userInfo.address);
@@ -136,6 +160,7 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('fullName', userInfo.last_name);
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
+    personalForm.setValue('tell', savedTellNumber);
   }, [personalForm, userInfo]);
 
   // Fetching stuff
@@ -164,6 +189,7 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('email', legalInfo.email || '');
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
+      legalForm.setValue('tell', savedTellNumber);
     }
   }, [legalForm, legalUserFetching.isLoading]);
 

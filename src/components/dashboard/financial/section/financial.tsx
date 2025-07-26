@@ -12,21 +12,25 @@ import CustomCharge from '../customCharge';
 import Invoice from '../invoice';
 import Link from 'next/link';
 import useUserWalletBalance from '@/hooks/dashboard/useUserWalletBalance';
+import { useMediaQuery } from '@/hooks';
+
+// Defining fake data for rendering selected price to be dynamic
+const selectedPriceData: number[] = [1000000, 2000000, 5000000, 10000000];
 
 // Creating and exporting Financial section component as default
 export default function Financial({
   className,
 }: FinancialSectionComponentPropsType): ReactNode {
-  // Defining states of component
+  // Defining hooks of component
   const [priceType, setPriceType] = useState<'dynamic' | 'static'>('static');
   const [automaticDownload, setAutomaticDownload] = useState<boolean>(false);
-
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [selectedPrice, setSelectedPrice] = useState<number | undefined>(
+    undefined,
+  );
   const [dynamicPrice, setDynamicPrice] = useState<number | undefined>(
     undefined,
   );
-  const [selectedPrice, setSelectedPrice] = useState<
-    1000000 | 2000000 | 5000000 | 10000000 | undefined
-  >(undefined);
 
   // Using useEffect to set and reset selectedPrice state
   useEffect(() => {
@@ -57,54 +61,28 @@ export default function Financial({
         </div>
       </div>
       <div className='lg:grid grid-cols-4 hidden gap-5 mb-5'>
-        <IconedPrice
-          icon='DollarSquare'
-          title='مبلغ انتخابی'
-          price={1000000}
-          selected={selectedPrice === 1000000}
-          disabled={priceType === 'dynamic'}
-          onClick={() => {
-            selectedPrice === 1000000
-              ? setSelectedPrice(undefined)
-              : setSelectedPrice(1000000);
-          }}
-        />
-        <IconedPrice
-          icon='DollarSquare'
-          title='مبلغ انتخابی'
-          price={2000000}
-          selected={selectedPrice === 2000000}
-          disabled={priceType === 'dynamic'}
-          onClick={() => {
-            selectedPrice === 2000000
-              ? setSelectedPrice(undefined)
-              : setSelectedPrice(2000000);
-          }}
-        />
-        <IconedPrice
-          icon='DollarSquare'
-          title='مبلغ انتخابی'
-          price={5000000}
-          selected={selectedPrice === 5000000}
-          disabled={priceType === 'dynamic'}
-          onClick={() => {
-            selectedPrice === 5000000
-              ? setSelectedPrice(undefined)
-              : setSelectedPrice(5000000);
-          }}
-        />
-        <IconedPrice
-          icon='DollarSquare'
-          title='مبلغ انتخابی'
-          price={10000000}
-          selected={selectedPrice === 10000000}
-          disabled={priceType === 'dynamic'}
-          onClick={() => {
-            selectedPrice === 10000000
-              ? setSelectedPrice(undefined)
-              : setSelectedPrice(10000000);
-          }}
-        />
+        {selectedPriceData.map((item, index) => (
+          <IconedPrice
+            key={index}
+            icon='DollarSquare'
+            title='مبلغ انتخابی'
+            price={item}
+            selected={selectedPrice === item}
+            disabled={priceType === 'dynamic'}
+            onClick={() => {
+              selectedPrice === item
+                ? setSelectedPrice(undefined)
+                : setSelectedPrice(item);
+            }}
+          />
+        ))}
+        {!isMobile &&
+          [...new Array(4 - selectedPriceData.length)].map((_, index) => (
+            <div
+              key={index}
+              className='bg-white lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[16px] py-[16px] border-black/10'
+            />
+          ))}
       </div>
       <div className='grid lg:grid-cols-4 lg:gap-5 gap-0'>
         <div className='flex flex-col lg:gap-5 gap-[16px] lg:px-0 px-[24px] lg:mb-0 mb-[24px]'>

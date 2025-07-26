@@ -3,23 +3,23 @@
 
 // Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import {
-  LegalBankInfoFormComponentPropsType,
-  LegalInfoType,
-} from '@/types/dashboard/component';
+import { LegalBankInfoFormComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
 import toast from '../../ui/customSonner/toast';
-import { banks } from '../../financialCartToCart/creditCard';
 import InputAndLabel from '../../financialCartToCart/inputAndLabel';
 import NormalInput from '../normalInput';
 import Loading from '../../ui/loading';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 import { useMediaQuery } from '@/hooks';
+import { legalFormType } from '@/app/dashboard/profile/page';
+import { getBankFromCard } from '@/utils/string';
+import { BankInfo } from '@/types/utils';
+import BankIcon from '../../ui/bankIcon';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
@@ -29,7 +29,7 @@ export default function LegalBankInfo({
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
-  const [bankName, setBankName] = useState<string>('سیستم بانکی ناشناخته است!');
+  const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 10MB in bytes
@@ -52,9 +52,9 @@ export default function LegalBankInfo({
 
   useEffect(() => {
     const value = creditCardVal.slice(0, 6);
-    const bankName = banks[value];
+    const info = getBankFromCard(value);
 
-    bankName ? setBankName(bankName) : setBankName('سیستم بانکی ناشناخته است!');
+    setBankInfo(info);
   }, [creditCardVal]);
 
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -94,7 +94,7 @@ export default function LegalBankInfo({
   });
 
   // Defining a function to handle submit event
-  const submitHandleFunction: SubmitHandler<LegalInfoType> = async (data) => {
+  const submitHandleFunction: SubmitHandler<legalFormType> = async (data) => {
     const formData = new FormData();
 
     formData.append('organization_name', data.name);
@@ -102,7 +102,7 @@ export default function LegalBankInfo({
     formData.append('registeration_number', data.registrationId);
     formData.append('economical_code', data.economicCode);
     formData.append('phone_number', data.tell);
-    formData.append('postal_code', data.postCode);
+    formData.append('postal_code', data.postCode || '');
     formData.append('address', data.address || '');
     formData.append('email', data.email || '');
     formData.append('status', 'accpeted');
@@ -165,18 +165,18 @@ export default function LegalBankInfo({
           className='lg:hidden flex items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
         >
           <div className='shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md'>
-            <IconsaxIcons
-              name='Bank'
-              color='currentColor'
-              className='w-[20px] h-[20px]'
-            />
+            {bankInfo ? (
+              <BankIcon name={bankInfo.type} className='w-[30px] h-[30px]' />
+            ) : (
+              <IconsaxIcons name='Bank' color='currentColor' />
+            )}
           </div>
           <div className='overflow-hidden w-full'>
             <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
               نام بانک
             </span>
             <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
-              {bankName ? bankName : 'سیستم بانکی ناشناخته است!'}
+              {bankInfo?.name || 'سیستم بانکی ناشناخته است!'}
             </p>
           </div>
         </div>
@@ -236,18 +236,18 @@ export default function LegalBankInfo({
           className='lg:flex hidden items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
         >
           <div className='shrink-0 aspect-square w-[50px] h-[50px] flex items-center justify-center text-black border border-black/10 rounded-md'>
-            <IconsaxIcons
-              name='Bank'
-              color='currentColor'
-              className='w-[20px] h-[20px]'
-            />
+            {bankInfo ? (
+              <BankIcon name={bankInfo.type} className='w-[30px] h-[30px]' />
+            ) : (
+              <IconsaxIcons name='Bank' color='currentColor' />
+            )}
           </div>
           <div className='overflow-hidden w-full'>
             <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
               نام بانک
             </span>
             <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
-              {bankName}
+              {bankInfo?.name || 'سیستم بانکی ناشناخته است!'}
             </p>
           </div>
         </div>
