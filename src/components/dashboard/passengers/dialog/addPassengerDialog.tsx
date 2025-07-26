@@ -115,7 +115,11 @@ export default function AddPassengersDialog({
 
   // Defining submit handler
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    if (data.phoneNumber && phoneNumbers.includes(data.phoneNumber)) {
+    if (
+      data.phoneNumber &&
+      phoneNumbers &&
+      phoneNumbers.includes(data.phoneNumber)
+    ) {
       form.setError('phoneNumber', {
         message: 'این شماره تلفن ثبلا به ثبت رسیده.',
       });
