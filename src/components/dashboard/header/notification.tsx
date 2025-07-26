@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Sheet from '../ui/sheet';
 import { ICNotificationStatus } from '@/components/icons/ICNotifcationStatus';
 import * as NotificationComponent from '@/components/dashboard/notification';
@@ -20,6 +20,9 @@ export default function Notification(): ReactNode {
   const unseenCount = notifications.filter(
     (item) => item.status === 'new',
   ).length;
+
+  // Using useEffect to close the sheet whenever new notification arrives
+  useEffect(() => setSheetOpened(false), [notifications.length]);
 
   // Returning JSX
   return (
