@@ -37,7 +37,7 @@ export default function CheckboxItem({
         }
       }}
     >
-      <div className="flex items-center justify-between gap-2 ">
+      <div className='flex items-center justify-between gap-2 '>
         <div
           className={cn(
             'relative lg:w-[30px] lg:h-[30px] w-[25px] h-[25px] shrink-0 aspect-square pointer-events-none',
@@ -45,11 +45,11 @@ export default function CheckboxItem({
           )}
         >
           {disabled && isCardSelection && disabledReason && (
-            <div className="p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute bottom-[calc(75%+20px)] lg:right-[-15px] right-[-10px] lg:w-[200px] w-[218px] transition-all duration-500 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
-              <p className="text-right text-current lg:font-light font-medium lg:text-[9px] text-[8px]">
+            <div className='p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute bottom-[calc(75%+20px)] lg:right-[-15px] right-[-10px] lg:w-[200px] w-[218px] transition-all duration-500 opacity-0 invisible group-hover:opacity-100 group-hover:visible'>
+              <p className='text-right text-current lg:font-light font-medium lg:text-[9px] text-[8px]'>
                 {disabledReason}
               </p>
-              <div className="absolute top-full -translate-y-[50%] right-[20px] w-[15px] h-[15px] bg-[#FFE9EB] rotate-45" />
+              <div className='absolute top-full -translate-y-[50%] right-[20px] w-[15px] h-[15px] bg-[#FFE9EB] rotate-45' />
             </div>
           )}
           <Checkbox
@@ -77,19 +77,19 @@ export default function CheckboxItem({
             )}
           />
         </div>
-        <span className="lg:text-cs06 text-[12px] lg:font-normal font-semibold truncate block text-right text-black">
+        <span className='lg:text-cs06 text-[12px] lg:font-normal font-semibold truncate block text-right text-black'>
           {title}
         </span>
       </div>
       <div
         className={cn(
-          'px-4 flex items-center justify-center rounded-md lg:h-[30px] h-[34px] transition-all duration-500 lg:w-[80px] w-[80px] shrink-0',
+          'px-4 flex items-center justify-center rounded-md lg:h-[30px] h-[34px] transition-all duration-500 w-[100px] shrink-0',
           disabled || !checked
             ? 'bg-gray-100 text-black'
             : 'bg-blue-50 text-blue-600',
         )}
       >
-        <span className="lg:text-cs65 text-[10px] lg:font-medium font-semibold text-current text-center truncate block">
+        <span className='lg:text-cs65 text-[10px] lg:font-medium font-semibold text-current text-center truncate block'>
           {disabled
             ? isCardSelection
               ? 'غیر قعال'
