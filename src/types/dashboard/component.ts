@@ -105,6 +105,7 @@ export interface DialogComponentPropsType {
   tryAgainFn?: () => void;
   refetch?: () => void;
   id?: number;
+  phoneNumbers: string[];
 }
 
 export interface DeleteCollectionDialogPropsType
@@ -465,6 +466,7 @@ export interface PassnegersPageFilterComponentPropsType {
   dataNotEmpty: boolean;
   loading?: boolean;
   refetch?: () => void;
+  phoneNumbers: string[];
 }
 
 export interface PassengersTableComponentPropsType {

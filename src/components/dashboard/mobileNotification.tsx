@@ -4,7 +4,7 @@
 // Importing part
 import { NotificationSheetMobilePropsType } from '@/types/dashboard/component';
 import * as NotificationComponent from '@/components/dashboard/notification';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Sheet from './ui/sheet';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import useNotification from '@/hooks/dashboard/useNotifications';
@@ -22,6 +22,9 @@ export default function MobileNotification({
   const unseenCount = notifications.filter(
     (item) => item.status === 'new',
   ).length;
+
+  // Using useEffect to close the sheet whenever new notification arrives
+  useEffect(() => setNotificationOpened(false), [notifications.length]);
 
   // Returning JSX
   return (
