@@ -25,17 +25,14 @@ export default function Home() {
   } = home;
 
   return (
-    <>
+   <>
       <StickyArea />
-      <div className='mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0'>
-        <HeroSection />
-        <Services />
-      </div>
-      <div className='mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0'>
+
+      <div className="mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0">
         <HeroSection />
         <Services />
         <SuggestedHotels suggestedHotels={home.suggestedHotels} />
-        <MostVisitedCities cities={mostVisitedCities} />
+        <MostVisitedCities />
         <AmazingHotels hotels={amazingHotels} />
         <AdvertisingBanners />
         <BestSellingHotels hotels={bestSellingHotels} />
