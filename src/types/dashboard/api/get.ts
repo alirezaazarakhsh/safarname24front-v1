@@ -1,5 +1,12 @@
 // Creating the type of returned data from api (GET)
-interface GETReservationItem {
+export interface GETPaginationAPILayout<T> {
+  count: number;
+  total_pages: number;
+  current_page: number;
+  results: T;
+}
+
+export interface GETReservationItem {
   uuid: string;
   user: number;
   room_dates: number[];
@@ -7,13 +14,13 @@ interface GETReservationItem {
   extra_passengers: number[];
   paid_price: number;
   status:
-    | 'payment'
-    | 'pending_approve'
-    | 'approved'
-    | 'rejected'
-    | 'failed'
-    | 'success'
-    | 'expired';
+  | 'payment'
+  | 'pending_approve'
+  | 'approved'
+  | 'rejected'
+  | 'failed'
+  | 'success'
+  | 'expired';
   fail_reason: string;
   expired_date: string;
   additional_details: string;
@@ -23,18 +30,19 @@ interface GETReservationItem {
   updated: string;
 }
 
-export interface GETPersonalProfileItem {
+export interface GETPersonalProfile {
   first_name: string;
   last_name: string;
   email: string;
   national_code: string;
-  image: string;
+  image: string | null;
   postal_code: string;
   address: string;
-  level: number;
+  level: number | null;
+  level_name: null | string;
 }
 
-export interface GETLegalProfileItem {
+export interface GETLegalProfile {
   organization_name: string;
   national_id: string;
   registeration_number: string;
@@ -42,17 +50,109 @@ export interface GETLegalProfileItem {
   phone_number: string;
   postal_code: string;
   address: string;
-  email: string;
+  email: string | null;
   image: string;
   status: 'checking' | 'accpeted' | 'rejected';
-  reject_reason: string;
-  documents: {
-    id: string;
-    file: string;
-    profile: number;
-  }[];
+  reject_reason: string | null;
+  documents: string | null;
+}
+
+export interface GETUploadedDocumentItem {
+  id: number;
+  file: string;
+  profile: number;
+}
+
+export interface GETPassengerItem {
+  id: number;
+  first_name: string;
+  last_name: string;
+  is_foreign: boolean;
+  national_code: string;
+  passport_code: string;
+  phone_number: string;
+}
+
+export interface GETFavoriteItem {
+  id: number;
+  title: string;
+  images: string;
+}
+
+export interface GETHotel {
+  type: 'hotel';
+  id: number;
+  item_data: {
+    address: string;
+    is_best_seller: boolean;
+    is_flash_sale: boolean;
+    is_special_offer: boolean;
+    main_image: string;
+    min_price: number | null;
+    name: string;
+    rating: number;
+    slug: string;
+    stars: number;
+    city: {
+      name: string;
+      image: string;
+      province: string;
+      show_in_homepage: boolean;
+    };
+  };
+}
+
+export interface GETArticle {
+  type: 'article';
+  id: number;
+  item_data: {
+    body: string;
+    published_date: string;
+    published_date_jalali: string;
+    slug: string;
+    summary: string;
+    thumbnail: string;
+    title: string;
+  };
+}
+
+export interface GETFavoriteItemSingle {
+  id: number;
+  title: string;
+  favorites: Array<GETHotel | GETArticle>;
+}
+
+export interface GETCustomerClubListItem {
+  created: string;
+  prize: {
+    title: string;
+    expired_date: string;
+    discount_price: string;
+    discount_code: string;
+  };
+}
+
+export interface GETWalletBalance {
+  balance: number;
+}
+
+export interface GETNotificationItem {
+  id: number;
+  title: string;
+  message: string;
+  status: 'new' | 'important';
+  users: string;
+  created_date_jalali: string;
+  created_time: string;
+  send_to_all: boolean;
 }
 
 export type GETReservation = GETReservationItem[];
-export type GETPersonalProfiles = GETPersonalProfileItem[];
-export type GETLegalProfiles = GETLegalProfileItem[];
+export type GETNotifications = GETNotificationItem[];
+export type GETUploadedDocuments = GETUploadedDocumentItem[];
+export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
+export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
+export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
+export type GETCustomerClubList = GETPaginationAPILayout<
+  GETCustomerClubListItem[]
+>;

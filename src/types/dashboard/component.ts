@@ -4,10 +4,18 @@ import {
   InputHTMLAttributes,
   ReactNode,
   SetStateAction,
+  SVGProps,
 } from 'react';
 import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
+import {
+  GETCustomerClubListItem,
+  GETPassengerItem,
+  GETPasssengers,
+  GETReservation,
+} from './api/get';
+import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -79,15 +87,7 @@ export interface IconInputComponentPropsType
 export interface AllFactorsTableComponentPropsType {
   className?: string;
   loading: boolean;
-  data: {
-    id: number;
-    code: string;
-    hotel: string;
-    enterAt: string;
-    exitAt: string | null;
-    passengers: string;
-    financialStatus: 'payed' | 'cancled' | 'pending';
-  }[];
+  data: GETReservation;
 }
 
 export interface CustomPaginationComponentPropsType {
@@ -95,13 +95,25 @@ export interface CustomPaginationComponentPropsType {
   count: number;
   onChange?: (index: number) => void;
   loading?: boolean;
+  activeIndex?: number;
+  setActiveIndex?: Dispatch<SetStateAction<number>>;
 }
 
 export interface DialogComponentPropsType {
   isOpened?: boolean;
   closeFn?: () => void;
   tryAgainFn?: () => void;
+  refetch?: () => void;
+  id?: number;
+  phoneNumbers?: string[];
 }
+
+export interface DeleteCollectionDialogPropsType
+  extends DialogComponentPropsType {
+  id: number;
+}
+
+export type DeleteItemDialogPropsType = DeleteCollectionDialogPropsType;
 
 export interface ToastProps {
   title: string;
@@ -203,7 +215,7 @@ export interface TransactionsTablePropsType {
     codePeigiri: string;
     price: number;
     createdAt: string;
-    bank: string;
+    paymentType: 'card-to-card' | 'portal';
     status: 'successfull' | 'unsucessfull';
   }[];
 }
@@ -224,12 +236,7 @@ export interface CreditCardSelectionComponentPropsType {
 export interface UploadComponentPropsType {
   onChange: (file: File | undefined) => void;
   className?: string;
-  setCustomIsUploading?: SetStateAction<Dispatch<boolean>>;
-  customIsUploading?: boolean;
-  onSubmit?: (
-    file: File,
-    setUploadingState: Dispatch<SetStateAction<boolean>>,
-  ) => void;
+  fetchURL?: string;
 }
 
 export interface EmergenciesComponentPropsType {
@@ -338,6 +345,7 @@ export interface SheetComponentPropsType {
 
 export interface SearchFinancialDashboardPropsType {
   onChange?: (val: string) => void;
+  loading?: boolean;
 }
 
 export interface FinancialFatorsDashboardTablePropsType {
@@ -354,6 +362,7 @@ export interface FinancialFatorsDashboardTablePropsType {
 export interface FilterCustomClubPageComponentPropsType {
   onChange?: (val: 'shoppingCentre' | 'hotel') => void;
   totalScore: number;
+  loading?: boolean;
 }
 
 export interface ToggleButtonsPropsType {
@@ -366,22 +375,11 @@ export interface ToggleButtonsPropsType {
 
 export interface CustomersClubTablePropsType {
   className?: string;
-  data: {
-    company: {
-      name: string;
-      persianName: string;
-      logo: string;
-    };
-    title: string;
-    score: number;
-    id: number;
-    status: 'used' | 'unused' | 'active' | 'deactive';
-    discount: {
-      code: string;
-      price: number;
-      endsAt: string;
-    };
-  }[];
+  loading?: boolean;
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
+  data?: GETCustomerClubListItem[];
 }
 
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
@@ -390,13 +388,12 @@ export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
 }
 
 export interface CustomerClubListTablePropsType {
-  data: {
-    title: string;
-    createdAt: string;
-    price: number;
-    score: number;
-  }[];
+  data: GETCustomerClubListItem[];
   className?: string;
+  loading?: boolean;
+  activeIndex?: number;
+  setActiveIndex?: Dispatch<SetStateAction<number>>;
+  paginationCount?: number;
 }
 
 export interface NotificationType {
@@ -405,6 +402,7 @@ export interface NotificationType {
   createdAt: string;
   content: string;
   status: 'seen' | 'unseen' | 'important';
+  isForAll: boolean;
 }
 
 export interface NotificationComponentPropsType {
@@ -412,18 +410,14 @@ export interface NotificationComponentPropsType {
   className?: string;
 }
 
-export interface NotificationSheetPropsType {
-  notifications: NotificationType[];
-}
-
-export interface NotificationSheetMobilePropsType
-  extends NotificationSheetPropsType {
+export interface NotificationSheetMobilePropsType {
   index: number;
 }
 
 export interface FilterFavPageComponentPropsType {
   onChange?: (val: 'savedHotels' | 'savedBlogs') => void;
   favName: string;
+  loading?: boolean;
 }
 
 export interface BlogComponentPropsType {
@@ -435,9 +429,22 @@ export interface BlogComponentPropsType {
   className?: string;
 }
 
+export interface FavItemComponentPropsType {
+  className?: string;
+  isDeletingByUser?: boolean;
+  loading?: boolean;
+  refetch: () => void;
+  data: {
+    id: number;
+    title: string;
+  };
+}
+
 export interface CollectionComponentPropsType {
   className?: string;
   isDeletingByUser?: boolean;
+  loading?: boolean;
+  refetch: () => void;
   data: {
     id: number;
     images: [string, string, string];
@@ -448,39 +455,33 @@ export interface CollectionComponentPropsType {
 export interface FilterFavPageComponentPropsTypeOrginal {
   setDeleteState: Dispatch<SetStateAction<boolean>>;
   deleteState: boolean;
+  loading?: boolean;
+  listIsEmpty?: boolean;
+  refetch?: () => void;
 }
 
 export interface PassnegersPageFilterComponentPropsType {
   onChange?: (val: string) => void;
   className?: string;
   dataNotEmpty: boolean;
+  loading?: boolean;
+  refetch?: () => void;
+  phoneNumbers: string[];
 }
 
 export interface PassengersTableComponentPropsType {
+  refetch?: () => void;
   className?: string;
-  data: {
-    name: {
-      firstName: string;
-      lastName: string;
-    };
-    tell: string;
-    id: number;
-    meliCodeOrPassportNumber: string;
-  }[];
+  loading?: boolean;
+  data: GETPasssengers['results'];
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
 }
 
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
-  data:
-    | {
-        name: {
-          firstName: string;
-          lastName: string;
-        };
-        tell: string;
-        id: number;
-        meliCodeOrPassportNumber: string;
-      }
-    | undefined;
+  data?: GETPassengerItem;
+  id?: number;
 }
 
 export interface DialogInputPassengersComponentPropsType
@@ -501,43 +502,17 @@ export interface ProfileTogglerComponentPropsType {
 
 export interface CartBalanceComponentPropsType {
   className?: string;
-  balance: number;
   hasMobileView?: boolean;
 }
 
 export interface SubscriptionTypeComponentPropsType {
-  type: 'premium' | 'silver';
+  type: 'premium' | 'silver' | 'guest';
   className?: string;
-}
-
-export interface PersonalInfoType {
-  name: string;
-  meliCode: string;
-  fullName: string;
-  tell: string;
-  email?: string;
-  address?: string;
-  postCode?: string;
-  creditCard: string;
-  shabaNumber: string;
-}
-
-export interface LegalInfoType {
-  name: string;
-  id: string;
-  registrationId: string;
-  economicCode: string;
-  tell: string;
-  email?: string;
-  address?: string;
-  postCode: string;
-  creditCard: string;
-  shabaNumber: string;
 }
 
 export interface PersonalInfoFormComponentPropsType {
   className?: string;
-  form: UseFormReturn<PersonalInfoType>;
+  form: UseFormReturn<personalFormType>;
   loading?: boolean;
 }
 
@@ -550,19 +525,18 @@ export interface NormalInputComponentPropsType
 
 export interface BankInfoFormComponentPropsType {
   className?: string;
-  form: UseFormReturn<PersonalInfoType>;
+  form: UseFormReturn<personalFormType>;
 }
 
 export interface LegalBankInfoFormComponentPropsType {
   className?: string;
-  form: UseFormReturn<LegalInfoType>;
-  documentImage?: File;
+  form: UseFormReturn<legalFormType>;
   loading: boolean;
 }
 
 export interface LegalInfoFormComponentPropsType {
   className?: string;
-  form: UseFormReturn<LegalInfoType>;
+  form: UseFormReturn<legalFormType>;
   loading: boolean;
 }
 
@@ -577,4 +551,78 @@ export interface LegalNotesProfileComponentPropsType {
 export interface ErrorTableComponentPropsType {
   className?: string;
   refetch?: () => void;
+}
+
+export interface EmptyTableComponentPropsType {
+  className?: string;
+  title?: string;
+  description?: string;
+}
+
+export interface UploadSheetComponentPropsType {
+  fetchURL?: string;
+}
+
+export interface UploadedFileComponentPropsType {
+  isLastItem?: boolean;
+  index: number;
+  isLoading?: boolean;
+  onDelete?: () => void;
+  fetchURL?: string;
+  refetch?: () => void;
+  data?: {
+    name: string;
+    id: number;
+    size?: number;
+  };
+}
+
+export type BankNameType =
+  | 'ayandeh'
+  | 'markazi'
+  | 'blue'
+  | 'caspian'
+  | 'dey'
+  | 'eghtesaade-novin'
+  | 'future'
+  | 'gardeshgari'
+  | 'iran-europe'
+  | 'iran-venezuela'
+  | 'iran-zamin'
+  | 'karafarin'
+  | 'keshavarzi'
+  | 'khavar-mianeh'
+  | 'maskan'
+  | 'mehr-iran'
+  | 'melall'
+  | 'mellat'
+  | 'melli'
+  | 'noor'
+  | 'parsian'
+  | 'pasargad'
+  | 'post'
+  | 'refah'
+  | 'resalat'
+  | 'saderat'
+  | 'saman'
+  | 'sanat-madan'
+  | 'sarmayeh'
+  | 'sepah'
+  | 'shahr'
+  | 'sina'
+  | 'standard-chartered'
+  | 'taavon-eslami'
+  | 'tejarat'
+  | 'tosee'
+  | 'tosee-sedarat'
+  | 'tossee-taavon'
+  | 'kosar'
+  | 'mehr-eghtesaad'
+  | 'ghavamin'
+  | 'hekmat'
+  | 'ansar';
+
+export interface BankIconPropsType extends SVGProps<SVGSVGElement> {
+  name: BankNameType;
+  isColored?: boolean;
 }

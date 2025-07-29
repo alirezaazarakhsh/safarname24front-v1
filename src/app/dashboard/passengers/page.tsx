@@ -1,96 +1,112 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
+import EmptyTable from '@/components/dashboard/api/emptyTable';
 // Importing part
+import ErrorTable from '@/components/dashboard/api/errorTable';
 import Filter from '@/components/dashboard/passengers/filter';
 import PassengersTable from '@/components/dashboard/passengers/table';
-import { ReactNode, useState } from 'react';
-
-// Defining some fake data to render later in table
-const passengers: {
-  name: {
-    firstName: string;
-    lastName: string;
-  };
-  tell: string;
-  id: number;
-  meliCodeOrPassportNumber: string;
-}[] = [
-  {
-    id: 1,
-    name: { firstName: 'علی', lastName: 'محمدی' },
-    tell: '09121234567',
-    meliCodeOrPassportNumber: '0083456791',
-  },
-  {
-    id: 2,
-    name: { firstName: 'نگار', lastName: 'کریمی' },
-    tell: '09351234567',
-    meliCodeOrPassportNumber: '0074561238',
-  },
-  {
-    id: 3,
-    name: { firstName: 'حسین', lastName: 'جعفری' },
-    tell: '09193456789',
-    meliCodeOrPassportNumber: 'N1234567890',
-  },
-  {
-    id: 4,
-    name: { firstName: 'مینا', lastName: 'شریفی' },
-    tell: '09221234567',
-    meliCodeOrPassportNumber: '0056789123',
-  },
-  {
-    id: 5,
-    name: { firstName: 'سعید', lastName: 'رضایی' },
-    tell: '09127894561',
-    meliCodeOrPassportNumber: 'P9876543210',
-  },
-  {
-    id: 6,
-    name: { firstName: 'الهام', lastName: 'فلاح' },
-    tell: '09332104567',
-    meliCodeOrPassportNumber: '0034217896',
-  },
-  {
-    id: 7,
-    name: { firstName: 'مجتبی', lastName: 'کریمی' },
-    tell: '09912345678',
-    meliCodeOrPassportNumber: '0067894321',
-  },
-  {
-    id: 8,
-    name: { firstName: 'سارا', lastName: 'قاسمی' },
-    tell: '09124445566',
-    meliCodeOrPassportNumber: 'L9087654321',
-  },
-  {
-    id: 9,
-    name: { firstName: 'رضا', lastName: 'امینی' },
-    tell: '09364443322',
-    meliCodeOrPassportNumber: '0023345678',
-  },
-  {
-    id: 10,
-    name: { firstName: 'مریم', lastName: 'باقری' },
-    tell: '09101112233',
-    meliCodeOrPassportNumber: 'Q1239874560',
-  },
-];
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETPasssengers } from '@/types/dashboard/api/get';
+import { ReactNode, useEffect, useState } from 'react';
 
 // Creating and exporting passengers page as default
 export default function PassengersPage(): ReactNode {
   // Defining states of component
   const [filter, setFilter] = useState<string>('');
+  const [paginationNumber, setPaginationNumber] = useState<number>(0);
+
+  // Fetching the data
+  const getData = useApiQuery<GETPasssengers>({
+    url: `/hotel/passengers?p=${paginationNumber + 1}`,
+    queryKey: ['passengers', 'list'],
+    options: {
+      staleTime: 30000, // 30 Sec
+    },
+  });
+
+  // Using useEffect to make useApiQuery Fetch again while pagination number changes
+  useEffect(() => {
+    async function handleRefetch() {
+      await getData.refetch();
+    }
+
+    handleRefetch();
+  }, [paginationNumber]);
+
+  // Defining variables
+  const phoneNumbers = getData.data?.results
+    .map((item) => item.phone_number)
+    .filter((num): num is string => typeof num === 'string')
+    .reduce((acc: string[], num) => {
+      const count = acc.filter((n) => n === num).length;
+      if (count < 2) acc.push(num);
+      return acc;
+    }, []);
 
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white">
-      <Filter
-        dataNotEmpty={passengers.length !== 0}
-        onChange={(val) => setFilter(val)}
-      />
-      <PassengersTable data={passengers} />
+    <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
+      {getData.isLoading || getData.isRefetching ? (
+        <>
+          <Filter phoneNumbers={[]} loading dataNotEmpty />
+          <PassengersTable
+            data={[]}
+            loading
+            paginationActiveIndex={paginationNumber}
+            setPaginationActiveIndex={setPaginationNumber}
+          />
+        </>
+      ) : getData.isError ? (
+        <ErrorTable refetch={() => getData.refetch()} />
+      ) : getData.data ? (
+        getData.data?.count === 0 ? (
+          <>
+            <Filter
+              phoneNumbers={[]}
+              refetch={getData.refetch}
+              dataNotEmpty={false}
+            />
+            <EmptyTable
+              title='لسیت مسافاران خالی میباشد!'
+              description='لطفا از بالا مسافران خود را اضافه کنید'
+            />
+          </>
+        ) : (
+          <>
+            <Filter
+              phoneNumbers={phoneNumbers || []}
+              onChange={(val) => setFilter(val)}
+              refetch={getData.refetch}
+              dataNotEmpty
+            />
+            <PassengersTable
+              paginationCount={getData.data.count}
+              paginationActiveIndex={paginationNumber}
+              setPaginationActiveIndex={setPaginationNumber}
+              refetch={getData.refetch}
+              data={
+                getData.data
+                  ? filter === ''
+                    ? getData.data.results
+                    : getData.data.results.filter((item) =>
+                        [
+                          item.first_name,
+                          item.last_name,
+                          item.national_code,
+                          item.phone_number,
+                        ].some((field) =>
+                          field?.toLowerCase().includes(filter),
+                        ),
+                      )
+                  : []
+              }
+            />
+          </>
+        )
+      ) : (
+        false
+      )}
     </main>
   );
 }

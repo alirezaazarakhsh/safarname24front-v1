@@ -7,15 +7,16 @@ import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
 import { numberSeparation } from '@/utils';
 import { cn } from '@/utils/utils';
 import { useMediaQuery } from '@/hooks';
+import useUserWalletBalance from '@/hooks/dashboard/useUserWalletBalance';
 
 // Creating and exporting CartBalance component as deafult
 export default function CartBalance({
-  balance,
   className,
   hasMobileView = false,
 }: CartBalanceComponentPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const wallet = useUserWalletBalance();
 
   // Conditional rendering
   if (!hasMobileView) {
@@ -36,9 +37,11 @@ export default function CartBalance({
               موجودی شما :
             </span>
           </div>
-          {balance !== 0 ? (
+          {wallet.balance !== 0 ? (
             <p className='shrink-0 text-black'>
-              <span className='text-[16px] font-bold'>{`${numberSeparation(balance)} `}</span>
+              <span className='text-[12px] font-semibold'>
+                {`${numberSeparation(wallet.balance)} `}
+              </span>
               <span className='text-[12px] font-semibold'>تومان</span>
             </p>
           ) : (
@@ -77,9 +80,9 @@ export default function CartBalance({
                 موجودی شما :
               </span>
             </div>
-            {balance !== 0 ? (
+            {wallet.balance !== 0 ? (
               <p className='shrink-0 text-black'>
-                <span className='text-[16px] font-bold'>{`${numberSeparation(balance)} `}</span>
+                <span className='text-[16px] font-bold'>{`${numberSeparation(wallet.balance)} `}</span>
                 <span className='text-[12px] font-semibold'>تومان</span>
               </p>
             ) : (
@@ -119,9 +122,9 @@ export default function CartBalance({
                 موجودی شما
               </span>
               <span className='font-semibold text-cs08 text-black block text-right truncate'>
-                {balance === 0
+                {wallet.balance === 0
                   ? 'حساب شما خالی میباشد!'
-                  : `${numberSeparation(balance)} تومان`}
+                  : `${numberSeparation(wallet.balance)} تومان`}
               </span>
             </div>
           </div>

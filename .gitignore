@@ -41,4 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # Dashboard notes in markdown 
-src/app/dashboard/readme.md
+dashboard-frontend-edits.md

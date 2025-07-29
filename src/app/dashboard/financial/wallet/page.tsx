@@ -11,28 +11,28 @@ const transactions: {
   codePeigiri: string;
   price: number;
   createdAt: string;
-  bank: string;
+  paymentType: 'card-to-card' | 'portal';
   status: 'successfull' | 'unsucessfull';
 }[] = [
   {
     codePeigiri: '1648952156',
     price: 21000000,
     createdAt: new Date().toISOString(),
-    bank: 'نقل و انتقال از بانک پارسیان',
     status: 'successfull',
+    paymentType: 'portal',
   },
   {
     codePeigiri: '1648952156',
     price: 1000000,
     createdAt: new Date().toISOString(),
-    bank: 'نقل و انتقال از بانک انصار',
+    paymentType: 'portal',
     status: 'unsucessfull',
   },
   {
     codePeigiri: '1648952156',
     price: 5000000,
     createdAt: new Date().toISOString(),
-    bank: 'نقل و انتقال از بانک پاسارگاد',
+    paymentType: 'card-to-card',
     status: 'successfull',
   },
 ];
@@ -41,7 +41,7 @@ const transactions: {
 export default function FinancialPage(): ReactNode {
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
+    <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px]'>
       <Financial />
       <TransactionsTable data={transactions} />
     </main>

@@ -3,22 +3,24 @@
 
 // Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import {
-  BankInfoFormComponentPropsType,
-  PersonalInfoType,
-} from '@/types/dashboard/component';
+import { BankInfoFormComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import InputAndLabel from '../financialCartToCart/inputAndLabel';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
 import NormalInput from './normalInput';
-import { banks } from '../financialCartToCart/creditCard';
 import { useDropzone } from 'react-dropzone';
 import toast from '../ui/customSonner/toast';
 import Image from 'next/image';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import { useMediaQuery } from '@/hooks';
+import CanclationErrorDrawer from '../reservation/canclationErrorDrawer';
+import { personalFormType } from '@/app/dashboard/profile/page';
+import { BankInfo } from '@/types/utils';
+import { getBankFromCard } from '@/utils/string';
+import BankIcon from '../ui/bankIcon';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -27,6 +29,7 @@ export default function BankInfoForm({
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
+  const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 30MB in bytes
@@ -44,48 +47,70 @@ export default function BankInfoForm({
     },
   });
 
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [mobileErrorDrawerOpened, setMobileErrorDrawerOpened] =
+    useState<boolean>(false);
+  const [mobileSuccessDrawerOpened, setMobileSuccessDrawerOpened] =
+    useState<boolean>(false);
+
   // Handling api fetches
   const setPersonalInfoFetch = useApiMutation({
-    url: '/natural-profiles/1/',
+    url: '/natural-profiles/me/',
     method: 'put',
     options: {
       onSuccess: () => {
-        toast({
-          title: 'ارسال با موفقیت انجام شد!',
-          description: 'مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.',
-          theme: 'green',
-        });
+        if (isMobile) {
+          setMobileSuccessDrawerOpened(true);
+        } else {
+          toast({
+            title: 'تغیرات با موفقیت اعمال شد!',
+            description: 'مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.',
+            theme: 'green',
+          });
+        }
       },
       onError: () => {
-        toast({
-          title: 'خطایی رخ داد!',
-          description: 'در ارسال اطلاعات مشکلی پیش امد.',
-          theme: 'theme',
-        });
+        if (isMobile) {
+          setMobileErrorDrawerOpened(true);
+        } else {
+          toast({
+            title: 'خطایی رخ داد!',
+            description: 'در ارسال اطلاعات مشکلی پیش امد.',
+            theme: 'theme',
+          });
+        }
       },
     },
   });
 
   const userInfo = useUserInfo();
 
-  // Defining a function to handle submit event
-  const submitHandleFunction: SubmitHandler<PersonalInfoType> = async (
+  const submitHandleFunction: SubmitHandler<personalFormType> = async (
     data,
   ) => {
-    await setPersonalInfoFetch.mutateAsync({
-      first_name: data.name,
-      last_name: data.fullName,
-      email: data.email,
-      national_code: data.meliCode,
-      postal_code: data.postCode,
-      address: data.address,
-      level: userInfo.level,
-    });
+    const formData = new FormData();
+
+    formData.append('first_name', data.name);
+    formData.append('last_name', data.fullName);
+    formData.append('email', data.email || '');
+    formData.append('national_code', data.meliCode);
+    formData.append('postal_code', data.postCode || '');
+    formData.append('address', data.address || '');
+    formData.append('level', userInfo.level?.toString() || '0');
+    formData.append('image', file ? file : '');
+
+    await setPersonalInfoFetch.mutateAsync(formData);
   };
 
-  // Defining variables
-  const slicedCreditCardNumber = form.getValues('creditCard');
-  const bankName = banks[slicedCreditCardNumber];
+  // Defining name and image of banks
+  const creditCardVal = form.watch('creditCard') || '';
+
+  useEffect(() => {
+    const value = creditCardVal.slice(0, 6);
+    const info = getBankFromCard(value);
+
+    setBankInfo(info);
+  }, [creditCardVal]);
 
   // Returning JSX
   return (
@@ -95,6 +120,24 @@ export default function BankInfoForm({
         className,
       )}
     >
+      {isMobile && (
+        <>
+          <CanclationErrorDrawer
+            title='تغیرات با موفقیت اعمال شد!'
+            description='مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.'
+            closeFn={() => setMobileSuccessDrawerOpened(false)}
+            isOpened={mobileSuccessDrawerOpened}
+            theme='green'
+          />
+          <CanclationErrorDrawer
+            title='خطایی رخ داد!'
+            description='در ارسال اطلاعات مشکلی پیش امد.'
+            closeFn={() => setMobileErrorDrawerOpened(false)}
+            isOpened={mobileErrorDrawerOpened}
+            theme='theme'
+          />
+        </>
+      )}
       <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full'>
         <div className='shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black'>
           <IconsaxIcons
@@ -147,18 +190,18 @@ export default function BankInfoForm({
         <div className='flex flex-col lg:gap-6 gap-[16px]'>
           <div className='flex items-center justify-start w-full gap-3'>
             <div className='shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md'>
-              <IconsaxIcons
-                name='Bank'
-                color='currentColor'
-                className='w-[20px] h-[20px]'
-              />
+              {bankInfo ? (
+                <BankIcon name={bankInfo.type} className='w-[30px] h-[30px]' />
+              ) : (
+                <IconsaxIcons name='Bank' color='currentColor' />
+              )}
             </div>
             <div className='overflow-hidden w-full'>
               <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
                 نام بانک
               </span>
               <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
-                {bankName ? bankName : 'سیستم بانکی ناشناخته است!'}
+                {bankInfo?.name || 'سیستم بانکی ناشناخته است!'}
               </p>
             </div>
           </div>

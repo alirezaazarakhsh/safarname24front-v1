@@ -5,20 +5,32 @@
 import { PageComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { usePathname, useRouter } from 'next/navigation';
-import { createContext, ReactNode } from 'react';
+import { createContext, ReactNode, useEffect } from 'react';
 import Header from './header';
 import MobileNav from './mobileNav';
 import Loading from './ui/loading';
 import Logo from './ui/logo';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETPersonalProfiles } from '@/types/dashboard/api/get';
+import {
+  GETNotifications,
+  GETPersonalProfile,
+  GETWalletBalance,
+} from '@/types/dashboard/api/get';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
 export const userFetchedInfoContext = createContext<
-  GETPersonalProfiles | undefined
+  GETPersonalProfile | undefined
 >(undefined);
+
+export const userWalletBalanceContext = createContext<
+  GETWalletBalance | undefined
+>(undefined);
+
+export const notificationContext = createContext<GETNotifications | undefined>(
+  undefined,
+);
 
 // defining query client for react query
 const queryClient = new QueryClient();
@@ -54,7 +66,8 @@ function InnerPage({
   router: ReturnType<typeof useRouter>;
   pathname: string;
 }) {
-  const personalDataFetch = useApiQuery<GETPersonalProfiles>({
+  // Defining hooks
+  const personalDataFetch = useApiQuery<GETPersonalProfile>({
     url: '/natural-profiles/',
     queryKey: ['personalProfile', 'persoanl', 'profile'],
     options: {
@@ -62,13 +75,33 @@ function InnerPage({
     },
   });
 
-  // Defining a variables
+  const walletBalanceFetch = useApiQuery<GETWalletBalance>({
+    url: '/finance/wallet/',
+    queryKey: ['walletBalance'],
+    options: {
+      enabled: personalDataFetch.data !== undefined,
+      staleTime: Infinity,
+    },
+  });
+
+  const notificationsFetch = useApiQuery<GETNotifications>({
+    url: '/notification/notifications/',
+    queryKey: ['notifications'],
+    options: {
+      enabled:
+        personalDataFetch.data !== undefined &&
+        walletBalanceFetch.data !== undefined,
+      staleTime: 10000,
+      refetchInterval: 10000,
+    },
+  });
+
   const isReservationSubPage = /^\/dashboard\/reservations\/[^/]+$/.test(
     pathname,
   );
 
   // Condititional rendering
-  if (personalDataFetch.isLoading) {
+  if (personalDataFetch.isLoading || walletBalanceFetch.isLoading) {
     return (
       <>
         <div className='bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0' />
@@ -86,33 +119,42 @@ function InnerPage({
         </div>
       </>
     );
-  } else if (!personalDataFetch.isError) {
+  } else if (
+    !personalDataFetch.isError &&
+    !walletBalanceFetch.isError &&
+    personalDataFetch.data &&
+    walletBalanceFetch.data
+  ) {
     return (
       <userFetchedInfoContext.Provider value={personalDataFetch.data}>
-        {!pathname.startsWith('/dashboard/reservations/') && <Header />}
-        <MobileNav />
-        <div
-          className={cn(
-            'overflow-x-hidden overflow-y-auto',
-            !isReservationSubPage
-              ? 'bg-[#F9F9F9] mx-auto max-w-screen-template '
-              : 'bg-white w-full',
-            className,
-          )}
-        >
-          {!isReservationSubPage ? (
-            children
-          ) : (
-            <div className='bg-white max-w-screen-template mx-auto'>
-              {children}
+        <userWalletBalanceContext.Provider value={walletBalanceFetch.data}>
+          <notificationContext.Provider value={notificationsFetch.data}>
+            {!pathname.startsWith('/dashboard/reservations/') && <Header />}
+            <MobileNav />
+            <div
+              className={cn(
+                'overflow-x-hidden overflow-y-auto',
+                !isReservationSubPage
+                  ? 'bg-[#F9F9F9] mx-auto max-w-screen-template '
+                  : 'bg-white w-full',
+                className,
+              )}
+            >
+              {!isReservationSubPage ? (
+                children
+              ) : (
+                <div className='bg-white max-w-screen-template mx-auto'>
+                  {children}
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </notificationContext.Provider>
+        </userWalletBalanceContext.Provider>
       </userFetchedInfoContext.Provider>
     );
   } else {
     // redirecting user
-    router.push('/');
+    router.push('/?auth_open=true');
 
     // Returning JSX
     return (

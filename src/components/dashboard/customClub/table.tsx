@@ -18,18 +18,23 @@ import {
 import { handleZeroBeforeNumber } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
-import EmptyImage from '../../../../public/image/empty.png';
 import { numberSeparation } from '@/utils';
 import toast from '../ui/customSonner/toast';
 import Tooltip from '../ui/tooltip';
 import TakeGiftRuleDialog from './dialog/takeGiftRuleDialog';
 import GiftGainErrorDialog from './dialog/giftGainErrorDialog';
 import GiftGainedDialog from './dialog/giftGainedDialogOpened';
+import { Skeleton } from '@/components/ui/skeleton';
+import SafarnameLogo from '../../../../public/image/logo/white.webp';
 
 // Creating and exporting CustomersClubTable component as default
 export default function CustomersClubTable({
   className,
   data,
+  loading = false,
+  paginationActiveIndex,
+  setPaginationActiveIndex,
+  paginationCount = 12,
 }: CustomersClubTablePropsType): ReactNode {
   // Defining state of component
   const [acceptRulesDialogOpened, setAcceptRulesDialogOpened] =
@@ -38,6 +43,8 @@ export default function CustomersClubTable({
     useState<boolean>(false);
   const [giftGainErrorDialogOpened, setGiftGainErrorDialogOpened] =
     useState<boolean>(false);
+
+  const [idToAchive, setIdToAchive] = useState<number>(0);
 
   // Defining a function to handle copy to clipboard
   function hanldeClipboardCopy(text: string): void {
@@ -63,9 +70,6 @@ export default function CustomersClubTable({
     <section
       className={cn(
         'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10 lg:px-0 px-[24px]',
-        data.length === 0
-          ? 'lg:h-[500px] h-[calc(100dvh-20dvh)] flex items-center justify-center lg:p-10 p-6'
-          : '',
         className,
       )}
     >
@@ -78,67 +82,182 @@ export default function CustomersClubTable({
         closeFn={() => setGiftGainedDialogOpened(false)}
       />
       <TakeGiftRuleDialog
+        id={idToAchive}
         isOpened={acceptRulesDialogOpened}
         closeFn={() => setAcceptRulesDialogOpened(false)}
         setGiftGainErrorDialogOpened={setGiftGainErrorDialogOpened}
         setGiftGainedDialogOpened={setGiftGainedDialogOpened}
       />
-      {data.length === 0 ? (
-        <div>
-          <Image
-            alt="هیچ لیست رزروی فعلا ندارید!"
-            src={EmptyImage.src}
-            width={500}
-            height={500}
-            className="h-auto lg:w-[250px] w-[200px] aspect-square block mb-4 mx-auto"
-          />
-          <span className="block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold">
-            موردی یافت نشد!
-          </span>
-          <span className="block text-center w-full lg:text-black text-gray-500 lg:text-cs09 text-[10px] font-normal lg:mb-0 mb-6">
-            مشتری گرامی جستجوی که انجام دادید متاسفانه لیستی موردی پیدا نشد لطفا
-            مجدد تلاش نمایید از همراهی شما متشکریم.
-          </span>
-        </div>
-      ) : (
+      <div className='lg:flex hidden items-center justify-between gap-3 py-5 px-3'>
+        <span className='block truncate text-right w-full font-bold lg:text-cs85 text-black'>
+          مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
+        </span>
+        <CustomPagination
+          count={paginationCount}
+          activeIndex={paginationActiveIndex}
+          loading={loading}
+          setActiveIndex={setPaginationActiveIndex}
+        />
+      </div>
+      {loading ? (
         <>
-          <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
-            <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
-              مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار
-              میگیرد.
-            </span>
-            <CustomPagination
-              count={12}
-              // onChange={(index) => console.log(index)}
-            />
-          </div>
-          <Table dir="rtl" className="border-none lg:table hidden">
-            <TableHeader className="bg-gray-100 border-y border-y-black/10">
-              <TableRow className="border-none">
-                <TableHead className="text-right p-3 w-8 truncate text-xs font-medium text-gray-400">
+          <Table dir='rtl' className='border-none lg:table hidden'>
+            <TableHeader className='bg-gray-100 border-y border-y-black/10'>
+              <TableRow className='border-none'>
+                <TableHead className='text-right p-3 w-8 truncate text-xs font-medium text-gray-400'>
                   ردیف
                 </TableHead>
-                <TableHead className="p-3 w-16" />
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className='p-3 w-16' />
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
                   عنوان
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
                   کد تخفیف
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
                   مبلغ تخفیف
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
                   امتیاز مورد نیاز
                 </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
                   تاریخ اعتبار کد تخفیف
                 </TableHead>
-                <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
+                <TableHead className='w-[30%] text-right truncate text-xs font-medium' />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((item, index) => (
+              {[...new Array(18)].map((item, index) => (
+                <TableRow
+                  key={index}
+                  className={cn(
+                    'bg-white hover:bg-white',
+                    index + 1 !== 18
+                      ? 'border-b border-b-black/10'
+                      : 'border-b-0',
+                  )}
+                >
+                  <TableCell className='p-3 w-[30px]'>
+                    <Skeleton className='rounded-[5px] h-[40px] w-full' />
+                  </TableCell>
+                  <TableCell className='p-3 w-[40px]'>
+                    <Skeleton className='rounded-[5px] h-[40px] w-full' />
+                  </TableCell>
+                  <TableCell className='p-3'>
+                    <Skeleton className='rounded-[5px] h-[20px] w-[100px]' />
+                  </TableCell>
+                  <TableCell className='p-3 flex items-center justify-start gap-2'>
+                    <Skeleton className='rounded-[5px] h-[20px] w-[100px]' />
+                    <Skeleton className='rounded-full w-3 h-3 ' />
+                  </TableCell>
+                  <TableCell className='p-3'>
+                    <Skeleton className='rounded-[5px] h-[20px] w-[100px]' />
+                  </TableCell>
+                  <TableCell className='p-3'>
+                    <Skeleton className='rounded-[5px] h-[20px] w-[100px]' />
+                  </TableCell>
+                  <TableCell className='p-3'>
+                    <Skeleton className='rounded-[5px] h-[20px] w-[100px]' />
+                  </TableCell>
+                  <TableCell className='p-3 flex items-center justify-end gap-3'>
+                    <Skeleton className='rounded-[5px] h-[40px] w-[125px]' />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <div className='lg:hidden block mt-5'>
+            <div className='flex flex-col'>
+              {[...new Array(18)].map((item, index) => (
+                <div
+                  key={index}
+                  className={
+                    'bg-transparent hover:bg-transparent border-b-[1.5px] border-b-black/10 py-3 mb-3'
+                  }
+                >
+                  <div className='flex items-center justify-between gap-3 mb-[25px]'>
+                    <div className='flex items-center justify-start gap-[12px]'>
+                      <Skeleton className='rounded-[8px] h-[60px] w-[60px]' />
+                      <div>
+                        <Skeleton className='rounded-[8px] h-[18px] w-[100px] mb-2' />
+                        <Skeleton className='rounded-[8px] h-[18px] w-[100px]' />
+                      </div>
+                    </div>
+                    <Skeleton className='rounded-[8px] h-[40px] w-[105px]' />
+                  </div>
+                  <div className='flex items-center justify-start gap-[10px] mb-[25px]'>
+                    <Skeleton className='rounded-[8px] h-[43px] w-[43px]' />
+                    <div>
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px] mb-2' />
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px]' />
+                    </div>
+                  </div>
+                  <div className='flex items-center justify-start gap-[10px] mb-[25px]'>
+                    <Skeleton className='rounded-[8px] h-[43px] w-[43px]' />
+                    <div>
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px] mb-2' />
+                      <div className='flex items-center justify-start gap-[10px]'>
+                        <Skeleton className='rounded-[8px] h-[18px] w-[100px]' />
+                        <Skeleton className='rounded-full h-[14px] w-[14px]' />
+                      </div>
+                    </div>
+                  </div>
+                  <div className='flex items-center justify-start gap-[12px] mb-[25px]'>
+                    <Skeleton className='rounded-[8px] h-[43px] w-[43px]' />
+                    <div>
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px] mb-2' />
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px]' />
+                    </div>
+                  </div>
+                  <div className='flex items-center justify-start gap-[12px] mb-[25px]'>
+                    <Skeleton className='rounded-[8px] h-[43px] w-[43px]' />
+                    <div>
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px] mb-2' />
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px]' />
+                    </div>
+                  </div>
+                  <div className='flex items-center justify-start gap-[12px]'>
+                    <Skeleton className='rounded-[8px] h-[43px] w-[43px]' />
+                    <div>
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px] mb-2' />
+                      <Skeleton className='rounded-[8px] h-[18px] w-[100px]' />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <CustomPagination count={12} />
+          </div>
+        </>
+      ) : (
+        <>
+          <Table dir='rtl' className='border-none lg:table hidden'>
+            <TableHeader className='bg-gray-100 border-y border-y-black/10'>
+              <TableRow className='border-none'>
+                <TableHead className='text-right p-3 w-8 truncate text-xs font-medium text-gray-400'>
+                  ردیف
+                </TableHead>
+                <TableHead className='p-3 w-16' />
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
+                  عنوان
+                </TableHead>
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
+                  کد تخفیف
+                </TableHead>
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
+                  مبلغ تخفیف
+                </TableHead>
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
+                  امتیاز مورد نیاز
+                </TableHead>
+                <TableHead className='text-right p-3 truncate text-xs font-medium text-gray-400'>
+                  تاریخ اعتبار کد تخفیف
+                </TableHead>
+                <TableHead className='w-[30%] text-right truncate text-xs font-medium' />
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.map((item, index) => (
                 <TableRow
                   key={index}
                   className={cn(
@@ -148,250 +267,210 @@ export default function CustomersClubTable({
                       : 'border-b-0',
                   )}
                 >
-                  <TableCell className="p-3 w-[30px]">
-                    <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
-                      <span className="font-normal text-[12px] text-black block text-num-en">
+                  <TableCell className='p-3 w-[30px]'>
+                    <div className='rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full'>
+                      <span className='font-normal text-[12px] text-black block text-num-en'>
                         {handleZeroBeforeNumber(index + 1)}
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="p-3 w-[40px]">
-                    <div className="rounded-[5px] border border-black/10 bg-gray-100 flex items-center justify-center h-[40px] w-full overflow-hidden p-1">
+                  <TableCell className='p-3 w-[40px]'>
+                    <div className='rounded-[5px] border border-black/10 bg-gray-100 flex items-center justify-center h-[40px] w-full overflow-hidden p-1'>
                       <Image
-                        alt={item.title}
+                        alt={item.prize.title}
                         width={40}
                         height={40}
-                        src={item.company.logo}
-                        className="w-full h-auto"
+                        src={SafarnameLogo.src}
+                        className='w-full h-auto'
                       />
                     </div>
                   </TableCell>
-                  <TableCell className="p-3">
-                    <Tooltip content={item.title}>
-                      <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                        {item.title}
+                  <TableCell className='p-3'>
+                    <Tooltip content={item.prize.title}>
+                      <span className='text-xs font-medium text-gray-600 truncate block text-right'>
+                        {item.prize.title}
                       </span>
                     </Tooltip>
                   </TableCell>
-                  <TableCell className="p-3 flex items-center justify-start gap-2">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.discount.code}
+                  <TableCell className='p-3 flex items-center justify-start gap-2'>
+                    <span className='text-xs font-medium text-gray-600 truncate block text-right'>
+                      {item.prize.discount_code}
                     </span>
                     <button
-                      className="text-cs-red shrink-0"
-                      onClick={() => hanldeClipboardCopy(item.discount.code)}
+                      className='text-cs-red shrink-0'
+                      onClick={() =>
+                        hanldeClipboardCopy(item.prize.discount_code)
+                      }
                     >
                       <IconsaxIcons
-                        name="DocumentCopy"
-                        color="currentColor"
-                        className="w-3 h-3"
+                        name='DocumentCopy'
+                        color='currentColor'
+                        className='w-3 h-3'
                       />
                     </button>
                   </TableCell>
-                  <TableCell className="p-3">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {`${numberSeparation(item.discount.price)} تومان`}
+                  <TableCell className='p-3'>
+                    <span className='text-xs font-medium text-gray-600 truncate block text-right'>
+                      {`${numberSeparation(item.prize.discount_price)} تومان`}
                     </span>
                   </TableCell>
-                  <TableCell className="p-3">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {`${item.score} امتیاز`}
+                  <TableCell className='p-3'>
+                    <span className='text-xs font-medium text-gray-600 truncate block text-right'>
+                      {`N/A امتیاز`}
                     </span>
                   </TableCell>
-                  <TableCell className="p-3">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {moment(item.discount.endsAt)
+                  <TableCell className='p-3'>
+                    <span className='text-xs font-medium text-gray-600 truncate block text-right'>
+                      {moment(item.prize.expired_date)
                         .locale('fa')
                         .format('jYYYY/jMM/jDD')}
                     </span>
                   </TableCell>
-                  <TableCell className="p-3 flex items-center justify-end gap-3">
-                    {item.status !== 'deactive' ? (
-                      <button
-                        onClick={() =>
-                          item.status === 'unused' &&
-                          setAcceptRulesDialogOpened(true)
-                        }
-                        className={cn(
-                          'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100',
-                          item.status === 'unused'
-                            ? 'text-black bg-white border border-black/20 hover:bg-gray-100'
-                            : item.status === 'active'
-                              ? 'text-green-600 bg-green-100 hover:bg-green-200'
-                              : 'text-gray-600 bg-gray-100',
-                        )}
-                      >
-                        <span className="text-xs text-current font-medium">
-                          {item.status === 'used'
-                            ? 'استفاده شد'
-                            : item.status === 'active'
-                              ? 'فعال میباشد'
-                              : 'دریافت جایزه'}
-                        </span>
-                      </button>
-                    ) : (
-                      <div className="w-[125px] h-[40px] rounded-md bg-cs-red/10 text-cs-red flex items-center justify-center">
-                        <span className="text-xs text-current font-medium">
-                          منقضی شده
-                        </span>
-                      </div>
-                    )}
+                  <TableCell className='p-3 flex items-center justify-end gap-3'>
+                    <button
+                      onClick={() => setAcceptRulesDialogOpened(true)}
+                      className={
+                        'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100'
+                      }
+                    >
+                      <span className='text-xs text-current font-medium'>
+                        دریافت جایزه
+                      </span>
+                    </button>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-          <div className="lg:hidden block mt-5">
-            <div className="flex flex-col">
-              {data.map((item, index) => (
+          <div className='lg:hidden block mt-5'>
+            <div className='flex flex-col'>
+              {data?.map((item, index) => (
                 <div
                   key={index}
                   className={
                     'bg-transparent hover:bg-transparent border-b-[1.5px] border-b-black/10 py-3 mb-3'
                   }
                 >
-                  <div className="flex items-center justify-between gap-3 mb-[25px]">
-                    <div className="flex items-center justify-start gap-[12px]">
-                      <div className="rounded-[8px] shrink-0 border border-black/10 bg-gray-100 flex items-center justify-center w-[60px] h-[60px] overflow-hidden p-1">
+                  <div className='flex items-center justify-between gap-3 mb-[25px]'>
+                    <div className='flex items-center justify-start gap-[12px]'>
+                      <div className='rounded-[8px] shrink-0 border border-black/10 bg-gray-100 flex items-center justify-center w-[60px] h-[60px] overflow-hidden p-1'>
                         <Image
-                          alt={item.title}
+                          alt={item.prize.title}
                           width={60}
                           height={60}
-                          src={item.company.logo}
-                          className="w-full h-auto"
+                          src={SafarnameLogo.src}
+                          className='w-full h-auto'
                         />
                       </div>
                       <div>
-                        <span className="text-black truncate block w-full mb-2 text-right font-semibold text-[12px]">
-                          {item.company.persianName}
+                        <span className='text-black truncate block w-full mb-2 text-right font-semibold text-[12px]'>
+                          {item.prize.title}
                         </span>
-                        <span className="text-gray-500 truncate block w-full text-right font-semibold text-[10px]">
-                          {item.company.name}
+                        <span className='text-gray-500 truncate block w-full text-right font-semibold text-[10px]'>
+                          {item.prize.title}
                         </span>
                       </div>
                     </div>
-                    {item.status !== 'deactive' ? (
-                      <button
-                        onClick={() =>
-                          item.status === 'unused' &&
-                          setAcceptRulesDialogOpened(true)
-                        }
-                        className={cn(
-                          'w-[105px] h-[40px] transition-all duration-500 shrink-0 rounded-[7px] flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100',
-                          item.status === 'unused'
-                            ? 'text-black bg-white border border-black/20 hover:bg-gray-100'
-                            : item.status === 'active'
-                              ? 'text-green-600 bg-green-100 hover:bg-green-200'
-                              : 'text-gray-600 bg-gray-100',
-                        )}
-                      >
-                        <span className="text-[10px] text-current font-semibold">
-                          {item.status === 'used'
-                            ? 'استفاده شد'
-                            : item.status === 'active'
-                              ? 'فعال میباشد'
-                              : 'دریافت جایزه'}
-                        </span>
-                      </button>
-                    ) : (
-                      <div className="w-[105px] h-[40px] rounded-[7px] bg-cs-red/10 text-cs-red flex items-center justify-center shrin-0">
-                        <span className="text-[10px] text-current font-semibold">
-                          منقضی شده
-                        </span>
-                      </div>
-                    )}
+                    <button
+                      className='w-[105px] h-[40px] transition-all duration-500 shrink-0 rounded-[7px] flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100'
+                      onClick={() => setAcceptRulesDialogOpened(true)}
+                    >
+                      <span className='text-[10px] text-current font-semibold'>
+                        دریافت جایزه
+                      </span>
+                    </button>
                   </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <div className='flex items-center justify-start gap-[10px] mb-[25px]'>
+                    <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
                       <IconsaxIcons
-                        name="DocumentText"
-                        className="w-[20px] h-[20px] text-black"
+                        name='DocumentText'
+                        className='w-[20px] h-[20px] text-black'
                       />
                     </div>
                     <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                      <span className='text-[12px] font-bold text-black truncate block text-right mb-1'>
                         عنوان :
                       </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {item.title}
+                      <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
+                        {item.prize.title}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <div className='flex items-center justify-start gap-[10px] mb-[25px]'>
+                    <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
                       <IconsaxIcons
-                        name="DiscountShape"
-                        className="w-[20px] h-[20px] text-black"
+                        name='DiscountShape'
+                        className='w-[20px] h-[20px] text-black'
                       />
                     </div>
                     <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                      <span className='text-[12px] font-bold text-black truncate block text-right mb-1'>
                         کد تخفیف :
                       </span>
-                      <div className="flex items-center justify-start gap-[10px]">
-                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          {item.title}
+                      <div className='flex items-center justify-start gap-[10px]'>
+                        <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
+                          {item.prize.discount_code}
                         </span>
                         <button
-                          className="text-cs-red shrink-0"
+                          className='text-cs-red shrink-0'
                           onClick={() =>
-                            hanldeClipboardCopy(item.discount.code)
+                            hanldeClipboardCopy(item.prize.discount_code)
                           }
                         >
                           <IconsaxIcons
-                            name="DocumentCopy"
-                            color="currentColor"
-                            className="w-[14px] h-[14px]"
+                            name='DocumentCopy'
+                            color='currentColor'
+                            className='w-[14px] h-[14px]'
                           />
                         </button>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <div className='flex items-center justify-start gap-[10px] mb-[25px]'>
+                    <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
                       <IconsaxIcons
-                        name="Money"
-                        className="w-[20px] h-[20px] text-black"
+                        name='Money'
+                        className='w-[20px] h-[20px] text-black'
                       />
                     </div>
                     <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                      <span className='text-[12px] font-bold text-black truncate block text-right mb-1'>
                         مبلغ تخفیف :
                       </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {`${numberSeparation(item.discount.price)} تومان`}
+                      <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
+                        {`${numberSeparation(item.prize.discount_price)} تومان`}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <div className='flex items-center justify-start gap-[10px] mb-[25px]'>
+                    <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
                       <IconsaxIcons
-                        name="Star1"
-                        className="w-[20px] h-[20px] text-black"
+                        name='Star1'
+                        className='w-[20px] h-[20px] text-black'
                       />
                     </div>
                     <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                      <span className='text-[12px] font-bold text-black truncate block text-right mb-1'>
                         امتیاز مورد نیاز :
                       </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {`${item.score} امتیاز`}
+                      <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
+                        {`${0} امتیاز`}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <div className='flex items-center justify-start gap-[10px] mb-[25px]'>
+                    <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
                       <IconsaxIcons
-                        name="Calendar"
-                        className="w-[20px] h-[20px] text-black"
+                        name='Calendar'
+                        className='w-[20px] h-[20px] text-black'
                       />
                     </div>
                     <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                      <span className='text-[12px] font-bold text-black truncate block text-right mb-1'>
                         تاریخ اعتبار کد تخفیف :
                       </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {moment(item.discount.endsAt)
+                      <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
+                        {moment(item.prize.expired_date)
                           .locale('fa')
                           .format('jYYYY/jMM/jDD')}
                       </span>

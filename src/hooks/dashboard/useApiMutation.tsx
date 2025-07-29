@@ -16,10 +16,15 @@ export default function useApiMutation<TData = unknown, TVariables = unknown>({
       const isFullUrl = /^https?:\/\//i.test(url);
       const client = isFullUrl ? axios : axiosInstance;
 
+      const isFormData = variables instanceof FormData;
+
       const { data } = await client.request<TData>({
         url,
         method: method.toUpperCase(),
         data: variables,
+        headers: isFormData
+          ? { 'Content-Type': 'multipart/form-data' }
+          : undefined,
       });
 
       return data;

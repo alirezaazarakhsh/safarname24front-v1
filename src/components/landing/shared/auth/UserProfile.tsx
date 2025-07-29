@@ -6,47 +6,29 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useMediaQuery } from '@/hooks';
 import LogoutButton from './molecules/user-profile/LogoutButton';
 import UserProfileItem from './molecules/user-profile/UserProfileItem';
-
-import {
-  Drawer,
-  DrawerTitle,
-  DrawerContent,
-  DrawerDescription,
-} from '@/components/ui/drawer';
-
+// import {
+//   Drawer,
+//   DrawerTitle,
+//   DrawerContent,
+//   DrawerDescription,
+// } from '@/components/ui/drawer';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 
 type Props = {
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  userName?: string;
 };
 
 // --------------------------------------------
 
 export default function UserProfile(props: Props) {
-  const { isOpen, setOpen } = props;
+  const { isOpen, userName = 'مقدار داده نشده!', setOpen } = props;
   const isDesktop = useMediaQuery('(min-width: 1024px)');
-
-  const profileInfo = useApiQuery<{
-    base_user: number;
-    phone_number: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    national_code: string;
-    image: string;
-    postal_code: string;
-    address: string;
-    wallet_balance: string;
-  }>({
-    url: '/profile/real/',
-    queryKey: ['userProfile'],
-  });
 
   return (
     <>
@@ -97,14 +79,7 @@ export default function UserProfile(props: Props) {
           <DropdownMenu open={isOpen} onOpenChange={setOpen}>
             <DropdownMenuTrigger className='bg-zinc-200/50 px-4 flex-center gap-2 rounded-cs-10 transition-colors duration-300 ease-in-out hover:bg-zinc-200/80'>
               <span className='max-w-24 truncate hidden xl:block'>
-                جناب اذرخش
-                {
-                  //   profileInfo.isLoading ? (
-                  //   <span>در حاب پردازش</span>
-                  // ) : (
-                  //   <span>{profileInfo.data?.first_name}</span>
-                  // )
-                }
+                {userName}
               </span>
               <Profile2User size={19} color='#292D32' className='xl:hidden' />
               <IoIosArrowBack
@@ -122,14 +97,7 @@ export default function UserProfile(props: Props) {
                 dir={'rtl'}
                 className='text-zinc-800 text-cs75 font-bold px-4 py-3 pt-3.5 truncate border-b'
               >
-                جناب اذرخش
-                {
-                  //   profileInfo.isLoading ? (
-                  //   <span>در حاب پردازش</span>
-                  // ) : (
-                  //   <span>{`${profileInfo.data?.first_name} ${profileInfo.data?.last_name}`}</span>
-                  // )
-                }
+                {userName}
               </div>
 
               {/* Profile-Items */}

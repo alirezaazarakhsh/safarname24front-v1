@@ -14,16 +14,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import LegalBankInfo from '@/components/dashboard/profile/legal/legalBankInfo';
 import LegalInfoForm from '@/components/dashboard/profile/legal/legalInfoForm';
-import Upload from '@/components/dashboard/financialCartToCart/upload';
+import Upload from '@/components/dashboard/upload/upload';
 import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAcceptDialog';
 import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/personalAccountBannedDialog';
 import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/legalAccountBannedDialog';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETLegalProfiles } from '@/types/dashboard/api/get';
-import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import toast from '@/components/dashboard/ui/customSonner/toast';
+import { GETLegalProfile } from '@/types/dashboard/api/get';
+import Cookies from 'js-cookie';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -47,8 +46,16 @@ const personalFormSchema = z.object({
     .length(10, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z.string().length(15, { message: 'ERROR' }),
-  shabaNumber: z.string().length(24, { message: 'ERROR' }),
+  creditCard: z
+    .string()
+    .length(16, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
   address: z
     .string()
     .min(5, { message: 'ERROR' })
@@ -87,9 +94,21 @@ const legalFormSchema = z.object({
     .email({ message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  postCode: z.string().length(10, { message: 'ERROR' }),
-  creditCard: z.string().length(15, { message: 'ERROR' }),
-  shabaNumber: z.string().length(24, { message: 'ERROR' }),
+  postCode: z
+    .string()
+    .length(10, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
+  creditCard: z
+    .string()
+    .length(16, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'ERROR' })
+    .or(z.literal(''))
+    .optional(),
   address: z
     .string()
     .min(5, { message: 'ERROR' })
@@ -99,8 +118,8 @@ const legalFormSchema = z.object({
 });
 
 // Defining formType
-type personalFormType = z.infer<typeof personalFormSchema>;
-type legalFormType = z.infer<typeof legalFormSchema>;
+export type personalFormType = z.infer<typeof personalFormSchema>;
+export type legalFormType = z.infer<typeof legalFormSchema>;
 
 // Creating and exporting Profile page as default
 export default function ProfilePage(): ReactNode {
@@ -130,6 +149,9 @@ export default function ProfilePage(): ReactNode {
     resolver: zodResolver(legalFormSchema),
   });
 
+  // Defining small variables
+  const savedTellNumber = Cookies.get('UPN') ? `0${Cookies.get('UPN')}` : '';
+
   // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {
     personalForm.setValue('address', userInfo.address);
@@ -138,36 +160,16 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('fullName', userInfo.last_name);
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
+    personalForm.setValue('tell', savedTellNumber);
   }, [personalForm, userInfo]);
 
   // Fetching stuff
-  const legalUserFetching = useApiQuery<GETLegalProfiles>({
+  const legalUserFetching = useApiQuery<GETLegalProfile>({
     url: '/juridical-profiles/',
     queryKey: ['legalUserInfo'],
     options: {
       enabled: profileState === 'legal',
       staleTime: Infinity,
-    },
-  });
-
-  const uploadComponentFetching = useApiMutation({
-    url: '/juridical-profile-documents/',
-    method: 'post',
-    options: {
-      onError: () => {
-        toast({
-          title: 'مشکلی در اپلود فایل رخ داد!',
-          description: 'کاربر گرامی, فایل مد نظر شما اپلود نشد!',
-          theme: 'theme',
-        });
-      },
-      onSuccess: () => {
-        toast({
-          title: 'اپلود شد!',
-          description: 'کاربر گرامی, فایل مد نظر شما اپلود شد!',
-          theme: 'green',
-        });
-      },
     },
   });
 
@@ -178,15 +180,16 @@ export default function ProfilePage(): ReactNode {
       legalUserFetching.data &&
       !legalUserFetching.isLoading
     ) {
-      const legalInfo = legalUserFetching.data[0];
+      const legalInfo = legalUserFetching.data;
 
       legalForm.setValue('name', legalInfo.organization_name);
       legalForm.setValue('id', legalInfo.national_id);
       legalForm.setValue('registrationId', legalInfo.registeration_number);
       legalForm.setValue('economicCode', legalInfo.economical_code);
-      legalForm.setValue('email', legalInfo.email);
+      legalForm.setValue('email', legalInfo.email || '');
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
+      legalForm.setValue('tell', savedTellNumber);
     }
   }, [legalForm, legalUserFetching.isLoading]);
 
@@ -228,8 +231,16 @@ export default function ProfilePage(): ReactNode {
         )}
         {profileState === 'personal' ? (
           <>
-            <CartBalance hasMobileView balance={0} />
-            <SubscriptionType type='premium' />
+            <CartBalance hasMobileView />
+            <SubscriptionType
+              type={
+                userInfo.level === 0
+                  ? 'guest'
+                  : userInfo.level === 1
+                    ? 'silver'
+                    : 'premium'
+              }
+            />
             <PersonalInfoForm className='lg:col-span-2' form={personalForm} />
             <BankInfoForm className='lg:col-span-2' form={personalForm} />
             <Description className='lg:col-span-4' />
@@ -240,23 +251,12 @@ export default function ProfilePage(): ReactNode {
               loading={legalUserFetching.isLoading}
               className='lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide'
               form={legalForm}
-              documentImage={file}
             />
             <div className='lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]'>
               <Upload
                 onChange={(file) => setFile(file)}
                 className='lg:w-[50%] w-full lg:h-auto h-[350px]'
-                onSubmit={async (file, setUploading) => {
-                  setUploading(true);
-
-                  await uploadComponentFetching.mutateAsync({
-                    id: '0',
-                    file: URL.createObjectURL(file),
-                    profile: 1,
-                  });
-
-                  setUploading(false);
-                }}
+                fetchURL='/juridical-profile-documents/'
               />
               <LegalNotes className='lg:w-[50%] w-full' />
             </div>

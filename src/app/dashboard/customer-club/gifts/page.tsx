@@ -2,124 +2,84 @@
 'use client';
 
 // Importing part
-import { ReactNode, useState } from 'react';
-import SafarnameLogo from '../../../../../public/image/logo/white.webp';
-import moment from 'jalali-moment';
+import { ReactNode, useEffect, useState } from 'react';
 import Filter from '@/components/dashboard/customClub/filter';
 import CustomersClubTable from '@/components/dashboard/customClub/table';
 import DiscountCodeNumber from '@/components/dashboard/customClub/discountCodeNumber';
 import useLocalStorage from '@/hooks/useLocalStorage';
-
-// Defining fake data to render
-const scores: {
-  totalScores: number;
-  data: {
-    company: {
-      name: string;
-      persianName: string;
-      logo: string;
-    };
-    title: string;
-    score: number;
-    id: number;
-    status: 'used' | 'unused' | 'active' | 'deactive';
-    discount: {
-      code: string;
-      price: number;
-      endsAt: string;
-    };
-  }[];
-} = {
-  totalScores: 4698,
-  data: [
-    {
-      company: {
-        name: 'Hadish Mall Cinema',
-        persianName: 'سینمایی هدیش مال',
-        logo: SafarnameLogo.src,
-      },
-      id: 1,
-      title: 'اتاق دوبلکس هتل اوین',
-      score: 1365,
-      status: 'used',
-      discount: {
-        code: 'FGA6J85JI2K9',
-        price: 20000000,
-        endsAt: moment().add(12, 'jDay').toISOString(),
-      },
-    },
-    {
-      company: {
-        name: 'Hadish Mall Cinema',
-        persianName: 'سینمایی هدیش مال',
-        logo: SafarnameLogo.src,
-      },
-      title: 'اتاق دوبلکس هتل اوین',
-      id: 1,
-      score: 1365,
-      status: 'unused',
-      discount: {
-        code: 'FGA6J85JI2K9',
-        price: 20000000,
-        endsAt: moment().add(12, 'jDay').toISOString(),
-      },
-    },
-    {
-      company: {
-        name: 'Hadish Mall Cinema',
-        persianName: 'سینمایی هدیش مال',
-        logo: SafarnameLogo.src,
-      },
-      title: 'اتاق دوبلکس هتل اوین',
-      id: 1,
-      score: 1365,
-      status: 'active',
-      discount: {
-        code: 'FGA6J85JI2K9',
-        price: 20000000,
-        endsAt: moment().add(12, 'jDay').toISOString(),
-      },
-    },
-    {
-      company: {
-        name: 'Hadish Mall Cinema',
-        persianName: 'سینمایی هدیش مال',
-        logo: SafarnameLogo.src,
-      },
-      title: 'اتاق دوبلکس هتل اوین',
-      id: 1,
-      score: 1365,
-      status: 'deactive',
-      discount: {
-        code: 'FGA6J85JI2K9',
-        price: 20000000,
-        endsAt: moment().subtract(12, 'jDay').toISOString(),
-      },
-    },
-  ],
-};
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETCustomerClubList } from '@/types/dashboard/api/get';
+import ErrorTable from '@/components/dashboard/api/errorTable';
+import EmptyTable from '@/components/dashboard/api/emptyTable';
 
 // Creating and exporting customer club page as default
 export default function CustomerClubPage(): ReactNode {
   // Defining hooks
+  const [paginationNumber, setPaginationNumber] = useState<number>(0);
   const numberIsSavedForDiscount = useLocalStorage({
     value: 'discountNumber',
   });
 
-  // Defining states of component
   const [giftsType, setGiftsType] = useState<'shoppingCentre' | 'hotel'>(
     'shoppingCentre',
   );
 
+  // Fetching the data
+  const getData = useApiQuery<GETCustomerClubList>({
+    url: `/profile/customer-club/prizes/?p=${paginationNumber + 1}`,
+    queryKey: ['prizes'],
+  });
+
+  // Using useEffect to make useApiQuery Fetch again while pagination number changes
+  useEffect(() => {
+    async function handleRefetch() {
+      await getData.refetch();
+    }
+
+    handleRefetch();
+  }, [paginationNumber]);
+
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
+    <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white'>
       {!numberIsSavedForDiscount.data && <DiscountCodeNumber />}
-      <Filter
-        onChange={(val) => setGiftsType(val)}
-        totalScore={scores.totalScores}
-      />
-      <CustomersClubTable data={scores.data} />
+      {getData.isLoading ? (
+        <>
+          <Filter totalScore={0} loading />
+          <CustomersClubTable
+            loading
+            paginationActiveIndex={paginationNumber}
+            setPaginationActiveIndex={setPaginationNumber}
+          />
+        </>
+      ) : getData.isError ? (
+        <ErrorTable />
+      ) : !getData.isError && getData.data ? (
+        getData.data.count === 0 ? (
+          <EmptyTable
+            title='لیست جوایز خالی میباشد!'
+            description='لطفا بعدا به این صفحه سر بزنید.'
+          />
+        ) : (
+          <>
+            <Filter
+              onChange={setGiftsType}
+              totalScore={getData.data.results.reduce(
+                (sum, item) => sum + Number(item.prize.discount_price),
+                0,
+              )}
+            />
+            <CustomersClubTable
+              paginationCount={getData.data.count}
+              paginationActiveIndex={paginationNumber}
+              setPaginationActiveIndex={setPaginationNumber}
+              data={getData.data.results}
+            />
+          </>
+        )
+      ) : (
+        false
+      )}
     </main>
   );
 }

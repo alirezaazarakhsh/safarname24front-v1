@@ -11,12 +11,13 @@ import { useDropzone } from 'react-dropzone';
 import Loading from '../ui/loading';
 import toast from '../ui/customSonner/toast';
 import UploadSheet from './uploadSheet';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 // Creating and exporting Upload component as default
 export default function Upload({
   onChange,
   className,
-  onSubmit,
+  fetchURL,
 }: UploadComponentPropsType): ReactNode {
   // Defining hooks
   const [isErrored, setErrored] = useState<boolean>(false);
@@ -48,6 +49,28 @@ export default function Upload({
 
   // Using useEffect to attach onChange prop to component
   useEffect(() => onChange(file), [file, onChange]);
+
+  // A hook to fetch data
+  const uploadComponentFetching = useApiMutation({
+    url: fetchURL ? fetchURL : '',
+    method: 'post',
+    options: {
+      onError: () => {
+        toast({
+          title: 'مشکلی در اپلود فایل رخ داد!',
+          description: 'کاربر گرامی, فایل مد نظر شما اپلود نشد!',
+          theme: 'theme',
+        });
+      },
+      onSuccess: () => {
+        toast({
+          title: 'فایل مد نظر اپلود شد',
+          description: file ? file.name : 'فایل شما با موفقیت اپلود شد :)',
+          theme: 'green',
+        });
+      },
+    },
+  });
 
   // Returning JSX
   return (
@@ -121,9 +144,13 @@ export default function Upload({
       <div className='flex items-center justify-between gap-4 px-3 py-4 shrink-0 w-full overflow-auto scrollbar-hide'>
         <div className='flex items-center justify-between gap-3'>
           <Button
+            className='bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white'
             onClick={async () => {
-              if (onSubmit && file) {
-                onSubmit(file, setUploading);
+              if (fetchURL && file) {
+                const formData = new FormData();
+
+                formData.append('file', file);
+                await uploadComponentFetching.mutateAsync(formData);
               } else {
                 setUploading(true);
                 await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -138,10 +165,21 @@ export default function Upload({
                 });
               }
             }}
-            disabled={file === undefined || isUploading}
-            className='bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white'
+            disabled={
+              fetchURL
+                ? uploadComponentFetching.isPending || file === undefined
+                : file === undefined || isUploading
+            }
           >
-            {isUploading ? (
+            {fetchURL ? (
+              uploadComponentFetching.isPending ? (
+                <Loading />
+              ) : (
+                <span className='font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]'>
+                  آپلود فایل
+                </span>
+              )
+            ) : isUploading ? (
               <Loading />
             ) : (
               <span className='font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]'>
@@ -149,7 +187,7 @@ export default function Upload({
               </span>
             )}
           </Button>
-          <UploadSheet />
+          <UploadSheet fetchURL={fetchURL} />
         </div>
         <Button
           disabled={acceptedFiles.length === 0}

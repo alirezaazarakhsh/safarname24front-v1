@@ -15,6 +15,7 @@ export default function DialogInput({
   className,
   required,
   error,
+  id,
   ...props
 }: DialogInputPassengersComponentPropsType): ReactNode {
   // Defining hooks
@@ -48,13 +49,17 @@ export default function DialogInput({
           isOpened={errorDialogOpened}
         />
       )}
-      <Label className='block text-right font-medium lg:text-cs07 text-[12px] truncate text-black lg:mb-4 mb-[7px]'>
+      <Label
+        htmlFor={id}
+        className='block text-right font-medium lg:text-cs07 text-[12px] truncate text-black lg:mb-4 mb-[7px]'
+      >
         {required && <span className='text-cs-red'>* </span>}
         {label}
       </Label>
       <input
         className="bg-gray-100 h-[45px] px-3 lg:rounded-md rounded-[8px] lg:placeholder:text-cs07 placeholder:text-[12px] placeholder:text-gray-400 lg:text-cs07 text-[12px] lg:placeholder:font-medium placeholder:font-semibold lg:font-medium font-semibold text-black w-full block text-right transition-all duration-500 border border-gray-100 focus:border-black data-[errored='true']:border-cs-red data-[errored='true']:focus:border-cs-red"
         data-errored={error !== undefined}
+        id={id}
         {...props}
       />
     </div>
