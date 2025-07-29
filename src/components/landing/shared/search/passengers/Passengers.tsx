@@ -1,4 +1,4 @@
-import { useState } from 'react';
+'use client';
 
 import {
   Drawer,
@@ -12,9 +12,12 @@ import {
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
 
+import { useState } from 'react';
+import { useMediaQuery } from '@/hooks';
+import { usePassengersContext } from '@/context';
+
 import PassengersContent from './PassengersContent';
 import PassengersTrigger from './PassengersTrigger';
-import { useSearchContext } from '@/context/SearchContext';
 
 type CommonProps = {
   sideOffset?: number;
@@ -35,28 +38,27 @@ type Props =
 
 export default function Passengers(props: Props) {
   const {
-    triggerType = 'else',
-    alignOffset,
     sideOffset,
+    alignOffset,
     scrollBehavior,
+    triggerType = 'else',
   } = props;
 
   const [isOpen, setOpen] = useState(false);
-  const {
-    passengers: { confirmedPeople },
-  } = useSearchContext();
+  const { confirmedPassengers } = usePassengersContext();
+  const isDesktop = useMediaQuery('(min-width: 1024px)', true);
 
   return (
     <>
-      <div className="lg:hidden">
+      {!isDesktop ? (
         <Drawer open={isOpen} onOpenChange={setOpen}>
           <DrawerTrigger className="bg-zinc-200/50 w-full text-zinc-600 text-cs08 font-semibold h-12 px-5 flex items-center rounded-cs-10">
-            {confirmedPeople.passengers ? (
+            {confirmedPassengers.passengers ? (
               <div className="flex-center gap-1">
-                <span>{confirmedPeople.passengers}</span>
+                <span>{confirmedPassengers.passengers}</span>
                 <span>مسافر</span>
                 <span className="inline-block -mx-0.5">,</span>
-                <span>{confirmedPeople.rooms}</span>
+                <span>{confirmedPassengers.rooms}</span>
                 <span>اتاق</span>
               </div>
             ) : (
@@ -69,9 +71,7 @@ export default function Passengers(props: Props) {
             <PassengersContent handleClose={() => setOpen(false)} />
           </DrawerContent>
         </Drawer>
-      </div>
-
-      <div className="hidden lg:block">
+      ) : (
         <DropdownMenu
           dir="rtl"
           modal={false}
@@ -97,7 +97,7 @@ export default function Passengers(props: Props) {
             <PassengersContent handleClose={() => setOpen(false)} />
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      )}
     </>
   );
 }

@@ -1,2 +1,2 @@
-export * from './passengers/Passengers';
+export * from '../passengers/Passengers';
 export * from './city-hotel/CityOrHotel';

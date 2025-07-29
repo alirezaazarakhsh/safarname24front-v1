@@ -157,7 +157,7 @@ export function DDatePicker(props: Props) {
           locale={calendarDetail.locale}
           weekDays={calendarDetail.weekDays}
           calendar={calendarDetail.calendar}
-          renderButton={<MonthNavigationButton />}
+          // renderButton={<MonthNavigationButton />}
           plugins={[weekends(calendarDetail.weekendDays)]}
           className={`general-calendar desktop-calendar no-ss01 ${calendarType === 'persian' ? 'font-sans' : 'font-inter'}`}
         >

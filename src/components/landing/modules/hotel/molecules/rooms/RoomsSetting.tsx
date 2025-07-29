@@ -1,5 +1,5 @@
 import NumberOfNights from '@/components/landing/shared/search/molecules/NumberOfNights';
-import Passengers from '@/components/landing/shared/search/molecules/passengers/Passengers';
+import Passengers from '@/components/landing/shared/search/passengers/Passengers';
 import { DDatePicker } from '@/components/landing/shared/search/date-picker';
 
 // --------------------------------

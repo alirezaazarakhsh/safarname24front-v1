@@ -1,10 +1,18 @@
 import NormalRoom from './NormalRoom';
+import PackedRoom from './PackedRoom';
+
 import { Room } from '@/types/landing';
 import { Warning2 } from 'iconsax-react';
-import { Skeleton } from '@/components/ui/skeleton';
+
+type PackedRoom = {
+  room_count: number;
+  pack_rooms: Room[];
+  night_count: number;
+  total_price: number;
+};
 
 type Props = {
-  data?: Room[];
+  data?: Room[] | PackedRoom[];
   status: 'error' | 'success' | 'pending';
 };
 
@@ -12,19 +20,12 @@ type Props = {
 
 export default function RoomsArea(props: Props) {
   const { data, status } = props;
-  const roomsCount = 1;
 
   if (status === 'pending') {
     return (
       <div className="h-40 flex-center lg:h-60">
         <div className="large-dots-dark" />
       </div>
-
-      // <div className='grid gap-6'>
-      //   {[1, 2, 3, 4].map((_) => (
-      //     <Skeleton key={_} className="h-80 rounded-xl" />
-      //   ))}
-      // </div>
     );
   }
 
@@ -44,11 +45,11 @@ export default function RoomsArea(props: Props) {
 
   return (
     <div className="grid gap-6">
-      {data?.map((room, index: number) =>
-        roomsCount > 1 ? (
-          <NormalRoom key={index} {...room} />
+      {data.map((room, index: number) =>
+        'room_count' in room && 'pack_rooms' in room ? (
+          <PackedRoom key={index} {...(room as PackedRoom)} />
         ) : (
-          <NormalRoom key={index} {...room} />
+          <NormalRoom key={index} {...(room as Room)} />
         ),
       )}
     </div>

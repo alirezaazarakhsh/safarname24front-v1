@@ -1,7 +1,7 @@
 .mobile-calendar .rmdp-calendar {
   padding: 0 !important;
   width: 100% !important;
-  direction: ltr !important;
+  /* direction: ltr !important; */
 }
 
 /* ========= Header */
@@ -38,7 +38,7 @@
 
 .mobile-calendar .rmdp-day-picker {
   padding: 0;
-  direction: rtl !important;
+  /* direction: rtl !important; */
   position: relative !important;
 }
 

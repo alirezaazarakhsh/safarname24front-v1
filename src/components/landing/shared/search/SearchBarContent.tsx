@@ -3,12 +3,12 @@ import { ArrowRight } from 'iconsax-react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useMediaQuery } from '@/hooks';
-import { useSearchContext } from '@/context/SearchContext';
+import { useSearchContext } from '@/context';
 import { Sheet, SheetTitle, SheetContent } from '@/components/ui/sheet';
 
 import DatePicker from './date-picker/MDatePicker';
 import NumberOfNights from './molecules/NumberOfNights';
-import Passengers from './molecules/passengers/Passengers';
+import Passengers from './passengers/Passengers';
 import CityOrHotel from './molecules/city-hotel/CityOrHotel';
 
 type Props = {
@@ -22,27 +22,29 @@ export default function SearchBarContent(props: Props) {
   const { isOpen, setDialogClose } = props;
 
   const [error, setError] = useState(false);
+  const { triggerMobileSearch } = useSearchContext();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
-  const { date, cityOrHotel, passengers } = useSearchContext();
+  // const { date, cityOrHotel, passengers } = useSearchContext();
 
-  const valuesCheck = useMemo(() => {
-    return (
-      date.confirmedDate &&
-      cityOrHotel.confirmedValues.city &&
-      passengers.confirmedPeople.passengers
-    );
-  }, [date, cityOrHotel, passengers]);
+  // const valuesCheck = useMemo(() => {
+  //   return (
+  //     date.confirmedDate &&
+  //     cityOrHotel.confirmedValues.city &&
+  //     passengers.confirmedPeople.passengers
+  //   );
+  // }, [date, cityOrHotel, passengers]);
 
   // === Handling Error Based-On-Values
-  useEffect(() => {
-    if (valuesCheck) setError(false);
-  }, [valuesCheck]);
+  // useEffect(() => {
+  //   if (valuesCheck) setError(false);
+  // }, [valuesCheck]);
 
   function handleSearchOperation() {
     // if (valuesCheck) {
     //   return;
     // }
-    
+
+    triggerMobileSearch()
     setDialogClose();
     // setError(true);
   }

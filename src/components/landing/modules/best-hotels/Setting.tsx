@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import Passengers from '../../shared/search/molecules/passengers/Passengers';
+import Passengers from '../../shared/search/passengers/Passengers';
 import CityOrHotel from '../../shared/search/molecules/city-hotel/CityOrHotel';
 import { DDatePicker } from '../../shared/search/date-picker';
 import NumberOfNights from '../../shared/search/molecules/NumberOfNights';

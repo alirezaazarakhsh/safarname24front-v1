@@ -34,6 +34,15 @@
   flex-direction: row-reverse !important;
 }
 
+.general-calendar .rmdp-arrow-container .rmdp-arrow {
+  border-color: black !important;
+  margin-top: 0 !important;
+}
+
+.general-calendar .rmdp-arrow-container:hover {
+  box-shadow: none !important;
+}
+
 /* ========= Day-Picker */
 /* ======================= */
 
