@@ -106,6 +106,7 @@ export interface DialogComponentPropsType {
   refetch?: () => void;
   id?: number;
   phoneNumbers?: string[];
+  infos?: string[];
 }
 
 export interface DeleteCollectionDialogPropsType
@@ -482,6 +483,7 @@ export interface PassengersTableComponentPropsType {
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
   data?: GETPassengerItem;
   id?: number;
+  phoneNumbers: string[];
 }
 
 export interface DialogInputPassengersComponentPropsType

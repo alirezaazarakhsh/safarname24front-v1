@@ -14,13 +14,13 @@ export interface GETReservationItem {
   extra_passengers: number[];
   paid_price: number;
   status:
-  | 'payment'
-  | 'pending_approve'
-  | 'approved'
-  | 'rejected'
-  | 'failed'
-  | 'success'
-  | 'expired';
+    | 'payment'
+    | 'pending_approve'
+    | 'approved'
+    | 'rejected'
+    | 'failed'
+    | 'success'
+    | 'expired';
   fail_reason: string;
   expired_date: string;
   additional_details: string;
@@ -67,9 +67,7 @@ export interface GETPassengerItem {
   id: number;
   first_name: string;
   last_name: string;
-  is_foreign: boolean;
-  national_code: string;
-  passport_code: string;
+  identification_code: string;
   phone_number: string;
 }
 
