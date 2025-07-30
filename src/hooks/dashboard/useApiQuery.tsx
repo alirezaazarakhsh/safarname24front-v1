@@ -1,33 +1,8 @@
 // Importing part
-import { UseApiQueryProps } from '@/types/dashboard/hook';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from 'axios';
-import Cookies from 'js-cookie';
-
-// defining axios instance
-export const axiosInstance = axios.create({
-  baseURL: 'https://cps.safarnameh24.com/api/v1',
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-  withCredentials: true,
-});
-
-// Add Bearer Token from localStorage if exists
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const authVal = Cookies.get('auth');
-    const parsedLocalStorageItem = authVal && JSON.parse(authVal).accessUID;
-
-    if (parsedLocalStorageItem) {
-      config.headers.Authorization = `Bearer ${parsedLocalStorageItem}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
+import { axiosInstance } from '@/utils/axios';
+import { UseApiQueryProps } from '@/types/dashboard/hook';
 
 // Creating and exporting useApiQuery function which is a mix of axios and react query to fetch given url (the project apis)
 export function useApiQuery<T>({
