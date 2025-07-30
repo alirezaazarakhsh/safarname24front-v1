@@ -17,7 +17,6 @@ import {
 
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import useLocalStorage from '@/hooks/useLocalStorage';
 
 const formSchema = z.object({
   otp: z.string().min(4),
@@ -35,10 +34,6 @@ export default function OTPVerification(props: Props) {
   const [isLoading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isSubmitted, setSubmitted] = useState(false);
-
-  const authLocalStorage = useLocalStorage({
-    value: 'AUTH_VALUE',
-  });
 
   // Get Encrypted PhoneNumber
   useEffect(() => {
@@ -75,7 +70,8 @@ export default function OTPVerification(props: Props) {
           sameSite: 'Strict',
         });
 
-        authLocalStorage.setData(
+        Cookies.set(
+          'auth',
           JSON.stringify({
             otp: form.getValues('otp'),
             phoneNumber: Cookies.get('UPN'),

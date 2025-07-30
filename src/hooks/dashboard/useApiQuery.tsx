@@ -2,6 +2,7 @@
 import { UseApiQueryProps } from '@/types/dashboard/hook';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 // defining axios instance
 export const axiosInstance = axios.create({
@@ -15,9 +16,8 @@ export const axiosInstance = axios.create({
 // Add Bearer Token from localStorage if exists
 axiosInstance.interceptors.request.use(
   (config) => {
-    const localStorageItem = localStorage.getItem('AUTH_VALUE');
-    const parsedLocalStorageItem =
-      localStorageItem && JSON.parse(localStorageItem).accessUID;
+    const authVal = Cookies.get('auth');
+    const parsedLocalStorageItem = authVal && JSON.parse(authVal).accessUID;
 
     if (parsedLocalStorageItem) {
       config.headers.Authorization = `Bearer ${parsedLocalStorageItem}`;
