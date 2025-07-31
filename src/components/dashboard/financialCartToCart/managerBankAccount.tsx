@@ -8,8 +8,8 @@ import CreditCard from './creditCard';
 import { numberSeparation } from '@/utils';
 import { Button } from '@/components/ui/button';
 import { ManagerBankAccountComponentPropsType } from '@/types/dashboard/component';
-import { banks } from './creditCard';
 import toast from '../ui/customSonner/toast';
+import { getBankFromCard } from '@/utils/string';
 
 // Creating and exporting ManagerBankAccount component as default
 export default function ManagerBankAccount({
@@ -30,8 +30,8 @@ export default function ManagerBankAccount({
     );
 
   // Defining bankName
-  const bin = selectedCreditCard?.number.card.toString().slice(0, 6);
-  const binName = bin ? banks[bin] : 'مشخص نشده';
+  const bin = selectedCreditCard?.number.card.toString();
+  const binName = bin ? getBankFromCard(bin)?.name : 'مشخص نشده';
 
   // Returning JSX
   return (
