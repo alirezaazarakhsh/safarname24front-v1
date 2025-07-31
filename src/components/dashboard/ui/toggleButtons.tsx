@@ -35,7 +35,7 @@ export default function ToggleButtons({
       )}
     >
       <div
-        className="bg-blue-700 w-[50%] transition-all duration-500 h-full rounded-lg top-0 absolute z-0 data-[activebtn='0']:right-0 data-[activebtn='1']:right-[50%]"
+        className="bg-[#4B5BCE] w-[50%] transition-all duration-500 h-full rounded-lg top-0 absolute z-0 data-[activebtn='0']:right-0 data-[activebtn='1']:right-[50%]"
         data-activebtn={activeButtonIndex}
       />
       {buttons.map((item, index) => (

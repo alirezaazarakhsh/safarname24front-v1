@@ -51,8 +51,8 @@ export default function DeletePassangerDialog({
 
         if (!isMobile) {
           toast({
-            title: 'مشکلی پیش امد!',
-            description: 'در ارسال اطلاعات مسافر جدید مشکلی رخ داد',
+            title: 'خطایی رخ داد!',
+            description: 'مشکلی در حذف مسافر به وجود امد.',
             theme: 'theme',
           });
         } else {
@@ -67,8 +67,8 @@ export default function DeletePassangerDialog({
           setSuccessDrawerOpenedMobile(true);
         } else {
           toast({
-            title: 'تغیرات موفقیت امیز بود!',
-            description: 'تغیرات انجام شده برای مسافر انجام شد!',
+            title: 'مسافر با موفقیت حذف شد!',
+            description: 'مشتری گرامی مسافر مد نظر شما حذف شد',
             theme: 'green',
           });
         }

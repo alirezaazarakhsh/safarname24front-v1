@@ -2,69 +2,24 @@
 'use client';
 
 // Importing part
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 import * as DropDown from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
 import AvatarImage from '../../../../public/image/profile/1.webp';
 import { ICWallet } from '@/components/icons/ICWallet';
 import Link from 'next/link';
-import useLocalStorage from '@/hooks/useLocalStorage';
-import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import toast from '../ui/customSonner/toast';
-import { userFetchedInfoContext } from '../page';
-import { GETPersonalProfile } from '@/types/dashboard/api/get';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import useUserWalletBalance from '@/hooks/dashboard/useUserWalletBalance';
 import { numberSeparation } from '@/utils';
+import useLogout from '@/hooks/dashboard/useLogout';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 // Creating and exporting ProfileDropdown component as defualt
 export default function ProfileDropdown(): ReactNode {
   // Defining hooks
-  const router = useRouter();
-  const authLocalStorage = useLocalStorage({
-    value: 'AUTH_VALUE',
-  });
-
-  const authObj: {
-    acessUID: string;
-    otp: string;
-    phoneNumber: string;
-    refreshUID: string;
-  } = authLocalStorage.data
-    ? JSON.parse(authLocalStorage.data)
-    : {
-        acessUID: '',
-        otp: '',
-        phoneNumber: '',
-        refreshUID: '',
-      };
-
-  const mutation = useApiMutation({
-    url: '/auth/logout/',
-    method: 'post',
-    options: {
-      onError: () => {
-        toast({
-          title: 'خطا در دریافت اطلاعات',
-          description:
-            'در دریافت داده‌ها مشکلی به‌وجود آمده است. لطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
-          theme: 'theme',
-        });
-      },
-      onSuccess: () => {
-        Cookies.remove('AUTH');
-        Cookies.remove('UPN');
-        authLocalStorage.removeItem();
-
-        router.push('/');
-      },
-    },
-  });
-
-  // Defining variables
+  const logout = useLogout();
   const user = useUserInfo();
   const walletBalance = useUserWalletBalance();
 
@@ -126,17 +81,20 @@ export default function ProfileDropdown(): ReactNode {
         <DropDown.DropdownMenuItem
           asChild
           className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
+          disabled={logout.loading}
         >
-          <button
-            onClick={() => {
-              mutation.mutate({
-                refresh_token: authObj.refreshUID,
-              });
-            }}
-          >
-            <span className='text-cs08 font-normal text-current text-right truncate block'>
-              خروج از حساب
-            </span>
+          <button onClick={logout.mutate}>
+            {logout.loading ? (
+              <IconsaxIcons
+                name='ArrowRotateRight'
+                className='w-3 h-3 text-current animate-spin'
+                color='current'
+              />
+            ) : (
+              <span className='text-cs08 font-normal text-current text-right truncate block'>
+                خروج از حساب
+              </span>
+            )}
           </button>
         </DropDown.DropdownMenuItem>
       </DropDown.DropdownMenuContent>

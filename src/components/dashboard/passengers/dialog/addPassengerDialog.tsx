@@ -17,42 +17,33 @@ import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Loading from '../../ui/loading';
-import toast from '../../ui/customSonner/toast';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import { useMediaQuery } from '@/hooks';
-import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@radix-ui/react-label';
+import PassengerAddedSucessDialog from './passengarAddedSuccessDialog';
+import PassengerAddedErrorDialog from './passengarAddedErrorDialog';
+import { isValidIranianNationalCodeOrPassport } from '@/utils/string';
 
 // Defining form schema
 const formSchema = z.object({
   firstName: z
     .string()
     .min(1, 'نام باید حداقل ۱ کاراکتر باشد')
-    .max(32, 'نام نمی‌تواند بیشتر از ۳۲ کاراکتر باشد'),
+    .max(32, 'نام نمی‌تواند بیشتر از 64 کاراکتر باشد'),
   lastName: z
     .string()
     .min(1, 'نام خانوادگی باید حداقل ۱ کاراکتر باشد')
-    .max(32, 'نام خانوادگی نمی‌تواند بیشتر از ۳۲ کاراکتر باشد'),
-  isForeign: z.boolean().optional(),
-  nationalCode: z
-    .string()
-    .length(10, 'کد ملی باید دقیقا ۱۰ رقم باشد')
-    .regex(/^\d{10}$/, 'کد ملی باید فقط شامل اعداد باشد')
-    .or(z.literal(''))
-    .optional(),
-  passportCode: z
-    .string()
-    .length(9, 'شماره گذرنامه باید دقیقا ۹ کاراکتر باشد')
-    .or(z.literal(''))
-    .optional(),
+    .max(32, 'نام خانوادگی نمی‌تواند بیشتر از 64 کاراکتر باشد'),
+  nationalOrPassportCode: z
+    .string({
+      message: 'لطفا این فیلد را پر کنید.',
+    })
+    .refine(isValidIranianNationalCodeOrPassport, {
+      message: 'کد ملی یا شماره پاسپورت معتبر نیست.',
+    }),
   phoneNumber: z
     .string()
     .length(11, 'شماره تماس باید دقیقا ۱۱ رقم باشد')
-    .regex(/^09\d{9}$/, 'شماره تماس باید با ۰۹ شروع شود و معتبر باشد')
-    .or(z.literal(''))
-    .optional(),
+    .regex(/^09\d{9}$/, 'شماره تماس باید با ۰۹ شروع شود و معتبر باشد'),
 });
 
 // Defining form type
@@ -66,17 +57,12 @@ export default function AddPassengersDialog({
   phoneNumbers,
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
-  const [errorDrawerOpenedMobile, setErrorDrawerOpenedMobile] =
-    useState<boolean>(false);
-  const [successDrawerOpenedMobile, setSuccessDrawerOpenedMobile] =
-    useState<boolean>(false);
-  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const [errorOpened, setErrorOpened] = useState<boolean>(false);
+  const [successOpened, setSuccessOpened] = useState<boolean>(false);
+
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
     reValidateMode: 'onSubmit',
-    defaultValues: {
-      isForeign: false,
-    },
   });
 
   // Defining api fetching hooks
@@ -87,28 +73,11 @@ export default function AddPassengersDialog({
       onSuccess: () => {
         closeFn && closeFn();
         refetch && refetch();
-
-        if (!isMobile) {
-          toast({
-            title: 'با موفقیت اضافه شد',
-            description: 'مشتری گرامی مسار مد نظر خود به لیست اضافه شد.',
-            theme: 'green',
-          });
-        } else {
-          setSuccessDrawerOpenedMobile(true);
-        }
+        setSuccessOpened(true);
       },
       onError: () => {
         closeFn && closeFn();
-        if (!isMobile) {
-          toast({
-            title: 'مشکلی پیش امد!',
-            description: 'در ارسال اطلاعات مسافر جدید مشکلی رخ داد',
-            theme: 'theme',
-          });
-        } else {
-          setErrorDrawerOpenedMobile(true);
-        }
+        setErrorOpened(true);
       },
     },
   });
@@ -127,9 +96,7 @@ export default function AddPassengersDialog({
       await addNewPassenger.mutateAsync({
         first_name: data.firstName,
         last_name: data.lastName,
-        is_foreign: data.isForeign,
-        national_code: data.nationalCode,
-        passport_code: data.passportCode,
+        Indentification_code: data.nationalOrPassportCode,
         phone_number: data.phoneNumber,
       });
     }
@@ -141,24 +108,19 @@ export default function AddPassengersDialog({
       open={isOpened}
       onOpenChange={(open) => !open && closeFn && closeFn()}
     >
-      {isMobile && (
-        <>
-          <CanclationErrorDrawer
-            title='خطایی رخ داد!'
-            description='در ایجاد مسافر مشکلی رخ داد مجدد تلاش کنید.'
-            theme='theme'
-            isOpened={errorDrawerOpenedMobile}
-            closeFn={() => setErrorDrawerOpenedMobile(false)}
-          />
-          <CanclationErrorDrawer
-            title='با موفقیت بروزرسانی شد'
-            description='مشتری گرامی مسافر مد نظر خود به لیست اضافه شد.'
-            theme='green'
-            isOpened={successDrawerOpenedMobile}
-            closeFn={() => setSuccessDrawerOpenedMobile(false)}
-          />
-        </>
-      )}
+      <PassengerAddedSucessDialog
+        isOpened={successOpened}
+        closeFn={() => setSuccessOpened(false)}
+        infos={[`${form.getValues('firstName')} ${form.getValues('lastName')}`]}
+      />
+      <PassengerAddedErrorDialog
+        isOpened={errorOpened}
+        closeFn={() => setErrorOpened(false)}
+        tryAgainFn={() => {
+          setErrorOpened(false);
+          submitEventHandler(form.getValues());
+        }}
+      />
       <DialogContent className='lg:w-[28dvw] w-dvw p-0 block gap-0 scrollbar-hide overflow-auto lg:max-h-[calc(100dvh-50px)] max-h-dvh lg:rounded-2xl rounded-none lg:h-auto h-dvh'>
         <div className='px-3 py-3 border-b border-b-black/10 lg:hidden block'>
           <DialogClose asChild>
@@ -216,20 +178,12 @@ export default function AddPassengersDialog({
               {...form.register('lastName')}
             />
             <DialogInput
-              label='کد ملی'
+              label='کد ملی \ شماره پاسپورت'
               type='text'
-              placeholder={'کد ملی مسافر خود را وارد نمایید'}
-              error={form.formState.errors.nationalCode?.message}
+              placeholder={'کد ملی یا شماره پاسپورت مسافر خود را وارد نمایید'}
+              error={form.formState.errors.nationalOrPassportCode?.message}
               id='nationalCode'
-              {...form.register('nationalCode')}
-            />
-            <DialogInput
-              label='شماره پاسپورت'
-              type='text'
-              placeholder={'شماره پاسپورت مسافر خود را وارد نمایید'}
-              error={form.formState.errors.passportCode?.message}
-              id='passportCode'
-              {...form.register('passportCode')}
+              {...form.register('nationalOrPassportCode')}
             />
             <DialogInput
               label='شماره همراه'
@@ -239,19 +193,6 @@ export default function AddPassengersDialog({
               id='phoneNumber'
               {...form.register('phoneNumber')}
             />
-            <div className='flex items-center justify-start gap-2'>
-              <Checkbox
-                className='shrink-0 bg-gray-100 rounded-[4px]'
-                id='isForeign'
-              />
-              <Label
-                className='block text-right w-full font-medium lg:text-cs07 text-[12px] truncate text-black'
-                htmlFor='isForeign'
-                {...form.register('isForeign')}
-              >
-                ایا مسافر خارجی است ؟
-              </Label>
-            </div>
           </div>
           <DialogFooter className='grid lg:grid-cols-2 grid-cols-1 gap-3 w-full shrink-0'>
             <button

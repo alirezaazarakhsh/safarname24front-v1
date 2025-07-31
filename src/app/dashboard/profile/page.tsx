@@ -150,7 +150,8 @@ export default function ProfilePage(): ReactNode {
   });
 
   // Defining small variables
-  const savedTellNumber = Cookies.get('UPN') ? `0${Cookies.get('UPN')}` : '';
+  const authCookie = Cookies.get('auth') || '';
+  const savedTellNumber = `0${JSON.parse(authCookie).phoneNumber}`;
 
   // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {

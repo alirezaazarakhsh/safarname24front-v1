@@ -1,7 +1,7 @@
 // Importing part
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { axiosInstance } from './useApiQuery';
+import { axiosInstance } from '@/utils/axios';
 import { UseApiMutationProps } from '@/types/dashboard/hook';
 
 // creating and Exporting useApiMutation custom hook as default

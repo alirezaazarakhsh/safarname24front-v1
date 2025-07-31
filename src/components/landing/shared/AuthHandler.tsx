@@ -3,8 +3,8 @@
 
 // Importing part
 import { useUserAccountContext } from '@/context/UserAccountContext';
-import useLocalStorage from '@/hooks/useLocalStorage';
 import { useSearchParams } from 'next/navigation';
+import Cookies from 'js-cookie';
 import { ReactNode, useEffect } from 'react';
 
 // Exporting AuthHandler component which checks if url includes auth_open as search params
@@ -14,14 +14,12 @@ export default function AuthHandler(): ReactNode {
   const searchParams = useSearchParams();
   const authOpen = searchParams.get('auth_open') || 'false';
   const { isOpen, toggle } = useUserAccountContext();
-  const authVal = useLocalStorage({ value: 'AUTH_VALUE' });
+  const authVal = Cookies.get('auth');
 
   // Using useEffect to open auth dialog if search param exists and its value is true
   useEffect(() => {
-    if (!authVal.loading && !authVal.data) {
-      if (authOpen === 'true' && !isOpen) {
-        toggle();
-      }
+    if (authOpen === 'true' && !isOpen && !authVal) {
+      toggle();
     }
   }, [authOpen, isOpen, toggle, authVal]);
 

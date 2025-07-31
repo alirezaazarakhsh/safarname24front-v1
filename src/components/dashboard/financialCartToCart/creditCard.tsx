@@ -8,31 +8,6 @@ import { numberSeparation } from '@/utils';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useState } from 'react';
 
-// Defibubg an object to identify bank names based on first 6 numbers of credit card
-export const banks: { [key: string]: string } = {
-  '603799': 'بانک ملی',
-  '603770': 'بانک صادرات',
-  '603769': 'بانک کشاورزی',
-  '589210': 'بانک سپه',
-  '610433': 'بانک ملت',
-  '628023': 'بانک مسکن',
-  '627648': 'بانک توسعه صادرات',
-  '627961': 'بانک صنعت و معدن',
-  '627353': 'بانک تجارت',
-  '589463': 'بانک رفاه',
-  '639347': 'بانک پاسارگاد',
-  '627412': 'بانک اقتصاد نوین',
-  '627488': 'بانک پارسیان',
-  '627381': 'بانک انصار',
-  '639599': 'بانک قوامین',
-  '627760': 'بانک کارآفرین',
-  '621986': 'بانک سامان',
-  '639346': 'بانک سینا',
-  '639607': 'بانک سرمایه',
-  '502806': 'بانک شهر',
-  '502938': 'بانک دی',
-};
-
 // Defining  a function to create random tailwindcss gradiants and exporting it
 export function getRandomGradientClass(key: number | string) {
   // Defining colors

@@ -61,7 +61,8 @@ export default function OTPVerification(props: Props) {
           sameSite: 'Strict',
         });
 
-        authLocalStorage.setData(
+        Cookies.set(
+          'auth',
           JSON.stringify({
             accessUID: data.access,
             phoneNumber: phoneNumber,

@@ -106,6 +106,7 @@ export interface DialogComponentPropsType {
   refetch?: () => void;
   id?: number;
   phoneNumbers?: string[];
+  infos?: string[];
 }
 
 export interface DeleteCollectionDialogPropsType
@@ -482,6 +483,7 @@ export interface PassengersTableComponentPropsType {
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
   data?: GETPassengerItem;
   id?: number;
+  phoneNumbers: string[];
 }
 
 export interface DialogInputPassengersComponentPropsType
@@ -625,4 +627,17 @@ export type BankNameType =
 export interface BankIconPropsType extends SVGProps<SVGSVGElement> {
   name: BankNameType;
   isColored?: boolean;
+}
+
+export interface CreditCardInputPropsType
+  extends InputHTMLAttributes<HTMLInputElement> {
+  type: 'number' | 'shaba';
+  containerClassName?: string;
+  isValid: boolean;
+  validation: string;
+  error?: string;
+  position?: 'left'; // For improving later
+  dropdownClassName?: string;
+  profile?: 'jurdical' | 'natural';
+  setValue: (value: string) => void;
 }

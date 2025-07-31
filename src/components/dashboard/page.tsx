@@ -104,18 +104,18 @@ function InnerPage({
   if (personalDataFetch.isLoading || walletBalanceFetch.isLoading) {
     return (
       <>
-        <div className='bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0' />
-        <div className='bg-white rounded-2xl w-[200px] aspect-square fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-10 p-4 flex items-center justify-center flex-col'>
+        <div className="bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0" />
+        <div className="bg-white rounded-2xl w-[200px] aspect-square fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-10 p-4 flex items-center justify-center flex-col">
           <Logo onlyLogo />
-          <div className='w-full mt-3 mb-6'>
-            <span className='font-bold text-black text-cs08 block text-center truncate mb-0'>
+          <div className="w-full mt-3 mb-6">
+            <span className="font-bold text-black text-cs08 block text-center truncate mb-0">
               Agency Safarnameh 24 Hotel
             </span>
-            <span className='font-bold text-gray-500 text-cs08 block text-center truncate'>
+            <span className="font-bold text-gray-500 text-cs08 block text-center truncate">
               در حال بررسی
             </span>
           </div>
-          <Loading className='bg-cs-red' />
+          <Loading className="bg-cs-red" />
         </div>
       </>
     );
@@ -143,7 +143,7 @@ function InnerPage({
               {!isReservationSubPage ? (
                 children
               ) : (
-                <div className='bg-white max-w-screen-template mx-auto'>
+                <div className="bg-white max-w-screen-template mx-auto">
                   {children}
                 </div>
               )}
@@ -158,8 +158,8 @@ function InnerPage({
 
     // Returning JSX
     return (
-      <div className='max-w-screen-template min-h-dvh mx-auto flex items-center justify-center'>
-        <span className='font-medium text-center text-lg block'>
+      <div className="max-w-screen-template min-h-dvh mx-auto flex items-center justify-center">
+        <span className="font-medium text-center text-lg block">
           شما درحال انتقال به صفحه ورود هستید.
         </span>
       </div>

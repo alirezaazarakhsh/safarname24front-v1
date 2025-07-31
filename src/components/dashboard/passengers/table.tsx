@@ -46,6 +46,16 @@ export default function PassengersTable({
     GETPassengerItem | undefined
   >(undefined);
 
+  // Defining variables
+  const phoneNumbers = data
+    .map((item) => item.phone_number)
+    .filter((num): num is string => typeof num === 'string')
+    .reduce((acc: string[], num) => {
+      const count = acc.filter((n) => n === num).length;
+      if (count < 2) acc.push(num);
+      return acc;
+    }, []);
+
   // Conditional rendering
   if (loading) {
     return (
@@ -191,6 +201,7 @@ export default function PassengersTable({
         )}
       >
         <EditPassengersDialog
+          phoneNumbers={phoneNumbers}
           isOpened={editDialogOpened}
           data={editingDialogInfo}
           refetch={refetch}
@@ -263,10 +274,7 @@ export default function PassengersTable({
                     شماره همراه
                   </TableHead>
                   <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
-                    شماره ملی
-                  </TableHead>
-                  <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
-                    شماره پاسپورت
+                    شماره ملی \ شماره پاسپورت
                   </TableHead>
                   <TableHead className='w-[30%] text-right truncate text-xs font-medium' />
                 </TableRow>
@@ -306,12 +314,9 @@ export default function PassengersTable({
                     </TableCell>
                     <TableCell className='p-3'>
                       <span className='text-xs font-medium text-gray-600 truncate block text-right'>
-                        {item.national_code !== '' ? item.national_code : '-'}
-                      </span>
-                    </TableCell>
-                    <TableCell className='p-3'>
-                      <span className='text-xs font-medium text-gray-600 truncate block text-right'>
-                        {item.passport_code !== '' ? item.passport_code : '-'}
+                        {item.identification_code !== ''
+                          ? item.identification_code
+                          : '-'}
                       </span>
                     </TableCell>
                     <TableCell className='p-3 flex items-center justify-end gap-3'>
@@ -433,26 +438,12 @@ export default function PassengersTable({
                       </div>
                       <div>
                         <span className='text-[12px] font-bold text-black truncate block text-right mb-1'>
-                          شماره ملی :
+                          کد ملی / شماره پاسپورت :
                         </span>
                         <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
-                          {item.national_code !== '' ? item.national_code : '-'}
-                        </span>
-                      </div>
-                    </div>
-                    <div className='flex items-center justify-start gap-[10px] mb-[25px]'>
-                      <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
-                        <IconsaxIcons
-                          name='Note'
-                          className='w-[20px] h-[20px] text-black'
-                        />
-                      </div>
-                      <div>
-                        <span className='text-[12px] font-bold text-black truncate block text-right mb-1'>
-                          شماره پاسپورت :
-                        </span>
-                        <span className='text-[10px] font-medium text-gray-600 truncate block text-right'>
-                          {item.passport_code !== '' ? item.passport_code : '-'}
+                          {item.identification_code !== ''
+                            ? item.identification_code
+                            : '-'}
                         </span>
                       </div>
                     </div>

@@ -52,12 +52,8 @@ export default function LogoutButton() {
       className={
         'text-zinc-600 text-[0.75rem] font-semibold px-4 py-3 flex items-center justify-start gap-2 rounded-md transition-colors ease-in-out hover:bg-zinc-100/60'
       }
-      disabled={mutation.isPending}
-      onClick={() => {
-        mutation.mutate({
-          refresh_token: authObj.refreshUID,
-        });
-      }}
+      // disabled={logout.loading}
+      // onClick={logout.mutate}
     >
       خروج از حساب کاربری
     </button>

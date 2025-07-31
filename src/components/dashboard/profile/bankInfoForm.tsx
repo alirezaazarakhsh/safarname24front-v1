@@ -21,6 +21,7 @@ import { personalFormType } from '@/app/dashboard/profile/page';
 import { BankInfo } from '@/types/utils';
 import { getBankFromCard } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
+import CreditCardInput from './creditCardInput';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -116,140 +117,146 @@ export default function BankInfoForm({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] overflow-hidden row-span-2 col-span-1',
+        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] lg:overflow-hidden row-span-2 col-span-1',
         className,
       )}
     >
       {isMobile && (
         <>
           <CanclationErrorDrawer
-            title='تغیرات با موفقیت اعمال شد!'
-            description='مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد.'
+            title="تغیرات با موفقیت اعمال شد!"
+            description="مشتری گرامی, اطلاعات پروفایل حقیقی شما ارسال شد."
             closeFn={() => setMobileSuccessDrawerOpened(false)}
             isOpened={mobileSuccessDrawerOpened}
-            theme='green'
+            theme="green"
           />
           <CanclationErrorDrawer
-            title='خطایی رخ داد!'
-            description='در ارسال اطلاعات مشکلی پیش امد.'
+            title="خطایی رخ داد!"
+            description="در ارسال اطلاعات مشکلی پیش امد."
             closeFn={() => setMobileErrorDrawerOpened(false)}
             isOpened={mobileErrorDrawerOpened}
-            theme='theme'
+            theme="theme"
           />
         </>
       )}
-      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full'>
-        <div className='shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black'>
+      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
+        <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
           <IconsaxIcons
-            name='CardEdit'
-            className='w-[20px] h-[20px]'
-            color='currentColor'
+            name="CardEdit"
+            className="w-[20px] h-[20px]"
+            color="currentColor"
           />
         </div>
-        <div className='overflow-hidden w-full'>
-          <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
+        <div className="overflow-hidden w-full">
+          <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
             اطلاعات بانکی و پروفایل
           </span>
-          <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
+          <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
             مشتری گرامی شماره کارت و شبا خود را پر نمایید.
           </p>
         </div>
       </div>
-      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] lg:grid flex flex-col-reverse grid-cols-2 lg:gap-6 gap-[20px]'>
+      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] lg:grid flex flex-col-reverse grid-cols-2 lg:gap-6 gap-[20px]">
         <button
           onClick={form.handleSubmit(submitHandleFunction)}
           disabled={form.formState.isSubmitting}
-          className='bg-green-500 w-full lg:text-cs07 text-[12px] hover:bg-green-600 transition-all duration-500 text-white lg:rounded-lg rounded-[8px] lg:px-5 px-3 h-[50px] lg:font-medium font-semibold disabled:bg-gray-400 disabled:hover:bg-gray-400 lg:hidden flex items-center justify-center'
+          className="bg-green-500 w-full lg:text-cs07 text-[12px] hover:bg-green-600 transition-all duration-500 text-white lg:rounded-lg rounded-[8px] lg:px-5 px-3 h-[50px] lg:font-medium font-semibold disabled:bg-gray-400 disabled:hover:bg-gray-400 lg:hidden flex items-center justify-center"
         >
           {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
         </button>
-        <div className='flex flex-col lg:gap-5 gap-[16px]'>
-          <InputAndLabel
-            validationType='icon'
+        <div className="flex flex-col lg:gap-5 gap-[16px]">
+          <CreditCardInput
+            type="number"
             isValid={!form.getFieldState('creditCard').invalid}
-            validation='creditCardNumberValidation'
-            placeholder='16 رقم شماره کارت را وارد نمایید'
+            validation="creditCardNumberValidation"
+            placeholder="16 رقم شماره کارت را وارد نمایید"
             error={form.formState.errors.creditCard?.message}
+            position="left"
+            dropdownClassName="lg:h-[190px] h-[200px]"
+            setValue={(val) => form.setValue('creditCard', val)}
             {...form.register('creditCard')}
           />
-          <InputAndLabel
-            validationType='icon'
+          <CreditCardInput
+            type="shaba"
             isValid={!form.getFieldState('shabaNumber').invalid}
-            validation='shabaNumberValidation'
-            placeholder='24 رقم شماره شبا کارت را وارد نمایید'
+            validation="shabaNumberValidation"
+            placeholder="24 رقم شماره شبا کارت را وارد نمایید"
             error={form.formState.errors.shabaNumber?.message}
+            position="left"
+            dropdownClassName="lg:h-[120px] h-[200px]"
+            setValue={(val) => form.setValue('shabaNumber', val)}
             {...form.register('shabaNumber')}
           />
           <NormalInput
-            placeholder='آدرس مسکونی '
+            placeholder="آدرس مسکونی "
             error={form.formState.errors.address?.message}
             noErrorText
             {...form.register('address')}
           />
         </div>
-        <div className='flex flex-col lg:gap-6 gap-[16px]'>
-          <div className='flex items-center justify-start w-full gap-3'>
-            <div className='shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md'>
+        <div className="flex flex-col lg:gap-6 gap-[16px]">
+          <div className="flex items-center justify-start w-full gap-3">
+            <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
               {bankInfo ? (
-                <BankIcon name={bankInfo.type} className='w-[30px] h-[30px]' />
+                <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
               ) : (
-                <IconsaxIcons name='Bank' color='currentColor' />
+                <IconsaxIcons name="Bank" color="currentColor" />
               )}
             </div>
-            <div className='overflow-hidden w-full'>
-              <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
+            <div className="overflow-hidden w-full">
+              <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
                 نام بانک
               </span>
-              <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
+              <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
                 {bankInfo?.name || 'سیستم بانکی ناشناخته است!'}
               </p>
             </div>
           </div>
           <button
             {...getRootProps()}
-            className='flex items-center justify-start w-full gap-3 group'
+            className="flex items-center justify-start w-full gap-3 group"
           >
             <input {...getInputProps()} hidden />
-            <div className='shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden'>
+            <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
               {acceptedFiles.length === 0 ? (
                 <IconsaxIcons
-                  name='Image'
-                  color='currentColor'
-                  className='w-[20px] h-[20px]'
+                  name="Image"
+                  color="currentColor"
+                  className="w-[20px] h-[20px]"
                 />
               ) : (
                 <>
                   <Image
                     width={50}
                     height={50}
-                    alt='عکس اپلود شده!'
+                    alt="عکس اپلود شده!"
                     src={URL.createObjectURL(acceptedFiles[0])}
-                    className='absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0'
+                    className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
                   />
-                  <div className='bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0'>
+                  <div className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0">
                     <IconsaxIcons
-                      name='Trash'
-                      className='w-[20px] h-[20px]'
-                      color='white'
+                      name="Trash"
+                      className="w-[20px] h-[20px]"
+                      color="white"
                     />
                   </div>
                 </>
               )}
             </div>
-            <div className='overflow-hidden w-full'>
-              <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
+            <div className="overflow-hidden w-full">
+              <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
                 آپلود عکس
               </span>
-              <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
+              <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
                 * حداکثر حجم کمتر از 10MB باشد
               </p>
             </div>
           </button>
-          <div className='lg:flex hidden items-center justify-end'>
+          <div className="lg:flex hidden items-center justify-end">
             <button
               onClick={form.handleSubmit(submitHandleFunction)}
               disabled={form.formState.isSubmitting}
-              className='bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400'
+              className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
             >
               {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
             </button>

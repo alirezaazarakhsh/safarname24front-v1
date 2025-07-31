@@ -1,8 +1,8 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
-import EmptyTable from '@/components/dashboard/api/emptyTable';
 // Importing part
+import EmptyTable from '@/components/dashboard/api/emptyTable';
 import ErrorTable from '@/components/dashboard/api/errorTable';
 import Filter from '@/components/dashboard/passengers/filter';
 import PassengersTable from '@/components/dashboard/passengers/table';
@@ -93,7 +93,7 @@ export default function PassengersPage(): ReactNode {
                         [
                           item.first_name,
                           item.last_name,
-                          item.national_code,
+                          item.identification_code,
                           item.phone_number,
                         ].some((field) =>
                           field?.toLowerCase().includes(filter),
