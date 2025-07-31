@@ -42,8 +42,8 @@ export default function UserAccount() {
           />
 
           {/* Dialog-Logo | Title */}
-          <div className="mt-10 flex flex-col items-center gap-1">
-            <div className="relative w-[4.5rem] h-[4.5rem]">
+          <div className="mt-8 flex flex-col items-center gap-1">
+            <div className="relative w-20 aspect-square">
               <Image
                 fill
                 alt="logo"
@@ -59,7 +59,7 @@ export default function UserAccount() {
           </div>
 
           {/* Dialog-Content */}
-          <div className="relative mx-8 mb-8 mt-12 md:mt-5 md:mx-12">
+          <div className="relative mx-8 mb-8 mt-12 md:mt-4 md:mx-12">
             <AnimatePresence mode="wait">
               {dialogStep === 'phone-number' ? (
                 <motion.div
