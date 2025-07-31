@@ -145,13 +145,16 @@ export interface GETNotificationItem {
   send_to_all: boolean;
 }
 
-export interface GETCreditCards {
-
+export interface GETCreditCardItem {
+  card_number: string;
+  sheba_number: string;
+  profile_type: string;
 }
 
 export type GETReservation = GETReservationItem[];
 export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
+export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
