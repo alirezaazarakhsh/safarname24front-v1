@@ -8,23 +8,12 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import Link from 'next/link';
 import { useRef } from 'react';
 import Image from 'next/image';
+import { home } from '@/constants/landing';
 import { TopBarConfig } from '../../shared';
-
-type Props = {
-  blogs: {
-    id: number;
-    image: string;
-    mostVisited: boolean;
-    title: string;
-    desc: string;
-    date: string;
-  }[];
-};
 
 // -----------------------------------------------
 
-export function InterestingBlogs(props: Props) {
-  const { blogs } = props;
+export function InterestingBlogs() {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
@@ -51,7 +40,7 @@ export function InterestingBlogs(props: Props) {
         modules={[Navigation, Autoplay]}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
-        {blogs.map((blog) => (
+        {home.interestingBLogs.map((blog) => (
           <SwiperSlide
             key={blog.id}
             className="max-w-72 pb-4 select-none xl:max-w-full"

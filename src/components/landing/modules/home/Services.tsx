@@ -90,9 +90,12 @@ function Service(props: Data) {
       <span className="text-zinc-800 text-cs85 font-bold xl:text-cs09">
         {title}
       </span>
-      <p className="text-zinc-500 text-cs08 font-semibold">{subtitle}</p>
 
-      <div className="absolute inset-0 -z-10 bg-cs-red scale-50 rounded-xl transition-all duration-500 ease-in-out xl:group-hover:-bottom-9 xl:group-hover:scale-75"></div>
+      <p className="text-zinc-500 text-cs08/5 line-clamp-4 font-semibold">
+        {subtitle}
+      </p>
+
+      <div className="absolute -z-10 bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-20 bg-cs-red rounded-xl transition-all duration-300 delay-300 ease-in-out group-hover:-bottom-2"></div>
     </div>
   );
 }

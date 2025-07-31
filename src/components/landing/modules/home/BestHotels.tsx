@@ -25,18 +25,20 @@ type ApiResponse = {
 // -----------------------------------------------
 
 export function BestHotels() {
+  const swiperRef = useRef<SwiperType>(null);
+
   const { data, status } = useQuery<ApiResponse>({
-    queryKey: ['suggested-hotels'],
+    queryKey: ['best-hotels'],
     queryFn: () => generalInstance('/hotel/best-hotels'),
   });
 
-  const swiperRef = useRef<SwiperType>(null);
   if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <div className="-ml-5 lg:ml-0">
       <TopBarConfig
-        viewAllHref="/best-hotels"
+        maxLength={6}
+        arraylength={data?.data.length}
         prevClickFunc={() => swiperRef.current?.slidePrev()}
         nextClickFunc={() => swiperRef.current?.slideNext()}
         title={{ type: 'single', text: 'هتل های برتر ایران' }}
@@ -66,7 +68,7 @@ export function BestHotels() {
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           className="bestHotels-swiper h-32 lg:h-36"
         >
-          {data?.data.map((hotel, index) => (
+          {data?.data?.map((hotel, index) => (
             <SwiperSlide
               key={index}
               className="max-w-40 select-none xl:max-w-full"
