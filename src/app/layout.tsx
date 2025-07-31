@@ -1,6 +1,5 @@
 import './globals.css';
 import type { Metadata } from 'next';
-
 import localFont from 'next/font/local';
 import { Inter } from 'next/font/google';
 
@@ -44,9 +43,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='fa' dir='rtl'>
+    <html lang="fa" dir="rtl">
       <body
         className={`${interFont.variable} ${iranSansFont.variable} font-sans antialiased ss01`}
+        suppressHydrationWarning
       >
         <MainWrapper>{children}</MainWrapper>
       </body>

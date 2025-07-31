@@ -6,22 +6,20 @@ import { ICArrowFlashRight } from '@/components/icons/ICArrowFlashRight';
 import Logo from '../ui/logo';
 import { usePathname, useRouter } from 'next/navigation';
 import Notification from './notification';
-import useLocalStorage from '@/hooks/useLocalStorage';
-import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import Cookies from 'js-cookie';
-import toast from '../ui/customSonner/toast';
+import useLogout from '@/hooks/dashboard/useLogout';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 type urlTitleType =
   | {
-    type: 'normal';
-    href: `/dashboard/${string}` | '/dashboard';
-    title: string;
-  }
+      type: 'normal';
+      href: `/dashboard/${string}` | '/dashboard';
+      title: string;
+    }
   | {
-    type: 'regexp';
-    regexp: RegExp;
-    title: string;
-  };
+      type: 'regexp';
+      regexp: RegExp;
+      title: string;
+    };
 
 const urlTitles: urlTitleType[] = [
   {
@@ -96,45 +94,7 @@ export default function TopSide(): ReactNode {
   // Defining hooks
   const router = useRouter();
   const pathname = usePathname();
-  const authLocalStorage = useLocalStorage({
-    value: 'AUTH_VALUE',
-  });
-
-  const authObj: {
-    acessUID: string;
-    otp: string;
-    phoneNumber: string;
-    refreshUID: string;
-  } = authLocalStorage.data
-      ? JSON.parse(authLocalStorage.data)
-      : {
-        acessUID: '',
-        otp: '',
-        phoneNumber: '',
-        refreshUID: '',
-      };
-
-  const mutation = useApiMutation({
-    url: '/auth/logout/',
-    method: 'post',
-    options: {
-      onError: () => {
-        toast({
-          title: 'خطا در دریافت اطلاعات',
-          description:
-            'در دریافت داده‌ها مشکلی به‌وجود آمده است. لطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
-          theme: 'theme',
-        });
-      },
-      onSuccess: () => {
-        Cookies.remove('AUTH');
-        Cookies.remove('UPN');
-        authLocalStorage.removeItem();
-
-        router.push('/');
-      },
-    },
-  });
+  const logOut = useLogout();
 
   // Using iseMemo
   const matched = urlTitles.find((item) => {
@@ -152,12 +112,9 @@ export default function TopSide(): ReactNode {
         <Logo />
         <div className='flex items-center justify-between gap-4'>
           <button
-            className='aspect-square w-12 h-12 bg-cs-red/10 transition-all duration-500 hover:bg-cs-red/20 text-cs-red rounded-lg flex items-center justify-center'
-            onClick={() => {
-              mutation.mutate({
-                refresh_token: authObj.refreshUID,
-              });
-            }}
+            className='aspect-square w-12 h-12 bg-cs-red/10 transition-all duration-500 hover:bg-cs-red/20 text-cs-red rounded-lg flex items-center justify-center disabled:opacity-50'
+            disabled={logOut.loading}
+            onClick={logOut.mutate}
           >
             <ICLogOut className='w-5 h-5 text-current' />
           </button>

@@ -145,6 +145,10 @@ export interface GETNotificationItem {
   send_to_all: boolean;
 }
 
+export interface GETCreditCards {
+
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
