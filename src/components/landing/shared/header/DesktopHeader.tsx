@@ -9,7 +9,6 @@ import NavLinks from './NavLinks';
 import DHeaderStatics from './DHeaderStatics';
 
 import { useScrollPosition } from '@/hooks';
-import { global } from '@/constants/landing';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import { useUserAccountContext } from '@/context/UserAccountContext';
@@ -23,7 +22,6 @@ export default function DesktopHeader() {
   const pathname = usePathname();
   const { toggle } = useUserAccountContext();
   const scrollPosition = useScrollPosition();
-  const [userAccountIsOpen, setUserAccountOpen] = useState(false);
 
   const desktopCondition = scrollPosition > 0 || pathname !== '/';
   const [userIsLoggedIn, setUserLoggedIn] = useState<boolean | null>(null);
@@ -54,25 +52,26 @@ export default function DesktopHeader() {
   return (
     <>
       <div
-        className={`fixed top-0 inset-x-0 z-20 bg-[#f8f8f8] h-[5rem] hidden border-b transition-all duration-500 ease-in-out lg:block ${desktopCondition
+        className={`fixed top-0 inset-x-0 z-20 bg-[#f8f8f8] h-[5rem] hidden border-b transition-all duration-500 ease-in-out lg:block ${
+          desktopCondition
             ? 'shadow-[0_0_2rem_rgba(0,0,0,0.1)]'
             : 'border-transparent'
-          }`}
+        }`}
       ></div>
 
-      <header className='sticky top-0 z-30 max-w-screen-template h-[5rem] mx-auto hidden lg:flex-center'>
-        <section className='w-full font-bold mx-5 flex-between items-center gap-4'>
+      <header className="sticky top-0 z-30 max-w-screen-template h-[5rem] mx-auto hidden lg:flex-center">
+        <section className="w-full font-bold mx-5 flex-between items-center gap-4">
           {/* Logo | Title | Subtitle */}
           <DHeaderStatics />
           {/* -------- */}
           <NavLinks />
 
           {/* User-Favorites - User-Profile */}
-          <div className='h-10 text-zinc-800 text-cs07 flex gap-2 xl:gap-3'>
+          <div className="h-11 text-zinc-800 text-cs07 flex gap-2 xl:gap-3">
             <UserFavorites />
             {personalDataFetch.isLoading ? (
-              <button className='bg-zinc-200/50 w-16 flex-center gap-2 rounded-lg xl:w-28'>
-                <span className='loader-dots-dark'></span>
+              <button className="bg-zinc-200/50 w-16 flex-center gap-2 rounded-lg xl:w-28">
+                <span className="loader-dots-dark"></span>
               </button>
             ) : userIsLoggedIn ? (
               <UserProfile
@@ -81,16 +80,14 @@ export default function DesktopHeader() {
                     ? 'خطا در دریافت اطلاغات!'
                     : `${personalDataFetch.data.first_name} ${personalDataFetch.data.last_name}`
                 }
-                isOpen={userAccountIsOpen}
-                setOpen={setUserAccountOpen}
               />
             ) : (
               <button
-                className='bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-300 ease-in-out hover:bg-zinc-200/80'
+                className="bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-300 ease-in-out hover:bg-zinc-200/80"
                 onClick={() => toggle()}
               >
-                <Profile2User size={19} color='#292D32' />
-                <span className='hidden xl:block'>حساب کاربری</span>
+                <Profile2User size={19} color="#292D32" />
+                <span className="hidden xl:block">حساب کاربری</span>
               </button>
             )}
           </div>
