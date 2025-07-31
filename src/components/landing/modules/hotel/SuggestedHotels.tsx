@@ -8,7 +8,7 @@ import { Swiper as SwiperType } from 'swiper/types';
 import { Autoplay, Navigation } from 'swiper/modules';
 
 import { useRef } from 'react';
-import { SuggestedHotel as Hotel } from '@/types';
+import { Hotel } from '@/types';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
 import { Section } from './molecules/Section';
 

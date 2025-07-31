@@ -10,9 +10,8 @@ import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { TopBarConfig } from '../../shared';
-import CustomerReview from './molecules/CustomerReview';
-
 import { Skeleton } from '@/components/ui/skeleton';
+import CustomerReview from './molecules/CustomerReview';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type Data = {
@@ -42,6 +41,7 @@ export function CustomerReviews() {
   return (
     <div className="-ml-5 -mb-4 lg:ml-0">
       <TopBarConfig
+        arraylength={data?.data.length}
         subtitle="نظرات محبت آمیز مشتری های سفرنامه"
         title={{ type: 'single', text: 'نظرات مشتریان' }}
         prevClickFunc={() => swiperRef.current?.slidePrev()}

@@ -106,15 +106,15 @@ export default async function Hotel(props: Props) {
 
           <ImportantPlaces hotelSlug={hotelSlug} />
           <Facilities hotelSlug={hotelSlug} />
-          <FrequentlyQuestions hotelSlug={hotelSlug} />
-          <CustomerReviews hotelSlug={hotelSlug} />
-          <Tags hotelSlug={hotelSlug} />
+          <FrequentlyQuestions hotelSlug={hotelSlug} /> */}
+          {/* <CustomerReviews hotelSlug={hotelSlug} /> */}
+          {/* <Tags hotelSlug={hotelSlug} />
 
           <SuggestedHotels
             city={initialInfo.city}
             suggestedHotels={suggestedHotels}
-          />
-          */}
+          /> */}
+         
         </div>
       </HotelWrapper>
     </>

@@ -9,12 +9,11 @@ import {
 import { IoClose } from 'react-icons/io5';
 import { ArrowRight } from 'iconsax-react';
 import { useEffect, useState } from 'react';
-import cookies from 'js-cookie';
 import { useMutation } from '@tanstack/react-query';
 
 import { useAddCommentContext } from '@/context/AddCommentContext';
-import { generalInstance } from '@/utils/services';
 import SendTicketReaction from '../../../contact-us/molecules/SendTicketReaction';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import axios from 'axios';
 
 type Props = {
@@ -55,34 +54,62 @@ export default function AddCommentChildren(props: Props) {
     star && description ? setFormValid(true) : setFormValid(false);
   }, [star, description]);
 
+  const mutation = useApiMutation<{
+    access: string;
+    refresh: string;
+  }>({
+    url: '/token/',
+    method: 'post',
+    options: {
+      onError: (error) => {
+        console.error(error);
+        // form.setError('otp', {
+        //   message: 'مشکلی پیش امد. لطفا مجددا تلاش کنید.',
+        // });
+      },
+      onSuccess: (data) => {
+        console.log(data);
+
+        // authLocalStorage.setData(
+        //   JSON.stringify({
+        //     accessUID: data.access,
+        //     phoneNumber: phoneNumber,
+        //     refreshUID: data.refresh,
+        //     otp: form.getValues('otp'),
+        //   }),
+        // );
+      },
+    },
+  });
+
   // axios.create({
   //   baseURL: 'https://cps.safarnameh24.com/api/v1/',
   // });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (values: Form) => {
-      const response = await axios({
-        url: `http://cps.safarnameh24.com/api/v1/hotel/hotels/${hotelSlug}/comments/create/`,
-        method: 'POST',
-        data: values,
-      });
+  // const { mutate, isPending } = useMutation({
+  //   mutationFn: async (values: Form) => {
+  //     const response = await axios({
+  //       url: `http://cps.safarnameh24.com/api/v1/hotel/hotels/${hotelSlug}/comments/create/`,
+  //       method: 'POST',
+  //       data: values,
+  //     });
 
-      console.log(response);
+  //     console.log(response);
 
-      // return generalInstance({
-      //   data: values,
-      //   method: 'POST',
-      //   url: '/hotel/hotels/${hotelSlug}/comments/create',
-      // });
-    },
-    onError: (error) => {
-      console.log(error);
-      handleSetReaction('fail', true);
-    },
-    onSuccess: () => {
-      handleSetReaction('success', true);
-    },
-  });
+  //     // return generalInstance({
+  //     //   data: values,
+  //     //   method: 'POST',
+  //     //   url: '/hotel/hotels/${hotelSlug}/comments/create',
+  //     // });
+  //   },
+  //   onError: (error) => {
+  //     console.log(error);
+  //     handleSetReaction('fail', true);
+  //   },
+  //   onSuccess: () => {
+  //     handleSetReaction('success', true);
+  //   },
+  // });
 
   function handleSetReaction(type: 'success' | 'fail', isOpen: boolean) {
     setReactionType(type);
@@ -115,7 +142,7 @@ export default function AddCommentChildren(props: Props) {
     const localStorageItem = localStorage.getItem('AUTH_VALUE');
     const parsedLocalStorageItem =
       localStorageItem && JSON.parse(localStorageItem).accessUID;
-      console.log(parsedLocalStorageItem)
+    console.log(parsedLocalStorageItem);
 
     const response = await axios({
       url: `https://cps.safarnameh24.com/api/v1/hotel/hotels/${hotelSlug}/comments/create/`,
