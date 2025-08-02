@@ -16,10 +16,6 @@ import EmptyTable from '@/components/dashboard/api/emptyTable';
 export default function CustomerClubPage(): ReactNode {
   // Defining hooks
   const [paginationNumber, setPaginationNumber] = useState<number>(0);
-  const numberIsSavedForDiscount = useLocalStorage({
-    value: 'discountNumber',
-  });
-
   const [giftsType, setGiftsType] = useState<'shoppingCentre' | 'hotel'>(
     'shoppingCentre',
   );
@@ -41,8 +37,7 @@ export default function CustomerClubPage(): ReactNode {
 
   // Returning JSX
   return (
-    <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white'>
-      {!numberIsSavedForDiscount.data && <DiscountCodeNumber />}
+    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
       {getData.isLoading ? (
         <>
           <Filter totalScore={0} loading />
@@ -57,8 +52,8 @@ export default function CustomerClubPage(): ReactNode {
       ) : !getData.isError && getData.data ? (
         getData.data.count === 0 ? (
           <EmptyTable
-            title='لیست جوایز خالی میباشد!'
-            description='لطفا بعدا به این صفحه سر بزنید.'
+            title="لیست جوایز خالی میباشد!"
+            description="لطفا بعدا به این صفحه سر بزنید."
           />
         ) : (
           <>
