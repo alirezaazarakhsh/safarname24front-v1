@@ -5,8 +5,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import Filter from '@/components/dashboard/customClub/filter';
 import CustomersClubTable from '@/components/dashboard/customClub/table';
-import DiscountCodeNumber from '@/components/dashboard/customClub/discountCodeNumber';
-import useLocalStorage from '@/hooks/useLocalStorage';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETCustomerClubList } from '@/types/dashboard/api/get';
 import ErrorTable from '@/components/dashboard/api/errorTable';
