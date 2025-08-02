@@ -6,10 +6,8 @@ import { ReactNode } from 'react';
 import * as DropDown from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
-import AvatarImage from '../../../../public/image/profile/1.webp';
 import { ICWallet } from '@/components/icons/ICWallet';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import useUserWalletBalance from '@/hooks/dashboard/useUserWalletBalance';
 import { numberSeparation } from '@/utils';
@@ -27,71 +25,81 @@ export default function ProfileDropdown(): ReactNode {
   return (
     <DropDown.DropdownMenu>
       <DropDown.DropdownMenuTrigger asChild>
-        <button className='flex items-center justify-start gap-2 w-[200px] overflow-hidden'>
-          <Image
-            width={100}
-            height={100}
-            alt={'عکس پروفایل شما'}
-            src={user.image || AvatarImage.src}
-            className='aspect-square object-cover w-12 h-12 rounded-lg overflow-hidden shrink-0'
-          />
-          <div className='w-full overflow-hidden'>
-            <div className='mb-1 flex items-center justify-start gap-3 text-black'>
-              <span className='font-bold text-cs75 text-current block truncate w-full text-right'>
+        <button className="flex items-center justify-start gap-2 w-[200px] overflow-hidden">
+          {user.image ? (
+            <Image
+              width={100}
+              height={100}
+              alt={'عکس پروفایل شما'}
+              src={user.image}
+              className="aspect-square object-cover w-12 h-12 rounded-lg overflow-hidden shrink-0"
+            />
+          ) : (
+            <div className="size-12 flex items-center justify-center shrink-0 aspect-square border border-black/10 rounded-lg overflow-hidden">
+              <IconsaxIcons
+                name="Image"
+                color="currentColor"
+                className="w-[20px] h-[20px]"
+              />
+            </div>
+          )}
+          <div className="w-full overflow-hidden">
+            <div className="mb-1 flex items-center justify-start gap-3 text-black">
+              <span className="font-bold text-cs75 text-current block truncate w-full text-right">
                 {`${user.first_name} ${user.last_name} عزیز!`}
               </span>
-              <ICChevronBottom className='w-3 h-3 shrink-0 text-current' />
+              <ICChevronBottom className="w-3 h-3 shrink-0 text-current" />
             </div>
-            <span className='font-bold text-cs75 text-gray-500 block truncate text-right'>
+            <span className="font-bold text-cs75 text-gray-500 block truncate text-right">
               {user.email}
             </span>
           </div>
         </button>
       </DropDown.DropdownMenuTrigger>
-      <DropDown.DropdownMenuContent className='w-[200px]' align='start'>
-        <DropDown.DropdownMenuLabel className='flex items-center justify-center gap-3 p-3 text-black'>
-          <span className='truncate block text-cs08 font-medium text-current'>
+      <DropDown.DropdownMenuContent className="w-[200px]" align="start">
+        <DropDown.DropdownMenuLabel className="flex items-center justify-center gap-3 p-3 text-black">
+          <span className="truncate block text-cs08 font-medium text-current">
             {walletBalance.balance === 0
               ? 'حساب شما صفر میباشد!'
               : `${numberSeparation(walletBalance.balance)} تومان`}
           </span>
-          <ICWallet className='w-4 h-4 text-current shrink-0' />
+          <ICWallet className="w-4 h-4 text-current shrink-0" />
         </DropDown.DropdownMenuLabel>
-        <DropDown.DropdownMenuSeparator className='mx-3 mb-3' />
+        <DropDown.DropdownMenuSeparator className="mx-3 mb-3" />
         <DropDown.DropdownMenuItem
           asChild
-          className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
+          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
         >
-          <Link href='/dashboard/profile'>
-            <span className='text-cs08 font-normal text-current text-right truncate block'>
+          <Link href="/dashboard/profile">
+            <span className="text-cs08 font-normal text-current text-right truncate block">
               ویرایش پروفایل
             </span>
           </Link>
         </DropDown.DropdownMenuItem>
         <DropDown.DropdownMenuItem
           asChild
-          className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
+          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
         >
-          <Link href='/dashboard/financial/wallet'>
-            <span className='text-cs08 font-normal text-current text-right truncate block'>
+          <Link href="/dashboard/financial/wallet">
+            <span className="text-cs08 font-normal text-current text-right truncate block">
               شارژ کیف پول
             </span>
           </Link>
         </DropDown.DropdownMenuItem>
         <DropDown.DropdownMenuItem
           asChild
-          className='p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer'
+          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
           disabled={logout.loading}
         >
           <button onClick={logout.mutate}>
             {logout.loading ? (
               <IconsaxIcons
-                name='ArrowRotateRight'
-                className='w-3 h-3 text-current animate-spin'
-                color='current'
+                name="ArrowRotateRight"
+                className="w-3 h-3 text-current animate-spin"
+                color="current"
               />
             ) : (
-              <span className='text-cs08 font-normal text-current text-right truncate block'>
+              <span className="text-cs08 font-normal text-current text-right truncate block">
                 خروج از حساب
               </span>
             )}

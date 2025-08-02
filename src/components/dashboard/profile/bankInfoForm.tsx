@@ -6,7 +6,6 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { BankInfoFormComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useState } from 'react';
-import InputAndLabel from '../financialCartToCart/inputAndLabel';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
 import NormalInput from './normalInput';
@@ -31,6 +30,8 @@ export default function BankInfoForm({
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
+  const [useUserImage, setUseUserImage] = useState<boolean>(true);
+  const userInfo = useUserInfo();
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 30MB in bytes
@@ -60,6 +61,7 @@ export default function BankInfoForm({
     method: 'put',
     options: {
       onSuccess: () => {
+        window.location.reload();
         if (isMobile) {
           setMobileSuccessDrawerOpened(true);
         } else {
@@ -83,8 +85,6 @@ export default function BankInfoForm({
       },
     },
   });
-
-  const userInfo = useUserInfo();
 
   const submitHandleFunction: SubmitHandler<personalFormType> = async (
     data,
@@ -219,11 +219,33 @@ export default function BankInfoForm({
             <input {...getInputProps()} hidden />
             <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
               {acceptedFiles.length === 0 ? (
-                <IconsaxIcons
-                  name="Image"
-                  color="currentColor"
-                  className="w-[20px] h-[20px]"
-                />
+                userInfo.image && useUserImage ? (
+                  <>
+                    <Image
+                      width={50}
+                      height={50}
+                      alt="عکس اپلود شده!"
+                      src={userInfo.image}
+                      className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
+                    />
+                    <div
+                      onClick={() => setUseUserImage(false)}
+                      className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0"
+                    >
+                      <IconsaxIcons
+                        name="Trash"
+                        className="w-[20px] h-[20px]"
+                        color="white"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <IconsaxIcons
+                    name="Image"
+                    color="currentColor"
+                    className="w-[20px] h-[20px]"
+                  />
+                )
               ) : (
                 <>
                   <Image

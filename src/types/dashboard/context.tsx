@@ -1,5 +1,5 @@
 // Importing part
-import { GETNotifications } from './api/get';
+import { GETNotifications, GETPersonalProfile } from './api/get';
 
 // Creating and exporting type of contexts of dashboard pages
 export interface NotificationsContext {
