@@ -63,6 +63,12 @@ export default function EditPassengersDialog({
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
     reValidateMode: 'onSubmit',
+    values: {
+      firstName: data?.first_name || '',
+      lastName: data?.last_name || '',
+      nationalOrPassportCode: data?.identification_code || '',
+      phoneNumber: data?.phone_number || '',
+    },
   });
 
   // Defining fetching data
@@ -121,95 +127,95 @@ export default function EditPassengersDialog({
           submitEventHandler(form.getValues());
         }}
       />
-      <DialogContent className='lg:w-[28dvw] w-dvw p-0 block gap-0 scrollbar-hide overflow-auto lg:max-h-[calc(100dvh-50px)] max-h-dvh lg:rounded-2xl rounded-none lg:h-auto h-dvh'>
-        <div className='px-3 py-3 border-b border-b-black/10 lg:hidden block'>
+      <DialogContent className="lg:w-[28dvw] w-dvw p-0 block gap-0 scrollbar-hide overflow-auto lg:max-h-[calc(100dvh-50px)] max-h-dvh lg:rounded-2xl rounded-none lg:h-auto h-dvh">
+        <div className="px-3 py-3 border-b border-b-black/10 lg:hidden block">
           <DialogClose asChild>
-            <button className='flex items-center justify-start gap-[10px] w-full'>
+            <button className="flex items-center justify-start gap-[10px] w-full">
               <IconsaxIcons
-                name='ArrowRight'
-                className='w-[12px] h-[12px] text-current'
-                color='black'
+                name="ArrowRight"
+                className="w-[12px] h-[12px] text-current"
+                color="black"
               />
-              <DialogTitle className='text-right text-[12px] font-semibold text-black block truncate w-full'>
+              <DialogTitle className="text-right text-[12px] font-semibold text-black block truncate w-full">
                 برگشت به صفحه
               </DialogTitle>
             </button>
           </DialogClose>
         </div>
-        <div className='px-6 py-3 border-b border-b-black/10 items-center justify-between gap-3 lg:flex hidden'>
-          <DialogTitle className='text-right text-[14px] font-bold text-black block truncate w-full'>
+        <div className="px-6 py-3 border-b border-b-black/10 items-center justify-between gap-3 lg:flex hidden">
+          <DialogTitle className="text-right text-[14px] font-bold text-black block truncate w-full">
             تغییرات اطلاعات
           </DialogTitle>
           <DialogClose asChild>
             <button
               onClick={closeFn}
-              className='shrink-0 text-black'
-              type='button'
+              className="shrink-0 text-black"
+              type="button"
             >
-              <ICX className='w-3 h-3 text-current' fill='currentColor' />
+              <ICX className="w-3 h-3 text-current" fill="currentColor" />
             </button>
           </DialogClose>
         </div>
         <form
-          action='#'
+          action="#"
           onSubmit={form.handleSubmit(submitEventHandler)}
-          className='px-3 lg:py-3 py-4 w-full flex flex-col items-center justify-between gap-3 lg:h-auto h-[calc(100%-40px)]'
+          className="px-3 lg:py-3 py-4 w-full flex flex-col items-center justify-between gap-3 lg:h-auto h-[calc(100%-40px)]"
         >
-          <div className='lg:gap-6 gap-[12px] w-full flex flex-col'>
-            <DialogTitle className='text-right text-[12px] font-bold text-black lg:hidden block truncate w-full'>
+          <div className="lg:gap-6 gap-[12px] w-full flex flex-col">
+            <DialogTitle className="text-right text-[12px] font-bold text-black lg:hidden block truncate w-full">
               افزودن مسافر
             </DialogTitle>
             <DialogInput
               required
-              label='نام (لاتین یا فارسی)'
-              type='text'
+              label="نام (لاتین یا فارسی)"
+              type="text"
               placeholder={'نام مسافر خود را وارد نمایید'}
               error={form.formState.errors.firstName?.message}
-              id='firstName'
+              id="firstName"
               {...form.register('firstName')}
             />
             <DialogInput
               required
-              label='نام خانوادگی (لاتین یا فارسی)'
-              type='text'
+              label="نام خانوادگی (لاتین یا فارسی)"
+              type="text"
               placeholder={'نام خانوادگی مسافر خود را وارد نمایید'}
               error={form.formState.errors.lastName?.message}
-              id='lastName'
+              id="lastName"
               {...form.register('lastName')}
             />
             <DialogInput
-              label='کد ملی \ شماره پاسپورت'
-              type='text'
+              label="کد ملی \ شماره پاسپورت"
+              type="text"
               placeholder={'کد ملی یا شماره پاسپورت مسافر خود را وارد نمایید'}
               error={form.formState.errors.nationalOrPassportCode?.message}
-              id='nationalCode'
+              id="nationalCode"
               {...form.register('nationalOrPassportCode')}
             />
             <DialogInput
-              label='شماره همراه'
-              type='tel'
+              label="شماره همراه"
+              type="tel"
               placeholder={'شماره همراه مسافر خود را وارد نمایید'}
               error={form.formState.errors.phoneNumber?.message}
-              id='phoneNumber'
+              id="phoneNumber"
               {...form.register('phoneNumber')}
             />
           </div>
-          <DialogFooter className='grid lg:grid-cols-2 grid-cols-1 gap-3 w-full shrink-0'>
+          <DialogFooter className="grid lg:grid-cols-2 grid-cols-1 gap-3 w-full shrink-0">
             <button
               disabled={form.formState.isSubmitting}
-              className='bg-black lg:rounded-md rounded-[10px] flex items-center justify-center text-white lg:font-medium font-semibold lg:text-cs07 text-[14px] h-[45px] px-3 truncate disabled:bg-gray-100 transition-all duration-500'
-              type='submit'
+              className="bg-black lg:rounded-md rounded-[10px] flex items-center justify-center text-white lg:font-medium font-semibold lg:text-cs07 text-[14px] h-[45px] px-3 truncate disabled:bg-gray-100 transition-all duration-500"
+              type="submit"
             >
               {form.formState.isSubmitting ? (
-                <Loading className='bg-black' />
+                <Loading className="bg-black" />
               ) : (
                 'بروزرسانی'
               )}
             </button>
             <DialogClose asChild>
               <button
-                className='lg:flex hidden items-center justify-center transition-all duration-500 bg-white hover:bg-gray-100 text-black font-medium text-cs07 h-[45px] px-3 truncate'
-                type='button'
+                className="lg:flex hidden items-center justify-center transition-all duration-500 bg-white hover:bg-gray-100 text-black font-medium text-cs07 h-[45px] px-3 truncate"
+                type="button"
               >
                 منصرف شدم
               </button>
