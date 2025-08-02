@@ -184,7 +184,7 @@ export default function EditPassengersDialog({
               {...form.register('lastName')}
             />
             <DialogInput
-              label="کد ملی \ شماره پاسپورت"
+              label="شماره پاسپورت / کد ملی"
               type="text"
               placeholder={'کد ملی یا شماره پاسپورت مسافر خود را وارد نمایید'}
               error={form.formState.errors.nationalOrPassportCode?.message}
