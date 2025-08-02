@@ -15,7 +15,7 @@ import useLocalStorageState from 'use-local-storage-state';
 export default function Notification(): ReactNode {
   // Defining hooks
   const [sheetOpened, setSheetOpened] = useState<boolean>(false);
-  const notifications = useNotification();
+  const { data } = useNotification();
   const [localStorageNotifications] = useLocalStorageState<number[]>(
     'opened-notifications',
     {
@@ -24,12 +24,12 @@ export default function Notification(): ReactNode {
   );
 
   // Defining variables
-  const unseenCount = notifications.filter(
+  const unseenCount = data.filter(
     (item) => !localStorageNotifications.includes(item.id),
   ).length;
 
   // Using useEffect to close the sheet whenever new notification arrives
-  useEffect(() => setSheetOpened(false), [notifications.length]);
+  useEffect(() => setSheetOpened(false), [data.length]);
 
   // Returning JSX
   return (
@@ -67,11 +67,11 @@ export default function Notification(): ReactNode {
           </div>
           <ICDashedBorder className="w-full text-[#d4d4d4]" />
           <div className="flex flex-col gap-3 pt-4">
-            {notifications.map((item, index) => (
+            {data.map((item, index) => (
               <NotificationComponent.default
                 key={index}
                 className={
-                  index + 1 !== notifications.length
+                  index + 1 !== data.length
                     ? 'border-b border-b-black/20 pb-4'
                     : ''
                 }

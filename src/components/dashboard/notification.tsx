@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import { cn } from '@/utils/utils';
 import DeleteNotificationDialog from './dialog/deleteNotificationDialog';
 import useLocalStorageState from 'use-local-storage-state';
+import useNotification from '@/hooks/dashboard/useNotifications';
 
 // Creating and exporting Notification component as default
 export default function Notification({
@@ -19,6 +20,7 @@ export default function Notification({
   // Defining hooks
   const [opened, setOpened] = useState<boolean>(false);
   const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
+  const { refetch } = useNotification();
   const [localStorageNotifications, setLocalStorageNotifications] =
     useLocalStorageState<number[]>('opened-notifications');
 
@@ -53,6 +55,7 @@ export default function Notification({
         isOpened={deleteDialogOpened}
         closeFn={() => setDeleteDialogOpened(false)}
         id={data.id}
+        refetch={refetch}
       />
       <div className="flex lg:items-start items-center justify-between gap-4 lg:mb-3 mb-[15px] cursor-pointer">
         <span className="lg:text-cs85 text-[12px] lg:font-bold font-semibold text-right block w-full text-[#2b2b2b] lg:line-clamp-2 line-clamp-1">
