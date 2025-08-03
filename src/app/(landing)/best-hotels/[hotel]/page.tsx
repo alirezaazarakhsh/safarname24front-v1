@@ -54,10 +54,10 @@ export default async function Hotel(props: Props) {
         </StickyArea>
 
         <div className="relative mt-6 flex flex-col gap-14 lg:mt-12 lg:gap-20">
-          {/* <Pictures hotelSlug={hotelSlug} /> */}
+          <Pictures hotelSlug={hotelSlug} />
 
           {/* === (Small-Screen) */}
-          {/* <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
+          <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
             <FavoriteButton />
 
             <div className="flex-1 grid grid-cols-2 gap-2.5 sm:flex-none sm:mr-auto">
@@ -65,19 +65,19 @@ export default async function Hotel(props: Props) {
               <MImageGallery hotelSlug={hotelSlug} />
               <DImageGallery hotelSlug={hotelSlug} />
             </div>
-          </div> */}
+          </div>
 
           {/* === Section-Links (Small-Screen) */}
-          {/* <div className="bg-white h-12 pt-1 -mx-5 -mb-6 flex items-center overflow-hidden shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
+          <div className="bg-white h-12 pt-1 -mx-5 -mb-6 flex items-center overflow-hidden shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
             <SectionLinks sectionList={sectionLinks} />
-          </div> */}
+          </div>
 
           {/* === Large-Screen */}
-          {/* <Configs sectionList={sectionLinks} /> */}
+          <Configs sectionList={sectionLinks} />
 
           {/* -------------------------- */}
 
-          {/* <div>
+          <div>
             <TopBarConfig
               className="mb-1 lg:mb-2"
               title={{ type: 'single', text: 'توضیحات هتل' }}
@@ -90,11 +90,11 @@ export default async function Hotel(props: Props) {
               <Description hotelSlug={hotelSlug} />
               <InitialInformation hotelSlug={hotelSlug} />
             </div>
-          </div> */}
+          </div>
 
           <Rooms hotelSlug={hotelSlug} hotelName={initialInfo.hotelName} />
 
-          {/* <AdditionalDetails hotelSlug={hotelSlug} />
+          <AdditionalDetails hotelSlug={hotelSlug} />
 
           <Section
             sectionID="rules"
@@ -106,15 +106,14 @@ export default async function Hotel(props: Props) {
 
           <ImportantPlaces hotelSlug={hotelSlug} />
           <Facilities hotelSlug={hotelSlug} />
-          <FrequentlyQuestions hotelSlug={hotelSlug} /> */}
-          {/* <CustomerReviews hotelSlug={hotelSlug} /> */}
-          {/* <Tags hotelSlug={hotelSlug} />
+          <FrequentlyQuestions hotelSlug={hotelSlug} />
+          <CustomerReviews hotelSlug={hotelSlug} />
+          <Tags hotelSlug={hotelSlug} />
 
-          <SuggestedHotels
+          {/* <SuggestedHotels
             city={initialInfo.city}
             suggestedHotels={suggestedHotels}
           /> */}
-         
         </div>
       </HotelWrapper>
     </>

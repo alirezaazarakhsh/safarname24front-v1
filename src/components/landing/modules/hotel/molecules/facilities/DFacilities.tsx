@@ -5,12 +5,12 @@ import 'swiper/css/pagination';
 import { useRef, useState } from 'react';
 import { TickSquare } from 'iconsax-react';
 
+import SwitchCase from './molecules/SwitchCase';
+import Navigation from './molecules/Navigation';
+
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
-
-import SwitchCase from './molecules/SwitchCase';
-import Navigation from './molecules/Navigation';
 
 type Data = {
   name: string;
@@ -55,8 +55,6 @@ export function DFacilities(props: Props) {
 
   const finalList =
     facilitiesType === 'hotel' ? facilitiesList : roomFacilitiesList;
-  // console.log('facilities-list', facilitiesList);
-  // console.log('room-facilities-list', roomFacilitiesList);
 
   return (
     <div className="hidden md:block">
@@ -99,10 +97,12 @@ export function DFacilities(props: Props) {
           ))}
         </Swiper>
 
-        <Navigation
-          slidePrev={() => swiperRef.current?.slidePrev()}
-          slideNext={() => swiperRef.current?.slideNext()}
-        />
+        {Number(finalList?.length) > 1 && (
+          <Navigation
+            slidePrev={() => swiperRef.current?.slidePrev()}
+            slideNext={() => swiperRef.current?.slideNext()}
+          />
+        )}
       </div>
     </div>
   );
