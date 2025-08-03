@@ -87,7 +87,7 @@ export function BestHotels() {
                   />
                 )}
 
-                <div className="absolute -z-10 bottom-0 left-1/2 -translate-x-1/2 bg-cs-red w-20 h-10 rounded-xl transition-all duration-200 ease-in-out delay-100 group-hover:-bottom-2"></div>
+                <div className="absolute -z-10 bottom-1 left-1/2 -translate-x-1/2 bg-cs-red w-20 h-10 rounded-xl transition-all duration-200 ease-in-out delay-100 group-hover:-bottom-2"></div>
               </Link>
             </SwiperSlide>
           ))}

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PiPlus } from 'react-icons/pi';
 import { useQuery } from '@tanstack/react-query';
 
+import Cookies from 'js-cookie';
 import { TopBarConfig } from '../../shared';
 import { Section } from './molecules/Section';
 import { HotelCustomerReview } from '@/types';
@@ -13,6 +14,7 @@ import Reviews from './molecules/customer-reviews/Reviews';
 import ReviewsAverage from './molecules/customer-reviews/ReviewsAverage';
 
 import { AddCommentProvider } from '@/context/AddCommentContext';
+import AuthGuardReaction from '../../shared/auth/AuthGuardReaction';
 import AddCommentWrapper from './molecules/customer-review/AddCommentWrapper';
 
 type ApiResponse = {
@@ -28,13 +30,15 @@ type Props = {
 export function CustomerReviews(props: Props) {
   const { hotelSlug } = props;
 
+  const [isOpen, setOpen] = useState(false);
+  const [addCommentIsOpen, setAddCommentIsOpen] = useState(false);
+
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['hotel-comments-list'],
     queryFn: () => generalInstance(`/hotel/hotels/${hotelSlug}/comments`),
   });
 
-  const [addCommentIsOpen, setAddCommentIsOpen] = useState(false);
-  if (status !== 'pending' && !data?.data.length) return null;
+  useEffect(() => {}, []);
 
   return (
     <Section sectionID="customer-reviews" className="relative">
@@ -46,7 +50,12 @@ export function CustomerReviews(props: Props) {
 
       <button
         className="absolute top-0 left-0 h-10 px-4 pr-3 flex-center gap-2 border rounded-lg"
-        onClick={() => setAddCommentIsOpen(true)}
+        onClick={() => {
+          const authToken = Cookies.get('auth');
+
+          if (authToken) setAddCommentIsOpen(true);
+          else setOpen(true);
+        }}
       >
         <PiPlus size={14} />
 
@@ -55,15 +64,17 @@ export function CustomerReviews(props: Props) {
         </span>
       </button>
 
-      <div className="flex flex-col gap-6 overflow-hidden lg:h-[30rem] lg:flex-row lg:gap-8">
-        <div className="lg:w-4/12">
-          <ReviewsAverage hotelSlug={hotelSlug} />
-        </div>
+      {status !== 'pending' && data?.data.length !== 0 && (
+        <div className="flex bg-red-100 flex-col gap-6 overflow-hidden lg:h-[30rem] lg:flex-row lg:gap-8">
+          <div className="lg:w-4/12">
+            <ReviewsAverage hotelSlug={hotelSlug} />
+          </div>
 
-        <div className="overflow-hidden lg:w-8/12">
-          <Reviews hotelSlug={hotelSlug} />
+          <div className="overflow-hidden lg:w-8/12">
+            <Reviews hotelSlug={hotelSlug} />
+          </div>
         </div>
-      </div>
+      )}
 
       <AddCommentProvider>
         <AddCommentWrapper
@@ -72,6 +83,7 @@ export function CustomerReviews(props: Props) {
           setOpen={setAddCommentIsOpen}
         />
       </AddCommentProvider>
+      <AuthGuardReaction isOpen={isOpen} setOpen={setOpen} />
     </Section>
   );
 }
