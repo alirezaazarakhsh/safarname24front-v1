@@ -13,7 +13,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import ResendOTPToken from './ResendOTPToken';
 import RulesAndRegulation from './RulesAndRegulation';
-import useLocalStorage from '@/hooks/useLocalStorage';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 
@@ -30,12 +29,7 @@ type Props = {
 export default function OTPVerification(props: Props) {
   const { setDialogStep } = props;
 
-  // const phoneNumber = sessionStorage.getItem('phone-number');
-  const phoneNumber = '';
-  const authLocalStorage = useLocalStorage({
-    value: 'AUTH_VALUE',
-  });
-
+  const phoneNumber = Cookies.get('UPN');
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { otp: '' },
@@ -65,9 +59,9 @@ export default function OTPVerification(props: Props) {
           'auth',
           JSON.stringify({
             accessUID: data.access,
-            phoneNumber: phoneNumber,
             refreshUID: data.refresh,
             otp: form.getValues('otp'),
+            phoneNumber: Cookies.get('UPN'),
           }),
         );
 
@@ -142,14 +136,14 @@ export default function OTPVerification(props: Props) {
           <span>ویرایش شماره همراه</span>
         </button>
 
-        <div className="hidden md:flex">
+        <div className="hidden md:flex md:mt-auto">
           <RulesAndRegulation />
         </div>
 
         {/* Submit-Button */}
         <button
           disabled={mutation.isPending}
-          className={`relative w-full h-12 bg-cs-dark-blue mt-auto overflow-hidden rounded-lg transition-colors duration-300 ease-in-out md:mt-0  hover:bg-cs-dark-blue/95 ${mutation.isPending ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
+          className={`relative w-full h-12 bg-cs-dark-blue mt-auto overflow-hidden rounded-lg transition-colors duration-300 ease-in-out md:mt-0 hover:bg-cs-dark-blue/95 ${mutation.isPending ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
         >
           <span
             className={`absolute inset-0 text-zinc-100 text-cs85 font-semibold flex-center pointer-events-none transition-all duration-300 ease-in-out ${mutation.isPending ? 'opacity-0 invisible -right-8' : 'opacity-100 visible right-0'}`}

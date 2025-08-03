@@ -1,8 +1,11 @@
 'use client';
 
 import { z } from 'zod';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
+
 import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -10,7 +13,6 @@ import { Input } from '@/components/ui/input';
 import { generalInstance } from '@/utils/services';
 import RulesAndRegulation from './RulesAndRegulation';
 import { Form, FormField, FormItem, FormControl } from '@/components/ui/form';
-import { useEffect, useRef } from 'react';
 
 const formSchema = z.object({
   phoneNumber: z
@@ -29,21 +31,20 @@ type Props = {
 export default function PhoneNumber(props: Props) {
   const { setDialogStep } = props;
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      // phoneNumber: sessionStorage.getItem('phone-number') || '',
-      phoneNumber: '',
-    },
+    defaultValues: { phoneNumber: '' },
   });
 
   useEffect(() => {
-    if (inputRef.current) inputRef.current.focus();
-  }, []);
+    const storedPhoneNumber = Cookies.get('UPN');
+    if (storedPhoneNumber) {
+      form.setValue('phoneNumber', storedPhoneNumber);
+    }
+  }, [form]);
 
   const mutation = useMutation({
-    mutationFn: async (data: { phone: string }) => {
+    mutationFn: (data: { phone: string }) => {
       return generalInstance.post('/auth/', data);
     },
     onError: (error: AxiosError<{ detail?: string }>) => {
@@ -56,12 +57,17 @@ export default function PhoneNumber(props: Props) {
     },
     onSuccess: () => {
       setDialogStep();
+      Cookies.set('UPN', form.getValues().phoneNumber, {
+        path: '/',
+        secure: true,
+        expires: 1 / 24,
+        sameSite: 'Strict',
+      });
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     mutation.mutate({ phone: `0${values.phoneNumber}` });
-    sessionStorage.setItem('phone-number', values.phoneNumber);
   }
 
   return (
@@ -80,7 +86,7 @@ export default function PhoneNumber(props: Props) {
 
         <div
           dir="ltr"
-          className={`w-full h-12 text-zinc-600 mt-6 mb-4 grid grid-cols-[1fr_3fr] overflow-hidden border-2 rounded-lg lg:mb-2 ${form.formState.errors.phoneNumber ? 'border-cs-red/50' : 'border-zinc-200'}`}
+          className={`w-full h-12 text-zinc-600 mt-6 mb-4 grid grid-cols-[1fr_3fr] overflow-hidden border-2 rounded-lg md:mt-5 md:mb-3 ${form.formState.errors.phoneNumber ? 'border-cs-red/50' : 'border-zinc-200'}`}
         >
           <div className="text-[0.85rem] font-semibold text-zinc-400 flex-center border-r-2">
             + 98
@@ -94,7 +100,6 @@ export default function PhoneNumber(props: Props) {
                 <FormControl>
                   <Input
                     {...field}
-                    ref={inputRef}
                     onChange={(e) => {
                       field.onChange(
                         e.target.value.replace(/[^\d٠-٩۰-۹]/g, '').slice(0, 10),
