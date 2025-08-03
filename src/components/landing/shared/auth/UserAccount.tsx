@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { useMediaQuery } from '@/hooks';
 import PhoneNumber from './molecules/user-account/PhoneNumber';
+
 import useControlBodyOverflow from '@/hooks/useControlBodyOverflow';
 import { useUserAccountContext } from '@/context/UserAccountContext';
 import OTPVerification from './molecules/user-account/OTPVerification';
@@ -31,7 +32,7 @@ export default function UserAccount() {
         onClick={() => isDesktop && toggle()}
       >
         <div
-          className={`absolute z-50 bg-white full-size text-zinc-800 grid grid-rows-[auto_1fr] transition-all duration-500 ease-in-out md:w-[28rem] md:h-[26rem] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:duration-300 ${isOpen ? 'opacity-100 md:scale-100' : 'opacity-0 md:scale-95'}`}
+          className={`absolute z-50 bg-white full-size text-zinc-800 grid grid-rows-[auto_1fr] transition-all duration-500 ease-in-out md:w-[26rem] md:h-[25rem] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:duration-300 ${isOpen ? 'opacity-100 md:scale-100' : 'opacity-0 md:scale-95'}`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Dialog-Close-Button */}
@@ -42,8 +43,8 @@ export default function UserAccount() {
           />
 
           {/* Dialog-Logo | Title */}
-          <div className="mt-10 flex flex-col items-center gap-1">
-            <div className="relative w-[4.5rem] h-[4.5rem]">
+          <div className="mt-8 flex flex-col items-center gap-1 md:mt-6">
+            <div className="relative w-20 aspect-square">
               <Image
                 fill
                 alt="logo"
@@ -59,7 +60,7 @@ export default function UserAccount() {
           </div>
 
           {/* Dialog-Content */}
-          <div className="relative mx-8 mb-8 mt-12 md:mt-5 md:mx-12">
+          <div className="relative mx-8 mb-8 mt-12 md:mt-2 md:mx-12">
             <AnimatePresence mode="wait">
               {dialogStep === 'phone-number' ? (
                 <motion.div

@@ -4,26 +4,43 @@ import 'swiper/css';
 import '@/styles/swiper.css';
 import 'swiper/css/pagination';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Swiper as SwiperType } from 'swiper/types';
-import { Navigation, Pagination } from 'swiper/modules';
-
 import { useRef } from 'react';
 import { TopBarConfig } from '../../shared';
 import { BestSellingHotel as Hotel } from '@/types';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper/types';
+import { Navigation, Pagination } from 'swiper/modules';
+
 import BestSellingHotelA from './molecules/BestSellingHotelA';
 import BestSellingHotelB from './molecules/BestSellingHotelB';
+import { home } from '@/constants/landing';
+import { generalInstance } from '@/utils/services';
+import { useQuery } from '@tanstack/react-query';
 
-type Props = {
-  hotels: Hotel[];
+type ApiResponse = {
+  data: {
+    special_offers: Hotel[];
+    flash_sales: Hotel[];
+    best_sellers: Hotel[];
+  };
 };
 
-// -----------------------------------------------
+// ----------------------------
 
-export function BestSellingHotels(props: Props) {
-  const { hotels } = props;
+export function BestSellingHotels() {
   const swiperRef = useRef<SwiperType>(null);
+
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['best-selling-hotels'],
+    queryFn: () => generalInstance('/hotel/hotels/home'),
+  });
+
+  if (
+    status !== 'pending' &&
+    (!data?.data || !data?.data.best_sellers || !data?.data.best_sellers.length)
+  )
+    return null;
 
   return (
     <div className="sm:-ml-5 lg:ml-0">
@@ -31,11 +48,12 @@ export function BestSellingHotels(props: Props) {
         viewAllHref="/best-hotels"
         title={{
           type: 'single',
-          text: 'هتل های پر فروش و جذاب سفرنامه',
+          text: 'هتل های پرفروش و جذاب سفرنامه',
         }}
+        arraylength={data?.data.best_sellers.length}
         prevClickFunc={() => swiperRef.current?.slidePrev()}
         nextClickFunc={() => swiperRef.current?.slideNext()}
-        subtitle="هتل های پر فروش و جذاب سفرنامه رو از دست نده !"
+        subtitle="هتل های پرفروش و جذاب سفرنامه رو از دست نده !"
       />
 
       <div className="justify-between grid-cols-[30%_68%] xl:grid">
@@ -48,7 +66,7 @@ export function BestSellingHotels(props: Props) {
             pagination={{ clickable: true }}
             className="bestSellingHotelsB-swiper"
           >
-            {hotels?.slice(0, 4).map((hotel) => (
+            {home.bestSellingHotels?.slice(0, 4).map((hotel) => (
               <SwiperSlide key={hotel.id} className="max-w-full select-none">
                 <BestSellingHotelB hotel={hotel} />
               </SwiperSlide>
@@ -73,7 +91,7 @@ export function BestSellingHotels(props: Props) {
             className="bestSellingHotelsA-swiper"
             onSwiper={(swiper) => (swiperRef.current = swiper)}
           >
-            {hotels?.map((hotel) => (
+            {home.bestSellingHotels?.map((hotel) => (
               <SwiperSlide
                 key={hotel.id}
                 className="pb-4 select-none sm:max-w-[26rem]"
@@ -94,12 +112,12 @@ export function BestSellingHotels(props: Props) {
             onSwiper={(swiper) => (swiperRef.current = swiper)}
           >
             {Array.from(
-              { length: Math.ceil(hotels?.length / 2) },
+              { length: Math.ceil(home.bestSellingHotels?.length / 2) },
               (_, i) => i,
             ).map((_, index) => (
               <SwiperSlide key={_} className="max-w-full pb-4 select-none">
                 <div className="hidden gap-4 xl:grid">
-                  {hotels
+                  {home.bestSellingHotels
                     ?.slice(index * 2, index * 2 + 2)
                     ?.map((hotel) => (
                       <BestSellingHotelA key={hotel.id} hotel={hotel} />

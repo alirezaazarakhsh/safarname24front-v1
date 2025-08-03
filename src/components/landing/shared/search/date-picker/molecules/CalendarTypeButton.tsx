@@ -5,7 +5,7 @@ type Props = {
 
 // -----------------------------------
 
-export default function CalendarTypeBtn(props: Props) {
+export function CalendarTypeButton(props: Props) {
   const { calendarType, setCalendarType } = props;
 
   return (

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 // --------------------------------------------
 
-export const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false);
+export const useMediaQuery = (query: string, initialState?: boolean) => {
+  const [matches, setMatches] = useState(initialState || false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

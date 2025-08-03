@@ -2,20 +2,22 @@
 
 import clsx from 'clsx';
 import { useEffect } from 'react';
+
 import { useMediaQuery } from '@/hooks';
+import { useActiveSection } from '@/context/HotelActiveSectionContext';
 
 interface Props {
   sectionID: string;
   className?: string;
   children: React.ReactNode;
-  setActiveSection: (sectionId: string) => void;
 }
 
 // --------------------------------------------
 
 export function Section(props: Props) {
-  const { sectionID, className, children, setActiveSection } = props;
+  const { sectionID, className, children } = props;
 
+  const { updateActiveSection } = useActiveSection();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   // ====== Auto Active-Section On-Scroll
@@ -27,13 +29,13 @@ export function Section(props: Props) {
       if (section) {
         const rect = section.getBoundingClientRect();
         if (rect.top <= rectTop && rect.bottom >= 0)
-          setActiveSection(sectionID);
+          updateActiveSection(sectionID);
       }
     }
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [sectionID, setActiveSection, isDesktop]);
+  }, [sectionID, updateActiveSection, isDesktop]);
 
   return (
     <div id={sectionID} className={clsx('', className)}>

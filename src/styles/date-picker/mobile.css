@@ -1,7 +1,7 @@
 .mobile-calendar .rmdp-calendar {
   padding: 0 !important;
   width: 100% !important;
-  direction: ltr !important;
+  /* direction: ltr !important; */
 }
 
 /* ========= Header */
@@ -28,8 +28,8 @@
 /* ======================= */
 
 .mobile-calendar .rmdp-calendar > div:nth-child(2) {
-  padding-top: 1rem !important;
-  margin-top: 1.2rem !important;
+  padding-top: 1.4rem !important;
+  margin-top: 1.4rem !important;
   border-top: 1px dashed rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -38,7 +38,7 @@
 
 .mobile-calendar .rmdp-day-picker {
   padding: 0;
-  direction: rtl !important;
+  /* direction: rtl !important; */
   position: relative !important;
 }
 

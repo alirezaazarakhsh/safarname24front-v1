@@ -7,33 +7,29 @@ import {
 } from '@/components/ui/sheet';
 
 import Image from 'next/image';
-import { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 
+import { Room } from '@/types/landing';
 import CalendarCard from './CalendarCard';
-import { hotel } from '@/constants/landing';
-import { NumberOfRooms } from './NumberOfRooms';
+import { numberSeparation } from '@/utils';
+import { number } from 'framer-motion';
 
-type Props = {};
+type Props = {
+  info: {
+    roomName: string;
+    capacity: number;
+    totalPrice: number;
+    numberOfNights: number;
+    priceCalendar: Room['price_calendar'];
+  };
+};
 
 // --------------------------------
 
 export default function PriceCalendar(props: Props) {
-  const {} = props;
-
-  const MAX_NUMBER_OF_ROOM = 5;
-  const [numberOfRooms, setRooms] = useState(1);
-
-  function handleChangeNumberOfRooms(type: 'inc' | 'dec') {
-    if (type === 'inc') {
-      if (numberOfRooms < MAX_NUMBER_OF_ROOM)
-        setRooms((prevValue) => prevValue + 1);
-    }
-    // -----
-    else {
-      if (numberOfRooms > 1) setRooms((prevValue) => prevValue - 1);
-    }
-  }
+  const {
+    info: { priceCalendar, numberOfNights, capacity, roomName, totalPrice },
+  } = props;
 
   return (
     <Sheet>
@@ -60,7 +56,7 @@ export default function PriceCalendar(props: Props) {
             />
           </div>
 
-          <div className="grid text-cs08 font-bold md:text-cs85">
+          <div className="grid text-cs85 font-bold">
             <span>سفرنامه 24</span>
             <span className="capitalize">safarname 24 agency hotel</span>
           </div>
@@ -71,27 +67,37 @@ export default function PriceCalendar(props: Props) {
         </div>
 
         {/* === Room-Name */}
-        <span className="text-cs85 font-bold py-3 border-b border-dashed border-zinc-300">
-          اتاق دو تخته اسپشیال کینگ
-        </span>
+        <div className="text-cs85 flex items-center gap-1 font-bold pt-3 pb-4 border-b border-dashed border-zinc-300">
+          <span>اتاق</span>
+          <span>{capacity}</span>
+          <span>نفره</span>
+          <span>{roomName}</span>
+        </div>
 
         {/* === Calendar */}
-        <div className="mt-2 space-y-4 overflow-auto">
-          {hotel.priceCalendar?.map((card, index) => (
+        <div className="mt-2 space-y-5 overflow-auto">
+          {priceCalendar?.map((card, index) => (
             <CalendarCard key={index} info={card} />
           ))}
         </div>
 
-        {/* === Number-Of-Rooms & Submit-Button */}
-        <div className="flex flex-col gap-4 md:flex-row-reverse md:items-center md:justify-between md:gap-12 md:pt-4 md:border-t">
-          <div className="pt-4 border-t border-zinc-200 md:pt-0 md:border-none">
-            <NumberOfRooms
-              numberOfRooms={numberOfRooms}
-              changeNumberOfRooms={handleChangeNumberOfRooms}
-            />
+        {/* === Total-Price & Submit-Button */}
+        <div className="flex flex-col gap-5 pt-5 border-t">
+          <div className="text-cs85 flex-between items-center font-semibold border-zinc-200">
+            <div className="flex items-center gap-1">
+              <span>مجموع قیمت</span>
+              <span>{numberOfNights}</span>
+              <span>شب</span>
+              <span>اقامت :</span>
+            </div>
+
+            <div className="flex-center gap-1">
+              <span>{numberSeparation(totalPrice)}</span>
+              <span>تومان</span>
+            </div>
           </div>
 
-          <button className="bg-cs-blue h-12 text-white text-cs85 font-semibold rounded-cs-10 md:flex-1">
+          <button className="bg-cs-blue h-11 text-white text-cs85 font-semibold rounded-cs-10">
             <span>تایید رزرو اتاق</span>
           </button>
         </div>

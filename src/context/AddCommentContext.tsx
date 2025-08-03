@@ -3,51 +3,41 @@ import { createContext, useReducer, useContext, ReactNode } from 'react';
 type AddComment = {
   star: number | null;
   description: string;
-  standards: Array<{ title: string; value: number }>;
-  positivePoints: { title: string; isSelected: boolean }[];
-  negativePoints: { title: string; isSelected: boolean }[];
+  standards: Array<{ id: number; title: string; value: number }>;
+  positivePoints: Array<{ id: number; title: string; isSelected: boolean }>;
+  negativePoints: Array<{ id: number; title: string; isSelected: boolean }>;
 };
 
 type AddCommentAction =
   | { type: 'STAR'; payload: { star: number } }
   | { type: 'DESCRIPTION'; payload: { description: string } }
-  | { type: 'STANDARDS'; payload: { title: string; value: number } }
-  | { type: 'POSITIVE-POINTS'; payload: { title: string } }
   | {
-      type: 'NEGATIVE-POINTS';
-      payload: { title: string };
-    };
+      type: 'STANDARDS-INIT';
+      payload: Array<{ id: number; title: string; value: number }>;
+    }
+  | { type: 'STANDARDS-CHANGE'; payload: { id: number; value: number } }
+  | {
+      type: 'POSITIVE-POINTS-INIT';
+      payload: Array<{ id: number; title: string; isSelected: boolean }>;
+    }
+  | { type: 'POSITIVE-POINTS-CHANGE'; payload: { id: number } }
+  | {
+      type: 'NEGATIVE-POINTS-INIT';
+      payload: Array<{ id: number; title: string; isSelected: boolean }>;
+    }
+  | { type: 'NEGATIVE-POINTS-CHANGE'; payload: { id: number } };
 
 const initialState: AddComment = {
   star: null,
+  standards: [],
   description: '',
-  standards: [
-    { title: 'وضعیت نظافت', value: 0 },
-    { title: 'موقعیت مکانی و دسترسی', value: 0 },
-    { title: 'امکانات اقامتگاه', value: 0 },
-    { title: 'رعایت پروتکل های بهداشتی', value: 0 },
-    { title: 'خوشرویی و رفتار کارکنان', value: 0 },
-    { title: 'کیفیت غذا و پذیرایی', value: 0 },
-    { title: 'خدمات سرویس دهی', value: 0 },
-  ],
-  positivePoints: [
-    { title: 'وضعیت نظافت', isSelected: false },
-    { title: 'موقعیت مکانی و دسترسی', isSelected: false },
-    { title: 'امکانات اقامتگاه', isSelected: false },
-    { title: 'رعایت پروتکل های بهداشتی', isSelected: false },
-  ],
-  negativePoints: [
-    { title: 'عدم رعایت بهداشت محیط', isSelected: false },
-    { title: 'قطعی برق', isSelected: false },
-    { title: 'بدرفتاری پرسنل هتل', isSelected: false },
-    { title: 'قیمت گران و عدم کیفیت متقابل', isSelected: false },
-    { title: 'عدم رعایت حقوق مهمانان اقامتگاه', isSelected: false },
-  ],
+  positivePoints: [],
+  negativePoints: [],
 };
 
 // --------------------------------------
 
-const authReducer = (
+const CommentReducer = (
   state: AddComment,
   action: AddCommentAction,
 ): AddComment => {
@@ -66,32 +56,50 @@ const authReducer = (
         description: payload.description,
       };
 
-    case 'STANDARDS':
+    case 'STANDARDS-INIT':
+      return {
+        ...state,
+        standards: payload,
+      };
+
+    case 'STANDARDS-CHANGE':
       return {
         ...state,
         standards: state.standards.map((standard) =>
-          standard.title === payload.title
-            ? { title: payload.title, value: payload.value }
+          standard.id === payload.id
+            ? { ...standard, value: payload.value }
             : standard,
         ),
       };
 
-    case 'POSITIVE-POINTS':
+    case 'POSITIVE-POINTS-INIT':
+      return {
+        ...state,
+        positivePoints: payload,
+      };
+
+    case 'POSITIVE-POINTS-CHANGE':
       return {
         ...state,
         positivePoints: state.positivePoints.map((point) =>
-          point.title === payload.title
-            ? { title: payload.title, isSelected: !point.isSelected }
+          point.id === payload.id
+            ? { ...point, isSelected: !point.isSelected }
             : point,
         ),
       };
 
-    case 'NEGATIVE-POINTS':
+    case 'NEGATIVE-POINTS-INIT':
+      return {
+        ...state,
+        negativePoints: payload,
+      };
+
+    case 'NEGATIVE-POINTS-CHANGE':
       return {
         ...state,
         negativePoints: state.negativePoints.map((point) =>
-          point.title === payload.title
-            ? { title: payload.title, isSelected: !point.isSelected }
+          point.id === payload.id
+            ? { ...point, isSelected: !point.isSelected }
             : point,
         ),
       };
@@ -111,7 +119,7 @@ const AddCommentDispatchContext = createContext<
 export const AddCommentProvider = ({
   children,
 }: Readonly<{ children: ReactNode }>) => {
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(CommentReducer, initialState);
 
   return (
     <AddCommentContext.Provider value={state}>

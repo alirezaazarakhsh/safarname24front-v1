@@ -30,7 +30,7 @@ export default function BestHotels() {
 
           <div className="space-y-14 overflow-hidden lg:space-y-20">
             <AmazingHotels amazingHotels={amazingHotels} />
-            <SuggestedHotels suggestedHotels={suggestedHotels} />
+            {/* <SuggestedHotels suggestedHotels={suggestedHotels} /> */}
           </div>
         </div>
 

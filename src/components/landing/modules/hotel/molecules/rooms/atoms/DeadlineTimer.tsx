@@ -9,14 +9,14 @@ export const DeadlineTimer = dynamic(
 );
 
 type Props = {
-  date?: string | number | Date | undefined;
+  date?: string | number | Date;
 };
 
 // -------------------------------------------
 
 export default function ClientDeadlineTimer(props: Props) {
   return (
-    <Countdown date={props.date ?? '2025-03-13'} renderer={DeadlineRenderer} />
+    <Countdown date={props.date ?? '2025-10-20'} renderer={DeadlineRenderer} />
   );
 }
 

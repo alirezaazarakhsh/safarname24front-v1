@@ -1,10 +1,12 @@
 import { Trash } from 'iconsax-react';
-
 import { RoomConfigButton } from './RoomConfigButton';
 import { useSearchContext, useSearchDispatch } from '@/context/SearchContext';
+import { usePassengersContext, usePassengersDispatch } from '@/context';
 
 type Props = {
-  passenger: { id: string; adults: number; children: number };
+  id: string;
+  adults: number;
+  children: number;
 };
 
 const roomNames = ['اول', 'دوم', 'سوم'];
@@ -12,14 +14,10 @@ const roomNames = ['اول', 'دوم', 'سوم'];
 // -----------------------------------
 
 export default function PassengerRoom(props: Props) {
-  const {
-    passenger: { id, adults, children },
-  } = props;
+  const { id, adults, children } = props;
 
-  const {
-    passengers: { rooms },
-  } = useSearchContext();
-  const dispatch = useSearchDispatch();
+  const { rooms } = usePassengersContext();
+  const dispatch = usePassengersDispatch();
 
   return (
     <div className="pb-4 grid gap-4 border-b border-zinc-300 last:pb-0 last:border-none">
@@ -38,8 +36,8 @@ export default function PassengerRoom(props: Props) {
             className="bg-cs-red/10 h-8 px-3.5 flex-center gap-2 rounded-md"
             onClick={() =>
               dispatch({
-                type: 'PASSENGERS',
-                payload: { id, actionType: 'REMOVE' },
+                type: 'remove',
+                payload: id,
               })
             }
           >
@@ -64,11 +62,11 @@ export default function PassengerRoom(props: Props) {
             type="increment"
             onClick={() =>
               dispatch({
-                type: 'PASSENGERS',
+                type: 'edit',
                 payload: {
                   id,
-                  actionType: 'INCREASE',
-                  passengerType: 'ADULTS',
+                  action: 'increase',
+                  property: 'adults',
                 },
               })
             }
@@ -81,11 +79,11 @@ export default function PassengerRoom(props: Props) {
             type="decrement"
             onClick={() =>
               dispatch({
-                type: 'PASSENGERS',
+                type: 'edit',
                 payload: {
                   id,
-                  actionType: 'DECREASE',
-                  passengerType: 'ADULTS',
+                  action: 'decrease',
+                  property: 'adults',
                 },
               })
             }
@@ -106,11 +104,11 @@ export default function PassengerRoom(props: Props) {
             type="increment"
             onClick={() =>
               dispatch({
-                type: 'PASSENGERS',
+                type: 'edit',
                 payload: {
                   id,
-                  actionType: 'INCREASE',
-                  passengerType: 'CHILDREN',
+                  action: 'increase',
+                  property: 'children',
                 },
               })
             }
@@ -125,11 +123,11 @@ export default function PassengerRoom(props: Props) {
             type="decrement"
             onClick={() =>
               dispatch({
-                type: 'PASSENGERS',
+                type: 'edit',
                 payload: {
                   id,
-                  actionType: 'DECREASE',
-                  passengerType: 'CHILDREN',
+                  action: 'decrease',
+                  property: 'children',
                 },
               })
             }

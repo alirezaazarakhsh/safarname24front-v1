@@ -13,7 +13,7 @@
 
 .desktop-calendar .rmdp-header div {
   display: flex;
-  direction: ltr !important;
+  /* direction: ltr !important; */
   justify-content: space-between !important;
 }
 
@@ -36,7 +36,7 @@
 .desktop-calendar .rmdp-day-picker {
   padding: 0;
   gap: 2.5rem !important;
-  direction: rtl !important;
+  /* direction: rtl !important; */
   position: relative !important;
 }
 

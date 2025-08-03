@@ -8,7 +8,9 @@ import TopBarSwiperNavigation from './TopBarSwiperNavigation';
 
 type commonProps = {
   subtitle?: string;
+  maxLength?: number;
   className?: string;
+  arraylength?: number;
   viewAllHref?: string;
   timerDeadline?: string;
   prevClickFunc?: () => void;
@@ -28,6 +30,8 @@ export function TopBarConfig(props: Props) {
     subtitle,
     className,
     viewAllHref,
+    arraylength,
+    maxLength = 4,
     prevClickFunc,
     nextClickFunc,
     timerDeadline,
@@ -35,10 +39,7 @@ export function TopBarConfig(props: Props) {
 
   return (
     <div
-      className={cn(
-        'mb-4 ml-5 flex-between items-center lg:mb-6 lg:ml-0',
-        className,
-      )}
+      className={cn('mb-4 ml-5 flex-between items-center lg:ml-0', className)}
     >
       {/* Title | Subtitle */}
       <div className="space-y-1.5">
@@ -76,10 +77,12 @@ export function TopBarConfig(props: Props) {
               </Link>
             )}
 
-            <TopBarSwiperNavigation
-              prevClickFunc={prevClickFunc}
-              nextClickFunc={nextClickFunc}
-            />
+            {arraylength && maxLength && arraylength > maxLength && (
+              <TopBarSwiperNavigation
+                prevClickFunc={prevClickFunc}
+                nextClickFunc={nextClickFunc}
+              />
+            )}
           </div>
         )}
       </div>

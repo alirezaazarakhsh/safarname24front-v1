@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useSearchContext } from '@/context/SearchContext';
+import { useDatePickerContext } from '@/context';
 
 type Props = {
   type?: 'home' | 'else';
@@ -10,27 +10,14 @@ type Props = {
 export default function NumberOfNights(props: Props) {
   const { type } = props;
 
-  const {
-    date: { values, confirmedDate },
-  } = useSearchContext();
+  const { confirmedValue } = useDatePickerContext();
 
   const numberOfNights = useMemo(() => {
-    if (!type) {
-      const confirmedCheck =
-        confirmedDate && confirmedDate[0] && confirmedDate[1];
+    const confirmedCheck = confirmedValue?.[0] && confirmedValue?.[1];
+    if (!confirmedCheck) return 0;
 
-      if (!confirmedCheck) return 0;
-      return (confirmedDate[1].unix - confirmedDate[0].unix) / 86400;
-    }
-
-    // -----
-    else {
-      const valuesCheck = values && values[0] && values[1];
-
-      if (!valuesCheck) return 0;
-      return (values[1].unix - values[0].unix) / 86400;
-    }
-  }, [type, values, confirmedDate]);
+    return (confirmedValue[1].unix - confirmedValue[0].unix) / 86400;
+  }, [type, confirmedValue]);
 
   return (
     <>

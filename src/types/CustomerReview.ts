@@ -13,22 +13,20 @@ type HomeCustomerReview = {
 // ============================
 
 type HotelReviewsAverage = {
-  rate: number;
-  comment: string;
-  standards: Array<{ title: string; value: number }>;
+  average_score: number;
+  items: Array<{ title: string; average: number }>;
 };
 
 type HotelCustomerReview = {
-  avatar: string;
-  fullname: string;
-  date: string;
-  time: string;
-  rate: number;
-  comment: string;
-  points: {
-    positive: string[];
-    negative: string[];
-  };
+  text: string;
+  stars: number;
+  last_name: string;
+  user_image: string;
+  first_name: string;
+  created_date: string;
+  created_time: string;
+  strengths: { title: string; is_positive: boolean; is_negative: boolean }[];
+  weaknesses: { title: string; is_positive: boolean; is_negative: boolean }[];
 };
 
 // -----------------------------

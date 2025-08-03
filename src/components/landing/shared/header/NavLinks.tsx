@@ -24,7 +24,7 @@ export default function NavLinks() {
   return (
     <nav className="flex-center">
       {status === 'pending' ? (
-        <div className="flex-center gap-5">
+        <div className="flex-center gap-4">
           {Array(5)
             .fill(null)
             .map((_, index) => (

@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import Link from 'next/link';
 import { useMediaQuery } from '@/hooks';
-import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import NavigationBarItem from './NavigationBarItem';
 import { useUserAccountContext } from '@/context/UserAccountContext';
@@ -99,10 +98,7 @@ export function NavigationBar() {
         )}
       </AnimatePresence>
 
-      {/* User-Profile Content */}
-      {userIsLoggedIn && (
-        <UserProfile isOpen={userAccountIsOpen} setOpen={setUserAccountOpen} />
-      )}
+
     </>
   );
 }

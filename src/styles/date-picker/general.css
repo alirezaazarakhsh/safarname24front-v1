@@ -6,7 +6,7 @@
   border: none !important;
   box-shadow: none !important;
   border-radius: 0 !important;
-  min-height: 22rem !important;
+  min-height: 20rem !important;
   user-select: none !important;
   position: relative !important;
 }
@@ -32,6 +32,15 @@
   justify-content: center;
   width: fit-content !important;
   flex-direction: row-reverse !important;
+}
+
+.general-calendar .rmdp-arrow-container .rmdp-arrow {
+  border-color: black !important;
+  margin-top: 0 !important;
+}
+
+.general-calendar .rmdp-arrow-container:hover {
+  box-shadow: none !important;
 }
 
 /* ========= Day-Picker */

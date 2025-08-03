@@ -21,7 +21,7 @@ type ApiResponse = {
 export function AdvertisingBanners() {
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['config-banners'],
-    queryFn: () => generalInstance('/config/banners?page=1'),
+    queryFn: () => generalInstance('/config/banners?path=/'),
   });
 
   if (status !== 'pending' && !data?.data?.banners?.length) return null;

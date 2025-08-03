@@ -3,8 +3,6 @@
 import { useState } from 'react';
 
 import { useMediaQuery } from '@/hooks';
-import { useAddCommentContext } from '@/context/AddCommentContext';
-
 import AddCommentChildren from './AddCommentChildren';
 import useControlBodyOverflow from '@/hooks/useControlBodyOverflow';
 
@@ -17,6 +15,7 @@ import {
 
 type Props = {
   isOpen: boolean;
+  hotelSlug: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -25,9 +24,7 @@ type CommentType = 'rating' | 'desc';
 // --------------------------------------
 
 export default function AddCommentWrapper(props: Props) {
-  const { isOpen, setOpen } = props;
-
-  const {} = useAddCommentContext();
+  const { isOpen, setOpen, hotelSlug } = props;
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const [commentType, setCommentType] = useState<CommentType>('rating');
@@ -43,6 +40,7 @@ export default function AddCommentWrapper(props: Props) {
           className={`fixed z-40 inset-0 bg-[#f8f8f8] w-full h-dvh px-6 grid grid-rows-[9rem_1fr_6.5rem] transition-all duration-500 ease-in-out ${isOpen ? 'visible translate-x-0' : 'invisible translate-x-full'}`}
         >
           <AddCommentChildren
+            hotelSlug={hotelSlug}
             commentType={commentType}
             setCommentType={setCommentType}
             closeDialog={() => setOpen(false)}
@@ -54,7 +52,9 @@ export default function AddCommentWrapper(props: Props) {
           <DialogContent className="bg-[#f8f8f8] h-[33rem] p-7 flex flex-col gap-6">
             <DialogTitle className="hidden"></DialogTitle>
             <DialogDescription className="hidden"></DialogDescription>
+
             <AddCommentChildren
+              hotelSlug={hotelSlug}
               commentType={commentType}
               setCommentType={setCommentType}
               closeDialog={() => setOpen(false)}

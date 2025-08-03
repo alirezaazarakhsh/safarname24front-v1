@@ -1,17 +1,36 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
+
 import { TopBarConfig } from '../../shared';
+import { generalInstance } from '@/utils/services';
+import { Skeleton } from '@/components/ui/skeleton';
+
+type Data = {
+  further_description: string;
+};
+
+type ApiResponse = {
+  data: Data;
+};
 
 type Props = {
-  details: string;
+  hotelSlug: string;
 };
 
 // -----------------------------------------
 
 export function AdditionalDetails(props: Props) {
-  const { details } = props;
+  const { hotelSlug } = props;
 
-  if (!details) return null;
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['hotel-further-description'],
+    queryFn: () =>
+      generalInstance(`/hotel/hotels/${hotelSlug}/further-description`),
+  });
+
+  const description = data?.data.further_description;
+  if (status !== 'pending' && (!data || !data?.data)) return null;
 
   return (
     <div id="additional-detail">
@@ -20,9 +39,29 @@ export function AdditionalDetails(props: Props) {
         title={{ type: 'single', text: 'توضیحات تکمیلی' }}
       />
 
-      <p className="text-zinc-600 text-cs08/6 text-justify font-semibold overflow-hidden lg:text-cs85/7">
-        {details}
-      </p>
+      {status === 'pending' ? (
+        <>
+          <div className="grid gap-2 lg:hidden">
+            {Array(5)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton key={index} className="h-6" />
+              ))}
+          </div>
+
+          <div className="hidden gap-2 lg:grid">
+            {Array(3)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton key={index} className="h-6" />
+              ))}
+          </div>
+        </>
+      ) : (
+        <p className="text-zinc-600 text-cs08/6 text-justify font-semibold overflow-hidden lg:text-cs85/7">
+          {description}
+        </p>
+      )}
     </div>
   );
 }

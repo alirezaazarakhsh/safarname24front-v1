@@ -1,21 +1,32 @@
 'use client';
 
-import { ComingSoon } from '@/components/landing/modules/coming-soon';
-import { generalInstance } from '@/utils/services';
-import { SearchProvider } from '@/context/SearchContext';
-import { UserAccountProvider } from '@/context/UserAccountContext';
-import { Suspense, useEffect, useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  DatePickerProvider,
+  PassengersProvider,
+  SearchSettingProvider,
+} from '@/context';
+
 import AuthHandler from './AuthHandler';
+import { generalInstance } from '@/utils/services';
+import { Suspense, useEffect, useState } from 'react';
+import { SearchProvider } from '@/context/SearchContext';
+
+import { UserAccountProvider } from '@/context/UserAccountContext';
+import { ComingSoon } from '@/components/landing/modules/coming-soon';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+type ApiResponse = {
+  data: { data: { is_active: boolean } };
+};
 
 type Props = {
   children: React.ReactNode;
 };
 
-const queryClient = new QueryClient();
+// ------------------------------
 
 export default function MainWrapper(props: Props) {
-  const [comingSoonIsActive, setActive] = useState(false);
+  const [isActive, setActive] = useState(false);
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -26,33 +37,38 @@ export default function MainWrapper(props: Props) {
     },
   });
 
-  // Fetching ComingSoon-Data for Activate
+  // === Check Activate-Status
   useEffect(() => {
-    async function fetchData() {
+    (async () => {
       try {
-        const response: any = await generalInstance('/config/coming-soon');
-
+        const response: ApiResponse = await generalInstance(
+          '/config/coming-soon',
+        );
         setActive(response?.data.data.is_active);
       } catch (error) {
         console.error(error);
       }
-    }
-
-    fetchData();
+    })();
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      {comingSoonIsActive ? (
+      {isActive ? (
         <ComingSoon />
       ) : (
         <UserAccountProvider>
-          <SearchProvider>
-            <Suspense fallback={null}>
-              <AuthHandler />
-            </Suspense>
-            {props.children}
-          </SearchProvider>
+          <SearchSettingProvider>
+            <DatePickerProvider>
+              <PassengersProvider>
+                <SearchProvider>
+                  <Suspense fallback={null}>
+                    <AuthHandler />
+                  </Suspense>
+                  {props.children}
+                </SearchProvider>
+              </PassengersProvider>
+            </DatePickerProvider>
+          </SearchSettingProvider>
         </UserAccountProvider>
       )}
     </QueryClientProvider>

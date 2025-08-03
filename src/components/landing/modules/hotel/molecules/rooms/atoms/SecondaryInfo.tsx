@@ -52,8 +52,8 @@ export default function InfoItem(props: InfoItemProps) {
   return (
     <div className="flex items-center gap-2.5">
       <IconsaxIcons
-        name={info!.icon}
         size={20}
+        name={info!.icon}
         className="shrink-0"
         color="currentColor"
         variant="Outline"

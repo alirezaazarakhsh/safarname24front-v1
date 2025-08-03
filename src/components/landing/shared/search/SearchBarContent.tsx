@@ -3,13 +3,13 @@ import { ArrowRight } from 'iconsax-react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useMediaQuery } from '@/hooks';
-import { useSearchContext } from '@/context/SearchContext';
+import { useSearchContext } from '@/context';
 import { Sheet, SheetTitle, SheetContent } from '@/components/ui/sheet';
 
+import DatePicker from './date-picker/MDatePicker';
 import NumberOfNights from './molecules/NumberOfNights';
-import Passengers from './molecules/passengers/Passengers';
+import Passengers from './passengers/Passengers';
 import CityOrHotel from './molecules/city-hotel/CityOrHotel';
-import DatePicker from './molecules/date-picker/MDatePicker';
 
 type Props = {
   isOpen: boolean;
@@ -22,32 +22,34 @@ export default function SearchBarContent(props: Props) {
   const { isOpen, setDialogClose } = props;
 
   const [error, setError] = useState(false);
+  const { triggerMobileSearch } = useSearchContext();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
-  const { date, cityOrHotel, passengers } = useSearchContext();
+  // const { date, cityOrHotel, passengers } = useSearchContext();
 
-  const valuesCheck = useMemo(() => {
-    return (
-      date.confirmedDate &&
-      cityOrHotel.confirmedValues.city &&
-      passengers.confirmedPeople.passengers
-    );
-  }, [date, cityOrHotel, passengers]);
+  // const valuesCheck = useMemo(() => {
+  //   return (
+  //     date.confirmedDate &&
+  //     cityOrHotel.confirmedValues.city &&
+  //     passengers.confirmedPeople.passengers
+  //   );
+  // }, [date, cityOrHotel, passengers]);
 
   // === Handling Error Based-On-Values
-  useEffect(() => {
-    if (valuesCheck) setError(false);
-  }, [valuesCheck]);
+  // useEffect(() => {
+  //   if (valuesCheck) setError(false);
+  // }, [valuesCheck]);
 
   function handleSearchOperation() {
-    if (valuesCheck) {
-      setDialogClose();
-      return;
-    }
+    // if (valuesCheck) {
+    //   return;
+    // }
 
-    setError(true);
+    triggerMobileSearch()
+    setDialogClose();
+    // setError(true);
   }
 
-  if (isDesktop) return null;
+  // if (isDesktop) return null;
 
   return (
     <Sheet open={isOpen}>
@@ -63,8 +65,8 @@ export default function SearchBarContent(props: Props) {
               fill
               alt="logo"
               sizes="100%"
-              src="/image/logo/red.png"
               className="object-contain"
+              src="/image/logo/red-gray.png"
             />
           </div>
 
@@ -84,28 +86,6 @@ export default function SearchBarContent(props: Props) {
           <Passengers />
           <NumberOfNights />
         </div>
-
-        {/* === History */}
-        {/* <div>
-          <div className="font-semibold flex-between items-center mt-8 mb-4">
-            <span className="text-cs85">جستجو های اخیر</span>
-
-            <button className="bg-cs-red/10 text-cs-red text-cs75 px-4 py-1.5 rounded-md">
-              پاک کردن
-            </button>
-          </div>
-
-          <div className="space-y-2">
-            {[1, 2, 3].map((history) => (
-              <div
-                key={history}
-                className="bg-zinc-100 text-zinc-600 text-cs08 font-semibold h-10 px-4 flex items-center border border-zinc-200 rounded-md"
-              >
-                تهران - هتل پارسیان آزادی
-              </div>
-            ))}
-          </div>
-        </div> */}
 
         {/* === Submit */}
         <button

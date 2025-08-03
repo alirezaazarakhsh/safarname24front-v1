@@ -3,23 +3,25 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Swiper as SwiperType } from 'swiper/types';
-
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
+
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper/types';
 
 import { TopBarConfig } from '../../shared';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type Data = {
+  id: number;
   name: string;
+  slug: string;
   image: string;
   province: string;
-  numberOfResidence: number;
+  hotels_number: number;
 };
 
 type ApiResponse = {
@@ -41,6 +43,8 @@ export function MostVisitedCities() {
   return (
     <div className="-ml-5 lg:ml-0">
       <TopBarConfig
+        maxLength={6}
+        arraylength={data?.data.length}
         subtitle="شهر های پر بازدید ایران رو از دست نده !"
         prevClickFunc={() => swiperRef.current?.slidePrev()}
         nextClickFunc={() => swiperRef.current?.slideNext()}
@@ -93,7 +97,7 @@ export function MostVisitedCities() {
 
                 {/* Number of residence */}
                 <div className="absolute top-3.5 right-3.5 bg-zinc-100 h-6 px-3 text-zinc-800 text-cs07 font-bold pt-1 flex-center gap-1 opacity-100 rounded-md transition-all duration-200 ease-in-out md:top-0 md:opacity-0 md:group-hover:opacity-100 md:group-hover:top-3 xl:h-7 xl:text-cs75">
-                  <span>{city.numberOfResidence ?? 23}</span>
+                  <span>{city.hotels_number ?? 23}</span>
                   <span>اقامتگاه</span>
                 </div>
 

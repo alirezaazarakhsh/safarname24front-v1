@@ -1,21 +1,36 @@
-import { ArrowRight } from 'iconsax-react';
-
-import { IoClose } from 'react-icons/io5';
 import {
+  Rating,
+  StarPoint,
   Description,
   NegativePoints,
   PositivePoints,
-  Rating,
-  StarPoint,
 } from './content';
 
+import { IoClose } from 'react-icons/io5';
+import { ArrowRight } from 'iconsax-react';
+import { useEffect, useState } from 'react';
+import { axiosInstance } from '@/utils/axios';
+
+import { useAddCommentContext } from '@/context/AddCommentContext';
+import SendTicketReaction from '../../../contact-us/molecules/SendTicketReaction';
+
 type Props = {
+  hotelSlug: string;
   closeDialog: () => void;
   commentType: CommentType;
   setCommentType: (value: CommentType) => void;
 };
 
+type Form = {
+  text: string;
+  stars: number;
+  strength_ids: number[];
+  weakness_ids: number[];
+  suggested_items_with_rating: { id: number; rating: number }[];
+};
+
 type CommentType = 'rating' | 'desc';
+type ReactionType = 'success' | 'fail';
 
 const switchCaseButton =
   'w-1/2 flex-center rounded-md transition-colors duration-300 ease-in-out';
@@ -23,10 +38,68 @@ const switchCaseButton =
 // --------------------------------------
 
 export default function AddCommentChildren(props: Props) {
-  const { closeDialog, commentType, setCommentType } = props;
+  const { closeDialog, commentType, setCommentType, hotelSlug } = props;
+
+  const [reactionOpen, setReactionOpen] = useState(false);
+  const [reactionType, setReactionType] = useState<ReactionType>('success');
+
+  const [formIsValid, setFormValid] = useState(false);
+  const { star, description, negativePoints, positivePoints, standards } =
+    useAddCommentContext();
+
+  useEffect(() => {
+    star && description ? setFormValid(true) : setFormValid(false);
+  }, [star, description]);
+
+  function handleSetReaction(type: 'success' | 'fail', isOpen: boolean) {
+    setReactionType(type);
+    setReactionOpen(isOpen);
+  }
+
+  async function sendComment() {
+    const stopCondition = !star || !description;
+    if (stopCondition) return;
+
+    const formData = {
+      stars: star,
+      text: description,
+      strength_ids: positivePoints
+        .filter((item) => item.isSelected)
+        .map(({ id }) => id),
+      weakness_ids: negativePoints
+        .filter((item) => item.isSelected)
+        .map(({ id }) => id),
+      suggested_items_with_rating: standards.map(({ id, value }) => ({
+        suggested_item_id: id,
+        rating: value,
+      })),
+    };
+
+    try {
+      await axiosInstance({
+        url: `/hotel/hotels/${hotelSlug}/comments/create/`,
+        method: 'post',
+        data: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      handleSetReaction('success', true);
+    } catch (error) {
+      console.error(error);
+      handleSetReaction('fail', true);
+    }
+  }
 
   return (
     <>
+      <SendTicketReaction
+        isOpen={reactionOpen}
+        setOpen={setReactionOpen}
+        reactionType={reactionType}
+      />
+
       {/* Navbar | Switch-Case */}
       <div className="flex flex-col justify-center gap-y-6">
         <div className="flex items-center gap-4 md:justify-between md:flex-row-reverse">
@@ -83,7 +156,9 @@ export default function AddCommentChildren(props: Props) {
       {/* Submit */}
       <div className="flex items-center">
         <button
-          className={`w-full h-12 text-cs09 font-semibold rounded-cs-10 transition-all duration-300 ease-in-out ${true ? 'bg-cs-blue text-white' : 'bg-zinc-200 text-zinc-600'}`}
+          onClick={sendComment}
+          disabled={!formIsValid}
+          className={`w-full h-12 text-cs09 font-semibold rounded-cs-10 transition-all duration-300 ease-in-out ${formIsValid ? 'bg-cs-blue text-white' : 'bg-zinc-200 text-zinc-600'}`}
         >
           ثبت دیدگاه
         </button>

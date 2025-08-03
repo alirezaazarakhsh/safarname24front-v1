@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Sheet,
+  SheetTitle,
+  SheetClose,
+  SheetTrigger,
+  SheetContent,
+} from '@/components/ui/sheet';
+
 import 'swiper/css';
 import '@/styles/swiper.css';
 import 'swiper/css/navigation';
@@ -9,36 +17,39 @@ import Image from 'next/image';
 import { useMediaQuery } from '@/hooks';
 import { useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
+import { useQuery } from '@tanstack/react-query';
 
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 
-import {
-  Sheet,
-  SheetTitle,
-  SheetClose,
-  SheetTrigger,
-  SheetContent,
-} from '@/components/ui/sheet';
+import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+
+type Data = {
+  title: string;
+  images: { image: string }[];
+};
+
+type ApiResponse = { data: Data[] };
 
 type Props = {
-  city?: string;
-  hotelName?: string;
-  gallery: { title: string; pictures: string[] }[];
+  hotelSlug: string;
 };
 
 // ---------------------------------------
 
 export default function MImageGallery(props: Props) {
-  const { hotelName, city, gallery } = props;
-
   const swiperRef = useRef<SwiperType>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [categoryIndex, setCategoryIndex] = useState(0);
 
+  const { data, status } = useQuery<ApiResponse>({
+    queryKey: ['hotel-gallery'],
+    queryFn: () => generalInstance(`/hotel/hotels/${props.hotelSlug}/gallery`),
+  });
+
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  if (isDesktop) return null;
+  if (isDesktop || isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <Sheet>
@@ -56,13 +67,13 @@ export default function MImageGallery(props: Props) {
         {/* === Hotel-Name & City | Image-Number | Close */}
         <div className="flex-between items-start gap-4">
           <div className="grid gap-2">
-            {hotelName && city && (
+            {/* {hotelName && city && (
               <p className="text-[clamp(0.85rem,2vw,0.95rem)] font-bold flex items-center gap-1">
                 <span>هتل</span>
                 <span>{hotelName}</span>
                 <span>{city}</span>
               </p>
-            )}
+            )} */}
 
             <p className="text-zinc-300 text-cs08 font-medium flex items-center gap-0.5">
               <span>تصویر</span>
@@ -71,7 +82,7 @@ export default function MImageGallery(props: Props) {
               </span>
               <span>از</span>
               <span className="w-3 inline-block text-center">
-                {gallery[categoryIndex].pictures.length}
+                {data?.data[categoryIndex].images.length}
               </span>
             </p>
           </div>
@@ -84,7 +95,7 @@ export default function MImageGallery(props: Props) {
         {/* === Category-Pictures | Category-Title */}
         <div className="-mx-6 flex flex-col items-center gap-6 overflow-hidden">
           <span className="bg-[#181818] text-[clamp(0.8rem,2vw,0.85rem)] w-fit font-medium px-6 py-3 rounded-lg">
-            {gallery[categoryIndex].title}
+            {data?.data[categoryIndex].title}
           </span>
 
           <Swiper
@@ -96,14 +107,14 @@ export default function MImageGallery(props: Props) {
             pagination={{ clickable: true, dynamicBullets: true }}
             onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
           >
-            {gallery[categoryIndex].pictures?.map((picture, index) => (
+            {data?.data[categoryIndex].images?.map((image, index) => (
               <SwiperSlide key={index} className="bg-zinc-600 select-none">
-                {picture && (
+                {image.image && (
                   <Image
                     width={800}
                     height={600}
-                    src={picture}
                     alt="hotel-view"
+                    src={image.image}
                     className="full-size object-cover"
                   />
                 )}
@@ -121,7 +132,7 @@ export default function MImageGallery(props: Props) {
             slidesOffsetBefore={22}
             className="full-size"
           >
-            {gallery?.map((picture, index) => (
+            {data?.data?.map((picture, index) => (
               <SwiperSlide
                 key={index}
                 onClick={() => {
@@ -134,12 +145,12 @@ export default function MImageGallery(props: Props) {
                     : 'border-transparent'
                 }`}
               >
-                {picture.pictures[0] && (
+                {picture.images[0].image && (
                   <Image
                     width={300}
                     height={200}
                     alt="hotel-view"
-                    src={picture.pictures[0]}
+                    src={picture.images[0].image}
                     className="full-size object-cover"
                   />
                 )}

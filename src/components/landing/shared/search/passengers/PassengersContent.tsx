@@ -1,9 +1,10 @@
+'use client';
+
 import { useMemo } from 'react';
 import { Plus } from 'lucide-react';
 
-import { useMediaQuery } from '@/hooks';
 import PassengerRoom from './PassengerRoom';
-import { useSearchContext, useSearchDispatch } from '@/context/SearchContext';
+import { usePassengersContext, usePassengersDispatch } from '@/context';
 
 type Props = {
   handleClose: () => void;
@@ -15,6 +16,7 @@ type Passengers = Array<{
   children: number;
 }>;
 
+const MAX_ROOM = 3;
 function calculateTotalPeople(passengers: Passengers) {
   return passengers.reduce((total, passenger) => {
     return total + passenger.adults + passenger.children;
@@ -26,15 +28,9 @@ function calculateTotalPeople(passengers: Passengers) {
 export default function PassengersContent(props: Props) {
   const { handleClose } = props;
 
-  const {
-    passengers: { rooms },
-  } = useSearchContext();
-  const dispatch = useSearchDispatch();
+  const { rooms } = usePassengersContext();
+  const dispatch = usePassengersDispatch();
 
-  const MAX_ROOM = 3;
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
-
-  // === Calculate Total-Passengers
   const totalPeople = useMemo(() => {
     return calculateTotalPeople(rooms);
   }, [rooms]);
@@ -42,20 +38,12 @@ export default function PassengersContent(props: Props) {
   return (
     <>
       {/* === Rooms */}
-      {/* <div
-        className={`h-[8.5rem] grid gap-4 overflow-auto custom-scrollbar transition-all lg:h-fit lg:max-h-[19.3rem] ${(isDesktop && rooms.length > 2) || (!isDesktop && rooms.length > 1) ? 'pl-3' : ''}`}
-      >
-        {rooms.map((passenger) => (
-          <PassengerRoom key={passenger.id} passenger={passenger} />
-        ))}
-      </div> */}
-
       <div
         dir="rtl"
         className="h-[8.5rem] grid gap-4 overflow-auto transition-all lg:h-fit lg:max-h-[19.3rem]"
       >
         {rooms.map((passenger) => (
-          <PassengerRoom key={passenger.id} passenger={passenger} />
+          <PassengerRoom key={passenger.id} {...passenger} />
         ))}
       </div>
 
@@ -63,9 +51,7 @@ export default function PassengersContent(props: Props) {
       <button
         disabled={rooms.length >= MAX_ROOM}
         className="w-fit mt-4 ml-auto flex items-center gap-1.5 disabled:opacity-50"
-        onClick={() =>
-          dispatch({ type: 'PASSENGERS', payload: { actionType: 'ADD' } })
-        }
+        onClick={() => dispatch({ type: 'add' })}
       >
         <Plus color="#222" size={16} />
         <span className="text-zinc-800 text-cs85 font-bold lg:text-cs08">
@@ -81,9 +67,8 @@ export default function PassengersContent(props: Props) {
         onClick={() => {
           handleClose();
           dispatch({
-            type: 'PASSENGERS',
+            type: 'confirmed-passengers',
             payload: {
-              actionType: 'CONFIRMED-PASSENGERS',
               rooms: rooms.length,
               passengers: totalPeople,
             },

@@ -1,7 +1,6 @@
-import { useRef } from 'react';
-
+import { useEffect, useRef, useState } from 'react';
 import { useScrollPosition } from '@/hooks';
-import { useSearchContext } from '@/context/SearchContext';
+import { usePassengersContext } from '@/context';
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 type CommonProps = {
@@ -24,12 +23,15 @@ type Props =
 export default function PassengersTrigger(props: Props) {
   const { type, isOpen, handleSetOpen, scrollBehavior } = props;
 
-  const {
-    passengers: { confirmedPeople },
-  } = useSearchContext();
-
   const scrollPosition = useScrollPosition();
+  const [isMounted, setIsMounted] = useState(false);
+
   const delayRef = useRef<NodeJS.Timeout | null>(null);
+  const { confirmedPassengers } = usePassengersContext();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // === Handle Trigger-OnClick
   function handleDropDownTrigger(e: React.PointerEvent) {
@@ -51,7 +53,7 @@ export default function PassengersTrigger(props: Props) {
   }
 
   return (
-    <DropdownMenuTrigger asChild>
+    <DropdownMenuTrigger asChild className="w-full">
       <button onPointerDown={(e) => handleDropDownTrigger(e)}>
         {type === 'home' ? (
           <div className="flex flex-col items-start gap-y-2">
@@ -59,19 +61,19 @@ export default function PassengersTrigger(props: Props) {
               مسافران
             </span>
 
-            {confirmedPeople.passengers ? (
+            {/* {confirmedPassengers.passengers ? (
               <div className="text-zinc-500 text-cs08 font-semibold flex-center gap-0.5">
-                <span>{confirmedPeople.passengers}</span>
+                <span>{confirmedPassengers.passengers}</span>
                 <span>مسافر</span>
                 <span>,</span>
-                <span>{confirmedPeople.rooms}</span>
+                <span>{confirmedPassengers.rooms}</span>
                 <span>اتاق</span>
               </div>
             ) : (
               <span className="text-zinc-500 text-cs08 font-semibold">
                 تعداد مسافر و اتاق
               </span>
-            )}
+            )} */}
           </div>
         ) : (
           <div className="text-cs08 flex flex-col items-start gap-y-3">
@@ -80,12 +82,12 @@ export default function PassengersTrigger(props: Props) {
             </span>
 
             <div className="bg-zinc-200/50 w-full h-12 font-semibold px-4 flex items-center rounded-lg">
-              {confirmedPeople.passengers ? (
+              {isMounted || !confirmedPassengers.passengers ? (
                 <div className="text-zinc-700 flex-center gap-0.5">
-                  <span>{confirmedPeople.passengers}</span>
+                  <span>{confirmedPassengers.passengers}</span>
                   <span>مسافر</span>
                   <span>,</span>
-                  <span>{confirmedPeople.rooms}</span>
+                  <span>{confirmedPassengers.rooms}</span>
                   <span>اتاق</span>
                 </div>
               ) : (
