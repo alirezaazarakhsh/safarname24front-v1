@@ -6,7 +6,7 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Label } from '@/components/ui/label';
 import { InputAndLabelPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 // Creating and exporting InputAndLabel component as default
 export default function InputAndLabel({
@@ -19,11 +19,20 @@ export default function InputAndLabel({
   isValid = false,
   validationType = 'text',
   type,
+  value,
+  onChange,
+  disabled,
   ...props
 }: InputAndLabelPropsType): ReactNode {
+  // Defining hooks
+  const [valueState, setValueState] = useState(value);
+
   // Returning JSX
   return (
-    <div className='w-full'>
+    <div
+      data-disabled={disabled}
+      className="w-full transition-all duration-500 data-[disabled='true']:opacity-50"
+    >
       {label && (
         <Label
           className={cn(
@@ -36,51 +45,68 @@ export default function InputAndLabel({
         </Label>
       )}
       {validation ? (
-        <div className='flex items-center justify-between gap-3 border border-black/10 rounded-lg overflow-hidden p-3 h-[50px]'>
+        <div className="flex items-center justify-between gap-3 border border-black/10 rounded-lg overflow-hidden">
           <input
             id={id}
             placeholder={placeholder}
             data-errored={error !== undefined}
+            value={valueState}
+            onChange={(e) => {
+              onChange && onChange(e);
+              setValueState(e.currentTarget.value);
+            }}
             className={cn(
-              'w-full block outline-0 border-0 bg-white text-xs font-normal placeholder:text-xs data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red transition-all duration-500',
+              'w-full block outline-0 border-0 h-[50px] pr-3  text-xs font-normal placeholder:text-xs data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red transition-all duration-500',
               className,
             )}
+            disabled={disabled}
             {...props}
           />
-          {validationType === 'text' ? (
-            <div
-              className={cn(
-                'rounded-md px-5 py-1.5 flex items-center justify-center shrink-0 transition-all duration-500',
-                isValid
-                  ? 'bg-green-100 text-green-500'
-                  : error
-                    ? 'bg-cs-red/10 text-cs-red'
-                    : 'bg-gray-100 text-black/50',
-              )}
-            >
-              <span className='text-xs font-normal text-current'>
-                {error ? 'اشتباه است' : validation}
-              </span>
-            </div>
-          ) : (
-            <div
-              className={
-                'w-[30px] h-[30px] shrink-0 transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100 text-black/50'
-              }
-            >
-              <IconsaxIcons
-                color={'currentColor'}
-                name={isValid ? 'TickSquare' : 'CloseSquare'}
-                className='w-[15px] h-[15px]'
-              />
-            </div>
-          )}
+          <div className="pl-3">
+            {validationType === 'text' ? (
+              <div
+                className={cn(
+                  'rounded-md px-5 py-1.5 flex items-center justify-center shrink-0 transition-all duration-500',
+                  isValid
+                    ? 'bg-green-100 text-green-500'
+                    : error
+                      ? 'bg-cs-red/10 text-cs-red'
+                      : 'bg-gray-100 text-black/50',
+                )}
+              >
+                <span className="text-xs font-normal text-current">
+                  {error ? 'اشتباه است' : validation}
+                </span>
+              </div>
+            ) : (
+              <button
+                disabled={!isValid}
+                onClick={() => {
+                  if (isValid) {
+                    setValueState('');
+                  }
+                }}
+                className={
+                  'w-[30px] h-[30px] shrink-0 transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100 text-black/50 cursor-pointer'
+                }
+              >
+                <IconsaxIcons
+                  color={'currentColor'}
+                  name={!isValid ? 'TickSquare' : 'CloseSquare'}
+                  className="w-[15px] h-[15px]"
+                />
+              </button>
+            )}
+          </div>
         </div>
       ) : (
         <input
           id={id}
           placeholder={placeholder}
           data-errored={error !== undefined}
+          value={value}
+          onChange={onChange}
+          disabled
           className={cn(
             'w-full block outline-0 transition-all duration-500 bg-white font-normal placeholder:text-xs text-xs border border-black/10  rounded-lg overflow-hidden p-3 h-[50px] data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red',
             className,

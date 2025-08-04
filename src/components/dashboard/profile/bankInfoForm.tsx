@@ -20,7 +20,7 @@ import { personalFormType } from '@/app/dashboard/profile/page';
 import { BankInfo } from '@/types/utils';
 import { getBankFromCard } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
-import CreditCardInput from './creditCardInput';
+import InputAndLabel from '../financialCartToCart/inputAndLabel';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -165,26 +165,22 @@ export default function BankInfoForm({
           {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
         </button>
         <div className="flex flex-col lg:gap-5 gap-[16px]">
-          <CreditCardInput
-            type="number"
+          <InputAndLabel
+            validationType="icon"
             isValid={!form.getFieldState('creditCard').invalid}
             validation="creditCardNumberValidation"
             placeholder="16 رقم شماره کارت را وارد نمایید"
             error={form.formState.errors.creditCard?.message}
-            position="left"
-            dropdownClassName="lg:h-[190px] h-[200px]"
-            setValue={(val) => form.setValue('creditCard', val)}
+            autoComplete="off"
             {...form.register('creditCard')}
           />
-          <CreditCardInput
-            type="shaba"
+          <InputAndLabel
+            validationType="icon"
             isValid={!form.getFieldState('shabaNumber').invalid}
             validation="shabaNumberValidation"
             placeholder="24 رقم شماره شبا کارت را وارد نمایید"
             error={form.formState.errors.shabaNumber?.message}
-            position="left"
-            dropdownClassName="lg:h-[120px] h-[200px]"
-            setValue={(val) => form.setValue('shabaNumber', val)}
+            autoComplete="off"
             {...form.register('shabaNumber')}
           />
           <NormalInput

@@ -19,8 +19,8 @@ import { legalFormType } from '@/app/dashboard/profile/page';
 import { getBankFromCard } from '@/utils/string';
 import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
-import CreditCardInput from '../creditCardInput';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import InputAndLabel from '../../financialCartToCart/inputAndLabel';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
@@ -246,15 +246,14 @@ export default function LegalBankInfo({
             </p>
           </div>
         </button>
-        <CreditCardInput
-          type="number"
+        <InputAndLabel
+          validationType="icon"
           isValid={!form.getFieldState('creditCard').invalid}
           validation="creditCardNumberValidation"
           placeholder="16 رقم شماره کارت را وارد نمایید"
           error={form.formState.errors.creditCard?.message}
-          position="left"
-          dropdownClassName="lg:h-[190px] h-[200px]"
-          setValue={(val) => form.setValue('creditCard', val)}
+          autoComplete="off"
+          disabled={loading}
           {...form.register('creditCard')}
         />
         <div
@@ -277,18 +276,16 @@ export default function LegalBankInfo({
             </p>
           </div>
         </div>
-        <CreditCardInput
-          type="shaba"
+        <InputAndLabel
+          validationType="icon"
           isValid={!form.getFieldState('shabaNumber').invalid}
           validation="shabaNumberValidation"
           placeholder="24 رقم شماره شبا کارت را وارد نمایید"
           error={form.formState.errors.shabaNumber?.message}
-          position="left"
-          dropdownClassName="lg:h-[120px] h-[200px]"
-          setValue={(val) => form.setValue('shabaNumber', val)}
+          autoComplete="off"
+          disabled={loading}
           {...form.register('shabaNumber')}
         />
-
         <button
           {...getRootProps()}
           className="lg:flex hidden items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
