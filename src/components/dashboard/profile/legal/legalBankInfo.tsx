@@ -382,7 +382,21 @@ export default function LegalBankInfo({
         <div />
         <div className="lg:col-span-2">
           <button
-            onClick={form.handleSubmit(submitHandleFunction)}
+            onClick={form.handleSubmit(submitHandleFunction, (errors) => {
+              const errorsArr = Object.values(errors);
+
+              errorsArr.forEach((item) => {
+                const message = item.message;
+
+                if (message) {
+                  toast({
+                    title: 'مشکلی در اعتبار سنجی رخ داد!',
+                    description: message,
+                    theme: 'theme',
+                  });
+                }
+              });
+            })}
             disabled={form.formState.isSubmitting || loading}
             className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
           >

@@ -26,77 +26,110 @@ import Cookies from 'js-cookie';
 
 // Defining form schemas
 const personalFormSchema = z.object({
-  name: z.string().min(2, { message: 'ERROR' }).max(32, { message: 'ERROR' }),
+  name: z
+    .string()
+    .min(2, { message: 'نام باید حداقل ۲ حرف باشد' })
+    .max(32, { message: 'نام نباید بیشتر از ۳۲ حرف باشد' }),
+
   lastName: z
     .string()
-    .min(3, { message: 'ERROR' })
-    .max(32, { message: 'ERROR' }),
-  meliCode: z.string().length(10, { message: 'ERROR' }),
+    .min(3, { message: 'نام خانوادگی باید حداقل ۳ حرف باشد' })
+    .max(32, { message: 'نام خانوادگی نباید بیشتر از ۳۲ حرف باشد' }),
+
+  meliCode: z
+    .string()
+    .length(10, { message: 'کد ملی باید دقیقاً ۱۰ رقم باشد' }),
+
   tell: z.string().regex(/^09\d{9}$/, {
-    message: 'ERROR',
+    message: 'شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد',
   }),
+
   email: z
     .string()
-    .max(254, { message: 'ERROR' })
-    .email({ message: 'ERROR' })
+    .max(254, { message: 'ایمیل نباید بیشتر از ۲۵۴ حرف باشد' })
+    .email({ message: 'ایمیل وارد شده معتبر نیست' })
     .or(z.literal(''))
     .optional(),
+
   postCode: z
     .string()
-    .length(10, { message: 'ERROR' })
+    .length(10, { message: 'کد پستی باید دقیقاً ۱۰ رقم باشد' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z.string().length(16, { message: 'ERROR' }),
-  shabaNumber: z.string().length(24, { message: 'ERROR' }),
+
+  creditCard: z
+    .string()
+    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' }),
+
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' }),
+
   address: z
     .string()
-    .min(5, { message: 'ERROR' })
-    .max(256, { message: 'ERROR' })
+    .min(5, { message: 'آدرس باید حداقل ۵ حرف باشد' })
+    .max(256, { message: 'آدرس نباید بیشتر از ۲۵۶ حرف باشد' })
     .or(z.literal(''))
     .optional(),
 });
 
 const legalFormSchema = z.object({
-  name: z.string().min(2, { message: 'ERROR' }).max(64, { message: 'ERROR' }),
+  name: z
+    .string()
+    .min(2, { message: 'نام شرکت باید حداقل ۲ حرف باشد' })
+    .max(64, { message: 'نام شرکت نباید بیشتر از ۶۴ حرف باشد' }),
+
   id: z
     .string()
-    .length(11, { message: 'ERROR' })
+    .length(11, { message: 'شناسه ملی باید دقیقاً ۱۱ رقم باشد' })
     .regex(/^[1-9][0-9]{10}$/, {
-      message: 'ERROR',
+      message: 'شناسه ملی باید عددی و با رقم غیر صفر شروع شود',
     })
     .refine((val) => !/^(\d)\1+$/.test(val), {
-      message: 'ERROR',
+      message: 'شناسه ملی معتبر نیست',
     }),
+
   registrationId: z
     .string()
-    .min(1, { message: 'ERROR' })
-    .max(16, { message: 'ERROR' })
-    .regex(/^\d+$/, { message: 'ERROR' }),
+    .min(1, { message: 'شماره ثبت الزامی است' })
+    .max(16, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' })
+    .regex(/^\d+$/, { message: 'شماره ثبت باید فقط شامل اعداد باشد' }),
+
   economicCode: z
     .string()
-    .min(1, { message: 'ERROR' })
-    .max(16, { message: 'ERROR' })
-    .regex(/^\d+$/, { message: 'ERROR' }),
+    .min(1, { message: 'کد اقتصادی الزامی است' })
+    .max(16, { message: 'کد اقتصادی نباید بیشتر از ۱۶ رقم باشد' })
+    .regex(/^\d+$/, { message: 'کد اقتصادی باید فقط شامل اعداد باشد' }),
+
   tell: z.string().regex(/^09\d{9}$/, {
-    message: 'ERROR',
+    message: 'شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد',
   }),
+
   email: z
     .string()
-    .max(254, { message: 'ERROR' })
-    .email({ message: 'ERROR' })
+    .max(254, { message: 'ایمیل نباید بیشتر از ۲۵۴ حرف باشد' })
+    .email({ message: 'ایمیل وارد شده معتبر نیست' })
     .or(z.literal(''))
     .optional(),
+
   postCode: z
     .string()
-    .length(10, { message: 'ERROR' })
+    .length(10, { message: 'کد پستی باید دقیقاً ۱۰ رقم باشد' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z.string().length(16, { message: 'ERROR' }),
-  shabaNumber: z.string().length(24, { message: 'ERROR' }),
+
+  creditCard: z
+    .string()
+    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' }),
+
+  shabaNumber: z
+    .string()
+    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' }),
+
   address: z
     .string()
-    .min(5, { message: 'ERROR' })
-    .max(254, { message: 'ERROR' })
+    .min(5, { message: 'آدرس باید حداقل ۵ حرف باشد' })
+    .max(254, { message: 'آدرس نباید بیشتر از ۲۵۴ حرف باشد' })
     .or(z.literal(''))
     .optional(),
 });
@@ -127,12 +160,12 @@ export default function ProfilePage(): ReactNode {
 
   const personalForm = useForm<personalFormType>({
     resolver: zodResolver(personalFormSchema),
-    reValidateMode: 'onSubmit',
+    reValidateMode: 'onBlur',
   });
 
   const legalForm = useForm<legalFormType>({
     resolver: zodResolver(legalFormSchema),
-    reValidateMode: 'onSubmit',
+    reValidateMode: 'onBlur',
   });
 
   // Defining small variables
@@ -144,7 +177,7 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('address', userInfo.address);
     personalForm.setValue('name', userInfo.first_name);
     personalForm.setValue('meliCode', userInfo.national_code);
-    personalForm.setValue('fullName', userInfo.last_name);
+    personalForm.setValue('lastName', userInfo.last_name);
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
     personalForm.setValue('tell', savedTellNumber);

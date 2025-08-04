@@ -62,7 +62,7 @@ export default function EditPassengersDialog({
   const [successOpened, setSuccessOpened] = useState<boolean>(false);
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
-    reValidateMode: 'onSubmit',
+    reValidateMode: 'onBlur',
     values: {
       firstName: data?.first_name || '',
       lastName: data?.last_name || '',

@@ -62,7 +62,7 @@ export default function AddPassengersDialog({
 
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
-    reValidateMode: 'onSubmit',
+    reValidateMode: 'onBlur',
   });
 
   // Defining api fetching hooks
