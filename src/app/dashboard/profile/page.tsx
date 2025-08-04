@@ -46,16 +46,8 @@ const personalFormSchema = z.object({
     .length(10, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z
-    .string()
-    .length(16, { message: 'ERROR' })
-    .or(z.literal(''))
-    .optional(),
-  shabaNumber: z
-    .string()
-    .length(24, { message: 'ERROR' })
-    .or(z.literal(''))
-    .optional(),
+  creditCard: z.string().length(16, { message: 'ERROR' }),
+  shabaNumber: z.string().length(24, { message: 'ERROR' }),
   address: z
     .string()
     .min(5, { message: 'ERROR' })
@@ -99,16 +91,8 @@ const legalFormSchema = z.object({
     .length(10, { message: 'ERROR' })
     .or(z.literal(''))
     .optional(),
-  creditCard: z
-    .string()
-    .length(16, { message: 'ERROR' })
-    .or(z.literal(''))
-    .optional(),
-  shabaNumber: z
-    .string()
-    .length(24, { message: 'ERROR' })
-    .or(z.literal(''))
-    .optional(),
+  creditCard: z.string().length(16, { message: 'ERROR' }),
+  shabaNumber: z.string().length(24, { message: 'ERROR' }),
   address: z
     .string()
     .min(5, { message: 'ERROR' })
@@ -143,10 +127,12 @@ export default function ProfilePage(): ReactNode {
 
   const personalForm = useForm<personalFormType>({
     resolver: zodResolver(personalFormSchema),
+    reValidateMode: 'onSubmit',
   });
 
   const legalForm = useForm<legalFormType>({
     resolver: zodResolver(legalFormSchema),
+    reValidateMode: 'onSubmit',
   });
 
   // Defining small variables
@@ -196,7 +182,7 @@ export default function ProfilePage(): ReactNode {
 
   // Returning JSX
   return (
-    <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]'>
+    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
       <LegalAccountBannedDialog
         isOpened={legalAccountBannedDialogOpened}
         closeFn={() => setLegalAccountBannedDialogOpened(false)}
@@ -209,24 +195,24 @@ export default function ProfilePage(): ReactNode {
         isOpened={waitingDialogOpened}
         closeFn={() => setWaitingDialogOpened(false)}
       />
-      <div className='grid lg:grid-cols-4 lg:gap-5 gap-[20px]'>
+      <div className="grid lg:grid-cols-4 lg:gap-5 gap-[20px]">
         {profileState === 'personal' ? (
           <ProfileToggler
-            className='lg:col-span-2'
+            className="lg:col-span-2"
             defaultVal={profileState}
             onToggleChange={(val) => setProfileState(val)}
           />
         ) : (
-          <div className='lg:col-span-2 flex flex-col items-start gap-[24px] justify-between lg:h-[458px] h-auto'>
+          <div className="lg:col-span-2 flex flex-col items-start gap-[24px] justify-between lg:h-[458px] h-auto">
             <ProfileToggler
-              className='shrink-0 w-full'
+              className="shrink-0 w-full"
               defaultVal={profileState}
               onToggleChange={(val) => setProfileState(val)}
             />
             <LegalInfoForm
               loading={legalUserFetching.isLoading}
               form={legalForm}
-              className='overflow-auto scrollbar-hide w-full h-full'
+              className="overflow-auto scrollbar-hide w-full h-full"
             />
           </div>
         )}
@@ -242,24 +228,24 @@ export default function ProfilePage(): ReactNode {
                     : 'premium'
               }
             />
-            <PersonalInfoForm className='lg:col-span-2' form={personalForm} />
-            <BankInfoForm className='lg:col-span-2' form={personalForm} />
-            <Description className='lg:col-span-4' />
+            <PersonalInfoForm className="lg:col-span-2" form={personalForm} />
+            <BankInfoForm className="lg:col-span-2" form={personalForm} />
+            <Description className="lg:col-span-4" />
           </>
         ) : (
           <>
             <LegalBankInfo
               loading={legalUserFetching.isLoading}
-              className='lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide'
+              className="lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide"
               form={legalForm}
             />
-            <div className='lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]'>
+            <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">
               <Upload
                 onChange={(file) => setFile(file)}
-                className='lg:w-[50%] w-full lg:h-auto h-[350px]'
-                fetchURL='/juridical-profile-documents/'
+                className="lg:w-[50%] w-full lg:h-auto h-[350px]"
+                fetchURL="/juridical-profile-documents/"
               />
-              <LegalNotes className='lg:w-[50%] w-full' />
+              <LegalNotes className="lg:w-[50%] w-full" />
             </div>
           </>
         )}

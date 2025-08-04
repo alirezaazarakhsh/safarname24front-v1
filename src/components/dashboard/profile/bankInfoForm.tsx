@@ -172,6 +172,11 @@ export default function BankInfoForm({
             placeholder="16 رقم شماره کارت را وارد نمایید"
             error={form.formState.errors.creditCard?.message}
             autoComplete="off"
+            reset={() =>
+              form.reset({
+                creditCard: '',
+              })
+            }
             {...form.register('creditCard')}
           />
           <InputAndLabel
@@ -181,6 +186,11 @@ export default function BankInfoForm({
             placeholder="24 رقم شماره شبا کارت را وارد نمایید"
             error={form.formState.errors.shabaNumber?.message}
             autoComplete="off"
+            reset={() =>
+              form.reset({
+                shabaNumber: '',
+              })
+            }
             {...form.register('shabaNumber')}
           />
           <NormalInput
@@ -193,7 +203,9 @@ export default function BankInfoForm({
         <div className="flex flex-col lg:gap-6 gap-[16px]">
           <div className="flex items-center justify-start w-full gap-3">
             <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
-              {bankInfo ? (
+              {!form.getFieldState('creditCard').invalid &&
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
                 <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
               ) : (
                 <IconsaxIcons name="Bank" color="currentColor" />
@@ -204,7 +216,11 @@ export default function BankInfoForm({
                 نام بانک
               </span>
               <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                {bankInfo?.name || 'سیستم بانکی ناشناخته است!'}
+                {!form.getFieldState('creditCard').invalid &&
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
+                  ? bankInfo?.name
+                  : 'سیستم بانکی ناشناخته است!'}
               </p>
             </div>
           </div>

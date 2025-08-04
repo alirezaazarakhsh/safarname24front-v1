@@ -22,11 +22,9 @@ export default function InputAndLabel({
   value,
   onChange,
   disabled,
+  reset,
   ...props
 }: InputAndLabelPropsType): ReactNode {
-  // Defining hooks
-  const [valueState, setValueState] = useState(value);
-
   // Returning JSX
   return (
     <div
@@ -50,11 +48,6 @@ export default function InputAndLabel({
             id={id}
             placeholder={placeholder}
             data-errored={error !== undefined}
-            value={valueState}
-            onChange={(e) => {
-              onChange && onChange(e);
-              setValueState(e.currentTarget.value);
-            }}
             className={cn(
               'w-full block outline-0 border-0 h-[50px] pr-3  text-xs font-normal placeholder:text-xs data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red transition-all duration-500',
               className,
@@ -81,18 +74,15 @@ export default function InputAndLabel({
             ) : (
               <button
                 disabled={!isValid}
-                onClick={() => {
-                  if (isValid) {
-                    setValueState('');
-                  }
-                }}
+                onClick={reset && reset}
+                type="button"
                 className={
                   'w-[30px] h-[30px] shrink-0 transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100 text-black/50 cursor-pointer'
                 }
               >
                 <IconsaxIcons
                   color={'currentColor'}
-                  name={!isValid ? 'TickSquare' : 'CloseSquare'}
+                  name={isValid ? 'TickSquare' : 'CloseSquare'}
                   className="w-[15px] h-[15px]"
                 />
               </button>
@@ -105,8 +95,7 @@ export default function InputAndLabel({
           placeholder={placeholder}
           data-errored={error !== undefined}
           value={value}
-          onChange={onChange}
-          disabled
+          disabled={disabled}
           className={cn(
             'w-full block outline-0 transition-all duration-500 bg-white font-normal placeholder:text-xs text-xs border border-black/10  rounded-lg overflow-hidden p-3 h-[50px] data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red',
             className,
