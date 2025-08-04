@@ -12,7 +12,6 @@ import { IoClose } from 'react-icons/io5';
 import { Room } from '@/types/landing';
 import CalendarCard from './CalendarCard';
 import { numberSeparation } from '@/utils';
-import { number } from 'framer-motion';
 
 type Props = {
   info: {
