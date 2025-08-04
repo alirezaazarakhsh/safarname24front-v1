@@ -92,7 +92,7 @@ export default function BankInfoForm({
     const formData = new FormData();
 
     formData.append('first_name', data.name);
-    formData.append('last_name', data.fullName);
+    formData.append('last_name', data.lastName);
     formData.append('email', data.email || '');
     formData.append('national_code', data.meliCode);
     formData.append('postal_code', data.postCode || '');

@@ -27,7 +27,7 @@ import Cookies from 'js-cookie';
 // Defining form schemas
 const personalFormSchema = z.object({
   name: z.string().min(2, { message: 'ERROR' }).max(32, { message: 'ERROR' }),
-  fullName: z
+  lastName: z
     .string()
     .min(3, { message: 'ERROR' })
     .max(32, { message: 'ERROR' }),
