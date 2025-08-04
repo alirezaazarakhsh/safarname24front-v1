@@ -6,7 +6,6 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { BankInfoFormComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useState } from 'react';
-import InputAndLabel from '../financialCartToCart/inputAndLabel';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
 import NormalInput from './normalInput';
@@ -21,7 +20,7 @@ import { personalFormType } from '@/app/dashboard/profile/page';
 import { BankInfo } from '@/types/utils';
 import { getBankFromCard } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
-import CreditCardInput from './creditCardInput';
+import InputAndLabel from '../financialCartToCart/inputAndLabel';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -31,6 +30,8 @@ export default function BankInfoForm({
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
+  const [useUserImage, setUseUserImage] = useState<boolean>(true);
+  const userInfo = useUserInfo();
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 30MB in bytes
@@ -60,6 +61,7 @@ export default function BankInfoForm({
     method: 'put',
     options: {
       onSuccess: () => {
+        window.location.reload();
         if (isMobile) {
           setMobileSuccessDrawerOpened(true);
         } else {
@@ -84,15 +86,13 @@ export default function BankInfoForm({
     },
   });
 
-  const userInfo = useUserInfo();
-
   const submitHandleFunction: SubmitHandler<personalFormType> = async (
     data,
   ) => {
     const formData = new FormData();
 
     formData.append('first_name', data.name);
-    formData.append('last_name', data.fullName);
+    formData.append('last_name', data.lastName);
     formData.append('email', data.email || '');
     formData.append('national_code', data.meliCode);
     formData.append('postal_code', data.postCode || '');
@@ -165,26 +165,32 @@ export default function BankInfoForm({
           {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
         </button>
         <div className="flex flex-col lg:gap-5 gap-[16px]">
-          <CreditCardInput
-            type="number"
+          <InputAndLabel
+            validationType="icon"
             isValid={!form.getFieldState('creditCard').invalid}
             validation="creditCardNumberValidation"
             placeholder="16 رقم شماره کارت را وارد نمایید"
             error={form.formState.errors.creditCard?.message}
-            position="left"
-            dropdownClassName="lg:h-[190px] h-[200px]"
-            setValue={(val) => form.setValue('creditCard', val)}
+            autoComplete="off"
+            reset={() =>
+              form.reset({
+                creditCard: '',
+              })
+            }
             {...form.register('creditCard')}
           />
-          <CreditCardInput
-            type="shaba"
+          <InputAndLabel
+            validationType="icon"
             isValid={!form.getFieldState('shabaNumber').invalid}
             validation="shabaNumberValidation"
             placeholder="24 رقم شماره شبا کارت را وارد نمایید"
             error={form.formState.errors.shabaNumber?.message}
-            position="left"
-            dropdownClassName="lg:h-[120px] h-[200px]"
-            setValue={(val) => form.setValue('shabaNumber', val)}
+            autoComplete="off"
+            reset={() =>
+              form.reset({
+                shabaNumber: '',
+              })
+            }
             {...form.register('shabaNumber')}
           />
           <NormalInput
@@ -197,7 +203,9 @@ export default function BankInfoForm({
         <div className="flex flex-col lg:gap-6 gap-[16px]">
           <div className="flex items-center justify-start w-full gap-3">
             <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
-              {bankInfo ? (
+              {!form.getFieldState('creditCard').invalid &&
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
                 <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
               ) : (
                 <IconsaxIcons name="Bank" color="currentColor" />
@@ -208,7 +216,11 @@ export default function BankInfoForm({
                 نام بانک
               </span>
               <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                {bankInfo?.name || 'سیستم بانکی ناشناخته است!'}
+                {!form.getFieldState('creditCard').invalid &&
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
+                  ? bankInfo?.name
+                  : 'سیستم بانکی ناشناخته است!'}
               </p>
             </div>
           </div>
@@ -219,11 +231,33 @@ export default function BankInfoForm({
             <input {...getInputProps()} hidden />
             <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
               {acceptedFiles.length === 0 ? (
-                <IconsaxIcons
-                  name="Image"
-                  color="currentColor"
-                  className="w-[20px] h-[20px]"
-                />
+                userInfo.image && useUserImage ? (
+                  <>
+                    <Image
+                      width={50}
+                      height={50}
+                      alt="عکس اپلود شده!"
+                      src={userInfo.image}
+                      className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
+                    />
+                    <div
+                      onClick={() => setUseUserImage(false)}
+                      className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0"
+                    >
+                      <IconsaxIcons
+                        name="Trash"
+                        className="w-[20px] h-[20px]"
+                        color="white"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <IconsaxIcons
+                    name="Image"
+                    color="currentColor"
+                    className="w-[20px] h-[20px]"
+                  />
+                )
               ) : (
                 <>
                   <Image
@@ -254,7 +288,21 @@ export default function BankInfoForm({
           </button>
           <div className="lg:flex hidden items-center justify-end">
             <button
-              onClick={form.handleSubmit(submitHandleFunction)}
+              onClick={form.handleSubmit(submitHandleFunction, (errors) => {
+                const errorsArr = Object.values(errors);
+
+                errorsArr.forEach((item) => {
+                  const message = item.message;
+
+                  if (message) {
+                    toast({
+                      title: 'مشکلی در اعتبار سنجی رخ داد!',
+                      description: message,
+                      theme: 'theme',
+                    });
+                  }
+                });
+              })}
               disabled={form.formState.isSubmitting}
               className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
             >

@@ -10,7 +10,6 @@ import { SubmitHandler } from 'react-hook-form';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
 import toast from '../../ui/customSonner/toast';
-import InputAndLabel from '../../financialCartToCart/inputAndLabel';
 import NormalInput from '../normalInput';
 import Loading from '../../ui/loading';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
@@ -20,7 +19,8 @@ import { legalFormType } from '@/app/dashboard/profile/page';
 import { getBankFromCard } from '@/utils/string';
 import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
-import CreditCardInput from '../creditCardInput';
+import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import InputAndLabel from '../../financialCartToCart/inputAndLabel';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
@@ -30,7 +30,9 @@ export default function LegalBankInfo({
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
+  const [useUserImage, setUseUserImage] = useState<boolean>(true);
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
+  const userInfo = useUserInfo();
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 10MB in bytes
@@ -70,6 +72,7 @@ export default function LegalBankInfo({
     method: 'put',
     options: {
       onSuccess: () => {
+        window.location.reload();
         if (isMobile) {
           setMobileSuccessDrawerOpened(true);
         } else {
@@ -166,7 +169,9 @@ export default function LegalBankInfo({
           className='lg:hidden flex items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
         >
           <div className="shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
-            {bankInfo ? (
+            {!form.getFieldState('creditCard').invalid &&
+            !form.getFieldState('shabaNumber').invalid &&
+            bankInfo ? (
               <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
             ) : (
               <IconsaxIcons name="Bank" color="currentColor" />
@@ -177,23 +182,48 @@ export default function LegalBankInfo({
               نام بانک
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-              {bankInfo?.name || 'سیستم بانکی ناشناخته است!'}
+              {!form.getFieldState('creditCard').invalid &&
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo
+                ? bankInfo?.name
+                : 'سیستم بانکی ناشناخته است!'}
             </p>
           </div>
         </div>
         <button
           {...getRootProps()}
-          disabled={loading}
           className="lg:hidden flex items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
         >
           <input {...getInputProps()} hidden />
-          <div className="shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
+          <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
             {acceptedFiles.length === 0 ? (
-              <IconsaxIcons
-                name="Image"
-                color="currentColor"
-                className="w-[20px] h-[20px]"
-              />
+              userInfo.image && useUserImage ? (
+                <>
+                  <Image
+                    width={50}
+                    height={50}
+                    alt="عکس اپلود شده!"
+                    src={userInfo.image}
+                    className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
+                  />
+                  <div
+                    onClick={() => setUseUserImage(false)}
+                    className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0"
+                  >
+                    <IconsaxIcons
+                      name="Trash"
+                      className="w-[20px] h-[20px]"
+                      color="white"
+                    />
+                  </div>
+                </>
+              ) : (
+                <IconsaxIcons
+                  name="Image"
+                  color="currentColor"
+                  className="w-[20px] h-[20px]"
+                />
+              )
             ) : (
               <>
                 <Image
@@ -222,16 +252,19 @@ export default function LegalBankInfo({
             </p>
           </div>
         </button>
-
-        <CreditCardInput
-          type="number"
+        <InputAndLabel
+          validationType="icon"
           isValid={!form.getFieldState('creditCard').invalid}
           validation="creditCardNumberValidation"
           placeholder="16 رقم شماره کارت را وارد نمایید"
           error={form.formState.errors.creditCard?.message}
-          position="left"
-          dropdownClassName="lg:h-[190px] h-[200px]"
-          setValue={(val) => form.setValue('creditCard', val)}
+          autoComplete="off"
+          disabled={loading}
+          reset={() =>
+            form.reset({
+              creditCard: '',
+            })
+          }
           {...form.register('creditCard')}
         />
         <div
@@ -254,30 +287,55 @@ export default function LegalBankInfo({
             </p>
           </div>
         </div>
-        <CreditCardInput
-          type="shaba"
+        <InputAndLabel
+          validationType="icon"
           isValid={!form.getFieldState('shabaNumber').invalid}
           validation="shabaNumberValidation"
           placeholder="24 رقم شماره شبا کارت را وارد نمایید"
           error={form.formState.errors.shabaNumber?.message}
-          position="left"
-          dropdownClassName="lg:h-[120px] h-[200px]"
-          setValue={(val) => form.setValue('shabaNumber', val)}
+          autoComplete="off"
+          disabled={loading}
+          reset={() =>
+            form.reset({
+              shabaNumber: '',
+            })
+          }
           {...form.register('shabaNumber')}
         />
         <button
           {...getRootProps()}
-          disabled={loading}
           className="lg:flex hidden items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
         >
           <input {...getInputProps()} hidden />
-          <div className="shrink-0 aspect-square w-[50px] h-[50px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
+          <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
             {acceptedFiles.length === 0 ? (
-              <IconsaxIcons
-                name="Image"
-                color="currentColor"
-                className="w-[20px] h-[20px]"
-              />
+              userInfo.image && useUserImage ? (
+                <>
+                  <Image
+                    width={50}
+                    height={50}
+                    alt="عکس اپلود شده!"
+                    src={userInfo.image}
+                    className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
+                  />
+                  <div
+                    onClick={() => setUseUserImage(false)}
+                    className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0"
+                  >
+                    <IconsaxIcons
+                      name="Trash"
+                      className="w-[20px] h-[20px]"
+                      color="white"
+                    />
+                  </div>
+                </>
+              ) : (
+                <IconsaxIcons
+                  name="Image"
+                  color="currentColor"
+                  className="w-[20px] h-[20px]"
+                />
+              )
             ) : (
               <>
                 <Image
@@ -324,7 +382,21 @@ export default function LegalBankInfo({
         <div />
         <div className="lg:col-span-2">
           <button
-            onClick={form.handleSubmit(submitHandleFunction)}
+            onClick={form.handleSubmit(submitHandleFunction, (errors) => {
+              const errorsArr = Object.values(errors);
+
+              errorsArr.forEach((item) => {
+                const message = item.message;
+
+                if (message) {
+                  toast({
+                    title: 'مشکلی در اعتبار سنجی رخ داد!',
+                    description: message,
+                    theme: 'theme',
+                  });
+                }
+              });
+            })}
             disabled={form.formState.isSubmitting || loading}
             className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
           >
