@@ -20,8 +20,8 @@ export default function CustomerClubPage(): ReactNode {
 
   // Fetching the data
   const getData = useApiQuery<GETCustomerClubList>({
-    url: `/profile/customer-club/prizes/?p=${paginationNumber + 1}`,
-    queryKey: ['prizes'],
+    url: `/crm/room-discount-codes/?p=${paginationNumber + 1}`,
+    queryKey: ['user-prizes'],
   });
 
   // Using useEffect to make useApiQuery Fetch again while pagination number changes
@@ -58,7 +58,7 @@ export default function CustomerClubPage(): ReactNode {
             <Filter
               onChange={setGiftsType}
               totalScore={getData.data.results.reduce(
-                (sum, item) => sum + Number(item.prize.discount_price),
+                (sum, item) => sum + Number(item.required_points || 0),
                 0,
               )}
             />
