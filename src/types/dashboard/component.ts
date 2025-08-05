@@ -11,6 +11,7 @@ import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
   GETCustomerClubListItem,
+  GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
   GETReservation,
@@ -398,17 +399,8 @@ export interface CustomerClubListTablePropsType {
   paginationCount?: number;
 }
 
-export interface NotificationType {
-  id: number;
-  title: string;
-  createdAt: string;
-  content: string;
-  status: 'seen' | 'unseen' | 'important';
-  isForAll: boolean;
-}
-
 export interface NotificationComponentPropsType {
-  data: NotificationType;
+  data: GETNotificationItem;
   className?: string;
 }
 

@@ -3,17 +3,11 @@ import Cookies from 'js-cookie';
 import useApiMutation from './useApiMutation';
 import toast from '@/components/dashboard/ui/customSonner/toast';
 import { useRouter } from 'next/navigation';
-import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting useLogout custom hook as default
 export default function useLogout() {
   const authObj = JSON.parse(Cookies.get('auth') || '');
   const router = useRouter();
-  const [
-    localStorageNotifications,
-    setLocalStorageNotifications,
-    { removeItem },
-  ] = useLocalStorageState<number[]>('opened-notifications');
 
   const mutation = useApiMutation({
     url: '/auth/logout/',
@@ -28,12 +22,11 @@ export default function useLogout() {
         });
       },
       onSuccess: async () => {
+        router.push('/');
+
         Cookies.remove('AUTH');
         Cookies.remove('UPN');
         Cookies.remove('auth');
-        removeItem();
-
-        router.push('/');
       },
     },
   });

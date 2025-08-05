@@ -59,12 +59,15 @@ const personalFormSchema = z.object({
 
   creditCard: z
     .string()
-    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' }),
+    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
 
   shabaNumber: z
     .string()
-    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' }),
-
+    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
   address: z
     .string()
     .min(5, { message: 'آدرس باید حداقل ۵ حرف باشد' })
@@ -120,11 +123,15 @@ const legalFormSchema = z.object({
 
   creditCard: z
     .string()
-    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' }),
+    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
 
   shabaNumber: z
     .string()
-    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' }),
+    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
 
   address: z
     .string()

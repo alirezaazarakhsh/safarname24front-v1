@@ -5,9 +5,6 @@ import Cookies from 'js-cookie';
 // Defining axios instance
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: 'https://cps.safarnameh24.com/api/v1',
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
   withCredentials: true,
 });
 

@@ -26,7 +26,6 @@ import {
 import CanclationErrorDrawer from '../reservation/canclationErrorDrawer';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Loading from '../ui/loading';
-import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting DeleteNotificationDialog component as default
 export default function DeleteNotificationDialog({
@@ -40,9 +39,6 @@ export default function DeleteNotificationDialog({
   const [errorDrawerOpened, setErrorDrawerOpened] = useState<boolean>(false);
   const [successDrawerOpened, setSuccessDrawerOpened] =
     useState<boolean>(false);
-
-  const [localStorageNotifications, setLocalStorageNotifications] =
-    useLocalStorageState<number[]>('opened-notifications');
 
   // Fetching data
   const deleteNotifFetch = useApiMutation({
@@ -63,12 +59,6 @@ export default function DeleteNotificationDialog({
       onSuccess: () => {
         closeFn && closeFn();
         refetch && refetch();
-
-        const removedId = localStorageNotifications?.filter(
-          (item) => item !== id,
-        );
-
-        setLocalStorageNotifications(removedId);
 
         if (!isMobile) {
           toast({
