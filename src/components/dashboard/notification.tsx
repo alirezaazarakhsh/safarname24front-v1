@@ -31,11 +31,6 @@ export default function Notification({
         ? [...localStorageNotifications, data.id]
         : [data.id];
       setLocalStorageNotifications(addedId);
-    } else {
-      const removedId = localStorageNotifications?.filter(
-        (item) => item !== data.id,
-      );
-      setLocalStorageNotifications(removedId);
     }
   }, [opened]);
 
@@ -57,7 +52,12 @@ export default function Notification({
         id={data.id}
         refetch={refetch}
       />
-      <div className="flex lg:items-start items-center justify-between gap-4 lg:mb-3 mb-[15px] cursor-pointer">
+      <div
+        onClick={() => setOpened((prev) => !prev)}
+        className={cn(
+          'flex lg:items-start items-center justify-between gap-4 cursor-pointer',
+        )}
+      >
         <span className="lg:text-cs85 text-[12px] lg:font-bold font-semibold text-right block w-full text-[#2b2b2b] lg:line-clamp-2 line-clamp-1">
           {data.title}
         </span>
@@ -71,23 +71,26 @@ export default function Notification({
               />
             </button>
           )}
-          <button onClick={() => setOpened((prev) => !prev)}>
+          <div>
             <IconsaxIcons
               name="ArrowUp2"
               color="black"
               className="w-4 h-4 transition-all duration-500 data-[opened='true']:rotate-180 data-[opened='false']:rotate-0"
               data-opened={opened}
             />
-          </button>
+          </div>
         </div>
       </div>
       <motion.div
-        exit={{ height: '0' }}
-        initial={{ height: '0' }}
-        animate={{ height: opened ? 'auto' : '0' }}
-        className="overflow-hidden"
+        exit={{ height: '0', opacity: 0 }}
+        initial={{ height: '0', opacity: 0 }}
+        animate={{
+          height: opened ? 'auto' : '0',
+          opacity: opened ? '100%' : '0%',
+        }}
+        className="overflow-hidden lg:my-2 my-[15px]"
       >
-        <p className="lg:text-cs75 text-[12px] text-gray-500 font-normal text-right lg:mb-3 mb-[12px]">
+        <p className="lg:text-cs75 text-[12px] text-gray-500 font-normal text-right w-[50%] whitespace-pre-line m-0 p-0">
           {data.content}
         </p>
       </motion.div>
