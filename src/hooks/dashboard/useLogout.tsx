@@ -2,13 +2,9 @@
 import Cookies from 'js-cookie';
 import useApiMutation from './useApiMutation';
 import toast from '@/components/dashboard/ui/customSonner/toast';
-import { useRouter } from 'next/navigation';
 
 // Creating and exporting useLogout custom hook as default
 export default function useLogout() {
-  const authObj = JSON.parse(Cookies.get('auth') || '');
-  const router = useRouter();
-
   const mutation = useApiMutation({
     url: '/auth/logout/',
     method: 'post',
@@ -22,16 +18,17 @@ export default function useLogout() {
         });
       },
       onSuccess: async () => {
-        router.push('/');
-
         Cookies.remove('AUTH');
         Cookies.remove('UPN');
         Cookies.remove('auth');
+
+        window.location.reload();
       },
     },
   });
 
   function mutate() {
+    const authObj = JSON.parse(Cookies.get('auth') || '{}');
     mutation.mutate({
       refresh_token: authObj.refreshUID,
     });
