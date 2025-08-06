@@ -21,6 +21,7 @@ import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import InputAndLabel from '../../financialCartToCart/inputAndLabel';
+import CreditCardInput from '../creditCardInput';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
@@ -170,8 +171,8 @@ export default function LegalBankInfo({
         >
           <div className="shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&
-            !form.getFieldState('shabaNumber').invalid &&
-            bankInfo ? (
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
               <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
             ) : (
               <IconsaxIcons name="Bank" color="currentColor" />
@@ -183,8 +184,8 @@ export default function LegalBankInfo({
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
               {!form.getFieldState('creditCard').invalid &&
-              !form.getFieldState('shabaNumber').invalid &&
-              bankInfo
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
                 ? bankInfo?.name
                 : 'سیستم بانکی ناشناخته است!'}
             </p>
@@ -252,19 +253,17 @@ export default function LegalBankInfo({
             </p>
           </div>
         </button>
-        <InputAndLabel
-          validationType="icon"
+        <CreditCardInput
+          type="number"
           isValid={!form.getFieldState('creditCard').invalid}
           validation="creditCardNumberValidation"
           placeholder="16 رقم شماره کارت را وارد نمایید"
           error={form.formState.errors.creditCard?.message}
           autoComplete="off"
-          disabled={loading}
-          reset={() =>
-            form.reset({
-              creditCard: '',
-            })
-          }
+          setValue={(number, sheba) => {
+            form.setValue('creditCard', number);
+            form.setValue('shabaNumber', sheba);
+          }}
           {...form.register('creditCard')}
         />
         <div

@@ -1,29 +1,17 @@
-// Importing part
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from 'axios';
 import Cookies from 'js-cookie';
 
-// Defining axios instance
+// Axios instance
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: 'https://cps.safarnameh24.com/api/v1',
   withCredentials: true,
 });
 
-// Attach access token to request
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const authCookie = Cookies.get('auth');
-    const accessUID = authCookie && JSON.parse(authCookie)?.accessUID;
-
-    if (accessUID) {
-      config.headers.Authorization = `Bearer ${accessUID}`;
-    }
-
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
-// Refresh logic
+// Refresh token logic
 let isRefreshing = false;
 let failedQueue: {
   resolve: (value?: unknown) => void;
@@ -32,16 +20,35 @@ let failedQueue: {
 
 const processQueue = (error: any, token: string | null = null) => {
   failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
+    error ? prom.reject(error) : prom.resolve(token);
   });
-
   failedQueue = [];
 };
 
+// REQUEST Interceptor
+axiosInstance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const authCookie = Cookies.get('auth');
+    const accessUID = authCookie && JSON.parse(authCookie)?.accessUID;
+
+    if (accessUID && config.headers) {
+      config.headers['Authorization'] = `Bearer ${accessUID}`;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+const forceLogout = () => {
+  Cookies.remove('AUTH');
+  Cookies.remove('UPN');
+  Cookies.remove('auth');
+
+  window.location.href = '/?auth_open=true';
+};
+
+// RESPONSE Interceptor
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -55,10 +62,15 @@ axiosInstance.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
+            if (token && originalRequest.headers) {
+              originalRequest.headers['Authorization'] = `Bearer ${token}`;
+            }
             return axiosInstance(originalRequest);
           })
-          .catch((err) => Promise.reject(err));
+          .catch((err) => {
+            forceLogout();
+            return Promise.reject(err);
+          });
       }
 
       isRefreshing = true;
@@ -67,14 +79,15 @@ axiosInstance.interceptors.response.use(
         const authCookie = Cookies.get('auth');
         const refreshUID = authCookie && JSON.parse(authCookie)?.refreshUID;
 
-        const response = await axios.post(
-          'http://cps.safarnameh24.com/api/v1/token/refresh/',
-          {
-            refreshToken: refreshUID,
-          },
+        if (!refreshUID) throw new Error('No refresh token');
+
+        const { data } = await axios.post(
+          'https://cps.safarnameh24.com/api/v1/token/refresh/',
+          { refreshToken: refreshUID },
+          { withCredentials: true },
         );
 
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken, refreshToken } = data;
 
         Cookies.set(
           'auth',
@@ -82,16 +95,21 @@ axiosInstance.interceptors.response.use(
             accessUID: accessToken,
             refreshUID: refreshToken,
           }),
+          { path: '/' },
         );
 
-        axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-
+        axiosInstance.defaults.headers.common['Authorization'] =
+          `Bearer ${accessToken}`;
         processQueue(null, accessToken);
+
+        if (originalRequest.headers) {
+          originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
 
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);
+        forceLogout(); // 🚨 Force logout on refresh fail
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
