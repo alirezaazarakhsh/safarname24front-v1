@@ -623,13 +623,9 @@ export interface BankIconPropsType extends SVGProps<SVGSVGElement> {
 
 export interface CreditCardInputPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
-  type: 'number' | 'shaba';
   containerClassName?: string;
   isValid: boolean;
   validation: string;
   error?: string;
-  position?: 'left'; // For improving later
-  dropdownClassName?: string;
-  profile?: 'jurdical' | 'natural';
-  setValue: (value: string) => void;
+  setValue: (number: string, sheba: string) => void;
 }

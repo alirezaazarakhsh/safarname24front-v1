@@ -21,6 +21,7 @@ import { BankInfo } from '@/types/utils';
 import { getBankFromCard } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
 import InputAndLabel from '../financialCartToCart/inputAndLabel';
+import CreditCardInput from './creditCardInput';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -165,18 +166,17 @@ export default function BankInfoForm({
           {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
         </button>
         <div className="flex flex-col lg:gap-5 gap-[16px]">
-          <InputAndLabel
-            validationType="icon"
+          <CreditCardInput
+            type="number"
             isValid={!form.getFieldState('creditCard').invalid}
             validation="creditCardNumberValidation"
             placeholder="16 رقم شماره کارت را وارد نمایید"
             error={form.formState.errors.creditCard?.message}
             autoComplete="off"
-            reset={() =>
-              form.reset({
-                creditCard: '',
-              })
-            }
+            setValue={(number, sheba) => {
+              form.setValue('creditCard', number);
+              form.setValue('shabaNumber', sheba);
+            }}
             {...form.register('creditCard')}
           />
           <InputAndLabel

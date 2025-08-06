@@ -178,6 +178,7 @@ export default function ProfilePage(): ReactNode {
   // Defining small variables
   const authCookie = Cookies.get('auth') || '';
   const savedTellNumber = `0${JSON.parse(authCookie).phoneNumber}`;
+  const creditCard = userInfo.card_numbers[0];
 
   // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {
@@ -188,6 +189,11 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
     personalForm.setValue('tell', savedTellNumber);
+    personalForm.setValue('shabaNumber', creditCard ? creditCard.iban : '');
+    personalForm.setValue(
+      'creditCard',
+      creditCard ? creditCard.card_number : '',
+    );
   }, [personalForm, userInfo]);
 
   // Fetching stuff
@@ -217,6 +223,11 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
       legalForm.setValue('tell', savedTellNumber);
+      legalForm.setValue('shabaNumber', creditCard ? creditCard.iban : '');
+      legalForm.setValue(
+        'creditCard',
+        creditCard ? creditCard.card_number : '',
+      );
     }
   }, [legalForm, legalUserFetching.isLoading]);
 
