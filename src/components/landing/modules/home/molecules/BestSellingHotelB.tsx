@@ -1,33 +1,35 @@
+import Link from 'next/link';
 import Image from 'next/image';
+import { Hotel } from '@/types';
 import { numberSeparation } from '@/utils';
-import { BestSellingHotel as Hotel } from '@/types';
 
-type Props = {
-  hotel: Hotel;
-};
+type Props = { hotel: Hotel & { reservation_count: number } };
 
 // -----------------------------------------------
 
 export default function BestSellingHotelB(props: Props) {
   const {
     hotel: {
-      hotelName,
-      image,
-      province,
       city,
+      name,
+      slug,
       stars,
-      numberOfReservations,
-      price,
+      main_image,
+      total_price,
+      reservation_count,
     },
   } = props;
 
   return (
-    <div className="relative bg-white h-[21rem] p-3 flex flex-col gap-3 rounded-2xl shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)]">
+    <Link
+      href={`/best-hotels/${slug}`}
+      className="relative bg-white h-[21rem] p-3 flex flex-col gap-3 rounded-2xl shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)]"
+    >
       {/* Image */}
       <div className="bg-zinc-100 h-[11.5rem] overflow-hidden rounded-xl">
-        {image && (
+        {main_image && (
           <Image
-            src={image}
+            src={main_image}
             width={400}
             height={200}
             alt={'hotel-picture'}
@@ -41,7 +43,7 @@ export default function BestSellingHotelB(props: Props) {
         {/* Hotel-Name */}
         <h3 className="text-cs95 font-extrabold flex items-center gap-1">
           <span>هتل</span>
-          <span className="truncate">{hotelName}</span>
+          <span className="truncate">{name}</span>
         </h3>
 
         {/* Province | City | Stars */}
@@ -50,9 +52,9 @@ export default function BestSellingHotelB(props: Props) {
             <span>استان</span>
 
             <div className="flex-center gap-0.5">
-              <span className="max-w-28 truncate"></span>
+              <span className="max-w-28 truncate">{city.province}</span>
               <span>,</span>
-              <span className="max-w-28 truncate">{city}</span>
+              <span className="max-w-28 truncate">{city.name}</span>
             </div>
           </div>
 
@@ -68,18 +70,18 @@ export default function BestSellingHotelB(props: Props) {
         <div className="relative flex-between items-center gap-2 mt-auto">
           <div className="absolute -top-6 left-0 text-cs07 text-zinc-500 font-bold flex-center gap-1">
             <span>بیش از</span>
-            <span>{numberOfReservations}</span>
+            <span>{reservation_count}</span>
             <span>رزرو</span>
           </div>
 
           <span>شروع قیمت اتاق :</span>
 
           <div className="text-cs09 font-extrabold flex items-center gap-1">
-            <span>{numberSeparation(price)}</span>
+            <span>{numberSeparation(total_price)}</span>
             <span>تومان</span>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

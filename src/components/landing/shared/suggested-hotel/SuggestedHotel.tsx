@@ -97,7 +97,7 @@ export function SuggestedHotel(props: Props) {
           <span>امتیاز هتل :</span>
 
           <div className="font-bold flex items-center gap-1">
-            <span>{rating || average_score}</span>
+            {average_score > 1 ? average_score : rating}
             <span>امتیاز</span>
           </div>
         </div>

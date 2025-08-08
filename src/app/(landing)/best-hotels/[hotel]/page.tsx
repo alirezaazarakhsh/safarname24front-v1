@@ -6,7 +6,6 @@ import {
   Description,
   SectionLinks,
   EssentialTips,
-  SuggestedHotels,
   ImportantPlaces,
   CustomerReviews,
   AdditionalDetails,
@@ -36,7 +35,7 @@ type Props = {
 // ----------------------------------
 
 export default async function Hotel(props: Props) {
-  const { rooms, initialInfo, sectionLinks, suggestedHotels } = hotel;
+  const { initialInfo, sectionLinks } = hotel;
   const { hotel: hotelSlug } = await props.params;
 
   return (
@@ -53,7 +52,7 @@ export default async function Hotel(props: Props) {
           </div>
         </StickyArea>
 
-        <div className="relative mt-6 flex flex-col gap-14 lg:mt-12 lg:gap-20">
+        <div className="relative mt-5 flex flex-col gap-14 lg:mt-10 lg:gap-16">
           <Pictures hotelSlug={hotelSlug} />
 
           {/* === (Small-Screen) */}
@@ -93,7 +92,6 @@ export default async function Hotel(props: Props) {
           </div>
 
           <Rooms hotelSlug={hotelSlug} hotelName={initialInfo.hotelName} />
-
           <AdditionalDetails hotelSlug={hotelSlug} />
 
           <Section
