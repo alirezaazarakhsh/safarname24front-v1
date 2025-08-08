@@ -23,13 +23,13 @@ export default function SharingItem(props: Props) {
 
   return (
     <div className="bg-white h-16 text-cs85 px-3 flex items-center gap-4 rounded-cs-10 shadow-[0_0.5rem_1rem_rgba(0,0,0,0.03)]">
-      <div className="w-11 flex-center aspect-square border-2 rounded-lg">
+      <div className="w-11 flex-center aspect-square border rounded-lg">
         {icon === 'instagram' ? (
-          <FaInstagram color="#333" size={22} />
+          <FaInstagram color="#555" size={22} />
         ) : icon === 'telegram' ? (
-          <FaTelegram color="#333" size={22} />
+          <FaTelegram color="#555" size={22} />
         ) : (
-          <IoLogoWhatsapp color="#333" size={22} />
+          <IoLogoWhatsapp color="#555" size={22} />
         )}
       </div>
 

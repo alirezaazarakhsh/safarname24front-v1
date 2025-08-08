@@ -17,10 +17,8 @@ export default function PackedPrimaryInfo(props: Props) {
     price: {
       total_price,
       discount_date,
-      discount_amount,
       discount_percentage,
       total_price_discount,
-      is_fixed_discount_one_time,
     },
   } = props;
 
@@ -30,15 +28,8 @@ export default function PackedPrimaryInfo(props: Props) {
 
   return (
     <div className="text-zinc-800 text-cs08 font-bold flex-col lg:flex lg:p-5">
-      {is_fixed_discount_one_time && (
-        <div className="text-green-600 text-center hidden items-center gap-1 lg:flex">
-          <span>{numberSeparation(discount_amount)}</span>
-          <span>هزار تومن تخفیف هنگام خرید</span>
-        </div>
-      )}
-
-      <div className="bg-zinc-100/50 p-5 grid gap-4 border-t lg:bg-transparent lg:p-0 lg:mt-auto lg:border-none">
-        <div>
+      <div className="bg-zinc-100/10 p-5 flex flex-col gap-4 border-t lg:h-full lg:justify-center lg:bg-transparent lg:p-0 lg:border-none">
+        <div className="lg:hidden">
           {discount_percentage && !discount_date && (
             <div className="bg-cs-red/10 text-cs-red h-11 flex-center gap-1 col-span-2 rounded-lg">
               <span className="-ml-0.5">%</span>

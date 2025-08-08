@@ -59,7 +59,7 @@ export function HotelMap(props: Props) {
 
   return (
     <Dialog>
-      <DialogTrigger className="top-5 left-5 w-full h-10 px-4 mt-6 flex-center self-start gap-2 border-2 border-zinc-200 rounded-lg md:absolute md:w-max md:mt-0">
+      <DialogTrigger className="top-5 left-5 w-full h-10 px-4 mt-6 flex-center self-start gap-2 border border-zinc-200 rounded-lg md:absolute md:w-max md:mt-0 hover:bg-zinc-100/20">
         <Map size={20} color="#555" />
 
         <span className="text-zinc-700 font-bold">ورود به نقشه</span>

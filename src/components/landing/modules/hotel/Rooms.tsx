@@ -171,6 +171,7 @@ export function Rooms({ hotelName, hotelSlug }: Props) {
             <NumberOfNights type="else" />
             <Passengers sideOffset={15} triggerType="else" />
           </div>
+
           <div className="flex gap-4 mr-auto">
             <NumberOfRooms
               NumberOfRooms={status === 'success' ? data?.data.length : 0}

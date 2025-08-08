@@ -21,14 +21,6 @@ type Props = {
   setCommentType: (value: CommentType) => void;
 };
 
-type Form = {
-  text: string;
-  stars: number;
-  strength_ids: number[];
-  weakness_ids: number[];
-  suggested_items_with_rating: { id: number; rating: number }[];
-};
-
 type CommentType = 'rating' | 'desc';
 type ReactionType = 'success' | 'fail';
 
@@ -40,6 +32,7 @@ const switchCaseButton =
 export default function AddCommentChildren(props: Props) {
   const { closeDialog, commentType, setCommentType, hotelSlug } = props;
 
+  const [isLoading, setLoading] = useState(false);
   const [reactionOpen, setReactionOpen] = useState(false);
   const [reactionType, setReactionType] = useState<ReactionType>('success');
 
@@ -75,6 +68,7 @@ export default function AddCommentChildren(props: Props) {
       })),
     };
 
+    setLoading(true);
     try {
       await axiosInstance({
         url: `/hotel/hotels/${hotelSlug}/comments/create/`,
@@ -87,14 +81,20 @@ export default function AddCommentChildren(props: Props) {
 
       handleSetReaction('success', true);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       handleSetReaction('fail', true);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <>
       <SendTicketReaction
+        onClick={() => {
+          setReactionOpen(false);
+          closeDialog();
+        }}
         isOpen={reactionOpen}
         setOpen={setReactionOpen}
         reactionType={reactionType}
@@ -157,10 +157,14 @@ export default function AddCommentChildren(props: Props) {
       <div className="flex items-center">
         <button
           onClick={sendComment}
-          disabled={!formIsValid}
-          className={`w-full h-12 text-cs09 font-semibold rounded-cs-10 transition-all duration-300 ease-in-out ${formIsValid ? 'bg-cs-blue text-white' : 'bg-zinc-200 text-zinc-600'}`}
+          disabled={!formIsValid || isLoading}
+          className={`w-full h-12 text-cs09 flex-center font-semibold rounded-cs-10 transition-all ease-in-out disabled:opacity-80 ${formIsValid ? 'bg-cs-blue text-white' : 'bg-zinc-200 text-zinc-600'}`}
         >
-          ثبت دیدگاه
+          {isLoading ? (
+            <div className="loader-dots" />
+          ) : (
+            <span>ثبت دیدگاه</span>
+          )}
         </button>
       </div>
     </>

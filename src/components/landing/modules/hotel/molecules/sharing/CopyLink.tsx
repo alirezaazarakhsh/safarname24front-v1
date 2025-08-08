@@ -31,8 +31,8 @@ export default function CopyLink() {
 
   return (
     <div className="bg-white h-16 text-cs85 px-3 flex items-center gap-4 rounded-cs-10 shadow-[0_0.5rem_1rem_rgba(0,0,0,0.03)]">
-      <div className="w-11 flex-center aspect-square border-2 rounded-lg">
-        <FiCopy color="#333" size={22} />
+      <div className="w-11 flex-center aspect-square border rounded-lg">
+        <FiCopy color="#555" size={22} />
       </div>
 
       <span className="text-zinc-800 font-bold">کپی لینک</span>

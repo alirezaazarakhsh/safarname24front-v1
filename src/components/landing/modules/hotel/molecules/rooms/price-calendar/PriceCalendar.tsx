@@ -12,7 +12,6 @@ import { IoClose } from 'react-icons/io5';
 import { Room } from '@/types/landing';
 import CalendarCard from './CalendarCard';
 import { numberSeparation } from '@/utils';
-import { number } from 'framer-motion';
 
 type Props = {
   info: {
@@ -40,13 +39,13 @@ export default function PriceCalendar(props: Props) {
       <SheetContent
         side={'right'}
         aria-describedby={undefined}
-        className="w-full grid grid-rows-[auto_auto_1fr_auto] border-none md:w-[30rem]"
+        className="w-full grid grid-rows-[auto_auto_1fr_auto] border-none md:w-[28rem]"
       >
         <SheetTitle className="hidden"></SheetTitle>
 
         {/* === Logo & Title & Close */}
-        <div className="flex gap-3">
-          <div className="w-14">
+        <div className="flex gap-4">
+          <div className="w-16">
             <Image
               alt="logo"
               width={100}

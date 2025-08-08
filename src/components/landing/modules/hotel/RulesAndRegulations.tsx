@@ -37,9 +37,9 @@ export function RulesAndRegulations(props: Props) {
       {status === 'pending' ? (
         <Skeleton className="h-52" />
       ) : (
-        <div className="bg-white p-5 border-2 border-zinc-200 rounded-xl">
+        <div className="bg-white p-5 border border-zinc-200 rounded-xl">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 flex-center border-2 border-zinc-200 rounded-md">
+            <div className="w-10 h-10 flex-center border border-zinc-200 rounded-md">
               <Judge size={20} color="#444" />
             </div>
 

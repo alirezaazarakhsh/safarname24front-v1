@@ -20,6 +20,7 @@ type Props = {
 
 export default function RoomsArea(props: Props) {
   const { data, status } = props;
+  // console.log(data);
 
   if (status === 'pending') {
     return (

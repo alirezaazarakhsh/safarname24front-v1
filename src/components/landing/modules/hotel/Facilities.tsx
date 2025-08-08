@@ -2,26 +2,22 @@
 
 import { TopBarConfig } from '../../shared';
 import { Section } from './molecules/Section';
-
 import { useQuery } from '@tanstack/react-query';
 
 import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
-
 import MFacilities from './molecules/facilities/MFacilities';
 import { DFacilities } from './molecules/facilities/DFacilities';
 
 type Data = {
   name: string;
-  facilities: { title: string }[];
-  room_facilities: { title: string }[];
+  facilities: Facility[];
+  room_facilities: Facility[];
 };
 
 type ApiResponse = { data: Data };
-
-type Props = {
-  hotelSlug: string;
-};
+type Props = { hotelSlug: string };
+type Facility = { title: string; icon: { link: string } };
 
 // ---------------------------------------
 

@@ -18,7 +18,7 @@ export function SecondaryInfo(props: Props) {
   } = props;
 
   return (
-    <div className="mt-4 grid gap-3 overflow-hidden lg:grid-cols-[max-content_max-content] lg:gap-x-12 lg:mt-auto">
+    <div className="mt-4 grid gap-3 overflow-hidden lg:grid-cols-2 xl:flex xl:gap-10 xl:mt-auto">
       <InfoItem value={capacity} type="capacity" />
       <InfoItem value={services} type="services" />
       <InfoItem value={extraCapacity} type="extraCapacity" />
@@ -59,7 +59,7 @@ export default function InfoItem(props: InfoItemProps) {
         variant="Outline"
       />
 
-      <div className="text-zinc-800 text-cs08 font-semibold truncate flex items-center gap-1">
+      <div className="text-zinc-800 text-cs08 font-semibold truncate flex items-center gap-1 lg:text-cs85">
         <span>{info?.info[0]}</span>
         <span>:</span>
         <span>{value}</span>
