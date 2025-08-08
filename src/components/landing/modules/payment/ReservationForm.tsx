@@ -71,7 +71,7 @@ export function ReservationForm() {
                 </div>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2 md:gap-x-6 lg:grid-cols-4">
+              {/* <div className="grid gap-4 md:grid-cols-2 md:gap-x-6 lg:grid-cols-4">
                 {formDetail.rooms[index]?.main_passenger.map((item, index) => (
                   <Input
                     key={index}
@@ -103,7 +103,7 @@ export function ReservationForm() {
                     </div>
                   ),
                 )}
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
