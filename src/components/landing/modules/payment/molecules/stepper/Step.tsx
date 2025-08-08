@@ -12,7 +12,7 @@ interface Props {
 
 // ------------------------------
 
-export default function Step(props: Props) {
+export function Step(props: Props) {
   const { icon, title, step, activeStep, index, errorSlot } = props;
 
   const isError = errorSlot === index;
@@ -22,7 +22,7 @@ export default function Step(props: Props) {
   return (
     <div className="w-full flex items-center gap-1.5 group last:w-fit lg:max-w-max lg:last:w-full lg:gap-3">
       <div
-        className={`w-11 h-11 flex-center cursor-pointer border-2 rounded-full lg:rounded-lg ${isError ? 'bg-red-500/10 border-red-500' : isActive ? 'border-zinc-300' : isFulfilled ? 'bg-green-500/10 border-green-500' : 'bg-zinc-200/50 border-transparent lg:bg-zinc-100'}`}
+        className={`w-10 aspect-square flex-center cursor-pointer border rounded-full lg:rounded-lg ${isError ? 'bg-red-500/10 border-red-500' : isActive ? 'border-zinc-300' : isFulfilled ? 'bg-green-500/10 border-green-500' : 'bg-zinc-200/50 border-transparent lg:bg-zinc-100'}`}
       >
         <IconsaxIcons
           size={20}
@@ -31,8 +31,8 @@ export default function Step(props: Props) {
         />
       </div>
 
-      <div className="font-semibold hidden gap-1.5 lg:grid">
-        <span className="text-zinc-600 text-cs08">مرحله {step}</span>
+      <div className="font-semibold hidden gap-1 lg:grid">
+        <span className="text-zinc-500 text-cs75">مرحله {step}</span>
         <span className="text-cs85">{title}</span>
       </div>
 

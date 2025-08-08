@@ -21,12 +21,9 @@ import { useMediaQuery } from '@/hooks';
 import { IoClose } from 'react-icons/io5';
 import SharingContent from './SharingContent';
 
-type Props = {};
-
 // -----------------------------------------------------
 
-export default function Sharing(props: Props) {
-  const {} = props;
+export default function Sharing() {
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   return (

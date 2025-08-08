@@ -47,7 +47,6 @@ export default function Configs(props: Props) {
 
       <div className="w-fit h-full flex gap-2">
         <BackToTopBtn />
-
         <Sharing />
         <FavoriteButton />
       </div>

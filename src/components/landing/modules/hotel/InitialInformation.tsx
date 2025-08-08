@@ -14,7 +14,7 @@ export const HotelMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <button className="top-4 left-4 w-full h-10 px-4 mt-6 flex-center self-start gap-2 border-2 border-zinc-200 rounded-lg md:absolute md:w-max md:mt-0"></button>
+      <button className="top-4 left-4 w-full h-10 px-4 mt-6 flex-center self-start gap-2 border border-zinc-200 rounded-lg md:absolute md:w-max md:mt-0"></button>
     ),
   },
 );
@@ -57,10 +57,10 @@ export function InitialInformation(props: Props) {
       {status === 'pending' ? (
         <Skeleton className="h-72" />
       ) : (
-        <div className="relative h-auto bg-white text-[clamp(0.75rem,2vw,0.8rem)] p-5 overflow-hidden border-2 border-zinc-200 rounded-xl md:text-cs75">
+        <div className="relative h-auto bg-white text-[clamp(0.75rem,2vw,0.8rem)] p-5 overflow-hidden border border-zinc-200 rounded-xl md:text-cs75">
           {/* Logo | HotelName | City | Stars */}
-          <div className="flex items-center gap-4">
-            <div className="w-[clamp(4.5rem,3vw,5rem)] aspect-square overflow-hidden border-2 p-1 border-zinc-200 rounded-lg">
+          <div className="flex items-center gap-3.5">
+            <div className="w-[clamp(4.5rem,3vw,5rem)] aspect-square overflow-hidden border p-1 border-zinc-200 rounded-lg">
               {data?.data.logo_preview && (
                 <Image
                   src={data?.data.logo_preview}
@@ -89,8 +89,8 @@ export function InitialInformation(props: Props) {
           </div>
 
           {/* Address */}
-          <div className="text-zinc-600 font-bold flex items-center gap-3 mt-6 mb-4">
-            <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
+          <div className="text-zinc-600 font-bold flex items-center gap-3 my-4">
+            <div className="w-9 h-9 flex-center border border-zinc-200 rounded-md">
               <ICLocation />
             </div>
 
@@ -102,9 +102,9 @@ export function InitialInformation(props: Props) {
           </div>
 
           {/* NumberOfRooms | NumberOfFloors | EntryTime | ExitTime */}
-          <div className="text-zinc-600 font-bold grid gap-3 md:grid-cols-2 md:gap-4">
+          <div className="text-zinc-600 font-bold grid gap-3 md:grid-cols-2">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
+              <div className="w-9 h-9 flex-center border border-zinc-200 rounded-md">
                 <ICApartment />
               </div>
 
@@ -117,7 +117,7 @@ export function InitialInformation(props: Props) {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
+              <div className="w-9 h-9 flex-center border border-zinc-200 rounded-md">
                 <ICApartment type={2} />
               </div>
 
@@ -130,7 +130,7 @@ export function InitialInformation(props: Props) {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
+              <div className="w-9 h-9 flex-center border border-zinc-200 rounded-md">
                 <ICClock className="w-5 h-5" />
               </div>
 
@@ -142,7 +142,7 @@ export function InitialInformation(props: Props) {
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
+              <div className="w-9 h-9 flex-center border border-zinc-200 rounded-md">
                 <ICClock className="w-5 h-5" />
               </div>
 

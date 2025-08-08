@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PiPlus } from 'react-icons/pi';
 import { useQuery } from '@tanstack/react-query';
 
@@ -33,12 +33,10 @@ export function CustomerReviews(props: Props) {
   const [isOpen, setOpen] = useState(false);
   const [addCommentIsOpen, setAddCommentIsOpen] = useState(false);
 
-  const { data, status } = useQuery<ApiResponse>({
+  const { data } = useQuery<ApiResponse>({
     queryKey: ['hotel-comments-list'],
     queryFn: () => generalInstance(`/hotel/hotels/${hotelSlug}/comments`),
   });
-
-  useEffect(() => {}, []);
 
   return (
     <Section sectionID="customer-reviews" className="relative">
@@ -49,10 +47,9 @@ export function CustomerReviews(props: Props) {
       />
 
       <button
-        className="absolute top-0 left-0 h-10 px-4 pr-3 flex-center gap-2 border rounded-lg"
+        className="absolute bg-white/50 top-0 left-0 h-10 px-4 pr-3 flex-center gap-2 border rounded-lg"
         onClick={() => {
           const authToken = Cookies.get('auth');
-
           if (authToken) setAddCommentIsOpen(true);
           else setOpen(true);
         }}
@@ -64,17 +61,15 @@ export function CustomerReviews(props: Props) {
         </span>
       </button>
 
-      {status !== 'pending' && data?.data.length !== 0 && (
-        <div className="flex bg-red-100 flex-col gap-6 overflow-hidden lg:h-[30rem] lg:flex-row lg:gap-8">
-          <div className="lg:w-4/12">
-            <ReviewsAverage hotelSlug={hotelSlug} />
-          </div>
-
-          <div className="overflow-hidden lg:w-8/12">
-            <Reviews hotelSlug={hotelSlug} />
-          </div>
+      <div className="flex flex-col gap-6 overflow-hidden lg:h-[30rem] lg:flex-row lg:gap-8">
+        <div className="lg:w-4/12">
+          <ReviewsAverage hotelSlug={hotelSlug} />
         </div>
-      )}
+
+        <div className="overflow-hidden lg:w-8/12">
+          <Reviews hotelSlug={hotelSlug} />
+        </div>
+      </div>
 
       <AddCommentProvider>
         <AddCommentWrapper

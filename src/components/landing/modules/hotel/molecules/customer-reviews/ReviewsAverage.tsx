@@ -24,6 +24,12 @@ export default function ReviewsAverage(props: Props) {
       generalInstance(`/hotel/hotels/${hotelSlug}/comments/points-summary`),
   });
 
+  if (
+    status !== 'pending' &&
+    (!data?.data || !data?.data.average_score || data?.data.average_score === 0)
+  )
+    return null;
+
   return (
     <>
       {status === 'pending' ? (

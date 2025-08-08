@@ -28,8 +28,11 @@ export default function NormalRoom(props: Props) {
   return (
     <div className="bg-white grid overflow-hidden border rounded-xl lg:grid-cols-[1fr_17rem] lg:rounded-2xl">
       <div className="relative text-zinc-800 text-cs08 font-semibold p-5 flex flex-col gap-2 overflow-hidden lg:border-l lg:p-6">
-        <div className="text-cs09 font-extrabold truncate">{name}</div>
-        <div className="text-zinc-500 text-cs75 line-clamp-2 lg:w-3/5 lg:line-clamp-1">
+        <div className="text-cs09 font-extrabold truncate lg:text-cs95">
+          {name}
+        </div>
+
+        <div className="text-zinc-500 text-cs08 line-clamp-2 lg:w-3/5 lg:line-clamp-1">
           {descriptions}
         </div>
 
@@ -51,7 +54,7 @@ export default function NormalRoom(props: Props) {
               </div>
             )}
 
-            {formattedDeadline && (
+            {price.discount_percentage && formattedDeadline && (
               <div className="w-48 grid">
                 <DeadlineTimer date={formattedDeadline} />
               </div>

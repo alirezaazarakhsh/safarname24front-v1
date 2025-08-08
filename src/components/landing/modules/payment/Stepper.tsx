@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import Step from './Step';
-import { payment } from '@/constants/landing';
 import Link from 'next/link';
+import { useState } from 'react';
+import { Step } from './molecules/stepper';
+import { payment } from '@/constants/landing';
 
 // ------------------------------
 
@@ -19,7 +19,7 @@ export function Stepper() {
 
   return (
     <div>
-      <div className="flex-between items-center lg:bg-white lg:p-4 lg:border-2 lg:rounded-xl">
+      <div className="flex-between items-center lg:bg-white lg:p-4 lg:border lg:rounded-xl">
         {/* === Steps */}
         <div className="flex-1 flex gap-1.5 lg:flex-none lg:gap-14">
           {stepper.map((step, index) => (
@@ -42,7 +42,7 @@ export function Stepper() {
       </div>
 
       {/* === Step-Info (Small-Screen) */}
-      <div className="bg-white text-cs08 font-semibold p-3 mt-6 flex-between items-center border-2 rounded-cs-10 lg:hidden">
+      <div className="bg-white text-cs08 font-semibold p-3 mt-6 flex-between items-center border rounded-cs-10 lg:hidden">
         <div className="grid gap-1.5">
           <span className="text-zinc-600">
             مرحله {stepper[activeStep].step}

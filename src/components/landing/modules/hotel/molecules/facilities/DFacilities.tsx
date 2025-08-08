@@ -2,6 +2,7 @@ import 'swiper/css';
 import '@/styles/swiper.css';
 import 'swiper/css/pagination';
 
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { TickSquare } from 'iconsax-react';
 
@@ -14,16 +15,14 @@ import { Swiper as SwiperType } from 'swiper/types';
 
 type Data = {
   name: string;
-  facilities: { title: string }[];
-  room_facilities: { title: string }[];
+  facilities: Facility[];
+  room_facilities: Facility[];
 };
 
+type Props = { facilities?: Data };
 type FacilitiesType = 'hotel' | 'room';
-type ChunkArrayProps = { array?: { title: string }[]; chunkSize?: number };
-
-type Props = {
-  facilities?: Data;
-};
+type Facility = { title: string; icon: { link: string } };
+type ChunkArrayProps = { array?: Facility[]; chunkSize?: number };
 
 // ------------------------------
 
@@ -84,8 +83,17 @@ export function DFacilities(props: Props) {
             <SwiperSlide key={index} className="overflow-hidden select-none">
               <div className="w-[calc(100%-3rem)] h-full grid grid-cols-4 grid-rows-3 gap-4 lg:grid-cols-5 xl:grid-cols-6">
                 {item.map((item, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <TickSquare size={20} color="#444" />
+                  <div key={index} className="flex items-center gap-2.5">
+                    {item?.icon?.link ? (
+                      <Image
+                        alt="icon"
+                        width={24}
+                        height={24}
+                        src={item?.icon?.link}
+                      />
+                    ) : (
+                      <TickSquare size={22} color="#444" />
+                    )}
 
                     <span className="text-zinc-700 text-cs08 font-bold flex-1 truncate">
                       {item.title}

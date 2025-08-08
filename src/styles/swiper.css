@@ -38,11 +38,6 @@
 
 /* -------------------------- */
 
-.bestSellingHotelsA-swiper,
-.bestSellingHotelsB-swiper {
-  padding-bottom: 3rem !important;
-}
-
 .bestSellingHotelsA-swiper .swiper-pagination-bullet {
   background-color: rgb(100, 100, 100);
 }
@@ -56,12 +51,6 @@
   height: 0.25rem;
   border-radius: 0.2rem;
   background-color: rgb(100, 100, 100);
-}
-
-@media screen and (min-width: 1280px) {
-  .bestSellingHotelsA-swiper {
-    padding-bottom: 0 !important;
-  }
 }
 
 /* =============== HOTEL-PAGE ===============  */

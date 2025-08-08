@@ -26,10 +26,10 @@ export default function Review(props: HotelCustomerReview) {
         <div className="bg-zinc-100 w-12 h-12 overflow-hidden rounded-full lg:w-12 lg:h-12">
           {user_image && (
             <Image
-              src={user_image}
-              alt={'customer-avatar'}
               width={100}
               height={100}
+              alt={'avatar'}
+              src={user_image}
               className="full-size object-contain"
             />
           )}
@@ -81,6 +81,8 @@ export default function Review(props: HotelCustomerReview) {
       {/* Time | Rate (Small-Screen) */}
       <div className="h-9 top-5 left-5 text-zinc-100 text-cs08 font-semibold flex justify-end gap-3 mt-6 lg:mt-0 lg:absolute">
         <div className="bg-cs-dark-blue px-4 flex-center gap-1.5 rounded-lg">
+          <span>{created_time}</span>
+          <span>-</span>
           <span>{created_date}</span>
         </div>
 

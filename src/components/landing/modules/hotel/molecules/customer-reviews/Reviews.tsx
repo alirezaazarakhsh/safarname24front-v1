@@ -35,6 +35,9 @@ export default function Reviews(props: Props) {
     queryFn: () => generalInstance(`/hotel/hotels/${hotelSlug}/comments`),
   });
 
+  if (status !== 'pending' && (!data?.data || data?.data.length === 0))
+    return null;
+
   return (
     <>
       {/* Small-Screen */}

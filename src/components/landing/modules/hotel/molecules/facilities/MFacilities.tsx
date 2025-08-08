@@ -8,23 +8,21 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 
+import Image from 'next/image';
+import { useState } from 'react';
 import { useMediaQuery } from '@/hooks';
 import SwitchCase from './molecules/SwitchCase';
-
-import { useState } from 'react';
 import { ArrowLeft, ArrowRight, TickSquare } from 'iconsax-react';
 
 type Data = {
   name: string;
-  facilities: { title: string }[];
-  room_facilities: { title: string }[];
+  facilities: Facility[];
+  room_facilities: Facility[];
 };
 
+type Props = { facilities?: Data };
 type FacilitiesType = 'hotel' | 'room';
-
-type Props = {
-  facilities?: Data;
-};
+type Facility = { title: string; icon: { link: string } };
 
 // ---------------------------------------
 
@@ -47,10 +45,15 @@ export default function MFacilities(props: Props) {
   return (
     <div className="bg-white border-2 border-zinc-200 rounded-xl">
       {/* === First 5 items */}
-      <div className="p-5 grid gap-3">
+      <div className="p-5 grid gap-4">
         {facilities?.facilities.slice(0, 5).map((item, index) => (
-          <div key={index} className="flex items-center gap-3">
-            <TickSquare size={22} color="#444" />
+          <div key={index} className="flex items-center gap-2.5">
+            {item?.icon?.link ? (
+              <Image alt="icon" width={24} height={24} src={item?.icon?.link} />
+            ) : (
+              <TickSquare size={22} color="#444" />
+            )}
+
             <span className="text-zinc-700 text-cs85 font-bold">
               {item.title}
             </span>
@@ -91,7 +94,17 @@ export default function MFacilities(props: Props) {
                 key={index}
                 className="break-inside-avoid h-fit flex items-center gap-3"
               >
-                <TickSquare size={20} color="#444" />
+                {item?.icon?.link ? (
+                  <Image
+                    alt="icon"
+                    width={24}
+                    height={24}
+                    src={item?.icon?.link}
+                  />
+                ) : (
+                  <TickSquare size={22} color="#444" />
+                )}
+
                 <span className="text-zinc-700 text-cs08 font-bold">
                   {item.title}
                 </span>
