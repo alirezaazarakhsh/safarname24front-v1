@@ -20,6 +20,7 @@ import {
 
 type Props = {
   isOpen: boolean;
+  onClick?: () => void;
   reactionType: 'success' | 'fail';
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -27,7 +28,7 @@ type Props = {
 // ---------------------------------------
 
 export default function SendTicketReaction(props: Props) {
-  const { isOpen, setOpen, reactionType } = props;
+  const { isOpen, setOpen, onClick, reactionType } = props;
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const content =
@@ -52,6 +53,7 @@ export default function SendTicketReaction(props: Props) {
               </DialogDescription>
 
               <DialogClose
+                onClick={onClick}
                 className={`w-max h-10 text-zinc-100 px-6 rounded-lg ${
                   reactionType === 'success' ? 'bg-emerald-500' : 'bg-red-500'
                 }`}
@@ -76,6 +78,7 @@ export default function SendTicketReaction(props: Props) {
               </DrawerDescription>
 
               <DrawerClose
+                onClick={onClick}
                 className={`w-max h-10 text-zinc-100 px-6 rounded-lg ${
                   reactionType === 'success' ? 'bg-emerald-500' : 'bg-red-500'
                 }`}

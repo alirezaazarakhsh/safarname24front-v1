@@ -114,7 +114,7 @@ export default function PhoneNumber(props: Props) {
           />
         </div>
 
-        <p className="text-cs08 font-semibold text-red-500">
+        <p className="text-cs08 font-semibold text-red-500 mb-2 md:mb-0">
           {form.formState.errors.phoneNumber?.message}
         </p>
 
