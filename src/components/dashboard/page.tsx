@@ -17,6 +17,7 @@ import {
   GETPersonalProfile,
   GETWalletBalance,
 } from '@/types/dashboard/api/get';
+import { NotificationsContext } from '@/types/dashboard/context';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
@@ -28,9 +29,9 @@ export const userWalletBalanceContext = createContext<
   GETWalletBalance | undefined
 >(undefined);
 
-export const notificationContext = createContext<GETNotifications | undefined>(
-  undefined,
-);
+export const notificationContext = createContext<
+  NotificationsContext | undefined
+>(undefined);
 
 // defining query client for react query
 const queryClient = new QueryClient();
@@ -128,7 +129,12 @@ function InnerPage({
     return (
       <userFetchedInfoContext.Provider value={personalDataFetch.data}>
         <userWalletBalanceContext.Provider value={walletBalanceFetch.data}>
-          <notificationContext.Provider value={notificationsFetch.data}>
+          <notificationContext.Provider
+            value={{
+              data: notificationsFetch.data ? notificationsFetch.data : [],
+              refetch: notificationsFetch.refetch,
+            }}
+          >
             {!pathname.startsWith('/dashboard/reservations/') && <Header />}
             <MobileNav />
             <div

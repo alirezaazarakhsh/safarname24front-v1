@@ -227,6 +227,7 @@ export interface InputAndLabelPropsType
   validation?: string;
   label?: string;
   isValid?: boolean;
+  reset?: () => void;
   validationType?: 'text' | 'icon';
 }
 
