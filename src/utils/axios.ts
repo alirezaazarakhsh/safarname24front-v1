@@ -11,18 +11,43 @@ export const axiosInstance: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Refresh token logic
+// Refresh token control
 let isRefreshing = false;
 let failedQueue: {
   resolve: (value?: unknown) => void;
   reject: (reason?: unknown) => void;
 }[] = [];
+let logoutCalled = false;
 
 const processQueue = (error: any, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     error ? prom.reject(error) : prom.resolve(token);
   });
   failedQueue = [];
+};
+
+// Clears cookies
+const clearAuth = () => {
+  Cookies.remove('AUTH');
+  Cookies.remove('UPN');
+  Cookies.remove('auth');
+};
+
+// Redirect to login page unless already there
+const forceLogout = () => {
+  clearAuth();
+
+  // Prevent multiple logouts in the same session
+  if (logoutCalled) return;
+  logoutCalled = true;
+
+  const isAlreadyOnAuthPage =
+    window.location.pathname === '/' &&
+    window.location.search.includes('auth_open=true');
+
+  if (!isAlreadyOnAuthPage) {
+    window.location.href = '/?auth_open=true';
+  }
 };
 
 // REQUEST Interceptor
@@ -40,14 +65,6 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-const forceLogout = () => {
-  Cookies.remove('AUTH');
-  Cookies.remove('UPN');
-  Cookies.remove('auth');
-
-  window.location.href = '/?auth_open=true';
-};
-
 // RESPONSE Interceptor
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -55,8 +72,18 @@ axiosInstance.interceptors.response.use(
     const originalRequest: any = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
+      const authCookie = Cookies.get('auth');
+      const refreshUID = authCookie && JSON.parse(authCookie)?.refreshUID;
+
+      // No refresh token → logout or stop if already on auth page
+      if (!refreshUID) {
+        forceLogout();
+        return Promise.reject(error);
+      }
+
       originalRequest._retry = true;
 
+      // If already refreshing, queue this request
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -76,11 +103,6 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const authCookie = Cookies.get('auth');
-        const refreshUID = authCookie && JSON.parse(authCookie)?.refreshUID;
-
-        if (!refreshUID) throw new Error('No refresh token');
-
         const { data } = await axios.post(
           'https://cps.safarnameh24.com/api/v1/token/refresh/',
           { refreshToken: refreshUID },
@@ -89,6 +111,7 @@ axiosInstance.interceptors.response.use(
 
         const { accessToken, refreshToken } = data;
 
+        // Save new tokens
         Cookies.set(
           'auth',
           JSON.stringify({
@@ -109,7 +132,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);
-        forceLogout(); // 🚨 Force logout on refresh fail
+        forceLogout();
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
