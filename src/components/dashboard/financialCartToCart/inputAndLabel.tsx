@@ -23,6 +23,7 @@ export default function InputAndLabel({
   onChange,
   disabled,
   reset,
+  hasIRIcon = false,
   ...props
 }: InputAndLabelPropsType): ReactNode {
   // Returning JSX
@@ -72,20 +73,33 @@ export default function InputAndLabel({
                 </span>
               </div>
             ) : (
-              <button
-                disabled={!isValid}
-                onClick={reset && reset}
-                type="button"
-                className={
-                  'w-[30px] h-[30px] shrink-0 transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100 text-black/50 cursor-pointer'
-                }
-              >
-                <IconsaxIcons
-                  color={'currentColor'}
-                  name={isValid ? 'TickSquare' : 'CloseSquare'}
-                  className="w-[15px] h-[15px]"
-                />
-              </button>
+              <div className="flex items-center justify-between gap-1 shrink-0">
+                {hasIRIcon && (
+                  <div
+                    className={
+                      'w-[30px] h-[30px] flex items-center justify-center rounded-md bg-gray-100 text-black/50'
+                    }
+                  >
+                    <span className="text-cs06 block text-center truncate font-medium text-current -mb-0.5">
+                      IR
+                    </span>
+                  </div>
+                )}
+                <button
+                  disabled={!isValid}
+                  onClick={reset && reset}
+                  type="button"
+                  className={
+                    'w-[30px] h-[30px] transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100 text-black/50 cursor-pointer'
+                  }
+                >
+                  <IconsaxIcons
+                    color={'currentColor'}
+                    name={isValid ? 'TickSquare' : 'CloseSquare'}
+                    className="w-[15px] h-[15px]"
+                  />
+                </button>
+              </div>
             )}
           </div>
         </div>

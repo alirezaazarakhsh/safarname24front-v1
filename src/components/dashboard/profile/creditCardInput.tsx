@@ -22,6 +22,7 @@ export default function CreditCardInput({
   onFocus,
   onBlur,
   setValue,
+  reset,
   ...props
 }: CreditCardInputPropsType): ReactNode {
   // Defining states of component
@@ -76,6 +77,7 @@ export default function CreditCardInput({
         placeholder={placeholder}
         error={error}
         autoComplete={'off'}
+        reset={reset}
         onFocus={(e) => {
           setFocused(true);
           onFocus && onFocus(e);

@@ -229,6 +229,7 @@ export interface InputAndLabelPropsType
   label?: string;
   isValid?: boolean;
   reset?: () => void;
+  hasIRIcon?: boolean;
   validationType?: 'text' | 'icon';
 }
 
@@ -626,6 +627,7 @@ export interface CreditCardInputPropsType
   containerClassName?: string;
   isValid: boolean;
   validation: string;
+  reset?: () => void;
   error?: string;
   setValue: (number: string, sheba: string) => void;
 }

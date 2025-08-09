@@ -173,6 +173,7 @@ export default function BankInfoForm({
             placeholder="16 رقم شماره کارت را وارد نمایید"
             error={form.formState.errors.creditCard?.message}
             autoComplete="off"
+            reset={() => form.setValue('creditCard', '')}
             setValue={(number, sheba) => {
               form.setValue('creditCard', number);
               form.setValue('shabaNumber', sheba);
@@ -186,11 +187,8 @@ export default function BankInfoForm({
             placeholder="24 رقم شماره شبا کارت را وارد نمایید"
             error={form.formState.errors.shabaNumber?.message}
             autoComplete="off"
-            reset={() =>
-              form.reset({
-                shabaNumber: '',
-              })
-            }
+            hasIRIcon
+            reset={() => form.setValue('shabaNumber', '')}
             {...form.register('shabaNumber')}
           />
           <NormalInput
