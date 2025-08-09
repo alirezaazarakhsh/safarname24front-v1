@@ -1,5 +1,6 @@
 // Importing part
 import {
+  ButtonHTMLAttributes,
   Dispatch,
   InputHTMLAttributes,
   ReactNode,
@@ -631,4 +632,15 @@ export interface CreditCardInputPropsType
   error?: string;
   setValue: (number: string, sheba: string) => void;
   valueOfShabaNumber?: string;
+}
+
+export interface CreditCardDropDownPropsType
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
+  placeholder?: string;
+  value?: string;
+  side?: 'top' | 'bottom';
+  onValueChange?: (card: string, shaba: string) => void;
+  hasIRIcon?: boolean;
+  useSheba?: boolean;
+  reset?: () => void;
 }

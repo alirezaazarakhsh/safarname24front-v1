@@ -22,6 +22,7 @@ import { getBankFromCard } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
 import InputAndLabel from '../financialCartToCart/inputAndLabel';
 import CreditCardInput from './creditCardInput';
+import CreditCardDropDown from './creditCardDropdown';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -111,8 +112,9 @@ export default function BankInfoForm({
     await setPersonalInfoFetch.mutateAsync(formData);
   };
 
-  // Defining name and image of banks
+  // Defining variables
   const creditCardVal = form.watch('creditCard') || '';
+  const shabaVal = form.watch('shabaNumber') || '';
 
   useEffect(() => {
     const value = creditCardVal.slice(0, 6);
@@ -172,36 +174,35 @@ export default function BankInfoForm({
         >
           {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
         </button>
-        <div className="flex flex-col lg:gap-5 gap-[16px]">
-          <CreditCardInput
-            type="number"
-            isValid={!form.getFieldState('creditCard').invalid}
-            validation="creditCardNumberValidation"
+        <div className="flex flex-col lg:gap-5 gap-[16px] justify-between">
+          <CreditCardDropDown
+            className="lg:h-[50px] h-[45px] w-full"
             placeholder="16 رقم شماره کارت را وارد نمایید"
-            error={form.formState.errors.creditCard?.message}
-            autoComplete="off"
-            reset={() => form.setValue('creditCard', '')}
-            valueOfShabaNumber={form.getValues('shabaNumber')}
-            setValue={(number, sheba) => {
-              form.setValue('creditCard', number);
-              form.setValue('shabaNumber', sheba);
+            value={creditCardVal}
+            reset={() => {
+              form.setValue('creditCard', undefined);
+              form.setValue('shabaNumber', undefined);
             }}
-            {...form.register('creditCard')}
+            onValueChange={(card, shaba) => {
+              form.setValue('creditCard', card);
+              form.setValue('shabaNumber', shaba);
+            }}
           />
-          <InputAndLabel
-            validationType="icon"
-            isValid={!form.getFieldState('shabaNumber').invalid}
-            validation="shabaNumberValidation"
-            placeholder="24 رقم شماره شبا کارت را وارد نمایید"
-            error={form.formState.errors.shabaNumber?.message}
-            autoComplete="off"
+          <CreditCardDropDown
+            className="lg:h-[50px] h-[45px] w-full"
             hasIRIcon
-            onInput={(e) => {
-              form.setValue('shabaNumber', e.currentTarget.value);
-              console.log(e.currentTarget.value);
+            useSheba
+            side="top"
+            placeholder="24 رقم شماره شبا کارت را وارد نمایید"
+            value={shabaVal}
+            reset={() => {
+              form.setValue('creditCard', undefined);
+              form.setValue('shabaNumber', undefined);
             }}
-            reset={() => form.setValue('shabaNumber', '')}
-            {...form.register('shabaNumber')}
+            onValueChange={(card, shaba) => {
+              form.setValue('creditCard', card);
+              form.setValue('shabaNumber', shaba);
+            }}
           />
           <NormalInput
             placeholder="آدرس مسکونی "
@@ -210,7 +211,7 @@ export default function BankInfoForm({
             {...form.register('address')}
           />
         </div>
-        <div className="flex flex-col lg:gap-6 gap-[16px]">
+        <div className="flex flex-col lg:gap-6 gap-[16px] justify-between">
           <div className="flex items-center justify-start w-full gap-3">
             <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
               {!form.getFieldState('creditCard').invalid &&
@@ -320,11 +321,6 @@ export default function BankInfoForm({
             </button>
           </div>
         </div>
-      </div>
-      <div className="bg-black text-white p-3" dir="ltr">
-        <pre>
-          <p>{JSON.stringify(form.getValues(), null, 2)}</p>
-        </pre>
       </div>
     </div>
   );

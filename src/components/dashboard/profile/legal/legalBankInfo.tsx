@@ -20,8 +20,7 @@ import { getBankFromCard } from '@/utils/string';
 import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
-import InputAndLabel from '../../financialCartToCart/inputAndLabel';
-import CreditCardInput from '../creditCardInput';
+import CreditCardDropDown from '../creditCardDropdown';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
@@ -53,6 +52,7 @@ export default function LegalBankInfo({
 
   // Defining name and image of banks
   const creditCardVal = form.watch('creditCard') || '';
+  const shabaVal = form.watch('shabaNumber') || '';
 
   useEffect(() => {
     const value = creditCardVal.slice(0, 6);
@@ -260,23 +260,20 @@ export default function LegalBankInfo({
             </p>
           </div>
         </button>
-        <CreditCardInput
-          type="number"
-          isValid={!form.getFieldState('creditCard').invalid}
-          validation="creditCardNumberValidation"
+        <CreditCardDropDown
+          className="lg:h-[50px] h-[45px] w-full"
           placeholder="16 رقم شماره کارت را وارد نمایید"
-          error={form.formState.errors.creditCard?.message}
-          autoComplete="off"
-          reset={() => form.setValue('creditCard', '')}
-          valueOfShabaNumber={form.getValues('shabaNumber')}
+          value={creditCardVal}
           disabled={loading}
-          setValue={(number, sheba) => {
-            form.setValue('creditCard', number);
-            form.setValue('shabaNumber', sheba);
+          reset={() => {
+            form.setValue('creditCard', undefined);
+            form.setValue('shabaNumber', undefined);
           }}
-          {...form.register('creditCard')}
+          onValueChange={(card, shaba) => {
+            form.setValue('creditCard', card);
+            form.setValue('shabaNumber', shaba);
+          }}
         />
-
         <div
           data-loading={loading}
           className='lg:flex hidden items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
@@ -297,21 +294,22 @@ export default function LegalBankInfo({
             </p>
           </div>
         </div>
-        <InputAndLabel
-          validationType="icon"
-          isValid={!form.getFieldState('shabaNumber').invalid}
-          validation="shabaNumberValidation"
-          placeholder="24 رقم شماره شبا کارت را وارد نمایید"
-          error={form.formState.errors.shabaNumber?.message}
-          autoComplete="off"
+        <CreditCardDropDown
+          className="lg:h-[50px] h-[45px] w-full"
           hasIRIcon
+          useSheba
+          side="top"
+          placeholder="24 رقم شماره شبا کارت را وارد نمایید"
+          value={shabaVal}
           disabled={loading}
-          onInput={(e) => {
-            form.setValue('shabaNumber', e.currentTarget.value);
-            console.log(e.currentTarget.value);
+          reset={() => {
+            form.setValue('creditCard', undefined);
+            form.setValue('shabaNumber', undefined);
           }}
-          reset={() => form.setValue('shabaNumber', '')}
-          {...form.register('shabaNumber')}
+          onValueChange={(card, shaba) => {
+            form.setValue('creditCard', card);
+            form.setValue('shabaNumber', shaba);
+          }}
         />
         <button
           {...getRootProps()}
