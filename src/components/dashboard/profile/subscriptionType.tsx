@@ -1,61 +1,143 @@
+// Forcing next.js to render this component as client side component
+'use client';
+
 // Importing part
-import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { SubscriptionTypeComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Image from 'next/image';
 import starsBg from '../../../../public/image/subscriptionStars.png';
 import Tooltip from '../ui/tooltip';
+import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETUserLevelItem, GETUserLevels } from '@/types/dashboard/api/get';
+import Loading from '../ui/loading';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 // Creating and exporting SubscriptionType component as default
 export default function SubscriptionType({
-  type,
   className,
 }: SubscriptionTypeComponentPropsType): ReactNode {
-  // Returning JSX
-  return (
-    <Tooltip
-      content='* با ارتقای خرید سطح کاربری خود را افزایش دهید تا در تخفیفات
-اتاق بهترین خرید داشته باشید برای اطلاعات بیشتر به صفحه قوانین و مقررات مراجعه نمایید.'
-    >
+  // Defining hooks
+  const [userLevel, setUserLevel] = useState<GETUserLevelItem>();
+  const { level } = useUserInfo();
+  const { isLoading, data, isError } = useApiQuery<GETUserLevels>({
+    url: '/config/user-levels/',
+    queryKey: ['user-levels'],
+    options: {
+      staleTime: Infinity,
+    },
+  });
+
+  // Using useEffect to set level of user
+  useEffect(() => {
+    if (!isLoading && !isError && data) {
+      const userLevelIndex = level ? level - 1 : 0;
+      const levelObj = data[userLevelIndex];
+
+      setUserLevel(levelObj);
+    }
+  }, [isLoading]);
+
+  // Conditional rendering
+  if (isLoading) {
+    return (
       <div
         className={cn(
-          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr from-[#282828] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
-          type === 'premium'
-            ? 'to-[#E4BF45]'
-            : type === 'silver'
-              ? 'to-[#616161]'
-              : 'to-cs-red',
+          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr to-[#282828] from-[#282828] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative group transition-all duration-500 opacity-50 cursor-not-allowed',
           className,
         )}
       >
         <Image
-          alt='عکس ستاره ها'
+          alt="عکس ستاره ها"
           src={starsBg.src}
           width={340}
           height={180}
-          className='absolute top-0 left-0 w-full object-cover scale-105 h-full pointer-events-none'
+          className="absolute top-0 left-0 w-full object-cover scale-105 h-full pointer-events-none"
         />
-        <div className='border-2 border-current lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] aspect-square shrink-0 flex items-center justify-center lg:rounded-md rounded-[8px]'>
-          <IconsaxIcons
-            name='Rank'
-            className='lg:w-[20px] lg:h-[20px] w-[27px] h-[27px]'
-            color='currentColor'
-          />
+        <div className="border-2 border-current lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] aspect-square shrink-0 flex items-center justify-center lg:rounded-md rounded-[8px]">
+          <Loading className="bg-white" />
         </div>
-        <div className='w-full overflow-hidden'>
-          <span className='font-semibold lg:text-cs08 text-[12px] text-current block text-right truncate lg:mb-2 mb-[4px]'>
+        <div className="w-full overflow-hidden">
+          <span className="font-semibold lg:text-cs08 text-[12px] text-current block text-right truncate lg:mb-2 mb-[4px]">
             سطح کاربری شما
           </span>
-          <span className='lg:font-semibold font-bold lg:text-cs08 text-[14px] text-current block text-right truncate'>
-            {type === 'premium'
-              ? 'پریمیوم'
-              : type === 'silver'
-                ? 'نقره ای'
-                : 'مهمان'}
+          <span className="lg:font-semibold font-bold lg:text-cs08 text-[14px] text-current block text-right truncate">
+            در حال دریافت اطلاعات ...
           </span>
         </div>
       </div>
-    </Tooltip>
-  );
+    );
+  } else if (isError) {
+    return (
+      <div
+        className={cn(
+          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr bg-[#282828] to-cs-red/20 from-cs-red lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
+          className,
+        )}
+      >
+        <Image
+          alt="عکس ستاره ها"
+          src={starsBg.src}
+          width={340}
+          height={180}
+          className="absolute top-0 left-0 w-full object-cover scale-105 h-full pointer-events-none"
+        />
+        <div className="border-2 border-current lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] aspect-square shrink-0 flex items-center justify-center lg:rounded-md rounded-[8px]">
+          <IconsaxIcons
+            name="Alarm"
+            color="white"
+            className="lg:w-[20px] lg:h-[20px] w-[27px] h-[27px]"
+          />
+        </div>
+        <div className="w-full overflow-hidden">
+          <span className="font-semibold lg:text-cs08 text-[12px] text-current block text-right truncate lg:mb-2 mb-[4px]">
+            سطح کاربری شما
+          </span>
+          <span className="lg:font-semibold font-bold lg:text-cs08 text-[14px] text-current block text-right truncate">
+            مشکلی در دریافت اطلاعات درخ داد !
+          </span>
+        </div>
+      </div>
+    );
+  } else if (data && !isError && !isLoading) {
+    return (
+      <Tooltip content="* با ارتقای خرید سطح کاربری خود را افزایش دهید تا در تخفیفات اتاق بهترین خرید داشته باشید برای اطلاعات بیشتر به صفحه قوانین و مقررات مراجعه نمایید.">
+        <div
+          className={cn(
+            'lg:rounded-lg rounded-[12px] bg-gradient-to-tr from-[#282828] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
+            level === 1
+              ? 'to-cs-red'
+              : level === 2
+                ? 'to-[#E4BF45]'
+                : '#282828',
+            className,
+          )}
+        >
+          <Image
+            alt="عکس ستاره ها"
+            src={starsBg.src}
+            width={340}
+            height={180}
+            className="absolute top-0 left-0 w-full object-cover scale-105 h-full pointer-events-none"
+          />
+          <div className="border-2 border-current lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] aspect-square shrink-0 flex items-center justify-center lg:rounded-md rounded-[8px] relative overflow-hidden">
+            <IconsaxIcons
+              name="Verify"
+              color="white"
+              className="lg:w-[20px] lg:h-[20px] w-[27px] h-[27px]"
+            />
+          </div>
+          <div className="w-full overflow-hidden">
+            <span className="font-semibold lg:text-cs08 text-[12px] text-current block text-right truncate lg:mb-2 mb-[4px]">
+              سطح کاربری شما
+            </span>
+            <span className="lg:font-semibold font-bold lg:text-cs08 text-[14px] text-current block text-right truncate">
+              {userLevel?.title || '-'}
+            </span>
+          </div>
+        </div>
+      </Tooltip>
+    );
+  }
 }

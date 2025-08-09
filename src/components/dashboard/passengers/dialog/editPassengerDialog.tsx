@@ -90,22 +90,12 @@ export default function EditPassengersDialog({
 
   // Defining submit handler
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    if (
-      data.phoneNumber &&
-      phoneNumbers &&
-      phoneNumbers.includes(data.phoneNumber)
-    ) {
-      form.setError('phoneNumber', {
-        message: 'این شماره تلفن ثبلا به ثبت رسیده.',
-      });
-    } else {
-      await fetchData.mutateAsync({
-        first_name: data.firstName,
-        last_name: data.lastName,
-        Indentification_code: data.nationalOrPassportCode,
-        phone_number: data.phoneNumber,
-      });
-    }
+    await fetchData.mutateAsync({
+      first_name: data.firstName,
+      last_name: data.lastName,
+      Indentification_code: data.nationalOrPassportCode,
+      phone_number: data.phoneNumber,
+    });
   };
 
   // Returning JSX

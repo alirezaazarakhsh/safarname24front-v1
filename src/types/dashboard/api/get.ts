@@ -40,6 +40,11 @@ export interface GETPersonalProfile {
   address: string;
   level: number | null;
   level_name: null | string;
+  card_numbers: {
+    id: number;
+    card_number: string;
+    iban: string;
+  }[];
 }
 
 export interface GETLegalProfile {
@@ -121,13 +126,24 @@ export interface GETFavoriteItemSingle {
 }
 
 export interface GETCustomerClubListItem {
-  created: string;
-  prize: {
+  id: number;
+  room: {
+    id: number;
     title: string;
-    expired_date: string;
-    discount_price: string;
-    discount_code: string;
+    hotel_name: string;
+    hotel_main_image: string;
   };
+  discount_value: string;
+  is_public: boolean;
+  code: string;
+  usage_limit: number;
+  required_points: number;
+  created_at: string;
+  expires_at: string;
+  activation_rules: string;
+  user: number;
+  user_level: number;
+  activated_users: number[];
 }
 
 export interface GETWalletBalance {
@@ -143,6 +159,8 @@ export interface GETNotificationItem {
   created_date_jalali: string;
   created_time: string;
   send_to_all: boolean;
+  read_by: string;
+  is_read: boolean;
 }
 
 export interface GETCreditCardItem {
@@ -151,9 +169,22 @@ export interface GETCreditCardItem {
   profile_type: string;
 }
 
+export interface GETUserLevelItem {
+  title: string;
+  icon: {
+    title: string;
+    url: string;
+  };
+}
+
+export interface GETUserPoints {
+  points: number;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
+export type GETUserLevels = GETUserLevelItem[];
 export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;

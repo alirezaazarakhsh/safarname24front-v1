@@ -46,7 +46,7 @@ export default function PassengersPage(): ReactNode {
 
   // Returning JSX
   return (
-    <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
+    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white">
       {getData.isLoading || getData.isRefetching ? (
         <>
           <Filter phoneNumbers={[]} loading dataNotEmpty />
@@ -68,8 +68,8 @@ export default function PassengersPage(): ReactNode {
               dataNotEmpty={false}
             />
             <EmptyTable
-              title='لسیت مسافاران خالی میباشد!'
-              description='لطفا از بالا مسافران خود را اضافه کنید'
+              title="لسیت مسافاران خالی میباشد!"
+              description="لطفا از بالا مسافران خود را اضافه کنید"
             />
           </>
         ) : (

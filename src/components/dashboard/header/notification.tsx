@@ -8,25 +8,15 @@ import { ICNotificationStatus } from '@/components/icons/ICNotifcationStatus';
 import * as NotificationComponent from '@/components/dashboard/notification';
 import { ICDashedBorder } from '@/components/icons/ICDashedBorder';
 import useNotification from '@/hooks/dashboard/useNotifications';
-import moment from 'jalali-moment';
-import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting Notification component as default
 export default function Notification(): ReactNode {
   // Defining hooks
   const [sheetOpened, setSheetOpened] = useState<boolean>(false);
   const { data } = useNotification();
-  const [localStorageNotifications] = useLocalStorageState<number[]>(
-    'opened-notifications',
-    {
-      defaultValue: [],
-    },
-  );
 
   // Defining variables
-  const unseenCount = data.filter(
-    (item) => !localStorageNotifications.includes(item.id),
-  ).length;
+  const unseenCount: number = data.filter((item) => !item.is_read).length;
 
   // Using useEffect to close the sheet whenever new notification arrives
   useEffect(() => setSheetOpened(false), [data.length]);
@@ -70,22 +60,12 @@ export default function Notification(): ReactNode {
             {data.map((item, index) => (
               <NotificationComponent.default
                 key={index}
+                data={item}
                 className={
                   index + 1 !== data.length
                     ? 'border-b border-b-black/20 pb-4'
                     : ''
                 }
-                data={{
-                  content: item.message,
-                  createdAt: moment(
-                    `${item.created_date_jalali} ${item.created_time}`,
-                    'jYYYY/jMM/jDD HH:mm:ss:',
-                  ).format(''),
-                  id: item.id,
-                  status: item.status === 'new' ? 'unseen' : 'important',
-                  title: item.title,
-                  isForAll: item.send_to_all,
-                }}
               />
             ))}
           </div>

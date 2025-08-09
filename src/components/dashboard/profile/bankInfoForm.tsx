@@ -20,7 +20,7 @@ import { personalFormType } from '@/app/dashboard/profile/page';
 import { BankInfo } from '@/types/utils';
 import { getBankFromCard } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
-import InputAndLabel from '../financialCartToCart/inputAndLabel';
+import CreditCardDropDown from './creditCardDropdown';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -99,12 +99,20 @@ export default function BankInfoForm({
     formData.append('address', data.address || '');
     formData.append('level', userInfo.level?.toString() || '0');
     formData.append('image', file ? file : '');
+    formData.append(
+      'card_numbers',
+      JSON.stringify({
+        card_number: data.creditCard,
+        iban: data.shabaNumber,
+      }),
+    );
 
     await setPersonalInfoFetch.mutateAsync(formData);
   };
 
-  // Defining name and image of banks
+  // Defining variables
   const creditCardVal = form.watch('creditCard') || '';
+  const shabaVal = form.watch('shabaNumber') || '';
 
   useEffect(() => {
     const value = creditCardVal.slice(0, 6);
@@ -164,34 +172,35 @@ export default function BankInfoForm({
         >
           {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
         </button>
-        <div className="flex flex-col lg:gap-5 gap-[16px]">
-          <InputAndLabel
-            validationType="icon"
-            isValid={!form.getFieldState('creditCard').invalid}
-            validation="creditCardNumberValidation"
+        <div className="flex flex-col lg:gap-5 gap-[16px] justify-between">
+          <CreditCardDropDown
+            className="lg:h-[50px] h-[45px] w-full"
             placeholder="16 رقم شماره کارت را وارد نمایید"
-            error={form.formState.errors.creditCard?.message}
-            autoComplete="off"
-            reset={() =>
-              form.reset({
-                creditCard: '',
-              })
-            }
-            {...form.register('creditCard')}
+            value={creditCardVal}
+            reset={() => {
+              form.setValue('creditCard', undefined);
+              form.setValue('shabaNumber', undefined);
+            }}
+            onValueChange={(card, shaba) => {
+              form.setValue('creditCard', card);
+              form.setValue('shabaNumber', shaba);
+            }}
           />
-          <InputAndLabel
-            validationType="icon"
-            isValid={!form.getFieldState('shabaNumber').invalid}
-            validation="shabaNumberValidation"
+          <CreditCardDropDown
+            className="lg:h-[50px] h-[45px] w-full"
+            hasIRIcon
+            useSheba
+            side="top"
             placeholder="24 رقم شماره شبا کارت را وارد نمایید"
-            error={form.formState.errors.shabaNumber?.message}
-            autoComplete="off"
-            reset={() =>
-              form.reset({
-                shabaNumber: '',
-              })
-            }
-            {...form.register('shabaNumber')}
+            value={shabaVal}
+            reset={() => {
+              form.setValue('creditCard', undefined);
+              form.setValue('shabaNumber', undefined);
+            }}
+            onValueChange={(card, shaba) => {
+              form.setValue('creditCard', card);
+              form.setValue('shabaNumber', shaba);
+            }}
           />
           <NormalInput
             placeholder="آدرس مسکونی "
@@ -200,12 +209,12 @@ export default function BankInfoForm({
             {...form.register('address')}
           />
         </div>
-        <div className="flex flex-col lg:gap-6 gap-[16px]">
+        <div className="flex flex-col lg:gap-6 gap-[16px] justify-between">
           <div className="flex items-center justify-start w-full gap-3">
             <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
               {!form.getFieldState('creditCard').invalid &&
-              !form.getFieldState('shabaNumber').invalid &&
-              bankInfo ? (
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo ? (
                 <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
               ) : (
                 <IconsaxIcons name="Bank" color="currentColor" />
@@ -217,8 +226,8 @@ export default function BankInfoForm({
               </span>
               <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
                 {!form.getFieldState('creditCard').invalid &&
-                !form.getFieldState('shabaNumber').invalid &&
-                bankInfo
+                  !form.getFieldState('shabaNumber').invalid &&
+                  bankInfo
                   ? bankInfo?.name
                   : 'سیستم بانکی ناشناخته است!'}
               </p>
