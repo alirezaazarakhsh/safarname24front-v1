@@ -100,6 +100,13 @@ export default function BankInfoForm({
     formData.append('address', data.address || '');
     formData.append('level', userInfo.level?.toString() || '0');
     formData.append('image', file ? file : '');
+    formData.append(
+      'card_numbers',
+      JSON.stringify({
+        card_number: data.creditCard,
+        iban: data.shabaNumber,
+      }),
+    );
 
     await setPersonalInfoFetch.mutateAsync(formData);
   };
@@ -174,6 +181,7 @@ export default function BankInfoForm({
             error={form.formState.errors.creditCard?.message}
             autoComplete="off"
             reset={() => form.setValue('creditCard', '')}
+            valueOfShabaNumber={form.getValues('shabaNumber')}
             setValue={(number, sheba) => {
               form.setValue('creditCard', number);
               form.setValue('shabaNumber', sheba);
@@ -188,6 +196,10 @@ export default function BankInfoForm({
             error={form.formState.errors.shabaNumber?.message}
             autoComplete="off"
             hasIRIcon
+            onInput={(e) => {
+              form.setValue('shabaNumber', e.currentTarget.value);
+              console.log(e.currentTarget.value);
+            }}
             reset={() => form.setValue('shabaNumber', '')}
             {...form.register('shabaNumber')}
           />
@@ -308,6 +320,11 @@ export default function BankInfoForm({
             </button>
           </div>
         </div>
+      </div>
+      <div className="bg-black text-white p-3" dir="ltr">
+        <pre>
+          <p>{JSON.stringify(form.getValues(), null, 2)}</p>
+        </pre>
       </div>
     </div>
   );

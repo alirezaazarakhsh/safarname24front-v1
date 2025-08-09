@@ -23,6 +23,7 @@ export default function CreditCardInput({
   onBlur,
   setValue,
   reset,
+  valueOfShabaNumber,
   ...props
 }: CreditCardInputPropsType): ReactNode {
   // Defining states of component
@@ -82,6 +83,9 @@ export default function CreditCardInput({
           setFocused(true);
           onFocus && onFocus(e);
         }}
+        onInput={(e) =>
+          setValue(e.currentTarget.value, valueOfShabaNumber || '')
+        }
         {...props}
       />
       <div

@@ -630,4 +630,5 @@ export interface CreditCardInputPropsType
   reset?: () => void;
   error?: string;
   setValue: (number: string, sheba: string) => void;
+  valueOfShabaNumber?: string;
 }

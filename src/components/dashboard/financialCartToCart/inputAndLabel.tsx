@@ -30,7 +30,7 @@ export default function InputAndLabel({
   return (
     <div
       data-disabled={disabled}
-      className="w-full transition-all duration-500 data-[disabled='true']:opacity-50"
+      className="w-full transition-all duration-500 data-[disabled='true']:opacity-50 bg-white"
     >
       {label && (
         <Label
@@ -44,13 +44,13 @@ export default function InputAndLabel({
         </Label>
       )}
       {validation ? (
-        <div className="flex items-center justify-between gap-3 border border-black/10 rounded-lg overflow-hidden">
+        <div className="flex items-center justify-between gap-3 border border-black/10 rounded-lg overflow-hidden bg-white">
           <input
             id={id}
             placeholder={placeholder}
             data-errored={error !== undefined}
             className={cn(
-              'w-full block outline-0 border-0 h-[50px] pr-3  text-xs font-normal placeholder:text-xs data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red transition-all duration-500',
+              'w-full block outline-0 border-0 h-[50px] pr-3  text-xs font-normal placeholder:text-xs data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red transition-all duration-500 bg-transparent',
               className,
             )}
             disabled={disabled}
@@ -73,7 +73,7 @@ export default function InputAndLabel({
                 </span>
               </div>
             ) : (
-              <div className="flex items-center justify-between gap-1 shrink-0">
+              <div className="flex items-center justify-between gap-1 shrink-0 bg-transparent">
                 {hasIRIcon && (
                   <div
                     className={

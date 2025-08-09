@@ -113,6 +113,13 @@ export default function LegalBankInfo({
     formData.append('status', 'accpeted');
     formData.append('reject_reason', '');
     formData.append('image', file ? file : '');
+    formData.append(
+      'card_numbers',
+      JSON.stringify({
+        card_number: data.creditCard,
+        iban: data.shabaNumber,
+      }),
+    );
 
     await setLegalInfoFetch.mutateAsync(formData);
   };
@@ -260,13 +267,16 @@ export default function LegalBankInfo({
           placeholder="16 رقم شماره کارت را وارد نمایید"
           error={form.formState.errors.creditCard?.message}
           autoComplete="off"
+          reset={() => form.setValue('creditCard', '')}
+          valueOfShabaNumber={form.getValues('shabaNumber')}
+          disabled={loading}
           setValue={(number, sheba) => {
             form.setValue('creditCard', number);
             form.setValue('shabaNumber', sheba);
           }}
-          reset={() => form.setValue('creditCard', '')}
           {...form.register('creditCard')}
         />
+
         <div
           data-loading={loading}
           className='lg:flex hidden items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
@@ -294,8 +304,12 @@ export default function LegalBankInfo({
           placeholder="24 رقم شماره شبا کارت را وارد نمایید"
           error={form.formState.errors.shabaNumber?.message}
           autoComplete="off"
-          disabled={loading}
           hasIRIcon
+          disabled={loading}
+          onInput={(e) => {
+            form.setValue('shabaNumber', e.currentTarget.value);
+            console.log(e.currentTarget.value);
+          }}
           reset={() => form.setValue('shabaNumber', '')}
           {...form.register('shabaNumber')}
         />
