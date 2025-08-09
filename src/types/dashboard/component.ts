@@ -366,7 +366,6 @@ export interface FinancialFatorsDashboardTablePropsType {
 
 export interface FilterCustomClubPageComponentPropsType {
   onChange?: (val: 'shoppingCentre' | 'hotel') => void;
-  totalScore: number;
   loading?: boolean;
 }
 

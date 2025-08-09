@@ -38,7 +38,7 @@ export default function CustomerClubPage(): ReactNode {
     <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
       {getData.isLoading ? (
         <>
-          <Filter totalScore={0} loading />
+          <Filter loading />
           <CustomersClubTable
             loading
             paginationActiveIndex={paginationNumber}
@@ -55,13 +55,7 @@ export default function CustomerClubPage(): ReactNode {
           />
         ) : (
           <>
-            <Filter
-              onChange={setGiftsType}
-              totalScore={getData.data.results.reduce(
-                (sum, item) => sum + Number(item.required_points || 0),
-                0,
-              )}
-            />
+            <Filter onChange={setGiftsType} />
             <CustomersClubTable
               paginationCount={getData.data.count}
               paginationActiveIndex={paginationNumber}

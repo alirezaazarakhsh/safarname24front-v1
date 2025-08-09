@@ -177,6 +177,10 @@ export interface GETUserLevelItem {
   };
 }
 
+export interface GETUserPoints {
+  points: number;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];

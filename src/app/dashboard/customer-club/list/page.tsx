@@ -18,7 +18,7 @@ export default function CustomerClubList(): ReactNode {
 
   // Fetching the data
   const getData = useApiQuery<GETCustomerClubList>({
-    url: `/profile/customer-club/my-prizes/?p=${paginationNumber + 1}`,
+    url: `/crm/room-discount-codes//profile/customer-club/my-prizes/?p=${paginationNumber + 1}`,
     queryKey: ['my-prizes'],
   });
 
@@ -45,10 +45,10 @@ export default function CustomerClubList(): ReactNode {
 
   // Returning JSX
   return (
-    <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white'>
+    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
       {getData.isLoading ? (
         <>
-          <Filter onChange={(val) => setFilterVal(val)} loading />
+          <Filter onChange={() => {}} loading />
           <CustomerClubListTable loading data={[]} />
         </>
       ) : getData.isError ? (
@@ -56,16 +56,16 @@ export default function CustomerClubList(): ReactNode {
       ) : !getData.isError && getData.data ? (
         getData.data.count === 0 ? (
           <EmptyTable
-            title='لیست جوایز خالی میباشد!'
-            description='لطفا بعدا به این صفحه سر بزنید.'
+            title="لیست جوایز خالی میباشد!"
+            description="لطفا بعدا به این صفحه سر بزنید."
           />
         ) : (
           <>
             <Filter onChange={(val) => setFilterVal(val)} />
             {dataToRender.length === 0 ? (
               <EmptyTable
-                title='لیست جوایز خالی میباشد!'
-                description='لطفا بعدا به این صفحه سر بزنید.'
+                title="لیست جوایز خالی میباشد!"
+                description="لطفا بعدا به این صفحه سر بزنید."
               />
             ) : (
               <CustomerClubListTable

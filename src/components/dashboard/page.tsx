@@ -160,7 +160,7 @@ function InnerPage({
     );
   } else {
     // redirecting user
-    router.push('/?auth_open=true');
+    router.push('/');
 
     // Returning JSX
     return (
