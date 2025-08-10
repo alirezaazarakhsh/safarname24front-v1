@@ -125,7 +125,7 @@ export interface GETFavoriteItemSingle {
   favorites: Array<GETHotel | GETArticle>;
 }
 
-export interface GETCustomerClubListItem {
+export interface GETCustomerClubRoomListItem {
   id: number;
   room: {
     id: number;
@@ -144,6 +144,24 @@ export interface GETCustomerClubListItem {
   user: number;
   user_level: number;
   activated_users: number[];
+  users: number[];
+}
+
+export interface GETCustomerClubShoppingCentreListItem {
+  id: number;
+  shopping_center_name: string;
+  shopping_center_image: string | null;
+  discount_value: string;
+  is_public: boolean;
+  code: string;
+  usage_limit: number;
+  required_points: number;
+  expires_at: string;
+  activation_rules: string;
+  user: number;
+  user_level: number;
+  activated_users: number[];
+  users: number[];
 }
 
 export interface GETWalletBalance {
@@ -189,6 +207,6 @@ export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
-export type GETCustomerClubList = GETPaginationAPILayout<
-  GETCustomerClubListItem[]
->;
+export type GETCustomerClubRoomList = GETCustomerClubRoomListItem[];
+export type GETCustomerClubShoppingCentreList =
+  GETCustomerClubShoppingCentreListItem[];

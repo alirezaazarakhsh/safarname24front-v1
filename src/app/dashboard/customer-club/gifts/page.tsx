@@ -2,70 +2,99 @@
 'use client';
 
 // Importing part
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import Filter from '@/components/dashboard/customClub/filter';
 import CustomersClubTable from '@/components/dashboard/customClub/table';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETCustomerClubList } from '@/types/dashboard/api/get';
 import ErrorTable from '@/components/dashboard/api/errorTable';
 import EmptyTable from '@/components/dashboard/api/emptyTable';
+import {
+  GETCustomerClubRoomList,
+  GETCustomerClubShoppingCentreList,
+} from '@/types/dashboard/api/get';
+import RoomTable from '@/components/dashboard/customClub/roomTable';
 
 // Creating and exporting customer club page as default
 export default function CustomerClubPage(): ReactNode {
   // Defining hooks
-  const [paginationNumber, setPaginationNumber] = useState<number>(0);
   const [giftsType, setGiftsType] = useState<'shoppingCentre' | 'hotel'>(
     'shoppingCentre',
   );
 
   // Fetching the data
-  const getData = useApiQuery<GETCustomerClubList>({
-    url: `/crm/room-discount-codes/?p=${paginationNumber + 1}`,
-    queryKey: ['user-prizes'],
+  const shoppingCentresFetch = useApiQuery<GETCustomerClubShoppingCentreList>({
+    url: `/crm/shopping-discount-codes`,
+    queryKey: ['shopping-centre-gifts'],
+    options: {
+      enabled: giftsType === 'shoppingCentre',
+    },
   });
 
-  // Using useEffect to make useApiQuery Fetch again while pagination number changes
-  useEffect(() => {
-    async function handleRefetch() {
-      await getData.refetch();
-    }
-
-    handleRefetch();
-  }, [paginationNumber]);
+  const roomsFetch = useApiQuery<GETCustomerClubRoomList>({
+    url: `/crm/room-discount-codes`,
+    queryKey: ['room-gifts'],
+    options: {
+      enabled: giftsType === 'hotel',
+    },
+  });
 
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
-      {getData.isLoading ? (
+      {giftsType === 'shoppingCentre' ? (
         <>
-          <Filter loading />
-          <CustomersClubTable
-            loading
-            paginationActiveIndex={paginationNumber}
-            setPaginationActiveIndex={setPaginationNumber}
-          />
+          {shoppingCentresFetch.isLoading ? (
+            <>
+              <Filter loading />
+              <CustomersClubTable loading />
+            </>
+          ) : shoppingCentresFetch.error ? (
+            <ErrorTable />
+          ) : !shoppingCentresFetch.isError && shoppingCentresFetch.data ? (
+            <>
+              {shoppingCentresFetch.data.length === 0 ? (
+                <>
+                  <Filter onChange={setGiftsType} />
+                  <EmptyTable />
+                </>
+              ) : (
+                <>
+                  <Filter onChange={setGiftsType} />
+                  <CustomersClubTable data={shoppingCentresFetch.data} />
+                </>
+              )}
+            </>
+          ) : (
+            false
+          )}
         </>
-      ) : getData.isError ? (
-        <ErrorTable />
-      ) : !getData.isError && getData.data ? (
-        getData.data.count === 0 ? (
-          <EmptyTable
-            title="لیست جوایز خالی میباشد!"
-            description="لطفا بعدا به این صفحه سر بزنید."
-          />
-        ) : (
-          <>
-            <Filter onChange={setGiftsType} />
-            <CustomersClubTable
-              paginationCount={getData.data.count}
-              paginationActiveIndex={paginationNumber}
-              setPaginationActiveIndex={setPaginationNumber}
-              data={getData.data.results}
-            />
-          </>
-        )
       ) : (
-        false
+        <>
+          {roomsFetch.isLoading ? (
+            <>
+              <Filter loading />
+              <RoomTable loading />
+            </>
+          ) : roomsFetch.error ? (
+            <ErrorTable />
+          ) : !roomsFetch.isError && roomsFetch.data ? (
+            <>
+              {roomsFetch.data.length === 0 ? (
+                <>
+                  <Filter onChange={setGiftsType} />
+                  <EmptyTable />
+                </>
+              ) : (
+                <>
+                  <Filter onChange={setGiftsType} />
+                  <RoomTable data={roomsFetch.data} />
+                </>
+              )}
+            </>
+          ) : (
+            false
+          )}
+        </>
       )}
     </main>
   );

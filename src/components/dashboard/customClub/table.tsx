@@ -2,11 +2,9 @@
 'use client';
 
 // Importing part
-import moment from 'jalali-moment';
 import { CustomersClubTablePropsType } from '@/types/dashboard/component';
 import { ReactNode, useState } from 'react';
 import { cn } from '@/utils/utils';
-import CustomPagination from '@/components/dashboard/ui/customPagination';
 import {
   Table,
   TableHeader,
@@ -32,9 +30,6 @@ export default function CustomersClubTable({
   className,
   data,
   loading = false,
-  paginationActiveIndex,
-  setPaginationActiveIndex,
-  paginationCount = 12,
 }: CustomersClubTablePropsType): ReactNode {
   // Defining state of component
   const [acceptRulesDialogOpened, setAcceptRulesDialogOpened] =
@@ -92,12 +87,6 @@ export default function CustomersClubTable({
         <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
           مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
         </span>
-        <CustomPagination
-          count={paginationCount}
-          activeIndex={paginationActiveIndex}
-          loading={loading}
-          setActiveIndex={setPaginationActiveIndex}
-        />
       </div>
       {loading ? (
         <>
@@ -168,7 +157,7 @@ export default function CustomersClubTable({
           </Table>
           <div className="lg:hidden block mt-5">
             <div className="flex flex-col">
-              {[...new Array(18)].map((item, index) => (
+              {[...new Array(3)].map((item, index) => (
                 <div
                   key={index}
                   className={
@@ -226,7 +215,6 @@ export default function CustomersClubTable({
                 </div>
               ))}
             </div>
-            <CustomPagination count={12} />
           </div>
         </>
       ) : (
@@ -275,20 +263,20 @@ export default function CustomersClubTable({
                     </div>
                   </TableCell>
                   <TableCell className="p-3 w-[40px]">
-                    <div className="rounded-[5px] border border-black/10 bg-gray-100 flex items-center justify-center h-[40px] w-full overflow-hidden p-1">
+                    <div className="rounded-[5px] border border-black/10 bg-gray-100 flex items-center justify-center h-[40px] w-full overflow-hidden p-1 relative">
                       <Image
-                        alt={item.room.title}
+                        alt={item.shopping_center_name}
                         width={40}
                         height={40}
-                        src={SafarnameLogo.src}
-                        className="w-full h-auto"
+                        src={item.shopping_center_image || SafarnameLogo.src}
+                        className="w-full h-full absolute top-0 left-0 object-cover"
                       />
                     </div>
                   </TableCell>
                   <TableCell className="p-3">
-                    <Tooltip content={item.room.title}>
+                    <Tooltip content={item.shopping_center_name}>
                       <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                        {item.room.title}
+                        {item.shopping_center_name}
                       </span>
                     </Tooltip>
                   </TableCell>
@@ -309,24 +297,25 @@ export default function CustomersClubTable({
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {`${numberSeparation(item.required_points)} تومان`}
+                      {`${numberSeparation(item.discount_value)} تومان`}
                     </span>
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {`N/A امتیاز`}
+                      {`${numberSeparation(item.required_points)} امتیاز`}
                     </span>
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {moment(item.expires_at)
-                        .locale('fa')
-                        .format('jYYYY/jMM/jDD')}
+                      {item.expires_at}
                     </span>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-end gap-3">
                     <button
-                      onClick={() => setAcceptRulesDialogOpened(true)}
+                      onClick={() => {
+                        setAcceptRulesDialogOpened(true);
+                        setIdToAchive(item.id);
+                      }}
                       className={
                         'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100'
                       }
@@ -351,27 +340,30 @@ export default function CustomersClubTable({
                 >
                   <div className="flex items-center justify-between gap-3 mb-[25px]">
                     <div className="flex items-center justify-start gap-[12px]">
-                      <div className="rounded-[8px] shrink-0 border border-black/10 bg-gray-100 flex items-center justify-center w-[60px] h-[60px] overflow-hidden p-1">
+                      <div className="rounded-[8px] shrink-0 border border-black/10 bg-gray-100 flex items-center justify-center w-[60px] h-[60px] overflow-hidden p-1 relative">
                         <Image
-                          alt={item.room.title}
+                          alt={item.shopping_center_name}
                           width={60}
                           height={60}
-                          src={SafarnameLogo.src}
-                          className="w-full h-auto"
+                          src={item.shopping_center_image || SafarnameLogo.src}
+                          className="w-full h-full absolute top-0 left-0 object-cover"
                         />
                       </div>
                       <div>
                         <span className="text-black truncate block w-full mb-2 text-right font-semibold text-[12px]">
-                          {item.room.title}
+                          نام :
                         </span>
                         <span className="text-gray-500 truncate block w-full text-right font-semibold text-[10px]">
-                          {item.room.hotel_name}
+                          {item.shopping_center_name}
                         </span>
                       </div>
                     </div>
                     <button
                       className="w-[105px] h-[40px] transition-all duration-500 shrink-0 rounded-[7px] flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100"
-                      onClick={() => setAcceptRulesDialogOpened(true)}
+                      onClick={() => {
+                        setAcceptRulesDialogOpened(true);
+                        setIdToAchive(item.id);
+                      }}
                     >
                       <span className="text-[10px] text-current font-semibold">
                         دریافت جایزه
@@ -390,7 +382,7 @@ export default function CustomersClubTable({
                         عنوان :
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {item.room.title}
+                        {item.shopping_center_name}
                       </span>
                     </div>
                   </div>
@@ -407,11 +399,11 @@ export default function CustomersClubTable({
                       </span>
                       <div className="flex items-center justify-start gap-[10px]">
                         <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          {item.room.title}
+                          {item.code}
                         </span>
                         <button
                           className="text-cs-red shrink-0"
-                          onClick={() => hanldeClipboardCopy(item.room.title)}
+                          onClick={() => hanldeClipboardCopy(item.code)}
                         >
                           <IconsaxIcons
                             name="DocumentCopy"
@@ -434,7 +426,7 @@ export default function CustomersClubTable({
                         مبلغ تخفیف :
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {`${numberSeparation(429)} تومان`}
+                        {`${numberSeparation(item.discount_value)} تومان`}
                       </span>
                     </div>
                   </div>
@@ -450,7 +442,7 @@ export default function CustomersClubTable({
                         امتیاز مورد نیاز :
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {`${0} امتیاز`}
+                        {`${numberSeparation(item.required_points)} امتیاز`}
                       </span>
                     </div>
                   </div>
@@ -466,16 +458,13 @@ export default function CustomersClubTable({
                         تاریخ اعتبار کد تخفیف :
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {moment(item.expires_at)
-                          .locale('fa')
-                          .format('jYYYY/jMM/jDD')}
+                        {item.expires_at}
                       </span>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-            <CustomPagination count={12} />
           </div>
         </>
       )}

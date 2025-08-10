@@ -11,7 +11,11 @@ import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
+  GETCustomerClubList,
   GETCustomerClubListItem,
+  GETCustomerClubRoomList,
+  GETCustomerClubRoomListItem,
+  GETCustomerClubShoppingCentreList,
   GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
@@ -380,10 +384,13 @@ export interface ToggleButtonsPropsType {
 export interface CustomersClubTablePropsType {
   className?: string;
   loading?: boolean;
-  paginationCount?: number;
-  paginationActiveIndex: number;
-  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
-  data?: GETCustomerClubListItem[];
+  data?: GETCustomerClubShoppingCentreList;
+}
+
+export interface RoomTablePropsType {
+  className?: string;
+  loading?: boolean;
+  data?: GETCustomerClubRoomList;
 }
 
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {

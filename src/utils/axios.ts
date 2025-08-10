@@ -41,12 +41,9 @@ const forceLogout = () => {
   if (logoutCalled) return;
   logoutCalled = true;
 
-  const isAlreadyOnAuthPage =
-    window.location.pathname === '/' &&
-    window.location.search.includes('auth_open=true');
-
+  const isAlreadyOnAuthPage = window.location.pathname === '/';
   if (!isAlreadyOnAuthPage) {
-    window.location.href = '/?auth_open=true';
+    window.location.href = '/';
   }
 };
 
