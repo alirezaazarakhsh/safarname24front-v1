@@ -6,7 +6,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import Filter from '@/components/dashboard/CustomerClubList/filter';
 import CustomerClubListTable from '@/components/dashboard/CustomerClubList/table';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETCustomerClubList } from '@/types/dashboard/api/get';
 import ErrorTable from '@/components/dashboard/api/errorTable';
 import EmptyTable from '@/components/dashboard/api/emptyTable';
 
