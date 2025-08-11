@@ -41,27 +41,22 @@ export default function CustomerClubPage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
+      <Filter
+        loading={shoppingCentresFetch.isLoading}
+        onChange={setGiftsType}
+      />
       {giftsType === 'shoppingCentre' ? (
         <>
           {shoppingCentresFetch.isLoading ? (
-            <>
-              <Filter loading />
-              <CustomersClubTable loading />
-            </>
+            <CustomersClubTable loading />
           ) : shoppingCentresFetch.error ? (
             <ErrorTable />
           ) : !shoppingCentresFetch.isError && shoppingCentresFetch.data ? (
             <>
               {shoppingCentresFetch.data.length === 0 ? (
-                <>
-                  <Filter onChange={setGiftsType} />
-                  <EmptyTable />
-                </>
+                <EmptyTable />
               ) : (
-                <>
-                  <Filter onChange={setGiftsType} />
-                  <CustomersClubTable data={shoppingCentresFetch.data} />
-                </>
+                <CustomersClubTable data={shoppingCentresFetch.data} />
               )}
             </>
           ) : (
@@ -71,24 +66,15 @@ export default function CustomerClubPage(): ReactNode {
       ) : (
         <>
           {roomsFetch.isLoading ? (
-            <>
-              <Filter loading />
-              <RoomTable loading />
-            </>
+            <RoomTable loading />
           ) : roomsFetch.error ? (
             <ErrorTable />
           ) : !roomsFetch.isError && roomsFetch.data ? (
             <>
               {roomsFetch.data.length === 0 ? (
-                <>
-                  <Filter onChange={setGiftsType} />
-                  <EmptyTable />
-                </>
+                <EmptyTable />
               ) : (
-                <>
-                  <Filter onChange={setGiftsType} />
-                  <RoomTable data={roomsFetch.data} />
-                </>
+                <RoomTable data={roomsFetch.data} />
               )}
             </>
           ) : (
