@@ -1,9 +1,5 @@
 import { Trash } from 'iconsax-react';
 import { RoomConfigButton } from './RoomConfigButton';
-import {
-  useSearchContext,
-  useSearchDispatch,
-} from '@/context/HotelOrCityContext';
 import { usePassengersContext, usePassengersDispatch } from '@/context';
 
 type Props = {

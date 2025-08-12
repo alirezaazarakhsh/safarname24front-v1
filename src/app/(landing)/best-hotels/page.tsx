@@ -34,7 +34,7 @@ export default function BestHotels() {
           </div>
         </div>
 
-        <Pagination />
+        {/* <Pagination /> */}
       </div>
     </>
   );
