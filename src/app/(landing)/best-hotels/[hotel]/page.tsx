@@ -12,6 +12,7 @@ import {
   InitialInformation,
   RulesAndRegulations,
   FrequentlyQuestions,
+  SuggestedHotels,
 } from '@/components/landing/modules/hotel';
 
 import { hotel } from '@/constants/landing';
@@ -55,7 +56,6 @@ export default async function Hotel(props: Props) {
         <div className="relative mt-5 flex flex-col gap-14 lg:mt-10 lg:gap-16">
           <Pictures hotelSlug={hotelSlug} />
 
-          {/* === (Small-Screen) */}
           <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
             <FavoriteButton />
 
@@ -66,15 +66,11 @@ export default async function Hotel(props: Props) {
             </div>
           </div>
 
-          {/* === Section-Links (Small-Screen) */}
           <div className="bg-white h-12 pt-1 -mx-5 -mb-6 flex items-center overflow-hidden shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
             <SectionLinks sectionList={sectionLinks} />
           </div>
 
-          {/* === Large-Screen */}
           <Configs sectionList={sectionLinks} />
-
-          {/* -------------------------- */}
 
           <div>
             <TopBarConfig
@@ -107,11 +103,7 @@ export default async function Hotel(props: Props) {
           <FrequentlyQuestions hotelSlug={hotelSlug} />
           <CustomerReviews hotelSlug={hotelSlug} />
           <Tags hotelSlug={hotelSlug} />
-
-          {/* <SuggestedHotels
-            city={initialInfo.city}
-            suggestedHotels={suggestedHotels}
-          /> */}
+          <SuggestedHotels city={initialInfo.city} />
         </div>
       </HotelWrapper>
     </>

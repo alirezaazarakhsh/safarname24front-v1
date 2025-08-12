@@ -1,6 +1,6 @@
 import { Room } from '@/types/landing';
 import { numberSeparation } from '@/utils';
-import { Building, Moon } from 'iconsax-react';
+import { Building, InfoCircle, Moon } from 'iconsax-react';
 
 import { SecondaryInfo } from './atoms/SecondaryInfo';
 import PackedPrimaryInfo from './atoms/PackedPrimaryInfo';
@@ -57,16 +57,35 @@ export default function PackedRoom(props: Props) {
               {/* === Small-Screen */}
               {price.is_fixed_discount_one_time && (
                 <div className="text-green-600 mt-4 flex items-center gap-1 lg:hidden">
+                  <button className="relative ml-1 rounded-full group">
+                    <InfoCircle size={16} color="#16a34a" />
+
+                    <span className="bg-cs-dark-blue text-zinc-100 text-cs75 font-medium w-64 text-right px-3 py-2 absolute -top-14 right-0 transition-all ease-in-out rounded-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:-top-16">
+                      این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر
+                      میگردد
+                    </span>
+                  </button>
+
                   <span>{numberSeparation(price.discount_amount)}</span>
-                  <span>هزار تومن تخفیف هنگام خرید</span>
+                  <span>تومن تخفیف هنگام خرید</span>
                 </div>
               )}
 
+              {/* === Large-Screen */}
               <div className="absolute top-5 left-5 hidden lg:block">
                 {price.is_fixed_discount_one_time && (
                   <div className="text-green-600 text-center hidden items-center gap-1 lg:flex">
+                    <button className="relative ml-1 rounded-full group">
+                      <InfoCircle size={16} color="#16a34a" />
+
+                      <span className="bg-cs-dark-blue text-cs75 text-zinc-100 font-medium w-60 text-right px-3 py-2 absolute top-6 -right-4 transition-all ease-in-out rounded-cs-10 invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:top-7 lg:w-52">
+                        این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر
+                        میگردد
+                      </span>
+                    </button>
+
                     <span>{numberSeparation(price.discount_amount)}</span>
-                    <span>هزار تومن تخفیف هنگام خرید</span>
+                    <span>تومن تخفیف هنگام خرید</span>
                   </div>
                 )}
 
@@ -81,11 +100,7 @@ export default function PackedRoom(props: Props) {
                       <div className="absolute z-20 left-10 pointer-events-none opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:left-[3.2rem]">
                         <div className="w-max h-8 bg-red-100 text-cs-red text-cs07 px-4 flex-center gap-1 rounded-lg">
                           <span>به ارزش قیمت : </span>
-                          <span>
-                            {numberSeparation(
-                              total_price - price.total_price_discount,
-                            )}
-                          </span>
+                          <span>{numberSeparation(price.discount_amount)}</span>
                           <span>تومان</span>
                         </div>
                       </div>

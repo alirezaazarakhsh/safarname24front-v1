@@ -50,7 +50,7 @@ export function HeroSection() {
 
   return (
     <div className="relative hidden -mb-4 lg:block">
-      <SearchAndFilter />
+      {status !== 'pending' && <SearchAndFilter />}
 
       {status === 'pending' ? (
         <Skeleton className="w-full h-[36rem] rounded-2xl xl:h-[40rem]" />

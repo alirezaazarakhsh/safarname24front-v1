@@ -9,18 +9,9 @@ import persianLanguage from 'react-date-object/locales/persian_en';
 
 import { Room } from '@/types/landing';
 import { generalInstance } from '@/utils/services';
-import {
-  useDatePickerContext,
-  usePassengersContext,
-  useSearchContext,
-} from '@/context';
+import { useDatePickerContext, usePassengersContext } from '@/context';
 import { Section } from './molecules/Section';
-import { TopBarConfig } from '../../shared';
-import RoomsArea from './molecules/rooms/RoomsArea';
-import NumberOfRooms from './molecules/rooms/atoms/NumberOfRooms';
-import NumberOfNights from '../../shared/search/molecules/NumberOfNights';
-import { DDatePicker } from '@/components/landing/shared/search/date-picker';
-import Passengers from '../../shared/search/passengers/Passengers';
+import { RoomsContent } from './molecules/rooms/RoomsContent';
 
 type Props = {
   hotelSlug: string;
@@ -56,7 +47,6 @@ export function Rooms({ hotelName, hotelSlug }: Props) {
   const queryClient = useQueryClient();
   const { confirmedValue } = useDatePickerContext();
   const { confirmedPassengers } = usePassengersContext();
-  const { triggerMobileSearch, resetMobileSearch } = useSearchContext();
 
   const [queryOptions, setQueryOptions] = useState({
     startDate: '',
@@ -76,8 +66,8 @@ export function Rooms({ hotelName, hotelSlug }: Props) {
     queryFn: () =>
       generalInstance(`/hotel/hotels/${hotelSlug}/rooms?${queryString}`),
     enabled:
-      !!queryOptions.startDate &&
       !!queryOptions.endDate &&
+      !!queryOptions.startDate &&
       (window.innerWidth >= 1024 || shouldFetchMobile),
   });
 
@@ -123,15 +113,8 @@ export function Rooms({ hotelName, hotelSlug }: Props) {
     if (window.innerWidth >= 1024) {
       queryClient.invalidateQueries({ queryKey: ['hotel-rooms'] });
     } else {
-      resetMobileSearch(); // Reset mobile fetch state after search
     }
-  }, [
-    confirmedValue,
-    confirmedPassengers,
-    queryClient,
-    router,
-    resetMobileSearch,
-  ]);
+  }, [confirmedValue, confirmedPassengers, queryClient, router]);
 
   // Trigger fetch on mobile when context changes
   useEffect(() => {
@@ -143,44 +126,11 @@ export function Rooms({ hotelName, hotelSlug }: Props) {
       setShouldFetchMobile(true);
       queryClient.invalidateQueries({ queryKey: ['hotel-rooms'] });
     }
-  }, [triggerMobileSearch, queryClient, queryOptions]);
+  }, [queryClient, queryOptions]);
 
   return (
     <Section sectionID="rooms">
-      {/* Header Section */}
-      <div className="flex justify-between items-center">
-        <TopBarConfig
-          title={{
-            type: 'single',
-            text: hotelName ? `اتاق‌های هتل ${hotelName}` : 'اتاق‌ها',
-          }}
-        />
-        <div className="lg:hidden">
-          <NumberOfRooms
-            NumberOfRooms={status === 'success' ? data?.data.length : 0}
-          />
-        </div>
-      </div>
-
-      {/* Settings and Rooms */}
-      <div className="space-y-4 lg:space-y-10">
-        {/* Search Settings */}
-        <div className="hidden lg:grid text-cs08 font-bold items-end grid-cols-[65%_auto] gap-4">
-          <div className="grid grid-cols-[1.6fr_1fr_1fr] gap-4">
-            <DDatePicker sideOffset={15} triggerType="else" />
-            <NumberOfNights type="else" />
-            <Passengers sideOffset={15} triggerType="else" />
-          </div>
-
-          <div className="flex gap-4 mr-auto">
-            <NumberOfRooms
-              NumberOfRooms={status === 'success' ? data?.data.length : 0}
-            />
-          </div>
-        </div>
-
-        <RoomsArea data={data?.data} status={status} />
-      </div>
+      <RoomsContent data={data?.data} hotelName={hotelName} status={status} />
     </Section>
   );
 }

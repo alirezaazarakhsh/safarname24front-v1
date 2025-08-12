@@ -17,6 +17,7 @@ export default function PackedPrimaryInfo(props: Props) {
     price: {
       total_price,
       discount_date,
+      discount_amount,
       discount_percentage,
       total_price_discount,
     },
@@ -59,6 +60,7 @@ export default function PackedPrimaryInfo(props: Props) {
           info={{
             capacity,
             roomName: name,
+            roomType: 'packed',
             numberOfNights: night_count,
             priceCalendar: price_calendar,
             totalPrice: total_price_discount,

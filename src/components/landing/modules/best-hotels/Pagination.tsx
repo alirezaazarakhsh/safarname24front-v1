@@ -2,7 +2,7 @@
 
 import ReactPaginate from 'react-paginate';
 import { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 
 // -------------------------------------
@@ -12,12 +12,13 @@ export function Pagination() {
 
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   // Setting Current-Page at URL
   useEffect(() => {
-    router.push(`${pathname}/?current-page=${currentPage + 1}`, {
-      scroll: false,
-    });
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', (currentPage + 1).toString());
+    router.push(`/best-hotels/?${params.toString()}`, { scroll: false });
   }, [currentPage, pathname, router]);
 
   return (

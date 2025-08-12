@@ -19,6 +19,7 @@ type Props = {
     capacity: number;
     totalPrice: number;
     numberOfNights: number;
+    roomType?: 'normal' | 'packed';
     priceCalendar: Room['price_calendar'];
   };
 };
@@ -27,7 +28,14 @@ type Props = {
 
 export default function PriceCalendar(props: Props) {
   const {
-    info: { priceCalendar, numberOfNights, capacity, roomName, totalPrice },
+    info: {
+      capacity,
+      roomName,
+      totalPrice,
+      priceCalendar,
+      numberOfNights,
+      roomType = 'normal',
+    },
   } = props;
 
   return (
@@ -66,7 +74,7 @@ export default function PriceCalendar(props: Props) {
         </div>
 
         {/* === Room-Name */}
-        <div className="text-cs85 flex items-center gap-1 font-bold pt-3 pb-4 border-b border-dashed border-zinc-300">
+        <div className="text-cs08 flex items-center gap-1 font-bold pt-3 pb-4 border-b border-dashed border-zinc-300">
           <span>اتاق</span>
           <span>{capacity}</span>
           <span>نفره</span>
@@ -81,7 +89,7 @@ export default function PriceCalendar(props: Props) {
         </div>
 
         {/* === Total-Price & Submit-Button */}
-        <div className="flex flex-col gap-5 pt-5 border-t">
+        <div className="flex flex-col gap-4 pt-5 border-t">
           <div className="text-cs85 flex-between items-center font-semibold border-zinc-200">
             <div className="flex items-center gap-1">
               <span>مجموع قیمت</span>
@@ -96,9 +104,11 @@ export default function PriceCalendar(props: Props) {
             </div>
           </div>
 
-          <button className="bg-cs-blue h-11 text-white text-cs85 font-semibold rounded-cs-10">
-            <span>تایید رزرو اتاق</span>
-          </button>
+          {roomType === 'normal' && (
+            <button className="bg-cs-blue h-11 mt-1 text-white text-cs85 font-semibold rounded-cs-10">
+              <span>تایید رزرو اتاق</span>
+            </button>
+          )}
         </div>
       </SheetContent>
     </Sheet>
