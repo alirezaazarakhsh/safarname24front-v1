@@ -3,13 +3,12 @@ import { ArrowRight } from 'iconsax-react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useMediaQuery } from '@/hooks';
-import { useSearchContext } from '@/context';
 import { Sheet, SheetTitle, SheetContent } from '@/components/ui/sheet';
 
 import DatePicker from './date-picker/MDatePicker';
-import NumberOfNights from './molecules/NumberOfNights';
+import NumberOfNights from './NumberOfNights';
 import Passengers from './passengers/Passengers';
-import CityOrHotel from './molecules/city-hotel/CityOrHotel';
+import CityOrHotel from './city-hotel/CityOrHotel';
 
 type Props = {
   isOpen: boolean;
@@ -22,34 +21,7 @@ export default function SearchBarContent(props: Props) {
   const { isOpen, setDialogClose } = props;
 
   const [error, setError] = useState(false);
-  const { triggerMobileSearch } = useSearchContext();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
-  // const { date, cityOrHotel, passengers } = useSearchContext();
-
-  // const valuesCheck = useMemo(() => {
-  //   return (
-  //     date.confirmedDate &&
-  //     cityOrHotel.confirmedValues.city &&
-  //     passengers.confirmedPeople.passengers
-  //   );
-  // }, [date, cityOrHotel, passengers]);
-
-  // === Handling Error Based-On-Values
-  // useEffect(() => {
-  //   if (valuesCheck) setError(false);
-  // }, [valuesCheck]);
-
-  function handleSearchOperation() {
-    // if (valuesCheck) {
-    //   return;
-    // }
-
-    triggerMobileSearch()
-    setDialogClose();
-    // setError(true);
-  }
-
-  // if (isDesktop) return null;
 
   return (
     <Sheet open={isOpen}>
@@ -89,7 +61,6 @@ export default function SearchBarContent(props: Props) {
 
         {/* === Submit */}
         <button
-          onClick={handleSearchOperation}
           className={`bg-cs-dark-blue text-white text-cs85 font-semibold h-12 mt-auto rounded-cs-10 transition-colors duration-200 ease-in-out ${error ? 'bg-cs-red' : 'bg-cs-dark-blue'}`}
         >
           {error ? (
