@@ -29,9 +29,6 @@ export default function ManagerBankAccount({
       }),
     );
 
-  // Defining bankName
-  const bin = selectedCreditCard?.number.card.toString();
-  const binName = bin ? getBankFromCard(bin)?.name : 'مشخص نشده';
 
   // Returning JSX
   return (
@@ -75,7 +72,11 @@ export default function ManagerBankAccount({
               بانک
             </span>
             <span className="lg:text-cs07 text-[10px] font-normal block text-right truncate w-full overflow-hidden text-black/50">
-              {selectedCreditCard ? binName : '-'}
+              {selectedCreditCard
+                ? getBankFromCard(
+                    selectedCreditCard.number.card.toString().slice(0, 6),
+                  )?.name
+                : 'N/A'}
             </span>
           </div>
           <div className="flex items-center justify-between gap-3">

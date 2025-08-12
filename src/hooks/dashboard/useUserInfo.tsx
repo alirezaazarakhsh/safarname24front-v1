@@ -19,6 +19,13 @@ export default function useUserInfo(): GETPersonalProfile {
         level: 0,
         national_code: '',
         postal_code: '',
+        card_numbers: [
+          {
+            card_number: '',
+            iban: '',
+            id: 1,
+          },
+        ],
       };
 
   return data;

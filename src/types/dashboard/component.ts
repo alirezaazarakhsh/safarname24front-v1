@@ -1,5 +1,6 @@
 // Importing part
 import {
+  ButtonHTMLAttributes,
   Dispatch,
   InputHTMLAttributes,
   ReactNode,
@@ -10,7 +11,9 @@ import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
-  GETCustomerClubListItem,
+  GETCustomerClubRoomList,
+  GETCustomerClubShoppingCentreList,
+  GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
   GETReservation,
@@ -228,6 +231,7 @@ export interface InputAndLabelPropsType
   label?: string;
   isValid?: boolean;
   reset?: () => void;
+  hasIRIcon?: boolean;
   validationType?: 'text' | 'icon';
 }
 
@@ -363,7 +367,6 @@ export interface FinancialFatorsDashboardTablePropsType {
 
 export interface FilterCustomClubPageComponentPropsType {
   onChange?: (val: 'shoppingCentre' | 'hotel') => void;
-  totalScore: number;
   loading?: boolean;
 }
 
@@ -378,10 +381,13 @@ export interface ToggleButtonsPropsType {
 export interface CustomersClubTablePropsType {
   className?: string;
   loading?: boolean;
-  paginationCount?: number;
-  paginationActiveIndex: number;
-  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
-  data?: GETCustomerClubListItem[];
+  data?: GETCustomerClubShoppingCentreList;
+}
+
+export interface RoomTablePropsType {
+  className?: string;
+  loading?: boolean;
+  data?: GETCustomerClubRoomList;
 }
 
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
@@ -390,7 +396,7 @@ export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
 }
 
 export interface CustomerClubListTablePropsType {
-  data: GETCustomerClubListItem[];
+  data: GETCustomerClubShoppingCentreList[];
   className?: string;
   loading?: boolean;
   activeIndex?: number;
@@ -398,17 +404,8 @@ export interface CustomerClubListTablePropsType {
   paginationCount?: number;
 }
 
-export interface NotificationType {
-  id: number;
-  title: string;
-  createdAt: string;
-  content: string;
-  status: 'seen' | 'unseen' | 'important';
-  isForAll: boolean;
-}
-
 export interface NotificationComponentPropsType {
-  data: NotificationType;
+  data: GETNotificationItem;
   className?: string;
 }
 
@@ -509,7 +506,6 @@ export interface CartBalanceComponentPropsType {
 }
 
 export interface SubscriptionTypeComponentPropsType {
-  type: 'premium' | 'silver' | 'guest';
   className?: string;
 }
 
@@ -632,13 +628,22 @@ export interface BankIconPropsType extends SVGProps<SVGSVGElement> {
 
 export interface CreditCardInputPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
-  type: 'number' | 'shaba';
   containerClassName?: string;
   isValid: boolean;
   validation: string;
+  reset?: () => void;
   error?: string;
-  position?: 'left'; // For improving later
-  dropdownClassName?: string;
-  profile?: 'jurdical' | 'natural';
-  setValue: (value: string) => void;
+  setValue: (number: string, sheba: string) => void;
+  valueOfShabaNumber?: string;
+}
+
+export interface CreditCardDropDownPropsType
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
+  placeholder?: string;
+  value?: string;
+  side?: 'top' | 'bottom';
+  onValueChange?: (card: string, shaba: string) => void;
+  hasIRIcon?: boolean;
+  useSheba?: boolean;
+  reset?: () => void;
 }

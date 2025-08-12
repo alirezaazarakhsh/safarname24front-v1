@@ -23,13 +23,14 @@ export default function InputAndLabel({
   onChange,
   disabled,
   reset,
+  hasIRIcon = false,
   ...props
 }: InputAndLabelPropsType): ReactNode {
   // Returning JSX
   return (
     <div
       data-disabled={disabled}
-      className="w-full transition-all duration-500 data-[disabled='true']:opacity-50"
+      className="w-full transition-all duration-500 data-[disabled='true']:opacity-50 bg-white"
     >
       {label && (
         <Label
@@ -43,13 +44,13 @@ export default function InputAndLabel({
         </Label>
       )}
       {validation ? (
-        <div className="flex items-center justify-between gap-3 border border-black/10 rounded-lg overflow-hidden">
+        <div className="flex items-center justify-between gap-3 border border-black/10 rounded-lg overflow-hidden bg-white">
           <input
             id={id}
             placeholder={placeholder}
             data-errored={error !== undefined}
             className={cn(
-              'w-full block outline-0 border-0 h-[50px] pr-3  text-xs font-normal placeholder:text-xs data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red transition-all duration-500',
+              'w-full block outline-0 border-0 h-[50px] pr-3  text-xs font-normal placeholder:text-xs data-[errored="false"]:text-black data-[errored="false"]:placeholder:text-black/50 data-[errored="true"]:placeholder:text-cs-red data-[errored="true"]:text-cs-red transition-all duration-500 bg-transparent',
               className,
             )}
             disabled={disabled}
@@ -72,20 +73,33 @@ export default function InputAndLabel({
                 </span>
               </div>
             ) : (
-              <button
-                disabled={!isValid}
-                onClick={reset && reset}
-                type="button"
-                className={
-                  'w-[30px] h-[30px] shrink-0 transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100 text-black/50 cursor-pointer'
-                }
-              >
-                <IconsaxIcons
-                  color={'currentColor'}
-                  name={isValid ? 'TickSquare' : 'CloseSquare'}
-                  className="w-[15px] h-[15px]"
-                />
-              </button>
+              <div className="flex items-center justify-between gap-1 shrink-0 bg-transparent">
+                {hasIRIcon && (
+                  <div
+                    className={
+                      'w-[30px] h-[30px] flex items-center justify-center rounded-md bg-gray-100 text-black/50'
+                    }
+                  >
+                    <span className="text-cs06 block text-center truncate font-medium text-current -mb-0.5">
+                      IR
+                    </span>
+                  </div>
+                )}
+                <button
+                  disabled={!isValid}
+                  onClick={reset && reset}
+                  type="button"
+                  className={
+                    'w-[30px] h-[30px] transition-all duration-500 flex items-center justify-center rounded-md bg-gray-100 text-black/50 cursor-pointer'
+                  }
+                >
+                  <IconsaxIcons
+                    color={'currentColor'}
+                    name={isValid ? 'TickSquare' : 'CloseSquare'}
+                    className="w-[15px] h-[15px]"
+                  />
+                </button>
+              </div>
             )}
           </div>
         </div>

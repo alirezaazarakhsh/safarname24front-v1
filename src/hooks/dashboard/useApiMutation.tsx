@@ -10,14 +10,12 @@ export default function useApiMutation<TData = unknown, TVariables = unknown>({
   url,
   method,
   options,
+  isFormData,
 }: UseApiMutationProps<TData, TVariables>) {
   return useMutation<TData, AxiosError, TVariables>({
     mutationFn: async (variables) => {
       const isFullUrl = /^https?:\/\//i.test(url);
       const client = isFullUrl ? axios : axiosInstance;
-
-      const isFormData = variables instanceof FormData;
-
       const { data } = await client.request<TData>({
         url,
         method: method.toUpperCase(),

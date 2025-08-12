@@ -15,4 +15,5 @@ export interface UseApiMutationProps<TData, TVariables> {
   url: string;
   method: 'post' | 'put' | 'delete' | 'patch';
   options?: UseMutationOptions<TData, Error, TVariables>;
+  isFormData?: boolean;
 }

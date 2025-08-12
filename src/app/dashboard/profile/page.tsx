@@ -59,12 +59,15 @@ const personalFormSchema = z.object({
 
   creditCard: z
     .string()
-    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' }),
+    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
 
   shabaNumber: z
     .string()
-    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' }),
-
+    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
   address: z
     .string()
     .min(5, { message: 'آدرس باید حداقل ۵ حرف باشد' })
@@ -120,11 +123,15 @@ const legalFormSchema = z.object({
 
   creditCard: z
     .string()
-    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' }),
+    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
 
   shabaNumber: z
     .string()
-    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' }),
+    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
 
   address: z
     .string()
@@ -171,6 +178,7 @@ export default function ProfilePage(): ReactNode {
   // Defining small variables
   const authCookie = Cookies.get('auth') || '';
   const savedTellNumber = `0${JSON.parse(authCookie).phoneNumber}`;
+  const creditCard = userInfo.card_numbers[0];
 
   // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {
@@ -181,6 +189,11 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
     personalForm.setValue('tell', savedTellNumber);
+    personalForm.setValue('shabaNumber', creditCard ? creditCard.iban : '');
+    personalForm.setValue(
+      'creditCard',
+      creditCard ? creditCard.card_number : '',
+    );
   }, [personalForm, userInfo]);
 
   // Fetching stuff
@@ -210,6 +223,11 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
       legalForm.setValue('tell', savedTellNumber);
+      legalForm.setValue('shabaNumber', creditCard ? creditCard.iban : '');
+      legalForm.setValue(
+        'creditCard',
+        creditCard ? creditCard.card_number : '',
+      );
     }
   }, [legalForm, legalUserFetching.isLoading]);
 
@@ -252,15 +270,7 @@ export default function ProfilePage(): ReactNode {
         {profileState === 'personal' ? (
           <>
             <CartBalance hasMobileView />
-            <SubscriptionType
-              type={
-                userInfo.level === 0
-                  ? 'guest'
-                  : userInfo.level === 1
-                    ? 'silver'
-                    : 'premium'
-              }
-            />
+            <SubscriptionType />
             <PersonalInfoForm className="lg:col-span-2" form={personalForm} />
             <BankInfoForm className="lg:col-span-2" form={personalForm} />
             <Description className="lg:col-span-4" />
