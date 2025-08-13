@@ -11,6 +11,8 @@ import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
+  GETCustomerClubList,
+  GETCustomerClubListItem,
   GETCustomerClubRoomList,
   GETCustomerClubRoomListItem,
   GETCustomerClubShoppingCentreList,
@@ -410,7 +412,7 @@ export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
 }
 
 export interface CustomerClubListTablePropsType {
-  data: GETCustomerClubShoppingCentreList[];
+  data: GETCustomerClubListItem[];
   className?: string;
   loading?: boolean;
   activeIndex?: number;

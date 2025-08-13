@@ -17,7 +17,6 @@ import { handleZeroBeforeNumber } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
 import { numberSeparation } from '@/utils';
-import toast from '../ui/customSonner/toast';
 import Tooltip from '../ui/tooltip';
 import TakeGiftRuleDialog from './dialog/takeGiftRuleDialog';
 import GiftGainErrorDialog from './dialog/giftGainErrorDialog';
@@ -45,25 +44,6 @@ export default function CustomersClubTable({
     useState<boolean>(false);
   const [giftGainErrorDialogOpened, setGiftGainErrorDialogOpened] =
     useState<boolean>(false);
-
-  // Defining a function to handle copy to clipboard
-  function hanldeClipboardCopy(text: string): void {
-    window.navigator.clipboard
-      .writeText(text)
-      .then(() =>
-        toast({
-          title: 'کد با موفقیت کپی شد',
-          theme: 'green',
-          description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
-        }),
-      )
-      .catch(() =>
-        toast({
-          title: 'کد کپی نشد!',
-          description: 'خطایی در کپی کردن کد پیش امد.',
-        }),
-      );
-  }
 
   // Returning JSX
   return (

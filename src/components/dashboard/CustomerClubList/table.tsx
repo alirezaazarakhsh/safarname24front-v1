@@ -2,7 +2,6 @@
 'use client';
 
 // Importing part
-import moment from 'jalali-moment';
 import { CustomerClubListTablePropsType } from '@/types/dashboard/component';
 import { ReactNode } from 'react';
 import { cn } from '@/utils/utils';
@@ -17,8 +16,8 @@ import {
 } from '@/components/ui/table';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import { numberSeparation } from '@/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import toast from '../ui/customSonner/toast';
 
 // Creating and exporting CustomerClubListTable component as default
 export default function CustomerClubListTable({
@@ -29,6 +28,25 @@ export default function CustomerClubListTable({
   setActiveIndex,
   paginationCount = 12,
 }: CustomerClubListTablePropsType): ReactNode {
+  // Defining a function to handle copy to clipboard
+  function hanldeClipboardCopy(text: string): void {
+    window.navigator.clipboard
+      .writeText(text)
+      .then(() =>
+        toast({
+          title: 'کد با موفقیت کپی شد',
+          theme: 'green',
+          description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
+        }),
+      )
+      .catch(() =>
+        toast({
+          title: 'کد کپی نشد!',
+          description: 'خطایی در کپی کردن کد پیش امد.',
+        }),
+      );
+  }
+
   // Returning JSX
   return (
     <section
@@ -60,6 +78,9 @@ export default function CustomerClubListTable({
                   عنوان
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                  کد تخفیف
+                </TableHead>
+                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
                   تاریخ و زمان رزرو
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
@@ -79,6 +100,9 @@ export default function CustomerClubListTable({
                       : 'border-b-0',
                   )}
                 >
+                  <TableCell className="p-3 w-[30px]">
+                    <Skeleton className="rounded-[5px] h-[40px] w-full" />
+                  </TableCell>
                   <TableCell className="p-3 w-[30px]">
                     <Skeleton className="rounded-[5px] h-[40px] w-full" />
                   </TableCell>
@@ -131,6 +155,13 @@ export default function CustomerClubListTable({
                       <Skeleton className="w-[100px] h-[18px] rounded-[7px]" />
                     </div>
                   </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <Skeleton className="w-[30px] h-[40px] rounded-[7px]" />
+                    <div>
+                      <Skeleton className="w-[100px] h-[18px] rounded-[7px] mb-1" />
+                      <Skeleton className="w-[100px] h-[18px] rounded-[7px]" />
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -147,6 +178,9 @@ export default function CustomerClubListTable({
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
                   عنوان
+                </TableHead>
+                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                  کد تخفیف
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
                   تاریخ و زمان رزرو
@@ -176,13 +210,36 @@ export default function CustomerClubListTable({
                     </div>
                   </TableCell>
                   <TableCell className="p-3">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right"></span>
+                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      {item.discount_type === 'تخفیف اتاق'
+                        ? item.related_info.room_name || '-'
+                        : item.related_info.shopping_center_name || '-'}
+                    </span>
+                  </TableCell>
+                  <TableCell className="p-3 flex items-center justify-start gap-2">
+                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      {item.code}
+                    </span>
+                    <button
+                      onClick={() => hanldeClipboardCopy(item.code)}
+                      className="text-cs-red shrink-0"
+                    >
+                      <IconsaxIcons
+                        name="DocumentCopy"
+                        color="currentColor"
+                        className="w-3 h-3"
+                      />
+                    </button>
                   </TableCell>
                   <TableCell className="p-3">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right"></span>
+                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      {item.activated_at}
+                    </span>
                   </TableCell>
                   <TableCell className="p-3">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right"></span>
+                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      {item.discount_value}
+                    </span>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-end gap-3">
                     <div className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black">
@@ -192,7 +249,7 @@ export default function CustomerClubListTable({
                         className="w-3 h-3 shrink-0"
                       />
                       <span className="text-xs text-current font-medium text-right truncate">
-                        {`N/A امتیاز`}
+                        {`${item.required_points} امتیاز`}
                       </span>
                     </div>
                   </TableCell>
@@ -221,7 +278,11 @@ export default function CustomerClubListTable({
                         <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                           عنوان
                         </span>
-                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right"></span>
+                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                          {item.discount_type === 'تخفیف اتاق'
+                            ? item.related_info.room_name || '-'
+                            : item.related_info.shopping_center_name || '-'}
+                        </span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-[10px]">
@@ -236,8 +297,36 @@ export default function CustomerClubListTable({
                           className="w-[12px] h-[12px] shrink-0"
                         />
                         <span className="text-[10px] text-current font-medium w-full text-right block truncate">
-                          {`N/A امتیاز`}
+                          {`${item.required_points} امتیاز`}
                         </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="DiscountShape"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        کد تخفیف :
+                      </span>
+                      <div className="flex items-center justify-start gap-[10px]">
+                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                          {item.code}
+                        </span>
+                        <button
+                          onClick={() => hanldeClipboardCopy(item.code)}
+                          className="text-cs-red shrink-0"
+                        >
+                          <IconsaxIcons
+                            name="DocumentCopy"
+                            color="currentColor"
+                            className="w-[14px] h-[14px]"
+                          />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -252,7 +341,9 @@ export default function CustomerClubListTable({
                       <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                         تاریخ و زمان رزرو
                       </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right"></span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {item.activated_at}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center justify-start gap-[10px] mb-[25px]">
@@ -266,7 +357,9 @@ export default function CustomerClubListTable({
                       <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                         مبلغ تخفیف
                       </span>
-                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right"></span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {item.discount_value}
+                      </span>
                     </div>
                   </div>
                 </div>
