@@ -5,7 +5,7 @@
 import { PageComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { usePathname, useRouter } from 'next/navigation';
-import { createContext, ReactNode } from 'react';
+import { createContext, ReactNode, useEffect } from 'react';
 import Header from './header';
 import MobileNav from './mobileNav';
 import Loading from './ui/loading';

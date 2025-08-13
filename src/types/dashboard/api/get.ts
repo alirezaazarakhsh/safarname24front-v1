@@ -14,13 +14,13 @@ export interface GETReservationItem {
   extra_passengers: number[];
   paid_price: number;
   status:
-  | 'payment'
-  | 'pending_approve'
-  | 'approved'
-  | 'rejected'
-  | 'failed'
-  | 'success'
-  | 'expired';
+    | 'payment'
+    | 'pending_approve'
+    | 'approved'
+    | 'rejected'
+    | 'failed'
+    | 'success'
+    | 'expired';
   fail_reason: string;
   expired_date: string;
   additional_details: string;
@@ -207,6 +207,9 @@ export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
-export type GETCustomerClubRoomList = GETCustomerClubRoomListItem[];
-export type GETCustomerClubShoppingCentreList =
-  GETCustomerClubShoppingCentreListItem[];
+export type GETCustomerClubRoomList = GETPaginationAPILayout<
+  GETCustomerClubRoomListItem[]
+>;
+export type GETCustomerClubShoppingCentreList = GETPaginationAPILayout<
+  GETCustomerClubShoppingCentreListItem[]
+>;

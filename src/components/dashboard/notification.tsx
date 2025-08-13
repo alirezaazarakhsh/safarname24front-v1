@@ -12,7 +12,6 @@ import useNotification from '@/hooks/dashboard/useNotifications';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Loading from './ui/loading';
 import toast from './ui/customSonner/toast';
-import { GETNotificationItem } from '@/types/dashboard/api/get';
 
 // Creating and exporting Notification component as default
 export default function Notification({
@@ -112,7 +111,7 @@ export default function Notification({
           opacity: opened ? '100%' : '0%',
         }}
       >
-        <p className="lg:text-cs75 text-[12px] text-gray-500 font-normal text-right w-[50%] whitespace-pre-line m-0 p-0">
+        <p className="lg:text-cs75 text-[12px] text-gray-500 font-normal text-right break-all whitespace-normal w-full m-0 p-0">
           {data.message}
         </p>
       </motion.div>

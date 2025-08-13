@@ -12,7 +12,9 @@ import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
   GETCustomerClubRoomList,
+  GETCustomerClubRoomListItem,
   GETCustomerClubShoppingCentreList,
+  GETCustomerClubShoppingCentreListItem,
   GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
@@ -381,18 +383,29 @@ export interface ToggleButtonsPropsType {
 export interface CustomersClubTablePropsType {
   className?: string;
   loading?: boolean;
-  data?: GETCustomerClubShoppingCentreList;
+  data?: GETCustomerClubShoppingCentreListItem[];
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
+  refetch?: () => void;
 }
 
 export interface RoomTablePropsType {
   className?: string;
   loading?: boolean;
-  data?: GETCustomerClubRoomList;
+  data?: GETCustomerClubRoomListItem[];
+  refetch?: () => void;
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
 }
 
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
   setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
   setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
+  type: 'room' | 'shoppingCentre';
+  code: string;
+  rules?: string;
 }
 
 export interface CustomerClubListTablePropsType {
