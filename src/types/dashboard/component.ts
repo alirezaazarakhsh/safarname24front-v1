@@ -547,6 +547,11 @@ export interface LegalBankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<legalFormType>;
   loading: boolean;
+  creditCards?: {
+    id: number;
+    card_number: string;
+    iban: string;
+  }[];
 }
 
 export interface LegalInfoFormComponentPropsType {
@@ -653,6 +658,11 @@ export interface CreditCardInputPropsType
 
 export interface CreditCardDropDownPropsType
   extends ButtonHTMLAttributes<HTMLButtonElement> {
+  useLegalInfo?: {
+    id: number;
+    card_number: string;
+    iban: string;
+  }[];
   placeholder?: string;
   value?: string;
   side?: 'top' | 'bottom';

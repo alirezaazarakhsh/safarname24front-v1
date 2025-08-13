@@ -60,6 +60,11 @@ export interface GETLegalProfile {
   status: 'checking' | 'accpeted' | 'rejected';
   reject_reason: string | null;
   documents: string | null;
+  card_numbers: {
+    id: number;
+    card_number: string;
+    iban: string;
+  }[];
 }
 
 export interface GETUploadedDocumentItem {

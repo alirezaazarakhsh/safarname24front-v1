@@ -88,10 +88,9 @@ const legalFormSchema = z.object({
     .string()
     .min(2, { message: 'نام شرکت باید حداقل ۲ حرف باشد' })
     .max(64, { message: 'نام شرکت نباید بیشتر از ۶۴ حرف باشد' }),
-
   id: z
     .string()
-    .max(16, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' })
+    .length(11, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' })
     .refine((value) => verifyIranianLegalId(value), {
       message: 'شناسه ملی وارد شده معتبر نیست',
     }),
@@ -192,11 +191,6 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
     personalForm.setValue('tell', savedTellNumber);
-    personalForm.setValue('shabaNumber', creditCard ? creditCard.iban : '');
-    personalForm.setValue(
-      'creditCard',
-      creditCard ? creditCard.card_number : '',
-    );
   }, [personalForm, userInfo]);
 
   // Fetching stuff
@@ -226,11 +220,6 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
       legalForm.setValue('tell', savedTellNumber);
-      legalForm.setValue('shabaNumber', creditCard ? creditCard.iban : '');
-      legalForm.setValue(
-        'creditCard',
-        creditCard ? creditCard.card_number : '',
-      );
     }
   }, [legalForm, legalUserFetching.isLoading]);
 
@@ -284,6 +273,7 @@ export default function ProfilePage(): ReactNode {
               loading={legalUserFetching.isLoading}
               className="lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide"
               form={legalForm}
+              creditCards={legalUserFetching.data?.card_numbers || []}
             />
             <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">
               <Upload

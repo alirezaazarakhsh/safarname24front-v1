@@ -25,6 +25,7 @@ export default function CreditCardDropDown({
   hasIRIcon,
   disabled,
   useSheba = false,
+  useLegalInfo,
   side = 'bottom',
   value,
   reset,
@@ -48,10 +49,16 @@ export default function CreditCardDropDown({
   const seprateVal = (val: string | number): string =>
     numberSeparation(val.toString().replace(/\s+/g, ''), ' ', 4);
 
+  // Defining variables
+  const dataToRender = useLegalInfo ? useLegalInfo : userInfo.card_numbers;
+
   // Returning JSX
   return (
     <DropdownMenu open={isOpened} onOpenChange={setOpened}>
-      <DropdownMenuTrigger disabled={disabled} asChild>
+      <DropdownMenuTrigger
+        disabled={disabled || dataToRender.length === 0}
+        asChild
+      >
         <button
           data-opened={isOpened}
           ref={triggerRef}
@@ -106,7 +113,7 @@ export default function CreditCardDropDown({
         side={side}
         className="shadow-black/10 border border-black/20 max-h-[150px] overflow-auto scrollbar-hide"
       >
-        {userInfo.card_numbers.map((item, index) => (
+        {dataToRender.map((item, index) => (
           <DropdownMenuItem
             key={index}
             dir="ltr"
