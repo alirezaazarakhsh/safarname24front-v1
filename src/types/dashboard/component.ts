@@ -19,6 +19,7 @@ import {
   GETPassengerItem,
   GETPasssengers,
   GETReservation,
+  GETUploadedDocuments,
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 
@@ -572,16 +573,14 @@ export interface EmptyTableComponentPropsType {
 }
 
 export interface UploadSheetComponentPropsType {
-  fetchURL?: string;
+  files: File[];
+  onDelete?: (index: number) => void;
 }
 
 export interface UploadedFileComponentPropsType {
   isLastItem?: boolean;
   index: number;
-  isLoading?: boolean;
-  onDelete?: () => void;
-  fetchURL?: string;
-  refetch?: () => void;
+  onDelete?: (index: number) => void;
   data?: {
     name: string;
     id: number;
