@@ -46,27 +46,6 @@ export default function RoomTable({
   const [giftGainErrorDialogOpened, setGiftGainErrorDialogOpened] =
     useState<boolean>(false);
 
-  const [idToAchive, setIdToAchive] = useState<number>(0);
-
-  // Defining a function to handle copy to clipboard
-  function hanldeClipboardCopy(text: string): void {
-    window.navigator.clipboard
-      .writeText(text)
-      .then(() =>
-        toast({
-          title: 'کد با موفقیت کپی شد',
-          theme: 'green',
-          description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
-        }),
-      )
-      .catch(() =>
-        toast({
-          title: 'کد کپی نشد!',
-          description: 'خطایی در کپی کردن کد پیش امد.',
-        }),
-      );
-  }
-
   // Returning JSX
   return (
     <section
