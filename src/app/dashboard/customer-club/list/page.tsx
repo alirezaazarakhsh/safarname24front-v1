@@ -51,7 +51,7 @@ export default function CustomerClubList(): ReactNode {
           <CustomerClubListTable data={[]} loading />
         </>
       ) : getData.isError ? (
-        <ErrorTable />
+        <ErrorTable refetch={() => getData.refetch()} />
       ) : getData.data && getData.data.count === 0 ? (
         <>
           <Filter onChange={(val) => setFilterVal(val)} />

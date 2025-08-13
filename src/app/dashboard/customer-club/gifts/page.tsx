@@ -103,7 +103,7 @@ export default function CustomerClubPage(): ReactNode {
               loading
             />
           ) : roomsFetch.error ? (
-            <ErrorTable />
+            <ErrorTable refetch={() => shoppingCentresFetch.refetch()} />
           ) : !roomsFetch.isError && roomsFetch.data ? (
             <>
               {roomsFetch.data.count === 0 ? (
