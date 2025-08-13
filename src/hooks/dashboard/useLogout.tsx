@@ -2,9 +2,14 @@
 import Cookies from 'js-cookie';
 import useApiMutation from './useApiMutation';
 import toast from '@/components/dashboard/ui/customSonner/toast';
+import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting useLogout custom hook as default
 export default function useLogout() {
+  const [openedItems, setOpenedItems, { removeItem }] = useLocalStorageState<
+    number[]
+  >('openedNotifications');
+
   const mutation = useApiMutation({
     url: '/auth/logout/',
     method: 'post',
@@ -21,6 +26,7 @@ export default function useLogout() {
         Cookies.remove('AUTH');
         Cookies.remove('UPN');
         Cookies.remove('auth');
+        removeItem();
 
         window.location.reload();
       },

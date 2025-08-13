@@ -12,6 +12,7 @@ import useNotification from '@/hooks/dashboard/useNotifications';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Loading from './ui/loading';
 import toast from './ui/customSonner/toast';
+import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting Notification component as default
 export default function Notification({
@@ -20,9 +21,12 @@ export default function Notification({
 }: NotificationComponentPropsType): ReactNode {
   // Defining hooks
   const [opened, setOpened] = useState<boolean>(data.is_read || false);
-  const [mutationCount, setMutationCount] = useState<number>(0);
   const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
   const { refetch } = useNotification();
+  const [openedItems, setOpenedItems] = useLocalStorageState<number[]>(
+    'openedNotifications',
+  );
+
   const mutation = useApiMutation({
     url: `/notification/notifications/${data.id}/update-status/`,
     method: 'put',
@@ -31,7 +35,8 @@ export default function Notification({
       onSuccess: () => {
         refetch && refetch();
         setOpened(true);
-        setMutationCount((prev) => prev + 1);
+        const notifs = openedItems ? [...openedItems] : [];
+        setOpenedItems([...notifs, data.id]);
       },
       onError: () =>
         toast({
@@ -59,16 +64,12 @@ export default function Notification({
       />
       <div
         onClick={() => {
-          if (mutationCount === 0) {
-            if (opened) {
-              setOpened(false);
-            } else {
-              mutation.mutate({
-                is_read: true,
-              });
-            }
-          } else {
+          if (openedItems?.includes(data.id)) {
             setOpened((prev) => !prev);
+          } else {
+            mutation.mutate({
+              is_read: true,
+            });
           }
         }}
         className={cn(
@@ -80,7 +81,13 @@ export default function Notification({
         </span>
         <div className="flex items-center justify-between lg:gap-3 gap-[10px] shrink-0">
           {!data.send_to_all && (
-            <button disabled={mutation.isPending}>
+            <button
+              disabled={mutation.isPending}
+              onClick={(e) => {
+                e.stopPropagation();
+                setDeleteDialogOpened(true);
+              }}
+            >
               <IconsaxIcons
                 name="Trash"
                 color="black"
