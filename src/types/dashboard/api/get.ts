@@ -14,13 +14,13 @@ export interface GETReservationItem {
   extra_passengers: number[];
   paid_price: number;
   status:
-    | 'payment'
-    | 'pending_approve'
-    | 'approved'
-    | 'rejected'
-    | 'failed'
-    | 'success'
-    | 'expired';
+  | 'payment'
+  | 'pending_approve'
+  | 'approved'
+  | 'rejected'
+  | 'failed'
+  | 'success'
+  | 'expired';
   fail_reason: string;
   expired_date: string;
   additional_details: string;

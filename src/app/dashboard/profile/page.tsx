@@ -23,6 +23,10 @@ import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
 import Cookies from 'js-cookie';
+import {
+  verifyIranianNationalId,
+  verifyIranianLegalId,
+} from '@persian-tools/persian-tools';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -38,7 +42,10 @@ const personalFormSchema = z.object({
 
   meliCode: z
     .string()
-    .length(10, { message: 'کد ملی باید دقیقاً ۱۰ رقم باشد' }),
+    .length(10, { message: 'کد ملی باید دقیقاً ۱۰ رقم باشد' })
+    .refine((value) => verifyIranianNationalId(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    }),
 
   tell: z.string().regex(/^09\d{9}$/, {
     message: 'شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد',
@@ -84,14 +91,10 @@ const legalFormSchema = z.object({
 
   id: z
     .string()
-    .length(11, { message: 'شناسه ملی باید دقیقاً ۱۱ رقم باشد' })
-    .regex(/^[1-9][0-9]{10}$/, {
-      message: 'شناسه ملی باید عددی و با رقم غیر صفر شروع شود',
-    })
-    .refine((val) => !/^(\d)\1+$/.test(val), {
-      message: 'شناسه ملی معتبر نیست',
+    .max(16, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' })
+    .refine((value) => verifyIranianLegalId(value), {
+      message: 'شناسه ملی وارد شده معتبر نیست',
     }),
-
   registrationId: z
     .string()
     .min(1, { message: 'شماره ثبت الزامی است' })
