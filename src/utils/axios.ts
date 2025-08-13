@@ -5,13 +5,11 @@ import axios, {
 } from 'axios';
 import Cookies from 'js-cookie';
 
-// Axios instance
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: 'https://cps.safarnameh24.com/api/v1',
   withCredentials: true,
 });
 
-// Refresh token control
 let isRefreshing = false;
 let failedQueue: {
   resolve: (value?: unknown) => void;
@@ -20,59 +18,52 @@ let failedQueue: {
 let logoutCalled = false;
 
 const processQueue = (error: any, token: string | null = null) => {
-  failedQueue.forEach((prom) => {
-    error ? prom.reject(error) : prom.resolve(token);
-  });
+  failedQueue.forEach((prom) =>
+    error ? prom.reject(error) : prom.resolve(token),
+  );
   failedQueue = [];
 };
 
-// Clears cookies
 const clearAuth = () => {
+  Cookies.remove('auth');
   Cookies.remove('AUTH');
   Cookies.remove('UPN');
-  Cookies.remove('auth');
 };
 
-// Redirect to login page unless already there
 const forceLogout = () => {
   clearAuth();
-
-  // Prevent multiple logouts in the same session
   if (logoutCalled) return;
   logoutCalled = true;
-
-  const isAlreadyOnAuthPage = window.location.pathname === '/';
-  if (!isAlreadyOnAuthPage) {
+  if (window.location.pathname !== '/') {
     window.location.href = '/';
   }
 };
 
-// REQUEST Interceptor
+// REQUEST interceptor → attach token if exists
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const authCookie = Cookies.get('auth');
     const accessUID = authCookie && JSON.parse(authCookie)?.accessUID;
-
     if (accessUID && config.headers) {
       config.headers['Authorization'] = `Bearer ${accessUID}`;
     }
-
     return config;
   },
   (error) => Promise.reject(error),
 );
 
-// RESPONSE Interceptor
+// RESPONSE interceptor → refresh token logic
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const originalRequest: any = error.config;
 
+    // If unauthorized
     if (error.response?.status === 401 && !originalRequest._retry) {
       const authCookie = Cookies.get('auth');
       const refreshUID = authCookie && JSON.parse(authCookie)?.refreshUID;
 
-      // No refresh token → logout or stop if already on auth page
+      // If no refresh token → logout
       if (!refreshUID) {
         forceLogout();
         return Promise.reject(error);
@@ -80,7 +71,7 @@ axiosInstance.interceptors.response.use(
 
       originalRequest._retry = true;
 
-      // If already refreshing, queue this request
+      // If already refreshing → wait in queue
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -100,6 +91,7 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
+        // Attempt token refresh
         const { data } = await axios.post(
           'https://cps.safarnameh24.com/api/v1/token/refresh/',
           { refreshToken: refreshUID },
@@ -111,10 +103,7 @@ axiosInstance.interceptors.response.use(
         // Save new tokens
         Cookies.set(
           'auth',
-          JSON.stringify({
-            accessUID: accessToken,
-            refreshUID: refreshToken,
-          }),
+          JSON.stringify({ accessUID: accessToken, refreshUID: refreshToken }),
           { path: '/' },
         );
 
@@ -122,10 +111,10 @@ axiosInstance.interceptors.response.use(
           `Bearer ${accessToken}`;
         processQueue(null, accessToken);
 
+        // Retry original request
         if (originalRequest.headers) {
           originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
         }
-
         return axiosInstance(originalRequest);
       } catch (err) {
         processQueue(err, null);

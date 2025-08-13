@@ -15,6 +15,7 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import BankIcon from '../ui/bankIcon';
 import { numberSeparation } from '@/utils';
+import { getBankFromCard } from '@/utils/string';
 
 // Creating and exporting CreditCardDropDown component as default
 export default function CreditCardDropDown({
@@ -117,7 +118,12 @@ export default function CreditCardDropDown({
             }
           >
             <div className="shrink-0 aspect-square w-[40px] h-[40px] flex items-center justify-center text-black border border-black/10 rounded-md">
-              <BankIcon className="w-[20px] h-[20px]" name={'dey'} />
+              <BankIcon
+                className="w-[20px] h-[20px]"
+                name={
+                  getBankFromCard(item.card_number.slice(0, 6))?.type || 'dey'
+                }
+              />
             </div>
             <div className="flex-1">
               <span className="text-cs65 font-semibold text-black truncate block text-left">
