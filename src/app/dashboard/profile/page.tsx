@@ -23,10 +23,7 @@ import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
 import Cookies from 'js-cookie';
-import {
-  verifyIranianNationalId,
-  verifyIranianLegalId,
-} from '@persian-tools/persian-tools';
+import { verifyIranianNationalId } from '@persian-tools/persian-tools';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -90,10 +87,7 @@ const legalFormSchema = z.object({
     .max(64, { message: 'نام شرکت نباید بیشتر از ۶۴ حرف باشد' }),
   id: z
     .string()
-    .length(11, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' })
-    .refine((value) => verifyIranianLegalId(value), {
-      message: 'شناسه ملی وارد شده معتبر نیست',
-    }),
+    .length(11, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' }),
   registrationId: z
     .string()
     .min(1, { message: 'شماره ثبت الزامی است' })
@@ -191,6 +185,11 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
     personalForm.setValue('tell', savedTellNumber);
+
+    if (creditCard) {
+      personalForm.setValue('creditCard', creditCard.card_number);
+      personalForm.setValue('shabaNumber', creditCard.iban);
+    }
   }, [personalForm, userInfo]);
 
   // Fetching stuff
@@ -211,6 +210,7 @@ export default function ProfilePage(): ReactNode {
       !legalUserFetching.isLoading
     ) {
       const legalInfo = legalUserFetching.data;
+      const firstCard = legalInfo.card_numbers[0];
 
       legalForm.setValue('name', legalInfo.organization_name);
       legalForm.setValue('id', legalInfo.national_id);
@@ -220,6 +220,11 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
       legalForm.setValue('tell', savedTellNumber);
+
+      if (firstCard) {
+        legalForm.setValue('creditCard', firstCard.card_number);
+        legalForm.setValue('shabaNumber', firstCard.iban);
+      }
     }
   }, [legalForm, legalUserFetching.isLoading]);
 

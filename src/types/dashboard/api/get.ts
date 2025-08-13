@@ -220,6 +220,10 @@ export interface GETCustomerClubListItem {
   };
 }
 
+export interface GETLegalNotes {
+  description: string;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
