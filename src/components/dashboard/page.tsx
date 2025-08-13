@@ -5,7 +5,7 @@
 import { PageComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { usePathname, useRouter } from 'next/navigation';
-import { createContext, ReactNode } from 'react';
+import { createContext, ReactNode, useEffect } from 'react';
 import Header from './header';
 import MobileNav from './mobileNav';
 import Loading from './ui/loading';
@@ -18,6 +18,7 @@ import {
   GETWalletBalance,
 } from '@/types/dashboard/api/get';
 import { NotificationsContext } from '@/types/dashboard/context';
+import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
@@ -68,6 +69,13 @@ function InnerPage({
   pathname: string;
 }) {
   // Defining hooks
+  const openedNotifications = useLocalStorageState<number[]>(
+    'openedNotifications',
+    {
+      defaultValue: [],
+    },
+  );
+
   const personalDataFetch = useApiQuery<GETPersonalProfile>({
     url: '/natural-profiles/',
     queryKey: ['personalProfile', 'persoanl', 'profile'],

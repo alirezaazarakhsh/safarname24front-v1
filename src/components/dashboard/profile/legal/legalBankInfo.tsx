@@ -27,6 +27,7 @@ export default function LegalBankInfo({
   className,
   form,
   loading,
+  creditCards = [],
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
@@ -264,6 +265,7 @@ export default function LegalBankInfo({
           className="lg:h-[50px] h-[45px] w-full"
           placeholder="16 رقم شماره کارت را وارد نمایید"
           value={creditCardVal}
+          useLegalInfo={creditCards}
           disabled={loading}
           reset={() => {
             form.setValue('creditCard', undefined);
@@ -301,6 +303,7 @@ export default function LegalBankInfo({
           side="top"
           placeholder="24 رقم شماره شبا کارت را وارد نمایید"
           value={shabaVal}
+          useLegalInfo={creditCards}
           disabled={loading}
           reset={() => {
             form.setValue('creditCard', undefined);

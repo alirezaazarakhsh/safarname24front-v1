@@ -24,41 +24,27 @@ import GiftGainErrorDialog from './dialog/giftGainErrorDialog';
 import GiftGainedDialog from './dialog/giftGainedDialogOpened';
 import { Skeleton } from '@/components/ui/skeleton';
 import SafarnameLogo from '../../../../public/image/logo/white.webp';
+import CustomPagination from '../ui/customPagination';
 
 // Creating and exporting RoomTable component as default
 export default function RoomTable({
   className,
   data,
   loading = false,
+  paginationActiveIndex,
+  setPaginationActiveIndex,
+  paginationCount,
+  refetch,
 }: RoomTablePropsType): ReactNode {
   // Defining state of component
+  const [rules, setRules] = useState<string | undefined>();
+  const [code, setCode] = useState<string | undefined>();
   const [acceptRulesDialogOpened, setAcceptRulesDialogOpened] =
     useState<boolean>(false);
   const [giftGainedDialogOpened, setGiftGainedDialogOpened] =
     useState<boolean>(false);
   const [giftGainErrorDialogOpened, setGiftGainErrorDialogOpened] =
     useState<boolean>(false);
-
-  const [idToAchive, setIdToAchive] = useState<number>(0);
-
-  // Defining a function to handle copy to clipboard
-  function hanldeClipboardCopy(text: string): void {
-    window.navigator.clipboard
-      .writeText(text)
-      .then(() =>
-        toast({
-          title: 'کد با موفقیت کپی شد',
-          theme: 'green',
-          description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
-        }),
-      )
-      .catch(() =>
-        toast({
-          title: 'کد کپی نشد!',
-          description: 'خطایی در کپی کردن کد پیش امد.',
-        }),
-      );
-  }
 
   // Returning JSX
   return (
@@ -70,23 +56,45 @@ export default function RoomTable({
     >
       <GiftGainErrorDialog
         isOpened={giftGainErrorDialogOpened}
-        closeFn={() => setGiftGainErrorDialogOpened(false)}
+        refetch={() => refetch && refetch()}
+        closeFn={() => {
+          setGiftGainErrorDialogOpened(false);
+          setRules(undefined);
+          setCode(undefined);
+        }}
       />
       <GiftGainedDialog
         isOpened={giftGainedDialogOpened}
-        closeFn={() => setGiftGainedDialogOpened(false)}
+        closeFn={() => {
+          setGiftGainedDialogOpened(false);
+          setRules(undefined);
+          setCode(undefined);
+        }}
       />
       <TakeGiftRuleDialog
-        id={idToAchive}
         isOpened={acceptRulesDialogOpened}
-        closeFn={() => setAcceptRulesDialogOpened(false)}
+        refetch={() => refetch && refetch()}
         setGiftGainErrorDialogOpened={setGiftGainErrorDialogOpened}
         setGiftGainedDialogOpened={setGiftGainedDialogOpened}
+        rules={rules}
+        type="room"
+        code={code || ''}
+        closeFn={() => {
+          setAcceptRulesDialogOpened(false);
+          setRules(undefined);
+          setCode(undefined);
+        }}
       />
       <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
         <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
           مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
         </span>
+        <CustomPagination
+          loading={loading}
+          count={paginationCount || 12}
+          activeIndex={paginationActiveIndex}
+          setActiveIndex={setPaginationActiveIndex}
+        />
       </div>
       {loading ? (
         <>
@@ -110,7 +118,7 @@ export default function RoomTable({
                   امتیاز مورد نیاز
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  تاریخ اعتبار کد تخفیف
+                  تاریخ انقضای کد تخفیف
                 </TableHead>
                 <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
               </TableRow>
@@ -239,7 +247,7 @@ export default function RoomTable({
                   امتیاز مورد نیاز
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  تاریخ اعتبار کد تخفیف
+                  تاریخ انقضای کد تخفیف
                 </TableHead>
                 <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
               </TableRow>
@@ -281,19 +289,20 @@ export default function RoomTable({
                     </Tooltip>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-start gap-2">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.code}
-                    </span>
-                    <button
-                      className="text-cs-red shrink-0"
-                      onClick={() => hanldeClipboardCopy(item.code)}
+                    <Tooltip
+                      content={'لطفا برای دیدن کد تخفیف جایزه را دریافت کنید .'}
                     >
+                      <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                        ********
+                      </span>
+                    </Tooltip>
+                    <div className="text-cs-red shrink-0">
                       <IconsaxIcons
                         name="DocumentCopy"
                         color="currentColor"
                         className="w-3 h-3"
                       />
-                    </button>
+                    </div>
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
@@ -314,7 +323,8 @@ export default function RoomTable({
                     <button
                       onClick={() => {
                         setAcceptRulesDialogOpened(true);
-                        setIdToAchive(item.id);
+                        setRules(item.activation_rules);
+                        setCode(item.code);
                       }}
                       className={
                         'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100'
@@ -362,7 +372,8 @@ export default function RoomTable({
                       className="w-[105px] h-[40px] transition-all duration-500 shrink-0 rounded-[7px] flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100"
                       onClick={() => {
                         setAcceptRulesDialogOpened(true);
-                        setIdToAchive(item.id);
+                        setRules(item.activation_rules);
+                        setCode(item.code);
                       }}
                     >
                       <span className="text-[10px] text-current font-semibold">
@@ -399,18 +410,15 @@ export default function RoomTable({
                       </span>
                       <div className="flex items-center justify-start gap-[10px]">
                         <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          {item.code}
+                          ********
                         </span>
-                        <button
-                          className="text-cs-red shrink-0"
-                          onClick={() => hanldeClipboardCopy(item.code)}
-                        >
+                        <div className="text-cs-red shrink-0">
                           <IconsaxIcons
                             name="DocumentCopy"
                             color="currentColor"
                             className="w-[14px] h-[14px]"
                           />
-                        </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -466,6 +474,11 @@ export default function RoomTable({
               ))}
             </div>
           </div>
+          <CustomPagination
+            count={paginationCount || 12}
+            activeIndex={paginationActiveIndex}
+            setActiveIndex={setPaginationActiveIndex}
+          />
         </>
       )}
     </section>

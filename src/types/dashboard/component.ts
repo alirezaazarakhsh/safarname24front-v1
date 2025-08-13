@@ -11,12 +11,17 @@ import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
+  GETCustomerClubList,
+  GETCustomerClubListItem,
   GETCustomerClubRoomList,
+  GETCustomerClubRoomListItem,
   GETCustomerClubShoppingCentreList,
+  GETCustomerClubShoppingCentreListItem,
   GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
   GETReservation,
+  GETUploadedDocuments,
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 
@@ -381,22 +386,33 @@ export interface ToggleButtonsPropsType {
 export interface CustomersClubTablePropsType {
   className?: string;
   loading?: boolean;
-  data?: GETCustomerClubShoppingCentreList;
+  data?: GETCustomerClubShoppingCentreListItem[];
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
+  refetch?: () => void;
 }
 
 export interface RoomTablePropsType {
   className?: string;
   loading?: boolean;
-  data?: GETCustomerClubRoomList;
+  data?: GETCustomerClubRoomListItem[];
+  refetch?: () => void;
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
 }
 
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
   setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
   setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
+  type: 'room' | 'shoppingCentre';
+  code: string;
+  rules?: string;
 }
 
 export interface CustomerClubListTablePropsType {
-  data: GETCustomerClubShoppingCentreList[];
+  data: GETCustomerClubListItem[];
   className?: string;
   loading?: boolean;
   activeIndex?: number;
@@ -531,6 +547,11 @@ export interface LegalBankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<legalFormType>;
   loading: boolean;
+  creditCards?: {
+    id: number;
+    card_number: string;
+    iban: string;
+  }[];
 }
 
 export interface LegalInfoFormComponentPropsType {
@@ -559,16 +580,14 @@ export interface EmptyTableComponentPropsType {
 }
 
 export interface UploadSheetComponentPropsType {
-  fetchURL?: string;
+  files: File[];
+  onDelete?: (index: number) => void;
 }
 
 export interface UploadedFileComponentPropsType {
   isLastItem?: boolean;
   index: number;
-  isLoading?: boolean;
-  onDelete?: () => void;
-  fetchURL?: string;
-  refetch?: () => void;
+  onDelete?: (index: number) => void;
   data?: {
     name: string;
     id: number;
@@ -639,6 +658,11 @@ export interface CreditCardInputPropsType
 
 export interface CreditCardDropDownPropsType
   extends ButtonHTMLAttributes<HTMLButtonElement> {
+  useLegalInfo?: {
+    id: number;
+    card_number: string;
+    iban: string;
+  }[];
   placeholder?: string;
   value?: string;
   side?: 'top' | 'bottom';

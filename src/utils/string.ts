@@ -59,22 +59,7 @@ export function getBankFromCard(cardNumber: string | number): BankInfo | null {
   return binToBank[bin] || null;
 }
 
-// Creating an function to validate national code or passport
-export function isValidIranianNationalCodeOrPassport(value: string): boolean {
-  const isValidIranianNationalCode = (code: string): boolean => {
-    if (!/^\d{10}$/.test(code)) return false;
-    const check = +code[9];
-    const sum = code
-      .split('')
-      .slice(0, 9)
-      .reduce((acc, digit, i) => acc + +digit * (10 - i), 0);
-    const remainder = sum % 11;
-    return (
-      (remainder < 2 && check === remainder) ||
-      (remainder >= 2 && check === 11 - remainder)
-    );
-  };
-
-  const isValidPassport = /^[A-Z0-9]{8,10}$/i.test(value);
-  return isValidIranianNationalCode(value) || isValidPassport;
+export function isValidIranianPassport(passport: string): boolean {
+  const regex = /^[A-Z]\d{8}$/;
+  return regex.test(passport);
 }

@@ -1,7 +1,5 @@
-// Forcing next.js to render this component as client side component
 'use client';
 
-// Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Button } from '@/components/ui/button';
 import { UploadComponentPropsType } from '@/types/dashboard/component';
@@ -13,66 +11,64 @@ import toast from '../ui/customSonner/toast';
 import UploadSheet from './uploadSheet';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
-// Creating and exporting Upload component as default
 export default function Upload({
-  onChange,
   className,
   fetchURL,
 }: UploadComponentPropsType): ReactNode {
-  // Defining hooks
   const [isErrored, setErrored] = useState<boolean>(false);
   const [isUploading, setUploading] = useState<boolean>(false);
-  const [file, setFile] = useState<File | undefined>();
+  const [files, setFiles] = useState<File[]>([]);
+
   const {
     getRootProps,
     getInputProps,
     isDragActive,
-    acceptedFiles,
     inputRef,
     rootRef,
     isFileDialogActive,
   } = useDropzone({
-    maxFiles: 1,
-    maxSize: 30 * 1024 * 1024, // 30MB in bytes
+    multiple: true,
+    maxFiles: 3,
+    maxSize: 30 * 1024 * 1024,
+    accept: { 'image/*': [] },
     onDropRejected: () => {
       setErrored(true);
-      setFile(undefined);
+      setFiles([]);
     },
-    onDropAccepted: (files) => {
+    onDropAccepted: (accepted) => {
       setErrored(false);
-      setFile(files[0]);
-    },
-    accept: {
-      'image/*': [],
+      setFiles(accepted);
     },
   });
 
-  // Using useEffect to attach onChange prop to component
-  useEffect(() => onChange(file), [file, onChange]);
-
-  // A hook to fetch data
   const uploadComponentFetching = useApiMutation({
-    url: fetchURL ? fetchURL : '',
+    url: fetchURL ?? '',
     method: 'post',
     options: {
       onError: () => {
         toast({
           title: 'مشکلی در اپلود فایل رخ داد!',
-          description: 'کاربر گرامی, فایل مد نظر شما اپلود نشد!',
+          description: 'کاربر گرامی، فایل مد نظر شما اپلود نشد!',
           theme: 'theme',
         });
       },
       onSuccess: () => {
+        const inputEl = inputRef.current;
+        const rootEl = rootRef.current;
+        if (inputEl) inputEl.value = '';
+        if (rootEl) rootEl.click();
+        setFiles([]);
         toast({
           title: 'فایل مد نظر اپلود شد',
-          description: file ? file.name : 'فایل شما با موفقیت اپلود شد :)',
+          description: files.length
+            ? files.map((f) => f.name).join(' | ')
+            : 'فایل شما با موفقیت اپلود شد :)',
           theme: 'green',
         });
       },
     },
   });
 
-  // Returning JSX
   return (
     <div
       className={cn(
@@ -80,24 +76,24 @@ export default function Upload({
         className,
       )}
     >
-      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full'>
-        <div className='shrink-0 lg:w-[38px] lg:h-[38px] w-[44px] h-[44px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black'>
+      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
+        <div className="shrink-0 lg:w-[38px] lg:h-[38px] w-[44px] h-[44px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
           <IconsaxIcons
-            name='CloudAdd'
-            className='w-[20px] h-[20px]'
-            color='currentColor'
+            name="CloudAdd"
+            className="w-[20px] h-[20px]"
+            color="currentColor"
           />
         </div>
-        <div className='overflow-hidden w-full'>
-          <span className='lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1'>
+        <div className="overflow-hidden w-full">
+          <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
             بارگزاری فایل مربوطه
           </span>
-          <p className='text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold'>
+          <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
             فایل، عکس، فاکتور و غیره میتوانید در این قسمت آپلود کنید.
           </p>
         </div>
       </div>
-      <div className='lg:px-3 lg:py-4 px-[14px] py-[14px] h-full border-b border-b-black/10 w-full flex'>
+      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] h-full border-b border-b-black/10 w-full flex">
         <div
           {...getRootProps()}
           className={cn(
@@ -107,23 +103,23 @@ export default function Upload({
               : 'text-black border-black/10',
           )}
         >
-          <input {...getInputProps()} hidden />
-          <div className='overflow-hidden'>
+          <input {...getInputProps()} multiple hidden />
+          <div className="overflow-hidden">
             <IconsaxIcons
               color={isErrored ? '#F30F26' : 'currentColor'}
               name={isErrored ? 'Warning2' : 'DocumentUpload'}
-              className='lg:w-[40px] lg:h-[40px] w-[30px] h-[30px] block mx-auto lg:mb-3 mb-2'
+              className="lg:w-[40px] lg:h-[40px] w-[30px] h-[30px] block mx-auto lg:mb-3 mb-2"
             />
-            {acceptedFiles.length === 0 ? (
-              <p className='text-current font-normal lg:text-xs text-[10px] block text-center truncate mb-2'>
-                <span className='font-bold inline-block lg:ml-[4px] ml-[3px]'>
+            {files.length === 0 ? (
+              <p className="text-current font-normal lg:text-xs text-[10px] block text-center truncate mb-2">
+                <span className="font-bold inline-block lg:ml-[4px] ml-[3px]">
                   کلیک کردن برای آپلود فایل
                 </span>
                 یا درگ کردن فایل
               </p>
             ) : (
-              <p className='text-current font-normal lg:text-xs text-[10px] block text-center truncate mb-2'>
-                {acceptedFiles[0].name}
+              <p className="text-current font-normal lg:text-xs text-[10px] block text-center truncate mb-2">
+                {files.map((item) => item.name).join(' | ')}
               </p>
             )}
             <span
@@ -134,32 +130,35 @@ export default function Upload({
             >
               {isErrored
                 ? 'خطایی رخ داد، مشتری گرامی حداکثر وارد کردن فایل 30MB میباشد!'
-                : acceptedFiles.length === 0
+                : files.length === 0
                   ? 'حداکثر آپلود فایل 30MB میباشد'
-                  : `حجم فایل : ${Math.ceil(acceptedFiles[0].size / (1024 * 1024))} مگابایت`}
+                  : `حجم فایل : ${Math.ceil(
+                      files.reduce((acc, file) => acc + file.size, 0) /
+                        (1024 * 1024),
+                    )} مگابایت`}
             </span>
           </div>
         </div>
       </div>
-      <div className='flex items-center justify-between gap-4 px-3 py-4 shrink-0 w-full overflow-auto scrollbar-hide'>
-        <div className='flex items-center justify-between gap-3'>
+      <div className="flex items-center justify-between gap-4 px-3 py-4 shrink-0 w-full overflow-auto scrollbar-hide">
+        <div className="flex items-center justify-between gap-3">
           <Button
-            className='bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white'
+            className="bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white"
             onClick={async () => {
-              if (fetchURL && file) {
+              if (fetchURL && files.length > 0) {
                 const formData = new FormData();
-
-                formData.append('file', file);
+                files.forEach((f, index) =>
+                  formData.append(`files[${index}]`, f),
+                );
                 await uploadComponentFetching.mutateAsync(formData);
               } else {
                 setUploading(true);
                 await new Promise((resolve) => setTimeout(resolve, 5000));
-
                 setUploading(false);
                 toast({
                   title: 'فایل مد نظر اپلود شد',
-                  description: file
-                    ? file.name
+                  description: files.length
+                    ? files.map((f) => f.name).join(' | ')
                     : 'فایل شما با موفقیت اپلود شد :)',
                   theme: 'green',
                 });
@@ -167,50 +166,52 @@ export default function Upload({
             }}
             disabled={
               fetchURL
-                ? uploadComponentFetching.isPending || file === undefined
-                : file === undefined || isUploading
+                ? uploadComponentFetching.isPending || files.length === 0
+                : files.length === 0 || isUploading
             }
           >
             {fetchURL ? (
               uploadComponentFetching.isPending ? (
                 <Loading />
               ) : (
-                <span className='font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]'>
+                <span className="font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]">
                   آپلود فایل
                 </span>
               )
             ) : isUploading ? (
               <Loading />
             ) : (
-              <span className='font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]'>
+              <span className="font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]">
                 آپلود فایل
               </span>
             )}
           </Button>
-          <UploadSheet fetchURL={fetchURL} />
+          {files.length > 0 && (
+            <UploadSheet
+              onDelete={(index) => {
+                const removedFiles = files.filter(
+                  (_, itemIndex) => itemIndex !== index,
+                );
+
+                setFiles(removedFiles);
+              }}
+              files={files}
+            />
+          )}
         </div>
         <Button
-          disabled={acceptedFiles.length === 0}
+          disabled={files.length === 0}
           onClick={() => {
-            const inputEl = inputRef.current;
-            const rootEl = rootRef.current;
-
-            if (inputEl) {
-              inputEl.value = '';
-              rootEl.click();
-              setFile(undefined);
-            }
+            setFiles([]);
           }}
-          className={
-            'transition-all duration-500 lg:w-auto w-[40px] h-[40px] lg:rounded-lg rounded-[10px] lg:gap-2 flex items-center justify-center lg:p-3 bg-cs-red/10 hover:bg-cs-red/15  text-cs-red disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 disabled:hover:bg-gray-100'
-          }
+          className="transition-all duration-500 lg:w-auto w-[40px] h-[40px] lg:rounded-lg rounded-[10px] lg:gap-2 flex items-center justify-center lg:p-3 bg-cs-red/10 hover:bg-cs-red/15 text-cs-red disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 disabled:hover:bg-gray-100"
         >
           <IconsaxIcons
             name={'Trash'}
-            color='currentColor'
-            className='h-[20px] w-[20px]'
+            color="currentColor"
+            className="h-[20px] w-[20px]"
           />
-          <span className='font-normal  truncate w-full text-right text-xs text-current lg:block hidden'>
+          <span className="font-normal truncate w-full text-right text-xs text-current lg:block hidden">
             حذف فایل
           </span>
         </Button>

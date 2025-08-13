@@ -21,7 +21,8 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import PassengerEditSucessDialog from './passengarEditSuccess';
 import PassengarEditErrorDialog from './passengarEditError';
-import { isValidIranianNationalCodeOrPassport } from '@/utils/string';
+import { isValidIranianPassport } from '@/utils/string';
+import { verifyIranianNationalId } from '@persian-tools/persian-tools';
 
 // Defining form schema
 const formSchema = z.object({
@@ -34,12 +35,14 @@ const formSchema = z.object({
     .min(1, 'نام خانوادگی باید حداقل ۱ کاراکتر باشد')
     .max(32, 'نام خانوادگی نمی‌تواند بیشتر از 64 کاراکتر باشد'),
   nationalOrPassportCode: z
-    .string({
-      message: 'لطفا این فیلد را پر کنید.',
-    })
-    .refine(isValidIranianNationalCodeOrPassport, {
-      message: 'کد ملی یا شماره پاسپورت معتبر نیست.',
-    }),
+    .string()
+    .transform((val) => val.trim().toUpperCase())
+    .refine(
+      (val) => verifyIranianNationalId(val) || isValidIranianPassport(val),
+      {
+        message: 'کد ملی یا کد گذرنامه معتبر نیست',
+      },
+    ),
   phoneNumber: z
     .string()
     .length(11, 'شماره تماس باید دقیقا ۱۱ رقم باشد')
@@ -90,12 +93,22 @@ export default function EditPassengersDialog({
 
   // Defining submit handler
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    await fetchData.mutateAsync({
-      first_name: data.firstName,
-      last_name: data.lastName,
-      Indentification_code: data.nationalOrPassportCode,
-      phone_number: data.phoneNumber,
-    });
+    if (
+      data.phoneNumber &&
+      phoneNumbers &&
+      phoneNumbers.includes(data.phoneNumber)
+    ) {
+      form.setError('phoneNumber', {
+        message: 'این شماره تلفن ثبلا به ثبت رسیده.',
+      });
+    } else {
+      await fetchData.mutateAsync({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        identification_code: data.nationalOrPassportCode,
+        phone_number: data.phoneNumber,
+      });
+    }
   };
 
   // Returning JSX

@@ -19,6 +19,7 @@ import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 // Creating and exporting GiftGainErrorDialog component as default
 export default function GiftGainErrorDialog({
   closeFn,
+  refetch,
   isOpened = false,
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
@@ -56,7 +57,13 @@ export default function GiftGainErrorDialog({
                 بستن
               </button>
             </DialogClose>
-            <button className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600">
+            <button
+              onClick={() => {
+                closeFn && closeFn();
+                refetch && refetch();
+              }}
+              className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600"
+            >
               تلاش مجدد
             </button>
           </DialogFooter>

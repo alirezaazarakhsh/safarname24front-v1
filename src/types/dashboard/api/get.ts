@@ -60,6 +60,11 @@ export interface GETLegalProfile {
   status: 'checking' | 'accpeted' | 'rejected';
   reject_reason: string | null;
   documents: string | null;
+  card_numbers: {
+    id: number;
+    card_number: string;
+    iban: string;
+  }[];
 }
 
 export interface GETUploadedDocumentItem {
@@ -199,6 +204,22 @@ export interface GETUserPoints {
   points: number;
 }
 
+export interface GETCustomerClubListItem {
+  id: number;
+  user: string;
+  discount_type: 'تخفیف مرکز خرید' | 'تخفیف اتاق';
+  code: string;
+  discount_value: string;
+  required_points: number;
+  activated_at: string;
+  reward_claimed: boolean;
+  related_info: {
+    shopping_center_name?: string;
+    room_id?: number;
+    room_name?: string;
+  };
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
@@ -207,6 +228,12 @@ export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
-export type GETCustomerClubRoomList = GETCustomerClubRoomListItem[];
-export type GETCustomerClubShoppingCentreList =
-  GETCustomerClubShoppingCentreListItem[];
+export type GETCustomerClubList = GETPaginationAPILayout<
+  GETCustomerClubListItem[]
+>;
+export type GETCustomerClubRoomList = GETPaginationAPILayout<
+  GETCustomerClubRoomListItem[]
+>;
+export type GETCustomerClubShoppingCentreList = GETPaginationAPILayout<
+  GETCustomerClubShoppingCentreListItem[]
+>;

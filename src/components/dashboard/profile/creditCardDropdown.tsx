@@ -15,6 +15,7 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import BankIcon from '../ui/bankIcon';
 import { numberSeparation } from '@/utils';
+import { getBankFromCard } from '@/utils/string';
 
 // Creating and exporting CreditCardDropDown component as default
 export default function CreditCardDropDown({
@@ -24,6 +25,7 @@ export default function CreditCardDropDown({
   hasIRIcon,
   disabled,
   useSheba = false,
+  useLegalInfo,
   side = 'bottom',
   value,
   reset,
@@ -47,10 +49,16 @@ export default function CreditCardDropDown({
   const seprateVal = (val: string | number): string =>
     numberSeparation(val.toString().replace(/\s+/g, ''), ' ', 4);
 
+  // Defining variables
+  const dataToRender = useLegalInfo ? useLegalInfo : userInfo.card_numbers;
+
   // Returning JSX
   return (
     <DropdownMenu open={isOpened} onOpenChange={setOpened}>
-      <DropdownMenuTrigger disabled={disabled} asChild>
+      <DropdownMenuTrigger
+        disabled={disabled || dataToRender.length === 0}
+        asChild
+      >
         <button
           data-opened={isOpened}
           ref={triggerRef}
@@ -105,7 +113,7 @@ export default function CreditCardDropDown({
         side={side}
         className="shadow-black/10 border border-black/20 max-h-[150px] overflow-auto scrollbar-hide"
       >
-        {userInfo.card_numbers.map((item, index) => (
+        {dataToRender.map((item, index) => (
           <DropdownMenuItem
             key={index}
             dir="ltr"
@@ -117,7 +125,12 @@ export default function CreditCardDropDown({
             }
           >
             <div className="shrink-0 aspect-square w-[40px] h-[40px] flex items-center justify-center text-black border border-black/10 rounded-md">
-              <BankIcon className="w-[20px] h-[20px]" name={'dey'} />
+              <BankIcon
+                className="w-[20px] h-[20px]"
+                name={
+                  getBankFromCard(item.card_number.slice(0, 6))?.type || 'dey'
+                }
+              />
             </div>
             <div className="flex-1">
               <span className="text-cs65 font-semibold text-black truncate block text-left">
