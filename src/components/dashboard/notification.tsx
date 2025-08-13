@@ -21,6 +21,7 @@ export default function Notification({
 }: NotificationComponentPropsType): ReactNode {
   // Defining hooks
   const [opened, setOpened] = useState<boolean>(data.is_read || false);
+  const [mutationCount, setMutationCount] = useState<number>(0);
   const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
   const { refetch } = useNotification();
   const mutation = useApiMutation({
@@ -28,9 +29,10 @@ export default function Notification({
     method: 'put',
     isFormData: false,
     options: {
-      onSuccess: (data: GETNotificationItem) => {
-        setOpened(data.is_read);
+      onSuccess: () => {
         refetch && refetch();
+        setOpened(true);
+        setMutationCount((prev) => prev + 1);
       },
       onError: () =>
         toast({
@@ -58,10 +60,16 @@ export default function Notification({
       />
       <div
         onClick={() => {
-          if (!mutation.isPending) {
-            mutation.mutate({
-              is_read: Boolean(!opened),
-            });
+          if (mutationCount === 0) {
+            if (opened) {
+              setOpened(false);
+            } else {
+              mutation.mutate({
+                is_read: true,
+              });
+            }
+          } else {
+            setOpened((prev) => !prev);
           }
         }}
         className={cn(
@@ -73,10 +81,7 @@ export default function Notification({
         </span>
         <div className="flex items-center justify-between lg:gap-3 gap-[10px] shrink-0">
           {!data.send_to_all && (
-            <button
-              disabled={mutation.isPending}
-              onClick={() => !mutation.isPending && setDeleteDialogOpened(true)}
-            >
+            <button disabled={mutation.isPending}>
               <IconsaxIcons
                 name="Trash"
                 color="black"
