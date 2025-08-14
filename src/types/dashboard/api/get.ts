@@ -194,6 +194,7 @@ export interface GETCreditCardItem {
 
 export interface GETUserLevelItem {
   title: string;
+  color: string;
   icon: {
     title: string;
     url: string;
@@ -227,7 +228,9 @@ export interface GETLegalNotes {
 export type GETReservation = GETReservationItem[];
 export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
-export type GETUserLevels = GETUserLevelItem[];
+export type GETUserLevels = {
+  data: GETUserLevelItem[];
+};
 export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;

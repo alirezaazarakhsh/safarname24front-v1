@@ -19,7 +19,6 @@ import { legalFormType } from '@/app/dashboard/profile/page';
 import { getBankFromCard } from '@/utils/string';
 import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
-import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import CreditCardDropDown from '../creditCardDropdown';
 
 // Creating and exporting LegalBankInfo component as default
@@ -28,13 +27,14 @@ export default function LegalBankInfo({
   form,
   loading,
   creditCards = [],
+  userImage,
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
   const [useUserImage, setUseUserImage] = useState<boolean>(true);
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
-  const userInfo = useUserInfo();
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    onFileDialogCancel: () => setFile(undefined),
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 10MB in bytes
     onDropRejected: () => {
@@ -50,6 +50,10 @@ export default function LegalBankInfo({
       'image/*': [],
     },
   });
+
+  useEffect(() => {
+    setUseUserImage(false);
+  }, [file]);
 
   // Defining name and image of banks
   const creditCardVal = form.watch('creditCard') || '';
@@ -108,19 +112,22 @@ export default function LegalBankInfo({
     formData.append('registeration_number', data.registrationId);
     formData.append('economical_code', data.economicCode);
     formData.append('phone_number', data.tell);
-    formData.append('postal_code', data.postCode || '');
-    formData.append('address', data.address || '');
-    formData.append('email', data.email || '');
     formData.append('status', 'accpeted');
     formData.append('reject_reason', '');
-    formData.append('image', file ? file : '');
-    formData.append(
-      'card_numbers',
-      JSON.stringify({
-        card_number: data.creditCard,
-        iban: data.shabaNumber,
-      }),
-    );
+    !useUserImage && formData.append('image', file || '');
+    data.postCode && formData.append('postal_code', data.postCode);
+    data.address && formData.append('address', data.address);
+    data.email && formData.append('email', data.email);
+
+    data.creditCard ||
+      (data.creditCard !== '' &&
+        formData.append(
+          'card_numbers',
+          JSON.stringify({
+            card_number: data.creditCard,
+            iban: data.shabaNumber,
+          }),
+        ));
 
     await setLegalInfoFetch.mutateAsync(formData);
   };
@@ -179,8 +186,8 @@ export default function LegalBankInfo({
         >
           <div className="shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&
-            !form.getFieldState('shabaNumber').invalid &&
-            bankInfo ? (
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
               <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
             ) : (
               <IconsaxIcons name="Bank" color="currentColor" />
@@ -192,8 +199,8 @@ export default function LegalBankInfo({
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
               {!form.getFieldState('creditCard').invalid &&
-              !form.getFieldState('shabaNumber').invalid &&
-              bankInfo
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
                 ? bankInfo?.name
                 : 'سیستم بانکی ناشناخته است!'}
             </p>
@@ -201,18 +208,19 @@ export default function LegalBankInfo({
         </div>
         <button
           {...getRootProps()}
+          disabled={loading}
           className="lg:hidden flex items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
         >
           <input {...getInputProps()} hidden />
           <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
             {acceptedFiles.length === 0 ? (
-              userInfo.image && useUserImage ? (
+              userImage && useUserImage ? (
                 <>
                   <Image
                     width={50}
                     height={50}
                     alt="عکس اپلود شده!"
-                    src={userInfo.image}
+                    src={userImage}
                     className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
                   />
                   <div
@@ -316,18 +324,19 @@ export default function LegalBankInfo({
         />
         <button
           {...getRootProps()}
+          disabled={loading}
           className="lg:flex hidden items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
         >
           <input {...getInputProps()} hidden />
           <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
             {acceptedFiles.length === 0 ? (
-              userInfo.image && useUserImage ? (
+              userImage ? (
                 <>
                   <Image
                     width={50}
                     height={50}
                     alt="عکس اپلود شده!"
-                    src={userInfo.image}
+                    src={userImage}
                     className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
                   />
                   <div

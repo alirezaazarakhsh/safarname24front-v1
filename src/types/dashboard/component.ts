@@ -540,12 +540,14 @@ export interface NormalInputComponentPropsType
 export interface BankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<personalFormType>;
+  userImage?: string;
 }
 
 export interface LegalBankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<legalFormType>;
   loading: boolean;
+  userImage?: string;
   creditCards?: {
     id: number;
     card_number: string;

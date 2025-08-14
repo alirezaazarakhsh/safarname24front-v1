@@ -33,7 +33,7 @@ export default function SubscriptionType({
   useEffect(() => {
     if (!isLoading && !isError && data) {
       const userLevelIndex = level ? level - 1 : 0;
-      const levelObj = data[userLevelIndex];
+      const levelObj = data.data[userLevelIndex];
 
       setUserLevel(levelObj);
     }
@@ -104,13 +104,11 @@ export default function SubscriptionType({
     return (
       <Tooltip content="* با ارتقای خرید سطح کاربری خود را افزایش دهید تا در تخفیفات اتاق بهترین خرید داشته باشید برای اطلاعات بیشتر به صفحه قوانین و مقررات مراجعه نمایید.">
         <div
+          style={{
+            background: `linear-gradient(to top right,#282828, ${userLevel?.color})`,
+          }}
           className={cn(
-            'lg:rounded-lg rounded-[12px] bg-gradient-to-tr from-[#282828] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
-            level === 1
-              ? 'to-cs-red'
-              : level === 2
-                ? 'to-[#E4BF45]'
-                : '#282828',
+            'lg:rounded-lg rounded-[12px] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
             className,
           )}
         >
@@ -122,9 +120,11 @@ export default function SubscriptionType({
             className="absolute top-0 left-0 w-full object-cover scale-105 h-full pointer-events-none"
           />
           <div className="border-2 border-current lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] aspect-square shrink-0 flex items-center justify-center lg:rounded-md rounded-[8px] relative overflow-hidden">
-            <IconsaxIcons
-              name="Verify"
-              color="white"
+            <Image
+              alt={userLevel?.icon.title || ''}
+              src={userLevel?.icon.url || ''}
+              width={30}
+              height={30}
               className="lg:w-[20px] lg:h-[20px] w-[27px] h-[27px]"
             />
           </div>
