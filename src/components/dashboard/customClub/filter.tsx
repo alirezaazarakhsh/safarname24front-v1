@@ -29,7 +29,7 @@ export default function Filter({
     queryKey: ['user-points'],
     options: {
       enabled: !loading,
-      staleTime: Infinity,
+      staleTime: 5000,
     },
   });
 

@@ -668,3 +668,8 @@ export interface CreditCardDropDownPropsType
   useSheba?: boolean;
   reset?: () => void;
 }
+
+export interface CustomerClubGiftGainedPropsType
+  extends DialogComponentPropsType {
+  code: string;
+}

@@ -13,7 +13,7 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { handleZeroBeforeNumber } from '@/utils/string';
+import { handleZeroBeforeNumber, hanldeClipboardCopy } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
 import { numberSeparation } from '@/utils';
@@ -65,6 +65,7 @@ export default function RoomTable({
       />
       <GiftGainedDialog
         isOpened={giftGainedDialogOpened}
+        code={code || ''}
         closeFn={() => {
           setGiftGainedDialogOpened(false);
           setRules(undefined);
@@ -82,7 +83,6 @@ export default function RoomTable({
         closeFn={() => {
           setAcceptRulesDialogOpened(false);
           setRules(undefined);
-          setCode(undefined);
         }}
       />
       <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
@@ -289,20 +289,22 @@ export default function RoomTable({
                     </Tooltip>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-start gap-2">
-                    <Tooltip
-                      content={'لطفا برای دیدن کد تخفیف جایزه را دریافت کنید .'}
+                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      {item.code ? item.code : '********'}
+                    </span>
+                    <button
+                      onClick={() =>
+                        item.code && hanldeClipboardCopy(item.code)
+                      }
+                      disabled={!item.code}
+                      className="text-cs-red shrink-0"
                     >
-                      <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                        ********
-                      </span>
-                    </Tooltip>
-                    <div className="text-cs-red shrink-0">
                       <IconsaxIcons
                         name="DocumentCopy"
                         color="currentColor"
                         className="w-3 h-3"
                       />
-                    </div>
+                    </button>
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
@@ -410,18 +412,25 @@ export default function RoomTable({
                       </span>
                       <div className="flex items-center justify-start gap-[10px]">
                         <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          ********
+                          {item.code ? item.code : '********'}
                         </span>
-                        <div className="text-cs-red shrink-0">
+                        <button
+                          onClick={() =>
+                            item.code && hanldeClipboardCopy(item.code)
+                          }
+                          disabled={!item.code}
+                          className="text-cs-red shrink-0"
+                        >
                           <IconsaxIcons
                             name="DocumentCopy"
                             color="currentColor"
                             className="w-[14px] h-[14px]"
                           />
-                        </div>
+                        </button>
                       </div>
                     </div>
                   </div>
+
                   <div className="flex items-center justify-start gap-[10px] mb-[25px]">
                     <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                       <IconsaxIcons

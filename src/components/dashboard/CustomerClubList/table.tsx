@@ -14,10 +14,9 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { handleZeroBeforeNumber } from '@/utils/string';
+import { handleZeroBeforeNumber, hanldeClipboardCopy } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Skeleton } from '@/components/ui/skeleton';
-import toast from '../ui/customSonner/toast';
 
 // Creating and exporting CustomerClubListTable component as default
 export default function CustomerClubListTable({
@@ -28,25 +27,6 @@ export default function CustomerClubListTable({
   setActiveIndex,
   paginationCount = 12,
 }: CustomerClubListTablePropsType): ReactNode {
-  // Defining a function to handle copy to clipboard
-  function hanldeClipboardCopy(text: string): void {
-    window.navigator.clipboard
-      .writeText(text)
-      .then(() =>
-        toast({
-          title: 'کد با موفقیت کپی شد',
-          theme: 'green',
-          description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
-        }),
-      )
-      .catch(() =>
-        toast({
-          title: 'کد کپی نشد!',
-          description: 'خطایی در کپی کردن کد پیش امد.',
-        }),
-      );
-  }
-
   // Returning JSX
   return (
     <section

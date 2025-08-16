@@ -1,4 +1,5 @@
 // Importing part
+import toast from '@/components/dashboard/ui/customSonner/toast';
 import { BankInfo, HandleZeroBeforeNumberPropsType } from '@/types/utils';
 
 // Creating and exporting handleZeroBeforeNumber function which takes a string or number and checks if it has single character/number (in lenght) and if it is adds a 0 before the actual number
@@ -62,4 +63,22 @@ export function getBankFromCard(cardNumber: string | number): BankInfo | null {
 export function isValidIranianPassport(passport: string): boolean {
   const regex = /^[A-Z]\d{8}$/;
   return regex.test(passport);
+}
+
+export function hanldeClipboardCopy(text: string): void {
+  window.navigator.clipboard
+    .writeText(text)
+    .then(() =>
+      toast({
+        title: 'کد با موفقیت کپی شد',
+        theme: 'green',
+        description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
+      }),
+    )
+    .catch(() =>
+      toast({
+        title: 'کد کپی نشد!',
+        description: 'خطایی در کپی کردن کد پیش امد.',
+      }),
+    );
 }
