@@ -46,7 +46,9 @@ const formSchema = z.object({
   phoneNumber: z
     .string()
     .length(11, 'شماره تماس باید دقیقا ۱۱ رقم باشد')
-    .regex(/^09\d{9}$/, 'شماره تماس باید با ۰۹ شروع شود و معتبر باشد'),
+    .regex(/^09\d{9}$/, 'شماره تماس باید با ۰۹ شروع شود و معتبر باشد')
+    .or(z.literal(''))
+    .optional(),
 });
 
 // Defining form type

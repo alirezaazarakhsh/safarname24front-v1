@@ -26,13 +26,15 @@ import CreditCardDropDown from './creditCardDropdown';
 export default function BankInfoForm({
   className,
   form,
+  userImage,
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
-  const [useUserImage, setUseUserImage] = useState<boolean>(true);
   const userInfo = useUserInfo();
+  const [useUserImage, setUseUserImage] = useState<boolean>(true);
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    onFileDialogCancel: () => setFile(undefined),
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 30MB in bytes
     onDropRejected: () => {
@@ -48,6 +50,12 @@ export default function BankInfoForm({
       'image/*': [],
     },
   });
+
+  useEffect(() => {
+    if (file) {
+      setUseUserImage(false);
+    }
+  }, [file]);
 
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const [mobileErrorDrawerOpened, setMobileErrorDrawerOpened] =
@@ -93,19 +101,22 @@ export default function BankInfoForm({
 
     formData.append('first_name', data.name);
     formData.append('last_name', data.lastName);
-    formData.append('email', data.email || '');
+    data.email && formData.append('email', data.email);
+    data.postCode && formData.append('postal_code', data.postCode);
+    data.address && formData.append('address', data.address);
+    !useUserImage && formData.append('image', file || '');
     formData.append('national_code', data.meliCode);
-    formData.append('postal_code', data.postCode || '');
-    formData.append('address', data.address || '');
     formData.append('level', userInfo.level?.toString() || '0');
-    formData.append('image', file ? file : '');
-    formData.append(
-      'card_numbers',
-      JSON.stringify({
-        card_number: data.creditCard,
-        iban: data.shabaNumber,
-      }),
-    );
+
+    data.creditCard ||
+      (data.creditCard !== '' &&
+        formData.append(
+          'card_numbers',
+          JSON.stringify({
+            card_number: data.creditCard,
+            iban: data.shabaNumber,
+          }),
+        ));
 
     await setPersonalInfoFetch.mutateAsync(formData);
   };
@@ -213,8 +224,8 @@ export default function BankInfoForm({
           <div className="flex items-center justify-start w-full gap-3">
             <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
               {!form.getFieldState('creditCard').invalid &&
-                !form.getFieldState('shabaNumber').invalid &&
-                bankInfo ? (
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
                 <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
               ) : (
                 <IconsaxIcons name="Bank" color="currentColor" />
@@ -226,8 +237,8 @@ export default function BankInfoForm({
               </span>
               <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
                 {!form.getFieldState('creditCard').invalid &&
-                  !form.getFieldState('shabaNumber').invalid &&
-                  bankInfo
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
                   ? bankInfo?.name
                   : 'سیستم بانکی ناشناخته است!'}
               </p>
@@ -240,19 +251,16 @@ export default function BankInfoForm({
             <input {...getInputProps()} hidden />
             <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
               {acceptedFiles.length === 0 ? (
-                userInfo.image && useUserImage ? (
+                useUserImage && userImage ? (
                   <>
                     <Image
                       width={50}
                       height={50}
                       alt="عکس اپلود شده!"
-                      src={userInfo.image}
+                      src={userImage || ''}
                       className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
                     />
-                    <div
-                      onClick={() => setUseUserImage(false)}
-                      className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0"
-                    >
+                    <div className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0">
                       <IconsaxIcons
                         name="Trash"
                         className="w-[20px] h-[20px]"

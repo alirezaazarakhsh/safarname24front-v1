@@ -497,7 +497,6 @@ export interface PassengersTableComponentPropsType {
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
   data?: GETPassengerItem;
   id?: number;
-  phoneNumbers: string[];
 }
 
 export interface DialogInputPassengersComponentPropsType
@@ -541,12 +540,14 @@ export interface NormalInputComponentPropsType
 export interface BankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<personalFormType>;
+  userImage?: string;
 }
 
 export interface LegalBankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<legalFormType>;
   loading: boolean;
+  userImage?: string;
   creditCards?: {
     id: number;
     card_number: string;
@@ -588,11 +589,7 @@ export interface UploadedFileComponentPropsType {
   isLastItem?: boolean;
   index: number;
   onDelete?: (index: number) => void;
-  data?: {
-    name: string;
-    id: number;
-    size?: number;
-  };
+  data?: File;
 }
 
 export type BankNameType =
@@ -670,4 +667,9 @@ export interface CreditCardDropDownPropsType
   hasIRIcon?: boolean;
   useSheba?: boolean;
   reset?: () => void;
+}
+
+export interface CustomerClubGiftGainedPropsType
+  extends DialogComponentPropsType {
+  code: string;
 }

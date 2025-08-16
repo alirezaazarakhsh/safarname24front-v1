@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -11,16 +11,12 @@ import {
   DialogClose,
   DialogFooter,
 } from '@/components/ui/dialog';
-import {
-  DialogComponentPropsType,
-  TakeGiftRuleDialogPropsType,
-} from '@/types/dashboard/component';
+import { TakeGiftRuleDialogPropsType } from '@/types/dashboard/component';
 import { useMediaQuery } from '@/hooks';
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -64,6 +60,13 @@ export default function TakeGiftRuleDialog({
       },
     },
   });
+
+  // Using useEffect to reset the state of component when dialog closes
+  useEffect(() => {
+    if (!isOpened) {
+      setRulesAccepted(false);
+    }
+  }, [isOpened]);
 
   // Conditional rendering
   if (isMobile) {
@@ -116,12 +119,13 @@ export default function TakeGiftRuleDialog({
               <button
                 className="px-[50px] h-[43px] flex items-center justify-center bg-green-600 rounded-[8px] w-full disabled:bg-gray-100 duration-500 transition-all"
                 disabled={fetchData.isPending || !rulesAccepted}
-                onClick={() =>
-                  fetchData.mutate({
+                onClick={async () => {
+                  await fetchData.mutateAsync({
                     code: code,
                     discount_type: type === 'room' ? 'room' : 'shopping_center',
-                  })
-                }
+                  });
+                  setRulesAccepted(false);
+                }}
               >
                 {fetchData.isPending ? (
                   <Loading className="bg-black" />
@@ -139,7 +143,7 @@ export default function TakeGiftRuleDialog({
   } else {
     return (
       <Dialog open={isOpened}>
-        <DialogContent className="lg:w-auto w-[calc(100vw-25px)] p-0 overflow-hidden">
+        <DialogContent className="lg:w-[500px] w-[calc(100vw-25px)] p-0 overflow-hidden">
           <div className="flex items-center justify-between gap-3 w-full border-b border-b-black/10 p-6">
             <div className="flex items-center justify-between gap-3">
               <IconsaxIcons
@@ -191,12 +195,13 @@ export default function TakeGiftRuleDialog({
               <button
                 disabled={fetchData.isPending || !rulesAccepted}
                 className="flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-lg lg:text-cs08 text-cs07 font-medium text-white bg-green-600 w-full transition-all duration-500 disabled:bg-gray-100 disabled:text-gray-300 h-[40px]"
-                onClick={() =>
-                  fetchData.mutate({
+                onClick={async () => {
+                  await fetchData.mutateAsync({
                     code: code,
                     discount_type: type === 'room' ? 'room' : 'shopping_center',
-                  })
-                }
+                  });
+                  setRulesAccepted(false);
+                }}
               >
                 {!fetchData.isPending ? (
                   'دریافت جایزه'

@@ -29,11 +29,15 @@ const formSchema = z.object({
   firstName: z
     .string()
     .min(1, 'نام باید حداقل ۱ کاراکتر باشد')
-    .max(32, 'نام نمی‌تواند بیشتر از 64 کاراکتر باشد'),
+    .max(32, 'نام نمی‌تواند بیشتر از 64 کاراکتر باشد')
+    .or(z.literal(''))
+    .optional(),
   lastName: z
     .string()
     .min(1, 'نام خانوادگی باید حداقل ۱ کاراکتر باشد')
-    .max(32, 'نام خانوادگی نمی‌تواند بیشتر از 64 کاراکتر باشد'),
+    .max(32, 'نام خانوادگی نمی‌تواند بیشتر از 64 کاراکتر باشد')
+    .or(z.literal(''))
+    .optional(),
   nationalOrPassportCode: z
     .string()
     .transform((val) => val.trim().toUpperCase())
@@ -42,11 +46,15 @@ const formSchema = z.object({
       {
         message: 'کد ملی یا کد گذرنامه معتبر نیست',
       },
-    ),
+    )
+    .or(z.literal(''))
+    .optional(),
   phoneNumber: z
     .string()
     .length(11, 'شماره تماس باید دقیقا ۱۱ رقم باشد')
-    .regex(/^09\d{9}$/, 'شماره تماس باید با ۰۹ شروع شود و معتبر باشد'),
+    .regex(/^09\d{9}$/, 'شماره تماس باید با ۰۹ شروع شود و معتبر باشد')
+    .or(z.literal(''))
+    .optional(),
 });
 
 // Defining form type
@@ -58,7 +66,6 @@ export default function EditPassengersDialog({
   isOpened = false,
   data,
   refetch,
-  phoneNumbers,
 }: EditPassengerDialogPropsType): ReactNode {
   // Defining hooks
   const [errorOpened, setErrorOpened] = useState<boolean>(false);
@@ -93,22 +100,12 @@ export default function EditPassengersDialog({
 
   // Defining submit handler
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    if (
-      data.phoneNumber &&
-      phoneNumbers &&
-      phoneNumbers.includes(data.phoneNumber)
-    ) {
-      form.setError('phoneNumber', {
-        message: 'این شماره تلفن ثبلا به ثبت رسیده.',
-      });
-    } else {
-      await fetchData.mutateAsync({
-        first_name: data.firstName,
-        last_name: data.lastName,
-        identification_code: data.nationalOrPassportCode,
-        phone_number: data.phoneNumber,
-      });
-    }
+    await fetchData.mutateAsync({
+      first_name: data.firstName,
+      last_name: data.lastName,
+      identification_code: data.nationalOrPassportCode,
+      phone_number: data.phoneNumber,
+    });
   };
 
   // Returning JSX
