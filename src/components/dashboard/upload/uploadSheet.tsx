@@ -79,11 +79,7 @@ export default function UploadSheet({
               isLastItem={files.length === index + 1}
               index={index}
               onDelete={() => onDelete && onDelete(index)}
-              data={{
-                name: item.name,
-                id: index + 1,
-                size: Math.ceil(item.size / (1024 * 1024)),
-              }}
+              data={item}
             />
           ))}
         </div>

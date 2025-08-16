@@ -8,7 +8,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import Sheet from './ui/sheet';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import useNotification from '@/hooks/dashboard/useNotifications';
-import moment from 'jalali-moment';
 
 // Creating and exporting MobileNotification component as default
 export default function MobileNotification({

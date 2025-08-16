@@ -52,7 +52,9 @@ export default function BankInfoForm({
   });
 
   useEffect(() => {
-    setUseUserImage(false);
+    if (file) {
+      setUseUserImage(false);
+    }
   }, [file]);
 
   const isMobile = useMediaQuery('(max-width: 1024px)');

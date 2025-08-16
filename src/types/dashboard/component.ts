@@ -589,11 +589,7 @@ export interface UploadedFileComponentPropsType {
   isLastItem?: boolean;
   index: number;
   onDelete?: (index: number) => void;
-  data?: {
-    name: string;
-    id: number;
-    size?: number;
-  };
+  data?: File;
 }
 
 export type BankNameType =
