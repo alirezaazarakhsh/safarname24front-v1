@@ -20,9 +20,6 @@ export default function Filter({
   // Defining states of component
   const [val, setVal] = useState<'shoppingCentre' | 'hotel'>('shoppingCentre');
 
-  // Using useEffect to attach onChange prop to component
-  useEffect(() => onChange && onChange(val), [val, onChange]);
-
   // Fetching data of users current points
   const getData = useApiQuery<GETUserPoints>({
     url: '/crm/customer-club/points/',
@@ -32,6 +29,14 @@ export default function Filter({
       staleTime: 5000,
     },
   });
+
+  // Using useEffect to refetch data when value of filter changes
+  useEffect(() => {
+    getData.refetch();
+  }, [val]);
+
+  // Using useEffect to attach onChange prop to component
+  useEffect(() => onChange && onChange(val), [val, onChange]);
 
   // Returning JSX
   return (
