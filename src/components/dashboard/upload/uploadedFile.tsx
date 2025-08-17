@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import Image from 'next/image';
+import { downloadFile } from '@/utils/utils';
 
 export default function UploadedFile({
   data,
@@ -19,6 +20,10 @@ export default function UploadedFile({
   index,
   onDelete,
 }: UploadedFileComponentPropsType): ReactNode {
+  // Defining variables
+  const fileIsZipOrRar =
+    data?.name.includes('.zip') || data?.name.includes('.rar');
+
   // Returning JSX
   return (
     <div className={isLastItem ? 'pt-3' : 'py-3 border-b border-b-gray-400'}>
@@ -37,38 +42,49 @@ export default function UploadedFile({
               className="w-[10px] h-[10px]"
             />
           </Button>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="bg-gray-100 rounded-md flex items-center justify-center hover:bg-gray-50 shrink-0 h-[30px]">
-                <span className="font-normal text-black/60 truncate block w-full text-center text-cs07">
-                  مشاهده فایل
-                </span>
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <div className="px-3 py-3 border-b border-b-black/10">
-                <DialogClose asChild>
-                  <button className="flex items-center justify-between gap-[10px] w-full">
-                    <DialogTitle className="text-right text-[14px] font-semibold text-black block truncate w-full flex-1">
-                      {data?.name}
-                    </DialogTitle>
-                    <IconsaxIcons
-                      name="CloseCircle"
-                      className="size-4 text-current"
-                      color="black"
-                    />
-                  </button>
-                </DialogClose>
-              </div>
-              <Image
-                alt={data?.name || 'فایل اپلود شده'}
-                width={1080}
-                height={1080}
-                src={data ? URL.createObjectURL(data) : ''}
-                className="aspect-square w-[300px] object-cover bg-purple-300 mx-auto block"
-              />
-            </DialogContent>
-          </Dialog>
+          {fileIsZipOrRar ? (
+            <Button
+              onClick={() => data && downloadFile(data)}
+              className="bg-gray-100 rounded-md flex items-center justify-center hover:bg-gray-50 shrink-0 h-[30px]"
+            >
+              <span className="font-normal text-black/60 truncate block w-full text-center text-cs07">
+                مشاهده فایل
+              </span>
+            </Button>
+          ) : (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-gray-100 rounded-md flex items-center justify-center hover:bg-gray-50 shrink-0 h-[30px]">
+                  <span className="font-normal text-black/60 truncate block w-full text-center text-cs07">
+                    مشاهده فایل
+                  </span>
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <div className="px-3 py-3 border-b border-b-black/10">
+                  <DialogClose asChild>
+                    <button className="flex items-center justify-between gap-[10px] w-full">
+                      <DialogTitle className="text-right text-[14px] font-semibold text-black block truncate w-full flex-1">
+                        {data?.name}
+                      </DialogTitle>
+                      <IconsaxIcons
+                        name="CloseCircle"
+                        className="size-4 text-current"
+                        color="black"
+                      />
+                    </button>
+                  </DialogClose>
+                </div>
+                <Image
+                  alt={data?.name || 'فایل اپلود شده'}
+                  width={1080}
+                  height={1080}
+                  src={data ? URL.createObjectURL(data) : ''}
+                  className="aspect-square w-[300px] object-cover bg-purple-300 mx-auto block"
+                />
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
       <div className="flex items-center justify-between gap-3 mb-2">
