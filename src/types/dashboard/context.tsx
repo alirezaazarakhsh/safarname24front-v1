@@ -6,3 +6,8 @@ export interface NotificationsContext {
   data: GETNotifications;
   refetch?: () => void;
 }
+
+export interface PsersonalInfoContext {
+  data: GETPersonalProfile;
+  refetch?: () => void;
+}

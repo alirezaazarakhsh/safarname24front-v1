@@ -8,7 +8,7 @@ import { useContext } from 'react';
 export default function useUserInfo(): GETPersonalProfile {
   const context = useContext(userFetchedInfoContext);
   const data: GETPersonalProfile = context
-    ? context
+    ? context.data
     : {
         level_name: '',
         address: '',

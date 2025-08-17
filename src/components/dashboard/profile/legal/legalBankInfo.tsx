@@ -28,6 +28,7 @@ export default function LegalBankInfo({
   loading,
   creditCards = [],
   userImage,
+  refetch,
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
@@ -80,7 +81,7 @@ export default function LegalBankInfo({
     method: 'put',
     options: {
       onSuccess: () => {
-        window.location.reload();
+        refetch && refetch();
         if (isMobile) {
           setMobileSuccessDrawerOpened(true);
         } else {
@@ -214,7 +215,15 @@ export default function LegalBankInfo({
           className="lg:hidden flex items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
         >
           <input {...getInputProps()} hidden />
-          <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
+          <div
+            className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden"
+            onClick={(e) => {
+              if (useUserImage) {
+                e.stopPropagation();
+                setUseUserImage(false);
+              }
+            }}
+          >
             {acceptedFiles.length === 0 ? (
               userImage && useUserImage ? (
                 <>
@@ -330,9 +339,17 @@ export default function LegalBankInfo({
           className="lg:flex hidden items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
         >
           <input {...getInputProps()} hidden />
-          <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
+          <div
+            className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden"
+            onClick={(e) => {
+              if (useUserImage) {
+                e.stopPropagation();
+                setUseUserImage(false);
+              }
+            }}
+          >
             {acceptedFiles.length === 0 ? (
-              userImage ? (
+              userImage && useUserImage ? (
                 <>
                   <Image
                     width={50}

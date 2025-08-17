@@ -20,7 +20,7 @@ export default function SubscriptionType({
 }: SubscriptionTypeComponentPropsType): ReactNode {
   // Defining hooks
   const [userLevel, setUserLevel] = useState<GETUserLevelItem>();
-  const { level } = useUserInfo();
+  const { level_name } = useUserInfo();
   const { isLoading, data, isError } = useApiQuery<GETUserLevels>({
     url: '/config/user-levels/',
     queryKey: ['user-levels'],
@@ -32,9 +32,7 @@ export default function SubscriptionType({
   // Using useEffect to set level of user
   useEffect(() => {
     if (!isLoading && !isError && data) {
-      const userLevelIndex = level ? level - 1 : 0;
-      const levelObj = data.data[userLevelIndex];
-
+      const levelObj = data.data.find((item) => item.title === level_name);
       setUserLevel(levelObj);
     }
   }, [isLoading]);

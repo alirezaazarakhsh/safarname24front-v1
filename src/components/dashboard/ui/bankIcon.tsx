@@ -1,4 +1,5 @@
 // Importing part
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { BankIconPropsType } from '@/types/dashboard/component';
 import { ReactNode } from 'react';
 
@@ -1173,5 +1174,7 @@ export default function BankIcon({
         />
       </svg>
     );
+  } else if (name === 'unknown') {
+    return <IconsaxIcons name="Bank" {...props} />;
   }
 }

@@ -61,7 +61,7 @@ export default function CustomerClubListTable({
                   کد تخفیف
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  تاریخ و زمان رزرو
+                  زمان فعال سازی
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
                   مبلغ تخفیف
@@ -319,7 +319,7 @@ export default function CustomerClubListTable({
                     </div>
                     <div>
                       <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                        تاریخ و زمان رزرو
+                        زمان فعال سازی
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
                         {item.activated_at}

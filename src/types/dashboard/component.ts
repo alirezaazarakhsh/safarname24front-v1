@@ -548,6 +548,7 @@ export interface LegalBankInfoFormComponentPropsType {
   form: UseFormReturn<legalFormType>;
   loading: boolean;
   userImage?: string;
+  refetch?: () => void;
   creditCards?: {
     id: number;
     card_number: string;
@@ -635,7 +636,8 @@ export type BankNameType =
   | 'mehr-eghtesaad'
   | 'ghavamin'
   | 'hekmat'
-  | 'ansar';
+  | 'ansar'
+  | 'unknown';
 
 export interface BankIconPropsType extends SVGProps<SVGSVGElement> {
   name: BankNameType;

@@ -13,7 +13,7 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { handleZeroBeforeNumber, hanldeClipboardCopy } from '@/utils/string';
+import { handleZeroBeforeNumber } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
 import { numberSeparation } from '@/utils';
@@ -290,23 +290,10 @@ export default function CustomersClubTable({
                       </span>
                     </Tooltip>
                   </TableCell>
-                  <TableCell className="p-3 flex items-center justify-start gap-2">
+                  <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.code ? item.code : '********'}
+                      ********
                     </span>
-                    <button
-                      onClick={() =>
-                        item.code && hanldeClipboardCopy(item.code)
-                      }
-                      disabled={!item.code}
-                      className="text-cs-red shrink-0"
-                    >
-                      <IconsaxIcons
-                        name="DocumentCopy"
-                        color="currentColor"
-                        className="w-3 h-3"
-                      />
-                    </button>
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
@@ -412,23 +399,10 @@ export default function CustomersClubTable({
                       <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                         کد تخفیف :
                       </span>
-                      <div className="flex items-center justify-start gap-[10px]">
+                      <div>
                         <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          {item.code ? item.code : '********'}
+                          ********
                         </span>
-                        <button
-                          onClick={() =>
-                            item.code && hanldeClipboardCopy(item.code)
-                          }
-                          disabled={!item.code}
-                          className="text-cs-red shrink-0"
-                        >
-                          <IconsaxIcons
-                            name="DocumentCopy"
-                            color="currentColor"
-                            className="w-[14px] h-[14px]"
-                          />
-                        </button>
                       </div>
                     </div>
                   </div>

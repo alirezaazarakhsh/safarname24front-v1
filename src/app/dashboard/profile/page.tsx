@@ -210,7 +210,8 @@ export default function ProfilePage(): ReactNode {
     if (
       legalUserFetching &&
       legalUserFetching.data &&
-      !legalUserFetching.isLoading
+      !legalUserFetching.isLoading &&
+      !legalUserFetching.isRefetching
     ) {
       const legalInfo = legalUserFetching.data;
       const firstCard = legalInfo.card_numbers[0];
@@ -230,7 +231,7 @@ export default function ProfilePage(): ReactNode {
         legalForm.setValue('shabaNumber', firstCard.iban);
       }
     }
-  }, [legalForm, legalUserFetching.isLoading]);
+  }, [legalForm, legalUserFetching.isLoading, legalUserFetching.isRefetching]);
 
   // Returning JSX
   return (
@@ -288,14 +289,15 @@ export default function ProfilePage(): ReactNode {
               className="lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide"
               form={legalForm}
               creditCards={legalUserFetching.data?.card_numbers || []}
+              refetch={legalUserFetching.refetch}
             />
             <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">
               <Upload
                 onChange={(file) => setFile(file)}
-                className="lg:w-[50%] w-full lg:h-auto h-[350px]"
+                className="lg:w-[50%] w-full lg:h-[400px]"
                 fetchURL="/juridical-profile-documents/"
               />
-              <LegalNotes className="lg:w-[50%] w-full" />
+              <LegalNotes className="lg:w-[50%] w-full lg:h-[400px]" />
             </div>
           </>
         )}

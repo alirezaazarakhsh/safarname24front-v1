@@ -68,7 +68,7 @@ export default function ProfileDropdown(): ReactNode {
         <DropDown.DropdownMenuSeparator className="mx-3 mb-3" />
         <DropDown.DropdownMenuItem
           asChild
-          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
+          className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red"
         >
           <Link href="/dashboard/profile">
             <span className="text-cs08 font-normal text-current text-right truncate block">
@@ -78,7 +78,7 @@ export default function ProfileDropdown(): ReactNode {
         </DropDown.DropdownMenuItem>
         <DropDown.DropdownMenuItem
           asChild
-          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
+          className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red"
         >
           <Link href="/dashboard/financial/wallet">
             <span className="text-cs08 font-normal text-current text-right truncate block">
@@ -88,7 +88,7 @@ export default function ProfileDropdown(): ReactNode {
         </DropDown.DropdownMenuItem>
         <DropDown.DropdownMenuItem
           asChild
-          className="p-3 bg-white transition-all duration-500 text-gray-600 hover:bg-cs-red/10 hover:text-cs-red block w-full cursor-pointer"
+          className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red"
           disabled={logout.loading}
         >
           <button onClick={logout.mutate}>

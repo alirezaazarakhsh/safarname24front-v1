@@ -30,7 +30,11 @@ export default function Upload({
     multiple: true,
     maxFiles: 3,
     maxSize: 30 * 1024 * 1024,
-    accept: { 'image/*': [] },
+    accept: {
+      'image/*': [],
+      'application/zip': ['.zip'],
+      'application/x-rar-compressed': ['.rar'],
+    },
     onDropRejected: () => {
       setErrored(true);
       setFiles([]);
