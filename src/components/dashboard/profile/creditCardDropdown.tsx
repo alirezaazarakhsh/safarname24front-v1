@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
 
 // Creating and exporting CreditCardDropDown component as default
 export default function CreditCardDropDown({
@@ -118,6 +119,23 @@ export default function CreditCardDropDown({
         side={side}
         className="shadow-black/10 border border-black/20 max-h-[150px] overflow-auto scrollbar-hide"
       >
+        {side === 'top' && (
+          <div className="p-3 border-b border-b-black/20">
+            <Link
+              href="/dashboard/financial/cart-to-cart"
+              className="flex items-center justify-center gap-3 text-white px-4 py-2 rounded-lg bg-cs-blue w-full"
+            >
+              <IconsaxIcons
+                name="Add"
+                className="size-5 shrink-0"
+                color="currentColor"
+              />
+              <span className="text-cs07 font-normal text-current text-center truncate">
+                اضافه شماره کارت
+              </span>
+            </Link>
+          </div>
+        )}
         {filtredData.map((item, index) => (
           <DropdownMenuItem
             key={index}
@@ -148,6 +166,23 @@ export default function CreditCardDropDown({
             </div>
           </DropdownMenuItem>
         ))}
+        {side === 'bottom' && (
+          <div className="p-3">
+            <Link
+              href="/dashboard/financial/cart-to-cart"
+              className="flex items-center justify-center gap-3 text-white px-4 py-2 rounded-lg bg-cs-blue w-full"
+            >
+              <IconsaxIcons
+                name="Add"
+                className="size-5 shrink-0"
+                color="currentColor"
+              />
+              <span className="text-cs07 font-normal text-current text-center truncate">
+                اضافه شماره کارت
+              </span>
+            </Link>
+          </div>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
