@@ -251,7 +251,15 @@ export default function BankInfoForm({
             className="flex items-center justify-start w-full gap-3 group"
           >
             <input {...getInputProps()} hidden />
-            <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
+            <div
+              className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden"
+              onClick={(e) => {
+                if (useUserImage) {
+                  e.stopPropagation();
+                  setUseUserImage(false);
+                }
+              }}
+            >
               {acceptedFiles.length === 0 ? (
                 useUserImage && userImage ? (
                   <>

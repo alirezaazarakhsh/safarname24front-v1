@@ -548,6 +548,7 @@ export interface LegalBankInfoFormComponentPropsType {
   form: UseFormReturn<legalFormType>;
   loading: boolean;
   userImage?: string;
+  refetch?: () => void;
   creditCards?: {
     id: number;
     card_number: string;

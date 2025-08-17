@@ -17,6 +17,7 @@ import { useMediaQuery } from '@/hooks';
 import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { hanldeClipboardCopy } from '@/utils/string';
+import { DialogPortal } from '@/components/ui/dialog';
 
 // Creating and exporting GiftGainedDialog component as default
 export default function GiftGainedDialog({
@@ -41,52 +42,54 @@ export default function GiftGainedDialog({
   } else {
     return (
       <Dialog open={isOpened}>
-        <DialogContent className="lg:w-auto w-[calc(100vw-25px)]">
-          <DialogHeader>
-            <DialogTitle className="text-center lg:text-[14px] text-[12px] font-bold text-black">
-              جایزه شما با موفقیت دریافت کردید
-            </DialogTitle>
-          </DialogHeader>
-          <div className="mb-5">
-            <div className="flex items-center justify-center gap-3 mb-5">
-              <div>
-                <span className="text-cs08 font-normal text-black w-full block text-left truncate mb-2">
-                  : کد تخفیف شما
-                </span>
-                <span className="text-cs85 font-bold text-black w-full block text-left truncate">
-                  {code}
-                </span>
+        <DialogPortal>
+          <DialogContent className="lg:w-auto w-[calc(100vw-25px)]">
+            <DialogHeader>
+              <DialogTitle className="text-center lg:text-[14px] text-[12px] font-bold text-black">
+                جایزه شما با موفقیت دریافت کردید
+              </DialogTitle>
+            </DialogHeader>
+            <div className="mb-5">
+              <div className="flex items-center justify-center gap-3 mb-5">
+                <div>
+                  <span className="text-cs08 font-normal text-black w-full block text-left truncate mb-2">
+                    : کد تخفیف شما
+                  </span>
+                  <span className="text-cs85 font-bold text-black w-full block text-left truncate">
+                    {code}
+                  </span>
+                </div>
+                <div
+                  onClick={() => {
+                    closeFn && closeFn();
+                    hanldeClipboardCopy(code);
+                  }}
+                  className="cursor-pointer bg-gradient-to-tr from-green-900 via-green-500 to-green-600 flex items-center text-white size-20 justify-center rounded-xl aspect-square"
+                >
+                  <IconsaxIcons
+                    className="size-10 text-current"
+                    name="Cup"
+                    color="currentColor"
+                  />
+                </div>
               </div>
-              <div
-                onClick={() => {
-                  closeFn && closeFn();
-                  hanldeClipboardCopy(code);
-                }}
-                className="cursor-pointer bg-gradient-to-tr from-green-900 via-green-500 to-green-600 flex items-center text-white size-20 justify-center rounded-xl aspect-square"
-              >
-                <IconsaxIcons
-                  className="size-10 text-current"
-                  name="Cup"
-                  color="currentColor"
-                />
-              </div>
+              <DialogDescription className="text-center text-sm font-medium text-black">
+                مشترک گرامی عزیز جایزه شما با موفقیت ثبت شد و میتوانید از جایزه
+                خود استفاده نمایید از همراهی شما متشکریم.
+              </DialogDescription>
             </div>
-            <DialogDescription className="text-center text-sm font-medium text-black">
-              مشترک گرامی عزیز جایزه شما با موفقیت ثبت شد و میتوانید از جایزه
-              خود استفاده نمایید از همراهی شما متشکریم.
-            </DialogDescription>
-          </div>
-          <DialogFooter dir="ltr">
-            <DialogClose asChild>
-              <button
-                onClick={closeFn}
-                className="flex items-center justify-center w-full lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-white bg-green-600"
-              >
-                متوجه شدم
-              </button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
+            <DialogFooter dir="ltr">
+              <DialogClose asChild>
+                <button
+                  onClick={closeFn}
+                  className="flex items-center justify-center w-full lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-white bg-green-600"
+                >
+                  متوجه شدم
+                </button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </DialogPortal>
       </Dialog>
     );
   }
