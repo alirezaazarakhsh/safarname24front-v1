@@ -635,7 +635,8 @@ export type BankNameType =
   | 'mehr-eghtesaad'
   | 'ghavamin'
   | 'hekmat'
-  | 'ansar';
+  | 'ansar'
+  | 'unknown';
 
 export interface BankIconPropsType extends SVGProps<SVGSVGElement> {
   name: BankNameType;

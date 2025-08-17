@@ -3,19 +3,20 @@
 
 // Importing part
 import { CreditCardDropDownPropsType } from '@/types/dashboard/component';
+import { verifyCardNumber } from '@persian-tools/persian-tools';
 import { cn } from '@/utils/utils';
-import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-} from '@/components/ui/dropdown-menu';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import BankIcon from '../ui/bankIcon';
 import { numberSeparation } from '@/utils';
 import { getBankFromCard } from '@/utils/string';
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from '@/components/ui/dropdown-menu';
 
 // Creating and exporting CreditCardDropDown component as default
 export default function CreditCardDropDown({
@@ -51,12 +52,16 @@ export default function CreditCardDropDown({
 
   // Defining variables
   const dataToRender = useLegalInfo ? useLegalInfo : userInfo.card_numbers;
+  const filtredData = dataToRender;
+  // const filtredData = dataToRender.filter((item) =>
+  //   verifyCardNumber(Number(item.card_number)),
+  // );
 
   // Returning JSX
   return (
     <DropdownMenu open={isOpened} onOpenChange={setOpened}>
       <DropdownMenuTrigger
-        disabled={disabled || dataToRender.length === 0}
+        disabled={disabled || filtredData.length === 0}
         asChild
       >
         <button
@@ -113,7 +118,7 @@ export default function CreditCardDropDown({
         side={side}
         className="shadow-black/10 border border-black/20 max-h-[150px] overflow-auto scrollbar-hide"
       >
-        {dataToRender.map((item, index) => (
+        {filtredData.map((item, index) => (
           <DropdownMenuItem
             key={index}
             dir="ltr"
@@ -128,7 +133,8 @@ export default function CreditCardDropDown({
               <BankIcon
                 className="w-[20px] h-[20px]"
                 name={
-                  getBankFromCard(item.card_number.slice(0, 6))?.type || 'dey'
+                  getBankFromCard(item.card_number.slice(0, 6))?.type ||
+                  'unknown'
                 }
               />
             </div>
