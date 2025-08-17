@@ -80,7 +80,6 @@ export default function LegalBankInfo({
     method: 'put',
     options: {
       onSuccess: () => {
-        window.location.reload();
         if (isMobile) {
           setMobileSuccessDrawerOpened(true);
         } else {

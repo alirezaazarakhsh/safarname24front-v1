@@ -5,7 +5,7 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { BankInfoFormComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
 import NormalInput from './normalInput';
@@ -21,6 +21,7 @@ import { BankInfo } from '@/types/utils';
 import { getBankFromCard } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
 import CreditCardDropDown from './creditCardDropdown';
+import { userFetchedInfoContext } from '../page';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
@@ -29,6 +30,7 @@ export default function BankInfoForm({
   userImage,
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
+  const userInfoContext = useContext(userFetchedInfoContext);
   const [file, setFile] = useState<File | undefined>();
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
   const userInfo = useUserInfo();
@@ -69,7 +71,7 @@ export default function BankInfoForm({
     method: 'put',
     options: {
       onSuccess: () => {
-        window.location.reload();
+        userInfoContext?.refetch && userInfoContext.refetch();
         if (isMobile) {
           setMobileSuccessDrawerOpened(true);
         } else {
