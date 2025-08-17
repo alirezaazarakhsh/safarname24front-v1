@@ -18,6 +18,7 @@ import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { hanldeClipboardCopy } from '@/utils/string';
 import { DialogPortal } from '@/components/ui/dialog';
+import { useRouter } from 'next/navigation';
 
 // Creating and exporting GiftGainedDialog component as default
 export default function GiftGainedDialog({
@@ -27,6 +28,16 @@ export default function GiftGainedDialog({
 }: CustomerClubGiftGainedPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const router = useRouter();
+
+  // Defining a function to handle click events
+  async function handleClick() {
+    closeFn && closeFn();
+    hanldeClipboardCopy(code);
+
+    await new Promise((resolve) => setTimeout(resolve, 10000)); // 10 seconds
+    router.push('/dashboard/customer-club/list');
+  }
 
   // Conditional rendering
   if (isMobile) {
@@ -51,7 +62,7 @@ export default function GiftGainedDialog({
             </DialogHeader>
             <div className="mb-5">
               <div className="flex items-center justify-center gap-3 mb-5">
-                <div>
+                <div onClick={handleClick} className="cursor-pointer">
                   <span className="text-cs08 font-normal text-black w-full block text-left truncate mb-2">
                     : کد تخفیف شما
                   </span>
@@ -60,11 +71,8 @@ export default function GiftGainedDialog({
                   </span>
                 </div>
                 <div
-                  onClick={() => {
-                    closeFn && closeFn();
-                    hanldeClipboardCopy(code);
-                  }}
                   className="cursor-pointer bg-gradient-to-tr from-green-900 via-green-500 to-green-600 flex items-center text-white size-20 justify-center rounded-xl aspect-square"
+                  onClick={handleClick}
                 >
                   <IconsaxIcons
                     className="size-10 text-current"
