@@ -111,7 +111,15 @@ export default function AddPassengersDialog({
   return (
     <Dialog
       open={isOpened}
-      onOpenChange={(open) => !open && closeFn && closeFn()}
+      onOpenChange={(open) => {
+        !open && closeFn && closeFn();
+        form.reset({
+          firstName: '',
+          lastName: '',
+          nationalOrPassportCode: '',
+          phoneNumber: '',
+        });
+      }}
     >
       <PassengerAddedSucessDialog
         isOpened={successOpened}
