@@ -292,10 +292,10 @@ export default function ProfilePage(): ReactNode {
             <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">
               <Upload
                 onChange={(file) => setFile(file)}
-                className="lg:w-[50%] w-full lg:h-auto h-[350px]"
+                className="lg:w-[50%] w-full lg:h-[400px]"
                 fetchURL="/juridical-profile-documents/"
               />
-              <LegalNotes className="lg:w-[50%] w-full" />
+              <LegalNotes className="lg:w-[50%] w-full lg:h-[400px]" />
             </div>
           </>
         )}

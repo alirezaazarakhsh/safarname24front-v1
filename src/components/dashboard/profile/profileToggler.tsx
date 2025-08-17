@@ -30,16 +30,16 @@ export default function ProfileToggler({
       )}
     >
       <div>
-        <span className='lg:font-bold font-semibold lg:text-cs08 text-[12px] text-black mb-2 block text-right truncate'>
+        <span className="lg:font-bold font-semibold lg:text-cs08 text-[12px] text-black mb-2 block text-right truncate">
           {val === 'legal' ? 'پروفایل حقوقی' : 'پروفایل حقیقی'}
         </span>
-        <span className='lg:font-normal font-semibold lg:text-cs07 text-[10px] text-gray-500 block text-right truncate'>
+        <span className="lg:font-normal font-semibold lg:text-cs07 text-[10px] text-gray-500 block text-right truncate">
           یکی از پروفایل های خود را انتخواب کنید.
         </span>
       </div>
       <ToggleButtons
         buttons={['پروفایل حقیقی', 'پروفایل حقوقی']}
-        className='lg:h-[50px] h-[45px] shrink-0'
+        className="lg:h-[50px] h-[45px] shrink-0"
         width={'lg:w-[250px] w-full'}
         defaultVal={defaultVal === 'legal' ? 1 : 0}
         onChange={(index) =>
