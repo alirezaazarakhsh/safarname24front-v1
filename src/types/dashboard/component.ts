@@ -7,21 +7,17 @@ import {
   SetStateAction,
   SVGProps,
 } from 'react';
-import { IconsName } from '../SvgProp';
+import { IconsaxIconsPropsType, IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
-  GETCustomerClubList,
   GETCustomerClubListItem,
-  GETCustomerClubRoomList,
   GETCustomerClubRoomListItem,
-  GETCustomerClubShoppingCentreList,
   GETCustomerClubShoppingCentreListItem,
   GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
   GETReservation,
-  GETUploadedDocuments,
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 
@@ -674,4 +670,14 @@ export interface CreditCardDropDownPropsType
 export interface CustomerClubGiftGainedPropsType
   extends DialogComponentPropsType {
   code: string;
+}
+
+export interface TicketsSettingItemPropsType {
+  className?: string;
+  title: string;
+  subTitle: string;
+  icon: IconsName;
+  size?: 'lg' | 'sm';
+  disabled?: boolean;
+  onClick?: () => void;
 }
