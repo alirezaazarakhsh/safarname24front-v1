@@ -65,6 +65,8 @@ export default function BankInfoForm({
   const [mobileSuccessDrawerOpened, setMobileSuccessDrawerOpened] =
     useState<boolean>(false);
 
+  const formIsValid = form.formState.isValid;
+
   // Handling api fetches
   const setPersonalInfoFetch = useApiMutation({
     url: '/natural-profiles/me/',
@@ -330,7 +332,7 @@ export default function BankInfoForm({
                   }
                 });
               })}
-              disabled={form.formState.isSubmitting}
+              disabled={form.formState.isSubmitting || !formIsValid}
               className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
             >
               {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
