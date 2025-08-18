@@ -7,6 +7,8 @@ import Avatar from '../../../../public/image/avatar/1.jpg';
 import Image from 'next/image';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import SettingItem from './settingItem';
+import DateSeprator from './dateSeprator';
+import SendMessage from './sendMessage';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext(): ReactNode {
@@ -28,11 +30,11 @@ export default function TicketsContext(): ReactNode {
             src={Avatar.src}
             className="group-data-[size=sm]:size-[50px] group-data-[size=lg]:size-[75px] aspect-square mb-4 block mx-auto transition-all duration-500 object-cover rounded-full"
           />
-          <span className="text-cs95 font-bold text-black text-center truncate block mb-1">
+          <span className="text-cs95 font-bold text-black text-center truncate block">
             نامعلوم
           </span>
           {rightLayoutSize === 'lg' && (
-            <span className="text-cs85 font-medium text-black/70 text-center truncate block">
+            <span className="text-cs85 font-medium text-black/70 text-center truncate block  mt-1">
               بخش دپارتمان سفرنامه
             </span>
           )}
@@ -124,7 +126,17 @@ export default function TicketsContext(): ReactNode {
             </button>
           </div>
         </div>
-        <div className="bg-black p-[24px] rounded-lg h-full w-full" />
+        <div className="p-[24px] flex flex-col gap-4 rounded-lg h-full w-full bg-gray-50 overflow-auto relative">
+          <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-gray-200">
+            <IconsaxIcons
+              name="EmojiSad"
+              color="currentColor"
+              className="size-32"
+            />
+          </div>
+          <DateSeprator date={new Date().toISOString()} />
+        </div>
+        <SendMessage className="shrink-0 w-full" disabled />
       </div>
       <div className="w-[25%]" />
     </div>

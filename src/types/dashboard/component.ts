@@ -681,3 +681,13 @@ export interface TicketsSettingItemPropsType {
   disabled?: boolean;
   onClick?: () => void;
 }
+
+export interface TicketsDateSepratorPropsType {
+  date: string;
+  className?: string;
+}
+
+export interface TicketsSendMessagePropsType {
+  className?: string;
+  disabled?: boolean;
+}
