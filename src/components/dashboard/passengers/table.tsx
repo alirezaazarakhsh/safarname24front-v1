@@ -234,15 +234,6 @@ export default function PassengersTable({
               مشتری گرامی برای ثبت رزرو هتل میتوانید از دکمه بالا اقدام نمایید
               از همراهی شما متشکریم.
             </span>
-            <Button className="lg:hidden flex items-center justify-center gap-2 mx-auto text-black bg-gray-100 rounded-[7px] p-[14px]">
-              <IconsaxIcons
-                name="Add"
-                className="w-[18px] h-[18px] text-gray-600 shrink-0"
-              />
-              <span className="block text-right truncate font-normal whitespace-nowrap text-[12px] text-current">
-                ثبت رزرو
-              </span>
-            </Button>
           </div>
         ) : (
           <>
@@ -273,7 +264,7 @@ export default function PassengersTable({
                     شماره همراه
                   </TableHead>
                   <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
-                    شماره ملی \ شماره پاسپورت
+                    شماره ملی / شماره پاسپورت
                   </TableHead>
                   <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
                 </TableRow>
@@ -437,7 +428,7 @@ export default function PassengersTable({
                       </div>
                       <div>
                         <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                          کد ملی / شماره پاسپورت :
+                          کد ملی \ شماره پاسپورت :
                         </span>
                         <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
                           {item.identification_code !== ''

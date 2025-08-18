@@ -21,6 +21,7 @@ export default function useUserInfo(): GETPersonalProfile {
         postal_code: '',
         card_numbers: [
           {
+            account_holder_name: 'Unknown',
             card_number: '',
             iban: '',
             id: 1,

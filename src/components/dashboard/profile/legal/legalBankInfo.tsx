@@ -26,7 +26,7 @@ export default function LegalBankInfo({
   className,
   form,
   loading,
-  creditCards = [],
+  creditCards,
   userImage,
   refetch,
 }: LegalBankInfoFormComponentPropsType): ReactNode {
@@ -34,6 +34,10 @@ export default function LegalBankInfo({
   const [file, setFile] = useState<File | undefined>();
   const [useUserImage, setUseUserImage] = useState<boolean>(true);
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
+  const [currentCardOwner, setCurrentCardOwner] = useState<
+    string | undefined
+  >();
+
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onFileDialogCancel: () => setFile(undefined),
     maxFiles: 1,
@@ -67,6 +71,11 @@ export default function LegalBankInfo({
     const info = getBankFromCard(value);
 
     setBankInfo(info);
+
+    const foundedCardOwner =
+      creditCards?.find((item) => item.card_number === creditCardVal)
+        ?.account_holder_name || undefined;
+    setCurrentCardOwner(foundedCardOwner);
   }, [creditCardVal]);
 
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -408,7 +417,6 @@ export default function LegalBankInfo({
           placeholder="آدرس شرکت "
           error={form.formState.errors.address?.message}
           noErrorText
-          wholeClassName="lg:col-span-2"
           disabled={loading}
           {...form.register('address')}
         />
@@ -418,6 +426,13 @@ export default function LegalBankInfo({
           disabled={loading}
           noErrorText
           {...form.register('postCode')}
+        />
+        <NormalInput
+          placeholder="نام صاحب کارت"
+          noErrorText
+          disabled
+          className="disabled:opacity-100"
+          value={currentCardOwner}
         />
         <div />
         <div className="lg:col-span-2">

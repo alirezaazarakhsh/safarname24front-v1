@@ -23,7 +23,11 @@ import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
 import Cookies from 'js-cookie';
-import { verifyIranianNationalId } from '@persian-tools/persian-tools';
+import {
+  isShebaValid,
+  verifyCardNumber,
+  verifyIranianNationalId,
+} from '@persian-tools/persian-tools';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -64,12 +68,18 @@ const personalFormSchema = z.object({
   creditCard: z
     .string()
     .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .refine((value) => verifyCardNumber(Number(value)), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
   shabaNumber: z
     .string()
     .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .refine((value) => isShebaValid(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
   address: z
@@ -116,16 +126,21 @@ const legalFormSchema = z.object({
     .length(10, { message: 'کد پستی باید دقیقاً ۱۰ رقم باشد' })
     .or(z.literal(''))
     .optional(),
-
   creditCard: z
     .string()
     .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .refine((value) => verifyCardNumber(Number(value)), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
   shabaNumber: z
     .string()
     .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .refine((value) => isShebaValid(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
@@ -190,8 +205,13 @@ export default function ProfilePage(): ReactNode {
     setUserImage(userInfo.image || '');
 
     if (creditCard) {
-      personalForm.setValue('creditCard', creditCard.card_number);
-      personalForm.setValue('shabaNumber', creditCard.iban);
+      if (
+        verifyCardNumber(Number(creditCard.card_number)) &&
+        isShebaValid(creditCard.iban)
+      ) {
+        personalForm.setValue('creditCard', creditCard.card_number);
+        personalForm.setValue('shabaNumber', creditCard.iban);
+      }
     }
   }, [personalForm, userInfo]);
 
@@ -225,10 +245,14 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('postCode', legalInfo.postal_code);
       legalForm.setValue('tell', savedTellNumber);
       setLegalUserImage(legalInfo.image || '');
-
       if (firstCard) {
-        legalForm.setValue('creditCard', firstCard.card_number);
-        legalForm.setValue('shabaNumber', firstCard.iban);
+        if (
+          verifyCardNumber(Number(firstCard.card_number)) &&
+          isShebaValid(firstCard.iban)
+        ) {
+          legalForm.setValue('creditCard', firstCard.card_number);
+          legalForm.setValue('shabaNumber', firstCard.iban);
+        }
       }
     }
   }, [legalForm, legalUserFetching.isLoading, legalUserFetching.isRefetching]);

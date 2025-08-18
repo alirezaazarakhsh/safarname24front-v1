@@ -151,9 +151,7 @@ export default function Upload({
             onClick={async () => {
               if (fetchURL && files.length > 0) {
                 const formData = new FormData();
-                files.forEach((f, index) =>
-                  formData.append(`files[${index}]`, f),
-                );
+                files.forEach((f) => formData.append(`file`, f));
                 await uploadComponentFetching.mutateAsync(formData);
               } else {
                 setUploading(true);

@@ -76,11 +76,25 @@ export default function AddPassengersDialog({
     method: 'post',
     options: {
       onSuccess: () => {
+        form.reset({
+          firstName: '',
+          lastName: '',
+          nationalOrPassportCode: '',
+          phoneNumber: '',
+        });
+
         closeFn && closeFn();
         refetch && refetch();
         setSuccessOpened(true);
       },
       onError: () => {
+        form.reset({
+          firstName: '',
+          lastName: '',
+          nationalOrPassportCode: '',
+          phoneNumber: '',
+        });
+
         closeFn && closeFn();
         setErrorOpened(true);
       },
@@ -119,6 +133,7 @@ export default function AddPassengersDialog({
           nationalOrPassportCode: '',
           phoneNumber: '',
         });
+
       }}
     >
       <PassengerAddedSucessDialog

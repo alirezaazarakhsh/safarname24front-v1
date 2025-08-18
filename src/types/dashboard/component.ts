@@ -7,21 +7,18 @@ import {
   SetStateAction,
   SVGProps,
 } from 'react';
-import { IconsName } from '../SvgProp';
+import { IconsaxIconsPropsType, IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
-  GETCustomerClubList,
   GETCustomerClubListItem,
-  GETCustomerClubRoomList,
   GETCustomerClubRoomListItem,
-  GETCustomerClubShoppingCentreList,
   GETCustomerClubShoppingCentreListItem,
+  GETLegalProfile,
   GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
   GETReservation,
-  GETUploadedDocuments,
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 
@@ -549,11 +546,7 @@ export interface LegalBankInfoFormComponentPropsType {
   loading: boolean;
   userImage?: string;
   refetch?: () => void;
-  creditCards?: {
-    id: number;
-    card_number: string;
-    iban: string;
-  }[];
+  creditCards?: GETLegalProfile['card_numbers'];
 }
 
 export interface LegalInfoFormComponentPropsType {
@@ -674,4 +667,36 @@ export interface CreditCardDropDownPropsType
 export interface CustomerClubGiftGainedPropsType
   extends DialogComponentPropsType {
   code: string;
+}
+
+export interface TicketsSettingItemPropsType {
+  className?: string;
+  title: string;
+  subTitle: string;
+  icon: IconsName;
+  size?: 'lg' | 'sm';
+  disabled?: boolean;
+  onClick?: () => void;
+}
+
+export interface TicketsDateSepratorPropsType {
+  date: string;
+  className?: string;
+}
+
+export interface TicketsSendMessagePropsType {
+  className?: string;
+  disabled?: boolean;
+}
+
+export interface TicketItemPropsType {
+  className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  data?: {
+    img?: string;
+    title: string;
+    subTitle: string;
+    createdAt: string;
+  };
 }

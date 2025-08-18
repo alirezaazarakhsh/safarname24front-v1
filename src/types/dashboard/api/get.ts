@@ -44,6 +44,7 @@ export interface GETPersonalProfile {
     id: number;
     card_number: string;
     iban: string;
+    account_holder_name: string;
   }[];
 }
 
@@ -63,6 +64,7 @@ export interface GETLegalProfile {
   card_numbers: {
     id: number;
     card_number: string;
+    account_holder_name: string;
     iban: string;
   }[];
 }
