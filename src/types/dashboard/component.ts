@@ -14,6 +14,7 @@ import {
   GETCustomerClubListItem,
   GETCustomerClubRoomListItem,
   GETCustomerClubShoppingCentreListItem,
+  GETLegalProfile,
   GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
@@ -545,11 +546,7 @@ export interface LegalBankInfoFormComponentPropsType {
   loading: boolean;
   userImage?: string;
   refetch?: () => void;
-  creditCards?: {
-    id: number;
-    card_number: string;
-    iban: string;
-  }[];
+  creditCards?: GETLegalProfile['card_numbers'];
 }
 
 export interface LegalInfoFormComponentPropsType {

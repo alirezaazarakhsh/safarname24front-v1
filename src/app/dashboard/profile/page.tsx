@@ -68,12 +68,18 @@ const personalFormSchema = z.object({
   creditCard: z
     .string()
     .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .refine((value) => verifyCardNumber(Number(value)), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
   shabaNumber: z
     .string()
     .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .refine((value) => isShebaValid(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
   address: z
@@ -120,16 +126,21 @@ const legalFormSchema = z.object({
     .length(10, { message: 'کد پستی باید دقیقاً ۱۰ رقم باشد' })
     .or(z.literal(''))
     .optional(),
-
   creditCard: z
     .string()
     .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .refine((value) => verifyCardNumber(Number(value)), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
   shabaNumber: z
     .string()
     .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .refine((value) => isShebaValid(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
