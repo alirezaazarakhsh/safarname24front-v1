@@ -35,7 +35,7 @@ export default function GiftGainedDialog({
     closeFn && closeFn();
     hanldeClipboardCopy(code);
 
-    await new Promise((resolve) => setTimeout(resolve, 10000)); // 10 seconds
+    await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 seconds
     router.push('/dashboard/customer-club/list');
   }
 

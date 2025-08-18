@@ -74,24 +74,16 @@ export default function CustomerClubPage(): ReactNode {
             />
           ) : shoppingCentresFetch.error ? (
             <ErrorTable refetch={() => shoppingCentresFetch.refetch()} />
-          ) : !shoppingCentresFetch.isError && shoppingCentresFetch.data ? (
-            <>
-              {shoppingCentresFetch.data.count === 0 ? (
-                <EmptyTable
-                  title="لیست جوایز خالی است"
-                  description="متاسفانه هیچ ایتمی برای نمایش یدا نشد !"
-                />
-              ) : (
-                <CustomersClubTable
-                  refetch={shoppingCentresFetch.refetch}
-                  paginationActiveIndex={paginationNumber}
-                  setPaginationActiveIndex={setPaginationNumber}
-                  data={shoppingCentresFetch.data.results}
-                />
-              )}
-            </>
           ) : (
-            false
+            !shoppingCentresFetch.isError &&
+            shoppingCentresFetch.data && (
+              <CustomersClubTable
+                refetch={shoppingCentresFetch.refetch}
+                paginationActiveIndex={paginationNumber}
+                setPaginationActiveIndex={setPaginationNumber}
+                data={shoppingCentresFetch.data.results}
+              />
+            )
           )}
         </>
       ) : (
@@ -105,21 +97,12 @@ export default function CustomerClubPage(): ReactNode {
           ) : roomsFetch.error ? (
             <ErrorTable refetch={() => shoppingCentresFetch.refetch()} />
           ) : !roomsFetch.isError && roomsFetch.data ? (
-            <>
-              {roomsFetch.data.count === 0 ? (
-                <EmptyTable
-                  title="لیست جوایز خالی است"
-                  description="متاسفانه هیچ ایتمی برای نمایش یدا نشد !"
-                />
-              ) : (
-                <RoomTable
-                  refetch={roomsFetch.refetch}
-                  paginationActiveIndex={roomsPaginationNumber}
-                  setPaginationActiveIndex={setRoomsPaginationNumber}
-                  data={roomsFetch.data.results}
-                />
-              )}
-            </>
+            <RoomTable
+              refetch={roomsFetch.refetch}
+              paginationActiveIndex={roomsPaginationNumber}
+              setPaginationActiveIndex={setRoomsPaginationNumber}
+              data={roomsFetch.data.results}
+            />
           ) : (
             false
           )}

@@ -44,6 +44,19 @@ export default function PassengersPage(): ReactNode {
       return acc;
     }, []);
 
+  const dataToRender = getData.data
+    ? filter === ''
+      ? getData.data.results
+      : getData.data.results.filter((item) =>
+          [
+            item.first_name,
+            item.last_name,
+            item.identification_code,
+            item.phone_number,
+          ].some((field) => field?.toLowerCase().includes(filter)),
+        )
+    : [];
+
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white">
@@ -60,12 +73,13 @@ export default function PassengersPage(): ReactNode {
       ) : getData.isError ? (
         <ErrorTable refetch={() => getData.refetch()} />
       ) : getData.data ? (
-        getData.data?.count === 0 ? (
+        getData.data.count === 0 || dataToRender.length === 0 ? (
           <>
             <Filter
               phoneNumbers={[]}
               refetch={getData.refetch}
-              dataNotEmpty={false}
+              dataNotEmpty={getData.data.count !== 0}
+              onChange={(val) => setFilter(val)}
             />
             <EmptyTable
               title="لسیت مسافاران خالی میباشد!"
@@ -85,22 +99,7 @@ export default function PassengersPage(): ReactNode {
               paginationActiveIndex={paginationNumber}
               setPaginationActiveIndex={setPaginationNumber}
               refetch={getData.refetch}
-              data={
-                getData.data
-                  ? filter === ''
-                    ? getData.data.results
-                    : getData.data.results.filter((item) =>
-                        [
-                          item.first_name,
-                          item.last_name,
-                          item.identification_code,
-                          item.phone_number,
-                        ].some((field) =>
-                          field?.toLowerCase().includes(filter),
-                        ),
-                      )
-                  : []
-              }
+              data={dataToRender}
             />
           </>
         )

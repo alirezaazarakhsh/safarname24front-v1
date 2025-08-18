@@ -24,6 +24,7 @@ import GiftGainedDialog from './dialog/giftGainedDialogOpened';
 import { Skeleton } from '@/components/ui/skeleton';
 import SafarnameLogo from '../../../../public/image/logo/white.webp';
 import CustomPagination from '../ui/customPagination';
+import EmptyTable from '../api/emptyTable';
 
 // Creating and exporting CustomersClubTable component as default
 export default function CustomersClubTable({
@@ -84,20 +85,34 @@ export default function CustomersClubTable({
           setRules(undefined);
         }}
       />
-      <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
-        <span
-          onClick={() => setGiftGainedDialogOpened(true)}
-          className="block truncate text-right w-full font-bold lg:text-cs85 text-black"
-        >
-          مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
-        </span>
-        <CustomPagination
-          loading={loading}
-          count={paginationCount || 12}
-          activeIndex={paginationActiveIndex}
-          setActiveIndex={setPaginationActiveIndex}
-        />
-      </div>
+      {loading ? (
+        <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
+          <span
+            onClick={() => setGiftGainedDialogOpened(true)}
+            className="block truncate text-right w-full font-bold lg:text-cs85 text-black"
+          >
+            مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
+          </span>
+          <CustomPagination loading count={2} />
+        </div>
+      ) : data && data.length !== 0 ? (
+        <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
+          <span
+            onClick={() => setGiftGainedDialogOpened(true)}
+            className="block truncate text-right w-full font-bold lg:text-cs85 text-black"
+          >
+            مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
+          </span>
+          <CustomPagination
+            loading={loading}
+            count={paginationCount}
+            activeIndex={paginationActiveIndex}
+            setActiveIndex={setPaginationActiveIndex}
+          />
+        </div>
+      ) : (
+        false
+      )}
       {loading ? (
         <>
           <Table dir="rtl" className="border-none lg:table hidden">
@@ -227,6 +242,11 @@ export default function CustomersClubTable({
             </div>
           </div>
         </>
+      ) : data?.length === 0 ? (
+        <EmptyTable
+          title="لیست جوایز خالی است"
+          description="متاسفانه هیچ ایتمی برای نمایش یدا نشد !"
+        />
       ) : (
         <>
           <Table dir="rtl" className="border-none lg:table hidden">
