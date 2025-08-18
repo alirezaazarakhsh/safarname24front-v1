@@ -691,3 +691,15 @@ export interface TicketsSendMessagePropsType {
   className?: string;
   disabled?: boolean;
 }
+
+export interface TicketItemPropsType {
+  className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  data?: {
+    img?: string;
+    title: string;
+    subTitle: string;
+    createdAt: string;
+  };
+}

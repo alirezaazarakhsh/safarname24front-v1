@@ -9,6 +9,8 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import SettingItem from './settingItem';
 import DateSeprator from './dateSeprator';
 import SendMessage from './sendMessage';
+import { Button } from '@/components/ui/button';
+import TicketItem from './ticketItem';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext(): ReactNode {
@@ -19,9 +21,9 @@ export default function TicketsContext(): ReactNode {
   return (
     <div
       data-size={rightLayoutSize}
-      className="bg-white rounded-lg border border-black/10 flex overflow-hidden group"
+      className="bg-white rounded-lg border border-black/10 flex overflow-hidden group h-dvh"
     >
-      <div className="group-data-[size=sm]:w-[10%] group-data-[size=lg]:w-[25%] transition-all duration-500">
+      <div className="group-data-[size=sm]:w-[10%] group-data-[size=lg]:w-[25%] transition-all duration-500 overflow-auto custom-scrollbar">
         <div className="p-[24px] border-b border-black/10">
           <Image
             width={100}
@@ -127,7 +129,7 @@ export default function TicketsContext(): ReactNode {
           </div>
         </div>
         <div className="p-[24px] flex flex-col gap-4 rounded-lg h-full w-full bg-gray-50 overflow-auto relative">
-          <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-gray-200">
+          <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-gray-200 overflow-auto custom-scrollbar">
             <IconsaxIcons
               name="EmojiSad"
               color="currentColor"
@@ -138,7 +140,23 @@ export default function TicketsContext(): ReactNode {
         </div>
         <SendMessage className="shrink-0 w-full" disabled />
       </div>
-      <div className="w-[25%]" />
+      <div className="w-[25%] flex flex-col">
+        <div className="p-[24px] shrink-0 border-b border-b-black/10">
+          <Button className="flex items-center justif-center px-[12px] py-[18px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg text-cs65 font-semibold text-center truncate">
+            ثبت تیکت جدید
+          </Button>
+        </div>
+        <div className="shrink-0 border-b border-b-black/10 py-[24px]  overflow-auto custom-scrollbar h-[200px]">
+          <div className="px-[24px]">
+            <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
+              تیکت های حال حاضر
+            </span>
+          </div>
+          <div className="flex flex-col gap-3 px-[12px]">
+            <TicketItem disabled />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

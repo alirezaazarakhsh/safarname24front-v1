@@ -163,7 +163,7 @@ export default function CustomerClubListTable({
                   کد تخفیف
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  تاریخ و زمان رزرو
+                  زمان فعال سازی
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
                   مبلغ تخفیف
