@@ -3,7 +3,7 @@
 
 // Importing part
 import { CreditCardDropDownPropsType } from '@/types/dashboard/component';
-import { verifyCardNumber } from '@persian-tools/persian-tools';
+import { verifyCardNumber, isShebaValid } from '@persian-tools/persian-tools';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
@@ -53,10 +53,10 @@ export default function CreditCardDropDown({
 
   // Defining variables
   const dataToRender = useLegalInfo ? useLegalInfo : userInfo.card_numbers;
-  const filtredData = dataToRender;
-  // const filtredData = dataToRender.filter((item) =>
-  //   verifyCardNumber(Number(item.card_number)),
-  // );
+  const filtredData = dataToRender.filter(
+    (item) =>
+      verifyCardNumber(Number(item.card_number)) && isShebaValid(item.iban),
+  );
 
   // Returning JSX
   return (
@@ -119,7 +119,7 @@ export default function CreditCardDropDown({
         side={side}
         className="shadow-black/10 border border-black/20 max-h-[150px] overflow-auto scrollbar-hide"
       >
-        {side === 'top' && (
+        {side === 'top' && filtredData.length < 2 && (
           <div className="p-3 border-b border-b-black/20">
             <Link
               href="/dashboard/financial/cart-to-cart"
@@ -166,7 +166,7 @@ export default function CreditCardDropDown({
             </div>
           </DropdownMenuItem>
         ))}
-        {side === 'bottom' && (
+        {side === 'bottom' && filtredData.length < 2 && (
           <div className="p-3">
             <Link
               href="/dashboard/financial/cart-to-cart"
