@@ -23,27 +23,29 @@ export default function LegalNotes({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg scrollbar-hide rounded-[14px] overflow-auto lg:px-3 lg:py-4 px-[14px] py-[14px]',
+        'bg-white border border-black/10 lg:rounded-lg  rounded-[14px] overflow-hidden lg:px-3 lg:py-4 px-[14px] py-[14px] flex flex-col',
         getData.isError || getData.isLoading ? 'lg:h-[500px]' : '',
         className,
       )}
     >
-      <span className="lg:text-cs75 text-[14px] font-semibold text-black truncate block text-right mb-3">
+      <span className="lg:text-cs75 text-[14px] font-semibold text-black truncate block text-right mb-3 shrink-0">
         توضیحات مهم برای ارسال مدارک شرکت :
       </span>
-      {getData.isLoading ? (
-        <Skeleton className="w-full h-[200px]" />
-      ) : getData.isError ? (
-        <p className="text-center block font-bold text-cs75 text-black">
-          مشکلی در دریافت اطلاعات به وجود امد
-        </p>
-      ) : getData.data && !getData.isLoading && !getData.isError ? (
-        <p className="text-right text-black/50 lg:text-cs75 text-[12px] lg:font-semibold font-bold leading-6">
-          {getData.data.description}
-        </p>
-      ) : (
-        false
-      )}
+      <div className="h-full custom-scrollbar overflow-auto">
+        {getData.isLoading ? (
+          <Skeleton className="w-full h-[200px]" />
+        ) : getData.isError ? (
+          <p className="text-center block font-bold text-cs75 text-black">
+            مشکلی در دریافت اطلاعات به وجود امد
+          </p>
+        ) : getData.data && !getData.isLoading && !getData.isError ? (
+          <p className="text-right text-black/50 lg:text-cs75 text-[12px] lg:font-semibold font-bold leading-6">
+            {getData.data.description}
+          </p>
+        ) : (
+          false
+        )}
+      </div>
     </div>
   );
 }
