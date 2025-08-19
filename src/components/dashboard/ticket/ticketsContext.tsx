@@ -11,6 +11,7 @@ import DateSeprator from './dateSeprator';
 import SendMessage from './sendMessage';
 import { Button } from '@/components/ui/button';
 import TicketItem from './ticketItem';
+import EmptyImage from '../../../../public/image/empty.png';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext(): ReactNode {
@@ -155,6 +156,21 @@ export default function TicketsContext(): ReactNode {
           <div className="flex flex-col gap-3 px-[12px]">
             <TicketItem disabled />
           </div>
+        </div>
+        <div className="h-full flex items-center justify-center p-[24px] overflow-auto custom-scrollbar flex-col">
+          <Image
+            alt="هیچ لیست رزروی فعلا ندارید!"
+            src={EmptyImage.src}
+            width={500}
+            height={500}
+            className="w-[50%] aspect-square block mb-2 mx-auto"
+          />
+          <span className="block text-center w-full text-black text-[12px] mb-2 font-bold truncate">
+            تیکت های گذشته
+          </span>
+          <span className="block text-center w-full text-gray-500 text-[10px] font-normal truncate">
+            مشتری گرامی تیکتی در گذشته ندارید!
+          </span>
         </div>
       </div>
     </div>
