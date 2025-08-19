@@ -95,7 +95,7 @@ function Service(props: Data) {
         {subtitle}
       </p>
 
-      <div className="absolute -z-10 bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-20 bg-cs-red rounded-xl transition-all duration-300 delay-300 ease-in-out group-hover:-bottom-2"></div>
+      <div className="absolute -z-10 bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-20 bg-cs-red hidden rounded-xl transition-all duration-300 delay-200 ease-in-out group-hover:-bottom-2 lg:block"></div>
     </div>
   );
 }
