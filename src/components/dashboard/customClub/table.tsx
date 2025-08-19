@@ -50,7 +50,8 @@ export default function CustomersClubTable({
   return (
     <section
       className={cn(
-        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:border border-black/10 lg:px-0 px-[24px]',
+        'lg:bg-white bg-transparent overflow-hidden lg:rounded-lg lg:px-0 px-[24px]',
+        data?.length !== 0 && 'lg:border border-black/10',
         className,
       )}
     >
@@ -152,10 +153,10 @@ export default function CustomersClubTable({
                   )}
                 >
                   <TableCell className="p-3 w-[30px]">
-                    <Skeleton className="rounded-[5px] h-[40px] w-full" />
+                    <Skeleton className="rounded-[5px] h-[30px] w-full" />
                   </TableCell>
-                  <TableCell className="p-3 w-[40px]">
-                    <Skeleton className="rounded-[5px] h-[40px] w-full" />
+                  <TableCell className="p-3 w-[50px]">
+                    <Skeleton className="rounded-[5px] size-[50px]" />
                   </TableCell>
                   <TableCell className="p-3">
                     <Skeleton className="rounded-[5px] h-[20px] w-[100px]" />
@@ -286,14 +287,14 @@ export default function CustomersClubTable({
                   )}
                 >
                   <TableCell className="p-3 w-[30px]">
-                    <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
+                    <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[30px] w-full">
                       <span className="font-normal text-[12px] text-black block text-num-en">
                         {handleZeroBeforeNumber(index + 1)}
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="p-3 w-[40px]">
-                    <div className="rounded-[5px] border border-black/10 bg-gray-100 flex items-center justify-center h-[40px] w-full overflow-hidden p-1 relative">
+                  <TableCell className="p-3 w-[50px]">
+                    <div className="rounded-[5px] border border-black/10 bg-gray-100 flex items-center justify-center size-[50px] shrink-0 overflow-hidden p-1 relative">
                       <Image
                         alt={item.shopping_center_name}
                         width={40}
