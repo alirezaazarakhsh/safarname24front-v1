@@ -76,8 +76,8 @@ export default function LegalUserStatus({
           </div>
         </div>
         {status === 'rejected' && (
-          <div className="aspect-square h-full bg-white/50 backdrop-blur-sm text-black rounded-md  font-normal flex items-center justify-center  shrink-0">
-            <IconsaxIcons name="Eye" color="currentColor" className="w-[60%]" />
+          <div className="aspect-square h-full text-white rounded-md  font-normal flex items-center justify-center  shrink-0">
+            <IconsaxIcons name="Eye" color="currentColor" className="w-[70%]" />
           </div>
         )}
       </button>

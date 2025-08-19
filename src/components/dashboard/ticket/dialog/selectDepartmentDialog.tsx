@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import RadioItem from '../radioItem';
 import Loading from '../../ui/loading';
+import toast from '../../ui/customSonner/toast';
 
 // Defining data of radio items to render
 type departmentTypes =
@@ -79,6 +80,7 @@ export default function SelectDepartmentDialog({
   const submitHandler: SubmitHandler<formType> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log(data);
+    closeFn && closeFn();
   };
 
   // Defining variables
@@ -103,7 +105,15 @@ export default function SelectDepartmentDialog({
             </DialogClose>
           </div>
           <form
-            onClick={form.handleSubmit(submitHandler)}
+            onClick={form.handleSubmit(submitHandler, (errors) => {
+              Object.values(errors).forEach((item) => {
+                toast({
+                  theme: 'theme',
+                  description: item?.message || '',
+                  title: 'خطایی رخ داد',
+                });
+              });
+            })}
             action="#"
             className="p-6"
           >
@@ -117,11 +127,6 @@ export default function SelectDepartmentDialog({
                 />
               ))}
             </div>
-            {form.formState.errors.root?.message && (
-              <p className="text-cs08 font-medium text-red-500 text-right mb-2">
-                {form.formState.errors.root?.message}
-              </p>
-            )}
             <button
               disabled={form.formState.isSubmitting}
               type="submit"
