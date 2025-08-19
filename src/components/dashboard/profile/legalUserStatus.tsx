@@ -57,7 +57,7 @@ export default function LegalUserStatus({
             <Loading className="size-1" />
           ) : (
             <IconsaxIcons
-              name={status === 'accpeted' ? 'TickCircle' : 'CloseCircle'}
+              name={status === 'accpeted' ? 'TickSquare' : 'CloseSquare'}
               color="white"
               className="size-[25px]"
             />
@@ -76,8 +76,8 @@ export default function LegalUserStatus({
           </div>
         </div>
         {status === 'rejected' && (
-          <div className="px-2 py-1 h-full bg-cs-red text-white rounded-md text-xs font-normal flex items-center justify-center text-center shrink-0">
-            کلیک کنید
+          <div className="aspect-square h-full bg-white text-black rounded-md  font-normal flex items-center justify-center  shrink-0">
+            <IconsaxIcons name="Eye" color="currentColor" className="w-[60%]" />
           </div>
         )}
       </button>
