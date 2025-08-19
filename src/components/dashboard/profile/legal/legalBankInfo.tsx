@@ -479,7 +479,7 @@ export default function LegalBankInfo({
               className={cn(
                 'text-right truncate lg:text-cs75 text-[10px] lg:font-semibold font-bold',
                 userStatus.status === 'checking'
-                  ? 'text-gray-500'
+                  ? 'text-black/50'
                   : userStatus.status === 'rejected'
                     ? 'text-red-500'
                     : 'text-green-400',
