@@ -28,7 +28,6 @@ export default function useApiMutation<TData = unknown, TVariables = unknown>({
       return data;
     },
     onError: (error, variables, context) => {
-      console.error('Mutation Error:', error.response?.data || error.message);
       options?.onError?.(error, variables, context);
     },
     onSuccess: options?.onSuccess,
