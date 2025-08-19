@@ -43,7 +43,7 @@ const getInitialState = (): Passengers => {
   };
 
   if (typeof window !== 'undefined') {
-    const savedState = localStorage.getItem('passengers');
+    const savedState = sessionStorage.getItem('passengers');
     return savedState ? JSON.parse(savedState) : defaultValue;
   }
 
@@ -134,7 +134,7 @@ export const PassengersProvider = ({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('passengers', JSON.stringify(state));
+      sessionStorage.setItem('passengers', JSON.stringify(state));
     }
   }, [state]);
 

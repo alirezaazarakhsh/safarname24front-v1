@@ -66,7 +66,7 @@ export default function Passengers(props: Props) {
             )}
           </DrawerTrigger>
 
-          <DrawerContent aria-describedby={undefined} className="pb-6">
+          <DrawerContent aria-describedby={undefined} className="pb-6 pl-0">
             <DrawerTitle className="hidden"></DrawerTitle>
             <PassengersContent handleClose={() => setOpen(false)} />
           </DrawerContent>
@@ -92,7 +92,7 @@ export default function Passengers(props: Props) {
             sideOffset={sideOffset}
             avoidCollisions={false}
             alignOffset={alignOffset}
-            className="w-[21rem] z-10 p-5 pl-4 rounded-xl shadow-[0_0.5rem_2rem_rgba(0,0,0,0.06)]"
+            className="w-[21rem] z-10 p-5 pl-0 rounded-xl shadow-[0_0.5rem_2rem_rgba(0,0,0,0.06)]"
           >
             <PassengersContent handleClose={() => setOpen(false)} />
           </DropdownMenuContent>
