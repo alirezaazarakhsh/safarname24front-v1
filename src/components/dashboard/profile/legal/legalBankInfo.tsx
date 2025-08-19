@@ -443,7 +443,7 @@ export default function LegalBankInfo({
           noErrorText
           disabled
           className="disabled:opacity-100"
-          value={currentCardOwner}
+          value={`صاحب حساب : ${currentCardOwner}`}
         />
         <div className="flex items-center justify-start gap-3">
           <Tooltip
