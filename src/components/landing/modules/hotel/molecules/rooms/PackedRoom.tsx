@@ -20,7 +20,7 @@ export default function PackedRoom(props: Props) {
   const { night_count, pack_rooms, total_price } = props;
 
   return (
-    <div className="bg-white border divide-y overflow-hidden rounded-xl lg:rounded-2xl">
+    <div className="bg-white border divide-y overflow-hidden rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:rounded-2xl">
       {pack_rooms?.map((room, index) => {
         const {
           name,
