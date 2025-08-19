@@ -547,6 +547,10 @@ export interface LegalBankInfoFormComponentPropsType {
   userImage?: string;
   refetch?: () => void;
   creditCards?: GETLegalProfile['card_numbers'];
+  userStatus: {
+    status: 'checking' | 'accpeted' | 'rejected';
+    rejectedReason: string;
+  };
 }
 
 export interface LegalInfoFormComponentPropsType {

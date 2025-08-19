@@ -26,7 +26,7 @@ export default function Filter({
     queryKey: ['user-points'],
     options: {
       enabled: !loading,
-      staleTime: 5000,
+      refetchInterval: 5000,
     },
   });
 
