@@ -308,7 +308,7 @@ export default function RoomTable({
                     <Tooltip
                       content={`${item.room.hotel_name} - ${item.room.title}`}
                     >
-                      <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      <span className="text-xs font-medium text-gray-600 truncate block text-right max-w-[30ch]">
                         {`${item.room.hotel_name} - ${item.room.title}`}
                       </span>
                     </Tooltip>
@@ -378,7 +378,7 @@ export default function RoomTable({
                           {item.room.title}
                         </span>
                         <span className="text-gray-500 truncate block w-full text-right font-semibold text-[10px]">
-                          {`${item.room.hotel_name} - ${item.room.title}`}
+                          {item.room.hotel_name}
                         </span>
                       </div>
                     </div>
@@ -407,7 +407,7 @@ export default function RoomTable({
                         اتاق :
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {item.room.hotel_name}
+                        {`${item.room.hotel_name} - ${item.room.title}`}
                       </span>
                     </div>
                   </div>

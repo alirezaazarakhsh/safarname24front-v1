@@ -306,7 +306,7 @@ export default function CustomersClubTable({
                   </TableCell>
                   <TableCell className="p-3">
                     <Tooltip content={item.shopping_center_name}>
-                      <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      <span className="text-xs font-medium text-gray-600 truncate block text-right max-w-[30ch]">
                         {item.shopping_center_name}
                       </span>
                     </Tooltip>
