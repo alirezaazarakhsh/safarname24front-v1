@@ -26,7 +26,7 @@ export default function NavigationBarItem(props: Props) {
       className="flex flex-col items-center gap-1.5 overflow-hidden"
     >
       <IconsaxIcons
-        size={20}
+        size={18}
         name={icon}
         variant={isActive ? 'Bold' : 'Outline'}
         color={isActive ? '#27272a' : '#71717a'}
@@ -35,7 +35,7 @@ export default function NavigationBarItem(props: Props) {
 
       <span
         className={clsx(
-          'text-zinc-500 text-[clamp(0.65rem,3vw,0.8rem)] font-bold transition-colors duration-300 ease-in-out',
+          'text-zinc-500 text-[clamp(0.65rem,3vw,0.75rem)] font-bold transition-colors duration-300 ease-in-out',
           isActive && 'text-zinc-800',
         )}
       >

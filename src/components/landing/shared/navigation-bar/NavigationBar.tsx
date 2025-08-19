@@ -14,7 +14,6 @@ import { useUserAccountContext } from '@/context/UserAccountContext';
 // ---------------------------------------
 
 export function NavigationBar() {
-  const [userAccountIsOpen, setUserAccountOpen] = useState(false);
   const [userIsLoggedIn, setUserIsLoggedIn] = useState<boolean | null>(null);
 
   const { toggle } = useUserAccountContext();
@@ -53,7 +52,7 @@ export function NavigationBar() {
             animate={{ transform: 'translateY(0)' }}
             exit={{ transform: 'translateY(100%)' }}
             initial={{ transform: 'translateY(100%)' }}
-            className={`fixed z-30 bottom-0 inset-x-0 bg-white h-[4.6rem] px-3 flex-between items-center overflow-hidden border-t shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:flex-center md:gap-8 lg:hidden`}
+            className={`fixed z-30 bottom-0 inset-x-0 bg-white h-[4.5rem] px-4 flex-between items-center overflow-hidden border-t shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:flex-center md:gap-8 lg:hidden`}
           >
             <NavigationBarItem title="خانه" href="/" icon={'Home2'} />
 
@@ -76,10 +75,9 @@ export function NavigationBar() {
               <Link
                 href={'/dashboard/profile'}
                 className="flex flex-col items-center gap-1.5"
-                onClick={() => setUserAccountOpen(true)}
               >
-                <Profile2User size={20} color="#71717a" />
-                <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.8rem)] font-bold">
+                <Profile2User size={18} color="#71717a" />
+                <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.75rem)] font-bold">
                   پروفایل کاربری
                 </span>
               </Link>
@@ -88,8 +86,8 @@ export function NavigationBar() {
                 className="flex flex-col items-center gap-1.5"
                 onClick={() => toggle()}
               >
-                <Profile2User size={20} color="#71717a" />
-                <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.8rem)] font-bold">
+                <Profile2User size={18} color="#71717a" />
+                <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.75rem)] font-bold">
                   حساب کاربری
                 </span>
               </button>

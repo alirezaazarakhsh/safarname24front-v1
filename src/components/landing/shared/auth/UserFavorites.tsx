@@ -33,7 +33,7 @@ export default function UserFavorites() {
         onClick={handleClick}
       >
         <IconsaxIcons
-          size={20}
+          size={18}
           name={'Heart'}
           variant={isActive ? 'Bold' : 'Outline'}
           color={isActive ? '#27272a' : '#71717a'}
@@ -42,7 +42,7 @@ export default function UserFavorites() {
 
         <span
           className={clsx(
-            'text-zinc-500 text-[clamp(0.7rem,2.5vw,0.8rem)] font-bold transition-colors duration-300 ease-in-out',
+            'text-zinc-500 text-[clamp(0.65rem,3vw,0.75rem)] font-bold transition-colors duration-300 ease-in-out',
             isActive && 'text-zinc-800',
           )}
         >
