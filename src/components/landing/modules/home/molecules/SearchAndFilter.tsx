@@ -53,21 +53,21 @@ export default function SearchAndFilter() {
         ?.convert(dateInfo.calendar, dateInfo.locale)
         .format('YYYY-MM-DD'),
     );
-    
+
     params.set('passengers', passengers.passengers.toString());
     params.set('rooms', passengers.rooms.toString());
 
     if (cityOrHotel.hotel) {
       router.push(
         `/best-hotels/${cityOrHotel.hotelSlug}/?${params.toString()}`,
-        { scroll: false },
+        { scroll: true },
       );
     }
     // ---
     else {
       params.set('city', cityOrHotel.city);
       params.set('province', cityOrHotel.province);
-      router.push(`/best-hotels/?${params.toString()}`, { scroll: false });
+      router.push(`/best-hotels/?${params.toString()}`, { scroll: true });
     }
   }
 

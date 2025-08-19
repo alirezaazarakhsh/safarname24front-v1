@@ -17,7 +17,10 @@ import { Form, FormField, FormItem, FormControl } from '@/components/ui/form';
 const formSchema = z.object({
   phoneNumber: z
     .string()
-    .regex(/^\d+$/, 'شماره تلفن باید فقط شامل اعداد باشد')
+    .regex(
+      /^[0-9\u06F0-\u06F9\u0660-\u0669]+$/,
+      'شماره تلفن باید فقط شامل اعداد باشد',
+    )
     .min(10, 'شماره تلفن باید 10 رقم باشد')
     .max(10, 'شماره تلفن باید 10 رقم باشد'),
 });
@@ -114,7 +117,7 @@ export default function PhoneNumber(props: Props) {
           />
         </div>
 
-        <p className="text-cs08 font-semibold text-red-500 mb-2 md:mb-0">
+        <p className="text-cs08 font-semibold text-red-500 mb-3 md:mb-0">
           {form.formState.errors.phoneNumber?.message}
         </p>
 

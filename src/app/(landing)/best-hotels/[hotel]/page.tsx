@@ -52,7 +52,7 @@ export default async function Hotel(props: Props) {
           </div>
         </StickyArea>
 
-        <div className="relative mt-5 flex flex-col gap-14 lg:mt-10 lg:gap-16">
+        <div className="relative mt-5 flex flex-col gap-14 lg:mt-10 lg:gap-20">
           <Pictures hotelSlug={hotelSlug} />
 
           <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">

@@ -52,7 +52,7 @@ export function ImportantPlaces(props: Props) {
         <>
           <Skeleton className="h-24 rounded-xl lg:hidden" />
 
-          <div className="h-96 hidden grid-cols-2 gap-10 lg:grid">
+          <div className="h-[22rem] hidden grid-cols-2 gap-10 lg:grid">
             <div className="grid grid-rows-3 gap-6">
               {Array(3)
                 .fill(null)

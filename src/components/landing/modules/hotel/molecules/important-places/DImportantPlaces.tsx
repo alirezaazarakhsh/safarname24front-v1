@@ -42,7 +42,7 @@ export default function DImportantPlaces(props: Props) {
   if (!isDesktop) return null;
 
   return (
-    <div className="relative h-96 mb-20 flex gap-8 xl:gap-10">
+    <div className="relative h-[22rem] mb-20 flex gap-8 xl:gap-10">
       {/* Import-places info */}
       <div className="w-1/2">
         <Swiper
