@@ -60,7 +60,7 @@ export function NavigationBar() {
             <NavigationBarItem
               icon={'Book'}
               title="مجله گردشگری"
-              href="/tourism-magazine"
+              href="/blog"
             />
 
             <NavigationBarItem
@@ -74,7 +74,7 @@ export function NavigationBar() {
             {/* User-Profile | User-Account Triggers */}
             {userIsLoggedIn !== null && userIsLoggedIn ? (
               <Link
-                href={'/dashboard'}
+                href={'/dashboard/profile'}
                 className="flex flex-col items-center gap-1.5"
                 onClick={() => setUserAccountOpen(true)}
               >

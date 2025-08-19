@@ -11,10 +11,10 @@ import DHeaderStatics from './DHeaderStatics';
 import { useScrollPosition } from '@/hooks';
 import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
-import { useUserAccountContext } from '@/context/UserAccountContext';
-import { GETPersonalProfile } from '@/types/dashboard/api/get';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETPersonalProfile } from '@/types/dashboard/api/get';
 import toast from '@/components/dashboard/ui/customSonner/toast';
+import { useUserAccountContext } from '@/context/UserAccountContext';
 
 // --------------------------------
 
@@ -28,7 +28,7 @@ export default function DesktopHeader() {
 
   // Check if user is logged in
   useEffect(() => {
-    const cookie = Cookies.get('AUTH');
+    const cookie = Cookies.get('auth');
     setUserLoggedIn(!!cookie);
   }, []);
 
@@ -69,6 +69,7 @@ export default function DesktopHeader() {
           {/* User-Favorites - User-Profile */}
           <div className="h-11 text-zinc-800 text-cs07 flex gap-2 xl:gap-3">
             <UserFavorites />
+
             {personalDataFetch.isLoading ? (
               <button className="bg-zinc-200/50 w-16 flex-center gap-2 rounded-lg xl:w-28">
                 <span className="loader-dots-dark"></span>

@@ -48,15 +48,15 @@ export default function UserProfile(props: Props) {
 
         <div dir="rtl" className="grid divide-y divide-zinc-100/80">
           <UserProfileItem
-            href="/dashboard/profile"
             type="link"
+            href="/dashboard/profile"
             title="اطلاعات حساب کاربری"
             handleCloseModal={() => setOpen(false)}
           />
 
           <UserProfileItem
-            href="/"
             type="link"
+            href="/contact-us"
             title="درخواست پشتیبانی"
             handleCloseModal={() => setOpen(false)}
           />

@@ -47,7 +47,7 @@ export default function MobileHeader() {
   if (noDisplayCondition) return null;
 
   return (
-    <header className="pt-4 mx-5 flex-between items-center lg:hidden">
+    <header className="pt-3 mx-5 flex-between items-center lg:hidden">
       {/* Logo | Titles */}
       <div className="flex items-center gap-3">
         {status === 'pending' ? (
