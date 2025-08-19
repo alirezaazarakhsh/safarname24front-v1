@@ -314,6 +314,10 @@ export default function ProfilePage(): ReactNode {
               form={legalForm}
               creditCards={legalUserFetching.data?.card_numbers || []}
               refetch={legalUserFetching.refetch}
+              userStatus={{
+                rejectedReason: legalUserFetching.data?.reject_reason || '',
+                status: legalUserFetching.data?.status || 'checking',
+              }}
             />
             <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">
               <Upload

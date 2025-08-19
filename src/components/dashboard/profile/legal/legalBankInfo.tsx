@@ -20,6 +20,7 @@ import { getBankFromCard } from '@/utils/string';
 import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
 import CreditCardDropDown from '../creditCardDropdown';
+import Tooltip from '../../ui/tooltip';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
@@ -29,6 +30,7 @@ export default function LegalBankInfo({
   creditCards,
   userImage,
   refetch,
+  userStatus,
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
@@ -198,8 +200,8 @@ export default function LegalBankInfo({
         >
           <div className="shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&
-            !form.getFieldState('shabaNumber').invalid &&
-            bankInfo ? (
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
               <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
             ) : (
               <IconsaxIcons name="Bank" color="currentColor" />
@@ -211,8 +213,8 @@ export default function LegalBankInfo({
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
               {!form.getFieldState('creditCard').invalid &&
-              !form.getFieldState('shabaNumber').invalid &&
-              bankInfo
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
                 ? bankInfo?.name
                 : 'سیستم بانکی ناشناخته است!'}
             </p>
@@ -434,7 +436,63 @@ export default function LegalBankInfo({
           className="disabled:opacity-100"
           value={currentCardOwner}
         />
-        <div />
+        <div className="flex items-center justify-start gap-3">
+          <Tooltip
+            content={
+              userStatus.status === 'checking'
+                ? 'کاربر گرامی , پروفایل حقوقی شما در حال بررسی میباشد.'
+                : userStatus.status === 'accpeted'
+                  ? 'کاربر گرامی , پروفایل حقوقی شما تایید شده میباشد.'
+                  : `پروفایل کاربری شما به علت "${userStatus.rejectedReason}" رد شده`
+            }
+          >
+            <div
+              className={cn(
+                'size-[50px] aspect-square flex items-center justify-center  border overflow-hidden rounded-lg shrink-0 cursor-pointer',
+                userStatus.status === 'checking'
+                  ? 'text-black bg-white border-black/20'
+                  : userStatus.status === 'rejected'
+                    ? 'text-red-500 bg-red-500/10 border-red-500'
+                    : 'text-green-500 bg-red-green/10 border-green-500',
+              )}
+            >
+              {userStatus.status === 'checking' ? (
+                <Loading className="size-1.5" />
+              ) : (
+                <IconsaxIcons
+                  className="size-[25px]"
+                  color="currentColor"
+                  name={
+                    userStatus.status === 'rejected'
+                      ? 'CloseCircle'
+                      : 'TickCircle'
+                  }
+                />
+              )}
+            </div>
+          </Tooltip>
+          <div className="flex-1 overflow-hidden">
+            <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
+              وضعیت پروفایل حقوقی کاربر :
+            </span>
+            <p
+              className={cn(
+                'text-right truncate lg:text-cs75 text-[10px] lg:font-semibold font-bold',
+                userStatus.status === 'checking'
+                  ? 'text-gray-500'
+                  : userStatus.status === 'rejected'
+                    ? 'text-red-500'
+                    : 'text-green-400',
+              )}
+            >
+              {userStatus.status === 'checking'
+                ? 'در حال بررسی'
+                : userStatus.status === 'rejected'
+                  ? 'رد شده'
+                  : 'تایید شده'}
+            </p>
+          </div>
+        </div>
         <div className="lg:col-span-2">
           <button
             onClick={form.handleSubmit(submitHandleFunction, (errors) => {
