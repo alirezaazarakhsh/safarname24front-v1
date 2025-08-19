@@ -20,6 +20,7 @@ import { getBankFromCard } from '@/utils/string';
 import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
 import CreditCardDropDown from '../creditCardDropdown';
+import LegalUserStatus from '../legalUserStatus';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
@@ -29,6 +30,7 @@ export default function LegalBankInfo({
   creditCards,
   userImage,
   refetch,
+  userStatus,
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
@@ -198,8 +200,8 @@ export default function LegalBankInfo({
         >
           <div className="shrink-0 aspect-square w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&
-            !form.getFieldState('shabaNumber').invalid &&
-            bankInfo ? (
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
               <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
             ) : (
               <IconsaxIcons name="Bank" color="currentColor" />
@@ -211,8 +213,8 @@ export default function LegalBankInfo({
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
               {!form.getFieldState('creditCard').invalid &&
-              !form.getFieldState('shabaNumber').invalid &&
-              bankInfo
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
                 ? bankInfo?.name
                 : 'سیستم بانکی ناشناخته است!'}
             </p>
@@ -434,7 +436,10 @@ export default function LegalBankInfo({
           className="disabled:opacity-100"
           value={currentCardOwner}
         />
-        <div />
+        <LegalUserStatus
+          rejectReason={userStatus?.rejectReason}
+          status={userStatus?.status}
+        />
         <div className="lg:col-span-2">
           <button
             onClick={form.handleSubmit(submitHandleFunction, (errors) => {

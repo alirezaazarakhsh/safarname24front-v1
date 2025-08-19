@@ -521,6 +521,12 @@ export interface SubscriptionTypeComponentPropsType {
   className?: string;
 }
 
+export interface LegalUserStatusPropsType {
+  className?: string;
+  status?: 'checking' | 'accpeted' | 'rejected';
+  rejectReason?: string;
+}
+
 export interface PersonalInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<personalFormType>;
@@ -547,6 +553,10 @@ export interface LegalBankInfoFormComponentPropsType {
   userImage?: string;
   refetch?: () => void;
   creditCards?: GETLegalProfile['card_numbers'];
+  userStatus?: {
+    status?: 'checking' | 'accpeted' | 'rejected';
+    rejectReason?: string;
+  };
 }
 
 export interface LegalInfoFormComponentPropsType {

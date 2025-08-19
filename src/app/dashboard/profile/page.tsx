@@ -18,7 +18,6 @@ import Upload from '@/components/dashboard/upload/upload';
 import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAcceptDialog';
 import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/personalAccountBannedDialog';
-import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/legalAccountBannedDialog';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
@@ -163,10 +162,15 @@ export default function ProfilePage(): ReactNode {
   const userInfo = useUserInfo();
   const [legalUserImage, setLegalUserImage] = useState<string | undefined>();
   const [userImage, setUserImage] = useState<string | undefined>();
-  const [waitingDialogOpened, setWaitingDialogOpened] =
-    useState<boolean>(false);
+  const [userStatus, setUserStatus] = useState<
+    | {
+        status: 'checking' | 'accpeted' | 'rejected';
+        rejectReason: string | null;
+      }
+    | undefined
+  >();
 
-  const [legalAccountBannedDialogOpened, setLegalAccountBannedDialogOpened] =
+  const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
 
   const [
@@ -245,6 +249,12 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('postCode', legalInfo.postal_code);
       legalForm.setValue('tell', savedTellNumber);
       setLegalUserImage(legalInfo.image || '');
+
+      setUserStatus({
+        rejectReason: legalInfo.reject_reason,
+        status: legalInfo.status,
+      });
+
       if (firstCard) {
         if (
           verifyCardNumber(Number(firstCard.card_number)) &&
@@ -260,10 +270,6 @@ export default function ProfilePage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
-      <LegalAccountBannedDialog
-        isOpened={legalAccountBannedDialogOpened}
-        closeFn={() => setLegalAccountBannedDialogOpened(false)}
-      />
       <PersonalAccountBannedDialog
         isOpened={personalAccountBannedDialogOpened}
         closeFn={() => setPersonalAccountBannedDialogOpened(false)}
@@ -309,6 +315,10 @@ export default function ProfilePage(): ReactNode {
           <>
             <LegalBankInfo
               userImage={legalUserImage}
+              userStatus={{
+                rejectReason: userStatus?.rejectReason || '',
+                status: userStatus?.status || 'checking',
+              }}
               loading={legalUserFetching.isLoading}
               className="lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide"
               form={legalForm}
