@@ -17,9 +17,9 @@ import StickyArea from '@/components/landing/shared/StickyArea';
 export default function Home() {
   return (
     <>
-      <StickyArea />
+      <StickyArea searchbarStatus={{ static: false, fixed: true }} />
 
-      <div className="mt-6 flex flex-col gap-14 lg:gap-20 lg:mt-0">
+      <div className="mt-4 flex flex-col gap-14 lg:gap-20 lg:mt-0">
         <HeroSection />
         <Services />
         <SuggestedHotels />

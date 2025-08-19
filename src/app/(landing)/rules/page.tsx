@@ -11,7 +11,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import StickyArea from '@/components/landing/shared/StickyArea';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
-import { Skeleton } from '@/components/ui/skeleton';
 
 type Data = {
   text: string;
@@ -40,9 +39,15 @@ export default function Rules() {
 
   return (
     <>
-      <StickyArea showSearchBar={false} fixedClassName="py-0">
-        <NavBar activeSection={activeSection} navList={navList} />
-      </StickyArea>
+      <div className="mt-2">
+        <StickyArea
+          childrenStatus={{ static: true, fixed: true }}
+          searchbarStatus={{ static: false, fixed: false }}
+          fixedClassName="py-0"
+        >
+          <NavBar activeSection={activeSection} navList={navList} />
+        </StickyArea>
+      </div>
 
       {/* ====== Content */}
       <div className="space-y-12 xl:mt-12">

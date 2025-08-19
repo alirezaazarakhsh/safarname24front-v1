@@ -29,14 +29,12 @@ import FavoriteButton from '@/components/landing/modules/hotel/molecules/Favorit
 import MImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/MImageGallery';
 import DImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/DImageGallery';
 
-type Props = {
-  params: Promise<{ hotel: string }>;
-};
+type Props = { params: Promise<{ hotel: string }> };
 
 // ----------------------------------
 
 export default async function Hotel(props: Props) {
-  const { initialInfo, sectionLinks } = hotel;
+  const { sectionLinks } = hotel;
   const { hotel: hotelSlug } = await props.params;
 
   return (
@@ -44,9 +42,10 @@ export default async function Hotel(props: Props) {
       <HotelWrapper>
         <StickyArea
           scrollFromTop={500}
-          showInStatic={false}
           fixedClassName="pb-0"
           staticClassName="mt-5"
+          childrenStatus={{ fixed: true }}
+          searchbarStatus={{ static: true, fixed: true }}
         >
           <div className="-mx-5 -mt-2">
             <SectionLinks sectionList={sectionLinks} />
@@ -87,7 +86,7 @@ export default async function Hotel(props: Props) {
             </div>
           </div>
 
-          <Rooms hotelSlug={hotelSlug} hotelName={initialInfo.hotelName} />
+          <Rooms hotelSlug={hotelSlug} />
           <AdditionalDetails hotelSlug={hotelSlug} />
 
           <Section
@@ -103,7 +102,7 @@ export default async function Hotel(props: Props) {
           <FrequentlyQuestions hotelSlug={hotelSlug} />
           <CustomerReviews hotelSlug={hotelSlug} />
           <Tags hotelSlug={hotelSlug} />
-          <SuggestedHotels city={initialInfo.city} />
+          <SuggestedHotels hotelSlug={hotelSlug} />
         </div>
       </HotelWrapper>
     </>

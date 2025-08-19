@@ -16,11 +16,16 @@ export default function BestHotels() {
 
   return (
     <>
-      <StickyArea>
-        <Filters />
-      </StickyArea>
+      <div className="mt-2">
+        <StickyArea
+          childrenStatus={{ static: true, fixed: true }}
+          searchbarStatus={{ static: true, fixed: true }}
+        >
+          <Filters />
+        </StickyArea>
+      </div>
 
-      <div className="mt-8 lg:mt-12">
+      <div className="mt-4 lg:mt-12">
         <Setting />
 
         <div className="grid gap-10 lg:grid-cols-[20rem_1fr]">
