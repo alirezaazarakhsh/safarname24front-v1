@@ -245,7 +245,7 @@ export default function CustomersClubTable({
       ) : data?.length === 0 ? (
         <EmptyTable
           title="لیست جوایز خالی است"
-          description="متاسفانه هیچ ایتمی برای نمایش یدا نشد !"
+          description="متاسفانه هیچ ایتمی برای نمایش پیدا نشد !"
         />
       ) : (
         <>
