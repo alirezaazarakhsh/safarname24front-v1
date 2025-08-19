@@ -28,7 +28,7 @@ export default function useLogout() {
         Cookies.remove('auth');
         removeItem();
 
-        window.location.reload();
+        window.location.href = '/';
       },
     },
   });
