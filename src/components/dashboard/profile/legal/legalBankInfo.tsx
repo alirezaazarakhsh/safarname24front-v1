@@ -19,7 +19,6 @@ import { legalFormType } from '@/app/dashboard/profile/page';
 import { getBankFromCard } from '@/utils/string';
 import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
-import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import CreditCardDropDown from '../creditCardDropdown';
 
 // Creating and exporting LegalBankInfo component as default
@@ -27,13 +26,20 @@ export default function LegalBankInfo({
   className,
   form,
   loading,
+  creditCards,
+  userImage,
+  refetch,
 }: LegalBankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
   const [useUserImage, setUseUserImage] = useState<boolean>(true);
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
-  const userInfo = useUserInfo();
+  const [currentCardOwner, setCurrentCardOwner] = useState<
+    string | undefined
+  >();
+
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    onFileDialogCancel: () => setFile(undefined),
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 10MB in bytes
     onDropRejected: () => {
@@ -50,6 +56,12 @@ export default function LegalBankInfo({
     },
   });
 
+  useEffect(() => {
+    if (file) {
+      setUseUserImage(false);
+    }
+  }, [file]);
+
   // Defining name and image of banks
   const creditCardVal = form.watch('creditCard') || '';
   const shabaVal = form.watch('shabaNumber') || '';
@@ -59,6 +71,11 @@ export default function LegalBankInfo({
     const info = getBankFromCard(value);
 
     setBankInfo(info);
+
+    const foundedCardOwner =
+      creditCards?.find((item) => item.card_number === creditCardVal)
+        ?.account_holder_name || undefined;
+    setCurrentCardOwner(foundedCardOwner);
   }, [creditCardVal]);
 
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -73,7 +90,7 @@ export default function LegalBankInfo({
     method: 'put',
     options: {
       onSuccess: () => {
-        window.location.reload();
+        refetch && refetch();
         if (isMobile) {
           setMobileSuccessDrawerOpened(true);
         } else {
@@ -107,19 +124,22 @@ export default function LegalBankInfo({
     formData.append('registeration_number', data.registrationId);
     formData.append('economical_code', data.economicCode);
     formData.append('phone_number', data.tell);
-    formData.append('postal_code', data.postCode || '');
-    formData.append('address', data.address || '');
-    formData.append('email', data.email || '');
     formData.append('status', 'accpeted');
     formData.append('reject_reason', '');
-    formData.append('image', file ? file : '');
-    formData.append(
-      'card_numbers',
-      JSON.stringify({
-        card_number: data.creditCard,
-        iban: data.shabaNumber,
-      }),
-    );
+    !useUserImage && formData.append('image', file || '');
+    data.postCode && formData.append('postal_code', data.postCode);
+    data.address && formData.append('address', data.address);
+    data.email && formData.append('email', data.email);
+
+    data.creditCard ||
+      (data.creditCard !== '' &&
+        formData.append(
+          'card_numbers',
+          JSON.stringify({
+            card_number: data.creditCard,
+            iban: data.shabaNumber,
+          }),
+        ));
 
     await setLegalInfoFetch.mutateAsync(formData);
   };
@@ -200,18 +220,27 @@ export default function LegalBankInfo({
         </div>
         <button
           {...getRootProps()}
+          disabled={loading}
           className="lg:hidden flex items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
         >
           <input {...getInputProps()} hidden />
-          <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
+          <div
+            className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden"
+            onClick={(e) => {
+              if (useUserImage) {
+                e.stopPropagation();
+                setUseUserImage(false);
+              }
+            }}
+          >
             {acceptedFiles.length === 0 ? (
-              userInfo.image && useUserImage ? (
+              userImage && useUserImage ? (
                 <>
                   <Image
                     width={50}
                     height={50}
                     alt="عکس اپلود شده!"
-                    src={userInfo.image}
+                    src={userImage}
                     className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
                   />
                   <div
@@ -264,6 +293,7 @@ export default function LegalBankInfo({
           className="lg:h-[50px] h-[45px] w-full"
           placeholder="16 رقم شماره کارت را وارد نمایید"
           value={creditCardVal}
+          useLegalInfo={creditCards}
           disabled={loading}
           reset={() => {
             form.setValue('creditCard', undefined);
@@ -301,6 +331,7 @@ export default function LegalBankInfo({
           side="top"
           placeholder="24 رقم شماره شبا کارت را وارد نمایید"
           value={shabaVal}
+          useLegalInfo={creditCards}
           disabled={loading}
           reset={() => {
             form.setValue('creditCard', undefined);
@@ -313,18 +344,27 @@ export default function LegalBankInfo({
         />
         <button
           {...getRootProps()}
+          disabled={loading}
           className="lg:flex hidden items-center justify-start w-full gap-3 group transition-all duration-500 disabled:opacity-50 disabled:pointer-events-none"
         >
           <input {...getInputProps()} hidden />
-          <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
+          <div
+            className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden"
+            onClick={(e) => {
+              if (useUserImage) {
+                e.stopPropagation();
+                setUseUserImage(false);
+              }
+            }}
+          >
             {acceptedFiles.length === 0 ? (
-              userInfo.image && useUserImage ? (
+              userImage && useUserImage ? (
                 <>
                   <Image
                     width={50}
                     height={50}
                     alt="عکس اپلود شده!"
-                    src={userInfo.image}
+                    src={userImage}
                     className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
                   />
                   <div
@@ -377,7 +417,6 @@ export default function LegalBankInfo({
           placeholder="آدرس شرکت "
           error={form.formState.errors.address?.message}
           noErrorText
-          wholeClassName="lg:col-span-2"
           disabled={loading}
           {...form.register('address')}
         />
@@ -387,6 +426,13 @@ export default function LegalBankInfo({
           disabled={loading}
           noErrorText
           {...form.register('postCode')}
+        />
+        <NormalInput
+          placeholder="نام صاحب کارت"
+          noErrorText
+          disabled
+          className="disabled:opacity-100"
+          value={currentCardOwner}
         />
         <div />
         <div className="lg:col-span-2">

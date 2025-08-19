@@ -44,6 +44,7 @@ export interface GETPersonalProfile {
     id: number;
     card_number: string;
     iban: string;
+    account_holder_name: string;
   }[];
 }
 
@@ -60,6 +61,12 @@ export interface GETLegalProfile {
   status: 'checking' | 'accpeted' | 'rejected';
   reject_reason: string | null;
   documents: string | null;
+  card_numbers: {
+    id: number;
+    card_number: string;
+    account_holder_name: string;
+    iban: string;
+  }[];
 }
 
 export interface GETUploadedDocumentItem {
@@ -189,6 +196,7 @@ export interface GETCreditCardItem {
 
 export interface GETUserLevelItem {
   title: string;
+  color: string;
   icon: {
     title: string;
     url: string;
@@ -199,14 +207,42 @@ export interface GETUserPoints {
   points: number;
 }
 
+export interface GETCustomerClubListItem {
+  id: number;
+  user: string;
+  discount_type: 'تخفیف مرکز خرید' | 'تخفیف اتاق';
+  code: string;
+  discount_value: string;
+  required_points: number;
+  activated_at: string;
+  reward_claimed: boolean;
+  related_info: {
+    shopping_center_name?: string;
+    room_id?: number;
+    room_name?: string;
+  };
+}
+
+export interface GETLegalNotes {
+  description: string;
+}
+
 export type GETReservation = GETReservationItem[];
 export type GETNotifications = GETNotificationItem[];
 export type GETUploadedDocuments = GETUploadedDocumentItem[];
-export type GETUserLevels = GETUserLevelItem[];
+export type GETUserLevels = {
+  data: GETUserLevelItem[];
+};
 export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
-export type GETCustomerClubRoomList = GETCustomerClubRoomListItem[];
-export type GETCustomerClubShoppingCentreList =
-  GETCustomerClubShoppingCentreListItem[];
+export type GETCustomerClubList = GETPaginationAPILayout<
+  GETCustomerClubListItem[]
+>;
+export type GETCustomerClubRoomList = GETPaginationAPILayout<
+  GETCustomerClubRoomListItem[]
+>;
+export type GETCustomerClubShoppingCentreList = GETPaginationAPILayout<
+  GETCustomerClubShoppingCentreListItem[]
+>;

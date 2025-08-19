@@ -17,48 +17,34 @@ import { handleZeroBeforeNumber } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
 import { numberSeparation } from '@/utils';
-import toast from '../ui/customSonner/toast';
 import Tooltip from '../ui/tooltip';
 import TakeGiftRuleDialog from './dialog/takeGiftRuleDialog';
 import GiftGainErrorDialog from './dialog/giftGainErrorDialog';
 import GiftGainedDialog from './dialog/giftGainedDialogOpened';
 import { Skeleton } from '@/components/ui/skeleton';
 import SafarnameLogo from '../../../../public/image/logo/white.webp';
+import CustomPagination from '../ui/customPagination';
+import EmptyTable from '../api/emptyTable';
 
 // Creating and exporting CustomersClubTable component as default
 export default function CustomersClubTable({
   className,
   data,
   loading = false,
+  paginationCount = 12,
+  refetch,
+  paginationActiveIndex,
+  setPaginationActiveIndex,
 }: CustomersClubTablePropsType): ReactNode {
   // Defining state of component
+  const [rules, setRules] = useState<string | undefined>();
+  const [code, setCode] = useState<string | undefined>();
   const [acceptRulesDialogOpened, setAcceptRulesDialogOpened] =
     useState<boolean>(false);
   const [giftGainedDialogOpened, setGiftGainedDialogOpened] =
     useState<boolean>(false);
   const [giftGainErrorDialogOpened, setGiftGainErrorDialogOpened] =
     useState<boolean>(false);
-
-  const [idToAchive, setIdToAchive] = useState<number>(0);
-
-  // Defining a function to handle copy to clipboard
-  function hanldeClipboardCopy(text: string): void {
-    window.navigator.clipboard
-      .writeText(text)
-      .then(() =>
-        toast({
-          title: 'کد با موفقیت کپی شد',
-          theme: 'green',
-          description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
-        }),
-      )
-      .catch(() =>
-        toast({
-          title: 'کد کپی نشد!',
-          description: 'خطایی در کپی کردن کد پیش امد.',
-        }),
-      );
-  }
 
   // Returning JSX
   return (
@@ -70,24 +56,63 @@ export default function CustomersClubTable({
     >
       <GiftGainErrorDialog
         isOpened={giftGainErrorDialogOpened}
-        closeFn={() => setGiftGainErrorDialogOpened(false)}
+        refetch={() => refetch && refetch()}
+        closeFn={() => {
+          setGiftGainErrorDialogOpened(false);
+          setRules(undefined);
+          setCode(undefined);
+        }}
       />
       <GiftGainedDialog
+        code={code || ''}
         isOpened={giftGainedDialogOpened}
-        closeFn={() => setGiftGainedDialogOpened(false)}
+        closeFn={() => {
+          setGiftGainedDialogOpened(false);
+          setRules(undefined);
+          setCode(undefined);
+        }}
       />
       <TakeGiftRuleDialog
-        id={idToAchive}
         isOpened={acceptRulesDialogOpened}
-        closeFn={() => setAcceptRulesDialogOpened(false)}
+        refetch={() => refetch && refetch()}
         setGiftGainErrorDialogOpened={setGiftGainErrorDialogOpened}
         setGiftGainedDialogOpened={setGiftGainedDialogOpened}
+        rules={rules}
+        type="shoppingCentre"
+        code={code || ''}
+        closeFn={() => {
+          setAcceptRulesDialogOpened(false);
+          setRules(undefined);
+        }}
       />
-      <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
-        <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
-          مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
-        </span>
-      </div>
+      {loading ? (
+        <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
+          <span
+            onClick={() => setGiftGainedDialogOpened(true)}
+            className="block truncate text-right w-full font-bold lg:text-cs85 text-black"
+          >
+            مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
+          </span>
+          <CustomPagination loading count={2} />
+        </div>
+      ) : data && data.length !== 0 ? (
+        <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-3">
+          <span
+            onClick={() => setGiftGainedDialogOpened(true)}
+            className="block truncate text-right w-full font-bold lg:text-cs85 text-black"
+          >
+            مشتری گرامی در این لیست امتیازاتی که به شما تعلق میگیرد قرار میگیرد.
+          </span>
+          <CustomPagination
+            loading={loading}
+            count={paginationCount}
+            activeIndex={paginationActiveIndex}
+            setActiveIndex={setPaginationActiveIndex}
+          />
+        </div>
+      ) : (
+        false
+      )}
       {loading ? (
         <>
           <Table dir="rtl" className="border-none lg:table hidden">
@@ -110,18 +135,18 @@ export default function CustomersClubTable({
                   امتیاز مورد نیاز
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  تاریخ اعتبار کد تخفیف
+                  تاریخ انقضای کد تخفیف
                 </TableHead>
                 <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
               </TableRow>
             </TableHeader>
             <TableBody>
-              {[...new Array(18)].map((item, index) => (
+              {[...new Array(3)].map((item, index) => (
                 <TableRow
                   key={index}
                   className={cn(
                     'bg-white hover:bg-white',
-                    index + 1 !== 18
+                    index + 1 !== 3
                       ? 'border-b border-b-black/10'
                       : 'border-b-0',
                   )}
@@ -217,6 +242,11 @@ export default function CustomersClubTable({
             </div>
           </div>
         </>
+      ) : data?.length === 0 ? (
+        <EmptyTable
+          title="لیست جوایز خالی است"
+          description="متاسفانه هیچ ایتمی برای نمایش یدا نشد !"
+        />
       ) : (
         <>
           <Table dir="rtl" className="border-none lg:table hidden">
@@ -239,7 +269,7 @@ export default function CustomersClubTable({
                   امتیاز مورد نیاز
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  تاریخ اعتبار کد تخفیف
+                  تاریخ انقضای کد تخفیف
                 </TableHead>
                 <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
               </TableRow>
@@ -280,20 +310,10 @@ export default function CustomersClubTable({
                       </span>
                     </Tooltip>
                   </TableCell>
-                  <TableCell className="p-3 flex items-center justify-start gap-2">
+                  <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.code}
+                      ********
                     </span>
-                    <button
-                      className="text-cs-red shrink-0"
-                      onClick={() => hanldeClipboardCopy(item.code)}
-                    >
-                      <IconsaxIcons
-                        name="DocumentCopy"
-                        color="currentColor"
-                        className="w-3 h-3"
-                      />
-                    </button>
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
@@ -314,7 +334,8 @@ export default function CustomersClubTable({
                     <button
                       onClick={() => {
                         setAcceptRulesDialogOpened(true);
-                        setIdToAchive(item.id);
+                        setRules(item.activation_rules);
+                        setCode(item.code);
                       }}
                       className={
                         'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100'
@@ -362,7 +383,8 @@ export default function CustomersClubTable({
                       className="w-[105px] h-[40px] transition-all duration-500 shrink-0 rounded-[7px] flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100"
                       onClick={() => {
                         setAcceptRulesDialogOpened(true);
-                        setIdToAchive(item.id);
+                        setRules(item.activation_rules);
+                        setCode(item.code);
                       }}
                     >
                       <span className="text-[10px] text-current font-semibold">
@@ -397,20 +419,10 @@ export default function CustomersClubTable({
                       <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
                         کد تخفیف :
                       </span>
-                      <div className="flex items-center justify-start gap-[10px]">
+                      <div>
                         <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          {item.code}
+                          ********
                         </span>
-                        <button
-                          className="text-cs-red shrink-0"
-                          onClick={() => hanldeClipboardCopy(item.code)}
-                        >
-                          <IconsaxIcons
-                            name="DocumentCopy"
-                            color="currentColor"
-                            className="w-[14px] h-[14px]"
-                          />
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -466,6 +478,11 @@ export default function CustomersClubTable({
               ))}
             </div>
           </div>
+          <CustomPagination
+            count={paginationCount}
+            activeIndex={paginationActiveIndex}
+            setActiveIndex={setPaginationActiveIndex}
+          />
         </>
       )}
     </section>

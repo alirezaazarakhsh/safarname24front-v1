@@ -1,4 +1,5 @@
 // Importing part
+import toast from '@/components/dashboard/ui/customSonner/toast';
 import { BankInfo, HandleZeroBeforeNumberPropsType } from '@/types/utils';
 
 // Creating and exporting handleZeroBeforeNumber function which takes a string or number and checks if it has single character/number (in lenght) and if it is adds a 0 before the actual number
@@ -59,22 +60,25 @@ export function getBankFromCard(cardNumber: string | number): BankInfo | null {
   return binToBank[bin] || null;
 }
 
-// Creating an function to validate national code or passport
-export function isValidIranianNationalCodeOrPassport(value: string): boolean {
-  const isValidIranianNationalCode = (code: string): boolean => {
-    if (!/^\d{10}$/.test(code)) return false;
-    const check = +code[9];
-    const sum = code
-      .split('')
-      .slice(0, 9)
-      .reduce((acc, digit, i) => acc + +digit * (10 - i), 0);
-    const remainder = sum % 11;
-    return (
-      (remainder < 2 && check === remainder) ||
-      (remainder >= 2 && check === 11 - remainder)
-    );
-  };
+export function isValidIranianPassport(passport: string): boolean {
+  const regex = /^[A-Z]\d{8}$/;
+  return regex.test(passport);
+}
 
-  const isValidPassport = /^[A-Z0-9]{8,10}$/i.test(value);
-  return isValidIranianNationalCode(value) || isValidPassport;
+export function hanldeClipboardCopy(text: string): void {
+  window.navigator.clipboard
+    .writeText(text)
+    .then(() =>
+      toast({
+        title: 'کد با موفقیت کپی شد',
+        theme: 'green',
+        description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
+      }),
+    )
+    .catch(() =>
+      toast({
+        title: 'کد کپی نشد!',
+        description: 'خطایی در کپی کردن کد پیش امد.',
+      }),
+    );
 }

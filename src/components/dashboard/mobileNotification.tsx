@@ -8,7 +8,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import Sheet from './ui/sheet';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import useNotification from '@/hooks/dashboard/useNotifications';
-import moment from 'jalali-moment';
 
 // Creating and exporting MobileNotification component as default
 export default function MobileNotification({
@@ -44,17 +43,23 @@ export default function MobileNotification({
             )}
           </div>
           <div className="flex flex-col lg:gap-3 gap-[15px] border-t-2 border-dashed border-gray-200 lg:pt-3 pt-[15px]">
-            {data.map((item, index) => (
-              <NotificationComponent.default
-                key={index}
-                data={item}
-                className={
-                  index + 1 !== data.length
-                    ? 'border-b border-b-black/20 pb-4'
-                    : ''
-                }
-              />
-            ))}
+            {data.length === 0 ? (
+              <span className="text-center font-bold text-cs85 text-cs-red mt-3 block truncate">
+                چیزی برای نمایش وجود ندارد !
+              </span>
+            ) : (
+              data.map((item, index) => (
+                <NotificationComponent.default
+                  key={index}
+                  data={item}
+                  className={
+                    index + 1 !== data.length
+                      ? 'border-b border-b-black/20 pb-4'
+                      : ''
+                  }
+                />
+              ))
+            )}
           </div>
         </div>
       </Sheet>
@@ -64,8 +69,12 @@ export default function MobileNotification({
         onClick={() => setNotificationOpened(true)}
       >
         <div className="w-[43px] h-[43px] aspect-square rounded-[7px] flex items-center justify-center bg-gray-100 text-black relative">
-          <div className="absolute top-0 right-0 bg-cs-red w-2 h-2 z-10 rounded-full -translate-y-[50%] translate-x-[50%]" />
-          <div className="absolute top-[-4px] right-[-4px] bg-cs-red/40 duration-1000 delay-1000 animate-ping z-0 origin-center w-2 h-2 rounded-full" />
+          {unseenCount !== 0 && (
+            <>
+              <div className="absolute top-0 right-0 bg-cs-red w-2 h-2 z-10 rounded-full -translate-y-[50%] translate-x-[50%]" />
+              <div className="absolute top-[-4px] right-[-4px] bg-cs-red/40 duration-1000 delay-1000 animate-ping z-0 origin-center w-2 h-2 rounded-full" />
+            </>
+          )}
           <IconsaxIcons
             name={'NotificationStatus'}
             className="w-[20px] h-[20px] text-current"

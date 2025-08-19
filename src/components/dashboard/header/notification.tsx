@@ -57,17 +57,23 @@ export default function Notification(): ReactNode {
           </div>
           <ICDashedBorder className="w-full text-[#d4d4d4]" />
           <div className="flex flex-col gap-3 pt-4">
-            {data.map((item, index) => (
-              <NotificationComponent.default
-                key={index}
-                data={item}
-                className={
-                  index + 1 !== data.length
-                    ? 'border-b border-b-black/20 pb-4'
-                    : ''
-                }
-              />
-            ))}
+            {data.length === 0 ? (
+              <span className="text-center font-bold text-cs85 text-cs-red mt-3 block truncate">
+                چیزی برای نمایش وجود ندارد !
+              </span>
+            ) : (
+              data.map((item, index) => (
+                <NotificationComponent.default
+                  key={index}
+                  data={item}
+                  className={
+                    index + 1 !== data.length
+                      ? 'border-b border-b-black/20 pb-4'
+                      : ''
+                  }
+                />
+              ))
+            )}
           </div>
         </div>
       </Sheet>

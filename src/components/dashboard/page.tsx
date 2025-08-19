@@ -17,12 +17,16 @@ import {
   GETPersonalProfile,
   GETWalletBalance,
 } from '@/types/dashboard/api/get';
-import { NotificationsContext } from '@/types/dashboard/context';
+import {
+  NotificationsContext,
+  PsersonalInfoContext,
+} from '@/types/dashboard/context';
+import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
 export const userFetchedInfoContext = createContext<
-  GETPersonalProfile | undefined
+  PsersonalInfoContext | undefined
 >(undefined);
 
 export const userWalletBalanceContext = createContext<
@@ -68,6 +72,13 @@ function InnerPage({
   pathname: string;
 }) {
   // Defining hooks
+  const openedNotifications = useLocalStorageState<number[]>(
+    'openedNotifications',
+    {
+      defaultValue: [],
+    },
+  );
+
   const personalDataFetch = useApiQuery<GETPersonalProfile>({
     url: '/natural-profiles/',
     queryKey: ['personalProfile', 'persoanl', 'profile'],
@@ -127,7 +138,12 @@ function InnerPage({
     walletBalanceFetch.data
   ) {
     return (
-      <userFetchedInfoContext.Provider value={personalDataFetch.data}>
+      <userFetchedInfoContext.Provider
+        value={{
+          data: personalDataFetch.data,
+          refetch: personalDataFetch.refetch,
+        }}
+      >
         <userWalletBalanceContext.Provider value={walletBalanceFetch.data}>
           <notificationContext.Provider
             value={{

@@ -8,6 +8,7 @@ import { SheetComponentPropsType } from '@/types/dashboard/component';
 import { createPortal } from 'react-dom';
 import Logo from './logo';
 import { ICX } from '@/components/icons/ICX';
+import { usePathname } from 'next/navigation';
 
 // Creating and exporting Sheet component as default
 export default function Sheet({
@@ -16,6 +17,9 @@ export default function Sheet({
   isOpened,
   className,
 }: SheetComponentPropsType): ReactNode {
+  // Defining hooks
+  const pathname = usePathname();
+
   // Using useEffect to remove availibilty to scroll when datePicker opens
   useEffect(() => {
     const bodyElement = document.body;
@@ -24,6 +28,9 @@ export default function Sheet({
       ? (bodyElement.style.overflow = 'hidden')
       : (bodyElement.style.overflow = 'auto');
   }, [isOpened]);
+
+  // Using useEffect to close sheet when page changes
+  useEffect(() => closeFn && closeFn(), [pathname]);
 
   // Returning JSX
   return createPortal(

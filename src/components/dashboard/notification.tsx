@@ -12,7 +12,7 @@ import useNotification from '@/hooks/dashboard/useNotifications';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Loading from './ui/loading';
 import toast from './ui/customSonner/toast';
-import { GETNotificationItem } from '@/types/dashboard/api/get';
+import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting Notification component as default
 export default function Notification({
@@ -23,14 +23,20 @@ export default function Notification({
   const [opened, setOpened] = useState<boolean>(data.is_read || false);
   const [deleteDialogOpened, setDeleteDialogOpened] = useState<boolean>(false);
   const { refetch } = useNotification();
+  const [openedItems, setOpenedItems] = useLocalStorageState<number[]>(
+    'openedNotifications',
+  );
+
   const mutation = useApiMutation({
     url: `/notification/notifications/${data.id}/update-status/`,
     method: 'put',
     isFormData: false,
     options: {
-      onSuccess: (data: GETNotificationItem) => {
-        setOpened(data.is_read);
+      onSuccess: () => {
         refetch && refetch();
+        setOpened(true);
+        const notifs = openedItems ? [...openedItems] : [];
+        setOpenedItems([...notifs, data.id]);
       },
       onError: () =>
         toast({
@@ -58,9 +64,11 @@ export default function Notification({
       />
       <div
         onClick={() => {
-          if (!mutation.isPending) {
+          if (openedItems?.includes(data.id)) {
+            setOpened((prev) => !prev);
+          } else {
             mutation.mutate({
-              is_read: Boolean(!opened),
+              is_read: true,
             });
           }
         }}
@@ -75,7 +83,10 @@ export default function Notification({
           {!data.send_to_all && (
             <button
               disabled={mutation.isPending}
-              onClick={() => !mutation.isPending && setDeleteDialogOpened(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setDeleteDialogOpened(true);
+              }}
             >
               <IconsaxIcons
                 name="Trash"
@@ -107,7 +118,7 @@ export default function Notification({
           opacity: opened ? '100%' : '0%',
         }}
       >
-        <p className="lg:text-cs75 text-[12px] text-gray-500 font-normal text-right w-[50%] whitespace-pre-line m-0 p-0">
+        <p className="lg:text-cs75 text-[12px] text-gray-500 font-normal text-right break-all whitespace-normal w-full m-0 p-0">
           {data.message}
         </p>
       </motion.div>

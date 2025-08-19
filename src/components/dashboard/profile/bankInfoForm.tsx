@@ -5,7 +5,7 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { BankInfoFormComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import Loading from '../ui/loading';
 import NormalInput from './normalInput';
@@ -21,18 +21,25 @@ import { BankInfo } from '@/types/utils';
 import { getBankFromCard } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
 import CreditCardDropDown from './creditCardDropdown';
+import { userFetchedInfoContext } from '../page';
 
 // Creating and exporting PersonalInfoForm component as default
 export default function BankInfoForm({
   className,
   form,
+  userImage,
 }: BankInfoFormComponentPropsType): ReactNode {
   // Defining hooks
+  const userInfoContext = useContext(userFetchedInfoContext);
   const [file, setFile] = useState<File | undefined>();
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
-  const [useUserImage, setUseUserImage] = useState<boolean>(true);
   const userInfo = useUserInfo();
+  const [useUserImage, setUseUserImage] = useState<boolean>(true);
+  const [currentCardOwner, setCurrentCardOwner] = useState<
+    string | undefined
+  >();
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    onFileDialogCancel: () => setFile(undefined),
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 30MB in bytes
     onDropRejected: () => {
@@ -49,6 +56,12 @@ export default function BankInfoForm({
     },
   });
 
+  useEffect(() => {
+    if (file) {
+      setUseUserImage(false);
+    }
+  }, [file]);
+
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const [mobileErrorDrawerOpened, setMobileErrorDrawerOpened] =
     useState<boolean>(false);
@@ -61,7 +74,7 @@ export default function BankInfoForm({
     method: 'put',
     options: {
       onSuccess: () => {
-        window.location.reload();
+        userInfoContext?.refetch && userInfoContext.refetch();
         if (isMobile) {
           setMobileSuccessDrawerOpened(true);
         } else {
@@ -93,19 +106,22 @@ export default function BankInfoForm({
 
     formData.append('first_name', data.name);
     formData.append('last_name', data.lastName);
-    formData.append('email', data.email || '');
+    data.email && formData.append('email', data.email);
+    data.postCode && formData.append('postal_code', data.postCode);
+    data.address && formData.append('address', data.address);
+    !useUserImage && formData.append('image', file || '');
     formData.append('national_code', data.meliCode);
-    formData.append('postal_code', data.postCode || '');
-    formData.append('address', data.address || '');
     formData.append('level', userInfo.level?.toString() || '0');
-    formData.append('image', file ? file : '');
-    formData.append(
-      'card_numbers',
-      JSON.stringify({
-        card_number: data.creditCard,
-        iban: data.shabaNumber,
-      }),
-    );
+
+    data.creditCard ||
+      (data.creditCard !== '' &&
+        formData.append(
+          'card_numbers',
+          JSON.stringify({
+            card_number: data.creditCard,
+            iban: data.shabaNumber,
+          }),
+        ));
 
     await setPersonalInfoFetch.mutateAsync(formData);
   };
@@ -119,6 +135,11 @@ export default function BankInfoForm({
     const info = getBankFromCard(value);
 
     setBankInfo(info);
+
+    const foundedCardOwner =
+      userInfo.card_numbers.find((item) => item.card_number === creditCardVal)
+        ?.account_holder_name || undefined;
+    setCurrentCardOwner(foundedCardOwner);
   }, [creditCardVal]);
 
   // Returning JSX
@@ -172,108 +193,81 @@ export default function BankInfoForm({
         >
           {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
         </button>
-        <div className="flex flex-col lg:gap-5 gap-[16px] justify-between">
-          <CreditCardDropDown
-            className="lg:h-[50px] h-[45px] w-full"
-            placeholder="16 رقم شماره کارت را وارد نمایید"
-            value={creditCardVal}
-            reset={() => {
-              form.setValue('creditCard', undefined);
-              form.setValue('shabaNumber', undefined);
-            }}
-            onValueChange={(card, shaba) => {
-              form.setValue('creditCard', card);
-              form.setValue('shabaNumber', shaba);
-            }}
-          />
-          <CreditCardDropDown
-            className="lg:h-[50px] h-[45px] w-full"
-            hasIRIcon
-            useSheba
-            side="top"
-            placeholder="24 رقم شماره شبا کارت را وارد نمایید"
-            value={shabaVal}
-            reset={() => {
-              form.setValue('creditCard', undefined);
-              form.setValue('shabaNumber', undefined);
-            }}
-            onValueChange={(card, shaba) => {
-              form.setValue('creditCard', card);
-              form.setValue('shabaNumber', shaba);
-            }}
-          />
-          <NormalInput
-            placeholder="آدرس مسکونی "
-            error={form.formState.errors.address?.message}
-            noErrorText
-            {...form.register('address')}
-          />
-        </div>
-        <div className="flex flex-col lg:gap-6 gap-[16px] justify-between">
-          <div className="flex items-center justify-start w-full gap-3">
-            <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
-              {!form.getFieldState('creditCard').invalid &&
-                !form.getFieldState('shabaNumber').invalid &&
-                bankInfo ? (
-                <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
-              ) : (
-                <IconsaxIcons name="Bank" color="currentColor" />
-              )}
-            </div>
-            <div className="overflow-hidden w-full">
-              <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-                نام بانک
-              </span>
-              <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                {!form.getFieldState('creditCard').invalid &&
-                  !form.getFieldState('shabaNumber').invalid &&
-                  bankInfo
-                  ? bankInfo?.name
-                  : 'سیستم بانکی ناشناخته است!'}
-              </p>
-            </div>
+        <CreditCardDropDown
+          className="lg:h-[50px] h-[45px] w-full"
+          placeholder="16 رقم شماره کارت را وارد نمایید"
+          value={creditCardVal}
+          reset={() => {
+            form.setValue('creditCard', undefined);
+            form.setValue('shabaNumber', undefined);
+            setCurrentCardOwner('');
+          }}
+          onValueChange={(card, shaba) => {
+            form.setValue('creditCard', card);
+            form.setValue('shabaNumber', shaba);
+          }}
+        />
+        <div className="flex items-center justify-start w-full gap-3">
+          <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
+            {!form.getFieldState('creditCard').invalid &&
+            !form.getFieldState('shabaNumber').invalid &&
+            bankInfo ? (
+              <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
+            ) : (
+              <IconsaxIcons name="Bank" color="currentColor" />
+            )}
           </div>
-          <button
-            {...getRootProps()}
-            className="flex items-center justify-start w-full gap-3 group"
+          <div className="overflow-hidden w-full">
+            <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
+              نام بانک
+            </span>
+            <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+              {!form.getFieldState('creditCard').invalid &&
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo
+                ? bankInfo?.name
+                : 'سیستم بانکی ناشناخته است!'}
+            </p>
+          </div>
+        </div>
+        <CreditCardDropDown
+          className="lg:h-[50px] h-[45px] w-full"
+          hasIRIcon
+          useSheba
+          side="top"
+          placeholder="24 رقم شماره شبا کارت را وارد نمایید"
+          value={shabaVal}
+          reset={() => {
+            form.setValue('creditCard', undefined);
+            form.setValue('shabaNumber', undefined);
+          }}
+          onValueChange={(card, shaba) => {
+            form.setValue('creditCard', card);
+            form.setValue('shabaNumber', shaba);
+          }}
+        />
+        <button
+          {...getRootProps()}
+          className="flex items-center justify-start w-full gap-3 group"
+        >
+          <input {...getInputProps()} hidden />
+          <div
+            className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden"
+            onClick={(e) => {
+              if (useUserImage) {
+                e.stopPropagation();
+                setUseUserImage(false);
+              }
+            }}
           >
-            <input {...getInputProps()} hidden />
-            <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden">
-              {acceptedFiles.length === 0 ? (
-                userInfo.image && useUserImage ? (
-                  <>
-                    <Image
-                      width={50}
-                      height={50}
-                      alt="عکس اپلود شده!"
-                      src={userInfo.image}
-                      className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
-                    />
-                    <div
-                      onClick={() => setUseUserImage(false)}
-                      className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0"
-                    >
-                      <IconsaxIcons
-                        name="Trash"
-                        className="w-[20px] h-[20px]"
-                        color="white"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <IconsaxIcons
-                    name="Image"
-                    color="currentColor"
-                    className="w-[20px] h-[20px]"
-                  />
-                )
-              ) : (
+            {acceptedFiles.length === 0 ? (
+              useUserImage && userImage ? (
                 <>
                   <Image
                     width={50}
                     height={50}
                     alt="عکس اپلود شده!"
-                    src={URL.createObjectURL(acceptedFiles[0])}
+                    src={userImage || ''}
                     className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
                   />
                   <div className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0">
@@ -284,40 +278,76 @@ export default function BankInfoForm({
                     />
                   </div>
                 </>
-              )}
-            </div>
-            <div className="overflow-hidden w-full">
-              <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-                آپلود عکس
-              </span>
-              <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                * حداکثر حجم کمتر از 10MB باشد
-              </p>
-            </div>
-          </button>
-          <div className="lg:flex hidden items-center justify-end">
-            <button
-              onClick={form.handleSubmit(submitHandleFunction, (errors) => {
-                const errorsArr = Object.values(errors);
-
-                errorsArr.forEach((item) => {
-                  const message = item.message;
-
-                  if (message) {
-                    toast({
-                      title: 'مشکلی در اعتبار سنجی رخ داد!',
-                      description: message,
-                      theme: 'theme',
-                    });
-                  }
-                });
-              })}
-              disabled={form.formState.isSubmitting}
-              className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
-            >
-              {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
-            </button>
+              ) : (
+                <IconsaxIcons
+                  name="Image"
+                  color="currentColor"
+                  className="w-[20px] h-[20px]"
+                />
+              )
+            ) : (
+              <>
+                <Image
+                  width={50}
+                  height={50}
+                  alt="عکس اپلود شده!"
+                  src={URL.createObjectURL(acceptedFiles[0])}
+                  className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
+                />
+                <div className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0">
+                  <IconsaxIcons
+                    name="Trash"
+                    className="w-[20px] h-[20px]"
+                    color="white"
+                  />
+                </div>
+              </>
+            )}
           </div>
+          <div className="overflow-hidden w-full">
+            <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
+              آپلود عکس
+            </span>
+            <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+              * حداکثر حجم کمتر از 10MB باشد
+            </p>
+          </div>
+        </button>
+        <NormalInput
+          placeholder="آدرس مسکونی "
+          error={form.formState.errors.address?.message}
+          noErrorText
+          {...form.register('address')}
+        />
+        <NormalInput
+          placeholder="نام صاحب کارت"
+          noErrorText
+          disabled
+          className="disabled:opacity-100"
+          value={currentCardOwner}
+        />
+        <div>
+          <button
+            onClick={form.handleSubmit(submitHandleFunction, (errors) => {
+              const errorsArr = Object.values(errors);
+
+              errorsArr.forEach((item) => {
+                const message = item.message;
+
+                if (message) {
+                  toast({
+                    title: 'مشکلی در اعتبار سنجی رخ داد!',
+                    description: message,
+                    theme: 'theme',
+                  });
+                }
+              });
+            })}
+            disabled={form.formState.isSubmitting}
+            className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
+          >
+            {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
+          </button>
         </div>
       </div>
     </div>

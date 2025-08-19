@@ -23,6 +23,11 @@ import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
 import Cookies from 'js-cookie';
+import {
+  isShebaValid,
+  verifyCardNumber,
+  verifyIranianNationalId,
+} from '@persian-tools/persian-tools';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -38,7 +43,10 @@ const personalFormSchema = z.object({
 
   meliCode: z
     .string()
-    .length(10, { message: 'کد ملی باید دقیقاً ۱۰ رقم باشد' }),
+    .length(10, { message: 'کد ملی باید دقیقاً ۱۰ رقم باشد' })
+    .refine((value) => verifyIranianNationalId(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    }),
 
   tell: z.string().regex(/^09\d{9}$/, {
     message: 'شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد',
@@ -60,12 +68,18 @@ const personalFormSchema = z.object({
   creditCard: z
     .string()
     .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .refine((value) => verifyCardNumber(Number(value)), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
   shabaNumber: z
     .string()
     .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .refine((value) => isShebaValid(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
   address: z
@@ -81,17 +95,9 @@ const legalFormSchema = z.object({
     .string()
     .min(2, { message: 'نام شرکت باید حداقل ۲ حرف باشد' })
     .max(64, { message: 'نام شرکت نباید بیشتر از ۶۴ حرف باشد' }),
-
   id: z
     .string()
-    .length(11, { message: 'شناسه ملی باید دقیقاً ۱۱ رقم باشد' })
-    .regex(/^[1-9][0-9]{10}$/, {
-      message: 'شناسه ملی باید عددی و با رقم غیر صفر شروع شود',
-    })
-    .refine((val) => !/^(\d)\1+$/.test(val), {
-      message: 'شناسه ملی معتبر نیست',
-    }),
-
+    .length(11, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' }),
   registrationId: z
     .string()
     .min(1, { message: 'شماره ثبت الزامی است' })
@@ -120,16 +126,21 @@ const legalFormSchema = z.object({
     .length(10, { message: 'کد پستی باید دقیقاً ۱۰ رقم باشد' })
     .or(z.literal(''))
     .optional(),
-
   creditCard: z
     .string()
     .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
+    .refine((value) => verifyCardNumber(Number(value)), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
   shabaNumber: z
     .string()
     .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
+    .refine((value) => isShebaValid(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
 
@@ -150,6 +161,8 @@ export default function ProfilePage(): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
   const userInfo = useUserInfo();
+  const [legalUserImage, setLegalUserImage] = useState<string | undefined>();
+  const [userImage, setUserImage] = useState<string | undefined>();
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
 
@@ -189,11 +202,17 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
     personalForm.setValue('tell', savedTellNumber);
-    personalForm.setValue('shabaNumber', creditCard ? creditCard.iban : '');
-    personalForm.setValue(
-      'creditCard',
-      creditCard ? creditCard.card_number : '',
-    );
+    setUserImage(userInfo.image || '');
+
+    if (creditCard) {
+      if (
+        verifyCardNumber(Number(creditCard.card_number)) &&
+        isShebaValid(creditCard.iban)
+      ) {
+        personalForm.setValue('creditCard', creditCard.card_number);
+        personalForm.setValue('shabaNumber', creditCard.iban);
+      }
+    }
   }, [personalForm, userInfo]);
 
   // Fetching stuff
@@ -211,9 +230,11 @@ export default function ProfilePage(): ReactNode {
     if (
       legalUserFetching &&
       legalUserFetching.data &&
-      !legalUserFetching.isLoading
+      !legalUserFetching.isLoading &&
+      !legalUserFetching.isRefetching
     ) {
       const legalInfo = legalUserFetching.data;
+      const firstCard = legalInfo.card_numbers[0];
 
       legalForm.setValue('name', legalInfo.organization_name);
       legalForm.setValue('id', legalInfo.national_id);
@@ -223,13 +244,18 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
       legalForm.setValue('tell', savedTellNumber);
-      legalForm.setValue('shabaNumber', creditCard ? creditCard.iban : '');
-      legalForm.setValue(
-        'creditCard',
-        creditCard ? creditCard.card_number : '',
-      );
+      setLegalUserImage(legalInfo.image || '');
+      if (firstCard) {
+        if (
+          verifyCardNumber(Number(firstCard.card_number)) &&
+          isShebaValid(firstCard.iban)
+        ) {
+          legalForm.setValue('creditCard', firstCard.card_number);
+          legalForm.setValue('shabaNumber', firstCard.iban);
+        }
+      }
     }
-  }, [legalForm, legalUserFetching.isLoading]);
+  }, [legalForm, legalUserFetching.isLoading, legalUserFetching.isRefetching]);
 
   // Returning JSX
   return (
@@ -272,23 +298,30 @@ export default function ProfilePage(): ReactNode {
             <CartBalance hasMobileView />
             <SubscriptionType />
             <PersonalInfoForm className="lg:col-span-2" form={personalForm} />
-            <BankInfoForm className="lg:col-span-2" form={personalForm} />
+            <BankInfoForm
+              className="lg:col-span-2"
+              form={personalForm}
+              userImage={userImage}
+            />
             <Description className="lg:col-span-4" />
           </>
         ) : (
           <>
             <LegalBankInfo
+              userImage={legalUserImage}
               loading={legalUserFetching.isLoading}
               className="lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide"
               form={legalForm}
+              creditCards={legalUserFetching.data?.card_numbers || []}
+              refetch={legalUserFetching.refetch}
             />
             <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">
               <Upload
                 onChange={(file) => setFile(file)}
-                className="lg:w-[50%] w-full lg:h-auto h-[350px]"
+                className="lg:w-[50%] w-full lg:h-[400px]"
                 fetchURL="/juridical-profile-documents/"
               />
-              <LegalNotes className="lg:w-[50%] w-full" />
+              <LegalNotes className="lg:w-[50%] w-full lg:h-[400px]" />
             </div>
           </>
         )}

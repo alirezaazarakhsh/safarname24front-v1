@@ -7,12 +7,14 @@ import {
   SetStateAction,
   SVGProps,
 } from 'react';
-import { IconsName } from '../SvgProp';
+import { IconsaxIconsPropsType, IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
-  GETCustomerClubRoomList,
-  GETCustomerClubShoppingCentreList,
+  GETCustomerClubListItem,
+  GETCustomerClubRoomListItem,
+  GETCustomerClubShoppingCentreListItem,
+  GETLegalProfile,
   GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
@@ -381,22 +383,33 @@ export interface ToggleButtonsPropsType {
 export interface CustomersClubTablePropsType {
   className?: string;
   loading?: boolean;
-  data?: GETCustomerClubShoppingCentreList;
+  data?: GETCustomerClubShoppingCentreListItem[];
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
+  refetch?: () => void;
 }
 
 export interface RoomTablePropsType {
   className?: string;
   loading?: boolean;
-  data?: GETCustomerClubRoomList;
+  data?: GETCustomerClubRoomListItem[];
+  refetch?: () => void;
+  paginationCount?: number;
+  paginationActiveIndex: number;
+  setPaginationActiveIndex: Dispatch<SetStateAction<number>>;
 }
 
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
   setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
   setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
+  type: 'room' | 'shoppingCentre';
+  code: string;
+  rules?: string;
 }
 
 export interface CustomerClubListTablePropsType {
-  data: GETCustomerClubShoppingCentreList[];
+  data: GETCustomerClubListItem[];
   className?: string;
   loading?: boolean;
   activeIndex?: number;
@@ -481,7 +494,6 @@ export interface PassengersTableComponentPropsType {
 export interface EditPassengerDialogPropsType extends DialogComponentPropsType {
   data?: GETPassengerItem;
   id?: number;
-  phoneNumbers: string[];
 }
 
 export interface DialogInputPassengersComponentPropsType
@@ -525,12 +537,16 @@ export interface NormalInputComponentPropsType
 export interface BankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<personalFormType>;
+  userImage?: string;
 }
 
 export interface LegalBankInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<legalFormType>;
   loading: boolean;
+  userImage?: string;
+  refetch?: () => void;
+  creditCards?: GETLegalProfile['card_numbers'];
 }
 
 export interface LegalInfoFormComponentPropsType {
@@ -559,21 +575,15 @@ export interface EmptyTableComponentPropsType {
 }
 
 export interface UploadSheetComponentPropsType {
-  fetchURL?: string;
+  files: File[];
+  onDelete?: (index: number) => void;
 }
 
 export interface UploadedFileComponentPropsType {
   isLastItem?: boolean;
   index: number;
-  isLoading?: boolean;
-  onDelete?: () => void;
-  fetchURL?: string;
-  refetch?: () => void;
-  data?: {
-    name: string;
-    id: number;
-    size?: number;
-  };
+  onDelete?: (index: number) => void;
+  data?: File;
 }
 
 export type BankNameType =
@@ -619,7 +629,8 @@ export type BankNameType =
   | 'mehr-eghtesaad'
   | 'ghavamin'
   | 'hekmat'
-  | 'ansar';
+  | 'ansar'
+  | 'unknown';
 
 export interface BankIconPropsType extends SVGProps<SVGSVGElement> {
   name: BankNameType;
@@ -639,6 +650,11 @@ export interface CreditCardInputPropsType
 
 export interface CreditCardDropDownPropsType
   extends ButtonHTMLAttributes<HTMLButtonElement> {
+  useLegalInfo?: {
+    id: number;
+    card_number: string;
+    iban: string;
+  }[];
   placeholder?: string;
   value?: string;
   side?: 'top' | 'bottom';
@@ -646,4 +662,41 @@ export interface CreditCardDropDownPropsType
   hasIRIcon?: boolean;
   useSheba?: boolean;
   reset?: () => void;
+}
+
+export interface CustomerClubGiftGainedPropsType
+  extends DialogComponentPropsType {
+  code: string;
+}
+
+export interface TicketsSettingItemPropsType {
+  className?: string;
+  title: string;
+  subTitle: string;
+  icon: IconsName;
+  size?: 'lg' | 'sm';
+  disabled?: boolean;
+  onClick?: () => void;
+}
+
+export interface TicketsDateSepratorPropsType {
+  date: string;
+  className?: string;
+}
+
+export interface TicketsSendMessagePropsType {
+  className?: string;
+  disabled?: boolean;
+}
+
+export interface TicketItemPropsType {
+  className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  data?: {
+    img?: string;
+    title: string;
+    subTitle: string;
+    createdAt: string;
+  };
 }
