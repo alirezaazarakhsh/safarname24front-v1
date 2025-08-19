@@ -64,6 +64,7 @@ export default function AddPassengersDialog({
   // Defining hooks
   const [errorOpened, setErrorOpened] = useState<boolean>(false);
   const [successOpened, setSuccessOpened] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>('');
 
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
@@ -112,6 +113,9 @@ export default function AddPassengersDialog({
         message: 'این شماره تلفن ثبلا به ثبت رسیده.',
       });
     } else {
+      setUserName(
+        `${form.getValues('firstName')} ${form.getValues('lastName')}`,
+      );
       await addNewPassenger.mutateAsync({
         first_name: data.firstName,
         last_name: data.lastName,
@@ -127,19 +131,19 @@ export default function AddPassengersDialog({
       open={isOpened}
       onOpenChange={(open) => {
         !open && closeFn && closeFn();
+        setUserName('');
         form.reset({
           firstName: '',
           lastName: '',
           nationalOrPassportCode: '',
           phoneNumber: '',
         });
-
       }}
     >
       <PassengerAddedSucessDialog
         isOpened={successOpened}
         closeFn={() => setSuccessOpened(false)}
-        infos={[`${form.getValues('firstName')} ${form.getValues('lastName')}`]}
+        infos={[userName]}
       />
       <PassengerAddedErrorDialog
         isOpened={errorOpened}

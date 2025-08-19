@@ -65,6 +65,24 @@ export default function PassengersTable({
           className,
         )}
       >
+        <EditPassengersDialog
+          isOpened={editDialogOpened}
+          data={editingDialogInfo}
+          refetch={refetch}
+          closeFn={() => {
+            setEditDialogOpened(false);
+            setEditDialogInfo(undefined);
+          }}
+        />
+        <DeletePassangerDialog
+          id={deleteItemId}
+          isOpened={deleteDialogOpened}
+          refetch={refetch}
+          closeFn={() => {
+            setDeleteDialogOpened(false);
+            setDeleteItemId(undefined);
+          }}
+        />
         <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-[20px]">
           <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
             مشتری گرامی در این لیست شما دسترسی به تمام اطلاعات مسافران خود
