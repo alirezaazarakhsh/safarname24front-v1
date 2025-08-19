@@ -41,10 +41,10 @@ const forceLogout = () => {
   if (logoutCalled) return;
   logoutCalled = true;
 
-  const isAlreadyOnAuthPage = window.location.pathname === '/';
-  if (!isAlreadyOnAuthPage) {
-    window.location.href = '/';
-  }
+  // const isAlreadyOnAuthPage = window.location.pathname === '/';
+  // if (!isAlreadyOnAuthPage) {
+  //   window.location.href = '/';
+  // }
 };
 
 // REQUEST Interceptor
