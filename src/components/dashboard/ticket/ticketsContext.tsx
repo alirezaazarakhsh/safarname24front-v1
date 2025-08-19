@@ -14,11 +14,30 @@ import TicketItem from './ticketItem';
 import EmptyImage from '../../../../public/image/empty.png';
 import SelectDepartmentDialog from './dialog/selectDepartmentDialog';
 
+// Defining fake data to render
+const tickets = [
+  {
+    id: 2,
+    user: {
+      img: Avatar.src,
+      name: 'محمد علی کلی',
+      status: 'صحبتی ایجاد نشده',
+      lastSeen: new Date().toISOString(),
+      role: 'مدیر',
+    },
+    messages: [],
+  },
+];
+
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext(): ReactNode {
   // Defining hooks
   const [rightLayoutSize, setRightLayoutSize] = useState<'sm' | 'lg'>('lg');
   const [modalOpened, setModalOpened] = useState<boolean>(false);
+  const [selectedTicket, setSelectedTicket] = useState<number | undefined>();
+
+  // Defining variables
+  const foundedTicketItem = tickets.find((item) => item.id === selectedTicket);
 
   // Returning JSX
   return (
@@ -38,15 +57,15 @@ export default function TicketsContext(): ReactNode {
             width={100}
             height={100}
             alt="پروفایل کاریر"
-            src={Avatar.src}
+            src={foundedTicketItem ? foundedTicketItem.user.img : Avatar.src}
             className="group-data-[size=sm]:size-[50px] group-data-[size=lg]:size-[75px] aspect-square mb-4 block mx-auto transition-all duration-500 object-cover rounded-full"
           />
           <span className="text-cs95 font-bold text-black text-center truncate block">
-            نامعلوم
+            {foundedTicketItem ? foundedTicketItem.user.name : 'نامعلوم'}
           </span>
           {rightLayoutSize === 'lg' && (
             <span className="text-cs85 font-medium text-black/70 text-center truncate block  mt-1">
-              بخش دپارتمان سفرنامه
+              {foundedTicketItem ? foundedTicketItem.user.role : 'نامعلوم'}
             </span>
           )}
         </div>
@@ -114,7 +133,9 @@ export default function TicketsContext(): ReactNode {
       <div className="border-x border-x-black/10 group-data-[size=sm]:w-[65%] group-data-[size=lg]:w-[50%] transition-all duration-500 p-[24px] flex flex-col gap-[24px]">
         <div className="flex items-center justify-between gap-3 shrink-0 w-full">
           <span className="text-cs95 font-bold text-black text-start truncate block flex-1">
-            بخش دپارتمان سفرنامه
+            {foundedTicketItem
+              ? foundedTicketItem.user.name
+              : 'بخش دپارتمان سفرنامه'}
           </span>
           <div className="flex items-center justify-end gap-3 shrink-0">
             <button>
@@ -138,16 +159,21 @@ export default function TicketsContext(): ReactNode {
           </div>
         </div>
         <div className="p-[24px] flex flex-col gap-4 rounded-lg h-full w-full bg-gray-50 overflow-auto relative">
-          <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-gray-200 overflow-auto custom-scrollbar">
-            <IconsaxIcons
-              name="EmojiSad"
-              color="currentColor"
-              className="size-32"
-            />
-          </div>
+          {!foundedTicketItem && (
+            <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-gray-200 overflow-auto custom-scrollbar">
+              <IconsaxIcons
+                name="EmojiSad"
+                color="currentColor"
+                className="size-32"
+              />
+            </div>
+          )}
           <DateSeprator date={new Date().toISOString()} />
         </div>
-        <SendMessage className="shrink-0 w-full" disabled />
+        <SendMessage
+          className="shrink-0 w-full"
+          disabled={!foundedTicketItem}
+        />
       </div>
       <div className="w-[25%] flex flex-col">
         <div className="p-[24px] shrink-0 border-b border-b-black/10">
@@ -158,31 +184,60 @@ export default function TicketsContext(): ReactNode {
             ثبت تیکت جدید
           </Button>
         </div>
-        <div className="shrink-0 border-b border-b-black/10 py-[24px]  overflow-auto custom-scrollbar h-[200px]">
+        <div className="shrink-0 border-b border-b-black/10 py-[24px]  overflow-auto custom-scrollbar h-[150px]">
           <div className="px-[24px]">
             <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
               تیکت های حال حاضر
             </span>
           </div>
           <div className="flex flex-col gap-3 px-[12px]">
-            <TicketItem disabled />
+            {tickets.map((item, index) => (
+              <TicketItem
+                key={index}
+                onClick={() => setSelectedTicket(item.id)}
+                className={selectedTicket === item.id ? 'bg-gray-100' : ''}
+                data={{
+                  createdAt: item.user.lastSeen,
+                  subTitle: item.user.status,
+                  title: item.user.name,
+                  img: item.user.img,
+                }}
+              />
+            ))}
           </div>
         </div>
-        <div className="h-full flex items-center justify-center p-[24px] overflow-auto custom-scrollbar flex-col">
-          <Image
-            alt="هیچ لیست رزروی فعلا ندارید!"
-            src={EmptyImage.src}
-            width={500}
-            height={500}
-            className="w-[50%] aspect-square block mb-2 mx-auto"
-          />
-          <span className="block text-center w-full text-black text-[12px] mb-2 font-bold truncate">
-            تیکت های گذشته
-          </span>
-          <span className="block text-center w-full text-gray-500 text-[10px] font-normal truncate">
-            مشتری گرامی تیکتی در گذشته ندارید!
-          </span>
-        </div>
+        {tickets.length === 0 ? (
+          <div className="h-full flex items-center justify-center p-[24px] overflow-auto custom-scrollbar flex-col">
+            <Image
+              alt="هیچ لیست رزروی فعلا ندارید!"
+              src={EmptyImage.src}
+              width={500}
+              height={500}
+              className="w-[50%] aspect-square block mb-2 mx-auto"
+            />
+            <span className="block text-center w-full text-black text-[12px] mb-2 font-bold truncate">
+              تیکت های گذشته
+            </span>
+            <span className="block text-center w-full text-gray-500 text-[10px] font-normal truncate">
+              مشتری گرامی تیکتی در گذشته ندارید!
+            </span>
+          </div>
+        ) : (
+          <div className="h-full flex flex-col gap-3 p-[12px] overflow-auto custom-scrollbar">
+            {tickets.map((item, index) => (
+              <TicketItem
+                key={index}
+                onClick={() => setSelectedTicket(item.id)}
+                data={{
+                  createdAt: item.user.lastSeen,
+                  subTitle: item.user.role,
+                  title: item.user.name,
+                  img: item.user.img,
+                }}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

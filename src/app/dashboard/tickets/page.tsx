@@ -3,7 +3,7 @@
 
 // Importing part
 import TicketsContext from '@/components/dashboard/ticket/ticketsContext';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 
 // Creating and exporting tickets page as default
 export default function TicketsPage(): ReactNode {
