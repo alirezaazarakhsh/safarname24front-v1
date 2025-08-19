@@ -166,9 +166,6 @@ export default function ProfilePage(): ReactNode {
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
 
-  const [legalAccountBannedDialogOpened, setLegalAccountBannedDialogOpened] =
-    useState<boolean>(false);
-
   const [
     personalAccountBannedDialogOpened,
     setPersonalAccountBannedDialogOpened,
@@ -260,10 +257,6 @@ export default function ProfilePage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
-      <LegalAccountBannedDialog
-        isOpened={legalAccountBannedDialogOpened}
-        closeFn={() => setLegalAccountBannedDialogOpened(false)}
-      />
       <PersonalAccountBannedDialog
         isOpened={personalAccountBannedDialogOpened}
         closeFn={() => setPersonalAccountBannedDialogOpened(false)}

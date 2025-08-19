@@ -21,6 +21,7 @@ import { BankInfo } from '@/types/utils';
 import BankIcon from '../../ui/bankIcon';
 import CreditCardDropDown from '../creditCardDropdown';
 import Tooltip from '../../ui/tooltip';
+import LegalAccountBannedDialog from '../dialog/legalAccountBannedDialog';
 
 // Creating and exporting LegalBankInfo component as default
 export default function LegalBankInfo({
@@ -36,6 +37,10 @@ export default function LegalBankInfo({
   const [file, setFile] = useState<File | undefined>();
   const [useUserImage, setUseUserImage] = useState<boolean>(true);
   const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
+  useState<boolean>(false);
+  const [legalAccountBannedDialogOpened, setLegalAccountBannedDialogOpened] =
+    useState<boolean>(false);
+
   const [currentCardOwner, setCurrentCardOwner] = useState<
     string | undefined
   >();
@@ -172,6 +177,10 @@ export default function LegalBankInfo({
           />
         </>
       )}
+      <LegalAccountBannedDialog
+        isOpened={legalAccountBannedDialogOpened}
+        closeFn={() => setLegalAccountBannedDialogOpened(false)}
+      />
       <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
         <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
           {loading ? (
@@ -447,6 +456,10 @@ export default function LegalBankInfo({
             }
           >
             <div
+              onClick={() =>
+                userStatus.status === 'rejected' &&
+                setLegalAccountBannedDialogOpened(true)
+              }
               className={cn(
                 'size-[50px] aspect-square flex items-center justify-center  border overflow-hidden rounded-lg shrink-0 cursor-pointer',
                 userStatus.status === 'checking'
