@@ -34,9 +34,11 @@ const forceLogout = () => {
   clearAuth();
   if (logoutCalled) return;
   logoutCalled = true;
-  if (window.location.pathname !== '/') {
-    window.location.href = '/';
-  }
+
+  // const isAlreadyOnAuthPage = window.location.pathname === '/';
+  // if (!isAlreadyOnAuthPage) {
+  //   window.location.href = '/';
+  // }
 };
 
 // REQUEST interceptor → attach token if exists

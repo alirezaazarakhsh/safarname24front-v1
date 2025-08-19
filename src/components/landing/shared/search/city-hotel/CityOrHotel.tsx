@@ -1,20 +1,22 @@
 import {
+  Sheet,
+  SheetTitle,
+  SheetTrigger,
+  SheetContent,
+} from '@/components/ui/sheet';
+
+import {
   DropdownMenu,
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
 
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from '@/hooks';
+import { useHotelOrCityContext, useHotelOrCityDispatch } from '@/context';
+
 import CityOrHotelContent from './CityOrHotelContent';
-import { useSearchContext } from '@/context/SearchContext';
-import {
-  Sheet,
-  SheetTrigger,
-  SheetTitle,
-  SheetContent,
-} from '@/components/ui/sheet';
 import CityOrHotelTrigger from './CityOrHotelTrigger';
+import { useSearchParams } from 'next/navigation';
 
 type CommonProps = {
   sideOffset?: number;
@@ -35,18 +37,29 @@ type Props =
 
 export default function CityOrHotel(props: Props) {
   const {
-    triggerType = 'else',
-    alignOffset,
     sideOffset,
+    alignOffset,
     scrollBehavior,
+    triggerType = 'else',
   } = props;
 
+  const searchParams = useSearchParams();
   const [isOpen, setOpen] = useState(false);
+  const dispatch = useHotelOrCityDispatch();
+  const { confirmedValue } = useHotelOrCityContext();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-  const {
-    cityOrHotel: { confirmedValues, inputValue, values },
-  } = useSearchContext();
+  useEffect(() => {
+    const city = searchParams.get('city');
+    const province = searchParams.get('province');
+
+    if (city && province) {
+      dispatch({
+        type: 'first-render',
+        payload: { city, province },
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -54,21 +67,21 @@ export default function CityOrHotel(props: Props) {
         // === Small-Device
         <Sheet open={isOpen} onOpenChange={setOpen}>
           <SheetTrigger className="bg-zinc-200/50 text-zinc-600 text-cs08 font-semibold h-12 px-5 rounded-cs-10">
-            {confirmedValues.city ? (
+            {confirmedValue.city ? (
               <div className="flex items-center gap-1">
-                {confirmedValues.hotel ? (
+                {confirmedValue.hotel ? (
                   <>
                     <span>هتل</span>
-                    <span>{confirmedValues.hotel}</span>
+                    <span>{confirmedValue.hotel}</span>
                     <span>-</span>
-                    <span>{confirmedValues.city}</span>
+                    <span>{confirmedValue.city}</span>
                   </>
                 ) : (
                   <>
-                    <span>{confirmedValues.city}</span>
+                    <span>{confirmedValue.city}</span>
                     <span>-</span>
                     <span>استان</span>
-                    <span>{confirmedValues.province}</span>
+                    <span>{confirmedValue.province}</span>
                   </>
                 )}
               </div>
@@ -83,7 +96,7 @@ export default function CityOrHotel(props: Props) {
           <SheetContent
             side={'left'}
             aria-describedby={undefined}
-            className="bg-[#f8f8f8] w-full h-dvh pt-8 grid grid-rows-[auto_auto_auto_1fr_3rem] gap-0 border-none"
+            className="bg-[#f8f8f8] w-full h-dvh pt-6 grid grid-rows-[auto_auto_1fr_auto] gap-0 border-none"
           >
             <SheetTitle className="hidden" />
             <CityOrHotelContent
@@ -114,7 +127,7 @@ export default function CityOrHotel(props: Props) {
             sideOffset={sideOffset}
             avoidCollisions={false}
             alignOffset={alignOffset}
-            className="w-[21rem] max-h-[28rem] z-10 p-5 rounded-xl shadow-[0_0.5rem_2rem_rgba(0,0,0,0.06)]"
+            className="w-[21rem] max-h-[28rem] z-10 rounded-xl shadow-[0_0.5rem_2rem_rgba(0,0,0,0.06)]"
           >
             <CityOrHotelContent
               isOpen={isOpen}

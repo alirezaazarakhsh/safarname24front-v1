@@ -3,17 +3,17 @@
 import {
   DatePickerProvider,
   PassengersProvider,
-  SearchSettingProvider,
+  HotelOrCityProvider,
 } from '@/context';
+
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { Suspense, useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import AuthHandler from './AuthHandler';
 import { generalInstance } from '@/utils/services';
-import { Suspense, useEffect, useState } from 'react';
-import { SearchProvider } from '@/context/SearchContext';
-
 import { UserAccountProvider } from '@/context/UserAccountContext';
 import { ComingSoon } from '@/components/landing/modules/coming-soon';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 type ApiResponse = {
   data: { data: { is_active: boolean } };
@@ -57,18 +57,16 @@ export default function MainWrapper(props: Props) {
         <ComingSoon />
       ) : (
         <UserAccountProvider>
-          <SearchSettingProvider>
+          <HotelOrCityProvider>
             <DatePickerProvider>
               <PassengersProvider>
-                <SearchProvider>
-                  <Suspense fallback={null}>
-                    <AuthHandler />
-                  </Suspense>
-                  {props.children}
-                </SearchProvider>
+                <Suspense fallback={null}>
+                  <AuthHandler />
+                </Suspense>
+                <NuqsAdapter>{props.children}</NuqsAdapter>
               </PassengersProvider>
             </DatePickerProvider>
-          </SearchSettingProvider>
+          </HotelOrCityProvider>
         </UserAccountProvider>
       )}
     </QueryClientProvider>

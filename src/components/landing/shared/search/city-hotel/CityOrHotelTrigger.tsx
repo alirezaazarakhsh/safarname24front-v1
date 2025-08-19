@@ -1,7 +1,6 @@
 import { useRef } from 'react';
-
 import { useScrollPosition } from '@/hooks';
-import { useSearchContext } from '@/context/SearchContext';
+import { useHotelOrCityContext } from '@/context';
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 type CommonProps = {
@@ -24,11 +23,8 @@ type Props =
 export default function CityOrHotelTrigger(props: Props) {
   const { type, isOpen, handleSetOpen, scrollBehavior } = props;
 
-  const {
-    cityOrHotel: { confirmedValues },
-  } = useSearchContext();
-
   const scrollPosition = useScrollPosition();
+  const { confirmedValue } = useHotelOrCityContext();
   const delayRef = useRef<NodeJS.Timeout | null>(null);
 
   // === Handle Trigger-OnClick
@@ -59,20 +55,20 @@ export default function CityOrHotelTrigger(props: Props) {
               انتخاب شهر یا هتل
             </span>
 
-            {confirmedValues.city ? (
+            {confirmedValue.city ? (
               <div className="text-zinc-500 text-cs08 font-semibold flex items-center gap-1">
-                {confirmedValues.hotel ? (
+                {confirmedValue.hotel ? (
                   <>
                     <span>هتل</span>
-                    <span>{confirmedValues.hotel}</span>
+                    <span>{confirmedValue.hotel}</span>
                     <span>-</span>
-                    <span>{confirmedValues.city}</span>
+                    <span>{confirmedValue.city}</span>
                   </>
                 ) : (
                   <>
-                    <span>{confirmedValues.city}</span>
+                    <span>{confirmedValue.city}</span>
                     <span>-</span>
-                    <span>{confirmedValues.province}</span>
+                    <span>{confirmedValue.province}</span>
                   </>
                 )}
               </div>
@@ -90,21 +86,21 @@ export default function CityOrHotelTrigger(props: Props) {
             </span>
 
             <div className="bg-zinc-200/50 w-full h-12 font-semibold px-4 flex items-center gap-0.5 rounded-lg">
-              {confirmedValues.city ? (
+              {confirmedValue.city ? (
                 <div className="text-zinc-700 flex items-center gap-1">
-                  {confirmedValues.hotel ? (
+                  {confirmedValue.hotel ? (
                     <>
                       <span>هتل</span>
-                      <span>{confirmedValues.hotel}</span>
+                      <span>{confirmedValue.hotel}</span>
                       <span>-</span>
-                      <span>{confirmedValues.city}</span>
+                      <span>{confirmedValue.city}</span>
                     </>
                   ) : (
                     <>
-                      <span>{confirmedValues.city}</span>
+                      <span>{confirmedValue.city}</span>
                       <span>-</span>
                       <span>استان</span>
-                      <span>{confirmedValues.province}</span>
+                      <span>{confirmedValue.province}</span>
                     </>
                   )}
                 </div>

@@ -46,7 +46,7 @@ export function Pictures(props: Props) {
     <>
       {/* Small-Device */}
       {status === 'pending' ? (
-        <Skeleton className="h-52 xl:hidden rounded-xl" />
+        <Skeleton className="h-52 xl:hidden rounded-cs-10" />
       ) : (
         <div className="bg-white h-52 p-2 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.06)] xl:hidden">
           <Swiper
@@ -96,7 +96,7 @@ export function Pictures(props: Props) {
               {Array(4)
                 .fill(null)
                 .map((_, index) => (
-                  <Skeleton key={index} />
+                  <Skeleton key={index} className='rounded-xl' />
                 ))}
             </>
           ) : (
@@ -123,7 +123,7 @@ export function Pictures(props: Props) {
 
         {/* Main-Image */}
         {status === 'pending' ? (
-          <Skeleton />
+          <Skeleton className='rounded-xl' />
         ) : (
           <div className="relative bg-zinc-200 overflow-hidden rounded-xl">
             {data?.data.main_image && (

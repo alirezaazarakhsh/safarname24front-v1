@@ -53,7 +53,7 @@ export default function PassengersTrigger(props: Props) {
   }
 
   return (
-    <DropdownMenuTrigger asChild className="w-full">
+    <DropdownMenuTrigger asChild>
       <button onPointerDown={(e) => handleDropDownTrigger(e)}>
         {type === 'home' ? (
           <div className="flex flex-col items-start gap-y-2">
@@ -61,7 +61,7 @@ export default function PassengersTrigger(props: Props) {
               مسافران
             </span>
 
-            {/* {confirmedPassengers.passengers ? (
+            {confirmedPassengers.passengers ? (
               <div className="text-zinc-500 text-cs08 font-semibold flex-center gap-0.5">
                 <span>{confirmedPassengers.passengers}</span>
                 <span>مسافر</span>
@@ -73,7 +73,7 @@ export default function PassengersTrigger(props: Props) {
               <span className="text-zinc-500 text-cs08 font-semibold">
                 تعداد مسافر و اتاق
               </span>
-            )} */}
+            )}
           </div>
         ) : (
           <div className="text-cs08 flex flex-col items-start gap-y-3">

@@ -4,10 +4,11 @@ import clsx from 'clsx';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { Heart } from 'iconsax-react';
+
+import AuthGuardReaction from './AuthGuardReaction';
 import { usePathname, useRouter } from 'next/navigation';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
-import AuthGuardReaction from './AuthGuardReaction';
 
 // --------------------------------------------
 
@@ -19,7 +20,7 @@ export default function UserFavorites() {
   const [guardIsOpen, setGuardIsOpen] = useState(false);
 
   function handleClick() {
-    const userIsLoggedIn = Cookies.get('AUTH');
+    const userIsLoggedIn = Cookies.get('auth');
     if (!userIsLoggedIn) setGuardIsOpen(true);
     else router.push('/dashboard/favorites');
   }

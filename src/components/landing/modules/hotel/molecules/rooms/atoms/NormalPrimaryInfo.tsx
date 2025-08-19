@@ -6,6 +6,7 @@ import { numberSeparation } from '@/utils';
 
 import DeadlineTimer from './DeadlineTimer';
 import PriceCalendar from '../price-calendar/PriceCalendar';
+import { InfoCircle } from 'iconsax-react';
 
 type Props = Room;
 
@@ -18,12 +19,12 @@ export default function NormalPrimaryInfo(props: Props) {
     night_count,
     price_calendar,
     price: {
-      discount_amount,
-      discount_date,
-      discount_percentage,
-      is_fixed_discount_one_time,
       total_price,
+      discount_date,
+      discount_amount,
+      discount_percentage,
       total_price_discount,
+      is_fixed_discount_one_time,
     },
   } = props;
 
@@ -38,8 +39,16 @@ export default function NormalPrimaryInfo(props: Props) {
         <div className="p-5 grid grid-cols-[2fr_1fr] gap-3">
           {is_fixed_discount_one_time && (
             <div className="bg-zinc-100 h-11 flex-center gap-1 col-span-2 rounded-lg">
+              <button className="relative ml-1 rounded-full group">
+                <InfoCircle size={16} color="#666" />
+
+                <span className="bg-cs-dark-blue text-zinc-100 font-medium w-60 text-right px-3 py-2 absolute -top-14 right-0 transition-all ease-in-out rounded-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:-top-16">
+                  این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر میگردد
+                </span>
+              </button>
+
               <span>{numberSeparation(discount_amount)}</span>
-              <span>هزار تومن تخفیف هنگام خرید</span>
+              <span>تومن تخفیف هنگام خرید</span>
             </div>
           )}
 
@@ -149,7 +158,7 @@ export default function NormalPrimaryInfo(props: Props) {
                 <div className="w-max h-10 bg-red-100 text-cs-red text-cs07 px-4 flex-center gap-1 rounded-lg">
                   <span>به ارزش قیمت : </span>
                   <span>
-                    {numberSeparation(total_price - total_price_discount)}
+                    {numberSeparation(discount_amount)}
                   </span>
                   <span>تومان</span>
                 </div>

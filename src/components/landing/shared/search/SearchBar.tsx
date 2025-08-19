@@ -4,13 +4,9 @@ import { useState } from 'react';
 import SearchBarTrigger from './SearchBarTrigger';
 import SearchBarContent from './SearchBarContent';
 
-type Props = {
-  triggerType?: 'box' | 'none-box';
-};
-
 // -----------------------------------------------
 
-export default function SearchBar(props: Props) {
+export default function SearchBar() {
   const [isOpen, setOpen] = useState(false);
 
   return (

@@ -64,7 +64,7 @@ export function DFacilities(props: Props) {
         />
       </div>
 
-      <div className="relative bg-white h-56 p-5 flex border-2 overflow-hidden rounded-2xl lg:h-48">
+      <div className="relative bg-white h-56 p-5 flex border overflow-hidden rounded-2xl lg:h-48">
         {/* === Content */}
         <Swiper
           spaceBetween={15}

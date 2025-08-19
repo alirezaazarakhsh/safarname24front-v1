@@ -32,8 +32,8 @@ export default function CalendarCard(props: Props) {
                 {numberSeparation(price?.price_after_discount)}
               </span>
               <span>تومان</span>
-              <span className="md:hidden">-</span>
-              <span className="md:hidden">%{price?.discount_percentage}</span>
+              <span>-</span>
+              <span>%{price?.discount_percentage}</span>
             </>
           ) : (
             <>

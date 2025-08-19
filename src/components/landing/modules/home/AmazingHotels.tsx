@@ -85,7 +85,7 @@ export function AmazingHotels() {
               key={index}
               className="max-w-72 pb-4 select-none xl:max-w-full"
             >
-              <SuggestedHotel hotel={hotel} />
+              <SuggestedHotel hotel={hotel} showLike={false} />
             </SwiperSlide>
           ))}
         </Swiper>

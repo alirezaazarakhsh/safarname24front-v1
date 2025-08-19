@@ -12,6 +12,7 @@ import {
   InitialInformation,
   RulesAndRegulations,
   FrequentlyQuestions,
+  SuggestedHotels,
 } from '@/components/landing/modules/hotel';
 
 import { hotel } from '@/constants/landing';
@@ -28,14 +29,12 @@ import FavoriteButton from '@/components/landing/modules/hotel/molecules/Favorit
 import MImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/MImageGallery';
 import DImageGallery from '@/components/landing/modules/hotel/molecules/image-gallery/DImageGallery';
 
-type Props = {
-  params: Promise<{ hotel: string }>;
-};
+type Props = { params: Promise<{ hotel: string }> };
 
 // ----------------------------------
 
 export default async function Hotel(props: Props) {
-  const { initialInfo, sectionLinks } = hotel;
+  const { sectionLinks } = hotel;
   const { hotel: hotelSlug } = await props.params;
 
   return (
@@ -43,19 +42,19 @@ export default async function Hotel(props: Props) {
       <HotelWrapper>
         <StickyArea
           scrollFromTop={500}
-          showInStatic={false}
           fixedClassName="pb-0"
           staticClassName="mt-5"
+          childrenStatus={{ fixed: true }}
+          searchbarStatus={{ static: true, fixed: true }}
         >
           <div className="-mx-5 -mt-2">
             <SectionLinks sectionList={sectionLinks} />
           </div>
         </StickyArea>
 
-        <div className="relative mt-5 flex flex-col gap-14 lg:mt-10 lg:gap-16">
+        <div className="relative mt-5 flex flex-col gap-14 lg:mt-10 lg:gap-20">
           <Pictures hotelSlug={hotelSlug} />
 
-          {/* === (Small-Screen) */}
           <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
             <FavoriteButton />
 
@@ -66,15 +65,11 @@ export default async function Hotel(props: Props) {
             </div>
           </div>
 
-          {/* === Section-Links (Small-Screen) */}
           <div className="bg-white h-12 pt-1 -mx-5 -mb-6 flex items-center overflow-hidden shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
             <SectionLinks sectionList={sectionLinks} />
           </div>
 
-          {/* === Large-Screen */}
           <Configs sectionList={sectionLinks} />
-
-          {/* -------------------------- */}
 
           <div>
             <TopBarConfig
@@ -91,7 +86,7 @@ export default async function Hotel(props: Props) {
             </div>
           </div>
 
-          <Rooms hotelSlug={hotelSlug} hotelName={initialInfo.hotelName} />
+          <Rooms hotelSlug={hotelSlug} />
           <AdditionalDetails hotelSlug={hotelSlug} />
 
           <Section
@@ -107,11 +102,7 @@ export default async function Hotel(props: Props) {
           <FrequentlyQuestions hotelSlug={hotelSlug} />
           <CustomerReviews hotelSlug={hotelSlug} />
           <Tags hotelSlug={hotelSlug} />
-
-          {/* <SuggestedHotels
-            city={initialInfo.city}
-            suggestedHotels={suggestedHotels}
-          /> */}
+          <SuggestedHotels hotelSlug={hotelSlug} />
         </div>
       </HotelWrapper>
     </>

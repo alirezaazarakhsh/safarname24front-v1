@@ -16,7 +16,7 @@ export default function DImportantPlaceCard(props: Props) {
 
   return (
     <div
-      className={`relative z-10 bg-white h-full px-6 py-5 flex flex-col border-2 overflow-hidden rounded-[14px] transition-colors duration-200 ease-in-out ${
+      className={`relative z-10 bg-white h-full px-5 py-4 flex flex-col border-2 overflow-hidden rounded-xl transition-colors duration-200 ease-in-out ${
         slideIsActive ? 'border-cs-blue/50' : 'border-zinc-200'
       }`}
     >
@@ -24,9 +24,9 @@ export default function DImportantPlaceCard(props: Props) {
       <span className="text-zinc-800 text-cs09 font-extrabold">{title}</span>
 
       {/* Distance => by-car | on-foot | Total */}
-      <div className="text-cs75 font-semibold mt-auto flex-between items-center">
+      <div className="text-cs08 font-semibold mt-auto flex-between items-center">
         <div className="flex-center gap-2">
-          <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
+          <div className="w-9 h-9 flex-center border border-zinc-200 rounded-md">
             <ICCarInRoad />
           </div>
 
@@ -39,7 +39,7 @@ export default function DImportantPlaceCard(props: Props) {
         </div>
 
         <div className="flex-center gap-2">
-          <div className="w-9 h-9 flex-center border-2 border-zinc-200 rounded-md">
+          <div className="w-9 h-9 flex-center border border-zinc-200 rounded-md">
             <ICUser />
           </div>
 
