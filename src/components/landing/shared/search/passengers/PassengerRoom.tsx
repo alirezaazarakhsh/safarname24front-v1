@@ -19,10 +19,10 @@ export default function PassengerRoom(props: Props) {
   const dispatch = usePassengersDispatch();
 
   return (
-    <div className="pb-4 grid gap-4 border-b border-zinc-300 last:pb-0 last:border-none">
+    <div className="pb-4 grid gap-3 border-b last:pb-0 last:border-none">
       {/* === Room-Number & Delete */}
       <div className="flex-between items-center">
-        <div className="text-cs95 font-bold flex-center gap-1 lg:text-cs85">
+        <div className="text-cs85 font-bold flex-center gap-1">
           <span>اتاق</span>
 
           <span>
@@ -32,7 +32,7 @@ export default function PassengerRoom(props: Props) {
 
         {rooms[0]?.id !== id && (
           <button
-            className="bg-cs-red/10 h-8 px-3.5 flex-center gap-2 rounded-md"
+            className="bg-cs-red/10 h-8 px-3.5 flex-center gap-1.5 rounded-md"
             onClick={() =>
               dispatch({
                 type: 'remove',
@@ -40,7 +40,7 @@ export default function PassengerRoom(props: Props) {
               })
             }
           >
-            <span className="text-cs-red text-cs75 font-semibold pt-0.5">
+            <span className="text-cs-red text-cs07 font-semibold pt-1">
               حذف
             </span>
             <Trash size={16} color="#f30f26" />
@@ -50,7 +50,7 @@ export default function PassengerRoom(props: Props) {
 
       {/* === Adults-Number */}
       <div className="flex-between items-center gap-4">
-        <div className="text-[clamp(0.8rem,3vw,0.9rem)] font-bold flex-center gap-1.5 lg:text-cs08">
+        <div className="text-[clamp(0.8rem,3vw,0.85rem)] font-bold flex-center gap-1.5 lg:text-cs08">
           <span>بزرگسال</span>
           <span className="text-zinc-600 lg:text-cs75">(12 سال به بالا)</span>
         </div>
@@ -71,7 +71,7 @@ export default function PassengerRoom(props: Props) {
             }
           />
 
-          <span className="w-4 text-cs09 text-center font-bold">{adults}</span>
+          <span className="w-4 text-cs08 text-center font-bold">{adults}</span>
 
           <RoomConfigButton
             disabled={adults === 1}
@@ -92,7 +92,7 @@ export default function PassengerRoom(props: Props) {
 
       {/* === Child-Number */}
       <div className="flex-between items-center gap-4">
-        <div className="text-[clamp(0.8rem,3vw,0.9rem)] font-bold flex-center gap-1.5 lg:text-cs08">
+        <div className="text-[clamp(0.8rem,3vw,0.85rem)] font-bold flex-center gap-1.5 lg:text-cs08">
           <span>کودک</span>
           <span className="text-zinc-600 lg:text-cs75">(تا 12 سال)</span>
         </div>
@@ -113,7 +113,7 @@ export default function PassengerRoom(props: Props) {
             }
           />
 
-          <span className="w-4 text-cs09 text-center font-bold">
+          <span className="w-4 text-cs08 text-center font-bold">
             {children}
           </span>
 

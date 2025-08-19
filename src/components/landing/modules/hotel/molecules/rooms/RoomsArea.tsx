@@ -3,6 +3,7 @@ import PackedRoom from './PackedRoom';
 
 import { Room } from '@/types/landing';
 import { Warning2 } from 'iconsax-react';
+import { useEffect, useState } from 'react';
 
 type PackedRoom = {
   room_count: number;
@@ -20,6 +21,14 @@ type Props = {
 
 export default function RoomsArea(props: Props) {
   const { data, status } = props;
+
+  const isNormalRooms =
+    Array.isArray(data) && data.every((item) => 'capacity' in item);
+  const [visibleCount, setVisibleCount] = useState(0);
+
+  useEffect(() => {
+    setVisibleCount(isNormalRooms ? 8 : 4);
+  }, [data]);
 
   if (status === 'pending') {
     return (
@@ -44,13 +53,26 @@ export default function RoomsArea(props: Props) {
   }
 
   return (
-    <div className="grid gap-6">
-      {data.map((room, index: number) =>
-        'room_count' in room && 'pack_rooms' in room ? (
-          <PackedRoom key={index} {...(room as PackedRoom)} />
-        ) : (
-          <NormalRoom key={index} {...(room as Room)} />
-        ),
+    <div className="grid gap-8">
+      {data
+        .slice(0, visibleCount)
+        .map((room, index: number) =>
+          'room_count' in room && 'pack_rooms' in room ? (
+            <PackedRoom key={index} {...(room as PackedRoom)} />
+          ) : (
+            <NormalRoom key={index} {...(room as Room)} />
+          ),
+        )}
+
+      {visibleCount < data.length && (
+        <button
+          onClick={() =>
+            setVisibleCount((prev) => prev + (isNormalRooms ? 8 : 4))
+          }
+          className="w-fit bg-zinc-200/80 text-cs08 font-semibold px-5 py-2.5 rounded-lg"
+        >
+          مشاهده بیشتر
+        </button>
       )}
     </div>
   );

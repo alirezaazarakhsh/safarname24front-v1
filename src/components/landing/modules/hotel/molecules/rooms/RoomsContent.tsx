@@ -1,8 +1,8 @@
+import RoomsArea from './RoomsArea';
 import { TopBarConfig } from '@/components/landing/shared';
 import { DDatePicker } from '@/components/landing/shared/search/date-picker';
 import NumberOfNights from '@/components/landing/shared/search/NumberOfNights';
 import Passengers from '@/components/landing/shared/search/passengers/Passengers';
-import RoomsArea from './RoomsArea';
 
 type Props = {
   data?: any;
@@ -17,13 +17,7 @@ export function RoomsContent(props: Props) {
   return (
     <>
       <div className="flex justify-between items-center">
-        <TopBarConfig
-          title={{
-            type: 'single',
-            text: 'اتاق‌ها',
-            // text: true ? `اتاق‌های هتل ${''}` : 'اتاق‌ها',
-          }}
-        />
+        <TopBarConfig title={{ type: 'single', text: 'اتاق‌ها' }} />
 
         {status !== 'pending' && (
           <div className="h-10 px-4 text-cs08 font-semibold bg-cs-dark-blue text-zinc-100 flex-center gap-1 rounded-lg lg:w-28 lg:h-12 lg:rounded-[10px] lg:hidden">
@@ -56,10 +50,6 @@ export function RoomsContent(props: Props) {
                 )}
               </div>
             )}
-
-            <button className="bg-cs-red text-zinc-100 w-32 h-12 rounded-cs-10">
-              جستجو اتاق
-            </button>
           </div>
         </div>
 
