@@ -27,6 +27,7 @@ import {
   verifyCardNumber,
   verifyIranianNationalId,
 } from '@persian-tools/persian-tools';
+import useLocalStorageState from 'use-local-storage-state';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -170,6 +171,12 @@ export default function ProfilePage(): ReactNode {
     | undefined
   >();
 
+  const [profileState, setProfileState] = useLocalStorageState<
+    'personal' | 'legal'
+  >('profilePageActiveTab', {
+    defaultValue: 'personal',
+  });
+
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
 
@@ -177,10 +184,6 @@ export default function ProfilePage(): ReactNode {
     personalAccountBannedDialogOpened,
     setPersonalAccountBannedDialogOpened,
   ] = useState<boolean>(false);
-
-  const [profileState, setProfileState] = useState<'personal' | 'legal'>(
-    'personal',
-  );
 
   const personalForm = useForm<personalFormType>({
     resolver: zodResolver(personalFormSchema),
@@ -283,14 +286,14 @@ export default function ProfilePage(): ReactNode {
           <ProfileToggler
             className="lg:col-span-2"
             defaultVal={profileState}
-            onToggleChange={(val) => setProfileState(val)}
+            onToggleChange={setProfileState}
           />
         ) : (
           <div className="lg:col-span-2 flex flex-col items-start gap-[24px] justify-between lg:h-[458px] h-auto">
             <ProfileToggler
               className="shrink-0 w-full"
               defaultVal={profileState}
-              onToggleChange={(val) => setProfileState(val)}
+              onToggleChange={setProfileState}
             />
             <LegalInfoForm
               loading={legalUserFetching.isLoading}

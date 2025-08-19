@@ -710,3 +710,15 @@ export interface TicketItemPropsType {
     createdAt: string;
   };
 }
+export interface TicketsSelectDepartmentPropsType {
+  isOpened?: boolean;
+  className?: string;
+  closeFn?: () => void;
+}
+
+export interface TicketsRadioItemProps {
+  className?: string;
+  isActive?: boolean;
+  onClick?: () => void;
+  label: string;
+}

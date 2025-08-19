@@ -12,18 +12,26 @@ import SendMessage from './sendMessage';
 import { Button } from '@/components/ui/button';
 import TicketItem from './ticketItem';
 import EmptyImage from '../../../../public/image/empty.png';
+import SelectDepartmentDialog from './dialog/selectDepartmentDialog';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext(): ReactNode {
   // Defining hooks
   const [rightLayoutSize, setRightLayoutSize] = useState<'sm' | 'lg'>('lg');
+  const [modalOpened, setModalOpened] = useState<boolean>(false);
 
   // Returning JSX
   return (
     <div
       data-size={rightLayoutSize}
-      className="bg-white rounded-lg border border-black/10 flex overflow-hidden group h-dvh"
+      className={
+        'bg-white rounded-lg border border-black/10 flex overflow-hidden group h-dvh'
+      }
     >
+      <SelectDepartmentDialog
+        isOpened={modalOpened}
+        closeFn={() => setModalOpened(false)}
+      />
       <div className="group-data-[size=sm]:w-[10%] group-data-[size=lg]:w-[25%] transition-all duration-500 overflow-auto custom-scrollbar">
         <div className="p-[24px] border-b border-black/10">
           <Image
@@ -143,7 +151,10 @@ export default function TicketsContext(): ReactNode {
       </div>
       <div className="w-[25%] flex flex-col">
         <div className="p-[24px] shrink-0 border-b border-b-black/10">
-          <Button className="flex items-center justif-center px-[12px] py-[18px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg text-cs65 font-semibold text-center truncate">
+          <Button
+            onClick={() => setModalOpened(true)}
+            className="flex items-center justif-center px-[12px] py-[18px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg text-cs65 font-semibold text-center truncate"
+          >
             ثبت تیکت جدید
           </Button>
         </div>
