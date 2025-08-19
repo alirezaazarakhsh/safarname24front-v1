@@ -17,10 +17,6 @@ import { Form, FormField, FormItem, FormControl } from '@/components/ui/form';
 const formSchema = z.object({
   phoneNumber: z
     .string()
-    .regex(
-      /^[0-9\u06F0-\u06F9\u0660-\u0669]+$/,
-      'شماره تلفن باید فقط شامل اعداد باشد',
-    )
     .min(10, 'شماره تلفن باید 10 رقم باشد')
     .max(10, 'شماره تلفن باید 10 رقم باشد'),
 });
