@@ -1,11 +1,24 @@
+import {
+  useDatePickerContext,
+  useHotelOrCityContext,
+  usePassengersContext,
+} from '@/context';
+
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useHotelOrCityContext } from '@/context';
 
 import NumberOfNights from '@/components/landing/shared/search/NumberOfNights';
 import Passengers from '@/components/landing/shared/search/passengers/Passengers';
 import CityOrHotel from '@/components/landing/shared/search/city-hotel/CityOrHotel';
 import { DDatePicker } from '@/components/landing/shared/search/date-picker/DDatePicker';
+
+import persianCalendar from 'react-date-object/calendars/persian';
+import persianLanguage from 'react-date-object/locales/persian_en';
+
+const dateInfo = {
+  calendar: persianCalendar,
+  locale: persianLanguage,
+};
 
 // -----------------------------------
 
@@ -13,29 +26,55 @@ export default function SearchAndFilter() {
   const router = useRouter();
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const { confirmedValue } = useHotelOrCityContext();
-  console.log(confirmedValue);
+
+  const { confirmedValue: dates } = useDatePickerContext();
+  const { confirmedValue: cityOrHotel } = useHotelOrCityContext();
+  const { confirmedPassengers: passengers } = usePassengersContext();
 
   function handleClickSearch() {
-    if (!confirmedValue.city) {
+    const stopCondition = !cityOrHotel.city || !dates?.[0] || !dates?.[1];
+    if (stopCondition) {
       setError(true);
       return;
     }
 
     setLoading(true);
-    if (confirmedValue.hotel) {
-      router.push(`/best-hotels/${confirmedValue.hotelSlug}`);
-    } else {
-      const params = new URLSearchParams();
-      params.set('city', confirmedValue.city);
-      params.set('province', confirmedValue.province);
+    const params = new URLSearchParams();
+
+    params.set(
+      'start-date',
+      dates?.[0]
+        ?.convert(dateInfo.calendar, dateInfo.locale)
+        .format('YYYY-MM-DD'),
+    );
+    params.set(
+      'end-date',
+      dates?.[1]
+        ?.convert(dateInfo.calendar, dateInfo.locale)
+        .format('YYYY-MM-DD'),
+    );
+    
+    params.set('passengers', passengers.passengers.toString());
+    params.set('rooms', passengers.rooms.toString());
+
+    if (cityOrHotel.hotel) {
+      router.push(
+        `/best-hotels/${cityOrHotel.hotelSlug}/?${params.toString()}`,
+        { scroll: false },
+      );
+    }
+    // ---
+    else {
+      params.set('city', cityOrHotel.city);
+      params.set('province', cityOrHotel.province);
       router.push(`/best-hotels/?${params.toString()}`, { scroll: false });
     }
   }
 
+  // === Setting Error-State
   useEffect(() => {
-    if (confirmedValue.city) setError(false);
-  }, [confirmedValue]);
+    if (cityOrHotel.city) setError(false);
+  }, [cityOrHotel]);
 
   return (
     <div className="absolute z-10 bottom-6 inset-x-6 bg-[--clr-main-light] h-32 px-8 flex items-center gap-6 rounded-2xl xl:bottom-10 xl:inset-x-24 xl:gap-8">

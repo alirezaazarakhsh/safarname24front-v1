@@ -1,8 +1,6 @@
 import { useRef } from 'react';
-import { useEffect } from 'react';
 import { useScrollPosition } from '@/hooks';
-import { useHotelOrCityContext, useHotelOrCityDispatch } from '@/context';
-import { useSearchParams } from 'next/navigation';
+import { useHotelOrCityContext } from '@/context';
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 type CommonProps = {
@@ -25,23 +23,9 @@ type Props =
 export default function CityOrHotelTrigger(props: Props) {
   const { type, isOpen, handleSetOpen, scrollBehavior } = props;
 
-  const searchParams = useSearchParams();
   const scrollPosition = useScrollPosition();
-  const dispatch = useHotelOrCityDispatch();
+  const { confirmedValue } = useHotelOrCityContext();
   const delayRef = useRef<NodeJS.Timeout | null>(null);
-  const { value, confirmedValue, inputValue } = useHotelOrCityContext();
-
-  useEffect(() => {
-    const city = searchParams.get('city');
-    const province = searchParams.get('province');
-
-    if (city && province) {
-      dispatch({
-        type: 'first-render',
-        payload: { city, province },
-      });
-    }
-  }, []);
 
   // === Handle Trigger-OnClick
   function handleDropDownTrigger(e: React.PointerEvent) {

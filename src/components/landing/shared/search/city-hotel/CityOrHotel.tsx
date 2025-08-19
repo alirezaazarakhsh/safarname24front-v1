@@ -10,12 +10,13 @@ import {
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
 
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from '@/hooks';
-import { useHotelOrCityContext } from '@/context';
+import { useHotelOrCityContext, useHotelOrCityDispatch } from '@/context';
+
 import CityOrHotelContent from './CityOrHotelContent';
 import CityOrHotelTrigger from './CityOrHotelTrigger';
+import { useSearchParams } from 'next/navigation';
 
 type CommonProps = {
   sideOffset?: number;
@@ -42,9 +43,23 @@ export default function CityOrHotel(props: Props) {
     triggerType = 'else',
   } = props;
 
+  const searchParams = useSearchParams();
   const [isOpen, setOpen] = useState(false);
+  const dispatch = useHotelOrCityDispatch();
   const { confirmedValue } = useHotelOrCityContext();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+  useEffect(() => {
+    const city = searchParams.get('city');
+    const province = searchParams.get('province');
+
+    if (city && province) {
+      dispatch({
+        type: 'first-render',
+        payload: { city, province },
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -81,7 +96,7 @@ export default function CityOrHotel(props: Props) {
           <SheetContent
             side={'left'}
             aria-describedby={undefined}
-            className="bg-[#f8f8f8] w-full h-dvh pt-8 grid grid-rows-[auto_auto_auto_1fr_3rem] gap-0 border-none"
+            className="bg-[#f8f8f8] w-full h-dvh pt-6 grid grid-rows-[auto_auto_1fr_auto] gap-0 border-none"
           >
             <SheetTitle className="hidden" />
             <CityOrHotelContent

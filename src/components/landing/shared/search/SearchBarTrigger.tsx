@@ -1,17 +1,20 @@
 'use client';
 
+import {
+  usePassengersContext,
+  useDatePickerContext,
+  useHotelOrCityContext,
+} from '@/context';
+
 import { useMemo } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowRight, SearchStatus } from 'iconsax-react';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { useDatePickerContext } from '@/context';
-import { Skeleton } from '@/components/ui/skeleton';
 import persianCalendar from 'react-date-object/calendars/persian';
 import persianLanguage from 'react-date-object/locales/persian_fa';
 
-type Props = {
-  setDialogOpen: () => void;
-};
+type Props = { setDialogOpen: () => void };
 
 // --------------------------------
 
@@ -20,7 +23,10 @@ export default function SearchBarTrigger(props: Props) {
 
   const router = useRouter();
   const pathname = usePathname();
+
   const { confirmedValue } = useDatePickerContext();
+  const { confirmedPassengers } = usePassengersContext();
+  const { confirmedValue: hotelCity } = useHotelOrCityContext();
 
   const numberOfNights = useMemo(() => {
     const confirmedCheck = confirmedValue?.[0] && confirmedValue?.[1];
@@ -51,87 +57,78 @@ export default function SearchBarTrigger(props: Props) {
     }
   }, [confirmedValue]);
 
-  const searchedValue = true;
-  const isBestHotel = /^\/best-hotels\/.+/.test(pathname);
-
   return (
     <>
-      {!isBestHotel ? (
-        ''
-      ) : (
-        // !searchedValue ? (
-        //   <div
-        //     onClick={setDialogOpen}
-        //     className="bg-zinc-200/60 w-full h-12 px-5 flex items-center gap-4 overflow-hidden select-none cursor-pointer rounded-lg"
-        //   >
-        //     <SearchStatus size="20" color="#52525b" />
-        //     <span className="text-zinc-600 text-cs08 font-semibold">
-        //       جستجو شهر, هتل ...
-        //     </span>
-        //   </div>
-        // ) : (
-        //   <div
-        //     onClick={setDialogOpen}
-        //     className="bg-zinc-200/60 w-full h-[3.6rem] px-5 flex items-center justify-between gap-4 overflow-hidden select-none cursor-pointer rounded-lg"
-        //   >
-        //     <div className="font-semibold flex flex-col gap-1">
-        //       <span className="text-cs08">هتل های تهران</span>
-
-        //       <div className="flex items-center gap-0.5 text-zinc-600 text-[clamp(0.65rem,3vw,0.7rem)]">
-        //         <span>12 شهریور تا 20 شهریور</span>
-        //         <span>,</span>
-        //         <span>8 شب اقامت</span>
-        //         <span>,</span>
-        //         <span>1 بزرگسال</span>
-        //         <span>,</span>
-        //         <span>1 اتاق</span>
-        //       </div>
-        //     </div>
-
-        //     <SearchStatus size="20" color="#444" />
-        //   </div>
-        // )
-        <div className="w-full flex items-center gap-4 overflow-hidden select-none rounded-lg">
-          <button onClick={() => router.back()}>
-            <ArrowRight size={20} color="#444" />
-          </button>
-
-          <div className="font-semibold flex flex-col gap-1">
-            {!confirmedValue?.[0] ? (
-              <div className="grid gap-2 pt-0.5">
-                <Skeleton className="w-40 h-4" />
-                <Skeleton className="w-40 h-4" />
+      {confirmedValue?.[0] ? (
+        pathname === '/best-hotels' ? (
+          <div className="bg-zinc-200/50 px-4 py-3 flex items-center gap-4 rounded-cs-10">
+            <div className="font-semibold grid gap-1.5">
+              <div className="text-cs08 flex gap-1">
+                {hotelCity.city ? (
+                  <>
+                    <span>هتل های</span>
+                    <span>{hotelCity.city}</span>
+                  </>
+                ) : (
+                  <span>شهر مقصد انتخاب نشده است</span>
+                )}
               </div>
-            ) : (
-              <>
-                <div className="text-[clamp(0.7rem,3vw,0.8rem)] flex items-center gap-1">
-                  <span>{calendarDetail?.startDate.day}</span>
-                  <span>{calendarDetail?.startDate.month}</span>
-                  <span>{calendarDetail?.startDate.year}</span>
-                  <span className="mx-0.5">-</span>
-                  <span>{calendarDetail?.endDate.day}</span>
-                  <span>{calendarDetail?.endDate.month}</span>
-                  <span>{calendarDetail?.endDate.year}</span>
-                </div>
 
-                <div className="flex items-center gap-1 text-zinc-600 text-[clamp(0.7rem,3vw,0.8rem)]">
-                  <span>{numberOfNights} شب اقامت</span>
-                  <span>,</span>
-                  <span>1 بزرگسال</span>
-                  <span>,</span>
-                  <span>1 اتاق</span>
-                </div>
-              </>
-            )}
+              <div className="text-cs07 text-zinc-500 flex gap-0.5">
+                <span>{calendarDetail?.startDate.day}</span>
+                <span>{calendarDetail?.startDate.month}</span>
+                <span>تا</span>
+                <span>{calendarDetail?.endDate.day}</span>
+                <span>{calendarDetail?.endDate.month}</span>
+                <span>,</span>
+                <span>{numberOfNights} شب اقامت</span>
+                <span>,</span>
+                <span>{confirmedPassengers.passengers} مسافر</span>
+                <span>,</span>
+                <span>{confirmedPassengers.rooms} اتاق</span>
+              </div>
+            </div>
+
+            <button className="mr-auto rounded-lg" onClick={setDialogOpen}>
+              <SearchStatus size={20} color="#222" />
+            </button>
           </div>
+        ) : (
+          <div className="flex items-center gap-4">
+            <button onClick={() => router.back()}>
+              <ArrowRight size={20} color="#222" />
+            </button>
 
-          <button
-            onClick={setDialogOpen}
-            className="bg-zinc-200/60 w-10 h-10 p-2.5 mr-auto flex-center cursor-pointer rounded-lg"
-          >
-            <SearchStatus size={20} color="#444" />
-          </button>
-        </div>
+            <div className="text-cs75 font-semibold grid gap-1">
+              <div className="flex gap-1">
+                <span>{calendarDetail?.startDate.day}</span>
+                <span>{calendarDetail?.startDate.month}</span>
+                <span>{calendarDetail?.startDate.year}</span>
+                <span>-</span>
+                <span>{calendarDetail?.endDate.day}</span>
+                <span>{calendarDetail?.endDate.month}</span>
+                <span>{calendarDetail?.endDate.year}</span>
+              </div>
+
+              <div className="text-zinc-500 flex gap-1">
+                <span>{numberOfNights} شب اقامت</span>
+                <span>,</span>
+                <span>{confirmedPassengers.passengers} مسافر</span>
+                <span>,</span>
+                <span>{confirmedPassengers.rooms} اتاق</span>
+              </div>
+            </div>
+
+            <button
+              className="bg-zinc-200/60 p-2.5 mr-auto rounded-lg"
+              onClick={setDialogOpen}
+            >
+              <SearchStatus size={20} color="#222" />
+            </button>
+          </div>
+        )
+      ) : (
+        <Skeleton className="h-16 rounded-xl" />
       )}
     </>
   );

@@ -3,17 +3,16 @@ import {
   useHotelOrCityDispatch,
 } from '@/context/HotelOrCityContext';
 
-import Image from 'next/image';
-import { useEffect } from 'react';
-import { IoClose } from 'react-icons/io5';
-import { useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
-import { ArrowRight, SearchStatus } from 'iconsax-react';
-
 import { useDebounce } from '@/hooks';
 import { City, Hotel } from '@/types/landing';
 import { generalInstance } from '@/utils/services';
 import { CityOrHotelList } from './CityOrHotelList';
+
+import Image from 'next/image';
+import { IoClose } from 'react-icons/io5';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { ArrowRight, SearchStatus } from 'iconsax-react';
 
 type Props = {
   isOpen: boolean;
@@ -32,12 +31,11 @@ type ApiResponse = {
 export default function CityOrHotelContent(props: Props) {
   const { handleClose } = props;
 
-  const searchParams = useSearchParams();
   const dispatch = useHotelOrCityDispatch();
-  const { value, confirmedValue, inputValue } = useHotelOrCityContext();
+  const [error, setError] = useState(false);
+
+  const { inputValue, value } = useHotelOrCityContext();
   const debouncedInputValue = useDebounce(inputValue, 500);
-
-
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['search-hotel-city', debouncedInputValue],
@@ -46,6 +44,19 @@ export default function CityOrHotelContent(props: Props) {
         `/hotel/hotels/search/hotel-city/?query=${debouncedInputValue}`,
       ),
   });
+
+  function handleSubmit() {
+    const stopCondition = !value.city;
+    if (stopCondition) setError(true);
+    else {
+      handleClose();
+      dispatch({ type: 'confirmed-value' });
+    }
+  }
+
+  useEffect(() => {
+    if (value.city) setError(false);
+  }, [value.city]);
 
   const handleClearInput = () => dispatch({ type: 'clear-input-value' });
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,13 +67,13 @@ export default function CityOrHotelContent(props: Props) {
     <>
       {/* === Logo - Title - Close */}
       <div className="relative grid place-items-center lg:hidden">
-        <div className="relative w-[4.5rem] h-[4.5rem]">
+        <div className="relative w-16 aspect-square">
           <Image
             fill
             alt="logo"
             sizes="100%"
-            src="/image/logo/red.png"
             className="object-contain"
+            src="/image/logo/red-gray.png"
           />
         </div>
 
@@ -76,7 +87,7 @@ export default function CityOrHotelContent(props: Props) {
       </div>
 
       {/* === Search-Input */}
-      <div className="relative bg-zinc-100 h-11 mt-8 flex overflow-hidden rounded-cs-10 lg:h-10 lg:mt-4 lg:mx-4">
+      <div className="relative bg-zinc-200/50 h-11 mt-8 flex overflow-hidden rounded-cs-10 lg:bg-zinc-100 lg:h-10 lg:mt-4 lg:mx-4">
         <button className="w-[3rem] pr-0.5 flex-center">
           <SearchStatus size={16} color="#666" />
         </button>
@@ -104,19 +115,12 @@ export default function CityOrHotelContent(props: Props) {
         isPending={status === 'pending'}
       />
 
-      {/* === Submit */}
-      {/* <button
-  onClick={() => {
-    handleClose();
-    dispatch({
-      type: 'CITY_OR_HOTEL',
-      payload: { actionType: 'CONFIRMED-CITY-OR-HOTEL' },
-      });
-      }}
-      className={`bg-cs-dark-blue text-white text-cs85 font-semibold h-11 mt-auto rounded-cs-10 lg:hidden`}
+      <button
+        onClick={handleSubmit}
+        className={`bg-cs-dark-blue text-white text-cs85 font-semibold h-11 mt-4 rounded-cs-10 transition-colors lg:hidden ${error ? 'bg-cs-red' : 'bg-cs-dark-blue'}`}
       >
-        ثبت و ادامه فرآیند
-      </button> */}
+        {error ? 'مقداری انتخاب نشده است' : 'ثبت و ادامه فرآیند'}
+      </button>
     </>
   );
 }

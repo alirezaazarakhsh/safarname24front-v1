@@ -1,4 +1,3 @@
-import React from 'react';
 import { City, Hotel } from '@/types/landing';
 import CityOrHotelItem from './CityOrHotelItem';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -16,13 +15,13 @@ export function CityOrHotelList(props: Props) {
   const { cities, hotels, isPending, handleClose } = props;
 
   return (
-    <div className="mt-4 overflow-auto custom-scrollbar lg:h-[20rem]">
+    <div className="mt-4 flex flex-col overflow-auto custom-scrollbar  lg:h-[20rem]">
       {isPending ? (
-        <div className="px-4 grid gap-3">
-          {Array(6)
+        <div className="p-4 mt-auto grid gap-3">
+          {Array(7)
             .fill(null)
             .map((_, index) => (
-              <div key={index} className="h-6 flex-between">
+              <div key={index} className="h-7 flex-between">
                 <Skeleton className="w-1/2" />
                 <Skeleton className="w-20" />
               </div>
