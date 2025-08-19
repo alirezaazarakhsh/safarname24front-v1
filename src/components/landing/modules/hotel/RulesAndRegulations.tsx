@@ -44,7 +44,7 @@ export function RulesAndRegulations(props: Props) {
             </div>
 
             <span className="text-zinc-800 text-cs85 font-extrabold lg:text-cs09">
-              قوانین و مقرارت هتل اسپیناس پالاس
+              قوانین و مقرارت
             </span>
           </div>
 

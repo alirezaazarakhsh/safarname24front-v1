@@ -1,20 +1,18 @@
 import { TopBarConfig } from '@/components/landing/shared';
-import NumberOfRooms from './atoms/NumberOfRooms';
 import { DDatePicker } from '@/components/landing/shared/search/date-picker';
 import NumberOfNights from '@/components/landing/shared/search/NumberOfNights';
 import Passengers from '@/components/landing/shared/search/passengers/Passengers';
 import RoomsArea from './RoomsArea';
 
 type Props = {
-  hotelName: string;
-  status: 'success' | 'pending' | 'error';
   data?: any;
+  status: 'success' | 'pending' | 'error';
 };
 
 // ------------------------------
 
 export function RoomsContent(props: Props) {
-  const { data, hotelName, status } = props;
+  const { data, status } = props;
 
   return (
     <>
@@ -22,7 +20,8 @@ export function RoomsContent(props: Props) {
         <TopBarConfig
           title={{
             type: 'single',
-            text: hotelName ? `اتاق‌های هتل ${hotelName}` : 'اتاق‌ها',
+            text: 'اتاق‌ها',
+            // text: true ? `اتاق‌های هتل ${''}` : 'اتاق‌ها',
           }}
         />
 

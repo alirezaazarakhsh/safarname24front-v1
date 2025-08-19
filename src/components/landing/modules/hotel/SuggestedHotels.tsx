@@ -14,17 +14,25 @@ import { Navigation, Autoplay } from 'swiper/modules';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+import { Section } from './molecules/Section';
 
-type Props = { city: string };
+type Props = { hotelSlug: string };
 type ApiResponse = { data: Array<Hotel> };
 
 // ----------------------------
 
 export function SuggestedHotels(props: Props) {
-  const { city } = props;
+  const { data: initialInfo } = useQuery<any>({
+    queryKey: ['hotel-information'],
+    queryFn: () =>
+      generalInstance(`/hotel/hotels/${props.hotelSlug}/introduction`),
+  });
+
+  const city = initialInfo?.data?.city_name;
   const swiperRef = useRef<SwiperType>(null);
 
   const { data, status } = useQuery<ApiResponse>({
+    enabled: !!city,
     queryKey: ['suggested-hotels'],
     queryFn: () => generalInstance(`/hotel/hotels/by-city/${city}`),
   });
@@ -36,7 +44,7 @@ export function SuggestedHotels(props: Props) {
   if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
-    <div className="-ml-5 xl:ml-0">
+    <Section sectionID="suggested-hotels" className="-ml-5 xl:ml-0">
       <TopBarConfig
         arraylength={data?.data.length}
         viewAllHref={`/best-hotels?city=${city}`}
@@ -90,6 +98,6 @@ export function SuggestedHotels(props: Props) {
           ))}
         </Swiper>
       )}
-    </div>
+    </Section>
   );
 }
