@@ -54,39 +54,34 @@ export default function GiftGainedDialog({
     return (
       <Dialog open={isOpened}>
         <DialogPortal>
-          <DialogContent className="w-full max-w-[450px]">
-            <div className="mb-5 overflow-hidden">
-              <div className="flex items-center justify-start gap-3 mb-5 overflow-hidden">
-                <div
-                  className="cursor-pointer bg-gradient-to-tr from-green-900 via-green-500 to-green-600 flex items-center text-white h-[50px] w-[100px] justify-center rounded-lg shrink-0"
-                  onClick={handleClick}
-                >
-                  <IconsaxIcons
-                    className="size-[30px] text-current"
-                    name="Cup"
-                    color="currentColor"
-                  />
-                </div>
-                <div
-                  onClick={handleClick}
-                  className="cursor-pointer flex-1 overflow-hidden"
-                >
-                  <span className="text-cs08 font-normal text-black w-full block text-right truncate mb-1">
-                    کد تخفیف شما :
-                  </span>
-                  <span className="text-cs85 font-bold text-black w-full block text-right truncate">
-                    {code}
-                  </span>
-                </div>
+          <DialogContent className="w-full max-w-[450px] gap-0">
+            <div className="flex items-center justify-start gap-3 mb-5">
+              <div
+                className="cursor-pointer bg-gradient-to-tr from-green-900 via-green-500 to-green-600 flex items-center text-white size-[50px] justify-center rounded-lg aspect-square shrink-0"
+                onClick={handleClick}
+              >
+                <IconsaxIcons
+                  className="size-[30px] text-current"
+                  name="Cup"
+                  color="currentColor"
+                />
               </div>
-              <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black mb-3">
-                جایزه شما با موفقیت دریافت کردید
-              </DialogTitle>
-              <DialogDescription className="text-right text-sm font-medium text-black">
-                مشترک گرامی عزیز جایزه شما با موفقیت ثبت شد و میتوانید از جایزه
-                خود استفاده نمایید از همراهی شما متشکریم.
-              </DialogDescription>
+              <div className="flex-1 w-full overflow-hidden">
+                <span className="text-cs08 font-bold text-black w-full block text-right truncate mb-1">
+                  کد تخفیف شما :
+                </span>
+                <span className="text-cs07 font-medium text-black w-full block text-right truncate">
+                  {code}
+                </span>
+              </div>
             </div>
+            <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black mb-3">
+              جایزه شما با موفقیت دریافت کردید
+            </DialogTitle>
+            <DialogDescription className="text-right text-sm font-medium text-black mb-5">
+              مشترک گرامی عزیز جایزه شما با موفقیت ثبت شد و میتوانید از جایزه
+              خود استفاده نمایید از همراهی شما متشکریم.
+            </DialogDescription>
             <DialogFooter dir="ltr">
               <DialogClose asChild>
                 <button

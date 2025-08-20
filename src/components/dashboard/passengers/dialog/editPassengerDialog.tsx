@@ -70,7 +70,7 @@ export default function EditPassengersDialog({
   // Defining hooks
   const [errorOpened, setErrorOpened] = useState<boolean>(false);
   const [successOpened, setSuccessOpened] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
     reValidateMode: 'onBlur',
@@ -101,7 +101,7 @@ export default function EditPassengersDialog({
 
   // Defining submit handler
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    setUserName(`${form.getValues('firstName')} ${form.getValues('lastName')}`);
+    setName(`${form.getValues('firstName')} ${form.getValues('lastName')}`);
     await fetchData.mutateAsync({
       first_name: data.firstName,
       last_name: data.lastName,
@@ -115,14 +115,16 @@ export default function EditPassengersDialog({
     <Dialog
       open={isOpened}
       onOpenChange={(open) => {
-        setUserName('');
-        !open && closeFn && closeFn();
+        if (!open && closeFn) {
+          closeFn();
+          setName('');
+        }
       }}
     >
       <PassengerEditSucessDialog
         isOpened={successOpened}
         closeFn={() => setSuccessOpened(false)}
-        infos={[userName]}
+        infos={[name]}
       />
       <PassengarEditErrorDialog
         isOpened={errorOpened}
