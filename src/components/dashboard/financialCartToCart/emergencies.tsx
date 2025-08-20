@@ -59,7 +59,6 @@ export default function Emergencies({
   const handleSubmit: SubmitHandler<formType> = (data) => {
     if (card && file) {
       form.clearErrors();
-      console.log({ ...data, card, file });
       setSubmitState('suceess');
     } else if (card && !file) {
       toast({

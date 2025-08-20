@@ -521,6 +521,12 @@ export interface SubscriptionTypeComponentPropsType {
   className?: string;
 }
 
+export interface LegalUserStatusPropsType {
+  className?: string;
+  status?: 'checking' | 'accpeted' | 'rejected';
+  rejectReason?: string;
+}
+
 export interface PersonalInfoFormComponentPropsType {
   className?: string;
   form: UseFormReturn<personalFormType>;
@@ -547,9 +553,9 @@ export interface LegalBankInfoFormComponentPropsType {
   userImage?: string;
   refetch?: () => void;
   creditCards?: GETLegalProfile['card_numbers'];
-  userStatus: {
-    status: 'checking' | 'accpeted' | 'rejected';
-    rejectedReason: string;
+  userStatus?: {
+    status?: 'checking' | 'accpeted' | 'rejected';
+    rejectReason?: string;
   };
 }
 
@@ -703,4 +709,16 @@ export interface TicketItemPropsType {
     subTitle: string;
     createdAt: string;
   };
+}
+export interface TicketsSelectDepartmentPropsType {
+  isOpened?: boolean;
+  className?: string;
+  closeFn?: () => void;
+}
+
+export interface TicketsRadioItemProps {
+  className?: string;
+  isActive?: boolean;
+  onClick?: () => void;
+  label: string;
 }

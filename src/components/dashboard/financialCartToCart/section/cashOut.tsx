@@ -155,13 +155,13 @@ export default function CashOut(): ReactNode {
                 creditCardShabaNumberValid &&
                 acceptedNumbers
               ) {
-                console.log({
-                  profile,
-                  priceAmount,
-                  creditCardNumber,
-                  creditCardShabaNumber,
-                  acceptedNumbers,
-                });
+                // console.log({
+                //   profile,
+                //   priceAmount,
+                //   creditCardNumber,
+                //   creditCardShabaNumber,
+                //   acceptedNumbers,
+                // });
               }
             }}
             disabled={

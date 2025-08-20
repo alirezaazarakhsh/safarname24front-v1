@@ -17,8 +17,6 @@ import LegalInfoForm from '@/components/dashboard/profile/legal/legalInfoForm';
 import Upload from '@/components/dashboard/upload/upload';
 import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAcceptDialog';
-import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/personalAccountBannedDialog';
-import LegalAccountBannedDialog from '@/components/dashboard/profile/dialog/legalAccountBannedDialog';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
@@ -28,6 +26,7 @@ import {
   verifyCardNumber,
   verifyIranianNationalId,
 } from '@persian-tools/persian-tools';
+import useLocalStorageState from 'use-local-storage-state';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -163,17 +162,22 @@ export default function ProfilePage(): ReactNode {
   const userInfo = useUserInfo();
   const [legalUserImage, setLegalUserImage] = useState<string | undefined>();
   const [userImage, setUserImage] = useState<string | undefined>();
+  const [userStatus, setUserStatus] = useState<
+    | {
+        status: 'checking' | 'accpeted' | 'rejected';
+        rejectReason: string | null;
+      }
+    | undefined
+  >();
+
+  const [profileState, setProfileState] = useLocalStorageState<
+    'personal' | 'legal'
+  >('profilePageActiveTab', {
+    defaultValue: 'personal',
+  });
+
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
-
-  const [
-    personalAccountBannedDialogOpened,
-    setPersonalAccountBannedDialogOpened,
-  ] = useState<boolean>(false);
-
-  const [profileState, setProfileState] = useState<'personal' | 'legal'>(
-    'personal',
-  );
 
   const personalForm = useForm<personalFormType>({
     resolver: zodResolver(personalFormSchema),
@@ -242,6 +246,12 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('postCode', legalInfo.postal_code);
       legalForm.setValue('tell', savedTellNumber);
       setLegalUserImage(legalInfo.image || '');
+
+      setUserStatus({
+        rejectReason: legalInfo.reject_reason,
+        status: legalInfo.status,
+      });
+
       if (firstCard) {
         if (
           verifyCardNumber(Number(firstCard.card_number)) &&
@@ -257,10 +267,6 @@ export default function ProfilePage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
-      <PersonalAccountBannedDialog
-        isOpened={personalAccountBannedDialogOpened}
-        closeFn={() => setPersonalAccountBannedDialogOpened(false)}
-      />
       <WaitForAcceptDialog
         isOpened={waitingDialogOpened}
         closeFn={() => setWaitingDialogOpened(false)}
@@ -270,14 +276,14 @@ export default function ProfilePage(): ReactNode {
           <ProfileToggler
             className="lg:col-span-2"
             defaultVal={profileState}
-            onToggleChange={(val) => setProfileState(val)}
+            onToggleChange={setProfileState}
           />
         ) : (
           <div className="lg:col-span-2 flex flex-col items-start gap-[24px] justify-between lg:h-[458px] h-auto">
             <ProfileToggler
               className="shrink-0 w-full"
               defaultVal={profileState}
-              onToggleChange={(val) => setProfileState(val)}
+              onToggleChange={setProfileState}
             />
             <LegalInfoForm
               loading={legalUserFetching.isLoading}
@@ -308,7 +314,7 @@ export default function ProfilePage(): ReactNode {
               creditCards={legalUserFetching.data?.card_numbers || []}
               refetch={legalUserFetching.refetch}
               userStatus={{
-                rejectedReason: legalUserFetching.data?.reject_reason || '',
+                rejectReason: legalUserFetching.data?.reject_reason || '',
                 status: legalUserFetching.data?.status || 'checking',
               }}
             />

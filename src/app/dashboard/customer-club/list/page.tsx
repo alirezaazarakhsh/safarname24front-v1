@@ -56,8 +56,8 @@ export default function CustomerClubList(): ReactNode {
         <>
           <Filter onChange={(val) => setFilterVal(val)} />
           <EmptyTable
-            title="لسیت مسافاران خالی میباشد!"
-            description="لطفا از بالا مسافران خود را اضافه کنید"
+            title="لیست جوایز دریافتی شما خالی میباشد !"
+            description="کاربر گرامی, لیست جوایز دریافتی شما خالی میباشد ."
           />
         </>
       ) : (
@@ -65,8 +65,8 @@ export default function CustomerClubList(): ReactNode {
           <Filter onChange={(val) => setFilterVal(val)} />
           {filteredData.length === 0 ? (
             <EmptyTable
-              title="لسیت مسافاران خالی میباشد!"
-              description="لطفا از بالا مسافران خود را اضافه کنید"
+              title="لیست جوایز دریافتی شما خالی میباشد !"
+              description="کاربر گرامی, لیست جوایز دریافتی شما خالی میباشد ."
             />
           ) : (
             <CustomerClubListTable
