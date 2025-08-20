@@ -79,8 +79,12 @@ export default function SelectDepartmentDialog({
   // Defining submit function
   const submitHandler: SubmitHandler<formType> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
     closeFn && closeFn();
+    toast({
+      theme: 'green',
+      title: 'تیکت شما با موفقیت ایجاد شد',
+      description: 'مشتری گرامی میتوانید چت خود را آغاز نمایید',
+    });
   };
 
   // Defining variables
