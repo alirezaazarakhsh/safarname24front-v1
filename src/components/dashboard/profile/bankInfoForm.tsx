@@ -324,7 +324,7 @@ export default function BankInfoForm({
           noErrorText
           disabled
           className="disabled:opacity-100"
-          value={currentCardOwner}
+          value={`نام صاحب کارت : ${currentCardOwner}`}
         />
         <div>
           <button

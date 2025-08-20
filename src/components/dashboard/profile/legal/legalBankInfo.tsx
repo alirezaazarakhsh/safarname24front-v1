@@ -434,7 +434,7 @@ export default function LegalBankInfo({
           noErrorText
           disabled
           className="disabled:opacity-100"
-          value={currentCardOwner}
+          value={`نام صاحب کارت : ${currentCardOwner}`}
         />
         <LegalUserStatus
           rejectReason={userStatus?.rejectReason}
