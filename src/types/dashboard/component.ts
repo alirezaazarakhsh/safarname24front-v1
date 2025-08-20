@@ -687,6 +687,8 @@ export interface TicketsSettingItemPropsType {
   size?: 'lg' | 'sm';
   disabled?: boolean;
   onClick?: () => void;
+  type?: 'files' | 'theme' | 'walpaper';
+  files?: string[];
 }
 
 export interface TicketsDateSepratorPropsType {
@@ -721,4 +723,48 @@ export interface TicketsRadioItemProps {
   isActive?: boolean;
   onClick?: () => void;
   label: string;
+}
+
+export interface TicketsContextPropsType {
+  className?: string;
+  tickets: {
+    id: number;
+    user: {
+      img?: string;
+      name: string;
+      status: string;
+      lastSeen: string;
+      role: string;
+    };
+    files: {
+      documents: string[];
+      images: string[];
+      videos: string[];
+      voices: string[];
+    };
+    messages: {
+      type: 'text' | 'voice' | 'file';
+      replyMessage?: string;
+      message: string | File;
+      createdAt: string;
+      from: 'user' | 'answerer';
+    }[];
+  }[];
+}
+
+export interface TicketsFileItemPropsType {
+  className?: string;
+  file: string;
+}
+
+export interface AudioWaveHandle {
+  play: () => void;
+  pause: () => void;
+  isPlaying: () => boolean;
+  getDuration: () => number | null;
+}
+
+export interface AudioWavePropsType {
+  audioUrl: string;
+  className?: string;
 }

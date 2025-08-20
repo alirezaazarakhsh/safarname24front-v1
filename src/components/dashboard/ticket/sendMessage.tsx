@@ -5,13 +5,16 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { TicketsSendMessagePropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 // Creating and exporting Tikcets SendMessage component as default
 export default function SendMessage({
   className,
   disabled = false,
 }: TicketsSendMessagePropsType): ReactNode {
+  // Defining hooks
+  const [value, setValue] = useState<string>('');
+
   // Conditional rendering
   if (disabled) {
     return (
@@ -38,7 +41,8 @@ export default function SendMessage({
     );
   } else {
     return (
-      <div
+      <form
+        action="#"
         className={cn(
           'flex justify-between text-black/50 bg-gray-50 gap-[12px] rounded-lg h-[50px] overflow-hidden',
           className,
@@ -52,27 +56,40 @@ export default function SendMessage({
           />
         </button>
         <input
-          className="text-cs65 font-medium placeholder:text-cs65 placeholder:black/30 text-black text-right truncate block flex-1  h-[50px]"
+          onChange={(e) => setValue(e.currentTarget.value)}
+          className="text-cs65 font-medium placeholder:text-cs65 placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
           type="text"
           placeholder="متن خود را بنویسید..."
         />
-        <div className="flex items-center justify-between gap-[12px] shrink-0">
-          <button className="flex items-center justify-center shrink-0 h-full aspect-square">
-            <IconsaxIcons
-              name="Gallery"
-              className="size-5"
-              color="currentColor"
-            />
-          </button>
-          <button className="flex items-center justify-center shrink-0 h-full aspect-square">
-            <IconsaxIcons
-              name="Microphone"
-              className="size-5"
-              color="currentColor"
-            />
-          </button>
-        </div>
-      </div>
+        {value === '' ? (
+          <div className="flex items-center justify-between gap-[12px] shrink-0">
+            <button className="flex items-center justify-center shrink-0 h-full aspect-square">
+              <IconsaxIcons
+                name="Gallery"
+                className="size-5"
+                color="currentColor"
+              />
+            </button>
+            <button className="flex items-center justify-center shrink-0 h-full aspect-square">
+              <IconsaxIcons
+                name="Microphone"
+                className="size-5"
+                color="currentColor"
+              />
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between gap-[12px] shrink-0">
+            <button className="flex items-center justify-center shrink-0 h-full aspect-square">
+              <IconsaxIcons
+                name="Send"
+                className="size-5 rotate-180"
+                color="currentColor"
+              />
+            </button>
+          </div>
+        )}
+      </form>
     );
   }
 }
