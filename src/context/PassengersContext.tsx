@@ -1,3 +1,4 @@
+import { usePathname } from 'next/navigation';
 import {
   ReactNode,
   useEffect,
@@ -30,27 +31,59 @@ type PassengersAction =
         rooms: number;
         passengers: number;
       };
+    }
+  | {
+      type: 'set-rooms';
+      payload: { id: string; adults: number; children: number }[];
+    }
+  | {
+      type: 'reset';
+      payload: undefined;
     };
 
-const MIN_ADULTS = 1;
+const MIN_ADULTS = 0;
 const MIN_CHILDREN = 0;
 const MAX_PASSENGERS = 5;
 
-const getInitialState = (): Passengers => {
-  const defaultValue = {
-    confirmedPassengers: { rooms: 1, passengers: 1 },
-    rooms: [{ id: uuidv4(), adults: 1, children: 0 }],
-  };
-
-  if (typeof window !== 'undefined') {
-    const savedState = sessionStorage.getItem('passengers');
-    return savedState ? JSON.parse(savedState) : defaultValue;
-  }
-
-  return defaultValue;
+const initialState = {
+  confirmedPassengers: { rooms: 0, passengers: 0 },
+  rooms: [{ id: uuidv4(), adults: 1, children: 0 }],
 };
 
-// --------------------------------------
+// -------------------------
+// === Helpers
+
+function decodeRooms(str: string) {
+  function clamp(value: number, min: number, max: number) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  return str
+    .split('-')
+    .slice(0, 3)
+    .map((r) => {
+      const [adults, children] = r.split(',').map(Number);
+
+      return {
+        id: uuidv4(),
+        adults: clamp(isNaN(adults) ? 1 : adults, 1, 5),
+        children: clamp(isNaN(children) ? 0 : children, 0, 5),
+      };
+    });
+}
+
+function getTotals(rooms: { adults: number; children: number }[]) {
+  return rooms.reduce(
+    (acc, r) => {
+      acc.adults += r.adults;
+      acc.children += r.children;
+      return acc;
+    },
+    { adults: 0, children: 0 },
+  );
+}
+
+// -------------------------
 
 const passengersReducer = (
   state: Passengers,
@@ -115,6 +148,18 @@ const passengersReducer = (
         confirmedPassengers: payload,
       };
 
+    case 'set-rooms':
+      return {
+        ...state,
+        rooms: payload,
+      };
+
+    case 'reset':
+      return {
+        confirmedPassengers: { rooms: 0, passengers: 0 },
+        rooms: [{ id: uuidv4(), adults: 1, children: 0 }],
+      };
+
     default:
       return state;
   }
@@ -130,13 +175,38 @@ const PassengersDispatchContext = createContext<
 export const PassengersProvider = ({
   children,
 }: Readonly<{ children: ReactNode }>) => {
-  const [state, dispatch] = useReducer(passengersReducer, getInitialState());
+  const [state, dispatch] = useReducer(passengersReducer, initialState);
+  const pathname = usePathname();
 
+  // === initial-state in first-render
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('passengers', JSON.stringify(state));
+    const params = new URLSearchParams(window.location.search);
+    const passengersQuery = params.get('passengers');
+
+    if (passengersQuery) {
+      const rooms = decodeRooms(passengersQuery);
+      dispatch({ type: 'set-rooms', payload: rooms });
+
+      const totals = getTotals(rooms);
+      dispatch({
+        type: 'confirmed-passengers',
+        payload: {
+          rooms: rooms.length,
+          passengers: totals.adults + totals.children,
+        },
+      });
     }
-  }, [state]);
+  }, []);
+
+  // === Reset state in home-page
+  useEffect(() => {
+    if (pathname === '/') {
+      dispatch({
+        type: 'reset',
+        payload: undefined,
+      });
+    }
+  }, [pathname]);
 
   return (
     <PassengersContext.Provider value={state}>

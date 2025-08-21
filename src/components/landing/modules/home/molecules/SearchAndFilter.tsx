@@ -7,13 +7,15 @@ import {
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import persianCalendar from 'react-date-object/calendars/persian';
+import persianLanguage from 'react-date-object/locales/persian_en';
+
 import NumberOfNights from '@/components/landing/shared/search/NumberOfNights';
 import Passengers from '@/components/landing/shared/search/passengers/Passengers';
 import CityOrHotel from '@/components/landing/shared/search/city-hotel/CityOrHotel';
 import { DDatePicker } from '@/components/landing/shared/search/date-picker/DDatePicker';
 
-import persianCalendar from 'react-date-object/calendars/persian';
-import persianLanguage from 'react-date-object/locales/persian_en';
+type Rooms = { adults: number; children: number }[];
 
 const dateInfo = {
   calendar: persianCalendar,
@@ -29,52 +31,62 @@ export default function SearchAndFilter() {
 
   const { confirmedValue: dates } = useDatePickerContext();
   const { confirmedValue: cityOrHotel } = useHotelOrCityContext();
-  const { confirmedPassengers: passengers } = usePassengersContext();
+  const { rooms, confirmedPassengers: passengers } = usePassengersContext();
 
   function handleClickSearch() {
-    const stopCondition = !cityOrHotel.city || !dates?.[0] || !dates?.[1];
+    const stopCondition =
+      !dates?.[0] ||
+      !dates?.[1] ||
+      !passengers.rooms ||
+      !cityOrHotel.city ||
+      !passengers.passengers;
+
     if (stopCondition) {
       setError(true);
       return;
     }
 
     setLoading(true);
-    const params = new URLSearchParams();
 
-    params.set(
-      'start-date',
-      dates?.[0]
-        ?.convert(dateInfo.calendar, dateInfo.locale)
-        .format('YYYY-MM-DD'),
-    );
-    params.set(
-      'end-date',
-      dates?.[1]
-        ?.convert(dateInfo.calendar, dateInfo.locale)
-        .format('YYYY-MM-DD'),
-    );
+    function encodeRooms(rooms: Rooms) {
+      return rooms.map((r) => `${r.adults},${r.children}`).join('-');
+    }
 
-    params.set('passengers', passengers.passengers.toString());
-    params.set('rooms', passengers.rooms.toString());
+    const startDate = dates?.[0]
+      ?.convert(dateInfo.calendar, dateInfo.locale)
+      .format('YYYY-MM-DD');
+
+    const endDate = dates?.[1]
+      ?.convert(dateInfo.calendar, dateInfo.locale)
+      .format('YYYY-MM-DD');
+
+    const commonParams = `start-date=${startDate}&end-date=${endDate}&passengers=${encodeRooms(rooms)}`;
 
     if (cityOrHotel.hotel) {
-      router.push(
-        `/best-hotels/${cityOrHotel.hotelSlug}/?${params.toString()}`,
-        { scroll: true },
-      );
+      router.push(`/best-hotels/${cityOrHotel.hotelSlug}?${commonParams}`, {
+        scroll: true,
+      });
     }
     // ---
     else {
-      params.set('city', cityOrHotel.city);
-      params.set('province', cityOrHotel.province);
-      router.push(`/best-hotels/?${params.toString()}`, { scroll: true });
+      router.push(
+        `/best-hotels?${commonParams}&city=${cityOrHotel.city}&province=${cityOrHotel.province}`,
+        { scroll: true },
+      );
     }
   }
 
   // === Setting Error-State
   useEffect(() => {
-    if (cityOrHotel.city) setError(false);
-  }, [cityOrHotel]);
+    if (
+      dates?.[0] &&
+      dates?.[1] &&
+      passengers.rooms &&
+      cityOrHotel.city &&
+      passengers.passengers
+    )
+      setError(false);
+  }, [cityOrHotel, passengers, dates]);
 
   return (
     <div className="absolute z-10 bottom-6 inset-x-6 bg-[--clr-main-light] h-32 px-8 flex items-center gap-6 rounded-2xl xl:bottom-10 xl:inset-x-24 xl:gap-8">
@@ -123,7 +135,7 @@ export default function SearchAndFilter() {
         <span
           className={`text-cs-red text-cs75 font-semibold transition-all ease-in-out duration-200 ${isError ? 'opacity-100' : 'opacity-0'}`}
         >
-          * انتخاب شهر یا هتل مقصد اجباری است
+          * وارد کردن فیلتر های جسجتو الزامی میباشد
         </span>
       </div>
     </div>

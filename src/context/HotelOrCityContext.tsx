@@ -1,4 +1,11 @@
-import { createContext, useReducer, useContext, ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
+import {
+  createContext,
+  useReducer,
+  useContext,
+  ReactNode,
+  useEffect,
+} from 'react';
 
 type THotelOrCity = {
   city: string;
@@ -38,6 +45,10 @@ type HotelOrCityAction =
         city: string;
         province: string;
       };
+    }
+  | {
+      type: 'reset';
+      payload: undefined;
     };
 
 const hotelOrCityState = {
@@ -111,6 +122,13 @@ const HotelOrCityReducer = (
         },
       };
 
+    case 'reset':
+      return {
+        inputValue: '',
+        value: hotelOrCityState,
+        confirmedValue: hotelOrCityState,
+      };
+
     default:
       return state;
   }
@@ -127,6 +145,32 @@ export const HotelOrCityProvider = ({
   children,
 }: Readonly<{ children: ReactNode }>) => {
   const [state, dispatch] = useReducer(HotelOrCityReducer, initialState);
+  const pathname = usePathname();
+
+  // === Initial-state in first-render
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    const city = params.get('city');
+    const province = params.get('province');
+
+    if (city && province) {
+      dispatch({
+        type: 'first-render',
+        payload: { city, province },
+      });
+    }
+  }, []);
+
+  // === Reset state in home-page
+  useEffect(() => {
+    if (pathname === '/') {
+      dispatch({
+        type: 'reset',
+        payload: undefined,
+      });
+    }
+  }, [pathname]);
 
   return (
     <HotelOrCityContext.Provider value={state}>

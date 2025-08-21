@@ -1,104 +1,106 @@
 'use client';
 
-import DateObject from 'react-date-object';
+import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 import persianCalendar from 'react-date-object/calendars/persian';
 import persianLanguage from 'react-date-object/locales/persian_en';
+import gregorianCalendar from 'react-date-object/calendars/gregorian';
+import gregorianLanguage from 'react-date-object/locales/gregorian_en';
 
 import { Room } from '@/types/landing';
 import { Section } from './molecules/Section';
 import { generalInstance } from '@/utils/services';
+import { DateObject } from 'react-multi-date-picker';
 import { RoomsContent } from './molecules/rooms/RoomsContent';
 import { useDatePickerContext, usePassengersContext } from '@/context';
 
 type Props = { hotelSlug: string };
-type ApiResponse = { data: Room[] };
+type Rooms = { adults: number; children: number }[];
 
 const dateInfo = {
   calendar: persianCalendar,
   locale: persianLanguage,
 };
 
-const getDefaultDates = () => ({
-  startDate: new DateObject(dateInfo).format('YYYY-MM-DD'),
-  endDate: new DateObject(dateInfo).add(1, 'days').format('YYYY-MM-DD'),
-});
-
 const buildQueryString = (options: {
-  startDate: string;
   endDate: string;
-  passengers: number;
-  rooms: number;
+  startDate: string;
+  passengers: string;
 }) => {
-  return `start_date=${options.startDate}&end_date=${options.endDate}&passenger_count=${options.passengers}&room_count=${options.rooms}`;
+  return `start-date=${options.startDate}&end-date=${options.endDate}&passengers=${options.passengers}`;
 };
 
 export function Rooms({ hotelSlug }: Props) {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const { confirmedValue } = useDatePickerContext();
-  const { confirmedPassengers } = usePassengersContext();
+  const { confirmedValue: dates, calendarType } = useDatePickerContext();
+  const { rooms, confirmedPassengers } = usePassengersContext();
 
   const [queryOptions, setQueryOptions] = useState({
-    startDate: '',
     endDate: '',
-    passengers: 1,
-    rooms: 1,
+    startDate: '',
+    passengers: '',
   });
+
+  const calendarDetail = {
+    calendar: calendarType === 'persian' ? persianCalendar : gregorianCalendar,
+    locale: calendarType === 'persian' ? persianLanguage : gregorianLanguage,
+  };
 
   const queryString = useMemo(
     () => buildQueryString(queryOptions),
     [queryOptions],
   );
 
-  const { data, status } = useQuery<ApiResponse>({
+  const { data, status } = useQuery<{ data: Room[] }>({
     queryKey: ['hotel-rooms', queryString],
     queryFn: () =>
       generalInstance(`/hotel/hotels/${hotelSlug}/rooms?${queryString}`),
   });
 
-  // Initialize query options from URL or defaults
+  // === Update query-options & url
   useEffect(() => {
-    const passengers = searchParams.get('passengers');
-    const startDate = searchParams.get('start-date');
-    const endDate = searchParams.get('end-date');
-    const rooms = searchParams.get('rooms');
-    const defaults = getDefaultDates();
+    const dateInfo = {
+      locale: calendarDetail.locale,
+      calendar: calendarDetail.calendar,
+    };
+
+    const startDate =
+      dates?.[0]
+        ?.convert(dateInfo.calendar, dateInfo.locale)
+        .format('YYYY-MM-DD') || new DateObject(dateInfo).format('YYYY-MM-DD');
+
+    const endDate =
+      dates?.[1]
+        ?.convert(dateInfo.calendar, dateInfo.locale)
+        .format('YYYY-MM-DD') ||
+      new DateObject(dateInfo).add(1, 'days').format('YYYY-MM-DD');
+
+    let passengers;
+    if (!confirmedPassengers.rooms) passengers = '0';
+    else {
+      passengers = rooms.map((item) => item.adults + item.children).toString();
+    }
 
     setQueryOptions({
-      startDate: startDate || defaults.startDate,
-      endDate: endDate || defaults.endDate,
-      passengers: Number(passengers) || 1,
-      rooms: Number(rooms) || 1,
+      endDate,
+      startDate,
+      passengers,
     });
-  }, [searchParams]);
 
-  // Update URL parameters and trigger fetch
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    const defaults = getDefaultDates();
+    function encodeRooms(rooms: Rooms) {
+      return rooms.map((r) => `${r.adults},${r.children}`).join('-');
+    }
 
-    params.set(
-      'start-date',
-      confirmedValue?.[0]
-        ?.convert(dateInfo.calendar, dateInfo.locale)
-        .format('YYYY-MM-DD') || defaults.startDate,
+    router.push(
+      `/best-hotels/${hotelSlug}?start-date=${startDate}&end-date=${endDate}${passengers === '0' ? '' : `&passengers=${encodeRooms(rooms)}`}`,
+      {
+        scroll: false,
+      },
     );
-    params.set(
-      'end-date',
-      confirmedValue?.[1]
-        ?.convert(dateInfo.calendar, dateInfo.locale)
-        .format('YYYY-MM-DD') || defaults.endDate,
-    );
-    params.set('passengers', confirmedPassengers.passengers.toString() || '1');
-    params.set('rooms', confirmedPassengers.rooms.toString() || '1');
-
-    router.push(`?${params.toString()}`, { scroll: false });
-  }, [confirmedValue, confirmedPassengers, router]);
+  }, [dates, confirmedPassengers, router]);
 
   return (
     <Section sectionID="rooms">
