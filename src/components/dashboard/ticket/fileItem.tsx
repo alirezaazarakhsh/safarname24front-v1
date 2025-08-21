@@ -86,7 +86,7 @@ export default function FileItem({
         )}
       >
         <div className="flex items-center justify-start gap-3 flex-1 overflow-hidden">
-          {fileCat !== 'document' && (
+          {fileCat == 'image' && (
             <div className="size-[50px] aspect-square rounded-lg overflow-hidden relative srhink-0">
               <Image
                 alt={file}

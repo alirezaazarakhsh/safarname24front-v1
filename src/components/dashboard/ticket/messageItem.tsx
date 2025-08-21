@@ -114,7 +114,7 @@ export default function MessageItem({
               'py-3 px-4 w-full rounded-lg overflow-hidden',
               data.from === 'user'
                 ? 'bg-cs-blue text-white rounded-br-none'
-                : 'bg-white text-black rounded-bl-none pointer-events-none',
+                : 'bg-white text-black rounded-bl-none',
             )}
           >
             {data.replyMessage && (
@@ -180,7 +180,7 @@ export default function MessageItem({
                   />
                 )}
                 <div className="flex-1">
-                  <span className="text-current font-light text-start block select-none truncate mb-1 text-cs06">
+                  <span className="text-current font-light text-start block select-none truncate mb-1 text-cs06 w-[20ch]">
                     {data.message}
                   </span>
                   <span className="text-current font-light text-start block select-none truncate text-cs06">

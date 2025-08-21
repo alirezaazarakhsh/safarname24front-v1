@@ -37,8 +37,9 @@ const tickets: TicketsContextPropsType['tickets'] = [
       {
         createdAt: new Date().toISOString(),
         from: 'user',
-        type: 'voice',
-        message: '/randomMusic.mp3',
+        type: 'file',
+        message:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
         replyMessage: 'سلام روز شما هم بخیر, جانم .',
         answererName: 'محمد علی کلی',
       },
@@ -53,7 +54,9 @@ const tickets: TicketsContextPropsType['tickets'] = [
     files: {
       documents: [],
       images: [Avatar.src, Avatar.src, Avatar.src],
-      videos: [],
+      videos: [
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      ],
       voices: ['/randomMusic.mp3', '/randomMusic.mp3', '/randomMusic.mp3'],
     },
   },

@@ -30,6 +30,15 @@ export default function TicketsContext({
   const [selectedTicket, setSelectedTicket] = useState<number | undefined>();
   const [replyTo, setReplyTo] = useState<string>('');
   const [replyMessage, setReplyMessage] = useState<string>('');
+
+  // Defining local storage items
+  const [walpaper, setWalpaper] = useLocalStorageState<string>(
+    'ticketWalpaper',
+    {
+      defaultValue: '#F7F8F9',
+    },
+  );
+
   const [ticketNotifications, setTicketNotifications] =
     useLocalStorageState<boolean>('ticketNotifications', {
       defaultValue: false,
@@ -148,6 +157,7 @@ export default function TicketsContext({
                 icon="MessageText"
                 subTitle="گرادینت لایت یخ"
                 title="والپیپر"
+                type="walpaper"
                 size={rightLayoutSize}
                 disabled={!foundedTicketItem}
               />
@@ -155,6 +165,7 @@ export default function TicketsContext({
                 icon="Bucket"
                 title="رنگ چت تایم"
                 subTitle="آبی اولترا"
+                type="theme"
                 size={rightLayoutSize}
                 disabled={!foundedTicketItem}
               />
@@ -214,7 +225,10 @@ export default function TicketsContext({
               </button>
             </div>
           </div>
-          <div className="p-[24px] flex flex-col gap-4 rounded-lg h-full w-full bg-gray-100 overflow-x-hidden overflow-y-auto relative custom-scrollbar">
+          <div
+            style={{ background: walpaper }}
+            className="p-[24px] flex flex-col gap-4 rounded-lg h-full w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar"
+          >
             <DateSeprator date={new Date().toISOString()} />
             {!foundedTicketItem ? (
               <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-gray-200 overflow-auto custom-scrollbar">
