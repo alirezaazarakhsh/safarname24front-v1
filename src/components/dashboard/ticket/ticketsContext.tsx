@@ -34,7 +34,7 @@ export default function TicketsContext({
 
   // Returning JSX
   return (
-    <div className="bg-red-600">
+    <div>
       <div
         data-size={rightLayoutSize}
         className={cn(

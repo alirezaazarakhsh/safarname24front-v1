@@ -80,6 +80,8 @@ export default function SelectDepartmentDialog({
   const submitHandler: SubmitHandler<formType> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     closeFn && closeFn();
+
+    form.reset({ department: undefined });
     toast({
       theme: 'green',
       title: 'تیکت شما با موفقیت ایجاد شد',
@@ -94,7 +96,9 @@ export default function SelectDepartmentDialog({
   return (
     <Dialog
       open={isOpened}
-      onOpenChange={(open) => closeFn && !open && closeFn()}
+      onOpenChange={(open) => {
+        closeFn && !open && closeFn();
+      }}
     >
       <DialogPortal>
         <DialogContent className="p-0 w-full max-w-[400px] gap-0">
@@ -109,7 +113,7 @@ export default function SelectDepartmentDialog({
             </DialogClose>
           </div>
           <form
-            onClick={form.handleSubmit(submitHandler, (errors) => {
+            onSubmit={form.handleSubmit(submitHandler, (errors) => {
               Object.values(errors).forEach((item) => {
                 toast({
                   theme: 'theme',
