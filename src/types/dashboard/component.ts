@@ -682,7 +682,7 @@ export interface CustomerClubGiftGainedPropsType
 export interface TicketsSettingItemPropsType {
   className?: string;
   title: string;
-  subTitle: string;
+  subTitle?: string;
   icon: IconsName;
   size?: 'lg' | 'sm';
   disabled?: boolean;

@@ -32,12 +32,13 @@ export default function TicketsContext({
   const [replyMessage, setReplyMessage] = useState<string>('');
 
   // Defining local storage items
-  const [walpaper, setWalpaper] = useLocalStorageState<string>(
-    'ticketWalpaper',
-    {
-      defaultValue: '#F7F8F9',
-    },
-  );
+  const [walpaper] = useLocalStorageState<string>('ticketWalpaper', {
+    defaultValue: '#F7F8F9',
+  });
+
+  const theme = useLocalStorageState<string>('ticketTheme', {
+    defaultValue: '#548BF6',
+  });
 
   const [ticketNotifications, setTicketNotifications] =
     useLocalStorageState<boolean>('ticketNotifications', {
@@ -155,7 +156,6 @@ export default function TicketsContext({
             <div className="flex flex-col group-data-[size=sm]:gap-0 group-data-[size=lg]:gap-3 group-data-[size=lg]:px-[12px] group-data-[size=sm]:px-0">
               <SettingItem
                 icon="MessageText"
-                subTitle="گرادینت لایت یخ"
                 title="والپیپر"
                 type="walpaper"
                 size={rightLayoutSize}
@@ -164,7 +164,6 @@ export default function TicketsContext({
               <SettingItem
                 icon="Bucket"
                 title="رنگ چت تایم"
-                subTitle="آبی اولترا"
                 type="theme"
                 size={rightLayoutSize}
                 disabled={!foundedTicketItem}

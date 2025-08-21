@@ -24,13 +24,22 @@ import useLocalStorageState from 'use-local-storage-state';
 import MessageItem from './messageItem';
 
 // Defining data's
-const walpaperData: { label: string; color: string }[] = [
+const walpaperData = [
   { label: 'برفاب', color: '#BCBCBC' }, // Light Gray
   { label: 'مهتاب', color: '#F3F3F3' }, // Moonlight
   { label: 'سحر', color: '#F3F3F3' }, // Dawn
   { label: 'شبگیر', color: '#2A2A2A' }, // Dark Night
   { label: 'آسمان', color: '#CEDEEE' }, // Sky
   { label: 'ابرنقره', color: '#F7F8F9' }, // Silver Cloud
+];
+
+const themeData = [
+  { label: 'کهکشان', color: '#7B61C8' }, // Galaxy
+  { label: 'آتشفشان', color: '#EF384A' }, // Volcano
+  { label: 'جنگل', color: '#309B62' }, // Forest
+  { label: 'سیاهچال', color: '#232323' }, // Dungeon
+  { label: 'دریاچه', color: '#548BF6' }, // Lake
+  { label: 'سنگواره', color: '#4C4C4C' }, // Fossil / Stone
 ];
 
 const fakeMessages: MessageItemPropsType['data'][] = [
@@ -72,6 +81,7 @@ export default function SettingItem({
   files,
 }: TicketsSettingItemPropsType): ReactNode {
   // Defining hooks
+  const [theme, setTheme] = useLocalStorageState<string>('ticketTheme');
   const [walpaper, setWalpaper] =
     useLocalStorageState<string>('ticketWalpaper');
 
@@ -110,7 +120,18 @@ export default function SettingItem({
                   {title}
                 </span>
                 <span className="text-cs75 font-medium text-black/70 text-right truncate block">
-                  {subTitle}
+                  {type === 'files'
+                    ? subTitle
+                      ? subTitle
+                      : 'فایل ها'
+                    : type === 'walpaper'
+                      ? subTitle
+                        ? subTitle
+                        : walpaperData.find((item) => item.color === walpaper)
+                            ?.label
+                      : subTitle
+                        ? subTitle
+                        : themeData.find((item) => item.color === theme)?.label}
                 </span>
               </div>
             )}
@@ -193,6 +214,63 @@ export default function SettingItem({
                     key={index}
                     onClick={() => setWalpaper(item.color)}
                     data-active={item.color === walpaper}
+                    className="aspect-square flex p-1.5 rounded-lg relative overflow-hidden group"
+                  >
+                    <div
+                      className="absolute top-0 left-0 w-full h-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
+                      style={{ background: item.color }}
+                    />
+                    <div
+                      className="rounded-md cursor-pointer w-full z-10"
+                      style={{ background: item.color }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <DialogClose asChild>
+              <button className="px-5 py-2.5 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md mt-5">
+                ذخیره اطلاعات
+              </button>
+            </DialogClose>
+          </DialogContent>
+        </DialogPortal>
+      </Dialog>
+    );
+  } else if (type === 'theme') {
+    return (
+      <Dialog>
+        <SettingButton />
+        <DialogPortal>
+          <DialogContent className="w-full max-w-[500px] gap-0 bg-gray-100">
+            <DialogHeader className="flex items-center flex-row justify-between gap-3  mb-5">
+              <div>
+                <DialogTitle className="text-cs09 font-bold truncate text-right block flex-1 mb-2">
+                  والپیپر
+                </DialogTitle>
+                <span className="text-cs75 font-bold truncate text-right block flex-1 text-gray-500">
+                  {themeData.find((item) => item.color === theme)?.label || '-'}
+                </span>
+              </div>
+              <DialogClose className="shrink-0">
+                <ICX className="size-3 -mt-1.5" fill="black" />
+              </DialogClose>
+            </DialogHeader>
+            <div className="w-full">
+              <div
+                className="p-[24px] flex flex-col gap-4 rounded-lg w-full bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
+                style={{ background: walpaper }}
+              >
+                {fakeMessages.map((item, index) => (
+                  <MessageItem data={item} key={index} />
+                ))}
+              </div>
+              <div className="grid grid-cols-6 gap-3">
+                {themeData.map((item, index) => (
+                  <div
+                    key={index}
+                    onClick={() => setTheme(item.color)}
+                    data-active={item.color === theme}
                     className="aspect-square flex p-1.5 rounded-lg relative overflow-hidden group"
                   >
                     <div

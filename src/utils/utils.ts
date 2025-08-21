@@ -55,3 +55,38 @@ export function toPercentage(value: number, max: number = 80): number {
   if (value >= max) return 100;
   return (value / max) * 100;
 }
+
+export function isColorDark(hex: string | undefined): boolean {
+  if (hex) {
+    const cleanedHex = hex.replace('#', '');
+    const r = parseInt(cleanedHex.substring(0, 2), 16);
+    const g = parseInt(cleanedHex.substring(2, 4), 16);
+    const b = parseInt(cleanedHex.substring(4, 6), 16);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+    return brightness < 128;
+  } else {
+    return false;
+  }
+}
+
+export function hexToRgba(hex: string | undefined, opacity: number): string {
+  if (hex) {
+    const clampedOpacity = Math.max(0, Math.min(opacity, 1));
+    const cleanedHex = hex.replace('#', '');
+    const fullHex =
+      cleanedHex.length === 3
+        ? cleanedHex
+            .split('')
+            .map((c) => c + c)
+            .join('')
+        : cleanedHex;
+    const r = parseInt(fullHex.substring(0, 2), 16);
+    const g = parseInt(fullHex.substring(2, 4), 16);
+    const b = parseInt(fullHex.substring(4, 6), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${clampedOpacity})`;
+  } else {
+    return '#000000';
+  }
+}

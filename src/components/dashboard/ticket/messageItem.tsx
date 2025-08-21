@@ -9,12 +9,19 @@ import { formatTime } from '@/utils/string';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import Link from 'next/link';
 import Image from 'next/image';
-import { cn, getFileCategory, toPercentage } from '@/utils/utils';
+import {
+  cn,
+  getFileCategory,
+  hexToRgba,
+  isColorDark,
+  toPercentage,
+} from '@/utils/utils';
 import moment from 'jalali-moment';
 import {
   MessageItemPropsType,
   AudioWaveHandle,
 } from '@/types/dashboard/component';
+import useLocalStorageState from 'use-local-storage-state';
 
 export default function MessageItem({
   data,
@@ -26,6 +33,9 @@ export default function MessageItem({
   const userInfo = useUserInfo();
   const fileCat = getFileCategory(data.message);
   const [x, setX] = useState(0);
+  const [theme] = useLocalStorageState<string>('ticketTheme');
+  const [walpaper] = useLocalStorageState<string>('ticketWalpaper');
+
   const [backgroundScalePercentage, setBackgroundScalePercentage] =
     useState<number>(0);
 
@@ -97,10 +107,19 @@ export default function MessageItem({
               )}
             >
               <div
-                className="bg-cs-blue/20 size-full aspect-square absolute top-0 left-0 -z-10 rounded-full scale-150"
-                style={{ opacity: `${backgroundScalePercentage}%` }}
+                className="size-full aspect-square absolute top-0 left-0 -z-10 rounded-full scale-150"
+                style={{
+                  opacity: `${backgroundScalePercentage - 50}%`,
+                  background: theme,
+                }}
               />
-              <div className="size-[30px] aspect-square bg-cs-blue text-white flex items-center justify-center rounded-full">
+              <div
+                className="size-[30px] aspect-square flex items-center justify-center rounded-full"
+                style={{
+                  background: theme,
+                  color: isColorDark(theme) ? '#ffffff' : '#000000',
+                }}
+              >
                 <IconsaxIcons
                   className="size-[15px]"
                   name="Back"
@@ -110,21 +129,32 @@ export default function MessageItem({
             </div>
           )}
           <div
+            style={{
+              background: data.from === 'user' ? theme : '#ffffff',
+              color:
+                data.from === 'user'
+                  ? isColorDark(theme)
+                    ? '#ffffff'
+                    : '#000000'
+                  : '#000000',
+            }}
             className={cn(
               'py-3 px-4 w-full rounded-lg overflow-hidden',
-              data.from === 'user'
-                ? 'bg-cs-blue text-white rounded-br-none'
-                : 'bg-white text-black rounded-bl-none',
+              data.from === 'user' ? 'rounded-br-none' : 'rounded-bl-none',
             )}
           >
             {data.replyMessage && (
               <div
-                className={cn(
-                  data.from === 'answerer'
-                    ? 'bg-cs-blue/10 text-cs-blue'
-                    : 'bg-white/10 text-white',
-                  'border-r-2 border-r-current py-1 px-3 mb-2 rounded-l-md',
-                )}
+                style={{
+                  color: data.from === 'answerer' ? theme : 'white',
+                  background:
+                    data.from === 'answerer'
+                      ? hexToRgba(theme, 0.2)
+                      : 'rgba(256,256,256,0.2)',
+                }}
+                className={
+                  'border-r-2 border-r-current py-1 px-3 mb-2 rounded-l-md'
+                }
               >
                 <span className="text-current font-bold text-right block truncate mb-1 text-cs06 select-none">
                   {data.from === 'answerer'
@@ -140,7 +170,16 @@ export default function MessageItem({
               <div className="flex items-center justify-between w-[200px] gap-3">
                 <button
                   onClick={handlePlayPause}
-                  className="size-[35px] aspect-square bg-white text-gray-500 flex items-center justify-center rounded-full shrink-0"
+                  style={{
+                    background:
+                      data.from === 'answerer'
+                        ? '#000000'
+                        : isColorDark(theme)
+                          ? '#ffffff'
+                          : '#000000',
+                    color: data.from === 'answerer' ? '#ffffff' : theme,
+                  }}
+                  className="size-[35px] aspect-square flex items-center justify-center rounded-full shrink-0"
                 >
                   <IconsaxIcons
                     className="size-[15px]"
@@ -153,8 +192,14 @@ export default function MessageItem({
                   <AudioWave
                     audioUrl={data.message}
                     className="w-full h-[35px]"
-                    progressColor={data.from === 'user' ? '#ffffff' : undefined}
                     ref={audioRef}
+                    progressColor={
+                      data.from === 'answerer'
+                        ? '#000000'
+                        : isColorDark(theme)
+                          ? '#ffffff'
+                          : '#000000'
+                    }
                   />
                 </div>
                 <span className="text-center text-cs75 font-medium block truncate shrink-0 text-current select-none">
@@ -175,7 +220,7 @@ export default function MessageItem({
                     src={data.message}
                     width={50}
                     height={50}
-                    className="size-[35px] bg-red-600 aspect-square shrink-0 rounded-lg"
+                    className="size-[35px] aspect-square shrink-0 rounded-lg"
                     alt={data.message}
                   />
                 )}
@@ -195,9 +240,12 @@ export default function MessageItem({
             )}
           </div>
           <span
+            style={{
+              color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+            }}
             className={cn(
               data.from === 'user' ? 'text-right' : 'text-left',
-              'block truncate font-light mt-2 text-black/50 text-cs06',
+              'block truncate font-light mt-2 text-cs06',
             )}
           >
             {moment(data.createdAt).locale('fa').format('HH:mm A')}

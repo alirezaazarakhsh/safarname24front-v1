@@ -5,10 +5,11 @@
 import Picker from '@emoji-mart/react';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { TicketsSendMessagePropsType } from '@/types/dashboard/component';
-import { cn } from '@/utils/utils';
+import { cn, hexToRgba, isColorDark } from '@/utils/utils';
 import { File } from 'lucide-react';
 import { ReactNode, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting Tikcets SendMessage component as default
 export default function SendMessage({
@@ -23,12 +24,20 @@ export default function SendMessage({
   const [emojiOpened, setEmojiOpened] = useState<boolean>(false);
   const mediaInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Defining local storage items
+  const [walpaper] = useLocalStorageState<string>('ticketWalpaper');
+  const [theme] = useLocalStorageState<string>('ticketTheme');
+
   // Conditional rendering
   if (disabled) {
     return (
       <div
+        style={{
+          background: walpaper,
+          color: theme,
+        }}
         className={cn(
-          'flex justify-between text-black/50 bg-gray-100 rounded-lg gap-[12px] h-[50px] cursor-not-allowed overflow-hidden',
+          'flex justify-between text-black/50 rounded-lg gap-[12px] h-[50px] cursor-not-allowed overflow-hidden',
           className,
         )}
       >
@@ -51,18 +60,39 @@ export default function SendMessage({
     return (
       <form
         action="#"
+        style={{
+          background: walpaper,
+          color: theme,
+        }}
         className={cn(
-          'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
+          'flex justify-between h-[50px] relative transition-all duration-500',
           reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
           className,
         )}
       >
         {reply.name !== '' && (
-          <div className="absolute bottom-full left-0 w-full z-20 bg-gray-100 rounded-t-lg overflow-hidden border-b border-b-cs-blue">
-            <div className="flex items-start justify-between gap-5 w-full bg-cs-blue/10">
+          <div
+            style={{
+              borderColor: theme,
+              background: walpaper,
+            }}
+            className="absolute bottom-full left-0 w-full z-20 rounded-t-lg overflow-hidden border-b"
+          >
+            <div
+              style={{
+                background: hexToRgba(theme, 0.2),
+              }}
+              className="flex items-start justify-between gap-5 w-full"
+            >
               <div className="flex justify-start items-center">
                 <div className="size-[50px] shrink-0 flex items-center justify-center">
-                  <div className="aspect-sqaure  size-[30px] flex items-center justify-center bg-cs-blue rounded-full text-white">
+                  <div
+                    className="aspect-sqaure  size-[30px] flex items-center justify-center rounded-full"
+                    style={{
+                      background: theme,
+                      color: isColorDark(theme) ? '#ffffff' : '#000000',
+                    }}
+                  >
                     <IconsaxIcons
                       name="Back"
                       color="currentColor"
@@ -72,24 +102,41 @@ export default function SendMessage({
                 </div>
                 <div className="overflow-hidden flex-1 min-h-[50px] flex items-center">
                   <div className="flex-1">
-                    <span className="text-cs-blue font-bold text-right block truncate mb-0.5 text-cs65">
+                    <span
+                      style={{ color: theme }}
+                      className="font-bold text-right block truncate mb-0.5 text-cs65"
+                    >
                       {reply.name}
                     </span>
-                    <p className="text-black/60 font-semibold text-cs65 text-right leading-4">
+                    <p
+                      style={{
+                        color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+                      }}
+                      className="font-semibold text-cs65 text-right leading-4"
+                    >
                       {reply.message}
                     </p>
                   </div>
                 </div>
               </div>
               <div className="flex items-center justify-end shrink-0">
-                <div className="rounded-md bg-cs-blue text-white flex items-center justify-center h-[30px] px-3">
+                <div
+                  style={{
+                    background: theme,
+                    color: isColorDark(theme) ? '#ffffff' : '#000000',
+                  }}
+                  className="rounded-md flex items-center justify-center h-[30px] px-3"
+                >
                   <span className="block truncate text-center text-current text-cs65 font-bold">
                     Reply
                   </span>
                 </div>
                 <button
                   onClick={clearReply}
-                  className="text-cs-blue size-[50px] flex items-center justify-center"
+                  style={{
+                    color: theme,
+                  }}
+                  className="size-[50px] flex items-center justify-center"
                 >
                   <IconsaxIcons
                     name="CloseSquare"
