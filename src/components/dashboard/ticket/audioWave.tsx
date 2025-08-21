@@ -5,6 +5,7 @@ import {
   AudioWaveHandle,
   AudioWavePropsType,
 } from '@/types/dashboard/component';
+import { cn } from '@/utils/utils';
 import React, {
   ReactNode,
   useEffect,
@@ -16,7 +17,15 @@ import WaveSurfer from 'wavesurfer.js';
 
 // Define exposed methods for parent (HOC can call these)
 const AudioWave = forwardRef<AudioWaveHandle, AudioWavePropsType>(
-  ({ audioUrl, className }, ref): ReactNode => {
+  (
+    {
+      audioUrl,
+      className,
+      backgroundColor = '#B1B1B1',
+      progressColor = '#343434',
+    },
+    ref,
+  ): ReactNode => {
     const waveformRef = useRef<HTMLDivElement | null>(null);
     const wavesurferRef = useRef<WaveSurfer | null>(null);
 
@@ -25,8 +34,8 @@ const AudioWave = forwardRef<AudioWaveHandle, AudioWavePropsType>(
 
       wavesurferRef.current = WaveSurfer.create({
         container: waveformRef.current,
-        waveColor: '#B1B1B1',
-        progressColor: '#343434',
+        waveColor: backgroundColor,
+        progressColor: progressColor,
         cursorColor: 'transparent',
         barWidth: 2,
         barHeight: 1,
@@ -53,7 +62,7 @@ const AudioWave = forwardRef<AudioWaveHandle, AudioWavePropsType>(
       isPlaying: () => !!wavesurferRef.current?.isPlaying(),
     }));
 
-    return <div ref={waveformRef} className={className} />;
+    return <div ref={waveformRef} className={cn('!z-0', className)} />;
   },
 );
 

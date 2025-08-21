@@ -41,7 +41,7 @@ export default function FileItem({
     return (
       <div
         className={cn(
-          'flex items-center justify-between gap-3 p-4 rounded-lg bg-white',
+          'flex items-center justify-between gap-3 p-4 rounded-lg bg-white relative',
           className,
         )}
       >
@@ -60,6 +60,7 @@ export default function FileItem({
           <div className="overflow-hidden flex-1">
             <AudioWave
               audioUrl={file}
+              progressColor="white"
               className="w-full h-[35px]"
               ref={audioRef}
             />

@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Avatar from '../../../../public/image/avatar/1.jpg';
 import Image from 'next/image';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
@@ -13,11 +13,9 @@ import { Button } from '@/components/ui/button';
 import TicketItem from './ticketItem';
 import EmptyImage from '../../../../public/image/empty.png';
 import SelectDepartmentDialog from './dialog/selectDepartmentDialog';
-import {
-  AudioWaveHandle,
-  TicketsContextPropsType,
-} from '@/types/dashboard/component';
+import { TicketsContextPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
+import MessageItem from './messageItem';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext({
@@ -28,9 +26,17 @@ export default function TicketsContext({
   const [rightLayoutSize, setRightLayoutSize] = useState<'sm' | 'lg'>('lg');
   const [modalOpened, setModalOpened] = useState<boolean>(false);
   const [selectedTicket, setSelectedTicket] = useState<number | undefined>();
+  const [replyTo, setReplyTo] = useState<string>('');
+  const [replyMessage, setReplyMessage] = useState<string>('');
 
   // Defining variables
   const foundedTicketItem = tickets.find((item) => item.id === selectedTicket);
+
+  // Using useEffect to clear reply things
+  useEffect(() => {
+    setReplyTo('');
+    setReplyMessage('');
+  }, [foundedTicketItem]);
 
   // Returning JSX
   return (
@@ -77,7 +83,7 @@ export default function TicketsContext({
             <div className="flex flex-col group-data-[size=sm]:gap-0 group-data-[size=lg]:gap-3 group-data-[size=lg]:px-[12px] group-data-[size=sm]:px-0">
               <SettingItem
                 icon="DocumentText"
-                subTitle="0 فایل - 0MB"
+                subTitle={`${foundedTicketItem?.files.documents.length || 0} فایل`}
                 title="داکیومنت"
                 type="files"
                 files={foundedTicketItem?.files.documents}
@@ -91,7 +97,7 @@ export default function TicketsContext({
                 type="files"
                 files={foundedTicketItem?.files.images}
                 icon="Image"
-                subTitle="0 فایل - 0MB"
+                subTitle={`${foundedTicketItem?.files.images.length || 0} فایل`}
                 title="عکس"
                 size={rightLayoutSize}
                 disabled={
@@ -101,7 +107,7 @@ export default function TicketsContext({
               />
               <SettingItem
                 icon="Microphone"
-                subTitle="0 فایل - 0MB"
+                subTitle={`${foundedTicketItem?.files.voices.length || 0} فایل`}
                 title="صدا"
                 type="files"
                 files={foundedTicketItem?.files.voices}
@@ -113,7 +119,7 @@ export default function TicketsContext({
               />
               <SettingItem
                 icon="VideoPlay"
-                subTitle="0 فایل - 0MB"
+                subTitle={`${foundedTicketItem?.files.videos.length || 0} فایل`}
                 title="ویدیو"
                 type="files"
                 files={foundedTicketItem?.files.videos}
@@ -177,8 +183,9 @@ export default function TicketsContext({
               </button>
             </div>
           </div>
-          <div className="p-[24px] flex flex-col gap-4 rounded-lg h-full w-full bg-gray-50 overflow-auto relative">
-            {!foundedTicketItem && (
+          <div className="p-[24px] flex flex-col gap-4 rounded-lg h-full w-full bg-gray-100 overflow-x-hidden overflow-y-auto relative custom-scrollbar">
+            <DateSeprator date={new Date().toISOString()} />
+            {!foundedTicketItem ? (
               <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-gray-200 overflow-auto custom-scrollbar">
                 <IconsaxIcons
                   name="EmojiSad"
@@ -186,12 +193,26 @@ export default function TicketsContext({
                   className="size-32"
                 />
               </div>
+            ) : (
+              foundedTicketItem.messages.map((item, index) => (
+                <MessageItem
+                  key={index}
+                  setReply={(message, name) => {
+                    setReplyTo(name);
+                    setReplyMessage(message);
+                  }}
+                  data={item}
+                />
+              ))
             )}
-            <DateSeprator date={new Date().toISOString()} />
           </div>
           <SendMessage
             className="shrink-0 w-full"
             disabled={!foundedTicketItem}
+            reply={{
+              message: replyMessage,
+              name: replyTo,
+            }}
           />
         </div>
         <div className="w-[25%] flex flex-col">

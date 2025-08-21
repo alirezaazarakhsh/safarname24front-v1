@@ -49,3 +49,9 @@ export function getFileCategory(
 
   return 'other';
 }
+
+export function toPercentage(value: number, max: number = 80): number {
+  if (value <= 0) return 0;
+  if (value >= max) return 100;
+  return (value / max) * 100;
+}

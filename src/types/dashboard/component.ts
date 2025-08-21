@@ -1,4 +1,4 @@
-// Importing part
+(''); // Importing part
 import {
   ButtonHTMLAttributes,
   Dispatch,
@@ -699,6 +699,10 @@ export interface TicketsDateSepratorPropsType {
 export interface TicketsSendMessagePropsType {
   className?: string;
   disabled?: boolean;
+  reply: {
+    name: string;
+    message: string;
+  };
 }
 
 export interface TicketItemPropsType {
@@ -745,8 +749,9 @@ export interface TicketsContextPropsType {
     messages: {
       type: 'text' | 'voice' | 'file';
       replyMessage?: string;
-      message: string | File;
+      message: string;
       createdAt: string;
+      answererName: string;
       from: 'user' | 'answerer';
     }[];
   }[];
@@ -767,4 +772,19 @@ export interface AudioWaveHandle {
 export interface AudioWavePropsType {
   audioUrl: string;
   className?: string;
+  backgroundColor?: string;
+  progressColor?: string;
+}
+
+export interface MessageItemPropsType {
+  className?: string;
+  setReply?: (message: string, name: string) => void;
+  data: {
+    type: 'text' | 'voice' | 'file';
+    replyMessage?: string;
+    message: string;
+    createdAt: string;
+    from: 'user' | 'answerer';
+    answererName: string;
+  };
 }

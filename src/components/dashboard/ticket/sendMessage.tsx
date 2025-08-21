@@ -11,6 +11,7 @@ import { ReactNode, useState } from 'react';
 export default function SendMessage({
   className,
   disabled = false,
+  reply,
 }: TicketsSendMessagePropsType): ReactNode {
   // Defining hooks
   const [value, setValue] = useState<string>('');
@@ -20,7 +21,7 @@ export default function SendMessage({
     return (
       <div
         className={cn(
-          'flex justify-between text-black/50 bg-gray-50 rounded-lg gap-[12px] h-[50px] cursor-not-allowed overflow-hidden',
+          'flex justify-between text-black/50 bg-gray-100 rounded-lg gap-[12px] h-[50px] cursor-not-allowed overflow-hidden',
           className,
         )}
       >
@@ -44,10 +45,15 @@ export default function SendMessage({
       <form
         action="#"
         className={cn(
-          'flex justify-between text-black/50 bg-gray-50 gap-[12px] rounded-lg h-[50px] overflow-hidden',
+          'flex justify-between text-black/50 bg-gray-100 gap-[12px] rounded-lg h-[50px] relative',
           className,
         )}
       >
+        {reply.name !== '' && (
+          <div className="absolute bottom-[calc(100%+12px)] left-0 w-full bg-cs-blue z-20">
+            {reply.name}
+          </div>
+        )}
         <button className="flex items-center justify-center shrink-0 h-full aspect-square">
           <IconsaxIcons
             name="Happyemoji"
