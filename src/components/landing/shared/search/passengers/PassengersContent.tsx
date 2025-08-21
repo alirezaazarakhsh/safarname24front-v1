@@ -17,6 +17,7 @@ type Passengers = Array<{
 }>;
 
 const MAX_ROOM = 3;
+
 function calculateTotalPeople(passengers: Passengers) {
   return passengers.reduce((total, passenger) => {
     return total + passenger.adults + passenger.children;
@@ -77,10 +78,10 @@ export default function PassengersContent(props: Props) {
           <span>تایید</span>
 
           <div className="flex-center gap-0.5">
-            (<span className="w-3 text-center">{totalPeople}</span>
+            (<span className="w-2 text-center">{totalPeople}</span>
             <span>مسافر</span>
             <span>,</span>
-            <span className="w-3 text-center">{rooms.length}</span>
+            <span className="w-2 text-center">{rooms.length}</span>
             <span>اتاق</span>)
           </div>
         </button>

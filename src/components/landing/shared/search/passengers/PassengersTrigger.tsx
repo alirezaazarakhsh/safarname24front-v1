@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useScrollPosition } from '@/hooks';
 import { usePassengersContext } from '@/context';
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -24,14 +24,8 @@ export default function PassengersTrigger(props: Props) {
   const { type, isOpen, handleSetOpen, scrollBehavior } = props;
 
   const scrollPosition = useScrollPosition();
-  const [isMounted, setIsMounted] = useState(false);
-
   const delayRef = useRef<NodeJS.Timeout | null>(null);
   const { confirmedPassengers } = usePassengersContext();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // === Handle Trigger-OnClick
   function handleDropDownTrigger(e: React.PointerEvent) {
@@ -82,7 +76,7 @@ export default function PassengersTrigger(props: Props) {
             </span>
 
             <div className="bg-zinc-200/50 w-full h-12 font-semibold px-4 flex items-center rounded-lg">
-              {isMounted || !confirmedPassengers.passengers ? (
+              {confirmedPassengers.passengers ? (
                 <div className="text-zinc-700 flex-center gap-0.5">
                   <span>{confirmedPassengers.passengers}</span>
                   <span>مسافر</span>

@@ -77,11 +77,15 @@
 }
 
 .general-calendar .rmdp-day-picker .rmdp-day.start {
-  border-radius: 0 0.5rem 0.5rem 0 !important;
+  border-radius: 0 !important;
+  border-end-start-radius: 0.5rem !important;
+  border-start-start-radius: 0.5rem !important;
 }
 
 .general-calendar .rmdp-day-picker .rmdp-day.end {
-  border-radius: 0.5rem 0 0 0.5rem !important;
+  border-radius: 0 !important;
+  border-start-end-radius: 0.5rem !important;
+  border-end-end-radius: 0.5rem !important;
 }
 
 .general-calendar
