@@ -220,7 +220,7 @@ export default function MessageItem({
                     src={data.message}
                     width={50}
                     height={50}
-                    className="size-[35px] aspect-square shrink-0 rounded-lg"
+                    className="size-[35px] aspect-square shrink-0 rounded-lg object-cover"
                     alt={data.message}
                   />
                 )}

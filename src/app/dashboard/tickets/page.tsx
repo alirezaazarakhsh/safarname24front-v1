@@ -38,7 +38,8 @@ const tickets: TicketsContextPropsType['tickets'] = [
         createdAt: new Date().toISOString(),
         from: 'user',
         type: 'voice',
-        message: '/randomMusic.mp3',
+        message:
+          'https://ia801900.us.archive.org/19/items/randommusic2016_201610/01%20Rude.mp3',
         replyMessage: 'سلام روز شما هم بخیر, جانم .',
         answererName: 'محمد علی کلی',
       },
@@ -46,17 +47,31 @@ const tickets: TicketsContextPropsType['tickets'] = [
         createdAt: new Date().toISOString(),
         from: 'answerer',
         type: 'file',
-        message: Avatar.src,
+        message: '/ticketFakeFiles/randomPDF.pdf',
+        answererName: 'محمد علی کلی',
+      },
+      {
+        createdAt: new Date().toISOString(),
+        from: 'answerer',
+        type: 'file',
+        message: '/ticketFakeFiles/randomImage.jpg',
+        answererName: 'محمد علی کلی',
+      },
+      {
+        createdAt: new Date().toISOString(),
+        from: 'answerer',
+        type: 'file',
+        message: '/ticketFakeFiles/randomVideo.mp3',
         answererName: 'محمد علی کلی',
       },
     ],
     files: {
-      documents: [],
-      images: [Avatar.src, Avatar.src, Avatar.src],
-      videos: [
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      documents: ['/ticketFakeFiles/randomPDF.pdf'],
+      images: ['/ticketFakeFiles/randomImage.jpg'],
+      videos: ['/ticketFakeFiles/randomVideo.mp4'],
+      voices: [
+        'https://ia801900.us.archive.org/19/items/randommusic2016_201610/01%20Rude.mp3',
       ],
-      voices: ['/randomMusic.mp3', '/randomMusic.mp3', '/randomMusic.mp3'],
     },
   },
 ];
