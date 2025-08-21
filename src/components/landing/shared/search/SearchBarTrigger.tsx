@@ -82,10 +82,17 @@ export default function SearchBarTrigger(props: Props) {
                 <span>{calendarDetail?.endDate.month}</span>
                 <span>,</span>
                 <span>{numberOfNights} شب اقامت</span>
-                <span>,</span>
-                <span>{confirmedPassengers.passengers} مسافر</span>
-                <span>,</span>
-                <span>{confirmedPassengers.rooms} اتاق</span>
+
+                {confirmedPassengers.passengers > 0 ? (
+                  <>
+                    <span>,</span>
+                    <span>{confirmedPassengers.passengers} مسافر</span>
+                    <span>,</span>
+                    <span>{confirmedPassengers.rooms} اتاق</span>
+                  </>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
 
@@ -112,10 +119,17 @@ export default function SearchBarTrigger(props: Props) {
 
               <div className="text-zinc-500 flex gap-1">
                 <span>{numberOfNights} شب اقامت</span>
-                <span>,</span>
-                <span>{confirmedPassengers.passengers} مسافر</span>
-                <span>,</span>
-                <span>{confirmedPassengers.rooms} اتاق</span>
+
+                {confirmedPassengers.passengers > 0 ? (
+                  <>
+                    <span>,</span>
+                    <span>{confirmedPassengers.passengers} مسافر</span>
+                    <span>,</span>
+                    <span>{confirmedPassengers.rooms} اتاق</span>
+                  </>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
 

@@ -1,17 +1,32 @@
+import {
+  ReactNode,
+  useEffect,
+  useReducer,
+  useContext,
+  createContext,
+} from 'react';
+
 import { DateObject } from 'react-multi-date-picker';
-import { createContext, useReducer, useContext, ReactNode } from 'react';
+import persianCalendar from 'react-date-object/calendars/persian';
+import persianLanguage from 'react-date-object/locales/persian_fa';
+import gregorianCalendar from 'react-date-object/calendars/gregorian';
+import gregorianLanguage from 'react-date-object/locales/gregorian_en';
 
 type DatePicker = {
+  calendarType: CalendarType;
   value: undefined | DateObject[];
   confirmedValue: undefined | DateObject[];
 };
 
+type CalendarType = 'persian' | 'gregorian';
 type DatePickerAction =
+  | { type: 'calendar-type'; payload: undefined }
   | { type: 'value'; payload: undefined | DateObject[] }
   | { type: 'confirmed-value'; payload: undefined | DateObject[] };
 
 const initialState: DatePicker = {
   value: undefined,
+  calendarType: 'persian',
   confirmedValue: undefined,
 };
 
@@ -36,6 +51,13 @@ const DatePickerReducer = (
         confirmedValue: payload,
       };
 
+    case 'calendar-type':
+      return {
+        ...state,
+        calendarType:
+          state.calendarType === 'persian' ? 'gregorian' : 'persian',
+      };
+
     default:
       return state;
   }
@@ -52,6 +74,56 @@ export const DatePickerProvider = ({
   children,
 }: Readonly<{ children: ReactNode }>) => {
   const [state, dispatch] = useReducer(DatePickerReducer, initialState);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const startDate = params.get('start-date');
+    const endDate = params.get('end-date');
+
+    const calendarType =
+      (sessionStorage.getItem('calendar-type') as CalendarType) || 'persian';
+
+    const calendarDetail = {
+      calendar:
+        calendarType === 'persian' ? persianCalendar : gregorianCalendar,
+      locale: calendarType === 'persian' ? persianLanguage : gregorianLanguage,
+    };
+
+    let defaultRange;
+    const dateInfo = {
+      locale: calendarDetail.locale,
+      calendar: calendarDetail.calendar,
+    };
+
+    if (startDate && endDate) {
+      defaultRange = [
+        new DateObject({
+          ...dateInfo,
+          date: startDate.replaceAll('-', '/'),
+        }),
+
+        new DateObject({
+          ...dateInfo,
+          date: endDate.replaceAll('-', '/'),
+        }),
+      ];
+    } else {
+      defaultRange = [
+        new DateObject(dateInfo),
+        new DateObject(dateInfo).add(1, 'days'),
+      ];
+    }
+
+    dispatch({
+      type: 'value',
+      payload: defaultRange,
+    });
+
+    dispatch({
+      type: 'confirmed-value',
+      payload: defaultRange,
+    });
+  }, []);
 
   return (
     <DatePickerContext.Provider value={state}>

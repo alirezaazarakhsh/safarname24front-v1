@@ -13,7 +13,6 @@
 
 .desktop-calendar .rmdp-header div {
   display: flex;
-  /* direction: ltr !important; */
   justify-content: space-between !important;
 }
 
