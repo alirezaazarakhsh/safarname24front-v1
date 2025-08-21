@@ -5,7 +5,8 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { TicketsSendMessagePropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useState } from 'react';
+import { File } from 'lucide-react';
+import { ReactNode, useRef, useState } from 'react';
 
 // Creating and exporting Tikcets SendMessage component as default
 export default function SendMessage({
@@ -16,6 +17,8 @@ export default function SendMessage({
 }: TicketsSendMessagePropsType): ReactNode {
   // Defining hooks
   const [value, setValue] = useState<string>('');
+  const [media, setMedia] = useState<File | undefined>();
+  const mediaInputRef = useRef<HTMLInputElement | null>(null);
 
   // Conditional rendering
   if (disabled) {
@@ -95,39 +98,91 @@ export default function SendMessage({
             </div>
           </div>
         )}
-        <button className="flex items-center justify-center shrink-0 h-full aspect-square">
-          <IconsaxIcons
-            name="Happyemoji"
-            className="size-5"
-            color="currentColor"
+        {!media && (
+          <button className="flex items-center justify-center shrink-0 h-full aspect-square">
+            <IconsaxIcons
+              name="Happyemoji"
+              className="size-5"
+              color="currentColor"
+            />
+          </button>
+        )}
+        {media ? (
+          <div className="flex items-center justify-start flex-1 overflow-hidden">
+            <div className="size-[50px] flex items-center justify-center shrink-0">
+              <File className="currentColor size-5" />
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <span className="text-cs85 font-bold text-right block text-black/50 truncate">
+                {media.name}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <input
+            onChange={(e) => setValue(e.currentTarget.value)}
+            className="text-cs65 font-medium placeholder:text-cs65 placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
+            type="text"
+            placeholder="متن خود را بنویسید..."
           />
-        </button>
-        <input
-          onChange={(e) => setValue(e.currentTarget.value)}
-          className="text-cs65 font-medium placeholder:text-cs65 placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
-          type="text"
-          placeholder="متن خود را بنویسید..."
-        />
+        )}
         {value === '' ? (
           <div className="flex items-center justify-end shrink-0">
-            <button className="flex items-center justify-center shrink-0 h-full aspect-square">
+            {!media ? (
+              <>
+                <input
+                  type="file"
+                  accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  hidden
+                  ref={mediaInputRef}
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setMedia(e.target.files[0]);
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  className="flex items-center justify-center shrink-0 h-full aspect-square"
+                  onClick={() => mediaInputRef.current?.click()}
+                >
+                  <IconsaxIcons
+                    name="Gallery"
+                    className="size-5"
+                    color="currentColor"
+                  />
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                className="flex items-center justify-center shrink-0 h-full aspect-square"
+                onClick={() => setMedia(undefined)}
+              >
+                <IconsaxIcons
+                  name="CloseSquare"
+                  className="size-5"
+                  color="currentColor"
+                />
+              </button>
+            )}
+            <button
+              type={media ? 'submit' : 'button'}
+              className="flex items-center justify-center shrink-0 h-full aspect-square"
+            >
               <IconsaxIcons
-                name="Gallery"
-                className="size-5"
-                color="currentColor"
-              />
-            </button>
-            <button className="flex items-center justify-center shrink-0 h-full aspect-square">
-              <IconsaxIcons
-                name="Microphone"
-                className="size-5"
+                name={media ? 'Send' : 'Microphone'}
+                className={cn('size-5', media && 'rotate-180')}
                 color="currentColor"
               />
             </button>
           </div>
         ) : (
           <div className="flex items-center justify-between shrink-0">
-            <button className="flex items-center justify-center shrink-0 h-full aspect-square">
+            <button
+              type="submit"
+              className="flex items-center justify-center shrink-0 h-full aspect-square"
+            >
               <IconsaxIcons
                 name="Send"
                 className="size-5 rotate-180"

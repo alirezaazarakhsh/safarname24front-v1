@@ -44,10 +44,9 @@ const tickets: TicketsContextPropsType['tickets'] = [
       },
       {
         createdAt: new Date().toISOString(),
-        from: 'user',
+        from: 'answerer',
         type: 'file',
         message: Avatar.src,
-        replyMessage: 'سلام روز شما هم بخیر, جانم .',
         answererName: 'محمد علی کلی',
       },
     ],
