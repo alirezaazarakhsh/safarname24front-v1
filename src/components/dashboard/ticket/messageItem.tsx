@@ -11,6 +11,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   cn,
+  fileFromPath,
+  formatFileSize,
   getFileCategory,
   hexToRgba,
   isColorDark,
@@ -22,6 +24,7 @@ import {
   AudioWaveHandle,
 } from '@/types/dashboard/component';
 import useLocalStorageState from 'use-local-storage-state';
+import { File } from 'lucide-react';
 
 export default function MessageItem({
   data,
@@ -35,6 +38,7 @@ export default function MessageItem({
   const [x, setX] = useState(0);
   const [theme] = useLocalStorageState<string>('ticketTheme');
   const [walpaper] = useLocalStorageState<string>('ticketWalpaper');
+  const actualFile = fileFromPath(data.message);
 
   const [backgroundScalePercentage, setBackgroundScalePercentage] =
     useState<number>(0);
@@ -215,7 +219,7 @@ export default function MessageItem({
                 href={data.message}
                 className="flex items-center justify-between gap-3"
               >
-                {fileCat === 'image' && (
+                {fileCat === 'image' ? (
                   <Image
                     src={data.message}
                     width={50}
@@ -223,13 +227,17 @@ export default function MessageItem({
                     className="size-[35px] aspect-square shrink-0 rounded-lg object-cover"
                     alt={data.message}
                   />
+                ) : (
+                  <div className="size-[35px] aspect-square shrink-0 flex items-center justify-center">
+                    <File className="text-current size-[20px]" />
+                  </div>
                 )}
                 <div className="flex-1">
                   <span className="text-current font-light text-start block select-none truncate mb-1 text-cs06 w-[20ch]">
-                    {data.message}
+                    {actualFile.name}
                   </span>
                   <span className="text-current font-light text-start block select-none truncate text-cs06">
-                    1 MB
+                    {formatFileSize(actualFile.size)}
                   </span>
                 </div>
               </Link>
