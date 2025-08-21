@@ -2,11 +2,13 @@
 'use client';
 
 // Importing part
+import Picker from '@emoji-mart/react';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { TicketsSendMessagePropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { File } from 'lucide-react';
 import { ReactNode, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 // Creating and exporting Tikcets SendMessage component as default
 export default function SendMessage({
@@ -18,6 +20,7 @@ export default function SendMessage({
   // Defining hooks
   const [value, setValue] = useState<string>('');
   const [media, setMedia] = useState<File | undefined>();
+  const [emojiOpened, setEmojiOpened] = useState<boolean>(false);
   const mediaInputRef = useRef<HTMLInputElement | null>(null);
 
   // Conditional rendering
@@ -99,13 +102,62 @@ export default function SendMessage({
           </div>
         )}
         {!media && (
-          <button className="flex items-center justify-center shrink-0 h-full aspect-square">
-            <IconsaxIcons
-              name="Happyemoji"
-              className="size-5"
-              color="currentColor"
-            />
-          </button>
+          <>
+            <motion.div
+              className="absolute right-0 bottom-full z-30"
+              transition={{
+                duration: 0.2,
+                ease: 'easeInOut',
+              }}
+              exit={{
+                y: -20,
+                opacity: 0,
+                pointerEvents: 'none',
+              }}
+              initial={{
+                y: -20,
+                opacity: 0,
+                pointerEvents: 'none',
+              }}
+              animate={
+                emojiOpened
+                  ? {
+                      y: -20,
+                      opacity: 100,
+                      pointerEvents: 'auto',
+                    }
+                  : {
+                      y: 0,
+                      opacity: 0,
+                      pointerEvents: 'none',
+                    }
+              }
+            >
+              <Picker
+                theme="light"
+                onClickOutside={() => emojiOpened && setEmojiOpened(false)}
+                set="apple"
+                locale="fa"
+                navPosition="none"
+                previewPosition="none"
+                searchPosition="none"
+                onEmojiSelect={(emoji: any) =>
+                  setValue((prev) => prev + emoji.native)
+                }
+              />
+            </motion.div>
+            <button
+              onClick={() => setEmojiOpened((prev) => !prev)}
+              type="button"
+              className="flex items-center justify-center shrink-0 h-full aspect-square"
+            >
+              <IconsaxIcons
+                name="Happyemoji"
+                className="size-5"
+                color="currentColor"
+              />
+            </button>
+          </>
         )}
         {media ? (
           <div className="flex items-center justify-start flex-1 overflow-hidden">
@@ -121,6 +173,7 @@ export default function SendMessage({
         ) : (
           <input
             onChange={(e) => setValue(e.currentTarget.value)}
+            value={value}
             className="text-cs65 font-medium placeholder:text-cs65 placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
             type="text"
             placeholder="متن خود را بنویسید..."

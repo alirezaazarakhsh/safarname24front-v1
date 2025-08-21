@@ -90,7 +90,7 @@ export default function MessageItem({
             <div
               data-show={x < 0}
               className={cn(
-                'size-[30px] aspect-square absolute top-[50%] transition-all delay-300 duration-500 -translate-y-[50%] data-[show=true]:opacity-100 data-[show=false]:opacity-0',
+                'size-[30px] aspect-square absolute top-[50%] transition-all delay-300 duration-500 -translate-y-[calc(50%+15px)] data-[show=true]:opacity-100 data-[show=false]:opacity-0',
                 data.from === 'answerer'
                   ? 'left-[calc(100%+12px)]'
                   : 'right-[calc(100%+12px)]',
@@ -153,7 +153,7 @@ export default function MessageItem({
                   <AudioWave
                     audioUrl={data.message}
                     className="w-full h-[35px]"
-                    progressColor={data.from === 'user' ? '#fffff' : undefined}
+                    progressColor={data.from === 'user' ? '#ffffff' : undefined}
                     ref={audioRef}
                   />
                 </div>

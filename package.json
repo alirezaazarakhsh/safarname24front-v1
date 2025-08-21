@@ -10,6 +10,8 @@
     "dev:mobile": "next dev --hostname 0.0.0.0"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@hookform/resolvers": "^3.10.0",
     "@persian-tools/persian-tools": "^3.6.0",
     "@radix-ui/react-accordion": "^1.2.2",
@@ -28,6 +30,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
+    "emoji-mart": "^5.6.0",
     "framer-motion": "^12.4.7",
     "iconsax-react": "^0.0.8",
     "input-otp": "^1.4.2",

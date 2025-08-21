@@ -16,6 +16,8 @@ import SelectDepartmentDialog from './dialog/selectDepartmentDialog';
 import { TicketsContextPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import MessageItem from './messageItem';
+import useLocalStorageState from 'use-local-storage-state';
+import toast from '../ui/customSonner/toast';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext({
@@ -28,6 +30,10 @@ export default function TicketsContext({
   const [selectedTicket, setSelectedTicket] = useState<number | undefined>();
   const [replyTo, setReplyTo] = useState<string>('');
   const [replyMessage, setReplyMessage] = useState<string>('');
+  const [ticketNotifications, setTicketNotifications] =
+    useLocalStorageState<boolean>('ticketNotifications', {
+      defaultValue: false,
+    });
 
   // Defining variables
   const foundedTicketItem = tickets.find((item) => item.id === selectedTicket);
@@ -163,7 +169,32 @@ export default function TicketsContext({
                 : 'بخش دپارتمان سفرنامه'}
             </span>
             <div className="flex items-center justify-end gap-3 shrink-0">
-              <button>
+              <button
+                data-active={ticketNotifications}
+                className="relative overflow-hidden transition-all duration-500 data-[active=true]:text-black data-[active=false]:text-gray-500"
+                onClick={() => {
+                  if (ticketNotifications) {
+                    setTicketNotifications(false);
+                    toast({
+                      description:
+                        'در صورت پیام به ادمین به شما نوتیفیکشن نخواهد امد.',
+                      title: 'نوتیفیکشن قطع شد !',
+                      theme: 'theme',
+                    });
+                  } else {
+                    setTicketNotifications(true);
+                    toast({
+                      description:
+                        'در صورت پیام به ادمین به شما نوتیفیکشن خواهد امد.',
+                      title: 'نوتیفیکشن وصل شد !',
+                      theme: 'green',
+                    });
+                  }
+                }}
+              >
+                {!ticketNotifications && (
+                  <div className="absolute left-[50%] -translate-x-[50%] top-0 w-[2px] h-full bg-current rotate-[45deg] scale-125" />
+                )}
                 <IconsaxIcons
                   name="Notification"
                   className="size-5"
