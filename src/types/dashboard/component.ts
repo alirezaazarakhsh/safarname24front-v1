@@ -1,4 +1,4 @@
-// Importing part
+(''); // Importing part
 import {
   ButtonHTMLAttributes,
   Dispatch,
@@ -682,11 +682,13 @@ export interface CustomerClubGiftGainedPropsType
 export interface TicketsSettingItemPropsType {
   className?: string;
   title: string;
-  subTitle: string;
+  subTitle?: string;
   icon: IconsName;
   size?: 'lg' | 'sm';
   disabled?: boolean;
   onClick?: () => void;
+  type?: 'files' | 'theme' | 'walpaper';
+  files?: string[];
 }
 
 export interface TicketsDateSepratorPropsType {
@@ -697,6 +699,11 @@ export interface TicketsDateSepratorPropsType {
 export interface TicketsSendMessagePropsType {
   className?: string;
   disabled?: boolean;
+  clearReply?: () => void;
+  reply: {
+    name: string;
+    message: string;
+  };
 }
 
 export interface TicketItemPropsType {
@@ -721,4 +728,64 @@ export interface TicketsRadioItemProps {
   isActive?: boolean;
   onClick?: () => void;
   label: string;
+}
+
+export interface TicketsContextPropsType {
+  className?: string;
+  tickets: {
+    id: number;
+    user: {
+      img?: string;
+      name: string;
+      status: string;
+      lastSeen: string;
+      role: string;
+    };
+    files: {
+      documents: string[];
+      images: string[];
+      videos: string[];
+      voices: string[];
+    };
+    messages: {
+      type: 'text' | 'voice' | 'file';
+      replyMessage?: string;
+      message: string;
+      createdAt: string;
+      answererName: string;
+      from: 'user' | 'answerer';
+    }[];
+  }[];
+}
+
+export interface TicketsFileItemPropsType {
+  className?: string;
+  file: string;
+}
+
+export interface AudioWaveHandle {
+  play: () => void;
+  pause: () => void;
+  isPlaying: () => boolean;
+  getDuration: () => number | null;
+}
+
+export interface AudioWavePropsType {
+  audioUrl: string;
+  className?: string;
+  backgroundColor?: string;
+  progressColor?: string;
+}
+
+export interface MessageItemPropsType {
+  className?: string;
+  setReply?: (message: string, name: string) => void;
+  data: {
+    type: 'text' | 'voice' | 'file';
+    replyMessage?: string;
+    message: string;
+    createdAt: string;
+    from: 'user' | 'answerer';
+    answererName: string;
+  };
 }
