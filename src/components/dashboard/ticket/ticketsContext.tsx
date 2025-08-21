@@ -209,6 +209,10 @@ export default function TicketsContext({
           <SendMessage
             className="shrink-0 w-full"
             disabled={!foundedTicketItem}
+            clearReply={() => {
+              setReplyMessage('');
+              setReplyTo('');
+            }}
             reply={{
               message: replyMessage,
               name: replyTo,

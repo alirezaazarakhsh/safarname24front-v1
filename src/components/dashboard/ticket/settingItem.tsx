@@ -37,7 +37,7 @@ export default function SettingItem({
         <button
           onClick={() => !disabled && onClick && onClick()}
           className={cn(
-            'flex items-center justify-between gap-3 w-full transition-all duration-500 disabled:cursor-not-allowed cursor-pointer bg-white hover:bg-gray-100 ',
+            'flex items-center justify-between gap-3 w-full transition-all duration-500 disabled:cursor-not-allowed cursor-pointer bg-white disabled:hover:bg-white hover:bg-gray-100 ',
             size === 'lg' ? 'p-[12px] rounded-lg' : 'py-2',
             className,
           )}

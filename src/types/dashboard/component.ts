@@ -699,6 +699,7 @@ export interface TicketsDateSepratorPropsType {
 export interface TicketsSendMessagePropsType {
   className?: string;
   disabled?: boolean;
+  clearReply?: () => void;
   reply: {
     name: string;
     message: string;

@@ -121,8 +121,8 @@ export default function MessageItem({
               <div
                 className={cn(
                   data.from === 'answerer'
-                    ? 'bg-cs-blue/20 text-cs-blue'
-                    : 'bg-white/20 text-white',
+                    ? 'bg-cs-blue/10 text-cs-blue'
+                    : 'bg-white/10 text-white',
                   'border-r-2 border-r-current py-1 px-3 mb-2 rounded-l-md',
                 )}
               >
