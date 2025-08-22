@@ -710,6 +710,8 @@ export interface TicketItemPropsType {
   className?: string;
   onClick?: () => void;
   disabled?: boolean;
+  type?: 'active' | 'prevois';
+  newNotifications?: number;
   data?: {
     img?: string;
     title: string;
@@ -730,32 +732,40 @@ export interface TicketsRadioItemProps {
   label: string;
 }
 
+export interface TicketsContextType {
+  id: number;
+  user: {
+    img?: string;
+    name: string;
+    status: string;
+    lastSeen: string;
+    role: string;
+  };
+  files: {
+    documents: string[];
+    images: string[];
+    videos: string[];
+    voices: string[];
+  };
+  messages: {
+    type: 'text' | 'voice' | 'file';
+    replyMessage?: string;
+    message: string;
+    createdAt: string;
+    answererName: string;
+    from: 'user' | 'answerer';
+  }[];
+}
+
 export interface TicketsContextPropsType {
   className?: string;
   tickets: {
-    id: number;
-    user: {
-      img?: string;
-      name: string;
-      status: string;
-      lastSeen: string;
-      role: string;
-    };
-    files: {
-      documents: string[];
-      images: string[];
-      videos: string[];
-      voices: string[];
-    };
-    messages: {
-      type: 'text' | 'voice' | 'file';
-      replyMessage?: string;
-      message: string;
-      createdAt: string;
-      answererName: string;
-      from: 'user' | 'answerer';
+    currentTickets: TicketsContextType[];
+    previousTickets: {
+      date: string;
+      tickets: TicketsContextType[];
     }[];
-  }[];
+  };
 }
 
 export interface TicketsFileItemPropsType {

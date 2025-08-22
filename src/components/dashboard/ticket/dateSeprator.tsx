@@ -20,14 +20,18 @@ export default function DateSeprator({
   // Returning JSX
   return (
     <div
-      style={{ color: isColorDark(walpaper) ? '#ffffff' : '#000000' }}
+      style={{
+        color: isColorDark(walpaper)
+          ? 'rgba(256,256,256,0.5)'
+          : 'rgba(0,0,0,0.5)',
+      }}
       className={cn('flex items-center justify-center gap-5', className)}
     >
-      <div className="flex-1 w-full h-[2px] bg-current" />
+      <div className="flex-1 w-full h-[2px] bg-current opacity-50" />
       <span className="text-cs65 font-medium text-current text-center truncate block shrink">
         {`${date === today ? 'امروز ' : ''}${moment(date).locale('fa').format('dddd D MMMM، YYYY')}`}
       </span>
-      <div className="flex-1 w-full h-[2px] bg-current" />
+      <div className="flex-1 w-full h-[2px] bg-current opacity-50" />
     </div>
   );
 }

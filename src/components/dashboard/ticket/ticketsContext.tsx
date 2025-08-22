@@ -13,11 +13,21 @@ import { Button } from '@/components/ui/button';
 import TicketItem from './ticketItem';
 import EmptyImage from '../../../../public/image/empty.png';
 import SelectDepartmentDialog from './dialog/selectDepartmentDialog';
-import { TicketsContextPropsType } from '@/types/dashboard/component';
+import {
+  TicketsContextPropsType,
+  TicketsContextType,
+} from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import MessageItem from './messageItem';
 import useLocalStorageState from 'use-local-storage-state';
 import toast from '../ui/customSonner/toast';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+} from '@/components/ui/accordion';
+import { AccordionTrigger } from '@radix-ui/react-accordion';
+import moment from 'jalali-moment';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext({
@@ -46,7 +56,14 @@ export default function TicketsContext({
     });
 
   // Defining variables
-  const foundedTicketItem = tickets.find((item) => item.id === selectedTicket);
+  const allTickets: TicketsContextType[] = [
+    ...tickets.currentTickets,
+    ...tickets.previousTickets.flatMap((p) => p.tickets),
+  ];
+
+  const foundedTicketItem = allTickets.find(
+    (item) => item.id === selectedTicket,
+  );
 
   // Using useEffect to clear reply things
   useEffect(() => {
@@ -272,18 +289,19 @@ export default function TicketsContext({
               ثبت تیکت جدید
             </Button>
           </div>
-          <div className="shrink-0 border-b border-b-black/10 py-[24px]  overflow-auto custom-scrollbar h-[150px]">
-            <div className="px-[24px]">
+          <div className="shrink-0 border-b border-b-black/10 py-[12px]  overflow-auto custom-scrollbar h-[150px]">
+            <div className="px-[12px]">
               <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
                 تیکت های حال حاضر
               </span>
             </div>
             <div className="flex flex-col gap-3 px-[12px]">
-              {tickets.map((item, index) => (
+              {tickets.currentTickets.map((item, index) => (
                 <TicketItem
                   key={index}
                   onClick={() => setSelectedTicket(item.id)}
                   className={selectedTicket === item.id ? 'bg-gray-100' : ''}
+                  newNotifications={10}
                   data={{
                     createdAt: item.user.lastSeen,
                     subTitle: item.user.status,
@@ -294,7 +312,7 @@ export default function TicketsContext({
               ))}
             </div>
           </div>
-          {tickets.length === 0 ? (
+          {tickets.previousTickets.length === 0 ? (
             <div className="h-full flex items-center justify-center p-[24px] overflow-auto custom-scrollbar flex-col">
               <Image
                 alt="هیچ لیست رزروی فعلا ندارید!"
@@ -311,19 +329,51 @@ export default function TicketsContext({
               </span>
             </div>
           ) : (
-            <div className="h-full flex flex-col gap-3 p-[12px] overflow-auto custom-scrollbar">
-              {tickets.map((item, index) => (
-                <TicketItem
-                  key={index}
-                  onClick={() => setSelectedTicket(item.id)}
-                  data={{
-                    createdAt: item.user.lastSeen,
-                    subTitle: item.user.role,
-                    title: item.user.name,
-                    img: item.user.img,
-                  }}
-                />
-              ))}
+            <div className="h-full overflow-auto custom-scrollbar py-[12px]">
+              <div className="px-[12px]">
+                <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
+                  تیکت های گذشته
+                </span>
+              </div>
+              <Accordion type="single">
+                {tickets.previousTickets.map((item, index) => (
+                  <AccordionItem value={`previus-tickets-${index}`} key={index}>
+                    <AccordionTrigger asChild>
+                      <button className="flex items-center justify-between gap-3 px-[12px] py-[10px] bg-white transition-all duration-500 hover:bg-gray-100 w-full text-black/70 group">
+                        <span className="text-cs75 font-medium text-current text-right truncate block flex-1">
+                          تیکت های{' '}
+                          {moment(item.date)
+                            .locale('fa')
+                            .format('jMMMM ماه jYYYY')}
+                        </span>
+                        <IconsaxIcons
+                          name="ArrowLeft2"
+                          className="size-4 transition-all duration-500 group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-90"
+                          color="currentColor"
+                        />
+                      </button>
+                    </AccordionTrigger>
+                    <AccordionContent className="p-[12px]">
+                      {item.tickets.map((innerItem, innerIndex) => (
+                        <TicketItem
+                          key={innerIndex}
+                          onClick={() => setSelectedTicket(innerItem.id)}
+                          type="prevois"
+                          className={
+                            selectedTicket === innerItem.id ? 'bg-gray-100' : ''
+                          }
+                          data={{
+                            createdAt: innerItem.user.lastSeen,
+                            subTitle: innerItem.user.status,
+                            title: innerItem.user.name,
+                            img: innerItem.user.img,
+                          }}
+                        />
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           )}
         </div>

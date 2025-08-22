@@ -14,6 +14,8 @@ export default function TicketItem({
   data,
   disabled,
   onClick,
+  newNotifications,
+  type = 'active',
 }: TicketItemPropsType): ReactNode {
   // Returning JSX
   return (
@@ -46,11 +48,30 @@ export default function TicketItem({
           </span>
         </div>
       </div>
-      <span className="text-cs65 font-medium text-black/70 text-left truncate block shrink-0">
-        {data?.createdAt
-          ? moment(data.createdAt).locale('fa').format('HH:mm A')
-          : 'مشخص نشده'}
-      </span>
+      {type === 'active' ? (
+        <div className="shrink-0 flex items-end justify-center flex-col">
+          <span className="text-cs65 font-medium text-black/70 text-left truncate block">
+            {data?.createdAt
+              ? moment(data.createdAt).locale('fa').format('HH:mm A')
+              : 'مشخص نشده'}
+          </span>
+          {newNotifications && newNotifications !== 0 && (
+            <div className="bg-cs-red/10 text-cs-red rounded-full size-[15px] shrink-0 aspect-square flex items-center justify-center mt-1">
+              <span className="text-[8px] font-light text-current text-center truncate block">
+                {newNotifications}
+              </span>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="bg-cs-blue/10 text-cs-blue px-3 rounded-md h-[30px] flex items-center justify-center shrink-0">
+          <span className="text-cs65 font-medium text-current text-center truncate block">
+            {data?.createdAt
+              ? moment(data.createdAt).locale('fa').format('YYYY/MM/DD')
+              : 'مشخص نشده'}
+          </span>
+        </div>
+      )}
     </button>
   );
 }
