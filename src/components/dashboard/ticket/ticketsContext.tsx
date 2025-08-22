@@ -190,11 +190,20 @@ export default function TicketsContext({
         </div>
         <div className="border-x border-x-black/10 group-data-[size=sm]:w-[65%] group-data-[size=lg]:w-[50%] transition-all duration-500 p-[24px] flex flex-col gap-[24px]">
           <div className="flex items-center justify-between gap-3 shrink-0 w-full">
-            <span className="text-cs95 font-bold text-black text-start truncate block flex-1">
-              {foundedTicketItem
-                ? foundedTicketItem.user.name
-                : 'بخش دپارتمان سفرنامه'}
-            </span>
+            {!foundedTicketItem ? (
+              <span className="text-cs95 font-bold text-black text-start truncate block flex-1">
+                بخش دپارتمان سفرنامه
+              </span>
+            ) : foundedTicketItem && foundedTicketItem.status === 'open' ? (
+              <span className="text-cs95 font-bold text-black text-start truncate block flex-1">
+                {foundedTicketItem.user.name}
+              </span>
+            ) : (
+              <p className="text-cs95 font-bold text-black text-start truncate block flex-1">
+                {foundedTicketItem.user.name}{' '}
+                <span className="text-cs-red">(تیکت منقضی شده)</span>
+              </p>
+            )}
             <div className="flex items-center justify-end gap-3 shrink-0">
               <button
                 data-active={ticketNotifications}
@@ -270,6 +279,8 @@ export default function TicketsContext({
           <SendMessage
             className="shrink-0 w-full"
             disabled={!foundedTicketItem}
+            isClosed={foundedTicketItem?.status === 'closed'}
+            reportTypes={foundedTicketItem?.report}
             clearReply={() => {
               setReplyMessage('');
               setReplyTo('');
@@ -335,7 +346,7 @@ export default function TicketsContext({
                   تیکت های گذشته
                 </span>
               </div>
-              <Accordion type="single">
+              <Accordion collapsible type="single">
                 {tickets.previousTickets.map((item, index) => (
                   <AccordionItem value={`previus-tickets-${index}`} key={index}>
                     <AccordionTrigger asChild>

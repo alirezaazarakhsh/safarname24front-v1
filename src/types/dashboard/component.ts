@@ -21,6 +21,7 @@ import {
   GETReservation,
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
+import { reportTypes } from '@/components/dashboard/ticket/dialog/reportTicket';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -699,6 +700,8 @@ export interface TicketsDateSepratorPropsType {
 export interface TicketsSendMessagePropsType {
   className?: string;
   disabled?: boolean;
+  isClosed?: boolean;
+  reportTypes?: reportTypes;
   clearReply?: () => void;
   reply: {
     name: string;
@@ -734,6 +737,8 @@ export interface TicketsRadioItemProps {
 
 export interface TicketsContextType {
   id: number;
+  status: 'open' | 'closed';
+  report?: reportTypes;
   user: {
     img?: string;
     name: string;

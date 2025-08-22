@@ -229,7 +229,10 @@ export default function MessageItem({
                   />
                 ) : (
                   <div className="size-[35px] aspect-square shrink-0 flex items-center justify-center">
-                    <File className="text-current size-[20px]" />
+                    <File
+                      style={{ fill: theme, strokeWidth: '1px' }}
+                      className="text-current size-[20px]"
+                    />
                   </div>
                 )}
                 <div className="flex-1">

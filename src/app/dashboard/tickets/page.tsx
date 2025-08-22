@@ -11,6 +11,7 @@ const tickets: TicketsContextPropsType['tickets'] = {
   currentTickets: [
     {
       id: 1,
+      status: 'open',
       user: {
         img: Avatar.src,
         name: 'رضا احمدی',
@@ -43,6 +44,7 @@ const tickets: TicketsContextPropsType['tickets'] = {
     },
     {
       id: 2,
+      status: 'open',
       user: {
         img: Avatar.src,
         name: 'محمد علی کلی',
@@ -91,7 +93,49 @@ const tickets: TicketsContextPropsType['tickets'] = {
       date: '2025-07-10',
       tickets: [
         {
+          status: 'closed',
           id: 101,
+          user: {
+            img: Avatar.src,
+            name: 'سارا محمدی',
+            status: 'بسته شده',
+            lastSeen: new Date().toISOString(),
+            role: 'کاربر',
+          },
+          messages: [
+            {
+              createdAt: new Date().toISOString(),
+              from: 'user',
+              message: 'لطفا صورتحساب ماه پیش منو ارسال کنید.',
+              type: 'text',
+              answererName: 'سارا محمدی',
+            },
+            {
+              createdAt: new Date().toISOString(),
+              from: 'answerer',
+              message: 'حتما، فایل PDF برای شما ارسال شد.',
+              type: 'text',
+              answererName: 'پشتیبانی',
+            },
+            {
+              createdAt: new Date().toISOString(),
+              from: 'answerer',
+              type: 'file',
+              message: '/ticketFakeFiles/invoice.pdf',
+              answererName: 'پشتیبانی',
+            },
+          ],
+          files: {
+            documents: ['/ticketFakeFiles/invoice.pdf'],
+            images: [],
+            videos: [],
+            voices: [],
+          },
+        },
+        {
+          status: 'closed',
+          id: 105,
+          report: 'best',
           user: {
             img: Avatar.src,
             name: 'سارا محمدی',
@@ -136,6 +180,7 @@ const tickets: TicketsContextPropsType['tickets'] = {
       tickets: [
         {
           id: 202,
+          status: 'closed',
           user: {
             img: Avatar.src,
             name: 'حسین مرادی',

@@ -102,9 +102,9 @@ export default function SelectDepartmentDialog({
     >
       <DialogPortal>
         <DialogContent className="p-0 w-full max-w-[400px] gap-0">
-          <div className="px-6 py-3 border-b border-b-black/10 flex items-center justify-between gap-3">
+          <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3">
             <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] block truncate w-full">
-              دلیل کنسلی شما چیست ؟
+              انتخواب دپارتمان
             </DialogTitle>
             <DialogClose asChild>
               <button onClick={closeFn} className="shrink-0" type="button">
@@ -138,10 +138,10 @@ export default function SelectDepartmentDialog({
             <button
               disabled={form.formState.isSubmitting}
               type="submit"
-              className="w-full p-4 h-[50px] rounded-lg bg-green-500 flex items-center justify-center transition-all duration-500 hover:bg-green-600 text-white disabled:opacity-50"
+              className="w-full p-4 h-[40px] rounded-lg bg-green-500 flex items-center justify-center transition-all duration-500 hover:bg-green-600 text-white disabled:opacity-50"
             >
               {!form.formState.isSubmitting ? (
-                <span className="text-center block font-bold text-current text-cs-07">
+                <span className="text-center block font-bold text-current text-cs07">
                   ثبت تیکت
                 </span>
               ) : (
