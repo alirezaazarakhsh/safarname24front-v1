@@ -21,6 +21,7 @@ import {
   GETReservation,
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
+import { reportTypes } from '@/components/dashboard/ticket/dialog/reportTicket';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -699,6 +700,8 @@ export interface TicketsDateSepratorPropsType {
 export interface TicketsSendMessagePropsType {
   className?: string;
   disabled?: boolean;
+  isClosed?: boolean;
+  reportTypes?: reportTypes;
   clearReply?: () => void;
   reply: {
     name: string;
@@ -710,6 +713,8 @@ export interface TicketItemPropsType {
   className?: string;
   onClick?: () => void;
   disabled?: boolean;
+  type?: 'active' | 'prevois';
+  newNotifications?: number;
   data?: {
     img?: string;
     title: string;
@@ -730,32 +735,42 @@ export interface TicketsRadioItemProps {
   label: string;
 }
 
+export interface TicketsContextType {
+  id: number;
+  status: 'open' | 'closed';
+  report?: reportTypes;
+  user: {
+    img?: string;
+    name: string;
+    status: string;
+    lastSeen: string;
+    role: string;
+  };
+  files: {
+    documents: string[];
+    images: string[];
+    videos: string[];
+    voices: string[];
+  };
+  messages: {
+    type: 'text' | 'voice' | 'file';
+    replyMessage?: string;
+    message: string;
+    createdAt: string;
+    answererName: string;
+    from: 'user' | 'answerer';
+  }[];
+}
+
 export interface TicketsContextPropsType {
   className?: string;
   tickets: {
-    id: number;
-    user: {
-      img?: string;
-      name: string;
-      status: string;
-      lastSeen: string;
-      role: string;
-    };
-    files: {
-      documents: string[];
-      images: string[];
-      videos: string[];
-      voices: string[];
-    };
-    messages: {
-      type: 'text' | 'voice' | 'file';
-      replyMessage?: string;
-      message: string;
-      createdAt: string;
-      answererName: string;
-      from: 'user' | 'answerer';
+    currentTickets: TicketsContextType[];
+    previousTickets: {
+      date: string;
+      tickets: TicketsContextType[];
     }[];
-  }[];
+  };
 }
 
 export interface TicketsFileItemPropsType {

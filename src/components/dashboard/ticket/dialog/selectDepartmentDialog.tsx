@@ -7,17 +7,21 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogPortal,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { TicketsSelectDepartmentPropsType } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import RadioItem from '../radioItem';
 import Loading from '../../ui/loading';
 import toast from '../../ui/customSonner/toast';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import { useMediaQuery } from '@/hooks';
+import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 
 // Defining data of radio items to render
 type departmentTypes =
@@ -72,6 +76,9 @@ export default function SelectDepartmentDialog({
   isOpened,
 }: TicketsSelectDepartmentPropsType): ReactNode {
   // Defining hooks
+  const [succesMobileDrawerOpened, setSuccesMobileDrawerOpened] =
+    useState<boolean>(false);
+  const isMobile = useMediaQuery('(max-width: 1024px)');
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
   });
@@ -82,11 +89,16 @@ export default function SelectDepartmentDialog({
     closeFn && closeFn();
 
     form.reset({ department: undefined });
-    toast({
-      theme: 'green',
-      title: 'تیکت شما با موفقیت ایجاد شد',
-      description: 'مشتری گرامی میتوانید چت خود را آغاز نمایید',
-    });
+
+    if (isMobile) {
+      setSuccesMobileDrawerOpened(true);
+    } else {
+      toast({
+        theme: 'green',
+        title: 'تیکت شما با موفقیت ایجاد شد',
+        description: 'مشتری گرامی میتوانید چت خود را آغاز نمایید',
+      });
+    }
   };
 
   // Defining variables
@@ -100,13 +112,33 @@ export default function SelectDepartmentDialog({
         closeFn && !open && closeFn();
       }}
     >
+      <CanclationErrorDrawer
+        description="مشتری گرامی میتوانید چت خود را آغاز نمایید"
+        title="تیکت شما با موفقیت ایجاد شد"
+        closeFn={() => setSuccesMobileDrawerOpened(false)}
+        isOpened={succesMobileDrawerOpened}
+        theme="green"
+      />
       <DialogPortal>
-        <DialogContent className="p-0 w-full max-w-[400px] gap-0">
-          <div className="px-6 py-3 border-b border-b-black/10 flex items-center justify-between gap-3">
-            <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] block truncate w-full">
-              دلیل کنسلی شما چیست ؟
-            </DialogTitle>
-            <DialogClose asChild>
+        <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-auto h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-hidden">
+          <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 lg:bg-white bg-gray-100 w-full shrink-0 lg:h-auto h-[50px]">
+            <div className="flex items-center justify-start gap-3">
+              <DialogClose asChild className="lg:hidden block">
+                <button onClick={closeFn} className="shrink-0" type="button">
+                  <IconsaxIcons
+                    name="ArrowRight"
+                    className="w-5 h-5 text-black"
+                  />
+                </button>
+              </DialogClose>
+              <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full lg:block hidden">
+                انتخواب دپارتمان تیکت
+              </DialogTitle>
+              <span className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full lg:hidden block">
+                بازگشت به صفحه
+              </span>
+            </div>
+            <DialogClose asChild className="lg:block hidden">
               <button onClick={closeFn} className="shrink-0" type="button">
                 <ICX className="w-3 h-3 text-black" fill="currentColor" />
               </button>
@@ -123,9 +155,12 @@ export default function SelectDepartmentDialog({
               });
             })}
             action="#"
-            className="p-6"
+            className="p-6 w-full lg:h-auto h-[calc(100dvh-50px)] lg:block flex flex-col items-start justify-between gap-8 overflow-auto custom-scrollbar"
           >
-            <div className="flex flex-col gap-4 mb-7">
+            <div className="flex flex-col gap-4 lg:mb-7 w-full">
+              <DialogDescription className="text-right text-[14px] font-bold text-[#2b2b2b] w-full lg:hidden block">
+                برای ایجاد تیکت جدید دپارتمان خودرا انتخواب کنید.
+              </DialogDescription>
               {radioGroupData.map((item, index) => (
                 <RadioItem
                   key={index}
@@ -138,10 +173,10 @@ export default function SelectDepartmentDialog({
             <button
               disabled={form.formState.isSubmitting}
               type="submit"
-              className="w-full p-4 h-[50px] rounded-lg bg-green-500 flex items-center justify-center transition-all duration-500 hover:bg-green-600 text-white disabled:opacity-50"
+              className="w-full p-4 lg:h-[40px] h-[50px] rounded-lg bg-green-500 flex items-center justify-center transition-all duration-500 hover:bg-green-600 text-white disabled:opacity-50"
             >
               {!form.formState.isSubmitting ? (
-                <span className="text-center block font-bold text-current text-cs-07">
+                <span className="text-center block font-bold text-current text-cs07">
                   ثبت تیکت
                 </span>
               ) : (

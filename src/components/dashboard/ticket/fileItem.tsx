@@ -7,7 +7,12 @@ import {
   AudioWaveHandle,
   TicketsFileItemPropsType,
 } from '@/types/dashboard/component';
-import { cn, getFileCategory } from '@/utils/utils';
+import {
+  cn,
+  fileFromPath,
+  formatFileSize,
+  getFileCategory,
+} from '@/utils/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode, useRef, useState } from 'react';
@@ -21,6 +26,7 @@ export default function FileItem({
 }: TicketsFileItemPropsType): ReactNode {
   // Defining variables
   const fileCat = getFileCategory(file);
+  const actualFile = fileFromPath(file);
   const audioRef = useRef<AudioWaveHandle>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -60,7 +66,6 @@ export default function FileItem({
           <div className="overflow-hidden flex-1">
             <AudioWave
               audioUrl={file}
-              progressColor="white"
               className="w-full h-[35px]"
               ref={audioRef}
             />
@@ -89,7 +94,7 @@ export default function FileItem({
           {fileCat == 'image' && (
             <div className="size-[50px] aspect-square rounded-lg overflow-hidden relative srhink-0">
               <Image
-                alt={file}
+                alt={actualFile.name}
                 src={file}
                 width={100}
                 height={100}
@@ -99,16 +104,22 @@ export default function FileItem({
           )}
           <div className="overflow-hidden flex-1">
             <span className="text-cs08 font-bold text-black text-right truncate block mb-1">
-              {file}
+              {actualFile.name}
             </span>
             <span className="text-cs75 font-medium text-black/50 text-right truncate block">
-              12 MB
+              {formatFileSize(actualFile.size)}
             </span>
           </div>
         </div>
-        <div className="rounded-md w-[60px] py-2 shrink-0 flex items-center justify-center text-green-500 bg-green-500/10">
+        <div className="rounded-md w-[80px] p-2 shrink-0 flex items-center justify-center text-green-500 bg-green-500/10">
           <span className="text-center text-cs75 font-medium block truncate">
-            دانلود
+            {fileCat === 'image'
+              ? 'دانلود عکس'
+              : fileCat === 'video'
+                ? 'دانلو ویدیو'
+                : fileCat === 'document'
+                  ? 'دانلود فایل'
+                  : 'دانلود'}
           </span>
         </div>
       </Link>

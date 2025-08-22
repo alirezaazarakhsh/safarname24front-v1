@@ -16,19 +16,6 @@ export function downloadFile(file: File) {
   URL.revokeObjectURL(url);
 }
 
-export async function getFileInfoFromUrls(urls: string[]): Promise<string> {
-  const sizes = await Promise.all(
-    urls.map(async (url) => {
-      const res = await fetch(url, { method: 'HEAD' });
-      const size = res.headers.get('Content-Length');
-      return size ? parseInt(size, 10) : 0;
-    }),
-  );
-
-  const totalSizeMB = sizes.reduce((a, b) => a + b, 0) / (1024 * 1024);
-  return `${urls.length} فایل - ${totalSizeMB.toFixed(2)} MB`;
-}
-
 export function getFileCategory(
   filePath: string,
 ): 'voice' | 'image' | 'video' | 'document' | 'other' {
@@ -77,9 +64,9 @@ export function hexToRgba(hex: string | undefined, opacity: number): string {
     const fullHex =
       cleanedHex.length === 3
         ? cleanedHex
-            .split('')
-            .map((c) => c + c)
-            .join('')
+          .split('')
+          .map((c) => c + c)
+          .join('')
         : cleanedHex;
     const r = parseInt(fullHex.substring(0, 2), 16);
     const g = parseInt(fullHex.substring(2, 4), 16);
@@ -89,4 +76,13 @@ export function hexToRgba(hex: string | undefined, opacity: number): string {
   } else {
     return '#000000';
   }
+}
+
+export function fileFromPath(path: string): File {
+  const name = path.split(/[/\\]/).pop() || 'unknown';
+  return new File([path], name, { type: 'text/plain' });
+}
+
+export function formatFileSize(size: number): string {
+  return `${Math.ceil(size / (1024 * 1024))} MB`;
 }

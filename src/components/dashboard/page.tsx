@@ -22,6 +22,7 @@ import {
   PsersonalInfoContext,
 } from '@/types/dashboard/context';
 import useLocalStorageState from 'use-local-storage-state';
+import { useMediaQuery } from '@/hooks';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
@@ -112,6 +113,8 @@ function InnerPage({
     pathname,
   );
 
+  const isMobile = useMediaQuery('(max-width: 1024px)');
+
   // Condititional rendering
   if (personalDataFetch.isLoading || walletBalanceFetch.isLoading) {
     return (
@@ -151,7 +154,8 @@ function InnerPage({
               refetch: notificationsFetch.refetch,
             }}
           >
-            {!pathname.startsWith('/dashboard/reservations/') && <Header />}
+            {(pathname !== '/dashboard/tickets/' && isMobile) ||
+              (!pathname.startsWith('/dashboard/reservations/') && <Header />)}
             <MobileNav />
             <div
               className={cn(
