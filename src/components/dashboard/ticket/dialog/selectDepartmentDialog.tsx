@@ -13,13 +13,15 @@ import {
 } from '@/components/ui/dialog';
 import { TicketsSelectDepartmentPropsType } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import RadioItem from '../radioItem';
 import Loading from '../../ui/loading';
 import toast from '../../ui/customSonner/toast';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import { useMediaQuery } from '@/hooks';
+import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 
 // Defining data of radio items to render
 type departmentTypes =
@@ -74,6 +76,9 @@ export default function SelectDepartmentDialog({
   isOpened,
 }: TicketsSelectDepartmentPropsType): ReactNode {
   // Defining hooks
+  const [succesMobileDrawerOpened, setSuccesMobileDrawerOpened] =
+    useState<boolean>(false);
+  const isMobile = useMediaQuery('(max-width: 1024px)');
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
   });
@@ -84,11 +89,16 @@ export default function SelectDepartmentDialog({
     closeFn && closeFn();
 
     form.reset({ department: undefined });
-    toast({
-      theme: 'green',
-      title: 'تیکت شما با موفقیت ایجاد شد',
-      description: 'مشتری گرامی میتوانید چت خود را آغاز نمایید',
-    });
+
+    if (isMobile) {
+      setSuccesMobileDrawerOpened(true);
+    } else {
+      toast({
+        theme: 'green',
+        title: 'تیکت شما با موفقیت ایجاد شد',
+        description: 'مشتری گرامی میتوانید چت خود را آغاز نمایید',
+      });
+    }
   };
 
   // Defining variables
@@ -102,6 +112,13 @@ export default function SelectDepartmentDialog({
         closeFn && !open && closeFn();
       }}
     >
+      <CanclationErrorDrawer
+        description="مشتری گرامی میتوانید چت خود را آغاز نمایید"
+        title="تیکت شما با موفقیت ایجاد شد"
+        closeFn={() => setSuccesMobileDrawerOpened(false)}
+        isOpened={succesMobileDrawerOpened}
+        theme="green"
+      />
       <DialogPortal>
         <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-auto h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-hidden">
           <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 lg:bg-white bg-gray-100 w-full shrink-0 lg:h-auto h-[50px]">

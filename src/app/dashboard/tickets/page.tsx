@@ -220,7 +220,7 @@ const tickets: TicketsContextPropsType['tickets'] = {
 export default function TicketsPage(): ReactNode {
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px]">
+    <main className="lg:p-5 lg:pb-5 p-0 pb-0">
       <TicketsContext tickets={tickets} />
     </main>
   );
