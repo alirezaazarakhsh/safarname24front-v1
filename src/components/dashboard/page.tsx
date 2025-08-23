@@ -113,7 +113,8 @@ function InnerPage({
     pathname,
   );
 
-  const isMobile = useMediaQuery('(max-width: 1024px)');
+  const isTicketPage = pathname === '/dashboard/tickets';
+  const irregularPages = isReservationSubPage || isTicketPage;
 
   // Condititional rendering
   if (personalDataFetch.isLoading || walletBalanceFetch.isLoading) {
@@ -154,19 +155,18 @@ function InnerPage({
               refetch: notificationsFetch.refetch,
             }}
           >
-            {(pathname !== '/dashboard/tickets/' && isMobile) ||
-              (!pathname.startsWith('/dashboard/reservations/') && <Header />)}
+            {!irregularPages && <Header />}
             <MobileNav />
             <div
               className={cn(
                 'overflow-x-hidden overflow-y-auto',
-                !isReservationSubPage
-                  ? 'bg-[#F9F9F9] mx-auto max-w-screen-template '
+                !irregularPages
+                  ? 'bg-[#F9F9F9] mx-auto max-w-screen-template'
                   : 'bg-white w-full',
                 className,
               )}
             >
-              {!isReservationSubPage ? (
+              {irregularPages ? (
                 children
               ) : (
                 <div className="bg-white max-w-screen-template mx-auto">

@@ -29,7 +29,7 @@ import {
 import { AccordionTrigger } from '@radix-ui/react-accordion';
 import moment from 'jalali-moment';
 import { useMediaQuery } from '@/hooks';
-import useLogout from '@/hooks/dashboard/useLogout';
+import Link from 'next/link';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext({
@@ -43,7 +43,6 @@ export default function TicketsContext({
   const [replyTo, setReplyTo] = useState<string>('');
   const [replyMessage, setReplyMessage] = useState<string>('');
   const isMobile = useMediaQuery('(max-width: 1024px)');
-  const logout = useLogout();
 
   // Defining local storage items
   const [walpaper] = useLocalStorageState<string>('ticketWalpaper', {
@@ -98,17 +97,16 @@ export default function TicketsContext({
                 color="currentColor"
               />
             </button>
-            <button
+            <Link
               className="text-black transition-all duration-500 disabled:opacity-50"
-              disabled={logout.loading}
-              onClick={() => !logout.loading && logout.mutate()}
+              href="/dashboard"
             >
               <IconsaxIcons
                 className="size-[20px]"
                 name="LogoutCurve"
                 color="currentColor"
               />
-            </button>
+            </Link>
           </div>
         </div>
         <div className="px-[12px] py-[10px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-[calc(100dvh-125px)] bg-white">
@@ -134,7 +132,7 @@ export default function TicketsContext({
                 className={cn(
                   `bg-white hover:bg-white px-0 rounded-none`,
                   tickets.currentTickets.length !== index + 1 &&
-                    'border-b border-b-black/10',
+                  'border-b border-b-black/10',
                 )}
                 data={{
                   createdAt: item.user.lastSeen,
@@ -188,7 +186,7 @@ export default function TicketsContext({
         <div
           data-size={rightLayoutSize}
           className={cn(
-            'bg-white rounded-lg border border-black/10 flex overflow-hidden group h-dvh',
+            'bg-white flex overflow-hidden group h-dvh w-full',
             className,
           )}
         >
@@ -411,7 +409,7 @@ export default function TicketsContext({
                 ثبت تیکت جدید
               </Button>
             </div>
-            <div className="shrink-0 border-b border-b-black/10 py-[12px]  overflow-auto custom-scrollbar h-[150px]">
+            <div className="shrink-0 border-b border-b-black/10 py-[12px]  overflow-auto custom-scrollbar h-[300px]">
               <div className="px-[12px]">
                 <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
                   تیکت های حال حاضر
@@ -503,6 +501,23 @@ export default function TicketsContext({
                 </Accordion>
               </div>
             )}
+            <div className="p-[12px] shrink-0">
+              <Button
+                asChild
+                className="flex items-center justif-center px-[12px] py-[18px] bg-cs-red/10 !text-cs-red w-full transition-all duration-500 hover:bg-cs-red/20 rounded-lg gap-3"
+              >
+                <Link href="/dashboard">
+                  <IconsaxIcons
+                    className="size-[20px]"
+                    name="LogoutCurve"
+                    color="currentColor"
+                  />
+                  <span className="text-cs65 font-semibold text-center truncate text-current">
+                    خروج از تیکت, بازگشت به صفحه
+                  </span>
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>

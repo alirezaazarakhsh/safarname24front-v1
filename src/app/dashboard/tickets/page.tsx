@@ -3,9 +3,11 @@
 
 // Importing part
 import TicketsContext from '@/components/dashboard/ticket/ticketsContext';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Avatar from '../../../../public/image/avatar/1.jpg';
 import { TicketsContextPropsType } from '@/types/dashboard/component';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import Loading from '@/components/dashboard/ui/loading';
 
 const tickets: TicketsContextPropsType['tickets'] = {
   currentTickets: [
@@ -218,10 +220,48 @@ const tickets: TicketsContextPropsType['tickets'] = {
 
 // Creating and exporting tickets page as default
 export default function TicketsPage(): ReactNode {
-  // Returning JSX
-  return (
-    <main className="lg:p-5 lg:pb-5 p-0 pb-0">
-      <TicketsContext tickets={tickets} />
-    </main>
-  );
+  // Defining hooks
+  const [isLoading, setLoading] = useState<boolean>(true);
+
+  // Using useEffect to show and hide loading animateion of tickets page
+  // TODO: Remove on fetchings
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
+
+  // Conditional rendering
+  if (isLoading) {
+    return (
+      <main className="h-dvh w-dvw overflow-hidden flex items-center justify-center p-5">
+        <div className="text-[#292D32]">
+          <IconsaxIcons
+            name="DeviceMessage"
+            className="size-28 mx-auto block mb-5"
+            color="currentColor"
+          />
+          <span className="text-cs95 font-bold text-current truncate block text-center mb-2">
+            در حال اتصال به تیکت سفرنامه ۲۴
+          </span>
+          <span className="text-cs85 font-medium text-current/50 truncate block text-center mb-5">
+            لطفا منتظر بمانید...
+          </span>
+          <div className="w-full flex items-center justify-center">
+            <Loading className="bg-cs-red" />
+          </div>
+        </div>
+      </main>
+    );
+  } else {
+    return (
+      <main>
+        <TicketsContext tickets={tickets} />
+      </main>
+    );
+  }
 }
