@@ -1,4 +1,4 @@
-(''); // Importing part
+// Importing part
 import {
   ButtonHTMLAttributes,
   Dispatch,
@@ -690,6 +690,8 @@ export interface TicketsSettingItemPropsType {
   onClick?: () => void;
   type?: 'files' | 'theme' | 'walpaper';
   files?: string[];
+  setMobileActiveTab?: Dispatch<SetStateAction<string>>; // Mobile only
+  mobileActiveTab?: string; // Mobile only
 }
 
 export interface TicketsDateSepratorPropsType {
@@ -715,6 +717,7 @@ export interface TicketItemPropsType {
   disabled?: boolean;
   type?: 'active' | 'prevois';
   newNotifications?: number;
+  lastItem?: boolean;
   data?: {
     img?: string;
     title: string;
@@ -803,4 +806,10 @@ export interface MessageItemPropsType {
     from: 'user' | 'answerer';
     answererName: string;
   };
+}
+
+export interface TicketsNavBarPropsType {
+  className?: string;
+  activeTabState: string;
+  setActiveTabState: Dispatch<SetStateAction<string>>;
 }

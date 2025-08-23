@@ -22,6 +22,8 @@ import { ReactNode } from 'react';
 import FileItem from './fileItem';
 import useLocalStorageState from 'use-local-storage-state';
 import MessageItem from './messageItem';
+import TicketsNavBar from './ticketsNavBar';
+import { useMediaQuery } from '@/hooks';
 
 // Defining data's
 const walpaperData = [
@@ -79,9 +81,12 @@ export default function SettingItem({
   icon,
   type = 'files',
   files,
+  mobileActiveTab,
+  setMobileActiveTab,
 }: TicketsSettingItemPropsType): ReactNode {
   // Defining hooks
   const [theme, setTheme] = useLocalStorageState<string>('ticketTheme');
+  const isMobile = useMediaQuery('(max-width: 1024px)');
   const [walpaper, setWalpaper] =
     useLocalStorageState<string>('ticketWalpaper');
 
@@ -156,17 +161,29 @@ export default function SettingItem({
       <Dialog>
         <SettingButton />
         <DialogPortal>
-          <DialogContent className="w-full max-w-[500px] gap-0 bg-gray-100">
-            <DialogHeader className="flex items-center flex-row justify-between gap-3  mb-5">
-              <DialogTitle className="text-cs85 font-bold truncate text-right block flex-1">
-                لیست فایل های ذخیره شده
-              </DialogTitle>
-              <DialogClose className="shrink-0">
-                <ICX className="size-3 -mt-1.5" fill="black" />
+          <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-[50dvh] h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-auto custom-scrollbar">
+            <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 bg-white w-full shrink-0 lg:h-auto h-[50px]">
+              <div className="flex items-center justify-start gap-3">
+                <DialogClose asChild className="lg:hidden block">
+                  <button className="shrink-0" type="button">
+                    <IconsaxIcons
+                      name="ArrowRight"
+                      className="w-5 h-5 text-black"
+                    />
+                  </button>
+                </DialogClose>
+                <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full">
+                  لیست فایل های ذخیره شده
+                </DialogTitle>
+              </div>
+              <DialogClose asChild className="lg:block hidden">
+                <button className="shrink-0" type="button">
+                  <ICX className="w-3 h-3 text-black" fill="currentColor" />
+                </button>
               </DialogClose>
-            </DialogHeader>
+            </div>
             <div
-              className="h-[250px] w-full overflow-y-scroll overflow-x-hidden custom-scrollbar pr-4"
+              className="lg:h-[calc(50dvh-62px)] h-[calc(100dvh-50px)] lg:block flex flex-col justify-between gap-3 overflow-y-auto overflow-x-hidden custom-scrollbar w-full p-6 bg-gray-100"
               dir="ltr"
             >
               <div className="flex flex-col gap-4" dir="rtl">
@@ -184,55 +201,94 @@ export default function SettingItem({
       <Dialog>
         <SettingButton />
         <DialogPortal>
-          <DialogContent className="w-full max-w-[500px] gap-0 bg-gray-100">
-            <DialogHeader className="flex items-center flex-row justify-between gap-3  mb-5">
-              <div>
-                <DialogTitle className="text-cs09 font-bold truncate text-right block flex-1 mb-2">
-                  والپیپر
-                </DialogTitle>
-                <span className="text-cs75 font-bold truncate text-right block flex-1 text-gray-500">
-                  {walpaperData.find((item) => item.color === walpaper)
-                    ?.label || '-'}
-                </span>
+          <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-auto h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-auto custom-scrollbar">
+            <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 bg-white w-full shrink-0 lg:h-auto h-[50px]">
+              <div className="flex items-center justify-start gap-3">
+                <DialogClose asChild className="lg:hidden block">
+                  <button className="shrink-0" type="button">
+                    <IconsaxIcons
+                      name="ArrowRight"
+                      className="w-5 h-5 text-black"
+                    />
+                  </button>
+                </DialogClose>
+                <div>
+                  <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full">
+                    والپیپر
+                  </DialogTitle>
+                  <span className="text-right text-[12px] font-normal text-[#2b2b2b] truncate lg:block hidden mt-1">
+                    {walpaperData.find((item) => item.color === walpaper)
+                      ?.label || '-'}
+                  </span>
+                </div>
               </div>
-              <DialogClose className="shrink-0">
-                <ICX className="size-3 -mt-1.5" fill="black" />
+              <DialogClose asChild className="lg:block hidden">
+                <button className="shrink-0" type="button">
+                  <ICX className="w-3 h-3 text-black" fill="currentColor" />
+                </button>
               </DialogClose>
-            </DialogHeader>
-            <div className="w-full">
-              <div
-                className="p-[24px] flex flex-col gap-4 rounded-lg w-full bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
-                style={{ background: walpaper }}
-              >
-                {fakeMessages.map((item, index) => (
-                  <MessageItem data={item} key={index} />
-                ))}
-              </div>
-              <div className="grid grid-cols-6 gap-3">
-                {walpaperData.map((item, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setWalpaper(item.color)}
-                    data-active={item.color === walpaper}
-                    className="aspect-square flex p-1.5 rounded-lg relative overflow-hidden group"
-                  >
-                    <div
-                      className="absolute top-0 left-0 w-full h-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
-                      style={{ background: item.color }}
-                    />
-                    <div
-                      className="rounded-md cursor-pointer w-full z-10"
-                      style={{ background: item.color }}
-                    />
+            </div>
+            <div className="lg:p-6 p-0 lg:h-auto h-[calc(100dvh-50px)] lg:block flex flex-col justify-between gap-3">
+              <div className="w-full flex flex-col justify-between">
+                <div className="p-6 lg:hidden flex items-center justify-between gap-3 w-full">
+                  <div>
+                    <span className="text-right text-[16px] font-bold text-[#2b2b2b] truncate w-full">
+                      والپیپر
+                    </span>
+                    <span className="text-right text-[14px] font-normal text-[#2b2b2b] truncate mt-1 block">
+                      {walpaperData.find((item) => item.color === walpaper)
+                        ?.label || '-'}
+                    </span>
                   </div>
-                ))}
+                  <DialogClose asChild>
+                    <button className="px-4 py-3 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md">
+                      ذخیره اطلاعات
+                    </button>
+                  </DialogClose>
+                </div>
+                <div
+                  className="p-[24px] flex flex-col gap-4 lg:rounded-lg rounded-0 w-full lg:bg-white bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
+                  style={{ background: walpaper }}
+                >
+                  {fakeMessages.map((item, index) => (
+                    <MessageItem data={item} key={index} />
+                  ))}
+                </div>
+                <div className="grid grid-cols-6 lg:gap-3 gap-7 shrink-0 lg:px-0 px-6">
+                  {walpaperData.map((item, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setWalpaper(item.color)}
+                      data-active={item.color === walpaper}
+                      className="aspect-square flex lg:p-1.5 p-1 rounded-lg relative overflow-hidden group shrink-0"
+                    >
+                      <div
+                        className="absolute top-0 left-0 w-full h-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
+                        style={{ background: item.color }}
+                      />
+                      <div
+                        className="rounded-md cursor-pointer w-full z-10"
+                        style={{ background: item.color }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {isMobile && mobileActiveTab && setMobileActiveTab && (
+                <TicketsNavBar
+                  className="shrink-0"
+                  activeTabState={mobileActiveTab}
+                  setActiveTabState={setMobileActiveTab}
+                />
+              )}
+              <div className="lg:block hidden mt-5">
+                <DialogClose asChild>
+                  <button className="px-5 py-2.5 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md">
+                    ذخیره اطلاعات
+                  </button>
+                </DialogClose>
               </div>
             </div>
-            <DialogClose asChild>
-              <button className="px-5 py-2.5 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md mt-5">
-                ذخیره اطلاعات
-              </button>
-            </DialogClose>
           </DialogContent>
         </DialogPortal>
       </Dialog>
@@ -242,54 +298,94 @@ export default function SettingItem({
       <Dialog>
         <SettingButton />
         <DialogPortal>
-          <DialogContent className="w-full max-w-[500px] gap-0 bg-gray-100">
-            <DialogHeader className="flex items-center flex-row justify-between gap-3  mb-5">
-              <div>
-                <DialogTitle className="text-cs09 font-bold truncate text-right block flex-1 mb-2">
-                  والپیپر
-                </DialogTitle>
-                <span className="text-cs75 font-bold truncate text-right block flex-1 text-gray-500">
-                  {themeData.find((item) => item.color === theme)?.label || '-'}
-                </span>
+          <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-auto h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-auto custom-scrollbar">
+            <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 bg-white w-full shrink-0 lg:h-auto h-[50px]">
+              <div className="flex items-center justify-start gap-3">
+                <DialogClose asChild className="lg:hidden block">
+                  <button className="shrink-0" type="button">
+                    <IconsaxIcons
+                      name="ArrowRight"
+                      className="w-5 h-5 text-black"
+                    />
+                  </button>
+                </DialogClose>
+                <div>
+                  <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full">
+                    رنگ چت تایم
+                  </DialogTitle>
+                  <span className="text-right text-[12px] font-normal text-[#2b2b2b] truncate lg:block hidden mt-1">
+                    {themeData.find((item) => item.color === theme)?.label ||
+                      '-'}
+                  </span>
+                </div>
               </div>
-              <DialogClose className="shrink-0">
-                <ICX className="size-3 -mt-1.5" fill="black" />
+              <DialogClose asChild className="lg:block hidden">
+                <button className="shrink-0" type="button">
+                  <ICX className="w-3 h-3 text-black" fill="currentColor" />
+                </button>
               </DialogClose>
-            </DialogHeader>
-            <div className="w-full">
-              <div
-                className="p-[24px] flex flex-col gap-4 rounded-lg w-full bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
-                style={{ background: walpaper }}
-              >
-                {fakeMessages.map((item, index) => (
-                  <MessageItem data={item} key={index} />
-                ))}
-              </div>
-              <div className="grid grid-cols-6 gap-3">
-                {themeData.map((item, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setTheme(item.color)}
-                    data-active={item.color === theme}
-                    className="aspect-square flex p-1.5 rounded-lg relative overflow-hidden group"
-                  >
-                    <div
-                      className="absolute top-0 left-0 w-full h-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
-                      style={{ background: item.color }}
-                    />
-                    <div
-                      className="rounded-md cursor-pointer w-full z-10"
-                      style={{ background: item.color }}
-                    />
+            </div>
+            <div className="lg:p-6 p-0 lg:h-auto h-[calc(100dvh-50px)] lg:block flex flex-col justify-between gap-3">
+              <div className="w-full flex flex-col justify-between">
+                <div className="p-6 lg:hidden flex items-center justify-between gap-3 w-full">
+                  <div>
+                    <span className="text-right text-[16px] font-bold text-[#2b2b2b] truncate w-full">
+                      رنگ چت تایم
+                    </span>
+                    <span className="text-right text-[14px] font-normal text-[#2b2b2b] truncate mt-1 block">
+                      {themeData.find((item) => item.color === theme)?.label ||
+                        '-'}
+                    </span>
                   </div>
-                ))}
+                  <DialogClose asChild>
+                    <button className="px-4 py-3 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md">
+                      ذخیره اطلاعات
+                    </button>
+                  </DialogClose>
+                </div>
+                <div
+                  className="p-[24px] flex flex-col gap-4 lg:rounded-lg rounded-0 w-full bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
+                  style={{ background: walpaper }}
+                >
+                  {fakeMessages.map((item, index) => (
+                    <MessageItem data={item} key={index} />
+                  ))}
+                </div>
+                <div className="grid grid-cols-6 lg:gap-3 gap-7 shrink-0 lg:px-0 px-6">
+                  {themeData.map((item, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setTheme(item.color)}
+                      data-active={item.color === theme}
+                      className="aspect-square flex lg:p-1.5 p-1 rounded-lg relative overflow-hidden group shrink-0"
+                    >
+                      <div
+                        className="absolute top-0 left-0 w-full h-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
+                        style={{ background: item.color }}
+                      />
+                      <div
+                        className="rounded-md cursor-pointer w-full z-10"
+                        style={{ background: item.color }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {isMobile && mobileActiveTab && setMobileActiveTab && (
+                <TicketsNavBar
+                  className="shrink-0"
+                  activeTabState={mobileActiveTab}
+                  setActiveTabState={setMobileActiveTab}
+                />
+              )}
+              <div className="lg:block hidden mt-5">
+                <DialogClose asChild>
+                  <button className="px-5 py-2.5 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md">
+                    ذخیره اطلاعات
+                  </button>
+                </DialogClose>
               </div>
             </div>
-            <DialogClose asChild>
-              <button className="px-5 py-2.5 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md mt-5">
-                ذخیره اطلاعات
-              </button>
-            </DialogClose>
           </DialogContent>
         </DialogPortal>
       </Dialog>

@@ -27,128 +27,55 @@ import {
   verifyIranianNationalId,
 } from '@persian-tools/persian-tools';
 import useLocalStorageState from 'use-local-storage-state';
+import { cn } from '@/utils/utils';
 
 // Defining form schemas
 const personalFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: 'نام باید حداقل ۲ حرف باشد' })
-    .max(32, { message: 'نام نباید بیشتر از ۳۲ حرف باشد' }),
-
-  lastName: z
-    .string()
-    .min(3, { message: 'نام خانوادگی باید حداقل ۳ حرف باشد' })
-    .max(32, { message: 'نام خانوادگی نباید بیشتر از ۳۲ حرف باشد' }),
-
+  name: z.string().min(2).max(32),
+  lastName: z.string().min(3).max(32),
   meliCode: z
     .string()
-    .length(10, { message: 'کد ملی باید دقیقاً ۱۰ رقم باشد' })
-    .refine((value) => verifyIranianNationalId(value), {
-      message: 'کد ملی وارد شده معتبر نیست',
-    }),
-
-  tell: z.string().regex(/^09\d{9}$/, {
-    message: 'شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد',
-  }),
-
-  email: z
-    .string()
-    .max(254, { message: 'ایمیل نباید بیشتر از ۲۵۴ حرف باشد' })
-    .email({ message: 'ایمیل وارد شده معتبر نیست' })
-    .or(z.literal(''))
-    .optional(),
-
-  postCode: z
-    .string()
-    .length(10, { message: 'کد پستی باید دقیقاً ۱۰ رقم باشد' })
-    .or(z.literal(''))
-    .optional(),
-
+    .length(10)
+    .refine((value) => verifyIranianNationalId(value)),
+  tell: z.string().regex(/^09\d{9}$/),
+  email: z.string().max(254).email().or(z.literal('')).optional(),
+  postCode: z.string().length(10).or(z.literal('')).optional(),
   creditCard: z
     .string()
-    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
-    .refine((value) => verifyCardNumber(Number(value)), {
-      message: 'کد ملی وارد شده معتبر نیست',
-    })
+    .length(16)
+    .refine((value) => verifyCardNumber(Number(value)))
     .or(z.literal(''))
     .optional(),
-
   shabaNumber: z
     .string()
-    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
-    .refine((value) => isShebaValid(value), {
-      message: 'کد ملی وارد شده معتبر نیست',
-    })
+    .length(24)
+    .refine((value) => isShebaValid(value))
     .or(z.literal(''))
     .optional(),
-  address: z
-    .string()
-    .min(5, { message: 'آدرس باید حداقل ۵ حرف باشد' })
-    .max(256, { message: 'آدرس نباید بیشتر از ۲۵۶ حرف باشد' })
-    .or(z.literal(''))
-    .optional(),
+  address: z.string().min(5).max(256).or(z.literal('')).optional(),
 });
 
 const legalFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: 'نام شرکت باید حداقل ۲ حرف باشد' })
-    .max(64, { message: 'نام شرکت نباید بیشتر از ۶۴ حرف باشد' }),
-  id: z
-    .string()
-    .length(11, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' }),
-  registrationId: z
-    .string()
-    .min(1, { message: 'شماره ثبت الزامی است' })
-    .max(16, { message: 'شماره ثبت نباید بیشتر از ۱۶ رقم باشد' })
-    .regex(/^\d+$/, { message: 'شماره ثبت باید فقط شامل اعداد باشد' }),
-
-  economicCode: z
-    .string()
-    .min(1, { message: 'کد اقتصادی الزامی است' })
-    .max(16, { message: 'کد اقتصادی نباید بیشتر از ۱۶ رقم باشد' })
-    .regex(/^\d+$/, { message: 'کد اقتصادی باید فقط شامل اعداد باشد' }),
-
-  tell: z.string().regex(/^09\d{9}$/, {
-    message: 'شماره تلفن باید با ۰۹ شروع شده و ۱۱ رقم باشد',
-  }),
-
-  email: z
-    .string()
-    .max(254, { message: 'ایمیل نباید بیشتر از ۲۵۴ حرف باشد' })
-    .email({ message: 'ایمیل وارد شده معتبر نیست' })
-    .or(z.literal(''))
-    .optional(),
-
-  postCode: z
-    .string()
-    .length(10, { message: 'کد پستی باید دقیقاً ۱۰ رقم باشد' })
-    .or(z.literal(''))
-    .optional(),
+  name: z.string().min(2).max(64),
+  id: z.string().length(11),
+  registrationId: z.string().min(1).max(16).regex(/^\d+$/),
+  economicCode: z.string().min(1).max(16).regex(/^\d+$/),
+  tell: z.string().regex(/^09\d{9}$/),
+  email: z.string().max(254).email().or(z.literal('')).optional(),
+  postCode: z.string().length(10).or(z.literal('')).optional(),
   creditCard: z
     .string()
-    .length(16, { message: 'شماره کارت باید دقیقاً ۱۶ رقم باشد' })
-    .refine((value) => verifyCardNumber(Number(value)), {
-      message: 'کد ملی وارد شده معتبر نیست',
-    })
+    .length(16)
+    .refine((value) => verifyCardNumber(Number(value)))
     .or(z.literal(''))
     .optional(),
-
   shabaNumber: z
     .string()
-    .length(24, { message: 'شماره شبا باید دقیقاً ۲۴ رقم باشد' })
-    .refine((value) => isShebaValid(value), {
-      message: 'کد ملی وارد شده معتبر نیست',
-    })
+    .length(24)
+    .refine((value) => isShebaValid(value))
     .or(z.literal(''))
     .optional(),
-
-  address: z
-    .string()
-    .min(5, { message: 'آدرس باید حداقل ۵ حرف باشد' })
-    .max(254, { message: 'آدرس نباید بیشتر از ۲۵۴ حرف باشد' })
-    .or(z.literal(''))
-    .optional(),
+  address: z.string().min(5).max(254).or(z.literal('')).optional(),
 });
 
 // Defining formType
@@ -172,9 +99,7 @@ export default function ProfilePage(): ReactNode {
 
   const [profileState, setProfileState] = useLocalStorageState<
     'personal' | 'legal'
-  >('profilePageActiveTab', {
-    defaultValue: 'personal',
-  });
+  >('profilePageActiveTab', { defaultValue: 'personal' });
 
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
@@ -189,7 +114,6 @@ export default function ProfilePage(): ReactNode {
     reValidateMode: 'onChange',
   });
 
-  // Defining small variables
   const authCookie = Cookies.get('auth') || '';
   const savedTellNumber = `0${JSON.parse(authCookie).phoneNumber}`;
   const creditCard = userInfo.card_numbers[0];
@@ -271,7 +195,6 @@ export default function ProfilePage(): ReactNode {
     } else {
       if (!legalUserFetching.isLoading) {
         legalForm.trigger();
-      } else {
       }
     }
   }, [profileState, legalUserFetching.isLoading]);
@@ -283,26 +206,25 @@ export default function ProfilePage(): ReactNode {
         isOpened={waitingDialogOpened}
         closeFn={() => setWaitingDialogOpened(false)}
       />
-      <div className="grid lg:grid-cols-4 lg:gap-5 gap-[20px]">
-        {profileState === 'personal' ? (
-          <ProfileToggler
-            className="lg:col-span-2"
-            defaultVal={profileState}
-            onToggleChange={setProfileState}
+      <div
+        className={cn(
+          'grid lg:gap-5 gap-[20px] lg:grid-cols-4',
+          profileState === 'legal'
+            ? 'lg:grid-rows-[80px_1fr_auto_auto_auto]'
+            : 'lg:grid-rows-[80px_auto_auto]',
+        )}
+      >
+        <ProfileToggler
+          className={'lg:col-span-2'}
+          defaultVal={profileState}
+          onToggleChange={setProfileState}
+        />
+        {profileState === 'legal' && (
+          <LegalInfoForm
+            loading={legalUserFetching.isLoading}
+            form={legalForm}
+            className="overflow-auto scrollbar-hide lg:col-span-2 lg:row-span-2 lg:col-start-1 lg:row-start-2"
           />
-        ) : (
-          <div className="lg:col-span-2 flex flex-col items-start gap-[24px] justify-between lg:h-[458px] h-auto">
-            <ProfileToggler
-              className="shrink-0 w-full"
-              defaultVal={profileState}
-              onToggleChange={setProfileState}
-            />
-            <LegalInfoForm
-              loading={legalUserFetching.isLoading}
-              form={legalForm}
-              className="overflow-auto scrollbar-hide w-full h-full"
-            />
-          </div>
         )}
         {profileState === 'personal' ? (
           <>
@@ -321,7 +243,7 @@ export default function ProfilePage(): ReactNode {
             <LegalBankInfo
               userImage={legalUserImage}
               loading={legalUserFetching.isLoading}
-              className="lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide"
+              className="overflow-auto scrollbar-hide lg:col-span-2 lg:row-span-3 lg:col-start-3 lg:row-start-1"
               form={legalForm}
               creditCards={legalUserFetching.data?.card_numbers || []}
               refetch={legalUserFetching.refetch}
