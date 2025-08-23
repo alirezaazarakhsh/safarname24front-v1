@@ -11,16 +11,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 import { Navigation, Autoplay } from 'swiper/modules';
 
-import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
+import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type ApiResponse = {
-  data: {
-    special_offers: Hotel[];
-    flash_sales: Hotel[];
-    best_sellers: Hotel[];
-  };
+  data: Hotel[];
 };
 
 // ----------------------------
@@ -30,22 +26,16 @@ export function SuggestedHotels() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['suggested-hotels'],
-    queryFn: () => generalInstance('/hotel/hotels/home'),
+    queryFn: () => generalInstance('/hotel/hotels/suggested-hotels'),
   });
 
-  if (
-    status !== 'pending' &&
-    (!data?.data ||
-      !data?.data.special_offers ||
-      !data?.data.special_offers.length)
-  )
-    return null;
+  if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <div className="-ml-5 xl:ml-0">
       <TopBarConfig
-        viewAllHref="/best-hotels"
-        arraylength={data?.data.special_offers.length}
+        arraylength={data?.data?.length}
+        viewAllHref="/best-hotels?suggested-hotels=show"
         subtitle="هتل های پیشنهادی سفرنامه رو از دست نده !"
         title={{ type: 'single', text: 'هتل های پیشنهادی' }}
         prevClickFunc={() => swiperRef.current?.slidePrev()}
@@ -75,7 +65,7 @@ export function SuggestedHotels() {
           }}
           speed={600}
           autoplay={
-            data?.data.special_offers?.length > 4
+            data?.data.length && data?.data.length > 4
               ? {
                   delay: 4000,
                   pauseOnMouseEnter: true,
@@ -86,12 +76,12 @@ export function SuggestedHotels() {
           className="suggestedHotels-swiper"
           onSwiper={(swiper) => (swiperRef.current = swiper)}
         >
-          {data?.data.special_offers?.map((hotel, index) => (
+          {data?.data.slice(0, 8).map((hotel, index) => (
             <SwiperSlide
               key={index}
               className="max-w-72 pb-4 select-none xl:max-w-full"
             >
-              <SuggestedHotel hotel={hotel} showLike={false} />
+              <SuggestedHotel hotel={hotel} />
             </SwiperSlide>
           ))}
         </Swiper>

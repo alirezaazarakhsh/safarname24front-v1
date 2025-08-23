@@ -69,7 +69,7 @@ export default function CityOrHotelItem(props: Props) {
           ? props.info.slug === value.hotelSlug
           : props.info.province === value.province
       }
-      className="text-zinc-600 text-cs08 font-bold h-10 px-4 flex items-center gap-2.5 group select-none cursor-pointer rounded-l-lg transition-colors data-[active='true']:bg-cs-blue/10 data-[active='true']:text-cs-blue lg:hover:bg-cs-blue/10 lg:hover:text-cs-blue"
+      className="text-zinc-600 text-cs08 font-bold h-10 px-4 flex items-center gap-2.5 group select-none cursor-pointer rounded-lg transition-colors data-[active='true']:bg-cs-blue/10 data-[active='true']:text-cs-blue lg:hover:bg-cs-blue/10 lg:hover:text-cs-blue lg:rounded-r-none"
     >
       <Location variant="Bold" size={20} color={`#444`} />
 

@@ -1,19 +1,20 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import moment from 'jalali-moment';
+import { usePathname } from 'next/navigation';
 
 import { Hotel } from '@/types';
 import { numberSeparation } from '@/utils';
 import DiscountPercentage from './DiscountPercentage';
-
 import { DynamicSuggestedHotelTimer } from './SuggestedHotelTimer';
-import FavoriteButton from '../../modules/best-hotels/molecules/Favorite-hotel/FavoriteButton';
 
 type Props = {
   hotel: Hotel;
-  showLike?: boolean;
   showTimer?: boolean;
   showDiscount?: boolean;
+  bestType?: 'suggested' | 'amazing';
 };
 
 // -----------------------------------------------
@@ -32,11 +33,12 @@ export function SuggestedHotel(props: Props) {
       discount_expiry,
       discount_percentage,
     },
+    bestType,
     showTimer = true,
-    showLike = true,
     showDiscount = true,
   } = props;
 
+  const pathname = usePathname();
   const formattedDeadline =
     discount_expiry &&
     moment.from(discount_expiry, 'fa', 'jYYYY/jMM/jDD').format('YYYY-MM-DD');
@@ -47,15 +49,19 @@ export function SuggestedHotel(props: Props) {
       <div className="relative bg-zinc-100 h-44 overflow-hidden rounded-cs-10">
         {main_image && (
           <Image
-            src={main_image}
             alt="hotel"
             width={300}
             height={300}
+            src={main_image}
             className="full-size object-cover"
           />
         )}
 
-        {showLike && <FavoriteButton />}
+        {pathname === '/best-hotels' && (
+          <div className="absolute top-2.5 left-2.5 bg-cs-blue text-white text-cs07/5 font-medium px-3 py-1 rounded-md">
+            {bestType === 'suggested' ? 'پیشنهادی' : 'شگفت انگیز'}
+          </div>
+        )}
 
         {showDiscount && (
           <DiscountPercentage discountPercentage={discount_percentage} />
@@ -117,7 +123,7 @@ export function SuggestedHotel(props: Props) {
           href={`/best-hotels/${slug}`}
           className="bg-zinc-100 text-zinc-600 h-10 mt-2 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-[#252525] hover:text-zinc-100"
         >
-          مشاهده رزرو هتل
+          مشاهده هتل
         </Link>
       </div>
     </div>

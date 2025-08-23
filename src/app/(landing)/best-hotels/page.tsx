@@ -1,19 +1,17 @@
 import {
   Filters,
   Setting,
-  Pagination,
+  HotelList,
   AmazingHotels,
   SuggestedHotels,
 } from '@/components/landing/modules/best-hotels';
 
-import { bestHotels } from '@/constants/landing';
+import { Suspense } from 'react';
 import StickyArea from '@/components/landing/shared/StickyArea';
 
 // -------------------------------------
 
 export default function BestHotels() {
-  const { amazingHotels, suggestedHotels } = bestHotels;
-
   return (
     <>
       <div className="mt-2">
@@ -28,18 +26,19 @@ export default function BestHotels() {
       <div className="mt-4 lg:mt-12">
         <Setting />
 
-        <div className="grid gap-10 lg:grid-cols-[20rem_1fr]">
+        <div className="grid gap-10 lg:grid-cols-[20rem_1fr] lg:mt-10">
           <div className="hidden lg:block">
             <Filters />
           </div>
 
-          <div className="space-y-14 overflow-hidden lg:space-y-20">
-            <AmazingHotels amazingHotels={amazingHotels} />
-            {/* <SuggestedHotels suggestedHotels={suggestedHotels} /> */}
+          <div className="space-y-12 lg:space-y-16">
+            <Suspense>
+              <SuggestedHotels />
+              <AmazingHotels />
+              <HotelList />
+            </Suspense>
           </div>
         </div>
-
-        {/* <Pagination /> */}
       </div>
     </>
   );

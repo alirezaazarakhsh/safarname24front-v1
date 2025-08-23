@@ -6,8 +6,6 @@ import { useEffect, useMemo, useState } from 'react';
 
 import persianCalendar from 'react-date-object/calendars/persian';
 import persianLanguage from 'react-date-object/locales/persian_en';
-import gregorianCalendar from 'react-date-object/calendars/gregorian';
-import gregorianLanguage from 'react-date-object/locales/gregorian_en';
 
 import { Room } from '@/types/landing';
 import { Section } from './molecules/Section';
@@ -35,7 +33,7 @@ const buildQueryString = (options: {
 export function Rooms({ hotelSlug }: Props) {
   const router = useRouter();
 
-  const { confirmedValue: dates, calendarType } = useDatePickerContext();
+  const { confirmedValue: dates } = useDatePickerContext();
   const { rooms, confirmedPassengers } = usePassengersContext();
 
   const [queryOptions, setQueryOptions] = useState({
@@ -43,11 +41,6 @@ export function Rooms({ hotelSlug }: Props) {
     startDate: '',
     passengers: '',
   });
-
-  const calendarDetail = {
-    calendar: calendarType === 'persian' ? persianCalendar : gregorianCalendar,
-    locale: calendarType === 'persian' ? persianLanguage : gregorianLanguage,
-  };
 
   const queryString = useMemo(
     () => buildQueryString(queryOptions),
@@ -62,11 +55,6 @@ export function Rooms({ hotelSlug }: Props) {
 
   // === Update query-options & url
   useEffect(() => {
-    const dateInfo = {
-      locale: calendarDetail.locale,
-      calendar: calendarDetail.calendar,
-    };
-
     const startDate =
       dates?.[0]
         ?.convert(dateInfo.calendar, dateInfo.locale)

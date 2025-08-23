@@ -16,7 +16,7 @@ import { useHotelOrCityContext, useHotelOrCityDispatch } from '@/context';
 
 import CityOrHotelContent from './CityOrHotelContent';
 import CityOrHotelTrigger from './CityOrHotelTrigger';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 type CommonProps = {
   sideOffset?: number;
@@ -43,8 +43,10 @@ export default function CityOrHotel(props: Props) {
     triggerType = 'else',
   } = props;
 
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setOpen] = useState(false);
+
   const dispatch = useHotelOrCityDispatch();
   const { confirmedValue } = useHotelOrCityContext();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
@@ -87,7 +89,11 @@ export default function CityOrHotel(props: Props) {
               </div>
             ) : (
               <div className="flex items-center gap-1.5">
-                <span>شهر یا هتل</span>
+                {pathname === '/best-hotels' ? (
+                  <span>شهر مقصد</span>
+                ) : (
+                  <span>شهر یا هتل</span>
+                )}
                 <span>(داخلی , خارجی)</span>
               </div>
             )}
@@ -96,7 +102,7 @@ export default function CityOrHotel(props: Props) {
           <SheetContent
             side={'left'}
             aria-describedby={undefined}
-            className="bg-[#f8f8f8] w-full h-dvh pt-6 grid grid-rows-[auto_auto_1fr_auto] gap-0 border-none"
+            className="bg-[#f8f8f8] w-full h-dvh grid grid-rows-[auto_auto_1fr_auto] gap-0 border-none"
           >
             <SheetTitle className="hidden" />
             <CityOrHotelContent
