@@ -17,7 +17,6 @@ import LegalInfoForm from '@/components/dashboard/profile/legal/legalInfoForm';
 import Upload from '@/components/dashboard/upload/upload';
 import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAcceptDialog';
-import PersonalAccountBannedDialog from '@/components/dashboard/profile/dialog/personalAccountBannedDialog';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
@@ -180,11 +179,6 @@ export default function ProfilePage(): ReactNode {
   const [waitingDialogOpened, setWaitingDialogOpened] =
     useState<boolean>(false);
 
-  const [
-    personalAccountBannedDialogOpened,
-    setPersonalAccountBannedDialogOpened,
-  ] = useState<boolean>(false);
-
   const personalForm = useForm<personalFormType>({
     resolver: zodResolver(personalFormSchema),
     reValidateMode: 'onBlur',
@@ -273,10 +267,6 @@ export default function ProfilePage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
-      <PersonalAccountBannedDialog
-        isOpened={personalAccountBannedDialogOpened}
-        closeFn={() => setPersonalAccountBannedDialogOpened(false)}
-      />
       <WaitForAcceptDialog
         isOpened={waitingDialogOpened}
         closeFn={() => setWaitingDialogOpened(false)}
@@ -318,15 +308,15 @@ export default function ProfilePage(): ReactNode {
           <>
             <LegalBankInfo
               userImage={legalUserImage}
-              userStatus={{
-                rejectReason: userStatus?.rejectReason || '',
-                status: userStatus?.status || 'checking',
-              }}
               loading={legalUserFetching.isLoading}
               className="lg:col-span-2 lg:h-[458px] h-auto overflow-auto scrollbar-hide"
               form={legalForm}
               creditCards={legalUserFetching.data?.card_numbers || []}
               refetch={legalUserFetching.refetch}
+              userStatus={{
+                rejectReason: legalUserFetching.data?.reject_reason || '',
+                status: legalUserFetching.data?.status,
+              }}
             />
             <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">
               <Upload
