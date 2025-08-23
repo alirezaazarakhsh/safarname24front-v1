@@ -11,6 +11,7 @@ import { CityOrHotelList } from './CityOrHotelList';
 import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowRight, SearchStatus } from 'iconsax-react';
 
@@ -31,11 +32,12 @@ type ApiResponse = {
 export default function CityOrHotelContent(props: Props) {
   const { handleClose } = props;
 
-  const dispatch = useHotelOrCityDispatch();
-  const [error, setError] = useState(false);
-
+  const pathname = usePathname();
   const { inputValue, value } = useHotelOrCityContext();
   const debouncedInputValue = useDebounce(inputValue, 500);
+
+  const [error, setError] = useState(false);
+  const dispatch = useHotelOrCityDispatch();
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['search-hotel-city', debouncedInputValue],
@@ -96,7 +98,11 @@ export default function CityOrHotelContent(props: Props) {
           type="text"
           value={inputValue}
           onChange={handleInputChange}
-          placeholder="جستجو شهر یا هتل ..."
+          placeholder={
+            pathname === '/best-hotels'
+              ? 'جتسجو شهر مقصد ...'
+              : 'جستجو شهر یا هتل ...'
+          }
           className="bg-transparent text-zinc-600 text-cs08 font-semibold pl-16 flex-1 placeholder:text-zinc-500 placeholder:font-semibold"
         />
 

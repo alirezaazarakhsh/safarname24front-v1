@@ -1,4 +1,5 @@
 import { City, Hotel } from '@/types/landing';
+import { usePathname } from 'next/navigation';
 import CityOrHotelItem from './CityOrHotelItem';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -13,11 +14,12 @@ type Props = {
 
 export function CityOrHotelList(props: Props) {
   const { cities, hotels, isPending, handleClose } = props;
+  const pathname = usePathname();
 
   return (
-    <div className="mt-4 flex flex-col overflow-auto custom-scrollbar  lg:h-[20rem]">
+    <div className="mt-4 flex flex-col overflow-auto custom-scrollbar lg:h-[20rem]">
       {isPending ? (
-        <div className="p-4 mt-auto grid gap-3">
+        <div className="grid gap-3 lg:p-4 lg:mt-auto">
           {Array(7)
             .fill(null)
             .map((_, index) => (
@@ -29,13 +31,14 @@ export function CityOrHotelList(props: Props) {
         </div>
       ) : (
         <>
+          {/* === Cities */}
           {cities?.length ? (
-            <div className="pl-4">
+            <div className="pl-3">
               <div className="text-zinc-500 text-cs08 font-semibold mb-1.5 pr-4">
                 شهر
               </div>
 
-              {cities.map((city, index) => (
+              {cities?.map((city, index) => (
                 <CityOrHotelItem
                   key={index}
                   type="city"
@@ -50,11 +53,14 @@ export function CityOrHotelList(props: Props) {
             </div>
           ) : null}
 
-          {hotels?.length ? (
-            <div className="pl-4 mt-2">
-              <div className="text-cs08 font-semibold mb-2 pr-4">هتل ها</div>
+          {/* === Hotels */}
+          {pathname !== '/best-hotels' && hotels?.length ? (
+            <div className="pl-3 mt-2">
+              <div className="text-zinc-500 text-cs08 font-semibold mb-1.5 pr-4">
+                هتل
+              </div>
 
-              {hotels.map((hotel, index) => (
+              {hotels?.map((hotel, index) => (
                 <CityOrHotelItem
                   key={index}
                   type="hotel"
@@ -70,8 +76,16 @@ export function CityOrHotelList(props: Props) {
             </div>
           ) : null}
 
-          {!cities?.length && !hotels?.length ? (
-            <div className="text-cs08 text-center text-gray-500 font-medium mt-2">
+          {/* === Error-Message */}
+          {pathname === '/best-hotels' ? (
+            (!cities?.length && hotels?.length) ||
+            (!cities?.length && !hotels?.length) ? (
+              <div className="text-cs08 text-center text-gray-500 font-medium mt-4 lg:mt-2">
+                متاسفانه نتیجه ای یافت نشد !
+              </div>
+            ) : null
+          ) : !cities?.length && !hotels?.length ? (
+            <div className="text-cs08 text-center text-gray-500 font-medium mt-4 lg:mt-2">
               متاسفانه نتیجه ای یافت نشد !
             </div>
           ) : null}

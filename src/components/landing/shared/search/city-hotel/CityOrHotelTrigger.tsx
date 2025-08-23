@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useScrollPosition } from '@/hooks';
+import { usePathname } from 'next/navigation';
 import { useHotelOrCityContext } from '@/context';
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
@@ -23,6 +24,7 @@ type Props =
 export default function CityOrHotelTrigger(props: Props) {
   const { type, isOpen, handleSetOpen, scrollBehavior } = props;
 
+  const pathname = usePathname();
   const scrollPosition = useScrollPosition();
   const { confirmedValue } = useHotelOrCityContext();
   const delayRef = useRef<NodeJS.Timeout | null>(null);
@@ -82,7 +84,9 @@ export default function CityOrHotelTrigger(props: Props) {
         ) : (
           <div className="text-cs08 flex flex-col items-start gap-y-3">
             <span className="text-zinc-800 text-cs08 font-extrabold">
-              انتخاب شهر یا هتل
+              {pathname === '/best-hotels'
+                ? 'انتخاب شهر مقصد'
+                : 'انتخاب شهر یا هتل'}
             </span>
 
             <div className="bg-zinc-200/50 w-full h-12 font-semibold px-4 flex items-center gap-0.5 rounded-lg">
@@ -106,7 +110,11 @@ export default function CityOrHotelTrigger(props: Props) {
                 </div>
               ) : (
                 <span className="text-zinc-500 flex items-center gap-1.5">
-                  <span>شهر یا هتل</span>
+                  {pathname === '/best-hotels' ? (
+                    <span>شهر مقصد</span>
+                  ) : (
+                    <span>شهر یا هتل</span>
+                  )}
                   <span>(داخلی , خارجی)</span>
                 </span>
               )}
