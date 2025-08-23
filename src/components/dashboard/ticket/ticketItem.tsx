@@ -16,6 +16,7 @@ export default function TicketItem({
   onClick,
   newNotifications,
   type = 'active',
+  lastItem = false,
 }: TicketItemPropsType): ReactNode {
   // Returning JSX
   return (
@@ -56,8 +57,8 @@ export default function TicketItem({
               : 'مشخص نشده'}
           </span>
           {newNotifications && newNotifications !== 0 && (
-            <div className="bg-cs-red/10 text-cs-red rounded-full size-[15px] shrink-0 aspect-square flex items-center justify-center mt-1">
-              <span className="text-[8px] font-light text-current text-center truncate block">
+            <div className="bg-cs-red/10 text-cs-red rounded-full lg:size-[15px] size-[20px] shrink-0 aspect-square flex items-center justify-center mt-1">
+              <span className="lg:text-[8px] text-[10px] font-light text-current text-center truncate block">
                 {newNotifications}
               </span>
             </div>

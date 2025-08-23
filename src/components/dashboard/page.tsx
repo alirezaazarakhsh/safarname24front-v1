@@ -160,18 +160,22 @@ function InnerPage({
             <div
               className={cn(
                 'overflow-x-hidden overflow-y-auto',
-                !irregularPages
-                  ? 'bg-[#F9F9F9] mx-auto max-w-screen-template'
-                  : 'bg-white w-full',
+                isReservationSubPage
+                  ? 'bg-white'
+                  : irregularPages
+                    ? 'w-full'
+                    : '',
                 className,
               )}
             >
-              {irregularPages ? (
-                children
-              ) : (
-                <div className="bg-white max-w-screen-template mx-auto">
+              {isReservationSubPage ? (
+                <div className="max-w-screen-template bg-white mx-auto">
                   {children}
                 </div>
+              ) : irregularPages ? (
+                children
+              ) : (
+                <div className="max-w-screen-template mx-auto">{children}</div>
               )}
             </div>
           </notificationContext.Provider>

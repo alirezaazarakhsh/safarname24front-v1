@@ -114,7 +114,7 @@ export default function TicketsContext({
             </button>
           </div>
         </div>
-        <div className="px-[12px] py-[10px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-[calc(100dvh-125px)] bg-white">
+        <div className="py-[10px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-[calc(100dvh-125px)] bg-white">
           {tickets.currentTickets.length === 0 ? (
             <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-black/50 overflow-auto custom-scrollbar">
               <div>
@@ -134,11 +134,8 @@ export default function TicketsContext({
               <TicketItem
                 key={index}
                 onClick={() => setSelectedTicket(item.id)}
-                className={cn(
-                  `bg-white hover:bg-white px-0 rounded-none`,
-                  tickets.currentTickets.length !== index + 1 &&
-                    'border-b border-b-black/10',
-                )}
+                className={'bg-white hover:bg-gray-100 rounded-none px-[12px]'}
+                newNotifications={2}
                 data={{
                   createdAt: item.user.lastSeen,
                   subTitle: item.user.status,
@@ -413,9 +410,11 @@ export default function TicketsContext({
             <div className="p-[24px] shrink-0 border-b border-b-black/10">
               <Button
                 onClick={() => setModalOpened(true)}
-                className="flex items-center justif-center px-[12px] py-[18px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg text-cs65 font-semibold text-center truncate"
+                className="flex items-center justif-center px-[12px] py-[18px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg"
               >
-                ثبت تیکت جدید
+                <span className="text-cs75 font-semibold text-center truncate">
+                  ثبت تیکت جدید
+                </span>
               </Button>
             </div>
             <div className="shrink-0 border-b border-b-black/10 py-[12px]  overflow-auto custom-scrollbar h-[200px]">
@@ -513,14 +512,14 @@ export default function TicketsContext({
             <div className="p-[12px] shrink-0">
               <Button
                 onClick={() => setExitModalOpened(true)}
-                className="flex items-center justif-center px-[12px] py-[18px] bg-cs-red/10 !text-cs-red w-full transition-all duration-500 hover:bg-cs-red/20 rounded-lg gap-3"
+                className="flex items-center justif-center px-[12px] py-[18px] bg-cs-red/10 !text-cs-red w-full transition-all duration-500 hover:bg-cs-red/20 rounded-lg gap-2"
               >
                 <IconsaxIcons
-                  className="size-[20px]"
+                  className="size-[20px] shrink-0"
                   name="LogoutCurve"
                   color="currentColor"
                 />
-                <span className="text-cs65 font-semibold text-center truncate text-current">
+                <span className="text-cs75 font-semibold text-right truncate text-current">
                   خروج از تیکت, بازگشت به صفحه
                 </span>
               </Button>

@@ -715,6 +715,7 @@ export interface TicketItemPropsType {
   disabled?: boolean;
   type?: 'active' | 'prevois';
   newNotifications?: number;
+  lastItem?: boolean;
   data?: {
     img?: string;
     title: string;

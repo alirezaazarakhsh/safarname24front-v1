@@ -146,13 +146,15 @@ export default function SelectDepartmentDialog({
           </div>
           <form
             onSubmit={form.handleSubmit(submitHandler, (errors) => {
-              Object.values(errors).forEach((item) => {
-                toast({
-                  theme: 'theme',
-                  description: item?.message || '',
-                  title: 'خطایی رخ داد',
+              if (!isMobile) {
+                Object.values(errors).forEach((item) => {
+                  toast({
+                    theme: 'theme',
+                    description: item?.message || '',
+                    title: 'خطایی رخ داد',
+                  });
                 });
-              });
+              }
             })}
             action="#"
             className="p-6 w-full lg:h-auto h-[calc(100dvh-50px)] lg:block flex flex-col items-start justify-between gap-8 overflow-auto custom-scrollbar"
@@ -169,6 +171,11 @@ export default function SelectDepartmentDialog({
                   onClick={() => form.setValue('department', item.value)}
                 />
               ))}
+              {isMobile && form.formState.errors.department?.message && (
+                <p className="text-cs08 font-semibold text-right text-cs-red mt-4">
+                  {form.formState.errors.department.message}
+                </p>
+              )}
             </div>
             <button
               disabled={form.formState.isSubmitting}
