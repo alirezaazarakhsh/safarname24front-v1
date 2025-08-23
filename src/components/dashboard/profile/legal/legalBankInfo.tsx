@@ -431,13 +431,17 @@ export default function LegalBankInfo({
           noErrorText
           {...form.register('postCode')}
         />
-        <NormalInput
-          placeholder="نام صاحب کارت"
-          noErrorText
-          disabled
-          className="disabled:opacity-100"
-          value={`صاحب حساب : ${currentCardOwner}`}
-        />
+        {creditCards?.length === 0 ? (
+          <div />
+        ) : (
+          <NormalInput
+            placeholder="نام صاحب کارت"
+            noErrorText
+            disabled
+            className="disabled:opacity-100"
+            value={`نام صاحب کارت : ${currentCardOwner}`}
+          />
+        )}
         {!loading && userStatus?.status && (
           <LegalUserStatus
             rejectReason={userStatus?.rejectReason}
@@ -461,7 +465,9 @@ export default function LegalBankInfo({
                 }
               });
             })}
-            disabled={form.formState.isSubmitting || loading}
+            disabled={
+              form.formState.isSubmitting || loading || !form.formState.isValid
+            }
             className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
           >
             {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}

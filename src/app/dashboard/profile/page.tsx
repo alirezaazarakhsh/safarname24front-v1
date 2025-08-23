@@ -181,12 +181,12 @@ export default function ProfilePage(): ReactNode {
 
   const personalForm = useForm<personalFormType>({
     resolver: zodResolver(personalFormSchema),
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
   });
 
   const legalForm = useForm<legalFormType>({
     resolver: zodResolver(legalFormSchema),
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
   });
 
   // Defining small variables
@@ -263,6 +263,18 @@ export default function ProfilePage(): ReactNode {
       }
     }
   }, [legalForm, legalUserFetching.isLoading, legalUserFetching.isRefetching]);
+
+  // Using useEffect to validate forms on change of mode
+  useEffect(() => {
+    if (profileState === 'personal') {
+      personalForm.trigger();
+    } else {
+      if (!legalUserFetching.isLoading) {
+        legalForm.trigger();
+      } else {
+      }
+    }
+  }, [profileState, legalUserFetching.isLoading]);
 
   // Returning JSX
   return (
