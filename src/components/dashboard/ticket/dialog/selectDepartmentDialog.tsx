@@ -1,7 +1,6 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
-import { ICX } from '@/components/icons/ICX';
 // Importing part
 import {
   Dialog,
@@ -11,6 +10,7 @@ import {
   DialogPortal,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { ICX } from '@/components/icons/ICX';
 import { TicketsSelectDepartmentPropsType } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ReactNode, useState } from 'react';

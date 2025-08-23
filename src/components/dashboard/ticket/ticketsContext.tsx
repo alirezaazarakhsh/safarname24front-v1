@@ -29,7 +29,7 @@ import {
 import { AccordionTrigger } from '@radix-ui/react-accordion';
 import moment from 'jalali-moment';
 import { useMediaQuery } from '@/hooks';
-import Link from 'next/link';
+import ExitTicketsDialog from './dialog/exitTicketsDialog';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext({
@@ -39,6 +39,7 @@ export default function TicketsContext({
   // Defining hooks
   const [rightLayoutSize, setRightLayoutSize] = useState<'sm' | 'lg'>('lg');
   const [modalOpened, setModalOpened] = useState<boolean>(false);
+  const [exitModalOpened, setExitModalOpened] = useState<boolean>(false);
   const [selectedTicket, setSelectedTicket] = useState<number | undefined>();
   const [replyTo, setReplyTo] = useState<string>('');
   const [replyMessage, setReplyMessage] = useState<string>('');
@@ -82,6 +83,10 @@ export default function TicketsContext({
           isOpened={modalOpened}
           closeFn={() => setModalOpened(false)}
         />
+        <ExitTicketsDialog
+          isOpened={exitModalOpened}
+          closeFn={() => setExitModalOpened(false)}
+        />
         <div className="flex items-center justify-between gap-3 bg-white border-b border-b-black/10 px-[12px] h-[50px]">
           <span className="text-cs85 font-bold text-black/70 text-right truncate block flex-1">
             چت تایم سفرنامه
@@ -97,16 +102,16 @@ export default function TicketsContext({
                 color="currentColor"
               />
             </button>
-            <Link
+            <button
               className="text-black transition-all duration-500 disabled:opacity-50"
-              href="/dashboard"
+              onClick={() => setExitModalOpened(true)}
             >
               <IconsaxIcons
                 className="size-[20px]"
                 name="LogoutCurve"
                 color="currentColor"
               />
-            </Link>
+            </button>
           </div>
         </div>
         <div className="px-[12px] py-[10px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-[calc(100dvh-125px)] bg-white">
@@ -132,7 +137,7 @@ export default function TicketsContext({
                 className={cn(
                   `bg-white hover:bg-white px-0 rounded-none`,
                   tickets.currentTickets.length !== index + 1 &&
-                  'border-b border-b-black/10',
+                    'border-b border-b-black/10',
                 )}
                 data={{
                   createdAt: item.user.lastSeen,
@@ -183,6 +188,14 @@ export default function TicketsContext({
   } else {
     return (
       <div>
+        <ExitTicketsDialog
+          isOpened={exitModalOpened}
+          closeFn={() => setExitModalOpened(false)}
+        />
+        <SelectDepartmentDialog
+          isOpened={modalOpened}
+          closeFn={() => setModalOpened(false)}
+        />
         <div
           data-size={rightLayoutSize}
           className={cn(
@@ -190,10 +203,6 @@ export default function TicketsContext({
             className,
           )}
         >
-          <SelectDepartmentDialog
-            isOpened={modalOpened}
-            closeFn={() => setModalOpened(false)}
-          />
           <div className="group-data-[size=sm]:w-[10%] group-data-[size=lg]:w-[25%] transition-all duration-500 overflow-auto custom-scrollbar">
             <div className="p-[24px] border-b border-black/10">
               <Image
@@ -409,7 +418,7 @@ export default function TicketsContext({
                 ثبت تیکت جدید
               </Button>
             </div>
-            <div className="shrink-0 border-b border-b-black/10 py-[12px]  overflow-auto custom-scrollbar h-[300px]">
+            <div className="shrink-0 border-b border-b-black/10 py-[12px]  overflow-auto custom-scrollbar h-[200px]">
               <div className="px-[12px]">
                 <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
                   تیکت های حال حاضر
@@ -503,19 +512,17 @@ export default function TicketsContext({
             )}
             <div className="p-[12px] shrink-0">
               <Button
-                asChild
+                onClick={() => setExitModalOpened(true)}
                 className="flex items-center justif-center px-[12px] py-[18px] bg-cs-red/10 !text-cs-red w-full transition-all duration-500 hover:bg-cs-red/20 rounded-lg gap-3"
               >
-                <Link href="/dashboard">
-                  <IconsaxIcons
-                    className="size-[20px]"
-                    name="LogoutCurve"
-                    color="currentColor"
-                  />
-                  <span className="text-cs65 font-semibold text-center truncate text-current">
-                    خروج از تیکت, بازگشت به صفحه
-                  </span>
-                </Link>
+                <IconsaxIcons
+                  className="size-[20px]"
+                  name="LogoutCurve"
+                  color="currentColor"
+                />
+                <span className="text-cs65 font-semibold text-center truncate text-current">
+                  خروج از تیکت, بازگشت به صفحه
+                </span>
               </Button>
             </div>
           </div>
