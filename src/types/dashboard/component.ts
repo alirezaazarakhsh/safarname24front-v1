@@ -1,4 +1,4 @@
-(''); // Importing part
+// Importing part
 import {
   ButtonHTMLAttributes,
   Dispatch,
@@ -690,6 +690,8 @@ export interface TicketsSettingItemPropsType {
   onClick?: () => void;
   type?: 'files' | 'theme' | 'walpaper';
   files?: string[];
+  setMobileActiveTab?: Dispatch<SetStateAction<string>>; // Mobile only
+  mobileActiveTab?: string; // Mobile only
 }
 
 export interface TicketsDateSepratorPropsType {
@@ -808,5 +810,6 @@ export interface MessageItemPropsType {
 
 export interface TicketsNavBarPropsType {
   className?: string;
-  onTabChange?: (val: string) => void;
+  activeTabState: string;
+  setActiveTabState: Dispatch<SetStateAction<string>>;
 }

@@ -45,7 +45,6 @@ export default function TicketsContext({
   const [replyTo, setReplyTo] = useState<string>('');
   const [replyMessage, setReplyMessage] = useState<string>('');
   const isMobile = useMediaQuery('(max-width: 1024px)');
-
   const [mobileActiveTab, setMobileActiveTab] = useState<string>('messages');
 
   // Defining local storage items
@@ -200,6 +199,8 @@ export default function TicketsContext({
           ) : (
             <>
               <SettingItem
+                setMobileActiveTab={setMobileActiveTab}
+                mobileActiveTab={mobileActiveTab}
                 className="px-[12px] rounded-0"
                 icon="MessageText"
                 title="والپیپر"
@@ -207,6 +208,8 @@ export default function TicketsContext({
                 size={'lg'}
               />
               <SettingItem
+                setMobileActiveTab={setMobileActiveTab}
+                mobileActiveTab={mobileActiveTab}
                 className="px-[12px] rounded-0"
                 icon="Bucket"
                 title="رنگ چت تایم"
@@ -216,7 +219,10 @@ export default function TicketsContext({
             </>
           )}
         </div>
-        <TicketsNavBar onTabChange={(val) => setMobileActiveTab(val)} />
+        <TicketsNavBar
+          activeTabState={mobileActiveTab}
+          setActiveTabState={setMobileActiveTab}
+        />
       </div>
     );
   } else {

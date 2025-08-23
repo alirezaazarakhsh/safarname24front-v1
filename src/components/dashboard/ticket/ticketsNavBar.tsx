@@ -14,48 +14,41 @@ const data: {
   value: string;
   icon: IconsName;
 }[] = [
-    {
-      label: 'تنظیمات چت',
-      icon: 'Setting2',
-      value: 'settings',
-    },
-    {
-      label: 'چت تایم (جدید)',
-      icon: 'Message2',
-      value: 'message',
-    },
-    {
-      label: 'تیکت ها (قدیم)',
-      icon: 'MessageText',
-      value: 'closedMessage',
-    },
-  ];
+  {
+    label: 'تنظیمات چت',
+    icon: 'Setting2',
+    value: 'settings',
+  },
+  {
+    label: 'چت تایم (جدید)',
+    icon: 'Message2',
+    value: 'message',
+  },
+  {
+    label: 'تیکت ها (قدیم)',
+    icon: 'MessageText',
+    value: 'closedMessage',
+  },
+];
 
 // Creating and exporting TicketsNavBar component as default
 export default function TicketsNavBar({
   className,
-  onTabChange,
+  activeTabState,
+  setActiveTabState,
 }: TicketsNavBarPropsType): ReactNode {
-  // Defining hooks
-  const [activeTabState, setActiveTabState] = useState<string>('message');
-
-  // Using useEffect to attach onTabChange to component
-  useEffect(() => {
-    onTabChange && onTabChange(activeTabState);
-  }, [activeTabState]);
-
   // Returning JSX
   return (
     <div
       className={cn(
-        'border-t border-t-black/10 grid grid-cols-3 gap-5 h-[75px] place-items-center bg-gray-100',
+        'border-t border-t-black/10 flex items-center justify-around gap-5 h-[75px] bg-gray-100 px-6',
         className,
       )}
     >
       {data.map((item, index) => (
         <button
           data-active={item.value === activeTabState}
-          className="transition-all duration-500 data-[active=true]:text-black data-[active=false]:text-black/50"
+          className="transition-all duration-500 data-[active=true]:text-black data-[active=false]:text-black/50 overflow-hidden"
           key={index}
           onClick={() => setActiveTabState(item.value)}
         >
