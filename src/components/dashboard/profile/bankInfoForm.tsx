@@ -319,13 +319,17 @@ export default function BankInfoForm({
           noErrorText
           {...form.register('address')}
         />
-        <NormalInput
-          placeholder="نام صاحب کارت"
-          noErrorText
-          disabled
-          className="disabled:opacity-100"
-          value={`نام صاحب کارت : ${currentCardOwner}`}
-        />
+        {userInfo.card_numbers.length === 0 ? (
+          <div />
+        ) : (
+          <NormalInput
+            placeholder="نام صاحب کارت"
+            noErrorText
+            disabled
+            className="disabled:opacity-100"
+            value={`نام صاحب کارت : ${currentCardOwner}`}
+          />
+        )}
         <div>
           <button
             onClick={form.handleSubmit(submitHandleFunction, (errors) => {
@@ -343,7 +347,7 @@ export default function BankInfoForm({
                 }
               });
             })}
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || !form.formState.isValid}
             className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
           >
             {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
