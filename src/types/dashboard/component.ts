@@ -805,3 +805,8 @@ export interface MessageItemPropsType {
     answererName: string;
   };
 }
+
+export interface TicketsNavBarPropsType {
+  className?: string;
+  onTabChange?: (val: string) => void;
+}
