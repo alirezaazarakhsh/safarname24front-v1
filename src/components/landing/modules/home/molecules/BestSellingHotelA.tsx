@@ -26,7 +26,7 @@ export default function BestSellingHotelA(props: Props) {
   return (
     <Link
       href={`/best-hotels/${slug}`}
-      className="relative bg-white p-4 flex gap-4 rounded-xl shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)]"
+      className="relative bg-white p-5 flex gap-4 rounded-xl shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)] xl:p-4"
     >
       {/* Image */}
       <div className="bg-zinc-100 w-32 h-40 hidden overflow-hidden rounded-cs-10 xl:block xl:h-32 xl:rounded-xl">
@@ -70,7 +70,7 @@ export default function BestSellingHotelA(props: Props) {
         </div>
 
         {/* Hotel-Rating (Small-Device) */}
-        <div className="w-max h-7 bg-[#4B5BCE]/20 text-[#4B5BCE] text-cs75 px-3 mt-1 mb-2 flex items-center gap-1.5 rounded-md xl:hidden">
+        <div className="w-max h-7 bg-[#4B5BCE]/10 text-[#4B5BCE] text-cs75 px-3 mt-1 mb-2 flex items-center gap-1.5 rounded-md xl:hidden">
           <ICStar className="w-3.5 h-3.5" fill="#4B5BCE" />
           <span className="font-bold pt-0.5">
             {average_score > 1 ? average_score : rating}

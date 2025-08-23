@@ -11,16 +11,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 import { Navigation, Autoplay } from 'swiper/modules';
 
-import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
+import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type ApiResponse = {
-  data: {
-    special_offers: Hotel[];
-    flash_sales: Hotel[];
-    best_sellers: Hotel[];
-  };
+  data: Hotel[];
 };
 
 // -----------------------------------------------
@@ -29,20 +25,18 @@ export function AmazingHotels() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['amazing-hotels'],
-    queryFn: () => generalInstance('/hotel/hotels/home'),
+    queryFn: () => generalInstance('/hotel/hotels/amazing-hotels'),
   });
 
-  if (
-    status !== 'pending' &&
-    (!data?.data || !data?.data.flash_sales || !data?.data.flash_sales.length)
-  )
-    return null;
+  if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <div className="-ml-5 lg:ml-0">
       <TopBarConfig
-        viewAllHref="/best-hotels"
         subtitle="هتل های تخفیف دار رو  از دست نده !"
+        viewAllHref="/best-hotels?amazing-hotels=show"
+        prevClickFunc={() => swiperRef.current?.slidePrev()}
+        nextClickFunc={() => swiperRef.current?.slideNext()}
         title={{ type: 'double', first: 'هتل های', second: 'شگفت انگیز' }}
       />
 
@@ -69,7 +63,7 @@ export function AmazingHotels() {
           }}
           speed={600}
           autoplay={
-            data?.data.flash_sales?.length > 4
+            data?.data.length && data?.data?.length > 4
               ? {
                   delay: 4000,
                   pauseOnMouseEnter: true,
@@ -80,12 +74,12 @@ export function AmazingHotels() {
           className="suggestedHotels-swiper"
           onSwiper={(swiper) => (swiperRef.current = swiper)}
         >
-          {data?.data.flash_sales?.map((hotel, index) => (
+          {data?.data?.map((hotel, index) => (
             <SwiperSlide
               key={index}
               className="max-w-72 pb-4 select-none xl:max-w-full"
             >
-              <SuggestedHotel hotel={hotel} showLike={false} />
+              <SuggestedHotel hotel={hotel} />
             </SwiperSlide>
           ))}
         </Swiper>

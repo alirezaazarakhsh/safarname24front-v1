@@ -13,6 +13,6 @@ export type Hotel = {
   rating: number;
   discount_expiry: string;
   average_score: number;
-  discount_percentage: 0;
+  discount_percentage: number;
   original_total_price: number;
 };
