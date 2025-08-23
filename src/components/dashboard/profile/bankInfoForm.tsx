@@ -185,13 +185,96 @@ export default function BankInfoForm({
           </p>
         </div>
       </div>
-      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] lg:grid flex flex-col-reverse grid-cols-2 lg:gap-6 gap-[20px]">
+      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] lg:grid flex flex-col grid-cols-2 lg:gap-6 gap-[20px]">
+        <div className="lg:hidden flex items-center justify-start w-full gap-3">
+          <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
+            {!form.getFieldState('creditCard').invalid &&
+            !form.getFieldState('shabaNumber').invalid &&
+            bankInfo ? (
+              <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
+            ) : (
+              <IconsaxIcons name="Bank" color="currentColor" />
+            )}
+          </div>
+          <div className="overflow-hidden w-full">
+            <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
+              نام بانک
+            </span>
+            <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+              {!form.getFieldState('creditCard').invalid &&
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo
+                ? bankInfo?.name
+                : 'سیستم بانکی ناشناخته است!'}
+            </p>
+          </div>
+        </div>
         <button
-          onClick={form.handleSubmit(submitHandleFunction)}
-          disabled={form.formState.isSubmitting}
-          className="bg-green-500 w-full lg:text-cs07 text-[12px] hover:bg-green-600 transition-all duration-500 text-white lg:rounded-lg rounded-[8px] lg:px-5 px-3 h-[50px] lg:font-medium font-semibold disabled:bg-gray-400 disabled:hover:bg-gray-400 lg:hidden flex items-center justify-center"
+          {...getRootProps()}
+          className="lg:hidden flex items-center justify-start w-full gap-3 group"
         >
-          {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
+          <input {...getInputProps()} hidden />
+          <div
+            className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md relative overflow-hidden"
+            onClick={(e) => {
+              if (useUserImage) {
+                e.stopPropagation();
+                setUseUserImage(false);
+              }
+            }}
+          >
+            {acceptedFiles.length === 0 ? (
+              useUserImage && userImage ? (
+                <>
+                  <Image
+                    width={50}
+                    height={50}
+                    alt="عکس اپلود شده!"
+                    src={userImage || ''}
+                    className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
+                  />
+                  <div className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0">
+                    <IconsaxIcons
+                      name="Trash"
+                      className="w-[20px] h-[20px]"
+                      color="white"
+                    />
+                  </div>
+                </>
+              ) : (
+                <IconsaxIcons
+                  name="Image"
+                  color="currentColor"
+                  className="w-[20px] h-[20px]"
+                />
+              )
+            ) : (
+              <>
+                <Image
+                  width={50}
+                  height={50}
+                  alt="عکس اپلود شده!"
+                  src={URL.createObjectURL(acceptedFiles[0])}
+                  className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] object-cover w-full h-full z-0"
+                />
+                <div className="bg-black/50 w-full h-full opacity-0 transition-all duration-500 group-hover:opacity-100 z-[10] flex items-center justify-center absolute top-0 left-0">
+                  <IconsaxIcons
+                    name="Trash"
+                    className="w-[20px] h-[20px]"
+                    color="white"
+                  />
+                </div>
+              </>
+            )}
+          </div>
+          <div className="overflow-hidden w-full">
+            <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
+              آپلود عکس
+            </span>
+            <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+              * حداکثر حجم کمتر از 10MB باشد
+            </p>
+          </div>
         </button>
         <CreditCardDropDown
           className="lg:h-[50px] h-[45px] w-full"
@@ -207,7 +290,7 @@ export default function BankInfoForm({
             form.setValue('shabaNumber', shaba);
           }}
         />
-        <div className="flex items-center justify-start w-full gap-3">
+        <div className="lg:flex hidden items-center justify-start w-full gap-3">
           <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&
             !form.getFieldState('shabaNumber').invalid &&
@@ -248,7 +331,7 @@ export default function BankInfoForm({
         />
         <button
           {...getRootProps()}
-          className="flex items-center justify-start w-full gap-3 group"
+          className="lg:flex hidden items-center justify-start w-full gap-3 group"
         >
           <input {...getInputProps()} hidden />
           <div

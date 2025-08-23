@@ -159,7 +159,7 @@ function InnerPage({
             <MobileNav />
             <div
               className={cn(
-                'overflow-x-hidden overflow-y-auto',
+                'overflow-hidden',
                 isReservationSubPage
                   ? 'bg-white'
                   : irregularPages

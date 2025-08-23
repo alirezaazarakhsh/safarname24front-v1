@@ -35,7 +35,7 @@ export default function ToggleButtons({
       )}
     >
       <div
-        className="bg-[#4B5BCE] w-[50%] transition-all duration-500 h-full rounded-lg top-0 absolute z-0 data-[activebtn='0']:right-0 data-[activebtn='1']:right-[50%]"
+        className="bg-cs-blue w-[50%] transition-all duration-500 h-full rounded-lg top-0 absolute z-0 data-[activebtn='0']:right-0 data-[activebtn='1']:right-[50%]"
         data-activebtn={activeButtonIndex}
       />
       {buttons.map((item, index) => (
@@ -45,7 +45,7 @@ export default function ToggleButtons({
           key={index}
           onClick={() => setActiveButtonIndex(index)}
         >
-          <span className='lg:text-cs65 text-[12px] lg:font-normal font-semibold w-full block text-center truncate text-current'>
+          <span className="lg:text-cs65 text-[12px] lg:font-normal font-semibold w-full block text-center truncate text-current">
             {item}
           </span>
         </button>
