@@ -17,7 +17,7 @@ import {
   TicketsContextPropsType,
   TicketsContextType,
 } from '@/types/dashboard/component';
-import { cn } from '@/utils/utils';
+import { cn, hexToRgba, isColorDark } from '@/utils/utils';
 import MessageItem from './messageItem';
 import useLocalStorageState from 'use-local-storage-state';
 import toast from '../ui/customSonner/toast';
@@ -31,6 +31,7 @@ import moment from 'jalali-moment';
 import { useMediaQuery } from '@/hooks';
 import ExitTicketsDialog from './dialog/exitTicketsDialog';
 import TicketsNavBar from './ticketsNavBar';
+import CanclationErrorDrawer from '../reservation/canclationErrorDrawer';
 
 // Creating and exporting TicketsContext component as default
 export default function TicketsContext({
@@ -46,6 +47,13 @@ export default function TicketsContext({
   const [replyMessage, setReplyMessage] = useState<string>('');
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const [mobileActiveTab, setMobileActiveTab] = useState<string>('messages');
+  const [notificationDrawerOpened, setNotificationDrawerOpened] =
+    useState<boolean>(false);
+
+  const [
+    mobileTicketAnswererProfileOpened,
+    setMobileTicketAnswererProfileOpened,
+  ] = useState<boolean>(false);
 
   // Defining local storage items
   const [walpaper] = useLocalStorageState<string>('ticketWalpaper', {
@@ -79,152 +87,419 @@ export default function TicketsContext({
 
   // Returning JSX
   if (isMobile) {
-    return (
-      <div>
-        <SelectDepartmentDialog
-          isOpened={modalOpened}
-          closeFn={() => setModalOpened(false)}
-        />
-        <ExitTicketsDialog
-          isOpened={exitModalOpened}
-          closeFn={() => setExitModalOpened(false)}
-        />
-        <div className="flex items-center justify-between gap-3 bg-white border-b border-b-black/10 px-[12px] h-[50px]">
-          <span className="text-cs85 font-bold text-black/70 text-right truncate block flex-1">
-            {mobileActiveTab === 'closedMessage'
-              ? 'تیکت های گذشته '
-              : mobileActiveTab === 'settings'
-                ? 'تنظیمات چت'
-                : 'چت تایم سفرنامه'}
-          </span>
-          <div className="flex items-center justify-between gap-3 shrink-0">
+    if (foundedTicketItem) {
+      return (
+        <div
+          style={{
+            background: walpaper,
+          }}
+          className="h-dvh flex flex-col justify-between"
+        >
+          <div
+            data-opened={mobileTicketAnswererProfileOpened}
+            className="bg-white h-dvh absolute overflow-y-auto overflow-x-hidden custom-scrollbar top-0 left-0 w-dvw z-50 data-[opened=false]:invisible data-[opened=true]:visible data-[opened=false]:opacity-0 data-[opened=true]:opacity-100  data-[opened=false]:translate-x-[100%] data-[opened=true]:translate-x-0 transition-all duration-500"
+          >
             <button
-              className="text-cs-blue"
-              onClick={() => setModalOpened(true)}
+              className="text-black absolute left-[24px] top-[30px]"
+              onClick={() => setMobileTicketAnswererProfileOpened(false)}
             >
               <IconsaxIcons
                 className="size-[20px]"
-                name="AddSquare"
+                name="ArrowLeft"
                 color="currentColor"
               />
             </button>
-            <button
-              className="text-black transition-all duration-500 disabled:opacity-50"
-              onClick={() => setExitModalOpened(true)}
-            >
-              <IconsaxIcons
-                className="size-[20px]"
-                name="LogoutCurve"
-                color="currentColor"
+            <div className="p-[24px] border-b border-black/10">
+              <Image
+                width={100}
+                height={100}
+                alt="پروفایل کاریر"
+                src={
+                  foundedTicketItem?.user?.img
+                    ? foundedTicketItem.user.img
+                    : Avatar.src
+                }
+                className="size-[75px] aspect-square mb-4 block mx-auto transition-all duration-500 object-cover rounded-full"
               />
-            </button>
+              <span className="text-cs75 font-bold text-black text-center truncate block">
+                {foundedTicketItem ? foundedTicketItem.user.name : 'نامعلوم'}
+              </span>
+              <span className="text-cs65 font-medium text-black/70 text-center truncate block  mt-1">
+                {foundedTicketItem ? foundedTicketItem.user.role : 'نامعلوم'}
+              </span>
+            </div>
+            <div className="p-[24px]">
+              <span className="text-cs75 font-medium text-black/70 text-right truncate block">
+                فایل های ذخیره
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <SettingItem
+                icon="DocumentText"
+                className="px-[24px] py-[12px]"
+                subTitle={`${foundedTicketItem?.files.documents.length || 0} فایل`}
+                title="داکیومنت"
+                type="files"
+                files={foundedTicketItem?.files.documents}
+                size={'lg'}
+                disabled={foundedTicketItem.files.documents.length === 0}
+              />
+              <SettingItem
+                type="files"
+                className="px-[24px] py-[12px]"
+                files={foundedTicketItem?.files.images}
+                icon="Image"
+                subTitle={`${foundedTicketItem?.files.images.length || 0} فایل`}
+                title="عکس"
+                size={'lg'}
+                disabled={foundedTicketItem.files.images.length === 0}
+              />
+              <SettingItem
+                icon="Microphone"
+                className="px-[24px] py-[12px]"
+                subTitle={`${foundedTicketItem?.files.voices.length || 0} فایل`}
+                title="صدا"
+                type="files"
+                files={foundedTicketItem?.files.voices}
+                size={'lg'}
+                disabled={foundedTicketItem.files.voices.length === 0}
+              />
+              <SettingItem
+                icon="VideoPlay"
+                className="px-[24px] py-[12px]"
+                subTitle={`${foundedTicketItem?.files.videos.length || 0} فایل`}
+                title="ویدیو"
+                type="files"
+                files={foundedTicketItem?.files.videos}
+                size={'lg'}
+                disabled={foundedTicketItem.files.videos.length === 0}
+              />
+            </div>
           </div>
-        </div>
-        <div className="py-[10px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-[calc(100dvh-125px)] bg-white">
-          {mobileActiveTab === 'closedMessage' ? (
-            <Accordion collapsible type="single">
-              {tickets.previousTickets.map((item, index) => (
-                <AccordionItem value={`previus-tickets-${index}`} key={index}>
-                  <AccordionTrigger asChild>
-                    <button className="flex items-center justify-between gap-3 px-[12px] py-[10px] bg-white transition-all duration-500 hover:bg-gray-100 w-full text-black/70 group">
-                      <span className="text-cs75 font-medium text-current text-right truncate block flex-1">
-                        تیکت های{' '}
-                        {moment(item.date)
-                          .locale('fa')
-                          .format('jMMMM ماه jYYYY')}
-                      </span>
-                      <IconsaxIcons
-                        name="ArrowLeft2"
-                        className="size-4 transition-all duration-500 group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-90"
-                        color="currentColor"
-                      />
-                    </button>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    {item.tickets.map((innerItem, innerIndex) => (
-                      <TicketItem
-                        key={innerIndex}
-                        onClick={() => setSelectedTicket(innerItem.id)}
-                        type="prevois"
-                        className={
-                          'bg-white hover:bg-gray-100 rounded-none px-[12px]'
-                        }
-                        data={{
-                          createdAt: innerItem.user.lastSeen,
-                          subTitle: innerItem.user.status,
-                          title: innerItem.user.name,
-                          img: innerItem.user.img,
-                        }}
-                      />
-                    ))}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          ) : mobileActiveTab === 'message' ? (
-            <>
-              {tickets.currentTickets.length === 0 ? (
-                <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-black/50 overflow-auto custom-scrollbar">
-                  <div>
+          <CanclationErrorDrawer
+            isOpened={notificationDrawerOpened}
+            closeFn={() => setNotificationDrawerOpened(false)}
+            theme={ticketNotifications ? 'green' : 'theme'}
+            description={
+              ticketNotifications
+                ? 'در صورت پیام به ادمین به شما نوتیفیکشن خواهد امد.'
+                : 'در صورت پیام به ادمین به شما نوتیفیکشن نخواهد امد.'
+            }
+            title={
+              ticketNotifications ? 'نوتیفیکشن وصل شد !' : 'نوتیفیکشن قطع شد !'
+            }
+          />
+          <div
+            className="flex items-center justify-between gap-3 border-b px-[12px] h-[50px] shrink-0"
+            style={{
+              background: hexToRgba('#ffffff', 0.2),
+              color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+              borderColor: isColorDark(walpaper)
+                ? 'rgba(256,256,256,0.2)'
+                : 'rgba(0,0,0,0.1)',
+            }}
+          >
+            <button
+              onClick={() => setMobileTicketAnswererProfileOpened(true)}
+              className="flex items-center justify-start gap-3 flex-1 overflow-hidden w-full"
+            >
+              {foundedTicketItem.user.img ? (
+                <Image
+                  width={100}
+                  height={100}
+                  alt="پروفایل کاریر"
+                  src={foundedTicketItem.user.img}
+                  className="size-[35px] aspect-square block object-cover rounded-full shrink-0"
+                />
+              ) : (
+                <div
+                  style={{
+                    background: theme[0],
+                  }}
+                  className="size-[40px] aspect-square shrink-0 rounded-full"
+                />
+              )}
+              <div
+                className="flex-1 w-full overflow-hidden"
+                style={{
+                  color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+                }}
+              >
+                <span className="text-cs75 font-bold text-current text-right truncate block">
+                  {foundedTicketItem.user.name}
+                </span>
+                <span className="text-cs65 font-medium text-current/70 text-right truncate block">
+                  {foundedTicketItem.user.role}
+                </span>
+              </div>
+            </button>
+            <div className="flex items-center justify-between gap-3 shrink-0">
+              <button
+                data-active={ticketNotifications}
+                className="relative overflow-hidden transition-all duration-500 data-[active=true]:text-current data-[active=false]:text-current/50"
+                onClick={() => {
+                  setTicketNotifications((prev) => !prev);
+                  setNotificationDrawerOpened(true);
+                }}
+              >
+                {!ticketNotifications && (
+                  <div className="absolute left-[50%] -translate-x-[50%] top-0 w-[2px] h-full bg-current rotate-[45deg] scale-125" />
+                )}
+                <IconsaxIcons
+                  name="Notification"
+                  className="size-5"
+                  color="currentColor"
+                />
+              </button>
+              <button
+                className="text-current transition-all duration-500 disabled:opacity-50"
+                onClick={() => setSelectedTicket(undefined)}
+              >
+                <IconsaxIcons
+                  className="size-[20px]"
+                  name="ArrowLeft"
+                  color="currentColor"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            className="p-[24px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-full"
+            style={{
+              background: walpaper,
+            }}
+          >
+            {foundedTicketItem.messages.length === 0 ? (
+              <div
+                className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none overflow-auto custom-scrollbar"
+                style={{
+                  color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+                }}
+              >
+                <div>
+                  <div className="text-current/50">
                     <IconsaxIcons
                       name="EmojiSad"
                       color="currentColor"
                       className="size-32 mb-5 block mx-auto"
                     />
-                    <p className="text-black/75 text-cs07 font-normal text-center block">
-                      مشتری گرامی صفحه چت برای شما قفل میباشد، برای استارت ابتدا
-                      دپارتمان خود را انتخاب نمایید
-                    </p>
                   </div>
+                  <p className="text-current/75 text-cs07 font-normal text-center block">
+                    مشتری گرامی صفحه چت برای شما قفل میباشد، برای استارت ابتدا
+                    دپارتمان خود را انتخاب نمایید
+                  </p>
                 </div>
-              ) : (
-                tickets.currentTickets.map((item, index) => (
-                  <TicketItem
-                    key={index}
-                    onClick={() => setSelectedTicket(item.id)}
-                    className={
-                      'bg-white hover:bg-gray-100 rounded-none px-[12px]'
-                    }
-                    newNotifications={2}
-                    data={{
-                      createdAt: item.user.lastSeen,
-                      subTitle: item.user.status,
-                      title: item.user.name,
-                      img: item.user.img,
-                    }}
-                  />
-                ))
-              )}
-            </>
-          ) : (
-            <>
-              <SettingItem
-                setMobileActiveTab={setMobileActiveTab}
-                mobileActiveTab={mobileActiveTab}
-                className="px-[12px] rounded-0"
-                icon="MessageText"
-                title="والپیپر"
-                type="walpaper"
-                size={'lg'}
-              />
-              <SettingItem
-                setMobileActiveTab={setMobileActiveTab}
-                mobileActiveTab={mobileActiveTab}
-                className="px-[12px] rounded-0"
-                icon="Bucket"
-                title="رنگ چت تایم"
-                type="theme"
-                size={'lg'}
-              />
-            </>
-          )}
+              </div>
+            ) : (
+              foundedTicketItem.messages.map((item, index) => (
+                <MessageItem
+                  key={index}
+                  setReply={(message, name) => {
+                    setReplyTo(name);
+                    setReplyMessage(message);
+                  }}
+                  data={item}
+                />
+              ))
+            )}
+          </div>
+          <div
+            className="shrink-0 w-full p-3 border-t-2"
+            style={{
+              background: 'rgba(256,256,256,0.2)',
+              borderColor: isColorDark(walpaper)
+                ? 'rgba(256,256,256,0.2)'
+                : 'rgba(0,0,0,0.1)',
+            }}
+          >
+            <SendMessage
+              className="rounded-0 w-full"
+              disabled={!foundedTicketItem}
+              isClosed={foundedTicketItem?.status === 'closed'}
+              reportTypes={foundedTicketItem?.report}
+              clearReply={() => {
+                setReplyMessage('');
+                setReplyTo('');
+              }}
+              reply={{
+                message: replyMessage,
+                name: replyTo,
+              }}
+            />
+          </div>
         </div>
-        <TicketsNavBar
-          activeTabState={mobileActiveTab}
-          setActiveTabState={setMobileActiveTab}
-        />
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <SelectDepartmentDialog
+            isOpened={modalOpened}
+            closeFn={() => setModalOpened(false)}
+          />
+          <ExitTicketsDialog
+            isOpened={exitModalOpened}
+            closeFn={() => setExitModalOpened(false)}
+          />
+          <div className="flex items-center justify-between gap-3 bg-white border-b border-b-black/10 px-[12px] h-[50px]">
+            <span className="text-cs85 font-bold text-black/70 text-right truncate block flex-1">
+              {mobileActiveTab === 'closedMessage'
+                ? 'تیکت های گذشته '
+                : mobileActiveTab === 'settings'
+                  ? 'تنظیمات چت'
+                  : 'چت تایم سفرنامه'}
+            </span>
+            <div className="flex items-center justify-between gap-3 shrink-0">
+              <button
+                className="text-cs-blue"
+                onClick={() => setModalOpened(true)}
+              >
+                <IconsaxIcons
+                  className="size-[20px]"
+                  name="AddSquare"
+                  color="currentColor"
+                />
+              </button>
+              <button
+                className="text-black transition-all duration-500 disabled:opacity-50"
+                onClick={() => setExitModalOpened(true)}
+              >
+                <IconsaxIcons
+                  className="size-[20px]"
+                  name="LogoutCurve"
+                  color="currentColor"
+                />
+              </button>
+            </div>
+          </div>
+          <div className="py-[10px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-[calc(100dvh-125px)] bg-white">
+            {mobileActiveTab === 'closedMessage' ? (
+              <>
+                {tickets.previousTickets.length === 0 ? (
+                  <div className="h-full flex items-center justify-center p-[24px] overflow-auto custom-scrollbar flex-col">
+                    <Image
+                      alt="هیچ لیست رزروی فعلا ندارید!"
+                      src={EmptyImage.src}
+                      width={500}
+                      height={500}
+                      className="w-[40%] aspect-square block mb-2 mx-auto"
+                    />
+                    <span className="block text-center w-full text-black text-[12px] mb-2 font-bold truncate">
+                      تیکت های گذشته
+                    </span>
+                    <span className="block text-center w-full text-gray-500 text-[10px] font-normal truncate">
+                      مشتری گرامی تیکتی در گذشته ندارید!
+                    </span>
+                  </div>
+                ) : (
+                  <Accordion collapsible type="single">
+                    {tickets.previousTickets.map((item, index) => (
+                      <AccordionItem
+                        value={`previus-tickets-${index}`}
+                        key={index}
+                      >
+                        <AccordionTrigger asChild>
+                          <button className="flex items-center justify-between gap-3 px-[12px] py-[10px] bg-white transition-all duration-500 hover:bg-gray-100 w-full text-black/70 group">
+                            <span className="text-cs75 font-medium text-current text-right truncate block flex-1">
+                              تیکت های{' '}
+                              {moment(item.date)
+                                .locale('fa')
+                                .format('jMMMM ماه jYYYY')}
+                            </span>
+                            <IconsaxIcons
+                              name="ArrowLeft2"
+                              className="size-4 transition-all duration-500 group-data-[state=closed]:rotate-0 group-data-[state=open]:rotate-90"
+                              color="currentColor"
+                            />
+                          </button>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          {item.tickets.map((innerItem, innerIndex) => (
+                            <TicketItem
+                              key={innerIndex}
+                              onClick={() => setSelectedTicket(innerItem.id)}
+                              type="prevois"
+                              className={
+                                'bg-white hover:bg-gray-100 rounded-none px-[12px]'
+                              }
+                              data={{
+                                createdAt: innerItem.user.lastSeen,
+                                subTitle: innerItem.user.status,
+                                title: innerItem.user.name,
+                                img: innerItem.user.img,
+                              }}
+                            />
+                          ))}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                )}
+              </>
+            ) : mobileActiveTab === 'message' ? (
+              <>
+                {tickets.currentTickets.length === 0 ? (
+                  <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-black/50 overflow-auto custom-scrollbar">
+                    <div>
+                      <IconsaxIcons
+                        name="EmojiSad"
+                        color="currentColor"
+                        className="size-32 mb-5 block mx-auto"
+                      />
+                      <p className="text-black/75 text-cs07 font-normal text-center block">
+                        مشتری گرامی صفحه چت برای شما قفل میباشد، برای استارت
+                        ابتدا دپارتمان خود را انتخاب نمایید
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  tickets.currentTickets.map((item, index) => (
+                    <TicketItem
+                      key={index}
+                      onClick={() => setSelectedTicket(item.id)}
+                      className={
+                        'bg-white hover:bg-gray-100 rounded-none px-[12px]'
+                      }
+                      newNotifications={2}
+                      data={{
+                        createdAt: item.user.lastSeen,
+                        subTitle: item.user.status,
+                        title: item.user.name,
+                        img: item.user.img,
+                      }}
+                    />
+                  ))
+                )}
+              </>
+            ) : (
+              <>
+                <SettingItem
+                  setMobileActiveTab={setMobileActiveTab}
+                  mobileActiveTab={mobileActiveTab}
+                  className="px-[12px] rounded-0"
+                  icon="MessageText"
+                  title="والپیپر"
+                  type="walpaper"
+                  size={'lg'}
+                />
+                <SettingItem
+                  setMobileActiveTab={setMobileActiveTab}
+                  mobileActiveTab={mobileActiveTab}
+                  className="px-[12px] rounded-0"
+                  icon="Bucket"
+                  title="رنگ چت تایم"
+                  type="theme"
+                  size={'lg'}
+                />
+              </>
+            )}
+          </div>
+          <TicketsNavBar
+            activeTabState={mobileActiveTab}
+            setActiveTabState={setMobileActiveTab}
+          />
+        </div>
+      );
+    }
   } else {
     return (
       <div>

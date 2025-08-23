@@ -105,255 +105,261 @@ export default function SendMessage({
       );
     } else {
       return (
-        <form
-          action="#"
-          style={{
-            background: walpaper,
-            color: isColorDark(walpaper) ? '#ffffff' : '#000000',
-          }}
-          className={cn(
-            'flex justify-between h-[50px] relative transition-all duration-500',
-            reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
-            className,
-          )}
-        >
+        <div className="relative">
           {reply.name !== '' && (
-            <div
-              style={{
-                borderColor: theme,
-                background: walpaper,
-              }}
-              className="absolute bottom-full left-0 w-full z-20 rounded-t-lg overflow-hidden border-b"
-            >
+            <div className="lg:absolute bottom-full left-0 w-full z-20">
               <div
                 style={{
-                  background: hexToRgba(theme, 0.2),
+                  borderColor: theme,
+                  background: walpaper,
                 }}
-                className="flex items-start justify-between gap-5 w-full"
+                className="rounded-t-lg overflow-hidden border-b"
               >
-                <div className="flex justify-start items-center">
-                  <div className="size-[50px] shrink-0 flex items-center justify-center">
+                <div
+                  style={{
+                    background: hexToRgba(theme, 0.2),
+                  }}
+                  className="flex items-start justify-between gap-5 w-full"
+                >
+                  <div className="flex justify-start items-center">
+                    <div className="size-[50px] shrink-0 flex items-center justify-center">
+                      <div
+                        className="aspect-sqaure  size-[30px] flex items-center justify-center rounded-full"
+                        style={{
+                          background: theme,
+                          color: isColorDark(theme) ? '#ffffff' : '#000000',
+                        }}
+                      >
+                        <IconsaxIcons
+                          name="Back"
+                          color="currentColor"
+                          className="size-[15px]"
+                        />
+                      </div>
+                    </div>
+                    <div className="overflow-hidden flex-1 min-h-[50px] flex items-center">
+                      <div className="flex-1">
+                        <span
+                          style={{ color: theme }}
+                          className="font-bold text-right block truncate mb-0.5 text-cs65"
+                        >
+                          {reply.name}
+                        </span>
+                        <p
+                          style={{
+                            color: isColorDark(walpaper)
+                              ? '#ffffff'
+                              : '#000000',
+                          }}
+                          className="font-semibold text-cs65 text-right leading-4"
+                        >
+                          {reply.message}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-end shrink-0">
                     <div
-                      className="aspect-sqaure  size-[30px] flex items-center justify-center rounded-full"
                       style={{
                         background: theme,
                         color: isColorDark(theme) ? '#ffffff' : '#000000',
                       }}
+                      className="rounded-md flex items-center justify-center h-[30px] px-3"
+                    >
+                      <span className="block truncate text-center text-current text-cs65 font-bold">
+                        Reply
+                      </span>
+                    </div>
+                    <button
+                      onClick={clearReply}
+                      style={{
+                        color: theme,
+                      }}
+                      className="size-[50px] flex items-center justify-center"
                     >
                       <IconsaxIcons
-                        name="Back"
+                        name="CloseSquare"
                         color="currentColor"
-                        className="size-[15px]"
+                        className="size-5"
                       />
-                    </div>
+                    </button>
                   </div>
-                  <div className="overflow-hidden flex-1 min-h-[50px] flex items-center">
-                    <div className="flex-1">
-                      <span
-                        style={{ color: theme }}
-                        className="font-bold text-right block truncate mb-0.5 text-cs65"
-                      >
-                        {reply.name}
-                      </span>
-                      <p
-                        style={{
-                          color: isColorDark(walpaper) ? '#ffffff' : '#000000',
-                        }}
-                        className="font-semibold text-cs65 text-right leading-4"
-                      >
-                        {reply.message}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-end shrink-0">
-                  <div
-                    style={{
-                      background: theme,
-                      color: isColorDark(theme) ? '#ffffff' : '#000000',
-                    }}
-                    className="rounded-md flex items-center justify-center h-[30px] px-3"
-                  >
-                    <span className="block truncate text-center text-current text-cs65 font-bold">
-                      Reply
-                    </span>
-                  </div>
-                  <button
-                    onClick={clearReply}
-                    style={{
-                      color: theme,
-                    }}
-                    className="size-[50px] flex items-center justify-center"
-                  >
-                    <IconsaxIcons
-                      name="CloseSquare"
-                      color="currentColor"
-                      className="size-5"
-                    />
-                  </button>
                 </div>
               </div>
             </div>
           )}
-          {!media && (
-            <>
-              <motion.div
-                className="absolute right-0 bottom-full z-30"
-                transition={{
-                  duration: 0.2,
-                  ease: 'easeInOut',
-                }}
-                exit={{
-                  y: -20,
-                  opacity: 0,
-                  pointerEvents: 'none',
-                }}
-                initial={{
-                  y: -20,
-                  opacity: 0,
-                  pointerEvents: 'none',
-                }}
-                animate={
-                  emojiOpened
-                    ? {
-                        y: -20,
-                        opacity: 100,
-                        pointerEvents: 'auto',
-                      }
-                    : {
-                        y: 0,
-                        opacity: 0,
-                        pointerEvents: 'none',
-                      }
-                }
-              >
-                <Picker
-                  theme="light"
-                  onClickOutside={() => emojiOpened && setEmojiOpened(false)}
-                  set="apple"
-                  locale="fa"
-                  navPosition="none"
-                  previewPosition="none"
-                  searchPosition="none"
-                  onEmojiSelect={(emoji: any) =>
-                    setValue((prev) => prev + emoji.native)
-                  }
-                />
-              </motion.div>
-              <button
-                onClick={() => setEmojiOpened((prev) => !prev)}
-                type="button"
-                className="flex items-center justify-center shrink-0 h-full aspect-square"
-              >
-                <IconsaxIcons
-                  name="Happyemoji"
-                  className="size-5"
-                  color="currentColor"
-                />
-              </button>
-            </>
-          )}
-          {media ? (
-            <div className="flex items-center justify-start flex-1 overflow-hidden">
-              <div className="size-[50px] flex items-center justify-center shrink-0">
-                <File
-                  style={{
-                    fill: theme,
-                    strokeWidth: '1px',
-                    stroke: isColorDark(theme) ? '#ffffff' : '#000000',
+          <form
+            action="#"
+            style={{
+              background: walpaper,
+              color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+            }}
+            className={cn(
+              'flex justify-between h-[50px] relative transition-all duration-500',
+              reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
+              className,
+            )}
+          >
+            {!media && (
+              <>
+                <motion.div
+                  className="absolute right-0 bottom-full z-30"
+                  transition={{
+                    duration: 0.2,
+                    ease: 'easeInOut',
                   }}
-                  className="size-5"
-                />
-              </div>
-              <div
-                style={{
-                  color: isColorDark(walpaper) ? '#ffffff' : '#000000',
-                }}
-                className="flex-1 overflow-hidden"
-              >
-                <span className="text-cs85 font-bold text-right block truncate text-current">
-                  {media.name}
-                </span>
-              </div>
-            </div>
-          ) : (
-            <input
-              onChange={(e) => setValue(e.currentTarget.value)}
-              style={{
-                color: isColorDark(walpaper) ? '#ffffff' : '#000000',
-              }}
-              value={value}
-              className="text-cs65 font-medium placeholder:text-cs65 text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
-              type="text"
-              placeholder="متن خود را بنویسید..."
-            />
-          )}
-          {value === '' ? (
-            <div className="flex items-center justify-end shrink-0">
-              {!media ? (
-                <>
-                  <input
-                    type="file"
-                    accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    hidden
-                    ref={mediaInputRef}
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        setMedia(e.target.files[0]);
-                      }
-                    }}
+                  exit={{
+                    y: -20,
+                    opacity: 0,
+                    pointerEvents: 'none',
+                  }}
+                  initial={{
+                    y: -20,
+                    opacity: 0,
+                    pointerEvents: 'none',
+                  }}
+                  animate={
+                    emojiOpened
+                      ? {
+                          y: -20,
+                          opacity: 100,
+                          pointerEvents: 'auto',
+                        }
+                      : {
+                          y: 0,
+                          opacity: 0,
+                          pointerEvents: 'none',
+                        }
+                  }
+                >
+                  <Picker
+                    theme="light"
+                    onClickOutside={() => emojiOpened && setEmojiOpened(false)}
+                    set="apple"
+                    locale="fa"
+                    navPosition="none"
+                    previewPosition="none"
+                    searchPosition="none"
+                    onEmojiSelect={(emoji: any) =>
+                      setValue((prev) => prev + emoji.native)
+                    }
                   />
-                  <button
-                    type="button"
-                    className="flex items-center justify-center shrink-0 h-full aspect-square"
-                    onClick={() => mediaInputRef.current?.click()}
-                  >
-                    <IconsaxIcons
-                      name="Gallery"
-                      className="size-5"
-                      color="currentColor"
-                    />
-                  </button>
-                </>
-              ) : (
+                </motion.div>
                 <button
+                  onClick={() => setEmojiOpened((prev) => !prev)}
                   type="button"
                   className="flex items-center justify-center shrink-0 h-full aspect-square"
-                  onClick={() => setMedia(undefined)}
                 >
                   <IconsaxIcons
-                    name="CloseSquare"
+                    name="Happyemoji"
                     className="size-5"
                     color="currentColor"
                   />
                 </button>
-              )}
-              <button
-                type={media ? 'submit' : 'button'}
-                className="flex items-center justify-center shrink-0 h-full aspect-square"
-              >
-                <IconsaxIcons
-                  name={media ? 'Send' : 'Microphone'}
-                  className={cn('size-5', media && 'rotate-180')}
-                  color="currentColor"
-                />
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center justify-between shrink-0">
-              <button
-                type="submit"
-                className="flex items-center justify-center shrink-0 h-full aspect-square"
-              >
-                <IconsaxIcons
-                  name="Send"
-                  className="size-5 rotate-180"
-                  color="currentColor"
-                />
-              </button>
-            </div>
-          )}
-        </form>
+              </>
+            )}
+            {media ? (
+              <div className="flex items-center justify-start flex-1 overflow-hidden">
+                <div className="size-[50px] flex items-center justify-center shrink-0">
+                  <File
+                    style={{
+                      fill: theme,
+                      strokeWidth: '1px',
+                      stroke: isColorDark(theme) ? '#ffffff' : '#000000',
+                    }}
+                    className="size-5"
+                  />
+                </div>
+                <div
+                  style={{
+                    color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+                  }}
+                  className="flex-1 overflow-hidden"
+                >
+                  <span className="text-cs85 font-bold text-right block truncate text-current">
+                    {media.name}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <input
+                onChange={(e) => setValue(e.currentTarget.value)}
+                style={{
+                  color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+                }}
+                value={value}
+                className="text-cs65 font-medium placeholder:text-cs65 text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
+                type="text"
+                placeholder="متن خود را بنویسید..."
+              />
+            )}
+            {value === '' ? (
+              <div className="flex items-center justify-end shrink-0">
+                {!media ? (
+                  <>
+                    <input
+                      type="file"
+                      accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      hidden
+                      ref={mediaInputRef}
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setMedia(e.target.files[0]);
+                        }
+                      }}
+                    />
+                    <button
+                      type="button"
+                      className="flex items-center justify-center shrink-0 h-full aspect-square"
+                      onClick={() => mediaInputRef.current?.click()}
+                    >
+                      <IconsaxIcons
+                        name="Gallery"
+                        className="size-5"
+                        color="currentColor"
+                      />
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    className="flex items-center justify-center shrink-0 h-full aspect-square"
+                    onClick={() => setMedia(undefined)}
+                  >
+                    <IconsaxIcons
+                      name="CloseSquare"
+                      className="size-5"
+                      color="currentColor"
+                    />
+                  </button>
+                )}
+                <button
+                  type={media ? 'submit' : 'button'}
+                  className="flex items-center justify-center shrink-0 h-full aspect-square"
+                >
+                  <IconsaxIcons
+                    name={media ? 'Send' : 'Microphone'}
+                    className={cn('size-5', media && 'rotate-180')}
+                    color="currentColor"
+                  />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between shrink-0">
+                <button
+                  type="submit"
+                  className="flex items-center justify-center shrink-0 h-full aspect-square"
+                >
+                  <IconsaxIcons
+                    name="Send"
+                    className="size-5 rotate-180"
+                    color="currentColor"
+                  />
+                </button>
+              </div>
+            )}
+          </form>
+        </div>
       );
     }
   }

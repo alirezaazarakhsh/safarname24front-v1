@@ -120,7 +120,7 @@ export default function SelectDepartmentDialog({
         theme="green"
       />
       <DialogPortal>
-        <DialogContent className="lg:p-6 p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-auto h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-hidden">
+        <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-auto h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-hidden">
           <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 lg:bg-white bg-gray-100 w-full shrink-0 lg:h-auto h-[50px]">
             <div className="flex items-center justify-start gap-3">
               <DialogClose asChild className="lg:hidden block">

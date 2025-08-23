@@ -133,7 +133,7 @@ export default function SettingItem({
                       ? subTitle
                         ? subTitle
                         : walpaperData.find((item) => item.color === walpaper)
-                          ?.label
+                            ?.label
                       : subTitle
                         ? subTitle
                         : themeData.find((item) => item.color === theme)?.label}
@@ -247,7 +247,7 @@ export default function SettingItem({
                   </DialogClose>
                 </div>
                 <div
-                  className="p-[24px] flex flex-col gap-4 lg:rounded-lg rounded-0 w-full bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
+                  className="p-[24px] flex flex-col gap-4 lg:rounded-lg rounded-0 w-full lg:bg-white bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
                   style={{ background: walpaper }}
                 >
                   {fakeMessages.map((item, index) => (
