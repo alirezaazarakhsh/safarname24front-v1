@@ -1,17 +1,28 @@
-// Importing part
+'use client';
+
 import Cookies from 'js-cookie';
 import useApiMutation from './useApiMutation';
 import toast from '@/components/dashboard/ui/customSonner/toast';
 import useLocalStorageState from 'use-local-storage-state';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 
-// Creating and exporting useLogout custom hook as default
 export default function useLogout() {
-  const [profileState, setProfileState, profileStateOptions] =
-    useLocalStorageState<'personal' | 'legal'>('profilePageActiveTab');
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
-  const [openedItems, setOpenedItems, { removeItem }] = useLocalStorageState<
-    number[]
-  >('openedNotifications');
+  // Local storage states
+  const openedNotifications = useLocalStorageState<number[]>(
+    'openedNotifications',
+  );
+  const ticketWalpaper = useLocalStorageState<string>('ticketWalpaper');
+  const ticketTheme = useLocalStorageState<string>('ticketTheme');
+  const ticketNotifications = useLocalStorageState<boolean>(
+    'ticketNotifications',
+  );
+  const profileState = useLocalStorageState<'personal' | 'legal'>(
+    'profilePageActiveTab',
+  );
 
   const mutation = useApiMutation({
     url: '/auth/logout/',
@@ -25,20 +36,33 @@ export default function useLogout() {
           theme: 'theme',
         });
       },
-      onSuccess: async () => {
-        Cookies.remove('AUTH');
-        Cookies.remove('UPN');
-        Cookies.remove('auth');
-        removeItem();
-        profileStateOptions.removeItem();
-
-        window.location.href = '/';
+      onSuccess: () => {
+        startTransition(() => {
+          router.push('/');
+          setTimeout(() => {
+            ['AUTH', 'UPN', 'auth'].forEach((key) => Cookies.remove(key));
+            [
+              profileState,
+              ticketWalpaper,
+              openedNotifications,
+              ticketTheme,
+              ticketNotifications,
+            ].forEach((state) => state?.[2]?.removeItem?.());
+          }, 50);
+        });
       },
     },
   });
 
   function mutate() {
-    const authObj = JSON.parse(Cookies.get('auth') || '{}');
+    let authObj: any = {};
+    try {
+      const cookie = Cookies.get('auth');
+      authObj = cookie ? JSON.parse(cookie) : {};
+    } catch {
+      authObj = {};
+    }
+
     mutation.mutate({
       refresh_token: authObj.refreshUID,
     });
@@ -46,6 +70,6 @@ export default function useLogout() {
 
   return {
     mutate,
-    loading: mutation.isPending,
+    loading: mutation.isPending || isPending,
   };
 }
