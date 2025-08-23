@@ -6,6 +6,9 @@ import useLocalStorageState from 'use-local-storage-state';
 
 // Creating and exporting useLogout custom hook as default
 export default function useLogout() {
+  const [profileState, setProfileState, profileStateOptions] =
+    useLocalStorageState<'personal' | 'legal'>('profilePageActiveTab');
+
   const [openedItems, setOpenedItems, { removeItem }] = useLocalStorageState<
     number[]
   >('openedNotifications');
@@ -27,6 +30,7 @@ export default function useLogout() {
         Cookies.remove('UPN');
         Cookies.remove('auth');
         removeItem();
+        profileStateOptions.removeItem();
 
         window.location.href = '/';
       },

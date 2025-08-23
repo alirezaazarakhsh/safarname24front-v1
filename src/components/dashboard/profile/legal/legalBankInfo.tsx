@@ -128,8 +128,8 @@ export default function LegalBankInfo({
     formData.append('registeration_number', data.registrationId);
     formData.append('economical_code', data.economicCode);
     formData.append('phone_number', data.tell);
-    formData.append('status', 'accpeted');
-    formData.append('reject_reason', '');
+    formData.append('status', userStatus?.status || '');
+    formData.append('reject_reason', userStatus?.rejectReason || '');
     !useUserImage && formData.append('image', file || '');
     data.postCode && formData.append('postal_code', data.postCode);
     data.address && formData.append('address', data.address);
@@ -438,10 +438,12 @@ export default function LegalBankInfo({
           className="disabled:opacity-100"
           value={`صاحب حساب : ${currentCardOwner}`}
         />
-        <LegalUserStatus
-          rejectReason={userStatus?.rejectReason}
-          status={userStatus?.status}
-        />
+        {!loading && userStatus?.status && (
+          <LegalUserStatus
+            rejectReason={userStatus?.rejectReason}
+            status={userStatus?.status}
+          />
+        )}
         <div className="lg:col-span-2">
           <button
             onClick={form.handleSubmit(submitHandleFunction, (errors) => {

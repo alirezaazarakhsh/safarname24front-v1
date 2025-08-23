@@ -315,7 +315,7 @@ export default function ProfilePage(): ReactNode {
               refetch={legalUserFetching.refetch}
               userStatus={{
                 rejectReason: legalUserFetching.data?.reject_reason || '',
-                status: legalUserFetching.data?.status || 'checking',
+                status: legalUserFetching.data?.status,
               }}
             />
             <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">
