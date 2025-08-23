@@ -1,18 +1,15 @@
 import {
   Accordion,
-  AccordionContent,
   AccordionItem,
+  AccordionContent,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import SwitchFilter from './SwitchFilter';
 
-type Props = {};
+import SwitchCase from './SwitchCase';
 
-// -------------------------------------
+// --------------------------
 
-export default function OtherFilters(props: Props) {
-  const {} = props;
-
+export function OtherFilters() {
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="other-filters" className="lg:px-5">
@@ -21,9 +18,8 @@ export default function OtherFilters(props: Props) {
         </AccordionTrigger>
 
         <AccordionContent className="space-y-4">
-          <SwitchFilter title="هتل های ظرفیت دار" id="capable" />
-          <SwitchFilter title="هتل های تخفیف خورده" id="discounted" />
-          <SwitchFilter title="هتل های پیشنهاد ویژه" id="special-offer" />
+          <SwitchCase id="suggested-hotels" title="هتل های پیشنهادی" />
+          <SwitchCase id="amazing-hotels" title="هتل های شگفت انگیز" />
         </AccordionContent>
       </AccordionItem>
     </Accordion>

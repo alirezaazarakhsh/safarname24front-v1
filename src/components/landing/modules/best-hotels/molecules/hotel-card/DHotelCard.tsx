@@ -1,47 +1,43 @@
+import Tags from './Tags';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import { numberSeparation } from '@/utils';
-import { AmazingHotel as Hotel } from '@/types/landing';
-import FavoriteButton from '../Favorite-hotel/FavoriteButton';
+import { Hotel } from '@/types/landing/best-hotels';
 
-type Props = {
-  hotel: Hotel;
-  isSpecialOffer?: boolean;
-};
+type Props = Hotel;
 
-// -------------------------------------
+// ----------------------------
 
-export default function DHotelCard(props: Props) {
+export function DHotelCard(props: Props) {
   const {
-    hotel: {
-      image,
-      hotelName,
-      province,
-      city,
-      stars,
-      score,
-      address,
-      numberOfNights,
-      numberOfComment,
-      discountPercentage,
-      discountedPrice,
-      totalPrice,
-    },
-    isSpecialOffer = true,
+    city,
+    name,
+    slug,
+    price,
+    stars,
+    rating,
+    address,
+    main_image,
+    night_count,
+    public_tags,
+    average_score,
+    comment_count,
+    reservation_count,
+    discount_percentage,
+    price_after_discount,
   } = props;
 
   return (
-    <div className="bg-white grid grid-cols-[1fr_2px_15rem] overflow-hidden rounded-2xl shadow-light">
+    <div className="bg-white grid grid-cols-[1fr_2px_17rem] overflow-hidden rounded-2xl shadow-light">
       <div className="p-4 grid grid-cols-[16rem_1fr] gap-5">
-        {/* Image | Favorite-Status */}
-        <div className="relative bg-zinc-100 h-44 overflow-hidden rounded-xl">
-          <FavoriteButton />
-          {image && (
+        {/* === Image */}
+        <div className="relative bg-zinc-100 h-48 overflow-hidden rounded-xl">
+          {main_image && (
             <Image
-              src={image}
               width={500}
               height={400}
+              src={main_image}
               alt="hotel-image"
               className="full-size object-cover"
             />
@@ -49,32 +45,39 @@ export default function DHotelCard(props: Props) {
         </div>
 
         {/* HotelName | Province | City | Stars | Score | Address | NumberOfNights */}
-        <div className="text-zinc-800 text-cs08 font-bold pt-2 flex flex-col gap-2 overflow-hidden">
-          <h3 className="text-cs95 font-extrabold mb-1 flex items-center gap-1 overflow-hidden">
+        <div className="text-zinc-800 text-cs85 font-bold pt-2 pb-1 flex flex-col gap-2 overflow-hidden">
+          <h3 className="text-cs09 font-extrabold mb-1 flex items-center gap-1 overflow-hidden">
             <span>هتل</span>
-            <span className="truncate">{hotelName}</span>
+            <span>{name}</span>
           </h3>
 
-          <div className="truncate flex items-center gap-1">
+          <div className="flex items-center gap-1">
             <span>استان</span>
-            <span className="truncate">{province}</span>
+            <span>{city.province}</span>
             <span>,</span>
-            <span className="truncate">{city}</span>
+            <span>{city.name}</span>
             <span className="mx-0.5">|</span>
             <span>{stars}</span>
             <span>ستاره</span>
           </div>
 
           <div className="flex items-center gap-1">
-            <span>{score}</span>
+            {average_score > 1 ? average_score : rating}
             <span>امتیاز کاربران</span>
           </div>
 
           <p className="truncate">{address}</p>
 
-          <div className="bg-zinc-100 text-cs75 w-max px-4 py-2 mt-auto flex items-center gap-1 rounded-lg">
-            <span>{numberOfNights}</span>
-            <span>شب اقامت</span>
+          <div className="h-9 text-cs75 mt-auto flex gap-3">
+            <div className="bg-zinc-100 px-4 flex items-center gap-1 rounded-lg">
+              <span>{night_count}</span>
+              <span>شب اقامت</span>
+            </div>
+
+            <div className="bg-green-100 text-green-600 px-4 flex items-center gap-1 rounded-lg">
+              <span>{comment_count}</span>
+              <span>دیدگاه</span>
+            </div>
           </div>
         </div>
       </div>
@@ -82,50 +85,51 @@ export default function DHotelCard(props: Props) {
       {/* V-Separator */}
       <div className="custom-vertical-dashed-line"></div>
 
-      {/* DiscountPercentage | DiscountedPrice | TotalPrice */}
-      <div className="text-zinc-800 text-cs08 font-bold p-5 flex flex-col gap-3">
-        <div className="flex-between">
-          {isSpecialOffer && (
-            <div className="bg-cs-blue/10 text-cs-blue text-cs75 px-3 py-2 flex flex-col gap-0.5 items-center rounded-lg">
-              <span>پیشنهاد</span>
-              <span>ویژه</span>
+      {/* Discount-Percentage | DiscountedPrice | TotalPrice | Tags */}
+      <div className="relative text-zinc-800 font-bold p-5 flex flex-col">
+        {/* === Discount | Reservation-Count */}
+        {discount_percentage ? (
+          <div className="h-9 bg-cs-red/10 text-cs-red text-cs75/5 font-extrabold px-4 pt-0.5 mr-auto flex-center gap-0.5 border-2 border-cs-red border-dashed rounded-lg">
+            <span>%</span>
+            <span>{discount_percentage}</span>
+            <span className="mr-0.5">تخفیف</span>
+          </div>
+        ) : reservation_count ? (
+          <div className="h-9 bg-zinc-100 text-cs07/5 font-extrabold px-4 mr-auto flex-center gap-1 rounded-lg">
+            <span>بیش از</span>
+            <span>{reservation_count}</span>
+            <span>رزرو</span>
+          </div>
+        ) : null}
+
+        {/* === Tags */}
+        <Tags tags={public_tags} />
+
+        {/* === Price */}
+        <div className="text-cs85/5 font-bold mt-auto mb-3 flex items-end">
+          <span>شروع قیمت :</span>
+
+          <div className="mr-auto flex flex-col items-end gap-1.5">
+            {discount_percentage && (
+              <div className="text-zinc-400 text-cs08 line-through">
+                {numberSeparation(price)}
+              </div>
+            )}
+
+            <div className="text-cs85 font-extrabold flex items-center gap-1">
+              <span>
+                {numberSeparation(
+                  discount_percentage ? price_after_discount : price,
+                )}
+              </span>
+              <span>تومان</span>
             </div>
-          )}
-
-          {(numberOfComment ?? 0) > 0 && (
-            <div className="h-9 bg-emerald-500/10 text-emerald-600 text-cs07 px-4 flex-center gap-1 rounded-lg">
-              <span>{numberOfComment}</span>
-              <span>دیدگاه</span>
-            </div>
-          )}
-
-          {discountPercentage > 0 && (
-            <div className="h-9 bg-cs-red/10 text-cs-red text-cs75 font-extrabold px-4 pt-1 mr-auto flex-center gap-0.5 border-2 border-cs-red border-dashed rounded-lg">
-              <span>%</span>
-              <span>{discountPercentage}</span>
-              <span className="mr-0.5">تخفیف</span>
-            </div>
-          )}
-        </div>
-
-        <div className="relative mt-auto flex-between items-center">
-          {discountedPrice > 0 && (
-            <span className="absolute -top-6 left-0 text-zinc-500/80 line-through">
-              {numberSeparation(discountedPrice)}
-            </span>
-          )}
-
-          {discountedPrice ? <span>قیمت کل :</span> : <span>شروع قیمت :</span>}
-
-          <div className="text-cs85 font-extrabold flex items-center gap-1">
-            <span>{numberSeparation(totalPrice)}</span>
-            <span>تومان</span>
           </div>
         </div>
 
         <Link
-          href={'/best-hotels/hotel'}
-          className="bg-cs-dark-blue text-white text-cs75 font-semibold h-10 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-cs-dark-blue/95"
+          href={`/best-hotels/${slug}`}
+          className="bg-cs-dark-blue text-white text-cs08 font-semibold h-10 flex-center rounded-cs-10"
         >
           مشاهده اتاق ها
         </Link>

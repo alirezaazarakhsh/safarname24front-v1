@@ -1,63 +1,73 @@
 'use client';
 
-import 'swiper/css';
-import '@/styles/swiper.css';
-import 'swiper/css/pagination';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useQueryState, parseAsStringEnum } from 'nuqs';
 
-import { Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Hotel } from '@/types';
+import { generalInstance } from '@/utils/services';
+import { Skeleton } from '@/components/ui/skeleton';
+import { SuggestedHotel, TopBarConfig } from '../../shared';
 
-import { TopBarConfig } from '../../shared';
-import { AmazingHotel as Hotel } from '@/types/landing';
-import MHotelCard from './molecules/hotel-card/MHotelCard';
-import DHotelCard from './molecules/hotel-card/DHotelCard';
+const parseAsShowToggle = parseAsStringEnum(['show', 'hide']).withDefault(
+  'hide',
+);
 
-type Props = {
-  amazingHotels: Array<Hotel>;
-};
+type ApiResponse = { data: Hotel[] };
 
-// -------------------------------------
+// ----------------------------
 
-export function AmazingHotels(props: Props) {
-  const { amazingHotels } = props;
+export function AmazingHotels() {
+  const [visibleCount, setVisibleCount] = useState(6);
 
-  if (!amazingHotels?.length) return null;
+  const [state] = useQueryState('amazing-hotels', parseAsShowToggle);
+  const isActive = state === 'show';
+
+  const { data, status } = useQuery<ApiResponse>({
+    enabled: isActive,
+    queryKey: ['amazing-hotels'],
+    queryFn: () => generalInstance('/hotel/hotels/amazing-hotels'),
+  });
+
+  const amazingHotels = data?.data ?? [];
+  if (!isActive) return null;
 
   return (
-    <div className="overflow-hidden lg:overflow-visible">
+    <div>
       <TopBarConfig
-        className="ml-0"
-        timerDeadline="2025-04-12"
-        subtitle="هتل های لحظه ای سفرنامه رو از دست نده !"
-        title={{ type: 'double', first: 'هتل های', second: 'شگفت انگیز' }}
+        className="mb-3"
+        title={{ type: 'single', text: 'هتل های شگفت انگیز' }}
       />
 
-      {/* Small-Screen */}
-      <div className="xl:hidden">
-        <Swiper
-          breakpoints={{
-            0: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-          }}
-          spaceBetween={20}
-          modules={[Pagination]}
-          className="amazingHotels-swiper"
-          pagination={{ clickable: true, dynamicBullets: true }}
-        >
-          {amazingHotels?.map((hotel, index) => (
-            <SwiperSlide key={index}>
-              <MHotelCard hotel={hotel} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+      {status !== 'pending' && !amazingHotels.length && (
+        <div className="text-zinc-500 text-cs85 font-semibold">
+          * هتلی برای نمایش وجود ندارد !
+        </div>
+      )}
+
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {status === 'pending'
+          ? Array(6)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton key={index} className="h-[23.5rem] rounded-xl" />
+              ))
+          : amazingHotels.length > 0 &&
+            amazingHotels
+              ?.slice(0, visibleCount)
+              .map((hotel, index) => (
+                <SuggestedHotel key={index} hotel={hotel} bestType="amazing" />
+              ))}
       </div>
 
-      {/* Large-Screen */}
-      <div className="hidden gap-8 xl:grid">
-        {amazingHotels?.map((hotel, index) => (
-          <DHotelCard key={index} hotel={hotel} />
-        ))}
-      </div>
+      {visibleCount < amazingHotels?.length && (
+        <button
+          onClick={() => setVisibleCount((prev) => prev + 6)}
+          className="w-fit bg-zinc-200/80 text-cs08 font-semibold px-5 py-2 mt-6 rounded-lg"
+        >
+          مشاهده بیشتر
+        </button>
+      )}
     </div>
   );
 }

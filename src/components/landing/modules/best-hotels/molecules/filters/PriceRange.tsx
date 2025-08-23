@@ -1,12 +1,13 @@
+import {
+  Accordion,
+  AccordionItem,
+  AccordionContent,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+
 import { useState } from 'react';
 import ReactSlider from 'react-slider';
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { numberSeparation } from '@/utils';
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
 
 // -------------------------------------
 
-export default function PriceRange(props: Props) {
+export function PriceRange(props: Props) {
   const { min = 0, max = 45_000_000 } = props;
   const [priceRange, setPriceRange] = useState({
     min: min,
@@ -35,8 +36,8 @@ export default function PriceRange(props: Props) {
             invert
             min={min}
             max={max}
+            step={200}
             className="w-full h-4 flex-center"
-            // trackClassName="bg-cs-blue/10 h-1 overflow-hidden rounded-full"
             renderTrack={(props, state) => {
               const { key, ...restProps } = props;
               return (
@@ -49,16 +50,6 @@ export default function PriceRange(props: Props) {
                 />
               );
             }}
-            // renderThumb={(props, state) => (
-            //   <div
-            //     {...props}
-            //     className={`w-0 h-0 border-y-[10px] border-transparent rounded ${
-            //       state.index === 0
-            //         ? 'border-l-[12px] border-l-cs-blue'
-            //         : 'border-r-[12px] border-r-cs-blue'
-            //     }`}
-            //   />
-            // )}
             thumbClassName="bg-cs-blue w-3 h-3 rounded-full"
             value={[priceRange.min, priceRange.max]}
             onChange={(value: number[]) =>
@@ -66,7 +57,7 @@ export default function PriceRange(props: Props) {
             }
           />
 
-          <div className="text-zinc-500 text-cs65 font-bold mt-2 mb-6 flex-between">
+          <div className="text-zinc-500 text-cs65 font-bold mt-2 mb-4 flex-between">
             <span>حداقل</span>
             <span>حداکثر</span>
           </div>
@@ -83,6 +74,7 @@ export default function PriceRange(props: Props) {
 
             <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
               <span>{numberSeparation(priceRange.max)}</span>
+              <span>+</span>
             </div>
           </div>
         </AccordionContent>
