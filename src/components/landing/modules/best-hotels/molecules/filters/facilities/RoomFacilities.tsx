@@ -34,7 +34,7 @@ export function RoomFacilities() {
 
         <AccordionContent>
           {/* === Search */}
-          <div className="bg-zinc-100/60 h-10 mx-5 mb-4 flex rounded-cs-10">
+          <div className="bg-zinc-100/60 h-10 mb-4 flex rounded-cs-10 lg:mx-5">
             <div className="w-12 flex-center">
               <LuSearch color="#999" size={20} />
             </div>

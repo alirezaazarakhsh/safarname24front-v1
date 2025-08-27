@@ -16,12 +16,8 @@ import {
   parseAsShowToggle,
 } from './helpers/hotel-list';
 
-import { TopBarConfig } from '../../shared';
 import { generalInstance } from '@/utils/services';
-import { MHotelCard, DHotelCard } from './molecules/hotel-card';
-
-import { Pagination } from './Pagination';
-import { Skeleton } from '@/components/ui/skeleton';
+import { HotelListContent } from './HotelListContent';
 
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -43,6 +39,9 @@ export function HotelList() {
     'suggested-hotels',
     parseAsShowToggle,
   );
+
+  const [minPrice] = useQueryState('min-price', parseAsInteger.withDefault(0));
+  const [maxPrice] = useQueryState('max-price', parseAsInteger.withDefault(0));
 
   const [residenceType] = useQueryState(
     'residence-type',
@@ -73,10 +72,6 @@ export function HotelList() {
       generalInstance(`/hotel/best-hotels/best-filter?${queryString}`),
   });
 
-  console.log(data?.data);
-  // console.log(queryOptions);
-  // console.log(isFirstRender);
-
   // === Update query-state context
   useEffect(() => {
     handleSetQueryState(
@@ -97,13 +92,16 @@ export function HotelList() {
     }
 
     setQueryOptions({
-      endDate,
-      startDate,
+      endDate: dates?.[1].format('YYYY-MM-DD'),
+      startDate: dates?.[0].format('YYYY-MM-DD'),
+
       city: hotelOrCity.city,
       passengers: queryPassengers,
       star: star?.join(',') ?? '',
       page: page?.toString() ?? '1',
       province: hotelOrCity.province,
+      minPrice: minPrice ? minPrice.toString() : '',
+      maxPrice: maxPrice ? maxPrice.toString() : '',
       residenceType: residenceType?.join(',') ?? '',
       roomFacilities: roomFacilities?.join(',') ?? '',
       hotelFacilities: hotelFacilities?.join(',') ?? '',
@@ -111,7 +109,7 @@ export function HotelList() {
 
     if (!isFirstRender) {
       router.push(
-        `/best-hotels?${startDate ? `&start-date=${startDate}` : ''}${endDate ? `&end-date=${endDate}` : ''}${hotelOrCity.city ? `&city=${hotelOrCity.city}` : ''}${hotelOrCity.province ? `&province=${hotelOrCity.province}` : ''}${star?.length ? `&star=${star.join(',')}` : ''}${!passengers.rooms ? '' : `&passengers=${encodeRooms(rooms)}`}${residenceType?.length ? `&residence-type=${residenceType.join(',')}` : ''}${page ? `&page=${page}` : ''}${suggestedHotels === 'show' ? `&suggested-hotels=${suggestedHotels}` : ''}${amazingHotels === 'show' ? `&amazing-hotels=${amazingHotels}` : ''}${hotelFacilities?.length ? `&hotel-facilities=${hotelFacilities.join(',')}` : ''}${roomFacilities?.length ? `&room-facilities=${roomFacilities.join(',')}` : ''}`,
+        `/best-hotels?${startDate ? `&start-date=${startDate}` : ''}${endDate ? `&end-date=${endDate}` : ''}${hotelOrCity.city ? `&city=${hotelOrCity.city}` : ''}${hotelOrCity.province ? `&province=${hotelOrCity.province}` : ''}${star?.length ? `&star=${star.join(',')}` : ''}${minPrice ? `&min-price=${minPrice}` : ''}${maxPrice ? `&max-price=${maxPrice}` : ''}${!passengers.rooms ? '' : `&passengers=${encodeRooms(rooms)}`}${residenceType?.length ? `&residence-type=${residenceType.join(',')}` : ''}${page ? `&page=${page}` : ''}${suggestedHotels === 'show' ? `&suggested-hotels=${suggestedHotels}` : ''}${amazingHotels === 'show' ? `&amazing-hotels=${amazingHotels}` : ''}${hotelFacilities?.length ? `&hotel-facilities=${hotelFacilities.join(',')}` : ''}${roomFacilities?.length ? `&room-facilities=${roomFacilities.join(',')}` : ''}`,
         { scroll: true },
       );
     } else setIsFirstRender(false);
@@ -120,6 +118,8 @@ export function HotelList() {
     page,
     dates,
     router,
+    minPrice,
+    maxPrice,
     passengers,
     hotelOrCity,
     residenceType,
@@ -128,42 +128,11 @@ export function HotelList() {
   ]);
 
   return (
-    <div>
-      <TopBarConfig
-        className="mb-3"
-        title={{
-          type: 'single',
-          text: `هتل های شهر ${hotelOrCity.city ? hotelOrCity.city : 'های مختلف ایران'}`,
-        }}
-      />
-
-      {/* === Small-Screen */}
-      <div className="grid gap-6 md:grid-cols-2 xl:hidden">
-        {status === 'pending'
-          ? Array(8)
-              .fill(null)
-              .map((_, index) => (
-                <Skeleton key={index} className="h-[23.5rem] rounded-xl" />
-              ))
-          : data?.data.results.map((hotel, index) => (
-              <MHotelCard key={index} {...hotel} />
-            ))}
-      </div>
-
-      {/* === Large-Screen */}
-      <div className="hidden gap-8 xl:grid">
-        {status === 'pending'
-          ? Array(8)
-              .fill(null)
-              .map((_, index) => (
-                <Skeleton key={index} className="h-[14rem] rounded-2xl" />
-              ))
-          : data?.data.results.map((hotel, index) => (
-              <DHotelCard key={index} {...hotel} />
-            ))}
-      </div>
-
-      <Pagination pageCount={data?.data.total_pages} />
-    </div>
+    <HotelListContent
+      status={status}
+      city={hotelOrCity.city}
+      data={data?.data.results}
+      totalPages={data?.data.results.length ? data?.data.total_pages : 0}
+    />
   );
 }

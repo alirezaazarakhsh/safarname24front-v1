@@ -9,7 +9,7 @@ type Props = { pageCount?: number };
 // ---------------------------
 
 export function Pagination(props: Props) {
-  const { pageCount = 1 } = props;
+  const { pageCount } = props;
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
 
   if (!pageCount) return null;

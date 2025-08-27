@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Accordion,
   AccordionItem,
@@ -5,24 +7,99 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
-import { useState } from 'react';
 import ReactSlider from 'react-slider';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { generalInstance } from '@/utils/services';
+import { useQueryState, parseAsInteger } from 'nuqs';
 
 import { numberSeparation } from '@/utils';
+import { getDates } from '../../helpers/hotel-list';
+import { useDatePickerContext, usePassengersContext } from '@/context';
 
-type Props = {
-  min?: number;
-  max?: number;
+type ApiResponse = {
+  data: {
+    min_price: number;
+    max_price: number;
+  };
+};
+
+type Options = {
+  endDate?: string;
+  startDate?: string;
+  passengers: string;
+};
+
+const options: Options = {
+  endDate: '',
+  startDate: '',
+  passengers: '',
 };
 
 // -------------------------------------
 
-export function PriceRange(props: Props) {
-  const { min = 0, max = 45_000_000 } = props;
-  const [priceRange, setPriceRange] = useState({
-    min: min,
-    max: max,
+export function PriceRange() {
+  const [queryOptions, setQueryOptions] = useState(options);
+
+  const { confirmedValue: dates } = useDatePickerContext();
+  const { rooms, confirmedPassengers: passengers } = usePassengersContext();
+
+  const { data } = useQuery<ApiResponse>({
+    queryKey: ['hotel-list', queryOptions],
+    queryFn: () =>
+      generalInstance(
+        `/hotel/best-hotels/price-range?start-date=${queryOptions.startDate}&end-date=${queryOptions.endDate}&passengers=${queryOptions.passengers}`,
+      ),
   });
+
+  const [minPrice, setMinPrice] = useQueryState(
+    'min-price',
+    parseAsInteger.withDefault(0),
+  );
+  const [maxPrice, setMaxPrice] = useQueryState(
+    'max-price',
+    parseAsInteger.withDefault(0),
+  );
+
+  const [localRange, setLocalRange] = useState<[number, number]>([
+    minPrice,
+    maxPrice,
+  ]);
+
+  useEffect(() => {
+    if (data?.data) {
+      const apiMin = data.data.min_price;
+      const apiMax = data.data.max_price;
+
+      if (!minPrice && !maxPrice) {
+        setLocalRange([apiMin, apiMax]);
+      }
+    }
+  }, [data, minPrice, maxPrice, setMinPrice, setMaxPrice]);
+
+  useEffect(() => {
+    if (minPrice && maxPrice) {
+      setLocalRange([minPrice, maxPrice]);
+    }
+  }, [minPrice, maxPrice]);
+
+  // === Update query-options ...
+  useEffect(() => {
+    const { startDate, endDate } = getDates(dates);
+    let queryPassengers;
+    if (!passengers.rooms) queryPassengers = '0';
+    else {
+      queryPassengers = rooms
+        .map((item) => item.adults + item.children)
+        .toString();
+    }
+
+    setQueryOptions({
+      endDate,
+      startDate,
+      passengers: queryPassengers,
+    });
+  }, [dates, passengers]);
 
   return (
     <Accordion type="single" collapsible>
@@ -32,39 +109,47 @@ export function PriceRange(props: Props) {
         </AccordionTrigger>
 
         <AccordionContent>
-          <ReactSlider
-            invert
-            min={min}
-            max={max}
-            step={200}
-            className="w-full h-4 flex-center"
-            renderTrack={(props, state) => {
-              const { key, ...restProps } = props;
-              return (
-                <div
-                  key={key}
-                  {...restProps}
-                  className={`h-1 rounded-full ${
-                    state.index === 1 ? 'bg-cs-blue' : 'bg-zinc-100'
-                  }`}
-                />
-              );
-            }}
-            thumbClassName="bg-cs-blue w-3 h-3 rounded-full"
-            value={[priceRange.min, priceRange.max]}
-            onChange={(value: number[]) =>
-              setPriceRange({ min: value[0], max: value[1] })
-            }
-          />
+          {data?.data && (
+            <ReactSlider
+              invert
+              step={100_000}
+              min={data.data.min_price}
+              max={data.data.max_price}
+              value={localRange}
+              onChange={(value: number[]) =>
+                setLocalRange(value as [number, number])
+              }
+              onAfterChange={(value: number[]) => {
+                setMinPrice(value[0]);
+                setMaxPrice(value[1]);
+              }}
+              className="w-full h-4 flex-center"
+              renderTrack={(props, state) => {
+                const { key, ...restProps } = props;
+                return (
+                  <div
+                    key={key}
+                    {...restProps}
+                    className={`h-1 rounded-full ${
+                      state.index === 1 ? 'bg-cs-blue' : 'bg-zinc-100'
+                    }`}
+                  />
+                );
+              }}
+              thumbClassName="bg-cs-blue w-3 h-3 rounded-full"
+            />
+          )}
 
           <div className="text-zinc-500 text-cs65 font-bold mt-2 mb-4 flex-between">
             <span>حداقل</span>
             <span>حداکثر</span>
           </div>
 
-          <div className="h-10 text-zinc-800 text-cs75 font-extrabold grid grid-cols-[1fr_1.5rem_1fr] gap-2">
+          <div className="h-9 text-zinc-800 text-cs75 font-extrabold grid grid-cols-[1fr_1.5rem_1fr] gap-2">
             <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
-              <span>{numberSeparation(priceRange.min)}</span>
+              <span>
+                {localRange[0] ? numberSeparation(localRange[0]) : ''}
+              </span>
             </div>
 
             <div className="relative text-cs65 pt-2 flex-center">
@@ -73,7 +158,9 @@ export function PriceRange(props: Props) {
             </div>
 
             <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
-              <span>{numberSeparation(priceRange.max)}</span>
+              <span>
+                {localRange[1] ? numberSeparation(localRange[1]) : ''}
+              </span>
               <span>+</span>
             </div>
           </div>

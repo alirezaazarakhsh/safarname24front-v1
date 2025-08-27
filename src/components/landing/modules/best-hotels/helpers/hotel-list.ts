@@ -19,6 +19,8 @@ type Options = {
   page: string;
   star: string;
   city: string;
+  minPrice: string;
+  maxPrice: string;
   endDate?: string;
   province: string;
   startDate?: string;
@@ -37,6 +39,8 @@ const options: Options = {
   page: '',
   city: '',
   endDate: '',
+  minPrice: '',
+  maxPrice: '',
   province: '',
   startDate: '',
   passengers: '',
@@ -51,7 +55,7 @@ const dateInfo = {
 };
 
 const buildQueryString = (options: Options) => {
-  return `start-date=${options.startDate}&end-date=${options.endDate}&passengers=${options.passengers}&city=${options.city}&star=${options.star}&residence-type=${options.residenceType}&hotel-facilities=${options.hotelFacilities}&room-facilities=${options.roomFacilities}&page=${options.page}`;
+  return `start-date=${options.startDate}&end-date=${options.endDate}&passengers=${options.passengers}&city=${options.city}&star=${options.star}&min-price=${options.minPrice}&max-price=${options.maxPrice}&residence-type=${options.residenceType}&hotel-facilities=${options.hotelFacilities}&room-facilities=${options.roomFacilities}&page=${options.page}`;
 };
 
 const parseAsShowToggle = parseAsStringEnum(['show', 'hide']).withDefault(
