@@ -168,7 +168,7 @@ export default function BankInfoForm({
           />
         </>
       )}
-      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
+      <div className="lg:p-4 p-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
         <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
           <IconsaxIcons
             name="CardEdit"
@@ -185,7 +185,7 @@ export default function BankInfoForm({
           </p>
         </div>
       </div>
-      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] lg:grid flex flex-col grid-cols-2 lg:gap-6 gap-[20px]">
+      <div className="lg:p-4 p-[14px] lg:grid flex flex-col grid-cols-2 lg:gap-6 gap-[20px]">
         <div className="lg:hidden flex items-center justify-start w-full gap-3">
           <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&

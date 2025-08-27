@@ -25,7 +25,7 @@ export default function ProfileToggler({
   return (
     <div
       className={cn(
-        'bg-white lg:rounded-lg rounded-[14px] border border-black/10 lg:px-3 lg:py-4 px-[14px] py-[14px] flex lg:flex-row flex-col lg:items-center lg:justify-between lg:gap-3 gap-[20px]',
+        'bg-white lg:rounded-lg rounded-[14px] border border-black/10 lg:p-4 p-[14px] flex lg:flex-row flex-col lg:items-center lg:justify-between lg:gap-3 gap-[20px]',
         className,
       )}
     >

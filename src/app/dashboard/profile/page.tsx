@@ -258,7 +258,7 @@ export default function ProfilePage(): ReactNode {
                 className="lg:w-[50%] w-full lg:h-[400px]"
                 fetchURL="/juridical-profile-documents/"
               />
-              <LegalNotes className="lg:w-[50%] w-full lg:h-[400px]" />
+              <LegalNotes className="lg:w-[50%] w-full lg:h-[400px] h-[300px]" />
             </div>
           </>
         )}
