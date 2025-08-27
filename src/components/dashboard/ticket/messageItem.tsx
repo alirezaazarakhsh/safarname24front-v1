@@ -143,7 +143,7 @@ export default function MessageItem({
                   : '#000000',
             }}
             className={cn(
-              'py-3 px-4 w-full rounded-lg overflow-hidden',
+              'py-3 px-4 w-full rounded-xl overflow-hidden',
               data.from === 'user' ? 'rounded-br-none' : 'rounded-bl-none',
             )}
           >

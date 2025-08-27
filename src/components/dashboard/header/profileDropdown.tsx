@@ -57,10 +57,13 @@ export default function ProfileDropdown(): ReactNode {
         </button>
       </DropDown.DropdownMenuTrigger>
       <DropDown.DropdownMenuContent className="w-[200px]" align="start">
-        <DropDown.DropdownMenuLabel className="flex items-center justify-center gap-3 p-3 text-black">
-          <span className="truncate block text-cs08 font-medium text-current">
+        <DropDown.DropdownMenuLabel className="flex items-center justify-end gap-3 p-3 text-black">
+          <span
+            className="truncate block text-cs08 font-medium text-current text-right flex-1"
+            dir="rtl"
+          >
             {walletBalance.balance === 0
-              ? 'حساب شما صفر میباشد!'
+              ? 'حساب شما خالی میباشد!'
               : `${numberSeparation(walletBalance.balance)} تومان`}
           </span>
           <ICWallet className="w-4 h-4 text-current shrink-0" />

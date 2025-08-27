@@ -51,7 +51,7 @@ export default function CartBalance({
           )}
         </div>
         <Link
-          href="/dashboard/charge"
+          href="/dashboard/financial/wallet"
           className="flex justify-start items-center gap-[10px] text-blue-500 w-full"
         >
           <span className="block trucate text-current text-[10px] font-semibold">
@@ -92,7 +92,7 @@ export default function CartBalance({
             )}
           </div>
           <Link
-            href="/dashboard/charge"
+            href="/dashboard/financial/wallet"
             className="flex justify-start items-center gap-[10px] text-blue-500 w-fit"
           >
             <span className="block trucate text-current text-[10px] font-semibold">
