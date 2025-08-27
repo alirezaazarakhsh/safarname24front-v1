@@ -42,7 +42,7 @@ export default function AuthGuardReaction(props: Props) {
               </DialogTitle>
 
               <DialogDescription className="text-zinc-500 mt-4 mb-6 flex flex-col">
-                <span>مشترک گرامی عزیز</span>
+                <span>مشتری گرامی</span>
                 <span>
                   جهت ذخیره هتل مورد نظر و اضافه شدن ب لیست علاقه مندی ها لطفا
                   ابتدا وارد حساب کاربری خود شوید , از همراهی شما سپاسگذاریم .
@@ -74,7 +74,7 @@ export default function AuthGuardReaction(props: Props) {
               </DrawerTitle>
 
               <DrawerDescription className="text-zinc-500 mt-4 mb-6 flex flex-col">
-                <span>مشترک گرامی عزیز</span>
+                <span>مشتری گرامی</span>
                 <span>
                   جهت ذخیره هتل مورد نظر و اضافه شدن ب لیست علاقه مندی ها لطفا
                   ابتدا وارد حساب کاربری خود شوید , از همراهی شما سپاسگذاریم .

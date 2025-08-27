@@ -1,14 +1,16 @@
 'use client';
 
-import { useState } from 'react';
 import { PiPlus } from 'react-icons/pi';
+import { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import Cookies from 'js-cookie';
 import { TopBarConfig } from '../../shared';
 import { Section } from './molecules/Section';
 import { HotelCustomerReview } from '@/types';
-import { generalInstance } from '@/utils/services';
+import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+
+import { Swiper as SwiperType } from 'swiper/types';
 
 import Reviews from './molecules/customer-reviews/Reviews';
 import ReviewsAverage from './molecules/customer-reviews/ReviewsAverage';
@@ -17,37 +19,43 @@ import { AddCommentProvider } from '@/context/AddCommentContext';
 import AuthGuardReaction from '../../shared/auth/AuthGuardReaction';
 import AddCommentWrapper from './molecules/customer-review/AddCommentWrapper';
 
-type ApiResponse = {
-  data: HotelCustomerReview[];
-};
-
-type Props = {
-  hotelSlug: string;
-};
+type Props = { hotelSlug: string };
+type ApiResponse = { data: HotelCustomerReview[] };
 
 // --------------------------------------
 
 export function CustomerReviews(props: Props) {
   const { hotelSlug } = props;
+  const swiperRef = useRef<SwiperType>(null);
 
   const [isOpen, setOpen] = useState(false);
   const [addCommentIsOpen, setAddCommentIsOpen] = useState(false);
 
-  const { data } = useQuery<ApiResponse>({
+  const { data,status } = useQuery<ApiResponse>({
     queryKey: ['hotel-comments-list'],
     queryFn: () => generalInstance(`/hotel/hotels/${hotelSlug}/comments`),
   });
 
+  if (isEmptyOrInvalid({ data, status })) return null;
+
   return (
     <Section sectionID="customer-reviews" className="relative">
       <TopBarConfig
+        maxLength={2}
+        arraylength={data?.data?.length}
         className="mb-3 lg:mb-4"
-        subtitle={`${data?.data.length ? data?.data.length : '...'} نظر از سوی کاربران به ثبت رسیده است`}
+        subtitle={
+          data?.data.length
+            ? `${data?.data.length} دیدگاه از سوی کاربران به ثبت رسیده است`
+            : undefined
+        }
         title={{ type: 'single', text: 'نظرات محبت آمیز مشتریان' }}
+        prevClickFunc={() => swiperRef.current?.slidePrev()}
+        nextClickFunc={() => swiperRef.current?.slideNext()}
       />
 
       <button
-        className="absolute bg-white/50 top-0 left-0 h-10 px-4 pr-3 flex-center gap-2 border rounded-lg"
+        className="absolute bg-white/50 top-1 left-0 h-10 px-4 pr-3 flex-center gap-2 border rounded-lg"
         onClick={() => {
           const authToken = Cookies.get('auth');
           if (authToken) setAddCommentIsOpen(true);
@@ -67,7 +75,7 @@ export function CustomerReviews(props: Props) {
         </div>
 
         <div className="overflow-hidden lg:w-8/12">
-          <Reviews hotelSlug={hotelSlug} />
+          <Reviews hotelSlug={hotelSlug} ref={swiperRef} />
         </div>
       </div>
 

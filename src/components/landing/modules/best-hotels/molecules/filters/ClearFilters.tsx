@@ -57,7 +57,7 @@ export function ClearFilters() {
   return (
     <button
       onClick={handleClearFilters}
-      className="bg-cs-red/10 text-cs-red text-cs75 font-bold px-3 py-2 flex-center gap-1.5 rounded-lg"
+      className="h-10 bg-cs-red/10 text-cs-red text-cs75 font-bold px-3.5 flex-center gap-1.5 rounded-lg lg:h-9"
     >
       <span>حذف فیلترها</span>
       <Trash size={18} color="currentColor" className="text-cs-red" />

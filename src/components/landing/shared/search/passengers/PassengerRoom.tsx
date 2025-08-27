@@ -57,7 +57,7 @@ export default function PassengerRoom(props: Props) {
 
         <div className="flex-center gap-2.5">
           <RoomConfigButton
-            disabled={adults === 5}
+            disabled={adults + children === 8}
             type="increment"
             onClick={() =>
               dispatch({
@@ -99,7 +99,7 @@ export default function PassengerRoom(props: Props) {
 
         <div className="flex-center gap-2.5">
           <RoomConfigButton
-            disabled={children === 5}
+            disabled={adults + children === 8}
             type="increment"
             onClick={() =>
               dispatch({

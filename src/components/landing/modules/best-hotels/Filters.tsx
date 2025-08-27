@@ -3,96 +3,131 @@
 import {
   Star,
   PriceRange,
-  ResidenceType,
-  OtherFilters,
-  HotelFacilities,
-  RoomFacilities,
   ClearFilters,
+  OtherFilters,
+  ResidenceType,
+  RoomFacilities,
+  HotelFacilities,
 } from './molecules/filters';
 
+import {
+  Sheet,
+  SheetTitle,
+  SheetClose,
+  SheetHeader,
+  SheetContent,
+  SheetTrigger,
+  SheetDescription,
+} from '@/components/ui/sheet';
+
+import { Suspense } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { Suspense, useEffect, useState } from 'react';
-import { Filter, Building, Trash } from 'iconsax-react';
+import { useHotelQuery } from '@/context';
+import { Filter, Building } from 'iconsax-react';
 
 // ------------------------------
 
 export function Filters() {
+  const {
+    queryState: { isPending, totalLength },
+  } = useHotelQuery();
+
   return (
     <Suspense>
-      {/* Small-Screen */}
-      {/* <div className="lg:hidden">
-        <div className="h-9 flex gap-3">
-          <button
-            className="bg-white px-4 flex-center gap-2 border rounded-full"
-            onClick={() => setDialogOpen(true)}
-          >
+      {/* === Small-Screen */}
+      <div className="h-9 flex gap-3 lg:hidden">
+        <Sheet>
+          <SheetTrigger className="bg-white px-4 flex-center gap-2 border rounded-full shadow-light">
             <Filter size="17" color="#52525b" />
             <span className="text-zinc-600 text-cs75 font-bold pt-0.5">
               فیلتر ها
             </span>
-          </button>
+          </SheetTrigger>
 
-          <div className="bg-white px-4 flex-center gap-2 border rounded-full">
-            <Building size="18" color="#52525b" />
+          <SheetContent className="w-full p-0 grid grid-rows-[auto_1fr_auto]">
+            <SheetHeader className="h-16 px-6 flex-row justify-between items-center  border-b shadow-light">
+              <SheetTitle className="hidden"></SheetTitle>
+              <SheetDescription className="hidden"></SheetDescription>
 
-            <div className="text-zinc-600 text-cs75 font-bold pt-0.5 flex-center gap-1">
-              <span>نتایج :</span>
-              <span>{123}</span>
-              <span>هتل</span>
-            </div>
-          </div>
-        </div>
+              <span className="text-cs85 font-bold">فیلتر های جستجو</span>
 
-        <div
-          className={`fixed inset-y-0 z-40 w-full h-dvh bg-white transition-all duration-500 ease-in-out ${dialogIsOpen ? 'visible left-0' : 'invisible left-full'}`}
-        >
-          <div
-            className={`h-full text-zinc-800 grid grid-rows-[4rem_1fr_5rem] transition-all duration-500 ease-in-out ${dialogIsOpen ? 'opacity-100' : 'opacity-0'}`}
-          >
-            <div className="px-6 flex-between items-center border-b">
-              <span className="text-cs09 font-bold">فیلتر مرتب سازی</span>
+              <SheetClose>
+                <IoClose color="#555" />
+              </SheetClose>
+            </SheetHeader>
 
-              <button onClick={() => setDialogOpen(false)}>
-                <IoClose fill="#52525b" />
-              </button>
-            </div>
-
-            <div className="px-6 py-4 divide-y overflow-auto last:divide-y-0">
-              <HotelStar />
+            <div className="px-6 divide-y overflow-auto custom-scrollbar">
+              <Star />
               <PriceRange />
               <ResidenceType />
               <OtherFilters />
-              <FeaturesFilter />
+              <HotelFacilities />
+              <RoomFacilities />
             </div>
 
-            <div className="bg-white text-cs85 font-semibold px-6 flex-between items-center border-t shadow-[0_-1rem_1.5rem_rgba(0,0,0,0.03)]">
-              <button className="flex-center gap-2">
-                <Trash size="18" color="#27272a" />
-                <span className="text-zinc-800">حذف فیلتر ها</span>
-              </button>
+            <div className="h-20 px-6 flex items-center justify-between border-t shadow-light">
+              <ClearFilters />
 
-              <div className="bg-cs-blue/10 text-cs-blue font-semibold px-4 py-2 flex-center gap-1 rounded-lg">
-                <span>135</span>
-                <span>هتل یافت شد</span>
+              <div className="bg-cs-blue/10 w-36 h-10 text-cs-blue text-cs08 font-semibold flex-center gap-1 rounded-lg">
+                {isPending ? (
+                  <div className="loader-dots-blue" />
+                ) : totalLength ? (
+                  <>
+                    <span>{totalLength}</span>
+                    <span>هتل یافت شد</span>
+                  </>
+                ) : (
+                  'موردی یافت نشد'
+                )}
               </div>
             </div>
+          </SheetContent>
+        </Sheet>
+
+        <div className="bg-white px-4 flex-center gap-2 border rounded-full shadow-light">
+          <Building size="18" color="#52525b" />
+
+          <div className="text-zinc-600 text-cs75 font-bold pt-0.5 flex-center gap-1">
+            <span>نتایج :</span>
+            <span>{totalLength}</span>
+            <span>هتل</span>
           </div>
         </div>
-      </div> */}
+      </div>
 
       {/* === Large-Screen */}
-      <div className="sticky top-28 h-fit bg-white text-zinc-800 hidden divide-y overflow-hidden rounded-2xl shadow-light lg:block">
-        <div className="px-5 py-4 flex-between items-center">
+      <div className="sticky top-28 bg-white text-zinc-800 hidden rounded-2xl shadow-light lg:block">
+        <div className="px-5 py-4 flex-between items-center border-b">
           <span className="text-cs85 font-bold">فیلتر های جستجو</span>
           <ClearFilters />
         </div>
 
-        <Star />
-        <PriceRange />
-        <ResidenceType />
-        <OtherFilters />
-        <HotelFacilities />
-        <RoomFacilities />
+        <div dir="ltr" className="max-h-[60dvh] overflow-auto custom-scrollbar">
+          <div dir="rtl" className="divide-y">
+            <Star />
+            <PriceRange />
+            <ResidenceType />
+            <OtherFilters />
+            <HotelFacilities />
+            <RoomFacilities />
+          </div>
+        </div>
+
+        <div className="px-5 py-4 flex-between items-center border-t">
+          <div className="w-full h-11 bg-cs-dark-blue text-white text-cs08 font-semibold flex-center gap-1 rounded-cs-10">
+            {isPending ? (
+              <div className="loader-dots" />
+            ) : totalLength ? (
+              <>
+                <span>نتایج :</span>
+                <span className="mr-1">{totalLength}</span>
+                <span>هتل</span>
+              </>
+            ) : (
+              'نتیجه ای یافت نشد'
+            )}
+          </div>
+        </div>
       </div>
     </Suspense>
   );

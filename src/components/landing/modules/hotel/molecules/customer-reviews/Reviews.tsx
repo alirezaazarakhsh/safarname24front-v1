@@ -22,12 +22,13 @@ type ApiResponse = {
 
 type Props = {
   hotelSlug: string;
+  ref: React.RefObject<SwiperType | null>;
 };
 
 // -----------------------------------------
 
 export default function Reviews(props: Props) {
-  const { hotelSlug } = props;
+  const { hotelSlug, ref } = props;
   const swiperRef = useRef<SwiperType>(null);
 
   const { data, status } = useQuery<ApiResponse>({
@@ -76,9 +77,9 @@ export default function Reviews(props: Props) {
           <Swiper
             spaceBetween={20}
             slidesPerView={2}
-            direction="vertical"
-            onSwiper={(swiper) => (swiperRef.current = swiper)}
             className="h-full"
+            direction="vertical"
+            onSwiper={(swiper) => (ref.current = swiper)}
           >
             {data?.data?.map((review, id) => (
               <SwiperSlide key={id} className="select-none">

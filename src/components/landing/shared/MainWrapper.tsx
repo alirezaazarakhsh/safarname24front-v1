@@ -11,7 +11,9 @@ import { Suspense, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import AuthHandler from './AuthHandler';
+import { HotelQueryProvider } from '@/context';
 import { generalInstance } from '@/utils/services';
+
 import { UserAccountProvider } from '@/context/UserAccountContext';
 import { ComingSoon } from '@/components/landing/modules/coming-soon';
 
@@ -63,7 +65,10 @@ export default function MainWrapper(props: Props) {
                 <Suspense fallback={null}>
                   <AuthHandler />
                 </Suspense>
-                <NuqsAdapter>{props.children}</NuqsAdapter>
+
+                <HotelQueryProvider>
+                  <NuqsAdapter>{props.children}</NuqsAdapter>
+                </HotelQueryProvider>
               </PassengersProvider>
             </DatePickerProvider>
           </HotelOrCityProvider>

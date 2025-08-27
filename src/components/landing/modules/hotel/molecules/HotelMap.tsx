@@ -65,7 +65,7 @@ export function HotelMap(props: Props) {
         <span className="text-zinc-700 font-bold">ورود به نقشه</span>
       </DialogTrigger>
 
-      <DialogContent className="max-w-[30rem] w-5/6 p-0 gap-0">
+      <DialogContent className="max-w-[36rem] w-5/6 p-0 gap-0">
         <DialogTitle className="hidden"></DialogTitle>
         <DialogDescription className="hidden"></DialogDescription>
 

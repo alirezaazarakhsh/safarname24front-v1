@@ -11,8 +11,8 @@ import { ArrowRight } from 'iconsax-react';
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '@/utils/axios';
 
+import SendTicketReaction from './SendTicketReaction';
 import { useAddCommentContext } from '@/context/AddCommentContext';
-import SendTicketReaction from '../../../contact-us/molecules/SendTicketReaction';
 
 type Props = {
   hotelSlug: string;

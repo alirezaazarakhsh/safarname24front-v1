@@ -46,7 +46,7 @@ export function DHotelCard(props: Props) {
 
         {/* HotelName | Province | City | Stars | Score | Address | NumberOfNights */}
         <div className="text-zinc-800 text-cs85 font-bold pt-2 pb-1 flex flex-col gap-2 overflow-hidden">
-          <h3 className="text-cs09 font-extrabold mb-1 flex items-center gap-1 overflow-hidden">
+          <h3 className="text-cs95 font-extrabold mb-0.5 flex items-center gap-1 overflow-hidden">
             <span>هتل</span>
             <span>{name}</span>
           </h3>
@@ -66,7 +66,7 @@ export function DHotelCard(props: Props) {
             <span>امتیاز کاربران</span>
           </div>
 
-          <p className="truncate">{address}</p>
+          <p className="text-zinc-600 text-cs08/5 font-semibold">{address}</p>
 
           <div className="h-9 text-cs75 mt-auto flex gap-3">
             <div className="bg-zinc-100 px-4 flex items-center gap-1 rounded-lg">
@@ -74,10 +74,12 @@ export function DHotelCard(props: Props) {
               <span>شب اقامت</span>
             </div>
 
-            <div className="bg-green-100 text-green-600 px-4 flex items-center gap-1 rounded-lg">
-              <span>{comment_count}</span>
-              <span>دیدگاه</span>
-            </div>
+            {comment_count > 0 && (
+              <div className="bg-green-100 text-green-600 px-4 flex items-center gap-1 rounded-lg">
+                <span>{comment_count}</span>
+                <span>دیدگاه</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -95,10 +97,9 @@ export function DHotelCard(props: Props) {
             <span className="mr-0.5">تخفیف</span>
           </div>
         ) : reservation_count ? (
-          <div className="h-9 bg-zinc-100 text-cs07/5 font-extrabold px-4 mr-auto flex-center gap-1 rounded-lg">
-            <span>بیش از</span>
-            <span>{reservation_count}</span>
+          <div className="h-9 bg-zinc-100 text-cs07/5 font-extrabold px-3.5 mr-auto flex-center gap-1 rounded-lg">
             <span>رزرو</span>
+            <span>{reservation_count} +</span>
           </div>
         ) : null}
 
@@ -106,7 +107,7 @@ export function DHotelCard(props: Props) {
         <Tags tags={public_tags} />
 
         {/* === Price */}
-        <div className="text-cs85/5 font-bold mt-auto mb-3 flex items-end">
+        <div className="text-cs08/5 font-bold mt-auto mb-3 flex items-end">
           <span>شروع قیمت :</span>
 
           <div className="mr-auto flex flex-col items-end gap-1.5">
