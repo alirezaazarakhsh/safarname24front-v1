@@ -76,7 +76,7 @@ export function MHotelCard(props: Props) {
         <p className="truncate">{address}</p>
 
         {/* === Tags */}
-        <Tags tags={public_tags} />
+        <Tags tags={public_tags} slicedCount={2} />
       </div>
 
       {/* === Separator */}

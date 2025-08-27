@@ -2,18 +2,20 @@
 
 import 'swiper/css';
 import '@/styles/swiper.css';
+
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 import Image from 'next/image';
 import { useState } from 'react';
+
 import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import SearchAndFilter from './molecules/SearchAndFilter';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
-import { Skeleton } from '@/components/ui/skeleton';
 
 type Data = {
   order: number;

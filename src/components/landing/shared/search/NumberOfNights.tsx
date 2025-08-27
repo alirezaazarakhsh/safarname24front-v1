@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useNumberOfNights } from '@/hooks';
 import { useDatePickerContext } from '@/context';
 
 type Props = {
@@ -11,13 +11,7 @@ export default function NumberOfNights(props: Props) {
   const { type } = props;
 
   const { confirmedValue } = useDatePickerContext();
-
-  const numberOfNights = useMemo(() => {
-    const confirmedCheck = confirmedValue?.[0] && confirmedValue?.[1];
-    if (!confirmedCheck) return 0;
-
-    return (confirmedValue[1].unix - confirmedValue[0].unix) / 86400;
-  }, [type, confirmedValue]);
+  const numberOfNights = useNumberOfNights(confirmedValue);
 
   return (
     <>

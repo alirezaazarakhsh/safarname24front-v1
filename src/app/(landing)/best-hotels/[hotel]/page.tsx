@@ -8,13 +8,15 @@ import {
   EssentialTips,
   ImportantPlaces,
   CustomerReviews,
+  SuggestedHotels,
   AdditionalDetails,
   InitialInformation,
   RulesAndRegulations,
   FrequentlyQuestions,
-  SuggestedHotels,
 } from '@/components/landing/modules/hotel';
 
+import { apiBaseUrl } from '@/constants';
+import { notFound } from 'next/navigation';
 import { hotel } from '@/constants/landing';
 import { TopBarConfig } from '@/components/landing/shared';
 
@@ -36,6 +38,12 @@ type Props = { params: Promise<{ hotel: string }> };
 export default async function Hotel(props: Props) {
   const { sectionLinks } = hotel;
   const { hotel: hotelSlug } = await props.params;
+
+  const response = await fetch(
+    `${apiBaseUrl}/hotel/hotels/${hotelSlug}/introduction`,
+  );
+
+  if (!response.ok) notFound();
 
   return (
     <>

@@ -11,6 +11,19 @@
   animation: dots-ijr34dsm 0.6s infinite alternate linear;
 }
 
+.loader-dots-blue {
+  width: 2.8px;
+  height: 2.8px;
+  border-radius: 50%;
+  color: #4b5bce;
+  box-shadow:
+    13.5px 0 0 4.8px,
+    27px 0 0 2.2px,
+    40.5px 0 0 0;
+  transform: translateX(-27px);
+  animation: dots-ijr34dsm 0.6s infinite alternate linear;
+}
+
 @keyframes dots-ijr34dsm {
   50% {
     box-shadow:

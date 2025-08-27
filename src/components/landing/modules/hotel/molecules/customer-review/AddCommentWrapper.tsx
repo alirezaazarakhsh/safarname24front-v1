@@ -49,7 +49,7 @@ export default function AddCommentWrapper(props: Props) {
       ) : (
         // ==== Large-Screen
         <Dialog open={isOpen} onOpenChange={setOpen}>
-          <DialogContent className="bg-[#f8f8f8] h-[33rem] p-7 flex flex-col gap-6">
+          <DialogContent className="bg-[#f8f8f8] h-[40rem] p-7 flex flex-col gap-6">
             <DialogTitle className="hidden"></DialogTitle>
             <DialogDescription className="hidden"></DialogDescription>
 

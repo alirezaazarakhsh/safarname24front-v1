@@ -41,9 +41,9 @@ type PassengersAction =
       payload: undefined;
     };
 
-const MIN_ADULTS = 0;
+const MIN_ADULTS = 1;
 const MIN_CHILDREN = 0;
-const MAX_PASSENGERS = 5;
+const MAX_TOTAL_PER_ROOM = 8;
 
 const initialState = {
   confirmedPassengers: { rooms: 0, passengers: 0 },
@@ -54,21 +54,27 @@ const initialState = {
 // === Helpers
 
 function decodeRooms(str: string) {
-  function clamp(value: number, min: number, max: number) {
-    return Math.min(Math.max(value, min), max);
+  function clampRoom(adults: number, children: number) {
+    const total = adults + children;
+
+    // حداقل 1 بزرگسال
+    if (adults < MIN_ADULTS) adults = MIN_ADULTS;
+
+    // اگر جمع بیشتر از 8 شد، بچه‌ها رو کم می‌کنیم
+    if (total > MAX_TOTAL_PER_ROOM) {
+      const extra = total - MAX_TOTAL_PER_ROOM;
+      children = Math.max(MIN_CHILDREN, children - extra);
+    }
+
+    return { id: uuidv4(), adults, children };
   }
 
   return str
     .split('-')
     .slice(0, 3)
     .map((r) => {
-      const [adults, children] = r.split(',').map(Number);
-
-      return {
-        id: uuidv4(),
-        adults: clamp(isNaN(adults) ? 1 : adults, 1, 5),
-        children: clamp(isNaN(children) ? 0 : children, 0, 5),
-      };
+      const [a, c] = r.split(',').map(Number);
+      return clampRoom(isNaN(a) ? 1 : a, isNaN(c) ? 0 : c);
     });
 }
 
@@ -107,37 +113,34 @@ const passengersReducer = (
     case 'edit': {
       return {
         ...state,
-        rooms: state.rooms.map((passenger) => {
-          if (passenger.id === payload.id) {
-            const property =
-              payload.property === 'adults' ? 'adults' : 'children';
+        rooms: state.rooms.map((room) => {
+          if (room.id === payload.id) {
+            const total = room.adults + room.children;
 
             if (payload.action === 'increase') {
-              return {
-                ...passenger,
-                [property]:
-                  passenger[property] >= MAX_PASSENGERS
-                    ? MAX_PASSENGERS
-                    : passenger[property] + 1,
-              };
-
-              // ---
+              // اگر سقف 8 نفر رد نشه
+              if (total < MAX_TOTAL_PER_ROOM) {
+                return {
+                  ...room,
+                  [payload.property]: room[payload.property] + 1,
+                };
+              }
+              return room;
             } else {
-              return {
-                ...passenger,
-                [property]:
-                  payload.property === 'adults'
-                    ? passenger[property] <= MIN_ADULTS
-                      ? MIN_ADULTS
-                      : passenger[property] - 1
-                    : passenger[property] <= MIN_CHILDREN
-                      ? MIN_CHILDREN
-                      : passenger[property] - 1,
-              };
+              // کاهش
+              if (payload.property === 'adults') {
+                if (room.adults > MIN_ADULTS) {
+                  return { ...room, adults: room.adults - 1 };
+                }
+              } else {
+                if (room.children > MIN_CHILDREN) {
+                  return { ...room, children: room.children - 1 };
+                }
+              }
+              return room;
             }
-
-            //---------------
-          } else return passenger;
+          }
+          return room;
         }),
       };
     }

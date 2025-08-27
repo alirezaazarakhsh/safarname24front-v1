@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-
 import { Header } from '@/components/landing/shared';
 
 // -----------------------------------------------
@@ -10,7 +9,7 @@ export default function NotFound() {
     <main className="max-w-screen-template min-h-dvh mx-auto">
       <Header />
 
-      <section className="text-center mx-5 pt-28 flex flex-col items-center justify-center gap-10 lg:pt-40 lg:gap-14">
+      <section className="text-center mx-5 pt-20 flex flex-col items-center justify-center gap-10 lg:pt-32 lg:gap-14">
         <div dir="ltr" className="font-inter capitalize">
           <span className="text-zinc-800 text-2xl font-extrabold lg:text-3xl">
             Oops!

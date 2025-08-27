@@ -48,7 +48,7 @@ export default function SendTicketReaction(props: Props) {
               </DialogTitle>
 
               <DialogDescription className="text-zinc-500 mt-3 mb-6 flex flex-col">
-                <span>مشترک گرامی عزیز</span>
+                <span>مشتری گرامی</span>
                 <span>{content.desc}</span>
               </DialogDescription>
 
@@ -73,7 +73,7 @@ export default function SendTicketReaction(props: Props) {
               </DrawerTitle>
 
               <DrawerDescription className="text-zinc-500 mt-3 mb-5 flex flex-col">
-                <span>مشترک گرامی عزیز</span>
+                <span>مشتری گرامی</span>
                 <span>{content.desc}</span>
               </DrawerDescription>
 

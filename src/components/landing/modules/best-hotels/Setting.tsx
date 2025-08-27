@@ -1,5 +1,6 @@
 'use client';
 
+import { useHotelQuery } from '@/context';
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -11,6 +12,10 @@ import CityOrHotel from '../../shared/search/city-hotel/CityOrHotel';
 // ---------------------------
 
 export function Setting() {
+  const {
+    queryState: { isPending },
+  } = useHotelQuery();
+
   const [hasMounted, setHasMounted] = useState(false);
 
   // === Handle Mount-Step
@@ -49,8 +54,8 @@ export function Setting() {
         ) : (
           <>
             {[1, 2, 3, 4].map((_) => (
-              <div key={_} className="h-20 grid">
-                <Skeleton className="w-1/2 h-4 rounded" />
+              <div key={_} className="grid gap-2">
+                <Skeleton className="w-1/2 h-6 rounded-md" />
                 <Skeleton className="h-12 rounded-lg" />
               </div>
             ))}
@@ -58,8 +63,8 @@ export function Setting() {
         )}
       </div>
 
-      <button className="bg-cs-dark-blue text-zinc-100 h-12 hidden rounded-lg lg:block">
-        جستجو هتل
+      <button className="bg-cs-dark-blue text-zinc-100 h-12 flex-center rounded-lg">
+        {isPending ? <div className="loader-dots" /> : <span>جستجو</span>}
       </button>
     </div>
   );

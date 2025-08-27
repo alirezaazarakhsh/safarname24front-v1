@@ -25,7 +25,7 @@ type Props = {
   setDialogStep: () => void;
 };
 
-// --------------------------------
+// ----------------------------
 
 export default function PhoneNumber(props: Props) {
   const { setDialogStep } = props;

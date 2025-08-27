@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 
 type Props = {
@@ -11,9 +12,12 @@ type Props = {
 
 export default function TopBarSwiperNavigation(props: Props) {
   const { prevClickFunc, nextClickFunc } = props;
+  const pathname = usePathname();
 
   return (
-    <>
+    <div
+      className={`flex gap-3 ${pathname.includes('/best-hotels/') ? 'ml-[7.6rem]' : ''}`}
+    >
       {prevClickFunc && nextClickFunc && (
         <>
           <button
@@ -31,6 +35,6 @@ export default function TopBarSwiperNavigation(props: Props) {
           </button>
         </>
       )}
-    </>
+    </div>
   );
 }

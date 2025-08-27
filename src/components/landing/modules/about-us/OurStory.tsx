@@ -54,7 +54,7 @@ export function OurStory() {
           ) : (
             <p
               dir={isDesktop ? 'rtl' : 'ltr'}
-              className="h-72 text-zinc-600 text-cs08/[1.5rem] text-justify font-semibold px-4 overflow-auto custom-scrollbar lg:h-[26rem]"
+              className="h-72 text-zinc-600 text-cs85/[1.6rem] text-justify font-semibold px-4 overflow-auto custom-scrollbar lg:h-[26rem]"
             >
               {data?.data.description}
             </p>

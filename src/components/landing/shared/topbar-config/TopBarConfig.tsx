@@ -77,12 +77,12 @@ export function TopBarConfig(props: Props) {
               </Link>
             )}
 
-            {arraylength && maxLength && arraylength > maxLength && (
+            {arraylength && maxLength && arraylength > maxLength ? (
               <TopBarSwiperNavigation
                 prevClickFunc={prevClickFunc}
                 nextClickFunc={nextClickFunc}
               />
-            )}
+            ) : null}
           </div>
         )}
       </div>

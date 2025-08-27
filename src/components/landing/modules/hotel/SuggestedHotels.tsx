@@ -11,10 +11,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 import { Navigation, Autoplay } from 'swiper/modules';
 
+import { Section } from './molecules/Section';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
 import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
-import { Section } from './molecules/Section';
 
 type Props = { hotelSlug: string };
 type ApiResponse = { data: Array<Hotel> };
@@ -22,36 +22,32 @@ type ApiResponse = { data: Array<Hotel> };
 // ----------------------------
 
 export function SuggestedHotels(props: Props) {
-  const { data: initialInfo } = useQuery<any>({
-    queryKey: ['hotel-information'],
-    queryFn: () =>
-      generalInstance(`/hotel/hotels/${props.hotelSlug}/introduction`),
-  });
-
-  const city = initialInfo?.data?.city_name;
+  const { hotelSlug } = props;
   const swiperRef = useRef<SwiperType>(null);
 
   const { data, status } = useQuery<ApiResponse>({
-    enabled: !!city,
     queryKey: ['suggested-hotels'],
-    queryFn: () => generalInstance(`/hotel/hotels/by-city/${city}`),
+    queryFn: () => generalInstance(`/hotel/hotels/by-hotel-slug/${hotelSlug}`),
   });
+
+  if (isEmptyOrInvalid({ data, status })) return null;
+
+  const city = data?.data[0].city.name;
+  const province = data?.data[0].city.province;
 
   const topBarConfigTitle = city
     ? `هتل های پیشنهادی شهر ${city}`
     : 'هتل های پیشنهادی';
 
-  if (isEmptyOrInvalid({ data, status })) return null;
-
   return (
     <Section sectionID="suggested-hotels" className="-ml-5 xl:ml-0">
       <TopBarConfig
         arraylength={data?.data.length}
-        viewAllHref={`/best-hotels?city=${city}`}
         subtitle="هتل های پیشنهادی سفرنامه رو از دست نده !"
         title={{ type: 'single', text: topBarConfigTitle }}
         prevClickFunc={() => swiperRef.current?.slidePrev()}
         nextClickFunc={() => swiperRef.current?.slideNext()}
+        viewAllHref={`/best-hotels?city=${city}&province=${province}`}
       />
 
       {status === 'pending' ? (
