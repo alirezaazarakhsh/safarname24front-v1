@@ -463,9 +463,7 @@ export default function LegalBankInfo({
                 }
               });
             })}
-            disabled={
-              form.formState.isSubmitting || loading || !form.formState.isValid
-            }
+            disabled={form.formState.isSubmitting || loading}
             className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
           >
             {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}

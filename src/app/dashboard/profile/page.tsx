@@ -188,17 +188,6 @@ export default function ProfilePage(): ReactNode {
     }
   }, [legalForm, legalUserFetching.isLoading, legalUserFetching.isRefetching]);
 
-  // Using useEffect to validate forms on change of mode
-  useEffect(() => {
-    if (profileState === 'personal') {
-      personalForm.trigger();
-    } else {
-      if (!legalUserFetching.isLoading) {
-        legalForm.trigger();
-      }
-    }
-  }, [profileState, legalUserFetching.isLoading]);
-
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
