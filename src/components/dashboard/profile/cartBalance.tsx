@@ -46,7 +46,7 @@ export default function CartBalance({
             </p>
           ) : (
             <p className="shrink-0 text-black text-[16px] font-bold">
-              حساب شما خالی میباشد!
+              عدم موجودی
             </p>
           )}
         </div>
@@ -81,13 +81,13 @@ export default function CartBalance({
               </span>
             </div>
             {wallet.balance !== 0 ? (
-              <p className="shrink-0 text-black">
-                <span className="text-[16px] font-bold">{`${numberSeparation(wallet.balance)} `}</span>
-                <span className="text-[12px] font-semibold">تومان</span>
+              <p className="shrink-0 text-black text-[14px]">
+                <span className="font-bold">{`${numberSeparation(wallet.balance)} `}</span>
+                <span className="font-semibold">تومان</span>
               </p>
             ) : (
-              <p className="shrink-0 text-black text-[16px] font-bold">
-                حساب شما خالی میباشد!
+              <p className="shrink-0 text-black text-[14px] font-bold">
+                عدم موجودی
               </p>
             )}
           </div>
@@ -123,7 +123,7 @@ export default function CartBalance({
               </span>
               <span className="font-semibold text-cs08 text-black block text-right truncate">
                 {wallet.balance === 0
-                  ? 'حساب شما خالی میباشد!'
+                  ? 'عدم موجودی'
                   : `${numberSeparation(wallet.balance)} تومان`}
               </span>
             </div>
