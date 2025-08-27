@@ -11,8 +11,6 @@ import {
   DialogTitle,
   DialogClose,
 } from '@/components/ui/dialog';
-import { hexToRgba } from '@/utils/utils';
-import useLocalStorageState from 'use-local-storage-state';
 import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -65,7 +63,6 @@ type formType = z.infer<typeof formSchema>;
 export default function ReportTicket(): ReactNode {
   // Defining hooks
   const [opened, setOpened] = useState<boolean>(false);
-  const [theme] = useLocalStorageState<string>('ticketTheme');
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
   });
@@ -96,12 +93,7 @@ export default function ReportTicket(): ReactNode {
   return (
     <Dialog open={opened} onOpenChange={setOpened}>
       <DialogTrigger asChild>
-        <button
-          className="px-4 rounded-md flex items-center justify-center py-2"
-          style={{
-            background: hexToRgba(theme, 0.2),
-          }}
-        >
+        <button className="px-4 rounded-md flex items-center justify-center py-2 bg-cs-blue/20">
           <span className="text-cs65 font-medium text-current text-center truncate block">
             ثبت بازخورد
           </span>

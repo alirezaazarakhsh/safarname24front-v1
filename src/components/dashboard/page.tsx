@@ -155,7 +155,7 @@ function InnerPage({
             }}
           >
             {!irregularPages && <Header />}
-            <MobileNav />
+            {!isTicketPage && <MobileNav />}
             <div
               className={cn(
                 'overflow-hidden',
