@@ -26,7 +26,7 @@ export default function FavoritesPage(): ReactNode {
 
   // Fetching the data
   const getData = useApiQuery<GETFavoritesSingle>({
-    url: `/profile/favorite-collections/${id}?p=${paginationNumber + 1}`,
+    url: `/favorite/collections/${id}?p=${paginationNumber + 1}`,
     queryKey: ['favorites', 'list'],
     options: {
       staleTime: 30000, // 30 Sec
@@ -48,18 +48,18 @@ export default function FavoritesPage(): ReactNode {
     : savedType === 'savedHotels'
       ? getData.data.results.favorites.filter((item) => item.type === 'hotel')
       : getData.data.results.favorites.filter(
-        (item) => item.type === 'article',
-      );
+          (item) => item.type === 'article',
+        );
 
   // Returning JSX
   return (
-    <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]'>
+    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]">
       {getData.isLoading || getData.isRefetching ? (
         <>
-          <Filter loading favName='X' />
-          <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
+          <Filter loading favName="X" />
+          <div className="grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]">
             {[...new Array(12)].map((_, index) => (
-              <Skeleton key={index} className='h-[200px] rounded-lg' />
+              <Skeleton key={index} className="h-[200px] rounded-lg" />
             ))}
           </div>
         </>
@@ -67,9 +67,9 @@ export default function FavoritesPage(): ReactNode {
         <ErrorTable refetch={() => getData.refetch()} />
       ) : getData.data && getData.data.count === 0 ? (
         <EmptyTable
-          className='lg:col-span-4 col-span-1'
-          title='هیچ آیتمی فعلا ندارید!'
-          description='مشتری گرامی، برای ثبت آیتم می‌توانید از وبسایت اقدام نمایید. از همراهی شما متشکریم.'
+          className="lg:col-span-4 col-span-1"
+          title="هیچ آیتمی فعلا ندارید!"
+          description="مشتری گرامی، برای ثبت آیتم می‌توانید از وبسایت اقدام نمایید. از همراهی شما متشکریم."
         />
       ) : getData.data && getData.data.count !== 0 ? (
         itemToRender.length === 0 ? (
@@ -80,9 +80,9 @@ export default function FavoritesPage(): ReactNode {
               onChange={setSavedType}
             />
             <EmptyTable
-              className='lg:col-span-4 col-span-1'
-              title='هیچ آیتمی فعلا ندارید!'
-              description='مشتری گرامی، برای ثبت آیتم می‌توانید از وبسایت اقدام نمایید. از همراهی شما متشکریم.'
+              className="lg:col-span-4 col-span-1"
+              title="هیچ آیتمی فعلا ندارید!"
+              description="مشتری گرامی، برای ثبت آیتم می‌توانید از وبسایت اقدام نمایید. از همراهی شما متشکریم."
             />
           </>
         ) : (
@@ -92,7 +92,7 @@ export default function FavoritesPage(): ReactNode {
               loading={false}
               onChange={setSavedType}
             />
-            <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
+            <div className="grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]">
               {itemToRender.map((item, index) => (
                 <>
                   {savedType === 'savedHotels' && item.type === 'hotel' ? (
@@ -129,7 +129,7 @@ export default function FavoritesPage(): ReactNode {
               ))}
             </div>
             {getData.data.count > 18 && (
-              <div className='flex items-center lg:justify-end justify-center'>
+              <div className="flex items-center lg:justify-end justify-center">
                 <CustomPagination
                   count={getData.data.count}
                   activeIndex={paginationNumber}
