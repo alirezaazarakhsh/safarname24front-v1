@@ -104,7 +104,7 @@ export default function LatestTicketsTable({
                     <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       شناسه :
                     </span>
-                    <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
+                    <span className="text-cs75 font-semibold text-gray-600 truncate block text-right">
                       {`شماره پیگیری (${item.id})`}
                     </span>
                   </div>
@@ -127,7 +127,7 @@ export default function LatestTicketsTable({
                     <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       عنوان :
                     </span>
-                    <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
+                    <span className="text-cs75 font-semibold text-gray-600 truncate block text-right">
                       {item.title}
                     </span>
                   </div>
@@ -147,7 +147,7 @@ export default function LatestTicketsTable({
                     <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       وضعیت :
                     </span>
-                    <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
+                    <span className="text-cs75 font-semibold text-gray-600 truncate block text-right">
                       {item.status === 'answered'
                         ? 'تیکت پاسخ داده شد'
                         : item.status === 'pending'
@@ -167,7 +167,7 @@ export default function LatestTicketsTable({
               >
                 <div className="flex justify-end gap-3">
                   <div className="bg-gray-100 h-10 px-5 rounded-md flex items-center justify-center">
-                    <span className="font-normal text-cs07 text-gray-600 block truncate text-center">
+                    <span className="font-semibold text-cs07 text-gray-600 block truncate text-center">
                       {moment().locale('fa').format('YYYY/MM/DD')}
                     </span>
                   </div>
@@ -175,7 +175,7 @@ export default function LatestTicketsTable({
                     href={'/dashboard/tickets'}
                     className="bg-white border border-gray-300 w-[125px] h-10 transition-all duration-500 hover:bg-gray-100 px-5 rounded-md flex items-center justify-center gap-2"
                   >
-                    <span className="font-normal text-cs07 text-gray-600 block truncate text-right">
+                    <span className="font-semibold text-cs07 text-gray-600 block truncate text-right">
                       ورود به تیکت
                     </span>
                     <ICChevronBottom className="size-[12px] text-gray-600 rotate-90 shrink-0" />

@@ -99,7 +99,7 @@ export default function LatestReservationsTable({
                     <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       نام هتل :
                     </span>
-                    <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
+                    <span className="text-cs75 font-semibold text-gray-600 truncate block text-right">
                       {item.hotelName}
                     </span>
                   </div>
@@ -119,7 +119,7 @@ export default function LatestReservationsTable({
                     <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       مبلغ :
                     </span>
-                    <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
+                    <span className="text-cs75 font-semibold text-gray-600 truncate block text-right">
                       {`${numberSeparation(item.price)} تومان`}
                     </span>
                   </div>
@@ -139,7 +139,7 @@ export default function LatestReservationsTable({
                     <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       وضعیت :
                     </span>
-                    <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
+                    <span className="text-cs75 font-semibold text-gray-600 truncate block text-right">
                       {item.status === 'accepted'
                         ? 'پرداخت موفقیت آمیز'
                         : item.status === 'cancled'
@@ -157,7 +157,7 @@ export default function LatestReservationsTable({
               >
                 <div className="flex justify-end gap-3">
                   <div className="bg-gray-100 h-10 px-5 rounded-md flex items-center justify-center">
-                    <span className="font-normal text-cs07 text-gray-600 block truncate text-center">
+                    <span className="font-semibold text-cs07 text-gray-600 block truncate text-center">
                       {moment().locale('fa').format('YYYY/MM/DD')}
                     </span>
                   </div>
@@ -166,7 +166,7 @@ export default function LatestReservationsTable({
                       href={`/dashboard/reservations/${item.id}`}
                       className="bg-green-100/50 h-10 w-[125px] transition-all duration-500 hover:bg-green-100 px-5 rounded-md flex items-center justify-center gap-2"
                     >
-                      <span className="font-normal text-cs07 text-green-500 block truncate text-right">
+                      <span className="font-semibold text-cs07 text-green-500 block truncate text-right">
                         مشاهده تاییده
                       </span>
                     </Link>
@@ -179,7 +179,7 @@ export default function LatestReservationsTable({
                           : 'bg-gray-100/50 text-gray-500',
                       )}
                     >
-                      <span className="font-normal text-cs07 text-current block truncate text-right whitespace-nowrap">
+                      <span className="font-semibold text-cs07 text-current block truncate text-right whitespace-nowrap">
                         {item.status === 'cancled'
                           ? 'لغو شده'
                           : item.status === 'pending'

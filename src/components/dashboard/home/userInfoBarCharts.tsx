@@ -40,7 +40,7 @@ export function UserInfoBarChart(): ReactNode {
   // Returning JSX
   return (
     <ChartContainer
-      style={{ position: 'relative' }}
+      style={{ position: 'relative', height: '40px' }}
       onMouseLeave={() => setCursorPosX(0)}
       onMouseMove={(e) => {
         const boundingRect = e.currentTarget.getBoundingClientRect();
@@ -55,7 +55,6 @@ export function UserInfoBarChart(): ReactNode {
           cursor={false}
           content={<ChartTooltipContent posX={cursorPosX} hideLabel />}
         />
-
         <Bar
           dataKey="value"
           onMouseEnter={(item, index) => setHoveredIndex(index)}
