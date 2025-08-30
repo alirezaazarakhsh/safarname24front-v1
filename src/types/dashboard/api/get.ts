@@ -86,7 +86,7 @@ export interface GETPassengerItem {
 export interface GETFavoriteItem {
   id: number;
   title: string;
-  images: string;
+  thumbnails: [string, string, string];
 }
 
 export interface GETHotel {
