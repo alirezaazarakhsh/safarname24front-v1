@@ -36,6 +36,12 @@ export default function useLogout() {
             'در دریافت داده‌ها مشکلی به‌وجود آمده است. لطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
           theme: 'theme',
         });
+
+        if (pathname === '/') {
+          window.location.reload();
+        } else {
+          router.push('/');
+        }
       },
       onSuccess: () => {
         startTransition(() => {
