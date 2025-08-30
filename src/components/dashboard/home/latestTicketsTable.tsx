@@ -13,6 +13,7 @@ import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
 import { LatestTicketsTableProps } from '@/types/dashboard/component';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import { digitsEnToFa } from '@persian-tools/persian-tools';
 
 // Defining some fake data to render
 const data: {
@@ -65,7 +66,7 @@ export default function LatestTicketsTable({
         </span>
         <Link
           href="/dashboard/tickets"
-          className="lg:rounded-lg rounded-[6px] lg:font-normal font-medium lg:w-[125px] w-[94px] lg:text-cs08 text-[10px] text-white bg-black lg:px-8 px-[12px] lg:py-3 py-0 lg:h-auto h-[33px] flex items-center justify-center whitespace-nowrap shrink-0"
+          className="lg:rounded-lg rounded-[6px] lg:font-normal font-medium lg:w-[125px] w-[100px] lg:text-cs08 text-[10px] text-white bg-black lg:px-8 px-[12px] lg:py-3 py-0 lg:h-auto h-[33px] flex items-center justify-center whitespace-nowrap shrink-0"
         >
           مشاهده همه
         </Link>
@@ -81,14 +82,14 @@ export default function LatestTicketsTable({
                 className={cn('px-0 w-8', index === 0 ? 'pt-0 pb-5' : 'py-5')}
               >
                 <div className="h-12 w-8 rounded-md bg-gray-100 flex items-center justify-center">
-                  <span className="font-normal text-cs06 text-black block text-num-en">
-                    {handleZeroBeforeNumber(index + 1)}
+                  <span className="font-normal text-[12px] text-black block text-num-en">
+                    {digitsEnToFa(handleZeroBeforeNumber(index + 1))}
                   </span>
                 </div>
               </TableCell>
               <TableCell
                 className={cn(
-                  'px-3 overflow-hidden',
+                  'px-3 w-[200px] max-w-[200px] min-w-[200px] overflow-hidden',
                   index === 0 ? 'pt-0 pb-5' : 'py-5',
                 )}
               >
@@ -99,7 +100,7 @@ export default function LatestTicketsTable({
                       className="w-5 h-5 text-black"
                     />
                   </div>
-                  <div>
+                  <div className="flex-1 overflow-hidden">
                     <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       شناسه :
                     </span>
@@ -110,7 +111,10 @@ export default function LatestTicketsTable({
                 </div>
               </TableCell>
               <TableCell
-                className={cn('px-3', index === 0 ? 'pt-0 pb-5' : 'py-5')}
+                className={cn(
+                  'px-3 w-[200px] max-w-[200px] min-w-[200px]',
+                  index === 0 ? 'pt-0 pb-5' : 'py-5',
+                )}
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
@@ -119,7 +123,7 @@ export default function LatestTicketsTable({
                       className="w-5 h-5 text-black"
                     />
                   </div>
-                  <div>
+                  <div className="flex-1 overflow-hidden">
                     <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       عنوان :
                     </span>
@@ -130,13 +134,16 @@ export default function LatestTicketsTable({
                 </div>
               </TableCell>
               <TableCell
-                className={cn('px-3', index === 0 ? 'pt-0 pb-5' : 'py-5')}
+                className={cn(
+                  'px-3 w-[200px] max-w-[200px] min-w-[200px]',
+                  index === 0 ? 'pt-0 pb-5' : 'py-5',
+                )}
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
                     <ICStatus className="w-5 h-5 text-black" />
                   </div>
-                  <div>
+                  <div className="flex-1 overflow-hidden">
                     <span className="text-cs64 font-bold text-black truncate block text-right mb-1">
                       وضعیت :
                     </span>
@@ -165,13 +172,13 @@ export default function LatestTicketsTable({
                     </span>
                   </div>
                   <Link
-                    href={`/dashboard/tickets/${item.id}`}
+                    href={'/dashboard/tickets'}
                     className="bg-white border border-gray-300 w-[125px] h-10 transition-all duration-500 hover:bg-gray-100 px-5 rounded-md flex items-center justify-center gap-2"
                   >
                     <span className="font-normal text-cs07 text-gray-600 block truncate text-right">
                       ورود به تیکت
                     </span>
-                    <ICChevronBottom className="w-2 h-2 text-gray-600 rotate-90 shrink-0" />
+                    <ICChevronBottom className="size-[12px] text-gray-600 rotate-90 shrink-0" />
                   </Link>
                 </div>
               </TableCell>
@@ -193,10 +200,10 @@ export default function LatestTicketsTable({
               <div className="flex items-center justify-start gap-[10px]">
                 <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center">
                   <span className="font-bold text-[12px] text-black block text-num-en">
-                    {handleZeroBeforeNumber(index + 1)}
+                    {digitsEnToFa(handleZeroBeforeNumber(index + 1))}
                   </span>
                 </div>
-                <div className="bg-gray-100 h-[40px] px-[12px] rounded-[6px] flex items-center justify-center">
+                <div className="bg-gray-100 h-[40px] w-[100px] rounded-[6px] flex items-center justify-center">
                   <span className="font-bold lg:text-cs07 text-[10px] text-gray-600 block truncate text-center">
                     {moment().locale('fa').format('YYYY/MM/DD')}
                   </span>
@@ -204,7 +211,7 @@ export default function LatestTicketsTable({
               </div>
               <Link
                 href={`/dashboard/tickets/${item.id}`}
-                className="bg-white border border-gray-300 w-[94px] h-[40px] box-border transition-all duration-500 hover:bg-gray-100 px-[12px] rounded-[6px] flex items-center justify-center gap-[4px]"
+                className="bg-white border border-gray-300 w-[100px] h-[40px] box-border transition-all duration-500 hover:bg-gray-100 px-[12px] rounded-[6px] flex items-center justify-center gap-[4px]"
               >
                 <span className="font-medium text-[10px] text-gray-600 block truncate text-right">
                   ورود به تیکت

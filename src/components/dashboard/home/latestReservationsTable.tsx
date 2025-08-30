@@ -13,6 +13,7 @@ import { LatestReservationsTableProps } from '@/types/dashboard/component';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import { ICBank } from '@/components/icons/ICBank';
 import { ICMoneyTick } from '@/components/icons/ICMoneyTick';
+import { digitsEnToFa } from '@persian-tools/persian-tools';
 
 // Defining some fake data to render
 const data: {
@@ -63,7 +64,7 @@ export default function LatestReservationsTable({
         </span>
         <Link
           href="/dashboard/reservations"
-          className="lg:rounded-lg rounded-[6px] lg:font-normal font-medium lg:w-[125px] w-[94px] lg:text-cs08 text-[10px] text-white bg-black lg:px-8 px-[12px] lg:py-3 py-0 lg:h-auto h-[33px] flex items-center justify-center whitespace-nowrap shrink-0"
+          className="lg:rounded-lg rounded-[6px] lg:font-normal font-medium lg:w-[125px] w-[100px] lg:text-cs08 text-[10px] text-white bg-black lg:px-8 px-[12px] lg:py-3 py-0 lg:h-auto h-[33px] flex items-center justify-center whitespace-nowrap shrink-0"
         >
           مشاهده همه
         </Link>
@@ -79,14 +80,14 @@ export default function LatestReservationsTable({
                 className={cn('px-0 w-8', index === 0 ? 'pt-0 pb-5' : 'py-5')}
               >
                 <div className="h-12 w-8 rounded-md bg-gray-100 flex items-center justify-center">
-                  <span className="font-normal text-cs06 text-black block text-num-en">
-                    {handleZeroBeforeNumber(index + 1)}
+                  <span className="font-normal text-[12px] text-black block text-num-en">
+                    {digitsEnToFa(handleZeroBeforeNumber(index + 1))}
                   </span>
                 </div>
               </TableCell>
               <TableCell
                 className={cn(
-                  'px-3 overflow-hidden',
+                  'px-3 overflow-hidden w-[200px] min-w-[200px] max-w-[200px]',
                   index === 0 ? 'pt-0 pb-5' : 'py-5',
                 )}
               >
@@ -94,7 +95,7 @@ export default function LatestReservationsTable({
                   <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
                     <ICBank className="w-5 h-5 text-black" />
                   </div>
-                  <div>
+                  <div className="overflow-hidden flex-1">
                     <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       نام هتل :
                     </span>
@@ -105,30 +106,36 @@ export default function LatestReservationsTable({
                 </div>
               </TableCell>
               <TableCell
-                className={cn('px-3', index === 0 ? 'pt-0 pb-5' : 'py-5')}
+                className={cn(
+                  'px-3 w-[200px] min-w-[200px] max-w-[200px]',
+                  index === 0 ? 'pt-0 pb-5' : 'py-5',
+                )}
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
                     <ICMoneyTick className="w-5 h-5 text-black" />
                   </div>
-                  <div>
+                  <div className="overflow-hidden flex-1">
                     <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       مبلغ :
                     </span>
                     <span className="text-cs75 font-normal text-gray-600 truncate block text-right">
-                      {numberSeparation(item.price)}
+                      {`${numberSeparation(item.price)} تومان`}
                     </span>
                   </div>
                 </div>
               </TableCell>
               <TableCell
-                className={cn('px-3', index === 0 ? 'pt-0 pb-5' : 'py-5')}
+                className={cn(
+                  'px-3 w-[200px] min-w-[200px] max-w-[200px]',
+                  index === 0 ? 'pt-0 pb-5' : 'py-5',
+                )}
               >
                 <div className="flex items-center justify-start gap-3">
                   <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center shrink-0">
                     <ICStatus className="w-5 h-5 text-black" />
                   </div>
-                  <div>
+                  <div className="overflow-hidden flex-1">
                     <span className="text-cs75 font-bold text-black truncate block text-right mb-1">
                       وضعیت :
                     </span>
@@ -174,9 +181,9 @@ export default function LatestReservationsTable({
                     >
                       <span className="font-normal text-cs07 text-current block truncate text-right whitespace-nowrap">
                         {item.status === 'cancled'
-                          ? 'سیستم پرداخت لغو شد'
+                          ? 'لغو شده'
                           : item.status === 'pending'
-                            ? 'در حال پرداخت وجه'
+                            ? 'در انتظار پرداخت'
                             : 'پرداخت موفقیت آمیز'}
                       </span>
                     </div>
@@ -201,10 +208,10 @@ export default function LatestReservationsTable({
               <div className="flex items-center justify-start gap-[10px]">
                 <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center">
                   <span className="font-bold text-[12px] text-black block text-num-en">
-                    {handleZeroBeforeNumber(index + 1)}
+                    {digitsEnToFa(handleZeroBeforeNumber(index + 1))}
                   </span>
                 </div>
-                <div className="bg-gray-100 h-[40px] px-[12px] rounded-[6px] flex items-center justify-center">
+                <div className="bg-gray-100 h-[40px] w-[100px] rounded-[6px] flex items-center justify-center">
                   <span className="font-bold lg:text-cs07 text-[10px] text-gray-600 block truncate text-center">
                     {moment().locale('fa').format('YYYY/MM/DD')}
                   </span>
@@ -213,23 +220,27 @@ export default function LatestReservationsTable({
               {item.status === 'accepted' ? (
                 <Link
                   href={`/dashboard/reservation/${item.id}`}
-                  className="bg-green-100/50 hover:bg-green-100 text-green-500 w-[94px] h-[40px] box-border transition-all duration-500 px-[12px] rounded-[6px] flex items-center justify-center"
+                  className="bg-green-100/50 hover:bg-green-100 text-green-500 w-[100px] h-[40px] box-border transition-all duration-500 px-[12px] rounded-[6px] flex items-center justify-center"
                 >
-                  <span className="font-medium text-[12px] text-current  block truncate text-right">
+                  <span className="font-medium text-cs07 text-current block truncate text-right whitespace-nowrap">
                     مشاهده تاییده
                   </span>
                 </Link>
               ) : (
                 <div
                   className={cn(
-                    'w-[94px] h-[40px] box-border transition-all duration-500 px-[12px] rounded-[6px] flex items-center justify-center',
+                    'w-[100px] h-[40px] box-border transition-all duration-500 px-[12px] rounded-[6px] flex items-center justify-center',
                     item.status === 'cancled'
                       ? 'bg-red-100/50 text-red-500'
                       : 'bg-gray-100/50 text-gray-500',
                   )}
                 >
                   <span className="font-medium text-cs07 text-current block truncate text-right whitespace-nowrap">
-                    {item.status === 'pending' ? 'در انتظار پرداخت' : 'لغو شده'}
+                    {item.status === 'cancled'
+                      ? 'لغو شده'
+                      : item.status === 'pending'
+                        ? 'در انتظار پرداخت'
+                        : 'پرداخت موفقیت آمیز'}
                   </span>
                 </div>
               )}
