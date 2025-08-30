@@ -29,7 +29,7 @@ export default function SwitchItem({
         }
       }}
     >
-      <span className="lg:text-cs06 text-[12px] lg:font-normal font-semibold truncate block text-right text-black">
+      <span className="text-[12px] font-semibold truncate block text-right text-black">
         {title}
       </span>
       <Switch

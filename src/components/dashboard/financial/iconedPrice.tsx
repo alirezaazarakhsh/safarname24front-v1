@@ -34,7 +34,7 @@ export default function IconedPrice({
         data-selected={selected}
         data-disabled={disabled}
         className={cn(
-          'bg-white lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[16px] py-[16px] flex items-center justify-start gap-3 group peer',
+          'bg-white lg:h-auto h-[64px] lg:rounded-[10px] rounded-[12px] border p-[16px] flex items-center justify-start gap-3 group peer',
           onClick
             ? "cursor-pointer transition-all duration-500 data-[selected='false']:text-black data-[selected='true']:text-blue-600 data-[selected='false']:text-black/ data-[selected='true']:border-blue-600 lg:data-[disabled='true']:opacity-50 lg:data-[disabled='false']:opacity-100 lg:data-[disabled='true']:cursor-not-allowed"
             : 'text-black border-black/10',
