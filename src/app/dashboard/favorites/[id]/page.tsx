@@ -46,10 +46,8 @@ export default function FavoritesPage(): ReactNode {
   const itemToRender = !getData.data
     ? []
     : savedType === 'savedHotels'
-      ? getData.data.results.favorites.filter((item) => item.type === 'hotel')
-      : getData.data.results.favorites.filter(
-          (item) => item.type === 'article',
-        );
+      ? getData.data.results.items.filter((item) => item.type === 'hotel')
+      : getData.data.results.items.filter((item) => item.type === 'article');
 
   // Returning JSX
   return (
@@ -93,41 +91,40 @@ export default function FavoritesPage(): ReactNode {
               onChange={setSavedType}
             />
             <div className="grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]">
-              {itemToRender.map((item, index) => (
-                <>
-                  {savedType === 'savedHotels' && item.type === 'hotel' ? (
-                    ''
-                  ) : // <SuggestedHotel
-                  //   key={index}
-                  //   showLike={false}
-                  //   showDiscount={false}
-                  //   showTimer={false}
-                  //   hotel={{
-                  //     city: item.item_data.city,
-                  //     discount_percentage: 0,
-                  //     name: item.item_data.name,
-                  //     id: item.id,
-                  //     main_image: item.item_data.main_image,
-                  //     price: item.item_data.price,
-                  //     province: item.item_data.city.province,
-                  //     rating: item.item_data.rating,
-                  //     stars: item.item_data.stars,
-                  //     timer: '',
-                  //   }}
-                  // />
-                  savedType === 'savedBlogs' && item.type === 'article' ? (
-                    <Blog
-                      desc={item.item_data.summary}
-                      createdAt={item.item_data.published_date}
-                      image={item.item_data.thumbnail}
-                      title={item.item_data.title}
-                      mostVisited={false}
-                    />
-                  ) : (
-                    false
-                  )}
-                </>
-              ))}
+              {itemToRender.map((item, index) =>
+                savedType === 'savedHotels' && item.type === 'hotel' ? (
+                  <SuggestedHotel
+                    key={index}
+                    showDiscount={false}
+                    showTimer={false}
+                    hotel={{
+                      average_score: Number(item.average_score.toFixed(1)),
+                      city: item.city,
+                      discount_expiry: item.discount_date || '-',
+                      discount_percentage: item.discount_percentage,
+                      id: item.id,
+                      main_image: item.main_image,
+                      name: item.name,
+                      original_total_price: item.price,
+                      rating: item.rating,
+                      slug: item.slug,
+                      stars: item.stars,
+                      total_price: item.price_after_discount,
+                    }}
+                  />
+                ) : savedType === 'savedBlogs' && item.type === 'article' ? (
+                  <Blog
+                    key={index}
+                    desc={item.summary}
+                    createdAt={item.published_date}
+                    image={item.thumbnail}
+                    title={item.title}
+                    mostVisited={false}
+                  />
+                ) : (
+                  false
+                ),
+              )}
             </div>
             {getData.data.count > 18 && (
               <div className="flex items-center lg:justify-end justify-center">

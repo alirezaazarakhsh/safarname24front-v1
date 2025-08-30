@@ -92,44 +92,42 @@ export interface GETFavoriteItem {
 export interface GETHotel {
   type: 'hotel';
   id: number;
-  item_data: {
-    address: string;
-    is_best_seller: boolean;
-    is_flash_sale: boolean;
-    is_special_offer: boolean;
-    main_image: string;
-    min_price: number | null;
-    name: string;
-    rating: number;
-    slug: string;
-    stars: number;
-    city: {
-      name: string;
-      image: string;
-      province: string;
-      show_in_homepage: boolean;
-    };
-  };
+  name: string;
+  slug: string;
+  city: City;
+  address: string;
+  main_image: string;
+  stars: number;
+  residence_type: string;
+  price: number;
+  price_after_discount: number;
+  discount_percentage: number;
+  discount_date: string | null;
+  rating: number;
+  average_score: number;
+  comment_count: number;
+  reservation_count: number;
+  night_count: number;
+  public_tags: {
+    id: number;
+    title: string;
+  }[];
 }
 
 export interface GETArticle {
   type: 'article';
   id: number;
-  item_data: {
-    body: string;
-    published_date: string;
-    published_date_jalali: string;
-    slug: string;
-    summary: string;
-    thumbnail: string;
-    title: string;
-  };
+  title: string;
+  slug: string;
+  summary: string;
+  thumbnail: string;
+  published_date: string;
 }
 
 export interface GETFavoriteItemSingle {
   id: number;
   title: string;
-  favorites: Array<GETHotel | GETArticle>;
+  items: Array<GETHotel | GETArticle>;
 }
 
 export interface GETCustomerClubRoomListItem {
