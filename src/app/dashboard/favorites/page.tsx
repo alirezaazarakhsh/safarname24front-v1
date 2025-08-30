@@ -101,11 +101,26 @@ export default function Favorites(): ReactNode {
                 key={index}
                 data={{
                   id: item.id,
-                  images: [
-                    '/image/hotel/hotel-1.png',
-                    '/image/hotel/hotel-1.png',
-                    '/image/hotel/hotel-1.png',
-                  ],
+                  images:
+                    item.thumbnails.length === 3
+                      ? item.thumbnails
+                      : item.thumbnails.length === 2
+                        ? [
+                            item.thumbnails[0],
+                            item.thumbnails[1],
+                            '/image/dashboardFavorites/empty-favorite.jpg',
+                          ]
+                        : item.thumbnails.length === 1
+                          ? [
+                              item.thumbnails[0],
+                              '/image/dashboardFavorites/empty-favorite.jpg',
+                              '/image/dashboardFavorites/empty-favorite.jpg',
+                            ]
+                          : [
+                              '/image/dashboardFavorites/empty-favorite.jpg',
+                              '/image/dashboardFavorites/empty-favorite.jpg',
+                              '/image/dashboardFavorites/empty-favorite.jpg',
+                            ],
                   title: item.title,
                 }}
               />
