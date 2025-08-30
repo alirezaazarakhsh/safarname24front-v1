@@ -34,7 +34,7 @@ export default function IconedPrice({
         data-selected={selected}
         data-disabled={disabled}
         className={cn(
-          'bg-white lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border lg:px-3 lg:py-4 px-[16px] py-[16px] flex items-center justify-start gap-3 group peer',
+          'bg-white lg:h-auto h-[64px] lg:rounded-[10px] rounded-[12px] border p-[16px] flex items-center justify-start gap-3 group peer',
           onClick
             ? "cursor-pointer transition-all duration-500 data-[selected='false']:text-black data-[selected='true']:text-blue-600 data-[selected='false']:text-black/ data-[selected='true']:border-blue-600 lg:data-[disabled='true']:opacity-50 lg:data-[disabled='false']:opacity-100 lg:data-[disabled='true']:cursor-not-allowed"
             : 'text-black border-black/10',
@@ -139,8 +139,8 @@ export default function IconedPrice({
         )}
       </div>
       {disabled && (
-        <div className="p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute lg:bottom-full bottom-[calc(75%+10px)] lg:left-[20px] left-[4px] lg:w-[200px] w-[218px] transition-all duration-500 opacity-0 invisible peer-hover:opacity-100 peer-hover:visible">
-          <p className="text-right text-current lg:font-light font-medium lg:text-[9px] text-[8px]">
+        <div className="p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute lg:bottom-full bottom-[calc(75%+10px)] lg:left-[20px] left-[4px] w-[210px] transition-all duration-500 opacity-0 invisible peer-hover:opacity-100 peer-hover:visible">
+          <p className="text-right text-current font-medium lg:text-[11px] text-[8px] leading-5">
             مشتری گرامی روش انتخابی روی (مبلغ دستی اضافه) قرار دادید نمیتوانید
             انتخاب کنید!
           </p>

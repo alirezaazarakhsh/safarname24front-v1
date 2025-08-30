@@ -546,7 +546,7 @@ export default function TicketsContext({
                   فایل های ذخیره
                 </span>
               </div>
-              <div className="flex flex-col group-data-[size=sm]:gap-0 group-data-[size=lg]:gap-3 group-data-[size=lg]:px-[12px] group-data-[size=sm]:px-0">
+              <div className="flex flex-col group-data-[size=lg]:px-[12px] group-data-[size=sm]:px-0">
                 <SettingItem
                   icon="DocumentText"
                   subTitle={`${foundedTicketItem?.files.documents.length || 0} فایل`}
@@ -603,7 +603,7 @@ export default function TicketsContext({
                   تنظیمات چت
                 </span>
               </div>
-              <div className="flex flex-col group-data-[size=sm]:gap-0 group-data-[size=lg]:gap-3 group-data-[size=lg]:px-[12px] group-data-[size=sm]:px-0">
+              <div className="flex flex-col group-data-[size=lg]:px-[12px] group-data-[size=sm]:px-0">
                 <SettingItem
                   icon="MessageText"
                   title="والپیپر"
@@ -725,10 +725,10 @@ export default function TicketsContext({
             />
           </div>
           <div className="w-[25%] flex flex-col">
-            <div className="p-[24px] shrink-0 border-b border-b-black/10">
+            <div className="px-[12px] py-[24px] shrink-0 border-b border-b-black/10">
               <Button
                 onClick={() => setModalOpened(true)}
-                className="flex items-center justif-center px-[12px] py-[18px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg"
+                className="flex items-center justif-center px-[12px] h-[50px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg"
               >
                 <span className="text-cs75 font-semibold text-center truncate">
                   ثبت تیکت جدید
@@ -741,7 +741,7 @@ export default function TicketsContext({
                   تیکت های حال حاضر
                 </span>
               </div>
-              <div className="flex flex-col gap-3 px-[12px]">
+              <div className="flex flex-col px-[12px]">
                 {tickets.currentTickets.map((item, index) => (
                   <TicketItem
                     key={index}
@@ -775,7 +775,7 @@ export default function TicketsContext({
                 </span>
               </div>
             ) : (
-              <div className="h-full overflow-auto custom-scrollbar py-[12px]">
+              <div className="h-full overflow-auto custom-scrollbar pt-[24px]">
                 <div className="px-[12px]">
                   <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
                     تیکت های گذشته
@@ -827,10 +827,10 @@ export default function TicketsContext({
                 </Accordion>
               </div>
             )}
-            <div className="p-[12px] shrink-0">
+            <div className="px-[12px] py-[24px] shrink-0">
               <Button
                 onClick={() => setExitModalOpened(true)}
-                className="flex items-center justif-center px-[12px] py-[18px] bg-cs-red/10 !text-cs-red w-full transition-all duration-500 hover:bg-cs-red/20 rounded-lg gap-2"
+                className="flex items-center justif-center h-[50px] px-[12px] bg-cs-red/10 !text-cs-red w-full transition-all duration-500 hover:bg-cs-red/20 rounded-lg gap-2"
               >
                 <IconsaxIcons
                   className="size-[20px] shrink-0"

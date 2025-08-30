@@ -68,7 +68,7 @@ export default function Notification(): ReactNode {
                   data={item}
                   className={
                     index + 1 !== data.length
-                      ? 'border-b border-b-black/20 pb-4'
+                      ? 'border-b border-b-[##7e7e7e33] pb-4'
                       : ''
                   }
                 />

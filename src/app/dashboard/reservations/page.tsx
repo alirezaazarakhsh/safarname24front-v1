@@ -39,7 +39,7 @@ export default function ReservationsPage(): ReactNode {
 
   // Returning JSX
   return (
-    <main className='lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white'>
+    <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white">
       {getData.isError && !getData.isLoading ? (
         <ErrorTable refetch={() => getData.refetch()} />
       ) : (

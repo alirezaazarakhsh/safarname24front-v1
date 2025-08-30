@@ -39,7 +39,7 @@ export default function LegalNotes({
             مشکلی در دریافت اطلاعات به وجود امد
           </p>
         ) : getData.data && !getData.isLoading && !getData.isError ? (
-          <p className="text-right text-black/50 lg:text-cs75 text-[12px] lg:font-semibold font-bold leading-6">
+          <p className="text-right text-black/50 lg:text-cs75 text-[12px] lg:font-semibold font-bold leading-7">
             {getData.data.description}
           </p>
         ) : (

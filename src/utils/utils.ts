@@ -46,12 +46,17 @@ export function toPercentage(value: number, max: number = 80): number {
 export function isColorDark(hex: string | undefined): boolean {
   if (hex) {
     const cleanedHex = hex.replace('#', '');
-    const r = parseInt(cleanedHex.substring(0, 2), 16);
-    const g = parseInt(cleanedHex.substring(2, 4), 16);
-    const b = parseInt(cleanedHex.substring(4, 6), 16);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
 
-    return brightness < 128;
+    if (cleanedHex === '548BF6') {
+      return true;
+    } else {
+      const r = parseInt(cleanedHex.substring(0, 2), 16);
+      const g = parseInt(cleanedHex.substring(2, 4), 16);
+      const b = parseInt(cleanedHex.substring(4, 6), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+      return brightness < 128;
+    }
   } else {
     return false;
   }
@@ -64,9 +69,9 @@ export function hexToRgba(hex: string | undefined, opacity: number): string {
     const fullHex =
       cleanedHex.length === 3
         ? cleanedHex
-          .split('')
-          .map((c) => c + c)
-          .join('')
+            .split('')
+            .map((c) => c + c)
+            .join('')
         : cleanedHex;
     const r = parseInt(fullHex.substring(0, 2), 16);
     const g = parseInt(fullHex.substring(2, 4), 16);

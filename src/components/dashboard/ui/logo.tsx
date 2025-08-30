@@ -41,11 +41,11 @@ export default function Logo({
           />
         </Link>
         <div>
-          <span className="font-bold text-cs75 text-black block truncate mb-1">
+          <span className="font-extrabold text-[13px] text-black block truncate mb-0.5">
             سفرنامه 24
           </span>
           <span
-            className="font-bold text-cs75 text-black block truncate"
+            className="font-semibold text-[13px] text-black block truncate"
             dir="ltr"
           >
             Agency Safarnameh <span className="text-num-en">24</span>

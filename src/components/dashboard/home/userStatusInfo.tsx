@@ -23,7 +23,7 @@ export default function UserStatusInfo({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-[12px] rounded-[14px] lg:px-[10px] lg:py-[12px] px-[15px] py-[20px] flex items-center justify-between  lg:h-auto h-[83px]',
+        'bg-white border border-black/10 lg:rounded-[12px] rounded-[14px] lg:p-[17px] p-[15px] flex items-center justify-between  lg:h-auto h-[83px]',
         className,
       )}
     >
@@ -54,10 +54,10 @@ export default function UserStatusInfo({
         data-mode={mode}
         className="flex items-center justify-end gap-1 shrink-0 transition-all duration-500 data-[mode='normal']:w-auto data-[mode='bar']:w-[50%]"
       >
-        {mode === 'bar' && (
+        {mode === 'bar' ? (
           <div
             className={cn(
-              'w-[100px]',
+              'w-[100px] flex items-center justify-end',
               data.value.count === 0 ? 'flex items-center justify-end' : '',
             )}
           >
@@ -67,11 +67,13 @@ export default function UserStatusInfo({
               <UserInfoBarChart />
             )}
           </div>
+        ) : (
+          <div className="h-[40px]" />
         )}
         <DropDown.DropdownMenu>
           <DropDown.DropdownMenuTrigger asChild>
-            <button className="shrink-0">
-              <ICHoriz3Dots className="text-gray-200 lg:w-4 lg:h-4 w-[20px] h-[20px]" />
+            <button className="shrink-0 text-gray-200 transition-all duration-500 hover:text-gray-300">
+              <ICHoriz3Dots className="text-current lg:w-4 lg:h-4 w-[20px] h-[20px]" />
             </button>
           </DropDown.DropdownMenuTrigger>
           <DropDown.DropdownMenuContent

@@ -168,24 +168,28 @@ export default function BankInfoForm({
           />
         </>
       )}
-      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
-        <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
-          <IconsaxIcons
-            name="CardEdit"
-            className="w-[20px] h-[20px]"
-            color="currentColor"
-          />
-        </div>
-        <div className="overflow-hidden w-full">
-          <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-            اطلاعات بانکی و پروفایل
-          </span>
-          <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-            مشتری گرامی شماره کارت و شبا خود را پر نمایید.
-          </p>
+      <div className="lg:p-4 p-[14px]  border-b flex items-center justify-between gap-3 border-b-black/10 shrink-0 w-full">
+        <div className="flex items-center justify-start gap-3">
+          <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
+            <IconsaxIcons
+              name="CardEdit"
+              className="w-[20px] h-[20px]"
+              color="currentColor"
+            />
+          </div>
+          <div className="overflow-hidden w-full">
+            <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
+              {userInfo.card_numbers.length === 0
+                ? 'اطلاعات بانکی و پروفایل'
+                : `اطلاعات بانکی و پروفایل (${currentCardOwner})`}
+            </span>
+            <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+              مشتری گرامی شماره کارت و شبا خود را پر نمایید.
+            </p>
+          </div>
         </div>
       </div>
-      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] lg:grid flex flex-col grid-cols-2 lg:gap-6 gap-[20px]">
+      <div className="lg:p-4 p-[14px] lg:grid flex flex-col grid-cols-2 lg:gap-6 gap-[20px]">
         <div className="lg:hidden flex items-center justify-start w-full gap-3">
           <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&
@@ -277,7 +281,7 @@ export default function BankInfoForm({
           </div>
         </button>
         <CreditCardDropDown
-          className="lg:h-[50px] h-[45px] w-full"
+          className="h-[50px] w-full"
           placeholder="16 رقم شماره کارت را وارد نمایید"
           value={creditCardVal}
           reset={() => {
@@ -314,7 +318,7 @@ export default function BankInfoForm({
           </div>
         </div>
         <CreditCardDropDown
-          className="lg:h-[50px] h-[45px] w-full"
+          className="h-[50px] w-full"
           hasIRIcon
           useSheba
           side="top"
@@ -402,18 +406,7 @@ export default function BankInfoForm({
           noErrorText
           {...form.register('address')}
         />
-        {userInfo.card_numbers.length === 0 ? (
-          <div />
-        ) : (
-          <NormalInput
-            placeholder="نام صاحب کارت"
-            noErrorText
-            disabled
-            className="disabled:opacity-100"
-            value={`نام صاحب کارت : ${currentCardOwner}`}
-          />
-        )}
-        <div>
+        <div className="flex items-center justify-end">
           <button
             onClick={form.handleSubmit(submitHandleFunction, (errors) => {
               const errorsArr = Object.values(errors);
@@ -430,7 +423,7 @@ export default function BankInfoForm({
                 }
               });
             })}
-            disabled={form.formState.isSubmitting || !form.formState.isValid}
+            disabled={form.formState.isSubmitting}
             className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
           >
             {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}

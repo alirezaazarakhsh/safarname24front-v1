@@ -101,10 +101,8 @@ export default function Upload({
         <div
           {...getRootProps()}
           className={cn(
-            'w-full bg-white lg:border-[3px] border-2 lg:rounded-xl rounded-[10px] border-dashed flex items-center justify-center cursor-pointer transition-all duration-500 px-4 lg:h-full h-[129px]',
-            isDragActive || isFileDialogActive
-              ? 'border-cs-red text-cs-red bg-cs-red/10'
-              : 'text-black border-black/10',
+            'w-full bg-white border-black/10 text-black lg:border-[3px] border-2 lg:rounded-xl rounded-[10px] border-dashed flex items-center justify-center cursor-pointer transition-all duration-500 px-4 lg:h-full h-[129px]',
+            (isDragActive || isFileDialogActive) && 'bg-black/5',
           )}
         >
           <input {...getInputProps()} multiple hidden />
@@ -137,9 +135,9 @@ export default function Upload({
                 : files.length === 0
                   ? 'حداکثر آپلود فایل 30MB میباشد'
                   : `حجم فایل : ${Math.ceil(
-                      files.reduce((acc, file) => acc + file.size, 0) /
-                        (1024 * 1024),
-                    )} مگابایت`}
+                    files.reduce((acc, file) => acc + file.size, 0) /
+                    (1024 * 1024),
+                  )} مگابایت`}
             </span>
           </div>
         </div>

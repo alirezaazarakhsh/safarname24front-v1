@@ -76,7 +76,7 @@ export default function Notification({
           'flex lg:items-start items-center justify-between gap-4 cursor-pointer',
         )}
       >
-        <span className="lg:text-cs85 text-[12px] lg:font-bold font-semibold text-right block w-full text-[#2b2b2b] lg:line-clamp-2 line-clamp-1">
+        <span className="lg:text-[14px] text-[12px] lg:font-bold font-semibold text-right block w-full text-[#2b2b2b] lg:line-clamp-2 line-clamp-1">
           {data.title}
         </span>
         <div className="flex items-center justify-between lg:gap-3 gap-[10px] shrink-0">
@@ -110,7 +110,7 @@ export default function Notification({
         </div>
       </div>
       <motion.div
-        className="overflow-hidden lg:my-2 my-[15px]"
+        className="overflow-hidden lg:my-1 my-[15px]"
         exit={{ height: '0', opacity: 0 }}
         initial={{ height: '0', opacity: 0 }}
         animate={{
@@ -118,22 +118,22 @@ export default function Notification({
           opacity: opened ? '100%' : '0%',
         }}
       >
-        <p className="lg:text-cs75 text-[12px] text-gray-500 font-normal text-right break-all whitespace-normal w-full m-0 p-0">
+        <p className="text-[12px] text-gray-500 text-right break-words whitespace-normal w-full m-0 p-0 leading-6 font-semibold">
           {data.message}
         </p>
       </motion.div>
-      <div className="flex items-center justify-start lg:gap-3 gap-[15px] flex-wrap">
-        <span className="lg:text-cs07 text-[12px] block text-gray-500 font-normal text-right">
-          {`${data.created_date_jalali} ${data.created_time}`}
+      <div className="flex items-center justify-between lg:gap-3 gap-[15px] flex-wrap">
+        <span className="text-[12px] block text-gray-500 font-semibold text-right flex-1">
+          {`${data.created_date_jalali} - ${data.created_time}`}
         </span>
         <div
           className={cn(
-            'h-[20px] px-[10px] w-fit rounded-[5px] flex items-center justify-center text-white',
+            'h-[25px] w-[50px] rounded-[5px] flex items-center justify-center text-white shrink-0',
             data.status === 'important' ? 'bg-cs-blue' : 'bg-cs-red',
           )}
         >
-          <span className="text-current font-normal text-[8px] text-center block w-full">
-            {data.status === 'important' ? 'مهم' : 'جدید !'}
+          <span className="text-current font-semibold text-[10px] text-center block w-full">
+            {data.status === 'important' ? 'مهم' : 'جدید'}
           </span>
         </div>
       </div>
