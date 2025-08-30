@@ -72,8 +72,8 @@ export default function UserStatusInfo({
         )}
         <DropDown.DropdownMenu>
           <DropDown.DropdownMenuTrigger asChild>
-            <button className="shrink-0">
-              <ICHoriz3Dots className="text-gray-200 lg:w-4 lg:h-4 w-[20px] h-[20px]" />
+            <button className="shrink-0 text-gray-200 transition-all duration-500 hover:text-gray-300">
+              <ICHoriz3Dots className="text-current lg:w-4 lg:h-4 w-[20px] h-[20px]" />
             </button>
           </DropDown.DropdownMenuTrigger>
           <DropDown.DropdownMenuContent
