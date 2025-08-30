@@ -145,6 +145,7 @@ export const HotelOrCityProvider = ({
   children,
 }: Readonly<{ children: ReactNode }>) => {
   const [state, dispatch] = useReducer(HotelOrCityReducer, initialState);
+
   const pathname = usePathname();
 
   // === Initial-state in first-render
@@ -160,11 +161,8 @@ export const HotelOrCityProvider = ({
         payload: { city, province },
       });
     }
-  }, []);
-
-  // === Reset state in home-page
-  useEffect(() => {
-    if (pathname === '/') {
+    // ===
+    else {
       dispatch({
         type: 'reset',
         payload: undefined,

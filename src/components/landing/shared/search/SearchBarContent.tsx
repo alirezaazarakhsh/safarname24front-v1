@@ -61,6 +61,7 @@ export default function SearchBarContent(props: Props) {
             {/* === Setting */}
             <div className="mt-8 grid gap-4">
               {!pathname.startsWith('/best-hotels/') && <CityOrHotel />}
+              
               <DatePicker />
               <Passengers />
               <NumberOfNights />

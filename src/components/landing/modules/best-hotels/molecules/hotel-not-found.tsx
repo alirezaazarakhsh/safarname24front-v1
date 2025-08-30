@@ -6,8 +6,8 @@ export default function HotelNotFound() {
   return (
     <div className="flex flex-col items-center gap-6">
       <Image
-        width={500}
-        height={500}
+        width={200}
+        height={200}
         alt="not-found"
         src={'/image/logo/not-found.svg'}
         className="max-w-[50%] md:max-w-[30%]"

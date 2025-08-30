@@ -36,7 +36,14 @@ export default function SubmitButton(props: Props) {
 
   function handleSubmit() {
     if (!isHotelDetailPage) {
-      if (!cityOrHotel.city || !dates?.[0] || !dates?.[1]) {
+      const stopCondition =
+        !dates?.[0] ||
+        !dates?.[1] ||
+        !passengers.rooms ||
+        !cityOrHotel.city ||
+        !passengers.passengers;
+
+      if (stopCondition) {
         setError(true);
         return;
       }
@@ -80,8 +87,15 @@ export default function SubmitButton(props: Props) {
 
   // === Setting Error-State
   useEffect(() => {
-    if (cityOrHotel.city) setError(false);
-  }, [cityOrHotel.city]);
+    if (
+      dates?.[0] &&
+      dates?.[1] &&
+      passengers.rooms &&
+      cityOrHotel.city &&
+      passengers.passengers
+    )
+      setError(false);
+  }, [cityOrHotel, passengers, dates]);
 
   return (
     <button
@@ -93,7 +107,7 @@ export default function SubmitButton(props: Props) {
       ) : isHotelDetailPage ? (
         'مشاهده اتاق ها'
       ) : isError ? (
-        'شهر یا هتل مقصد وارد نشده است !'
+        'فیلتر های جستجو خالی میباشد !'
       ) : (
         'جستجو شهر یا هتل مقصد'
       )}

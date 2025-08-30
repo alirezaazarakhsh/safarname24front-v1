@@ -6,11 +6,14 @@ import {
   createContext,
 } from 'react';
 
+import {
+  CalendarType,
+  DefaultRange,
+  handleSetDatepicker,
+} from '@/helpers/date-picker';
+
 import { DateObject } from 'react-multi-date-picker';
-import persianCalendar from 'react-date-object/calendars/persian';
-import persianLanguage from 'react-date-object/locales/persian_fa';
-import gregorianCalendar from 'react-date-object/calendars/gregorian';
-import gregorianLanguage from 'react-date-object/locales/gregorian_en';
+import { usePathname } from 'next/navigation';
 
 type DatePicker = {
   calendarType: CalendarType;
@@ -18,7 +21,6 @@ type DatePicker = {
   confirmedValue: undefined | DateObject[];
 };
 
-type CalendarType = 'persian' | 'gregorian';
 type DatePickerAction =
   | { type: 'calendar-type'; payload: undefined }
   | { type: 'value'; payload: undefined | DateObject[] }
@@ -75,55 +77,24 @@ export const DatePickerProvider = ({
 }: Readonly<{ children: ReactNode }>) => {
   const [state, dispatch] = useReducer(DatePickerReducer, initialState);
 
+  const pathname = usePathname();
+
+  // === Calculate & set on initial-render
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const startDate = params.get('start-date');
-    const endDate = params.get('end-date');
+    function dispatchAll(defaultRange: DefaultRange) {
+      dispatch({
+        type: 'value',
+        payload: defaultRange,
+      });
 
-    const calendarType =
-      (sessionStorage.getItem('calendar-type') as CalendarType) || 'persian';
-
-    const calendarDetail = {
-      calendar:
-        calendarType === 'persian' ? persianCalendar : gregorianCalendar,
-      locale: calendarType === 'persian' ? persianLanguage : gregorianLanguage,
-    };
-
-    let defaultRange;
-    const dateInfo = {
-      locale: calendarDetail.locale,
-      calendar: calendarDetail.calendar,
-    };
-
-    if (startDate && endDate) {
-      defaultRange = [
-        new DateObject({
-          ...dateInfo,
-          date: startDate.replaceAll('-', '/'),
-        }),
-
-        new DateObject({
-          ...dateInfo,
-          date: endDate.replaceAll('-', '/'),
-        }),
-      ];
-    } else {
-      defaultRange = [
-        new DateObject(dateInfo),
-        new DateObject(dateInfo).add(1, 'days'),
-      ];
+      dispatch({
+        type: 'confirmed-value',
+        payload: defaultRange,
+      });
     }
 
-    dispatch({
-      type: 'value',
-      payload: defaultRange,
-    });
-
-    dispatch({
-      type: 'confirmed-value',
-      payload: defaultRange,
-    });
-  }, []);
+    handleSetDatepicker(dispatchAll);
+  }, [pathname]);
 
   return (
     <DatePickerContext.Provider value={state}>

@@ -23,7 +23,7 @@ export default function Home() {
         searchbarStatus={{ static: true, fixed: true }}
       />
 
-      <div className="mt-4 flex flex-col gap-14 lg:gap-20 lg:mt-0">
+      <div className="mt-5 flex flex-col gap-14 lg:gap-20 lg:mt-0">
         <HeroSection />
         <Services />
         <SuggestedHotels />
