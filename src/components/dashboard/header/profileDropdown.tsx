@@ -25,7 +25,7 @@ export default function ProfileDropdown(): ReactNode {
   return (
     <DropDown.DropdownMenu>
       <DropDown.DropdownMenuTrigger asChild>
-        <button className="flex items-center justify-start gap-2 w-[200px] overflow-hidden">
+        <button className="flex items-center justify-start gap-2 w-[200px] overflow-hidden group">
           {user.image ? (
             <Image
               width={100}
@@ -46,35 +46,35 @@ export default function ProfileDropdown(): ReactNode {
           <div className="w-full overflow-hidden">
             <div className="mb-1 flex items-center justify-start gap-3 text-black">
               <span className="font-bold text-cs75 text-current block truncate w-full text-right">
-                {`${user.first_name} ${user.last_name} عزیز!`}
+                {`${user.first_name} ${user.last_name} !`}
               </span>
-              <ICChevronBottom className="w-3 h-3 shrink-0 text-current" />
+              <ICChevronBottom className="transition-all duration-500 group-data-[state=open]:rotate-180 w-3 h-3 shrink-0 text-current" />
             </div>
             <span className="font-bold text-cs75 text-gray-500 block truncate text-right">
-              {user.email}
+              {user.email ? user.email : 'ایمیل شما وارد نشده !'}
             </span>
           </div>
         </button>
       </DropDown.DropdownMenuTrigger>
       <DropDown.DropdownMenuContent className="w-[200px]" align="start">
-        <DropDown.DropdownMenuLabel className="flex items-center justify-end gap-3 p-3 text-black">
+        <DropDown.DropdownMenuLabel className="flex items-center justify-end gap-2 p-3 text-black">
           <span
-            className="truncate block text-cs08 font-medium text-current text-right flex-1"
+            className="truncate block text-cs08 font-semibold text-current text-right flex-1"
             dir="rtl"
           >
             {walletBalance.balance === 0
-              ? 'حساب شما خالی میباشد!'
+              ? 'عدم موجودی !'
               : `${numberSeparation(walletBalance.balance)} تومان`}
           </span>
           <ICWallet className="w-4 h-4 text-current shrink-0" />
         </DropDown.DropdownMenuLabel>
-        <DropDown.DropdownMenuSeparator className="mx-3 mb-3" />
+        <DropDown.DropdownMenuSeparator className="mx-3 mb-3 bg-[#eeeeee] h-[1.5px]" />
         <DropDown.DropdownMenuItem
           asChild
           className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red"
         >
           <Link href="/dashboard/profile">
-            <span className="text-cs08 font-normal text-current text-right truncate block">
+            <span className="text-cs08 font-semibold text-current text-right truncate block">
               ویرایش پروفایل
             </span>
           </Link>
@@ -84,7 +84,7 @@ export default function ProfileDropdown(): ReactNode {
           className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red"
         >
           <Link href="/dashboard/financial/wallet">
-            <span className="text-cs08 font-normal text-current text-right truncate block">
+            <span className="text-cs08 font-semibold text-current text-right truncate block">
               شارژ کیف پول
             </span>
           </Link>
@@ -102,7 +102,7 @@ export default function ProfileDropdown(): ReactNode {
                 color="current"
               />
             ) : (
-              <span className="text-cs08 font-normal text-current text-right truncate block">
+              <span className="text-cs08 font-semibold text-current text-right truncate block">
                 خروج از حساب
               </span>
             )}
