@@ -53,7 +53,7 @@ export default function LatestReservationsTable({
   return (
     <div
       className={cn(
-        'bg-white lg:py-5 py-[15px] lg:px-3 px-[13px] border border-black/10 w-full lg:rounded-lg rounded-[14px]',
+        'bg-white lg:p-[22px] p-[15px] border border-black/10 w-full lg:rounded-[12px] rounded-[14px]',
         className,
       )}
     >
