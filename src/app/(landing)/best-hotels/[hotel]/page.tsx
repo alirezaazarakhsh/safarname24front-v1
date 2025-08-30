@@ -64,7 +64,7 @@ export default async function Hotel(props: Props) {
           <Pictures hotelSlug={hotelSlug} />
 
           <div className="bg-white relative h-16 p-2.5 -my-8 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
-            <FavoriteButton />
+            <FavoriteButton hotelSlug={hotelSlug} />
 
             <div className="flex-1 grid grid-cols-2 gap-2.5 sm:flex-none sm:mr-auto">
               <Sharing />
@@ -77,7 +77,7 @@ export default async function Hotel(props: Props) {
             <SectionLinks sectionList={sectionLinks} />
           </div>
 
-          <Configs sectionList={sectionLinks} />
+          <Configs hotelSlug={hotelSlug} sectionList={sectionLinks} />
 
           <div>
             <TopBarConfig

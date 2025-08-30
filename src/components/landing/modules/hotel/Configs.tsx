@@ -9,13 +9,14 @@ import Sharing from './molecules/sharing/Sharing';
 import FavoriteButton from './molecules/FavoriteButton';
 
 type Props = {
+  hotelSlug: string;
   sectionList: Array<{ id: string; title: string }>;
 };
 
 // -----------------------------------------------------
 
 export default function Configs(props: Props) {
-  const { sectionList } = props;
+  const { sectionList, hotelSlug } = props;
 
   const [isAtTop, setIsAtTop] = useState(false);
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -48,7 +49,7 @@ export default function Configs(props: Props) {
       <div className="w-fit h-full flex gap-2">
         <BackToTopBtn />
         <Sharing />
-        <FavoriteButton />
+        <FavoriteButton hotelSlug={hotelSlug} />
       </div>
     </div>
   );

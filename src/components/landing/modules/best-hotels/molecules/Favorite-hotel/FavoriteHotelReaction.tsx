@@ -47,8 +47,8 @@ export default function FavoriteHotelReaction(props: Props) {
         <>
           {/* Dialog (Large-Device) */}
           <Dialog open={isOpen} onOpenChange={setOpen}>
-            <DialogContent className="max-w-[450px] text-cs85/6 font-semibold p-7 pb-6 gap-0">
-              <DialogTitle className="text-zinc-800 text-cs95 font-extrabold">
+            <DialogContent className="max-w-[400px] text-cs85 font-semibold p-7 pb-6 gap-0">
+              <DialogTitle className="text-zinc-800 text-[0.95rem]/6! font-extrabold">
                 {content.title}
               </DialogTitle>
 
