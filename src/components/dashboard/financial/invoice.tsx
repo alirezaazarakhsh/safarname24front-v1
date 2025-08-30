@@ -78,7 +78,7 @@ export default function Invoice({
         <button
           disabled={value === 0 || isLoading}
           onClick={handleClickOfSubmit}
-          className="bg-green-600 lg:h-[40px] h-[50px] lg:rounded-lg rounded-[8px] text-white flex items-center justify-center lg:p-3 p-[18px] transition-all duration-500 hover:bg-green-700 disabled:bg-gray-200 disabled:text-gray-500"
+          className="bg-green-600 lg:h-[40px] h-[50px] lg:rounded-lg rounded-[8px] text-white flex items-center justify-center lg:p-3 p-[18px] transition-all duration-500 hover:bg-green-700 disabled:bg-[#f0f0f0] disabled:text-gray-500"
         >
           {isLoading ? (
             <Loading />

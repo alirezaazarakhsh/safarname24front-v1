@@ -73,7 +73,7 @@ export default function CheckboxItem({
             className={cn(
               'w-[15px] h-[15px] aspect-square absolute transition-all duration-500 top-[50%] left-[50%] block -translate-y-[50%] -translate-x-[50%] pointer-events-none',
               !disabled &&
-                "data-[checked='false']:opacity-0 data-[checked='true']:opacity-100",
+              "data-[checked='false']:opacity-0 data-[checked='true']:opacity-100",
             )}
           />
         </div>
@@ -83,12 +83,22 @@ export default function CheckboxItem({
       </div>
       <div
         className={cn(
-          'px-4 flex items-center justify-center rounded-md lg:h-[30px] h-[34px] transition-all duration-500 w-[95px] shrink-0',
+          'px-4 flex items-center justify-center rounded-md lg:h-[30px] h-[34px] transition-all duration-500 w-[95px] shrink-0 relative',
           disabled || !checked
-            ? 'bg-gray-100 text-black'
+            ? 'bg-[#f0f0f0] text-gray-500'
             : 'bg-blue-50 text-blue-600',
         )}
       >
+        {disabled ||
+          (!checked && (
+            <div className="p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute lg:bottom-full -translate-y-[20px] bottom-[calc(75%+10px)] left-0 w-[210px] transition-all duration-500 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+              <p className="text-right text-current font-medium lg:text-[11px] text-[8px] leading-5">
+                مشتری گرامی روش انتخابی روی (مبلغ دستی اضافه) قرار دادید
+                نمیتوانید انتخاب کنید!
+              </p>
+              <div className="absolute top-full -translate-y-[50%] left-[20px] w-[15px] h-[15px] bg-[#FFE9EB] rotate-45" />
+            </div>
+          ))}
         <span className="text-[11px] font-semibold text-current text-center truncate block">
           {disabled
             ? isCardSelection
