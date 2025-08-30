@@ -59,11 +59,19 @@ export default function SearchBarTrigger(props: Props) {
 
   return (
     <>
-      {confirmedValue?.[0] ? (
-        pathname === '/best-hotels' ? (
-          <div className="bg-zinc-200/50 px-4 py-3 flex items-center gap-4 rounded-cs-10">
-            <div className="font-semibold grid gap-1.5">
-              <div className="text-cs08 flex gap-1">
+      {pathname === '/' ? (
+        <button
+          className="bg-zinc-200/50 h-12 text-zinc-700 text-cs08 font-semibold px-5 flex items-center gap-3 rounded-cs-10"
+          onClick={setDialogOpen}
+        >
+          <SearchStatus size={19} color="#555" />
+          <span>جستجو شهر یا هتل ...</span>
+        </button>
+      ) : pathname === '/best-hotels' ? (
+        confirmedValue?.[0] ? (
+          <div className="bg-zinc-200/50 h-14 px-[1.1rem] flex items-center gap-4 rounded-cs-10">
+            <div className="font-semibold grid gap-1">
+              <div className="text-cs75 flex gap-1">
                 {hotelCity.city ? (
                   <>
                     <span>هتل های</span>
@@ -96,53 +104,60 @@ export default function SearchBarTrigger(props: Props) {
               </div>
             </div>
 
-            <button className="mr-auto rounded-lg" onClick={setDialogOpen}>
-              <SearchStatus size={20} color="#222" />
-            </button>
+            <SearchStatus
+              size={19}
+              color="#222"
+              onClick={setDialogOpen}
+              className="mr-auto cursor-pointer"
+            />
           </div>
         ) : (
-          <div className="flex items-center gap-4">
-            <button onClick={() => router.back()}>
-              <ArrowRight size={20} color="#222" />
-            </button>
+          <Skeleton className="h-14 rounded-cs-10" />
+        )
+      ) : confirmedValue?.[0] ? (
+        <div className="h-10 flex items-center gap-4">
+          <ArrowRight
+            size={20}
+            color="#555"
+            className="cursor-pointer"
+            onClick={() => router.back()}
+          />
 
-            <div className="text-cs75 font-semibold grid gap-1">
-              <div className="flex gap-1">
-                <span>{calendarDetail?.startDate.day}</span>
-                <span>{calendarDetail?.startDate.month}</span>
-                <span>{calendarDetail?.startDate.year}</span>
-                <span>-</span>
-                <span>{calendarDetail?.endDate.day}</span>
-                <span>{calendarDetail?.endDate.month}</span>
-                <span>{calendarDetail?.endDate.year}</span>
-              </div>
-
-              <div className="text-zinc-500 flex gap-1">
-                <span>{numberOfNights} شب اقامت</span>
-
-                {confirmedPassengers.passengers > 0 ? (
-                  <>
-                    <span>,</span>
-                    <span>{confirmedPassengers.passengers} مسافر</span>
-                    <span>,</span>
-                    <span>{confirmedPassengers.rooms} اتاق</span>
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
+          <div className="text-cs75 font-semibold grid gap-1">
+            <div className="flex gap-1">
+              <span>{calendarDetail?.startDate.day}</span>
+              <span>{calendarDetail?.startDate.month}</span>
+              <span>{calendarDetail?.startDate.year}</span>
+              <span>-</span>
+              <span>{calendarDetail?.endDate.day}</span>
+              <span>{calendarDetail?.endDate.month}</span>
+              <span>{calendarDetail?.endDate.year}</span>
             </div>
 
-            <button
-              className="bg-zinc-200/60 p-2.5 mr-auto rounded-lg"
-              onClick={setDialogOpen}
-            >
-              <SearchStatus size={20} color="#222" />
-            </button>
+            <div className="text-zinc-500 flex gap-1">
+              <span>{numberOfNights} شب اقامت</span>
+
+              {confirmedPassengers.passengers > 0 ? (
+                <>
+                  <span>,</span>
+                  <span>{confirmedPassengers.passengers} مسافر</span>
+                  <span>,</span>
+                  <span>{confirmedPassengers.rooms} اتاق</span>
+                </>
+              ) : (
+                ''
+              )}
+            </div>
           </div>
-        )
+
+          <SearchStatus
+            color="#555"
+            onClick={setDialogOpen}
+            className="bg-zinc-200/50 w-9 h-9 p-2 mr-auto cursor-pointer rounded-lg"
+          />
+        </div>
       ) : (
-        <Skeleton className="h-16 rounded-xl" />
+        <Skeleton className="h-10 rounded-lg" />
       )}
     </>
   );

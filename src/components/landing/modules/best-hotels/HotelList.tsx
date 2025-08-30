@@ -29,7 +29,6 @@ import { useQueryState, parseAsArrayOf, parseAsInteger } from 'nuqs';
 export function HotelList() {
   const router = useRouter();
   const { handleSetQueryState } = useHotelQuery();
-  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const [page] = useQueryState('page', parseAsInteger);
   const [star] = useQueryState('star', parseAsArrayOf(parseAsInteger));
@@ -92,9 +91,8 @@ export function HotelList() {
     }
 
     setQueryOptions({
-      endDate: dates?.[1].format('YYYY-MM-DD'),
-      startDate: dates?.[0].format('YYYY-MM-DD'),
-
+      endDate,
+      startDate,
       city: hotelOrCity.city,
       passengers: queryPassengers,
       star: star?.join(',') ?? '',
@@ -107,12 +105,10 @@ export function HotelList() {
       hotelFacilities: hotelFacilities?.join(',') ?? '',
     });
 
-    if (!isFirstRender) {
-      router.push(
-        `/best-hotels?${startDate ? `&start-date=${startDate}` : ''}${endDate ? `&end-date=${endDate}` : ''}${hotelOrCity.city ? `&city=${hotelOrCity.city}` : ''}${hotelOrCity.province ? `&province=${hotelOrCity.province}` : ''}${star?.length ? `&star=${star.join(',')}` : ''}${minPrice ? `&min-price=${minPrice}` : ''}${maxPrice ? `&max-price=${maxPrice}` : ''}${!passengers.rooms ? '' : `&passengers=${encodeRooms(rooms)}`}${residenceType?.length ? `&residence-type=${residenceType.join(',')}` : ''}${page ? `&page=${page}` : ''}${suggestedHotels === 'show' ? `&suggested-hotels=${suggestedHotels}` : ''}${amazingHotels === 'show' ? `&amazing-hotels=${amazingHotels}` : ''}${hotelFacilities?.length ? `&hotel-facilities=${hotelFacilities.join(',')}` : ''}${roomFacilities?.length ? `&room-facilities=${roomFacilities.join(',')}` : ''}`,
-        { scroll: true },
-      );
-    } else setIsFirstRender(false);
+    router.replace(
+      `/best-hotels?${startDate ? `&start-date=${startDate}` : ''}${endDate ? `&end-date=${endDate}` : ''}${hotelOrCity.city ? `&city=${hotelOrCity.city}` : ''}${hotelOrCity.province ? `&province=${hotelOrCity.province}` : ''}${star?.length ? `&star=${star.join(',')}` : ''}${minPrice ? `&min-price=${minPrice}` : ''}${maxPrice ? `&max-price=${maxPrice}` : ''}${!passengers.rooms ? '' : `&passengers=${encodeRooms(rooms)}`}${residenceType?.length ? `&residence-type=${residenceType.join(',')}` : ''}${page ? `&page=${page}` : ''}${suggestedHotels === 'show' ? `&suggested-hotels=${suggestedHotels}` : ''}${amazingHotels === 'show' ? `&amazing-hotels=${amazingHotels}` : ''}${hotelFacilities?.length ? `&hotel-facilities=${hotelFacilities.join(',')}` : ''}${roomFacilities?.length ? `&room-facilities=${roomFacilities.join(',')}` : ''}`,
+      { scroll: true },
+    );
   }, [
     star,
     page,

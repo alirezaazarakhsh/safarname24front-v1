@@ -179,6 +179,7 @@ export const PassengersProvider = ({
   children,
 }: Readonly<{ children: ReactNode }>) => {
   const [state, dispatch] = useReducer(passengersReducer, initialState);
+
   const pathname = usePathname();
 
   // === initial-state in first-render
@@ -199,11 +200,8 @@ export const PassengersProvider = ({
         },
       });
     }
-  }, []);
-
-  // === Reset state in home-page
-  useEffect(() => {
-    if (pathname === '/') {
+    // ===
+    else {
       dispatch({
         type: 'reset',
         payload: undefined,

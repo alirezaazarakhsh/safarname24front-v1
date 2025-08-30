@@ -82,7 +82,7 @@ export function Rooms({ hotelSlug }: Props) {
       return rooms.map((r) => `${r.adults},${r.children}`).join('-');
     }
 
-    router.push(
+    router.replace(
       `/best-hotels/${hotelSlug}?start-date=${startDate}&end-date=${endDate}${passengers === '0' ? '' : `&passengers=${encodeRooms(rooms)}`}`,
       {
         scroll: false,

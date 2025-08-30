@@ -9,33 +9,21 @@ import '@/styles/date-picker/mobile.css';
 import '@/styles/date-picker/general.css';
 
 import { useState } from 'react';
-import { weekDays } from '@/constants/landing';
 import { Calendar, DateObject } from 'react-multi-date-picker';
 import { MConfirmButton, MDatePickerTrigger } from './molecules';
 
-import persianCalendar from 'react-date-object/calendars/persian';
-import persianLanguage from 'react-date-object/locales/persian_fa';
-import gregorianCalendar from 'react-date-object/calendars/gregorian';
-import gregorianLanguage from 'react-date-object/locales/gregorian_en';
-
+import { getCalendarDetail } from '@/helpers/date-picker';
 import { useDatePickerContext, useDatePickerDispatch } from '@/context';
 import weekends from 'react-multi-date-picker/plugins/highlight_weekends';
 
 // --------------------------------
 
 export default function MDatePicker() {
-  const [isOpen, setOpen] = useState(false);
-
   const dispatch = useDatePickerDispatch();
   const { value, calendarType } = useDatePickerContext();
 
-  const calendarDetail = {
-    calendar: calendarType === 'persian' ? persianCalendar : gregorianCalendar,
-    locale: calendarType === 'persian' ? persianLanguage : gregorianLanguage,
-    weekendDays: calendarType === 'persian' ? [6] : [0],
-    weekDays:
-      calendarType === 'persian' ? weekDays.persian : weekDays.gregorian,
-  };
+  const [isOpen, setOpen] = useState(false);
+  const calendarDetail = getCalendarDetail(calendarType);
 
   function handleDateChange(date: DateObject[]) {
     if (date?.[0] && date?.[1]) {

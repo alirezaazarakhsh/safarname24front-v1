@@ -96,7 +96,7 @@ export function Pictures(props: Props) {
               {Array(4)
                 .fill(null)
                 .map((_, index) => (
-                  <Skeleton key={index} className='rounded-xl' />
+                  <Skeleton key={index} className="rounded-xl" />
                 ))}
             </>
           ) : (
@@ -123,7 +123,7 @@ export function Pictures(props: Props) {
 
         {/* Main-Image */}
         {status === 'pending' ? (
-          <Skeleton className='rounded-xl' />
+          <Skeleton className="rounded-xl" />
         ) : (
           <div className="relative bg-zinc-200 overflow-hidden rounded-xl">
             {data?.data.main_image && (

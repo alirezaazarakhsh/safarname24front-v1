@@ -1,10 +1,4 @@
 import {
-  CalendarTypeButton,
-  DDatePickerTrigger,
-  ClearDateRangeButton,
-} from './molecules';
-
-import {
   DropdownMenu,
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
@@ -13,16 +7,12 @@ import '@/styles/date-picker/general.css';
 import '@/styles/date-picker/desktop.css';
 
 import { useState } from 'react';
-import { weekDays } from '@/constants/landing';
 import { Calendar, DateObject } from 'react-multi-date-picker';
-
-import persianCalendar from 'react-date-object/calendars/persian';
-import persianLanguage from 'react-date-object/locales/persian_fa';
-import gregorianCalendar from 'react-date-object/calendars/gregorian';
-import gregorianLanguage from 'react-date-object/locales/gregorian_en';
-
-import { useDatePickerContext, useDatePickerDispatch } from '@/context';
 import weekends from 'react-multi-date-picker/plugins/highlight_weekends';
+
+import { DDatePickerTrigger } from './molecules';
+import { getCalendarDetail } from '@/helpers/date-picker';
+import { useDatePickerContext, useDatePickerDispatch } from '@/context';
 
 type CommonProps = {
   sideOffset?: number;
@@ -49,18 +39,11 @@ export function DDatePicker(props: Props) {
     triggerType = 'else',
   } = props;
 
-  const [isOpen, setOpen] = useState(false);
-
   const dispatch = useDatePickerDispatch();
   const { value, calendarType } = useDatePickerContext();
 
-  const calendarDetail = {
-    calendar: calendarType === 'persian' ? persianCalendar : gregorianCalendar,
-    locale: calendarType === 'persian' ? persianLanguage : gregorianLanguage,
-    weekendDays: calendarType === 'persian' ? [6] : [0],
-    weekDays:
-      calendarType === 'persian' ? weekDays.persian : weekDays.gregorian,
-  };
+  const [isOpen, setOpen] = useState(false);
+  const calendarDetail = getCalendarDetail(calendarType);
 
   function handleDateChange(date: DateObject[]) {
     if (date?.[0] && date?.[1]) {
@@ -110,12 +93,7 @@ export function DDatePicker(props: Props) {
           calendar={calendarDetail.calendar}
           plugins={[weekends(calendarDetail.weekendDays)]}
           className={`general-calendar desktop-calendar no-ss01 ${calendarType === 'persian' ? 'font-sans' : 'font-inter'}`}
-        >
-          {/* <div className="flex-between mt-6">
-            <ClearDateRangeButton />
-            <CalendarTypeButton />
-          </div> */}
-        </Calendar>
+        ></Calendar>
       </DropdownMenuContent>
     </DropdownMenu>
   );

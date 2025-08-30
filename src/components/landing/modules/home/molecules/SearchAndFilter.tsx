@@ -6,9 +6,7 @@ import {
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-import persianCalendar from 'react-date-object/calendars/persian';
-import persianLanguage from 'react-date-object/locales/persian_en';
+import { dateInfo } from '@/helpers/date-picker';
 
 import NumberOfNights from '@/components/landing/shared/search/NumberOfNights';
 import Passengers from '@/components/landing/shared/search/passengers/Passengers';
@@ -16,11 +14,6 @@ import CityOrHotel from '@/components/landing/shared/search/city-hotel/CityOrHot
 import { DDatePicker } from '@/components/landing/shared/search/date-picker/DDatePicker';
 
 type Rooms = { adults: number; children: number }[];
-
-const dateInfo = {
-  calendar: persianCalendar,
-  locale: persianLanguage,
-};
 
 // -----------------------------------
 
@@ -52,12 +45,12 @@ export default function SearchAndFilter() {
       return rooms.map((r) => `${r.adults},${r.children}`).join('-');
     }
 
-    const startDate = dates?.[0]
-      ?.convert(dateInfo.calendar, dateInfo.locale)
+    const startDate = dates[0]
+      .convert(dateInfo.calendar, dateInfo.locale)
       .format('YYYY-MM-DD');
 
-    const endDate = dates?.[1]
-      ?.convert(dateInfo.calendar, dateInfo.locale)
+    const endDate = dates[1]
+      .convert(dateInfo.calendar, dateInfo.locale)
       .format('YYYY-MM-DD');
 
     const commonParams = `start-date=${startDate}&end-date=${endDate}&passengers=${encodeRooms(rooms)}`;
@@ -67,7 +60,7 @@ export default function SearchAndFilter() {
         scroll: true,
       });
     }
-    // ---
+    // ===
     else {
       router.push(
         `/best-hotels?${commonParams}&city=${cityOrHotel.city}&province=${cityOrHotel.province}`,
