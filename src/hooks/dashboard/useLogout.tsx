@@ -4,11 +4,12 @@ import Cookies from 'js-cookie';
 import useApiMutation from './useApiMutation';
 import toast from '@/components/dashboard/ui/customSonner/toast';
 import useLocalStorageState from 'use-local-storage-state';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
 export default function useLogout() {
   const router = useRouter();
+  const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
 
   // Local storage states
@@ -35,10 +36,21 @@ export default function useLogout() {
             'در دریافت داده‌ها مشکلی به‌وجود آمده است. لطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
           theme: 'theme',
         });
+
+        if (pathname === '/') {
+          window.location.reload();
+        } else {
+          router.push('/');
+        }
       },
       onSuccess: () => {
         startTransition(() => {
-          router.push('/');
+          if (pathname === '/') {
+            window.location.reload();
+          } else {
+            router.push('/');
+          }
+
           setTimeout(() => {
             ['AUTH', 'UPN', 'auth'].forEach((key) => Cookies.remove(key));
             [

@@ -21,7 +21,8 @@ const formSchema = z.object({
       message: 'لطفا این فیلد را پر کنید.',
     })
     .transform((value) => {
-      const removedCommas = value.replace(/,/g, '');
+      const removedCommas = value.replace(/,/g, '').replace(' تومان', '');
+
       return Number(removedCommas);
     })
     .refine((val) => val > 1000000, {
@@ -40,9 +41,14 @@ export default function CustomCharge({
   onSubmit,
 }: customChargeComponentPropsType): ReactNode {
   // Defining hooks
-  const form = useForm<formType>({ resolver: zodResolver(formSchema) });
   const [errorOpened, setErrorOpened] = useState<boolean>(false);
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const form = useForm<formType>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      amount: 0,
+    },
+  });
 
   // Defining a function to handle submit Event
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
@@ -68,7 +74,7 @@ export default function CustomCharge({
         }
       })}
       action="#"
-      className="bg-white lg:rounded-lg lg:border border-black/10 lg:p-3 p-[24px] lg:col-span-2 col-span-1 lg:flex flex-col items-start justify-around gap-6 transition-all duration-500 data-[disabled='false']:opacity-100 data-[disabled='true']:opacity-50 data-[disabled='true']:pointer-events-none data-[disabled='false']:pointer-events-auto"
+      className="bg-white lg:rounded-[10px] lg:border border-black/10 lg:p-3 p-[24px] lg:col-span-2 col-span-1 lg:flex flex-col items-start justify-around gap-6 transition-all duration-500 data-[disabled='false']:opacity-100 data-[disabled='true']:opacity-50 data-[disabled='true']:pointer-events-none data-[disabled='false']:pointer-events-auto"
     >
       <CanclationErrorDrawer
         isOpened={errorOpened}
@@ -77,10 +83,10 @@ export default function CustomCharge({
         description="مشتری گرامی حداکثر  وراد کردن مبلغ را رعایت بفرمایید."
       />
       <div className="w-full lg:mb-0 mb-4">
-        <span className="lg:text-cs08 text-[12px] lg:font-medium font-semibold text-black truncate block mb-2">
+        <span className="text-[14px] lg:font-bold font-semibold text-black truncate block mb-2">
           مبلغ بیشتر شارژ کیف پول
         </span>
-        <p className="lg:text-cs75 text-[10px] lg:font-normal font-medium text-gray-500 lg:line-clamp-2">
+        <p className="text-[12px] font-semibold text-gray-500 lg:line-clamp-2">
           مشتری گرامی لازم به ذکر است که حداقل وارد کردن مبلغ سقف (1,000,000
           تومان) و حداکثر وارد کردن مبلغ به سقف (100,000,000 تومان) میباشد.
         </p>
@@ -93,18 +99,26 @@ export default function CustomCharge({
               placeholder="مثال : 21,000,000 تومان"
               disabled={disabled}
               data-errored={form.formState.errors.amount?.message !== undefined}
+              onKeyDown={(e) => {
+                if (e.key.toLowerCase() === 'backspace') {
+                  form.setValue('amount', 0);
+                }
+              }}
               onInput={(e) => {
                 const value = e.currentTarget.value;
-                const removedCommas = value.replace(/,/g, '');
+                const removedCommas = value
+                  .replace(/,/g, '')
+                  .replace(' تومان', '');
                 const formattedValue = numberSeparation(removedCommas);
 
-                e.currentTarget.value = formattedValue;
+                e.currentTarget.value = `${formattedValue} تومان`;
               }}
               {...form.register('amount')}
             />
             <button
               disabled={form.getValues('amount') === undefined}
-              onClick={() => form.resetField('amount')}
+              type="button"
+              onClick={() => form.setValue('amount', 0)}
               className="h-[35px] w-[35px] rounded-[6px] transition-all duration-500 bg-cs-red/10 text-cs-red disabled:bg-gray-100 disabled:text-gray-300 lg:hidden flex items-center justify-center"
             >
               <IconsaxIcons

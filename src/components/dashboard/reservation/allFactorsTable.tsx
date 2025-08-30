@@ -43,15 +43,37 @@ export default function AllFactorsTable({
     useState<boolean>(false);
 
   // Defining a function to return status infos based on given props
-  type StatusTypes = GETReservationItem["status"];
+  type StatusTypes = GETReservationItem['status'];
 
   function returnStatus(status: StatusTypes): {
     color: string;
-    title: string
+    title: string;
   } {
     return {
-      color: (status === "failed" || status === "rejected" || status === "expired") ? '#F30F26' : (status === "payment" || status === "pending_approve") ? "#4B5BCE" : (status === "success" || status === "approved") ? "#35A346" : "#00000",
-      title: (status === "payment") ? "پرداهت شده" : (status === "expired") ? "منقضی شده" : (status === "failed") ? "با شکست روبه رو شد" : (status === "rejected") ? "تایید نشده" : status === "success" ? "موفقیت امیز" : status === "approved" ? "تایید شده" : status === "pending_approve" ? "در حال تایید" : "نا معلوم"
+      color:
+        status === 'failed' || status === 'rejected' || status === 'expired'
+          ? '#F30F26'
+          : status === 'payment' || status === 'pending_approve'
+            ? '#4B5BCE'
+            : status === 'success' || status === 'approved'
+              ? '#35A346'
+              : '#00000',
+      title:
+        status === 'payment'
+          ? 'پرداهت شده'
+          : status === 'expired'
+            ? 'منقضی شده'
+            : status === 'failed'
+              ? 'با شکست روبه رو شد'
+              : status === 'rejected'
+                ? 'تایید نشده'
+                : status === 'success'
+                  ? 'موفقیت امیز'
+                  : status === 'approved'
+                    ? 'تایید شده'
+                    : status === 'pending_approve'
+                      ? 'در حال تایید'
+                      : 'نا معلوم',
     };
   }
 
@@ -64,38 +86,38 @@ export default function AllFactorsTable({
           className,
         )}
       >
-        <div className='lg:flex hidden items-center justify-between gap-3 py-5 px-[20px]'>
-          <span className='block truncate text-right w-full font-bold lg:text-cs85 text-black'>
+        <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-[20px]">
+          <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
             مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
           </span>
           <CustomPagination loading count={12} />
         </div>
-        <Table dir='rtl' className='border-none lg:table hidden'>
-          <TableHeader className='bg-[#f7f7f7] border-y border-y-black/10'>
-            <TableRow className='border-none'>
-              <TableHead className='text-right p-[20px] w-8 truncate text-xs font-medium text-[#3d4046]'>
+        <Table dir="rtl" className="border-none lg:table hidden">
+          <TableHeader className="bg-[#f7f7f7] border-y border-y-black/10">
+            <TableRow className="border-none">
+              <TableHead className="text-right p-[20px] w-8 truncate text-xs font-medium text-[#3d4046]">
                 ردیف
               </TableHead>
-              <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                 کد پیگیری
               </TableHead>
-              <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                 هتل
               </TableHead>
-              <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                 تاریخ ورود و خروج
               </TableHead>
-              <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                 مسافران
               </TableHead>
-              <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                 وضعیت مالی
               </TableHead>
-              <TableHead className='w-[30%] text-right truncate text-xs font-medium' />
+              <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[...new Array(3)].map((item, index) => (
+            {[...new Array(4)].map((item, index) => (
               <TableRow
                 key={index}
                 className={
@@ -104,37 +126,37 @@ export default function AllFactorsTable({
                     : ''
                 }
               >
-                <TableCell className='p-[20px] w-[30px]'>
-                  <Skeleton className='rounded-[5px] h-[40px] w-full' />
+                <TableCell className="p-[20px] w-[30px]">
+                  <Skeleton className="rounded-[5px] h-[40px] w-full" />
                 </TableCell>
-                <TableCell className='p-[20px]'>
-                  <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                <TableCell className="p-[20px]">
+                  <Skeleton className="rounded-[5px] w-[60px] h-[16px]" />
                 </TableCell>
-                <TableCell className='p-[20px]'>
-                  <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                <TableCell className="p-[20px]">
+                  <Skeleton className="rounded-[5px] w-[60px] h-[16px]" />
                 </TableCell>
-                <TableCell className='p-[20px]'>
-                  <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                <TableCell className="p-[20px]">
+                  <Skeleton className="rounded-[5px] w-[60px] h-[16px]" />
                 </TableCell>
-                <TableCell className='p-[20px]'>
-                  <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                <TableCell className="p-[20px]">
+                  <Skeleton className="rounded-[5px] w-[60px] h-[16px]" />
                 </TableCell>
-                <TableCell className='p-[20px]'>
-                  <div className='flex items-center justify-start gap-2'>
-                    <Skeleton className='w-2 h-2 shrink-0 rounded-full' />
-                    <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                <TableCell className="p-[20px]">
+                  <div className="flex items-center justify-start gap-2">
+                    <Skeleton className="w-2 h-2 shrink-0 rounded-full" />
+                    <Skeleton className="rounded-[5px] w-[60px] h-[16px]" />
                   </div>
                 </TableCell>
-                <TableCell className='p-[20px] flex items-center justify-end gap-3'>
-                  <Skeleton className='rounded-[5px] w-[100px] h-[40px]' />
-                  <Skeleton className='rounded-[5px] w-[125px] h-[40px]' />
+                <TableCell className="p-[20px] flex items-center justify-end gap-3">
+                  <Skeleton className="rounded-[5px] w-[100px] h-[40px]" />
+                  <Skeleton className="rounded-[5px] w-[125px] h-[40px]" />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <div className='lg:hidden block mt-5'>
-          <div className='flex flex-col'>
+        <div className="lg:hidden block mt-5">
+          <div className="flex flex-col">
             {data.map((item, index) => (
               <div
                 key={index}
@@ -142,47 +164,47 @@ export default function AllFactorsTable({
                   'bg-transparent hover:bg-transparent border-b-[1.5px] border-b-[rgba(0,0,0,0.07)] py-3 mb-3'
                 }
               >
-                <div className='flex items-center justify-between gap-3 mb-[20px]'>
-                  <div className='flex items-center justify-start gap-[10px]'>
-                    <Skeleton className='rounded-[5px] w-[30px] h-[40px]' />
+                <div className="flex items-center justify-between gap-3 mb-[20px]">
+                  <div className="flex items-center justify-start gap-[10px]">
+                    <Skeleton className="rounded-[5px] w-[30px] h-[40px]" />
                     <div>
-                      <Skeleton className='rounded-[5px] w-[50px] h-[16px] mb-1' />
-                      <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                      <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
+                      <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
                     </div>
                   </div>
-                  <div className='flex items-center justify-between gap-[10px]'>
-                    <Skeleton className='rounded-[5px] w-[40px] h-[40px]' />
-                    <Skeleton className='rounded-[5px] w-[100px] h-[40px]' />
+                  <div className="flex items-center justify-between gap-[10px]">
+                    <Skeleton className="rounded-[5px] w-[40px] h-[40px]" />
+                    <Skeleton className="rounded-[5px] w-[100px] h-[40px]" />
                   </div>
                 </div>
-                <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
-                  <Skeleton className='rounded-[7px] w-[43px] h-[43px]' />
+                <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                  <Skeleton className="rounded-[7px] w-[43px] h-[43px]" />
                   <div>
-                    <Skeleton className='rounded-[5px] w-[50px] h-[16px] mb-1' />
-                    <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                    <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
+                    <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
                   </div>
                 </div>
-                <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
-                  <Skeleton className='rounded-[7px] w-[43px] h-[43px]' />
+                <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                  <Skeleton className="rounded-[7px] w-[43px] h-[43px]" />
                   <div>
-                    <Skeleton className='rounded-[5px] w-[50px] h-[16px] mb-1' />
-                    <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                    <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
+                    <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
                   </div>
                 </div>
-                <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
-                  <Skeleton className='rounded-[7px] w-[43px] h-[43px]' />
+                <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                  <Skeleton className="rounded-[7px] w-[43px] h-[43px]" />
                   <div>
-                    <Skeleton className='rounded-[5px] w-[50px] h-[16px] mb-1' />
-                    <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                    <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
+                    <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
                   </div>
                 </div>
-                <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
-                  <Skeleton className='rounded-[7px] w-[43px] h-[43px]' />
+                <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                  <Skeleton className="rounded-[7px] w-[43px] h-[43px]" />
                   <div>
-                    <Skeleton className='rounded-[5px] w-[50px] h-[16px] mb-1' />
-                    <div className='flex items-center justify-start gap-[5px]'>
-                      <Skeleton className='w-[4px] h-[4px] shrink-0 rounded-full' />
-                      <Skeleton className='rounded-[5px] w-[50px] h-[16px]' />
+                    <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
+                    <div className="flex items-center justify-start gap-[5px]">
+                      <Skeleton className="w-[4px] h-[4px] shrink-0 rounded-full" />
+                      <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
                     </div>
                   </div>
                 </div>
@@ -222,33 +244,33 @@ export default function AllFactorsTable({
         {data.length === 0 ? (
           <div>
             <Image
-              alt='هیچ لیست رزروی فعلا ندارید!'
+              alt="هیچ لیست رزروی فعلا ندارید!"
               src={EmptyImage.src}
               width={210}
               height={210}
-              className='h-auto lg:w-[210px] w-[210px] aspect-square block mb-4 mx-auto'
+              className="h-auto lg:w-[210px] w-[210px] aspect-square block mb-4 mx-auto"
             />
-            <span className='block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold'>
+            <span className="block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold">
               هیچ لیست رزروی فعلا ندارید!
             </span>
-            <span className='block text-center w-full lg:text-black text-gray-500 lg:text-cs09 text-[10px] font-normal lg:mb-0 mb-6'>
+            <span className="block text-center w-full lg:text-black text-gray-500 lg:text-cs09 text-[10px] font-normal lg:mb-0 mb-6">
               مشتری گرامی برای ثبت رزرو هتل میتوانید از دکمه بالا اقدام نمایید
               از همراهی شما متشکریم.
             </span>
-            <Button className='lg:hidden flex items-center justify-center gap-2 mx-auto text-black bg-gray-100 rounded-[7px] p-[14px]'>
+            <Button className="lg:hidden flex items-center justify-center gap-2 mx-auto text-black bg-gray-100 rounded-[7px] p-[14px]">
               <IconsaxIcons
-                name='Add'
-                className='w-[18px] h-[18px] text-gray-600 shrink-0'
+                name="Add"
+                className="w-[18px] h-[18px] text-gray-600 shrink-0"
               />
-              <span className='block text-right truncate font-normal whitespace-nowrap text-[12px] text-current'>
+              <span className="block text-right truncate font-normal whitespace-nowrap text-[12px] text-current">
                 ثبت رزرو
               </span>
             </Button>
           </div>
         ) : (
           <>
-            <div className='lg:flex hidden items-center justify-between gap-3 py-5 px-[20px]'>
-              <span className='block truncate text-right w-full font-bold lg:text-cs85 text-black'>
+            <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-[20px]">
+              <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
                 مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
               </span>
               <CustomPagination
@@ -256,28 +278,28 @@ export default function AllFactorsTable({
               // onChange={(index) => console.log(index)}
               />
             </div>
-            <Table dir='rtl' className='border-none lg:table hidden'>
-              <TableHeader className='bg-[#f7f7f7] border-y border-y-black/10'>
-                <TableRow className='border-none'>
-                  <TableHead className='text-right p-[20px] w-8 truncate text-xs font-medium text-[#3d4046]'>
+            <Table dir="rtl" className="border-none lg:table hidden">
+              <TableHeader className="bg-[#f7f7f7] border-y border-y-black/10">
+                <TableRow className="border-none">
+                  <TableHead className="text-right p-[20px] w-8 truncate text-xs font-medium text-[#3d4046]">
                     ردیف
                   </TableHead>
-                  <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                     کد پیگیری
                   </TableHead>
-                  <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                     هتل
                   </TableHead>
-                  <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                     تاریخ ورود و خروج
                   </TableHead>
-                  <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                     مسافران
                   </TableHead>
-                  <TableHead className='text-right p-[20px] truncate text-xs font-medium text-[#3d4046]'>
+                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
                     وضعیت مالی
                   </TableHead>
-                  <TableHead className='w-[30%] text-right truncate text-xs font-medium' />
+                  <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -290,89 +312,83 @@ export default function AllFactorsTable({
                         : ''
                     }
                   >
-                    <TableCell className='p-[20px] w-[30px]'>
-                      <div className='rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full'>
-                        <span className='font-normal text-[12px] text-black block text-num-en'>
+                    <TableCell className="p-[20px] w-[30px]">
+                      <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
+                        <span className="font-normal text-[12px] text-black block text-num-en">
                           {handleZeroBeforeNumber(index + 1)}
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className='p-[20px]'>
-                      <span className='text-xs font-600 text-gray-600 truncate block text-right'>
+                    <TableCell className="p-[20px]">
+                      <span className="text-xs font-600 text-gray-600 truncate block text-right">
                         {item.uuid}
                       </span>
                     </TableCell>
-                    <TableCell className='p-[20px]'>
-                      <span className='text-xs font-600 text-gray-600 truncate block text-right'>
+                    <TableCell className="p-[20px]">
+                      <span className="text-xs font-600 text-gray-600 truncate block text-right">
                         {item.additional_details}
                       </span>
                     </TableCell>
-                    <TableCell className='p-[20px]'>
-                      <span className='text-xs font-600 text-gray-600 truncate block text-right'>
+                    <TableCell className="p-[20px]">
+                      <span className="text-xs font-600 text-gray-600 truncate block text-right">
                         {`${moment(item.created).locale('fa').format('YYYY/MM/DD')} - ${item.expired_date ? moment(item.expired_date).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
                       </span>
                     </TableCell>
-                    <TableCell className='p-[20px]'>
-                      <span className='text-xs font-600 text-gray-600 truncate block text-right'>
+                    <TableCell className="p-[20px]">
+                      <span className="text-xs font-600 text-gray-600 truncate block text-right">
                         {item.passengers}
                       </span>
                     </TableCell>
-                    <TableCell className='p-[20px]'>
-                      <div className='flex items-center justify-start gap-2'>
+                    <TableCell className="p-[20px]">
+                      <div className="flex items-center justify-start gap-2">
                         <div
-                          className='w-2 h-2 shrink-0 rounded-full'
+                          className="w-2 h-2 shrink-0 rounded-full"
                           style={{
-                            backgroundColor: returnStatus(item.status).color
+                            backgroundColor: returnStatus(item.status).color,
                           }}
                         />
-                        <span className='text-xs font-600 text-gray-600 truncate block text-right'>
+                        <span className="text-xs font-600 text-gray-600 truncate block text-right">
                           {returnStatus(item.status).title}
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className='p-[20px] flex items-center justify-end gap-3'>
-                      {(
-                        item.status === 'approved' ||
+                    <TableCell className="p-[20px] flex items-center justify-end gap-3">
+                      {(item.status === 'approved' ||
                         item.status === 'payment' ||
                         item.status === 'success' ||
-                        item.status === 'pending_approve'
-                      ) && (
+                        item.status === 'pending_approve') && (
                           <button
-                            className='px-6 h-[40px] rounded-md border border-red-600/50 bg-red-50 text-red-600 font-bold text-[12px] transition-all duration-500 hover:bg-red-100'
+                            className="px-6 h-[40px] rounded-md border border-red-600/50 bg-red-50 text-red-600 font-bold text-[12px] transition-all duration-500 hover:bg-red-100"
                             onClick={() => setCanclationReasonDialogOpened(true)}
                           >
                             کنسل
                           </button>
                         )}
-                      {(
-                        item.status === 'approved' ||
+                      {item.status === 'approved' ||
                         item.status === 'payment' ||
-                        item.status === 'success'
-                      ) ? (
+                        item.status === 'success' ? (
                         <Link
                           href={`/dashboard/reservations/${item.uuid}`}
-                          className='w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-100'
+                          className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-100"
                         >
                           <IconsaxIcons
-                            name='Eye'
-                            className='w-[16px] h-[16px] shrink-0'
-                            color='currentColor'
+                            name="Eye"
+                            className="w-[16px] h-[16px] shrink-0"
+                            color="currentColor"
                           />
-                          <span className='text-[12px] text-current font-bold'>
+                          <span className="text-[12px] text-current font-bold">
                             مشاهده فاکتور
                           </span>
                         </Link>
                       ) : (
-                        <div className='h-[40px] w-[125px] bg-white border border-[#d8d8d8] rounded-md text-black flex items-center justify-center'>
-                          {
-                            item.status === "pending_approve"
-                              ? <Loading />
-                              : (
-                                <span className='text-[12px] font-bold text-current'>
-                                  رزرواسیون رد شد!
-                                </span>
-                              )
-                          }
+                        <div className="h-[40px] w-[125px] bg-white border border-[#d8d8d8] rounded-md text-black flex items-center justify-center">
+                          {item.status === 'pending_approve' ? (
+                            <Loading />
+                          ) : (
+                            <span className="text-[12px] font-bold text-current">
+                              رزرواسیون رد شد!
+                            </span>
+                          )}
                         </div>
                       )}
                     </TableCell>
@@ -380,8 +396,8 @@ export default function AllFactorsTable({
                 ))}
               </TableBody>
             </Table>
-            <div className='lg:hidden block mt-5'>
-              <div className='flex flex-col'>
+            <div className="lg:hidden block mt-5">
+              <div className="flex flex-col">
                 {data.map((item, index) => (
                   <div
                     key={index}
@@ -389,149 +405,143 @@ export default function AllFactorsTable({
                       'bg-transparent hover:bg-transparent border-b-[1.5px] border-b-[rgba(0,0,0,0.07)] py-3 mb-3'
                     }
                   >
-                    <div className='flex items-center justify-between gap-3 mb-[20px]'>
-                      <div className='flex items-center justify-start gap-[10px]'>
-                        <div className='h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0'>
-                          <span className='font-bold text-[12px] text-[#2b2b2b] block text-num-en'>
+                    <div className="flex items-center justify-between gap-3 mb-[20px]">
+                      <div className="flex items-center justify-start gap-[10px]">
+                        <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                          <span className="font-bold text-[12px] text-[#2b2b2b] block text-num-en">
                             {handleZeroBeforeNumber(index + 1)}
                           </span>
                         </div>
                         <div>
-                          <span className='text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1'>
+                          <span className="text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1">
                             کد پیگیری
                           </span>
-                          <span className='text-[10px] font-600 text-gray-600 truncate block text-right text-num-en'>
+                          <span className="text-[10px] font-600 text-gray-600 truncate block text-right text-num-en">
                             {item.uuid}
                           </span>
                         </div>
                       </div>
-                      <div className='flex items-center justify-between gap-[10px]'>
-                        {(
-                          item.status === 'approved' ||
+                      <div className="flex items-center justify-between gap-[10px]">
+                        {(item.status === 'approved' ||
                           item.status === 'payment' ||
                           item.status === 'success' ||
-                          item.status === 'pending_approve'
-                        ) && (
+                          item.status === 'pending_approve') && (
                             <button
-                              className='h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center'
+                              className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
                               onClick={() =>
                                 setCanclationReasonDialogOpened(true)
                               }
                             >
                               <IconsaxIcons
-                                name='Forbidden2'
-                                color='currentColor'
-                                className='w-[20px] h-[20px]'
+                                name="Forbidden2"
+                                color="currentColor"
+                                className="w-[20px] h-[20px]"
                               />
                             </button>
                           )}
-                        {(
-                          item.status === 'approved' ||
+                        {item.status === 'approved' ||
                           item.status === 'payment' ||
-                          item.status === 'success') ?
-                          (
-                            <Link
-                              href={`/dashboard/reservations/${item.uuid}`}
-                              className='h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black'
-                            >
-                              <span className='text-[10px] text-current font-semibold w-full text-right block truncate'>
-                                مشاهده فاکتور
+                          item.status === 'success' ? (
+                          <Link
+                            href={`/dashboard/reservations/${item.uuid}`}
+                            className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"
+                          >
+                            <span className="text-[10px] text-current font-semibold w-full text-right block truncate">
+                              مشاهده فاکتور
+                            </span>
+                            <IconsaxIcons
+                              name="Eye"
+                              color="currentColor"
+                              className="w-[17px] h-[17px] shrink-0"
+                            />
+                          </Link>
+                        ) : (
+                          <div
+                            className={cn(
+                              'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black',
+                              item.status === 'failed'
+                                ? 'px-[10px]'
+                                : 'px-[20px]',
+                            )}
+                          >
+                            {item.status === 'pending_approve' ? (
+                              <Loading />
+                            ) : (
+                              <span className="text-cs07 font-normal text-current">
+                                رزرواسیون رد شد!
                               </span>
-                              <IconsaxIcons
-                                name='Eye'
-                                color='currentColor'
-                                className='w-[17px] h-[17px] shrink-0'
-                              />
-                            </Link>
-                          ) : (
-                            <div
-                              className={cn(
-                                'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black',
-                                item.status === 'failed'
-                                  ? 'px-[10px]'
-                                  : 'px-[20px]',
-                              )}
-                            >
-                              {
-                                item.status === "pending_approve"
-                                  ? <Loading />
-                                  : (
-                                    <span className='text-cs07 font-normal text-current'>
-                                      رزرواسیون رد شد!
-                                    </span>
-                                  )
-                              }
-                            </div>
-                          )}
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
-                      <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
+                    <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                      <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                         <IconsaxIcons
-                          name='Bank'
-                          className='w-[20px] h-[20px] text-black'
+                          name="Bank"
+                          className="w-[20px] h-[20px] text-black"
                         />
                       </div>
                       <div>
-                        <span className='text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1'>
+                        <span className="text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1">
                           هتل :
                         </span>
-                        <span className='text-[10px] font-600 text-gray-600 truncate block text-right'>
+                        <span className="text-[10px] font-600 text-gray-600 truncate block text-right">
                           {item.additional_details}
                         </span>
                       </div>
                     </div>
-                    <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
-                      <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
+                    <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                      <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                         <IconsaxIcons
-                          name='Calendar'
-                          className='w-[20px] h-[20px] text-black'
+                          name="Calendar"
+                          className="w-[20px] h-[20px] text-black"
                         />
                       </div>
                       <div>
-                        <span className='text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1'>
+                        <span className="text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1">
                           تاریخ ورود و خروج :
                         </span>
-                        <span className='text-[10px] font-600 text-gray-600 truncate block text-right'>
+                        <span className="text-[10px] font-600 text-gray-600 truncate block text-right">
                           {`${moment(item.created).locale('fa').format('YYYY/MM/DD')} - ${item.expired_date ? moment(item.expired_date).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
                         </span>
                       </div>
                     </div>
-                    <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
-                      <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
+                    <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                      <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                         <IconsaxIcons
-                          name='Profile2User'
-                          className='w-[20px] h-[20px] text-black'
+                          name="Profile2User"
+                          className="w-[20px] h-[20px] text-black"
                         />
                       </div>
                       <div>
-                        <span className='text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1'>
+                        <span className="text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1">
                           مسافران :
                         </span>
-                        <span className='text-[10px] font-600 text-gray-600 truncate block text-right'>
+                        <span className="text-[10px] font-600 text-gray-600 truncate block text-right">
                           {item.passengers}
                         </span>
                       </div>
                     </div>
-                    <div className='flex items-center justify-start gap-[10px] mb-[20px]'>
-                      <div className='h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0'>
+                    <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                      <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                         <IconsaxIcons
-                          name='Status'
-                          className='w-[20px] h-[20px] text-black'
+                          name="Status"
+                          className="w-[20px] h-[20px] text-black"
                         />
                       </div>
                       <div>
-                        <span className='text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1'>
+                        <span className="text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1">
                           وضعیت مالی
                         </span>
-                        <div className='flex items-center justify-start gap-[5px]'>
+                        <div className="flex items-center justify-start gap-[5px]">
                           <div
-                            className='w-[4px] h-[4px] shrink-0 rounded-full'
+                            className="w-[4px] h-[4px] shrink-0 rounded-full"
                             style={{
-                              backgroundColor: returnStatus(item.status).color
+                              backgroundColor: returnStatus(item.status).color,
                             }}
                           />
-                          <span className='text-[10px] font-600 text-gray-600 truncate block text-right'>
+                          <span className="text-[10px] font-600 text-gray-600 truncate block text-right">
                             {returnStatus(item.status).title}
                           </span>
                         </div>

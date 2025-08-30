@@ -25,7 +25,7 @@ export default function ProfileToggler({
   return (
     <div
       className={cn(
-        'bg-white lg:rounded-lg rounded-[14px] border border-black/10 lg:px-3 lg:py-4 px-[14px] py-[14px] flex lg:flex-row flex-col lg:items-center lg:justify-between lg:gap-3 gap-[20px]',
+        'bg-white lg:rounded-lg rounded-[14px] border border-black/10 lg:p-4 p-[14px] flex lg:flex-row flex-col lg:items-center lg:justify-between lg:gap-3 gap-[20px]',
         className,
       )}
     >
@@ -39,7 +39,7 @@ export default function ProfileToggler({
       </div>
       <ToggleButtons
         buttons={['پروفایل حقیقی', 'پروفایل حقوقی']}
-        className="lg:h-[50px] h-[45px] shrink-0"
+        className="lg:h-[50px] h-[45px] shrink-0 bg-gray-100"
         width={'lg:w-[250px] w-full'}
         defaultVal={defaultVal === 'legal' ? 1 : 0}
         onChange={(index) =>

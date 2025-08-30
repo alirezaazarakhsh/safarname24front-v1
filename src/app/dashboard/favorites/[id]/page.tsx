@@ -26,7 +26,7 @@ export default function FavoritesPage(): ReactNode {
 
   // Fetching the data
   const getData = useApiQuery<GETFavoritesSingle>({
-    url: `/profile/favorite-collections/${id}?p=${paginationNumber + 1}`,
+    url: `/favorite/collections/${id}?p=${paginationNumber + 1}`,
     queryKey: ['favorites', 'list'],
     options: {
       staleTime: 30000, // 30 Sec

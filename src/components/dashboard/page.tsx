@@ -22,7 +22,6 @@ import {
   PsersonalInfoContext,
 } from '@/types/dashboard/context';
 import useLocalStorageState from 'use-local-storage-state';
-import { useMediaQuery } from '@/hooks';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
@@ -113,7 +112,7 @@ function InnerPage({
     pathname,
   );
 
-  const isTicketPage = pathname === '/dashboard/tickets';
+  const isTicketPage = pathname.includes('/dashboard/tickets');
   const irregularPages = isReservationSubPage || isTicketPage;
 
   // Condititional rendering
@@ -121,7 +120,7 @@ function InnerPage({
     return (
       <>
         <div className="bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0" />
-        <div className="bg-white rounded-2xl w-[200px] aspect-square fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-10 p-4 flex items-center justify-center flex-col">
+        <div className="bg-white rounded-2xl lg:size-[225px] size-[200px] aspect-square fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-10 p-4 flex items-center justify-center flex-col">
           <Logo onlyLogo />
           <div className="w-full mt-3 mb-6">
             <span className="font-bold text-black text-cs08 block text-center truncate mb-0">
@@ -156,7 +155,7 @@ function InnerPage({
             }}
           >
             {!irregularPages && <Header />}
-            <MobileNav />
+            {!isTicketPage && <MobileNav />}
             <div
               className={cn(
                 'overflow-hidden',
@@ -173,7 +172,7 @@ function InnerPage({
                   {children}
                 </div>
               ) : irregularPages ? (
-                children
+                <div className="max-w-[1300px] mx-auto">{children}</div>
               ) : (
                 <div className="max-w-screen-template mx-auto">{children}</div>
               )}

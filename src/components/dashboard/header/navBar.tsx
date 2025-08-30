@@ -170,7 +170,7 @@ export default function NavBar(): ReactNode {
           !item.dropdown ? (
             <Link
               key={index}
-              className="dashboard-nav-item shrink-0 w-auto px-3 flex h-[50px] items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
+              className="dashboard-nav-item border-none ring-0 outline-none shrink-0 w-auto px-3 flex h-[50px] items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
               href={item.href}
               data-active={
                 pathnameExistsInData
@@ -202,7 +202,7 @@ export default function NavBar(): ReactNode {
                 <Link
                   key={index}
                   data-active={activeLinkIndex === index}
-                  className="h-[50px] shrink-0 outline-none w-auto px-3 flex items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
+                  className="h-[50px] ring-0 border-none shrink-0 outline-none w-auto px-3 flex items-center justify-center gap-2 transition-all duration-500 data-[active='false']:text-gray-400 data-[active='true']:text-black"
                   href={item.href}
                 >
                   {item.icon}
@@ -229,7 +229,10 @@ export default function NavBar(): ReactNode {
                         'p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[active=false]:data-[highlighted]:bg-gray-200/30 data-[active=false]:data-[highlighted]:text-gray-600 data-[active=true]:bg-cs-red/10 data-[active=true]:text-cs-red'
                       }
                     >
-                      <Link href={innerItem.href}>
+                      <Link
+                        href={innerItem.href}
+                        className="outline-none border-none ring-0"
+                      >
                         <span className="text-cs08 font-normal text-current text-right truncate block">
                           {innerItem.label}
                         </span>

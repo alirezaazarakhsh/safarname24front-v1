@@ -65,7 +65,7 @@ export default function CreditCardDropDown({
         ref={triggerRef}
         disabled={disabled || filtredData.length === 0}
         className={cn(
-          'bg-white transitaion-all duration-500 disabled:opacity-50 border border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black/50',
+          'bg-white transitaion-all duration-500 disabled:opacity-50 border-2 border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black/50',
           className,
         )}
         {...props}
@@ -121,7 +121,7 @@ export default function CreditCardDropDown({
             data-opened={isOpened}
             ref={triggerRef}
             className={cn(
-              'bg-white transitaion-all duration-500 disabled:opacity-50 border border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black/50 data-[opened=true]:text-black data-[opened=true]:border-black',
+              'bg-white transitaion-all duration-500 disabled:opacity-50 border-2 border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black/50 data-[opened=true]:text-black data-[opened=true]:border-black',
               className,
             )}
             {...props}

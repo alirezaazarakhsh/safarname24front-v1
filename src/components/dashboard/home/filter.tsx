@@ -40,7 +40,7 @@ export default function Filter({
           </div>
           <div className="flex items-center justify-between lg:gap-2 gap-[5px] col-span-1 lg:shrink shrink-0">
             <div className="bg-white lg:rounded-md rounded-[7px] aspect-square lg:aspect-square lg:h-10 h-[45px] lg:w-10 w-full flex items-center justify-center">
-              <span className="lg:text-cs07 text-[12px] font-medium text-black block text-center">
+              <span className="text-[12px] font-medium text-black block text-center">
                 {date.time.minute}
               </span>
             </div>
@@ -48,7 +48,7 @@ export default function Filter({
               :
             </span>
             <div className="bg-white lg:rounded-md rounded-[7px] aspect-square lg:h-10 h-[45px] lg:w-10 w-full flex items-center justify-center">
-              <span className="lg:text-cs07 text-[12px] font-medium text-black block text-center">
+              <span className="text-[12px] font-medium text-black block text-center">
                 {date.time.hour}
               </span>
             </div>
@@ -57,7 +57,7 @@ export default function Filter({
         <DropDown.DropdownMenu>
           <DropDown.DropdownMenuTrigger asChild>
             <button className="bg-white rounded-md lg:px-3 px-[20px] lg:h-10 h-[45px] flex items-center lg:justify-center justify-between text-black gap-3 lg:w-auto w-full group">
-              <span className="lg:text-cs07 text-[12px] lg:font-medium font-semibold text-black block lg:text-center text-right">
+              <span className="text-[12px] lg:font-medium font-semibold text-black block lg:text-center text-right">
                 فیلتر تایم لاین
               </span>
               <ICChevronBottom className="w-3 h-3 text-current transition-all duration-500 group-data-[state='close']:rotate-0 group-data-[state='open']:rotate-180" />

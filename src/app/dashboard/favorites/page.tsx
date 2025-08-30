@@ -19,7 +19,7 @@ export default function Favorites(): ReactNode {
 
   // Fetching the data
   const getData = useApiQuery<GETFavorites>({
-    url: `/profile/favorite-collections?p=${paginationNumber + 1}`,
+    url: `/favorite/collections?p=${paginationNumber + 1}`,
     queryKey: ['favoritesCollection'],
     options: {
       staleTime: 30000, // 30 Sec
@@ -37,7 +37,7 @@ export default function Favorites(): ReactNode {
 
   // Returning JSX
   return (
-    <main className='lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]'>
+    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]">
       {getData.isLoading || getData.isRefetching ? (
         <>
           <Filter
@@ -46,7 +46,7 @@ export default function Favorites(): ReactNode {
             setDeleteState={setDeleteState}
             listIsEmpty={false}
           />
-          <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
+          <div className="grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]">
             {[...new Array(12)].map((_, index) => (
               <Collection
                 loading
@@ -64,7 +64,7 @@ export default function Favorites(): ReactNode {
                 }}
               />
             ))}
-            <div className='flex items-center lg:justify-end justify-center'>
+            <div className="flex items-center lg:justify-end justify-center">
               <CustomPagination count={18} loading />
             </div>
           </div>
@@ -80,9 +80,9 @@ export default function Favorites(): ReactNode {
             refetch={getData.refetch}
           />
           <EmptyTable
-            className='lg:col-span-4 col-span-1'
-            title='هیچ علاقه مندی فعلا ندارید!'
-            description='مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم.'
+            className="lg:col-span-4 col-span-1"
+            title="هیچ علاقه مندی فعلا ندارید!"
+            description="مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم."
           />
         </>
       ) : getData.data && getData.data.count !== 0 ? (
@@ -93,7 +93,7 @@ export default function Favorites(): ReactNode {
             setDeleteState={setDeleteState}
             listIsEmpty={false}
           />
-          <div className='grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]'>
+          <div className="grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]">
             {getData.data.results.map((item, index) => (
               <Collection
                 refetch={getData.refetch}
@@ -112,7 +112,7 @@ export default function Favorites(): ReactNode {
             ))}
           </div>
           {getData.data.count > 18 && (
-            <div className='flex items-center lg:justify-end justify-center'>
+            <div className="flex items-center lg:justify-end justify-center">
               <CustomPagination
                 count={getData.data.count}
                 activeIndex={paginationNumber}

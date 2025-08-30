@@ -42,7 +42,7 @@ export default function SubscriptionType({
     return (
       <div
         className={cn(
-          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr to-[#282828] from-[#282828] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative group transition-all duration-500 opacity-50 cursor-not-allowed',
+          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr to-[#282828] from-[#282828] lg:p-4 p-[14px] flex items-center justify-start gap-3 text-white overflow-hidden relative group transition-all duration-500 opacity-50 cursor-not-allowed',
           className,
         )}
       >
@@ -70,7 +70,7 @@ export default function SubscriptionType({
     return (
       <div
         className={cn(
-          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr bg-[#282828] to-cs-red/20 from-cs-red lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
+          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr bg-[#282828] to-cs-red/20 from-cs-red  lg:p-4 p-[14px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
           className,
         )}
       >
@@ -106,7 +106,7 @@ export default function SubscriptionType({
             background: `linear-gradient(to top right,#282828, ${userLevel?.color})`,
           }}
           className={cn(
-            'lg:rounded-lg rounded-[12px] lg:px-3 lg:py-4 px-[14px] py-[20px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
+            'lg:rounded-lg rounded-[12px]  lg:p-4 p-[14px] flex items-center justify-start gap-3 text-white overflow-hidden relative',
             className,
           )}
         >

@@ -174,7 +174,7 @@ export default function LegalBankInfo({
           />
         </>
       )}
-      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
+      <div className="lg:p-4 p-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
         <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
           {loading ? (
             <Loading className="bg-current w-[5px] h-[5px]" />
@@ -188,14 +188,16 @@ export default function LegalBankInfo({
         </div>
         <div className="overflow-hidden w-full">
           <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-            اطلاعات بانکی شرکت
+            {creditCards?.length === 0
+              ? 'اطلاعات بانکی شرکت'
+              : `اطلاعات بانکی و پروفایل (${currentCardOwner})`}
           </span>
           <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
             مشتری گرامی شماره کارت و شبا خود را پر نمایید.
           </p>
         </div>
       </div>
-      <div className="px-3 py-4 grid lg:grid-cols-2 grid-cols-1 lg:gap-6 gap-[16px]">
+      <div className="lg:p-4 p-[14px] grid lg:grid-cols-2 grid-cols-1 lg:gap-x-6 lg:gap-y-8 gap-x-[16px] gap-y-[16px]">
         <div
           data-loading={loading}
           className='lg:hidden flex items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
@@ -294,7 +296,7 @@ export default function LegalBankInfo({
           </div>
         </button>
         <CreditCardDropDown
-          className="lg:h-[50px] h-[45px] w-full"
+          className="h-[50px] w-full"
           placeholder="16 رقم شماره کارت را وارد نمایید"
           value={creditCardVal}
           useLegalInfo={creditCards}
@@ -329,7 +331,7 @@ export default function LegalBankInfo({
           </div>
         </div>
         <CreditCardDropDown
-          className="lg:h-[50px] h-[45px] w-full"
+          className="h-[50px] w-full"
           hasIRIcon
           useSheba
           side="top"
@@ -431,24 +433,13 @@ export default function LegalBankInfo({
           noErrorText
           {...form.register('postCode')}
         />
-        {creditCards?.length === 0 ? (
-          <div />
-        ) : (
-          <NormalInput
-            placeholder="نام صاحب کارت"
-            noErrorText
-            disabled
-            className="disabled:opacity-100"
-            value={`نام صاحب کارت : ${currentCardOwner}`}
-          />
-        )}
         {!loading && userStatus?.status && (
           <LegalUserStatus
             rejectReason={userStatus?.rejectReason}
             status={userStatus?.status}
           />
         )}
-        <div className="lg:col-span-2">
+        <div className="flex items-center justify-end">
           <button
             onClick={form.handleSubmit(submitHandleFunction, (errors) => {
               const errorsArr = Object.values(errors);
@@ -465,9 +456,7 @@ export default function LegalBankInfo({
                 }
               });
             })}
-            disabled={
-              form.formState.isSubmitting || loading || !form.formState.isValid
-            }
+            disabled={form.formState.isSubmitting || loading}
             className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
           >
             {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
