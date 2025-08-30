@@ -1,6 +1,7 @@
 // Importing part
 import toast from '@/components/dashboard/ui/customSonner/toast';
 import { BankInfo, HandleZeroBeforeNumberPropsType } from '@/types/utils';
+import { digitsEnToFa } from '@persian-tools/persian-tools';
 
 // Creating and exporting handleZeroBeforeNumber function which takes a string or number and checks if it has single character/number (in lenght) and if it is adds a 0 before the actual number
 // Otherwise returns the numner
@@ -10,7 +11,7 @@ export function handleZeroBeforeNumber(
   const convertedNumber = value.toString();
 
   if (convertedNumber.length === 1) {
-    return `0${convertedNumber}`;
+    return digitsEnToFa(`0${convertedNumber}`);
   } else return convertedNumber;
 }
 
@@ -88,4 +89,4 @@ export function formatTime(seconds: number): string {
   const s = Math.floor(seconds % 60);
 
   return `${m}:${s.toString().padStart(2, '0')}`;
-};
+}
