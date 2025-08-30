@@ -94,7 +94,15 @@ export interface GETHotel {
   id: number;
   name: string;
   slug: string;
-  city: City;
+  city: {
+    id: number;
+    name: string;
+    slug: string;
+    image: number;
+    hotels_number: number;
+    show_in_homepage: boolean;
+    province: string;
+  };
   address: string;
   main_image: string;
   stars: number;
