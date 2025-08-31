@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { numberSeparation } from '@/utils';
 import { Hotel } from '@/types/landing/best-hotels';
+import { getNavigationLink } from '../../helpers/card-navigation';
 
 type Props = Hotel;
 
@@ -27,6 +28,8 @@ export function DHotelCard(props: Props) {
     discount_percentage,
     price_after_discount,
   } = props;
+
+  const navigationLink = getNavigationLink(slug);
 
   return (
     <div className="bg-white grid grid-cols-[1fr_2px_17rem] overflow-hidden rounded-2xl shadow-light">
@@ -129,7 +132,7 @@ export function DHotelCard(props: Props) {
         </div>
 
         <Link
-          href={`/best-hotels/${slug}`}
+          href={navigationLink}
           className="bg-cs-dark-blue text-white text-cs08 font-semibold h-10 flex-center rounded-cs-10"
         >
           مشاهده اتاق ها
