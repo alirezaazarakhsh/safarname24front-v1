@@ -434,8 +434,9 @@ export interface FilterFavPageComponentPropsType {
 }
 
 export interface BlogComponentPropsType {
+  onLikeClick: () => void;
+  actualId: number;
   image: string;
-  mostVisited?: boolean;
   title: string;
   desc: string;
   createdAt: string;
