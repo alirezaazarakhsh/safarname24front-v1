@@ -77,7 +77,7 @@ export function HotelList() {
       status === 'pending',
       data?.data ? data?.data.results.length : null,
     );
-  }, [data, handleSetQueryState, status]);
+  }, [data]);
 
   // === Update query-options & url
   useEffect(() => {
