@@ -92,6 +92,7 @@ export interface GETFavoriteItem {
 export interface GETHotel {
   type: 'hotel';
   id: number;
+  actual_id: number;
   name: string;
   slug: string;
   city: {
@@ -125,6 +126,7 @@ export interface GETHotel {
 export interface GETArticle {
   type: 'article';
   id: number;
+  actual_id: number;
   title: string;
   slug: string;
   summary: string;

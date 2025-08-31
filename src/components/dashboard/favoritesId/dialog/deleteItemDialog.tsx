@@ -26,6 +26,7 @@ import toast from '../../ui/customSonner/toast';
 import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Loading from '../../ui/loading';
+import { useParams } from 'next/navigation';
 
 // Creating and exporting DeleteItemDialog component as default
 export default function DeleteItemDialog({
@@ -36,6 +37,8 @@ export default function DeleteItemDialog({
 }: DeleteItemDialogPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const params = useParams();
+  const paramId = params.id;
 
   const [successMobileDrawerOpened, setSuccessMobileDrawerOpened] =
     useState<boolean>(false);
@@ -45,7 +48,7 @@ export default function DeleteItemDialog({
 
   // Defining fetchings
   const fetchingData = useApiMutation({
-    url: `/profile/favorites/{id}${id}`,
+    url: `/favorite/collections/${paramId}/items/${id}`,
     method: 'delete',
     options: {
       onError: () => {
@@ -84,38 +87,43 @@ export default function DeleteItemDialog({
     return (
       <>
         <CanclationErrorDrawer
-          title='ایتم با موفقیت حذف شد'
-          description='ایتم مدنظر با موفقیت حذف شد !'
+          title="ایتم با موفقیت حذف شد"
+          description="ایتم مدنظر با موفقیت حذف شد !"
           isOpened={successMobileDrawerOpened}
           closeFn={() => setSuccessMobileDrawerOpened(false)}
         />
         <CanclationErrorDrawer
-          title='خطایی رخ داد'
-          description='در حذف ایتم مشکلی پیش آمد مجدد تلاش کنید.'
+          title="خطایی رخ داد"
+          description="در حذف ایتم مشکلی پیش آمد مجدد تلاش کنید."
           isOpened={errorMobileDrawerOpened}
           closeFn={() => setErrorMobileDrawerOpened(false)}
         />
         <Drawer open={isOpened} onClose={closeFn}>
           <DrawerContent>
-            <DrawerHeader className='px-[24px] py-0 mb-[10px]'>
-              <DrawerTitle className='text-[14px] font-bold text-black truncate block text-right'>
+            <DrawerHeader className="px-[24px] py-0 mb-[10px]">
+              <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
                 آیا از حذف شدن ایتم خود مطمئن هستید؟
               </DrawerTitle>
             </DrawerHeader>
-            <div className='px-[24px] py-0'>
-              <DrawerDescription className='text-[12px] font-medium text-gray-500'>
+            <div className="px-[24px] py-0">
+              <DrawerDescription className="text-[12px] font-medium text-gray-500">
                 مشترک گرامی عزیز لازم به ذکر میباشد که در صورت تایید کردن،
                 محتوای مورد علاقه شما از مجموعه به طور کامل حذف میشود.
               </DrawerDescription>
             </div>
-            <DrawerFooter className='px-[24px] mt-[20px] py-0'>
+            <DrawerFooter className="px-[24px] mt-[20px] py-0">
               <button
                 onClick={async () => await fetchingData.mutateAsync({})}
-                className='px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit'
+                disabled={fetchingData.isPending}
+                className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit disabled:bg-gray-100"
               >
-                <span className='text-[12px] font-semibold text-white'>
-                  تایید اطلاعات
-                </span>
+                {fetchingData.isPending ? (
+                  <Loading className="bg-black" />
+                ) : (
+                  <span className="text-[12px] font-semibold text-white">
+                    تایید اطلاعات
+                  </span>
+                )}
               </button>
             </DrawerFooter>
           </DrawerContent>
@@ -125,21 +133,21 @@ export default function DeleteItemDialog({
   } else {
     return (
       <Dialog open={isOpened}>
-        <DialogContent className='lg:w-auto w-[calc(100vw-25px)]'>
+        <DialogContent className="lg:w-auto w-[calc(100vw-25px)]">
           <DialogHeader>
-            <DialogTitle className='text-right lg:text-[14px] text-[12px] font-bold text-black'>
+            <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black">
               آیا از حذف شدن ایتم خود مطمئن هستید؟
             </DialogTitle>
           </DialogHeader>
-          <DialogDescription className='text-right text-sm font-medium text-black'>
+          <DialogDescription className="text-right text-sm font-medium text-black">
             مشترک گرامی عزیز لازم به ذکر میباشد که در صورت تایید کردن، محتوای
             مورد علاقه شما از مجموعه به طور کامل حذف میشود.
           </DialogDescription>
-          <DialogFooter dir='ltr' className='space-x-2'>
+          <DialogFooter dir="ltr" className="space-x-2">
             <DialogClose asChild>
               <button
                 onClick={closeFn}
-                className='flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-black border border-black/10'
+                className="flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-black border border-black/10"
               >
                 بستن
               </button>
@@ -147,10 +155,10 @@ export default function DeleteItemDialog({
             <button
               onClick={async () => await fetchingData.mutateAsync({})}
               disabled={fetchingData.isPending}
-              className='flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600 transition-all duration-500 disabled:bg-gray-100'
+              className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600 transition-all duration-500 disabled:bg-gray-100"
             >
               {fetchingData.isPending ? (
-                <Loading className='bg-black' />
+                <Loading className="bg-black" />
               ) : (
                 'تایید اطلاعات'
               )}
