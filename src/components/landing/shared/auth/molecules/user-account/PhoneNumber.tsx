@@ -1,7 +1,6 @@
 'use client';
 
 import { z } from 'zod';
-import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
@@ -10,6 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from '@/components/ui/input';
+import { convertToEnglishDigits } from '@/utils';
 import { generalInstance } from '@/utils/services';
 import RulesAndRegulation from './RulesAndRegulation';
 import { Form, FormField, FormItem, FormControl } from '@/components/ui/form';
@@ -36,7 +36,7 @@ export default function PhoneNumber(props: Props) {
   });
 
   useEffect(() => {
-    const storedPhoneNumber = Cookies.get('UPN');
+    const storedPhoneNumber = sessionStorage.getItem('upn');
     if (storedPhoneNumber) {
       form.setValue('phoneNumber', storedPhoneNumber);
     }
@@ -56,12 +56,7 @@ export default function PhoneNumber(props: Props) {
     },
     onSuccess: () => {
       setDialogStep();
-      Cookies.set('UPN', form.getValues().phoneNumber, {
-        path: '/',
-        secure: true,
-        expires: 1 / 24,
-        sameSite: 'Strict',
-      });
+      sessionStorage.setItem('upn', form.getValues().phoneNumber);
     },
   });
 
@@ -100,11 +95,13 @@ export default function PhoneNumber(props: Props) {
                   <Input
                     {...field}
                     onChange={(e) => {
+                      const englishValue = convertToEnglishDigits(
+                        e.target.value,
+                      );
                       field.onChange(
-                        e.target.value.replace(/[^\d٠-٩۰-۹]/g, '').slice(0, 10),
+                        englishValue.replace(/[^\d]/g, '').slice(0, 10),
                       );
                     }}
-                    onBlur={() => form.clearErrors('phoneNumber')}
                     className="h-full text-[0.9rem] pl-6 tracking-[0.2rem] border-none rounded-none"
                   />
                 </FormControl>

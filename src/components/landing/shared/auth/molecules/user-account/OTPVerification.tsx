@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import ResendOTPToken from './ResendOTPToken';
+import { convertToEnglishDigits } from '@/utils';
 import RulesAndRegulation from './RulesAndRegulation';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -29,7 +30,7 @@ type Props = {
 export default function OTPVerification(props: Props) {
   const { setDialogStep } = props;
 
-  const phoneNumber = Cookies.get('UPN');
+  const phoneNumber = sessionStorage.getItem('upn');
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { otp: '' },
@@ -104,8 +105,12 @@ export default function OTPVerification(props: Props) {
               <FormItem className="space-y-0">
                 <FormControl>
                   <InputOTP
-                    onComplete={() => form.handleSubmit(onSubmit)()}
                     {...field}
+                    onComplete={() => form.handleSubmit(onSubmit)()}
+                    onChange={(val) => {
+                      const englishValue = convertToEnglishDigits(val);
+                      field.onChange(englishValue.replace(/[^\d]/g, ''));
+                    }}
                     maxLength={4}
                     pattern="^[0-9۰-۹]+$"
                   >
