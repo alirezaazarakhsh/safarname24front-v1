@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { memo, useState } from 'react';
 import Countdown from 'react-countdown';
 
@@ -19,14 +18,14 @@ const ResendOTPToken = memo(function ResendOTPToken() {
   function resetCountDown() {
     setCountDownKey((prev) => prev + 1);
     mutation.mutate({
-      phone: `0${Cookies.get('UPN')}`,
+      phone: `0${sessionStorage.getItem('upn')}`,
     });
   }
 
   return (
     <Countdown
       key={countDownKey}
-      date={Date.now() + 90000}
+      date={Date.now() + 65000}
       renderer={(props) => CountDownRenderer({ ...props, resetCountDown })}
     />
   );

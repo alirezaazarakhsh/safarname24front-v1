@@ -22,11 +22,19 @@ type ReactionType = 'saved' | 'unsaved' | 'fail';
 export default function FavoriteButton(props: Props) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [guardIsOpen, setGuardIsOpen] = useState(false);
+  const [userIsLoggedIn, setUserLogin] = useState(false);
 
   const [reactionOpen, setReactionOpen] = useState(false);
   const [reactionType, setReactionType] = useState<ReactionType>('fail');
 
+  // === Check user-login
+  useEffect(() => {
+    const userIsLoggedIn = Cookies.get('auth');
+    setUserLogin(!!userIsLoggedIn);
+  }, []);
+
   const { data } = useQuery<ApiResponse>({
+    // enabled: userIsLoggedIn,
     queryKey: ['hotel-information'],
     queryFn: () =>
       generalInstance(`/hotel/hotels/${props.hotelSlug}/introduction`),
@@ -43,12 +51,6 @@ export default function FavoriteButton(props: Props) {
   // === Run on first-render
   useEffect(() => {
     async function fetchData() {
-      const userIsLoggedIn = Cookies.get('auth');
-      if (!userIsLoggedIn) {
-        setGuardIsOpen(true);
-        return;
-      }
-
       try {
         const response = await axiosInstance({
           url: `/favorite/favorites/${hotelId}/status/?type=hotel`,
@@ -61,12 +63,11 @@ export default function FavoriteButton(props: Props) {
       }
     }
 
-    hotelId && fetchData();
+    if (userIsLoggedIn && hotelId) fetchData();
   }, [hotelId]);
 
   // === Handle Click On Favorite-Button
   async function handleClick() {
-    const userIsLoggedIn = Cookies.get('auth');
     if (!userIsLoggedIn) {
       setGuardIsOpen(true);
       return;
