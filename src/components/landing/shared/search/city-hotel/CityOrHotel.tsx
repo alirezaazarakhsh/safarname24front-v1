@@ -51,18 +51,6 @@ export default function CityOrHotel(props: Props) {
   const { confirmedValue } = useHotelOrCityContext();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-  useEffect(() => {
-    const city = searchParams.get('city');
-    const province = searchParams.get('province');
-
-    if (city && province) {
-      dispatch({
-        type: 'first-render',
-        payload: { city, province },
-      });
-    }
-  }, []);
-
   return (
     <>
       {!isDesktop ? (

@@ -43,7 +43,7 @@ export function Rating() {
         value: 0,
       })),
     });
-  }, [data?.data]);
+  }, [data?.data, dispatch]);
 
   return (
     <AccordionCard trigger="امتیاز هر کدام از گزینه های زیر را وارد نمایید">

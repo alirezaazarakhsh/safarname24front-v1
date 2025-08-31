@@ -77,7 +77,7 @@ export function HotelList() {
       status === 'pending',
       data?.data ? data?.data.results.length : null,
     );
-  }, [data]);
+  }, [data, handleSetQueryState, status]);
 
   // === Update query-options & url
   useEffect(() => {
@@ -113,13 +113,16 @@ export function HotelList() {
     star,
     page,
     dates,
+    rooms,
     router,
     minPrice,
     maxPrice,
     passengers,
     hotelOrCity,
     residenceType,
+    amazingHotels,
     roomFacilities,
+    suggestedHotels,
     hotelFacilities,
   ]);
 

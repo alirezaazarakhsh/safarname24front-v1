@@ -64,7 +64,7 @@ export default function FavoriteButton(props: Props) {
     }
 
     if (userIsLoggedIn && hotelId) fetchData();
-  }, [hotelId]);
+  }, [hotelId, userIsLoggedIn]);
 
   // === Handle Click On Favorite-Button
   async function handleClick() {

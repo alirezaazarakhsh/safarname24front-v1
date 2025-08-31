@@ -47,7 +47,7 @@ export function NegativePoints() {
           isSelected: false,
         })),
     });
-  }, [data?.data]);
+  }, [data?.data, dispatch]);
 
   return (
     <AccordionCard trigger="نظرات منفی خود را انتخاب نمایید">

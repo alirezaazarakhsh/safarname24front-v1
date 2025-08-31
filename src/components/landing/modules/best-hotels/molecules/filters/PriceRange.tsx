@@ -99,7 +99,7 @@ export function PriceRange() {
       startDate,
       passengers: queryPassengers,
     });
-  }, [dates, passengers]);
+  }, [dates, passengers, rooms]);
 
   return (
     <Accordion type="single" collapsible>
