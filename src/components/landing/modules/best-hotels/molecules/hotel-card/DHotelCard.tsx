@@ -3,8 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { numberSeparation } from '@/utils';
+import { useSearchParams } from 'next/navigation';
 import { Hotel } from '@/types/landing/best-hotels';
-import { getNavigationLink } from '../../helpers/card-navigation';
 
 type Props = Hotel;
 
@@ -29,7 +29,13 @@ export function DHotelCard(props: Props) {
     price_after_discount,
   } = props;
 
-  const navigationLink = getNavigationLink(slug);
+  const searchParams = useSearchParams();
+
+  const endDate = searchParams.get('end-date');
+  const startDate = searchParams.get('start-date');
+  const passengers = searchParams.get('passengers');
+
+  const navigationLink = `/best-hotels/${slug}?start-date=${startDate}&end-date=${endDate}${passengers ? `&passengers=${passengers}` : ''}`;
 
   return (
     <div className="bg-white grid grid-cols-[1fr_2px_17rem] overflow-hidden rounded-2xl shadow-light">
