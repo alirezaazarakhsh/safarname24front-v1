@@ -28,7 +28,7 @@ export default function RoomsArea(props: Props) {
 
   useEffect(() => {
     setVisibleCount(isNormalRooms ? 8 : 4);
-  }, [data]);
+  }, [data, isNormalRooms]);
 
   if (status === 'pending') {
     return (

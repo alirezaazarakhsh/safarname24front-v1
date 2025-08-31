@@ -47,7 +47,7 @@ export function PositivePoints() {
           isSelected: false,
         })),
     });
-  }, [data?.data]);
+  }, [data?.data, dispatch]);
 
   return (
     <AccordionCard trigger="نظرات مثبت خود را انتخاب نمایید">
