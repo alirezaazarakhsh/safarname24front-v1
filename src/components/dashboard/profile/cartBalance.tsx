@@ -46,7 +46,7 @@ export default function CartBalance({
             </p>
           ) : (
             <p className="shrink-0 text-black text-[16px] font-bold">
-              عدم موجودی
+              کیف پول شما خالی است
             </p>
           )}
         </div>
@@ -87,7 +87,7 @@ export default function CartBalance({
               </p>
             ) : (
               <p className="shrink-0 text-black text-[14px] font-bold">
-                عدم موجودی
+                کیف پول شما خالی است
               </p>
             )}
           </div>
@@ -123,7 +123,7 @@ export default function CartBalance({
               </span>
               <span className="font-semibold text-cs08 text-black block text-right truncate">
                 {wallet.balance === 0
-                  ? 'عدم موجودی'
+                  ? 'کیف پول شما خالی است'
                   : `${numberSeparation(wallet.balance)} تومان`}
               </span>
             </div>
