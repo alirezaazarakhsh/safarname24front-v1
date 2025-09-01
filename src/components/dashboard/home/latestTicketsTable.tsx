@@ -78,7 +78,14 @@ export default function LatestTicketsTable({
               key={index}
             >
               <TableCell
-                className={cn('px-0 w-8', index === 0 ? 'pt-0 pb-5' : 'py-5')}
+                className={cn(
+                  'px-0 w-8',
+                  index === 0
+                    ? 'pt-0 pb-5'
+                    : index + 1 === data.length
+                      ? 'pt-5 pb-0'
+                      : 'py-5',
+                )}
               >
                 <div className="h-12 w-8 rounded-md bg-gray-100 flex items-center justify-center">
                   <span className="font-normal font-sans text-[12px] text-black block text-num-en">
@@ -89,7 +96,11 @@ export default function LatestTicketsTable({
               <TableCell
                 className={cn(
                   'px-3 w-[200px] max-w-[200px] min-w-[200px] overflow-hidden',
-                  index === 0 ? 'pt-0 pb-5' : 'py-5',
+                  index === 0
+                    ? 'pt-0 pb-5'
+                    : index + 1 === data.length
+                      ? 'pt-5 pb-0'
+                      : 'py-5',
                 )}
               >
                 <div className="flex items-center justify-start gap-3">
@@ -112,7 +123,11 @@ export default function LatestTicketsTable({
               <TableCell
                 className={cn(
                   'px-3 w-[200px] max-w-[200px] min-w-[200px]',
-                  index === 0 ? 'pt-0 pb-5' : 'py-5',
+                  index === 0
+                    ? 'pt-0 pb-5'
+                    : index + 1 === data.length
+                      ? 'pt-5 pb-0'
+                      : 'py-5',
                 )}
               >
                 <div className="flex items-center justify-start gap-3">
@@ -135,7 +150,11 @@ export default function LatestTicketsTable({
               <TableCell
                 className={cn(
                   'px-3 w-[200px] max-w-[200px] min-w-[200px]',
-                  index === 0 ? 'pt-0 pb-5' : 'py-5',
+                  index === 0
+                    ? 'pt-0 pb-5'
+                    : index + 1 === data.length
+                      ? 'pt-5 pb-0'
+                      : 'py-5',
                 )}
               >
                 <div className="flex items-center justify-start gap-3">
@@ -161,7 +180,11 @@ export default function LatestTicketsTable({
               <TableCell
                 className={cn(
                   'px-0 w-[300px]',
-                  index === 0 ? 'pt-0 pb-5' : 'py-5',
+                  index === 0
+                    ? 'pt-0 pb-5'
+                    : index + 1 === data.length
+                      ? 'pt-5 pb-0'
+                      : 'py-5',
                 )}
               >
                 <div className="flex justify-end gap-3">
