@@ -13,7 +13,6 @@ import { LatestReservationsTableProps } from '@/types/dashboard/component';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import { ICBank } from '@/components/icons/ICBank';
 import { ICMoneyTick } from '@/components/icons/ICMoneyTick';
-import { digitsEnToFa } from '@persian-tools/persian-tools';
 
 // Defining some fake data to render
 const data: {
@@ -81,7 +80,7 @@ export default function LatestReservationsTable({
               >
                 <div className="h-12 w-8 rounded-md bg-gray-100 flex items-center justify-center">
                   <span className="font-normal text-[12px] text-black block text-num-en">
-                    {digitsEnToFa(handleZeroBeforeNumber(index + 1))}
+                    {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>
               </TableCell>
@@ -208,7 +207,7 @@ export default function LatestReservationsTable({
               <div className="flex items-center justify-start gap-[10px]">
                 <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center">
                   <span className="font-bold text-[12px] text-black block text-num-en">
-                    {digitsEnToFa(handleZeroBeforeNumber(index + 1))}
+                    {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>
                 <div className="bg-gray-100 h-[40px] w-[100px] rounded-[6px] flex items-center justify-center">
