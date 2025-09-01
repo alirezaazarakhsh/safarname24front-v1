@@ -62,7 +62,7 @@ export default function UserStatusInfo({
             )}
           >
             {data.value.count === 0 ? (
-              <ICChartDown className="w-[60px] aspect-square block" />
+              <ICChartDown className="w-[40px] ml-2 aspect-square block" />
             ) : (
               <UserInfoBarChart />
             )}

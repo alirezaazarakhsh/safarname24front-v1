@@ -13,7 +13,6 @@ import { ICChevronBottom } from '@/components/icons/ICChevronBottom';
 import { LatestTicketsTableProps } from '@/types/dashboard/component';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import { digitsEnToFa } from '@persian-tools/persian-tools';
 
 // Defining some fake data to render
 const data: {
@@ -82,8 +81,8 @@ export default function LatestTicketsTable({
                 className={cn('px-0 w-8', index === 0 ? 'pt-0 pb-5' : 'py-5')}
               >
                 <div className="h-12 w-8 rounded-md bg-gray-100 flex items-center justify-center">
-                  <span className="font-normal text-[12px] text-black block text-num-en">
-                    {digitsEnToFa(handleZeroBeforeNumber(index + 1))}
+                  <span className="font-normal font-sans text-[12px] text-black block text-num-en">
+                    {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>
               </TableCell>
@@ -200,7 +199,7 @@ export default function LatestTicketsTable({
               <div className="flex items-center justify-start gap-[10px]">
                 <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center">
                   <span className="font-bold text-[12px] text-black block text-num-en">
-                    {digitsEnToFa(handleZeroBeforeNumber(index + 1))}
+                    {handleZeroBeforeNumber(index + 1)}
                   </span>
                 </div>
                 <div className="bg-gray-100 h-[40px] w-[100px] rounded-[6px] flex items-center justify-center">

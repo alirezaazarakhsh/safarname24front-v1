@@ -61,7 +61,6 @@ export function UserInfoBarChart(): ReactNode {
           onMouseLeave={() => setHoveredIndex(null)}
           shape={({ x, y, height, index }: any) => (
             <g>
-              {/* Invisible Hitbox for Better Hover Detection */}
               <rect
                 x={x - 7} // Expand left & right
                 y={y - 5} // Expand up
@@ -71,8 +70,6 @@ export function UserInfoBarChart(): ReactNode {
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               />
-
-              {/* Actual Bar */}
               <rect
                 x={x}
                 y={y}

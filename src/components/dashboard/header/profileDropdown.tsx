@@ -46,7 +46,7 @@ export default function ProfileDropdown(): ReactNode {
           <div className="w-full overflow-hidden">
             <div className="mb-1 flex items-center justify-start gap-3 text-black">
               <span className="font-bold text-cs75 text-current block truncate w-full text-right">
-                {`${user.first_name} ${user.last_name} !`}
+                {`${user.first_name} ${user.last_name}`}
               </span>
               <ICChevronBottom className="transition-all duration-500 group-data-[state=open]:rotate-180 w-3 h-3 shrink-0 text-current" />
             </div>
@@ -56,14 +56,17 @@ export default function ProfileDropdown(): ReactNode {
           </div>
         </button>
       </DropDown.DropdownMenuTrigger>
-      <DropDown.DropdownMenuContent className="w-[200px]" align="start">
+      <DropDown.DropdownMenuContent
+        className="w-[200px] rounded-[8px]"
+        align="start"
+      >
         <DropDown.DropdownMenuLabel className="flex items-center justify-end gap-2 p-3 text-black">
           <span
             className="truncate block text-cs08 font-semibold text-current text-right flex-1"
             dir="rtl"
           >
             {walletBalance.balance === 0
-              ? 'عدم موجودی !'
+              ? 'کیف پول شما خالی است'
               : `${numberSeparation(walletBalance.balance)} تومان`}
           </span>
           <ICWallet className="w-4 h-4 text-current shrink-0" />

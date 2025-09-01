@@ -10,6 +10,7 @@ import Loading from '../ui/loading';
 import PaymantCancledDialog from './dialog/paymentCancledDialog';
 import PaymentSuccessDialog from './dialog/paymentSuccesfullDialog';
 import PaymentErrorDialog from './dialog/paymentErrorDialog';
+import { ICDashedBorder } from '@/components/icons/ICDashedBorder';
 
 // Creating and exporting Invoice componnent as default
 export default function Invoice({
@@ -51,10 +52,13 @@ export default function Invoice({
         isOpened={paymantErrorDialogOpened}
         closeFn={() => setPaymantErrorDialogOpened(false)}
       />
-      <div className="border-b-[3px] border-black/10 border-dashed mb-[16px] pb-[16px] w-full">
+      <div className="w-full">
         <span className="lg:text-cs85 text-[12px] font-semibold text-black truncate block">
           صورتحساب پرداختی
         </span>
+      </div>
+      <div className="w-full overflow-hidden mb-[10px]">
+        <ICDashedBorder className="w-ful h-2 text-gray-300" />
       </div>
       <div className="flex flex-col gap-5 w-full">
         <div className="flex items-center justify-between gap-3">

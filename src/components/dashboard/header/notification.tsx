@@ -35,7 +35,7 @@ export default function Notification(): ReactNode {
           </>
         )}
         <ICNotificationStatus className="w-5 h-5 text-current shrink-0" />
-        <span className="font-medium text-cs08 text-current block truncate w-full">
+        <span className="font-semibold text-[13px] text-current block truncate w-full">
           اعلان ها
         </span>
       </button>
