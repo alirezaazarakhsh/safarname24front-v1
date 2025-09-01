@@ -53,7 +53,7 @@ export default function RoomsArea(props: Props) {
   }
 
   return (
-    <div className="grid gap-8">
+    <div className="grid gap-6">
       {data
         .slice(0, visibleCount)
         .map((room, index: number) =>
