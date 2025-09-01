@@ -22,10 +22,7 @@ import {
 } from '@/components/ui/drawer';
 import { DialogComponentPropsType } from '@/types/dashboard/component';
 import { useMediaQuery } from '@/hooks';
-import toast from '../../ui/customSonner/toast';
 import CanclationErrorDrawer from '../../reservation/canclationErrorDrawer';
-import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import Loading from '../../ui/loading';
 import Link from 'next/link';
 
 // Creating and exporting ExitTicketsDialog component as default
@@ -66,8 +63,8 @@ export default function ExitTicketsDialog({
             </DrawerHeader>
             <div className="px-[24px] py-0">
               <DrawerDescription className="text-[12px] font-medium text-gray-500">
-                مشتری گرامی عزیز در صورت تایید خروج از تیکت، سیستم به طور
-                اتوماسیون شما را به صفحه داشبورد هدایت مینمایید.
+                مشتری گرامی در صورت تایید خروج از تیکت، سیستم به طور اتوماسیون
+                شما را به صفحه داشبورد هدایت مینمایید.
               </DrawerDescription>
             </div>
             <DrawerFooter className="px-[24px] mt-[20px] py-0">
@@ -94,8 +91,8 @@ export default function ExitTicketsDialog({
             </DialogTitle>
           </DialogHeader>
           <DialogDescription className="text-right text-sm font-medium text-black">
-            مشتری گرامی عزیز در صورت تایید خروج از تیکت، سیستم به طور اتوماسیون
-            شما را به صفحه داشبورد هدایت مینمایید.
+            مشتری گرامی در صورت تایید خروج از تیکت، سیستم به طور اتوماسیون شما
+            را به صفحه داشبورد هدایت مینمایید.
           </DialogDescription>
           <DialogFooter dir="ltr" className="space-x-2">
             <DialogClose asChild>
