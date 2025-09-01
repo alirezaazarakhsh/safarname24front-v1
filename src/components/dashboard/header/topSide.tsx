@@ -111,7 +111,7 @@ export default function TopSide(): ReactNode {
         <Logo />
         <div className="flex items-center justify-between gap-4">
           <button
-            className="aspect-square w-12 h-12 bg-cs-red/10 transition-all duration-500 hover:bg-cs-red/20 text-cs-red rounded-lg flex items-center justify-center disabled:opacity-50"
+            className="aspect-square w-12 h-12 bg-cs-red/5 transition-all duration-500 hover:bg-cs-red/10 text-cs-red rounded-lg flex items-center justify-center disabled:opacity-50"
             disabled={logOut.loading}
             onClick={logOut.mutate}
           >
