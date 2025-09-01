@@ -113,7 +113,6 @@ export function HotelList() {
     star,
     page,
     dates,
-    rooms,
     router,
     minPrice,
     maxPrice,

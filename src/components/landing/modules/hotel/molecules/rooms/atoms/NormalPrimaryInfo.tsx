@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import moment from 'jalali-moment';
+import { InfoCircle } from 'iconsax-react';
 
 import { Room } from '@/types/landing';
 import { numberSeparation } from '@/utils';
 
 import DeadlineTimer from './DeadlineTimer';
 import PriceCalendar from '../price-calendar/PriceCalendar';
-import { InfoCircle } from 'iconsax-react';
 
 type Props = Room;
 
@@ -109,7 +109,7 @@ export default function NormalPrimaryInfo(props: Props) {
             href={''}
             className="bg-cs-dark-blue text-zinc-100 text-cs08 font-bold h-11 flex-center col-span-2 rounded-[10px]"
           >
-            مشاهده رزرو اتاق
+            رزرو اتاق
           </Link>
         </div>
       </div>
@@ -157,9 +157,7 @@ export default function NormalPrimaryInfo(props: Props) {
               <div className="absolute z-20 -top-full left-0 pointer-events-none opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:-top-[calc(100%+0.6rem)]">
                 <div className="w-max h-10 bg-red-100 text-cs-red text-cs07 px-4 flex-center gap-1 rounded-lg">
                   <span>به ارزش قیمت : </span>
-                  <span>
-                    {numberSeparation(discount_amount)}
-                  </span>
+                  <span>{numberSeparation(discount_amount)}</span>
                   <span>تومان</span>
                 </div>
 
@@ -172,7 +170,7 @@ export default function NormalPrimaryInfo(props: Props) {
             href={''}
             className="bg-cs-dark-blue text-zinc-100 flex-center flex-1 rounded-lg"
           >
-            مشاهده رزرو اتاق
+            رزرو اتاق
           </Link>
         </div>
       </div>

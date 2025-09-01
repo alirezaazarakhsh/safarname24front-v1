@@ -57,12 +57,12 @@ export function HotelListContent(props: Props) {
       </div>
 
       {/* === Large-Screen */}
-      <div className="hidden gap-8 xl:grid">
+      <div className="hidden gap-6 xl:grid">
         {status === 'pending'
           ? Array(8)
               .fill(null)
               .map((_, index) => (
-                <Skeleton key={index} className="h-[23.5rem] rounded-xl" />
+                <Skeleton key={index} className="h-[14rem] rounded-2xl" />
               ))
           : data?.map((hotel, index) => <DHotelCard key={index} {...hotel} />)}
       </div>

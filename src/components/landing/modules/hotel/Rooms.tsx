@@ -88,7 +88,7 @@ export function Rooms({ hotelSlug }: Props) {
         scroll: false,
       },
     );
-  }, [dates, confirmedPassengers, router, rooms, hotelSlug]);
+  }, [dates, confirmedPassengers, router, hotelSlug]);
 
   return (
     <Section sectionID="rooms">
