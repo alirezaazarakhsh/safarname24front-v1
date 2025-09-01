@@ -29,12 +29,12 @@ const urlTitles: urlTitleType[] = [
   {
     type: 'normal',
     href: '/dashboard/reservations',
-    title: 'لیست رزرو های هتل من',
+    title: 'لیست رزروهای هتل من',
   },
   {
     type: 'normal',
     href: '/dashboard/reservations',
-    title: 'لیست رزرو هتل های من',
+    title: 'لیست رزرو هتل‌های من',
   },
   {
     type: 'normal',
@@ -44,7 +44,7 @@ const urlTitles: urlTitleType[] = [
   {
     type: 'normal',
     href: '/dashboard/financial/factors',
-    title: 'لیست فاکتور های واریز و برداشت وجه',
+    title: 'لیست فاکتورهای واریز و برداشت وجه',
   },
   {
     type: 'normal',
@@ -54,7 +54,7 @@ const urlTitles: urlTitleType[] = [
   {
     type: 'normal',
     href: '/dashboard/financial/take-out',
-    title: 'بخش مالی - بداشت وجه',
+    title: 'بخش مالی - برداشت وجه',
   },
   {
     type: 'normal',
@@ -64,7 +64,7 @@ const urlTitles: urlTitleType[] = [
   {
     type: 'normal',
     href: '/dashboard/customer-club/list',
-    title: 'باشگاه مشتریان - لیست جایزه های دریافتی',
+    title: 'باشگاه مشتریان - لیست جوایز دریافتی',
   },
   {
     type: 'normal',
@@ -74,12 +74,12 @@ const urlTitles: urlTitleType[] = [
   {
     type: 'normal',
     href: '/dashboard/favorites',
-    title: 'بازگشت به صفحه ثبلی',
+    title: 'بازگشت به صفحه قبلی',
   },
   {
     type: 'regexp',
     regexp: /^\/dashboard\/favorites\/\d+$/,
-    title: 'بازگشت به صفحه ثبلی',
+    title: 'بازگشت به صفحه قبلی',
   },
   {
     type: 'normal',

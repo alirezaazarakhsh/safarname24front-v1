@@ -238,7 +238,7 @@ export default function TicketsPage(): ReactNode {
   // Conditional rendering
   if (isLoading) {
     return (
-      <main className="h-dvh w-dvw overflow-hidden flex items-center justify-center p-5">
+      <main className="h-dvh overflow-hidden flex items-center justify-center p-5">
         <div className="text-[#292D32]">
           <IconsaxIcons
             name="DeviceMessage"
