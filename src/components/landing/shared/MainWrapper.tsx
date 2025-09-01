@@ -14,6 +14,7 @@ import AuthHandler from './AuthHandler';
 import { HotelQueryProvider } from '@/context';
 import { generalInstance } from '@/utils/services';
 
+import { ServerError } from './ServerError';
 import { UserAccountProvider } from '@/context/UserAccountContext';
 import { ComingSoon } from '@/components/landing/modules/coming-soon';
 
@@ -28,6 +29,7 @@ type Props = {
 // ------------------------------
 
 export default function MainWrapper(props: Props) {
+  const [isError, setError] = useState(false);
   const [isActive, setActive] = useState(false);
 
   const queryClient = new QueryClient({
@@ -48,14 +50,16 @@ export default function MainWrapper(props: Props) {
         );
         setActive(response?.data.data.is_active);
       } catch (error) {
-        console.error(error);
+        setError(true);
       }
     })();
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isActive ? (
+      {isError ? (
+        <ServerError />
+      ) : isActive ? (
         <ComingSoon />
       ) : (
         <UserAccountProvider>

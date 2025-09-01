@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+let isError = false;
 let comingSoonIsActive = false;
 
 // =====================================
@@ -8,7 +9,7 @@ let comingSoonIsActive = false;
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Fetching ComingSoon-Data for Activate
+  // === Check for coming-soon or error ui
   try {
     const response = await fetch(
       'https://cps.safarnameh24.com/api/v1/config/coming-soon/',
@@ -16,7 +17,7 @@ export async function middleware(request: NextRequest) {
     const json = await response.json();
     comingSoonIsActive = json.data.is_active;
   } catch (error) {
-    // console.error(error);
+    isError = true;
   }
 
   const isSystemPath =
@@ -25,7 +26,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/images') ||
     pathname === '/favicon.ico';
 
-  if (comingSoonIsActive && pathname !== '/' && !isSystemPath) {
+  if ((comingSoonIsActive || isError) && pathname !== '/' && !isSystemPath) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
