@@ -7,12 +7,12 @@ export default function NotFound() {
   return (
     <main className="max-w-screen-template min-h-dvh mx-auto">
       <section className="text-center mx-5 pt-20 flex flex-col items-center justify-center gap-10 lg:pt-32 lg:gap-14">
-        <div dir="ltr" className="font-inter capitalize">
-          <span className="text-zinc-800 text-2xl font-extrabold lg:text-3xl">
-            Oops!
+        <div>
+          <span className="text-zinc-800 text-2xl font-extrabold lg:text-2xl">
+            مشکلی رخ داده است !
           </span>
-          <p className="text-zinc-700 text-cs08 font-semibold mt-2 lg:text-cs09 lg:mt-3">
-            Sorry Page Not Found, Please Try Again ...
+          <p className="text-zinc-700 text-cs08 font-semibold mt-2 lg:text-cs95 lg:mt-3">
+            متاسفانه صفحه مورد نظر یافت نشد , لطفا مجدد تلاش فرمایید
           </p>
         </div>
 
