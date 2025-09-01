@@ -1,11 +1,12 @@
 import moment from 'jalali-moment';
+import { InfoCircle } from 'iconsax-react';
+
 import { numberSeparation } from '@/utils';
 import { Room as Room } from '@/types/landing';
-
 import { SecondaryInfo } from './atoms/SecondaryInfo';
+
 import { DeadlineTimer } from './atoms/DeadlineTimer';
 import NormalPrimaryInfo from './atoms/NormalPrimaryInfo';
-import { InfoCircle } from 'iconsax-react';
 
 type Props = Room;
 
