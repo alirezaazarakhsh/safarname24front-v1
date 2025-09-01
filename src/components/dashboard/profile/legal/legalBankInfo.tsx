@@ -439,7 +439,12 @@ export default function LegalBankInfo({
             status={userStatus?.status}
           />
         )}
-        <div className="flex items-center justify-end">
+        <div
+          className={cn(
+            'flex items-center justify-end',
+            !loading && userStatus?.status ? 'col-span-1' : 'lg:col-span-2',
+          )}
+        >
           <button
             onClick={form.handleSubmit(submitHandleFunction, (errors) => {
               const errorsArr = Object.values(errors);
