@@ -1,18 +1,19 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-let isError = false;
-let comingSoonIsActive = false;
-
 // =====================================
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  let isError = false;
+  let comingSoonIsActive = false;
+
   // === Check for coming-soon or error ui
   try {
     const response = await fetch(
       'https://cps.safarnameh24.com/api/v1/config/coming-soon/',
+      { cache: 'no-store' },
     );
     const json = await response.json();
     comingSoonIsActive = json.data.is_active;

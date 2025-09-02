@@ -4,12 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useMemo } from 'react';
 
+import { generalInstance } from '@/utils/services';
+import { Skeleton } from '@/components/ui/skeleton';
+
 import { ArrowRight } from 'iconsax-react';
 import { useQuery } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
-
-import { generalInstance } from '@/utils/services';
-import { Skeleton } from '@/components/ui/skeleton';
 
 type Data = {
   header_logo: string;
@@ -38,7 +38,7 @@ export default function MobileHeader() {
 
   const noDisplayCondition = useMemo(() => {
     return (
-      /^\/best-hotels\/.+/.test(pathname) ||
+      pathname.includes('/best-hotels/') ||
       pathname === '/about-us' ||
       pathname === '/contact-us'
     );

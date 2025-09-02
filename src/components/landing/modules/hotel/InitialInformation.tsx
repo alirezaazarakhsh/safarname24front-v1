@@ -55,21 +55,21 @@ export function InitialInformation(props: Props) {
       ) : (
         <div className="relative h-auto bg-white text-[clamp(0.75rem,2vw,0.8rem)] p-5 overflow-hidden border border-zinc-200 rounded-xl md:text-cs75">
           {/* Logo | HotelName | City | Stars */}
-          <div className="flex items-center gap-3.5">
-            <div className="w-[clamp(4.5rem,3vw,5rem)] aspect-square overflow-hidden border p-1 border-zinc-200 rounded-lg">
+          <div className="flex items-center gap-4">
+            <div className="w-20 p-1 aspect-square overflow-hidden border rounded-cs-10">
               {data?.data.logo_preview && (
                 <Image
-                  src={data?.data.logo_preview}
                   width={100}
                   height={100}
                   alt="hotel-logo"
+                  src={data?.data.logo_preview}
                   className="full-size object-cover"
                 />
               )}
             </div>
 
             <div className="space-y-1 flex-1">
-              <div className="text-zinc-800 text-[clamp(0.8rem,2vw,0.85rem)] font-extrabold flex items-center gap-1 overflow-hidden">
+              <div className="text-zinc-800 text-cs85 font-extrabold flex items-center gap-1 overflow-hidden">
                 <span>هتل</span>
                 <span className="max-w-40 truncate lg:max-w-32 xl:max-w-52">
                   {data?.data.name}
@@ -77,7 +77,7 @@ export function InitialInformation(props: Props) {
                 <span>{data?.data.city_name}</span>
               </div>
 
-              <div className="font-bold flex items-center gap-1">
+              <div className="text-cs08 font-bold flex items-center gap-1">
                 <span>{data?.data.stars}</span>
                 <span>ستاره</span>
               </div>
@@ -93,7 +93,7 @@ export function InitialInformation(props: Props) {
             <div className="flex-1 flex items-center gap-1 overflow-hidden">
               <span>آدرس</span>
               <span className="mx-0.5">:</span>
-              <span className="truncate">{data?.data.address}</span>
+              <span>{data?.data.address}</span>
             </div>
           </div>
 
