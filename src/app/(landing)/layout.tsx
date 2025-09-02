@@ -15,7 +15,7 @@ export default function LandingLayout(props: Props) {
     <>
       <UserAccount />
 
-      <main className="max-w-screen-template min-h-dvh mx-auto">
+      <main className="max-w-screen-template mx-auto">
         <Header />
         <section className="mb-20 mx-5">{props.children}</section>
         <NavigationBar />
