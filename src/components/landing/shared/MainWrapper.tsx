@@ -51,6 +51,7 @@ export default function MainWrapper(props: Props) {
         setActive(response?.data.data.is_active);
       } catch (error) {
         setError(true);
+        console.log(error);
       }
     })();
   }, []);

@@ -43,7 +43,7 @@ export function TopBarConfig(props: Props) {
     >
       {/* Title | Subtitle */}
       <div className="space-y-1.5">
-        <h6 className="text-[clamp(0.8rem,2vw,0.9rem)] font-extrabold lg:text-cs95">
+        <h6 className="text-[clamp(0.85rem,2vw,0.9rem)] font-extrabold lg:text-cs95">
           {props.title.type === 'single' ? (
             <span className="text-zinc-800">{props.title.text}</span>
           ) : (

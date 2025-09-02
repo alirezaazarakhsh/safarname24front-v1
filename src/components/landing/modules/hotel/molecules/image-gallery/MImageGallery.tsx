@@ -30,11 +30,8 @@ type Data = {
   images: { image: string }[];
 };
 
+type Props = { hotelSlug: string };
 type ApiResponse = { data: Data[] };
-
-type Props = {
-  hotelSlug: string;
-};
 
 // ---------------------------------------
 
@@ -53,7 +50,7 @@ export default function MImageGallery(props: Props) {
 
   return (
     <Sheet>
-      <SheetTrigger className="bg-zinc-100 text-zinc-700 text-[clamp(0.75rem,2vw,0.8rem)] font-bold flex-center gap-1 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/60 sm:px-6">
+      <SheetTrigger className="bg-zinc-100 text-zinc-700 text-cs08 font-bold flex-center gap-1 rounded-lg transition-colors duration-200 ease-in-out hover:bg-zinc-200/60 sm:px-6">
         تصاویر هتل
       </SheetTrigger>
 
@@ -67,14 +64,6 @@ export default function MImageGallery(props: Props) {
         {/* === Hotel-Name & City | Image-Number | Close */}
         <div className="flex-between items-start gap-4">
           <div className="grid gap-2">
-            {/* {hotelName && city && (
-              <p className="text-[clamp(0.85rem,2vw,0.95rem)] font-bold flex items-center gap-1">
-                <span>هتل</span>
-                <span>{hotelName}</span>
-                <span>{city}</span>
-              </p>
-            )} */}
-
             <p className="text-zinc-300 text-cs08 font-medium flex items-center gap-0.5">
               <span>تصویر</span>
               <span className="w-3 inline-block text-center">
