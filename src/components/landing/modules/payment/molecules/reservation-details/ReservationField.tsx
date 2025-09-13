@@ -1,34 +1,37 @@
 import { IconsName } from '@/types';
-import { twMerge } from 'tailwind-merge';
+import { Skeleton } from '@/components/ui/skeleton';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 interface Props {
   title: string;
   value: string;
   icon: IconsName;
-  valueClassName?: string;
-  valueDirection?: 'rtl' | 'ltr';
+  isLoading: boolean;
 }
 
 // ------------------------------
 
 export function ReservationField(props: Props) {
-  const { icon, title, value, valueClassName, valueDirection = 'rtl' } = props;
+  const { icon, title, value, isLoading } = props;
+
+  if (!isLoading && !value) return null;
 
   return (
-    <div className="flex items-center gap-3">
-      <div className="bg-zinc-100 w-10 aspect-square flex-center rounded-lg">
-        <IconsaxIcons name={icon} size={20} />
+    <div className="flex gap-3 overflow-hidden">
+      <div className="bg-zinc-100 w-[2.6rem] aspect-square flex-center rounded-lg">
+        <IconsaxIcons name={icon} size={20} color="#222" />
       </div>
 
-      <div className="text-cs08 flex flex-col gap-1">
+      <div className="flex-1 text-cs08 flex flex-col justify-between">
         <span className="font-bold">{title} :</span>
-        <span
-          dir={valueDirection}
-          className={twMerge('text-zinc-500 font-semibold', valueClassName)}
-        >
-          {value}
-        </span>
+
+        {isLoading ? (
+          <Skeleton className="w-1/2 max-w-40 h-3 rounded" />
+        ) : (
+          <div className="max-w-52 text-zinc-500 font-semibold truncate ">
+            {value}
+          </div>
+        )}
       </div>
     </div>
   );
