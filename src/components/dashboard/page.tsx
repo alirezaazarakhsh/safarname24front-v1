@@ -172,7 +172,7 @@ function InnerPage({
                   {children}
                 </div>
               ) : irregularPages ? (
-                <div className="max-w-[1300px] mx-auto">{children}</div>
+                children
               ) : (
                 <div className="max-w-screen-template mx-auto">{children}</div>
               )}

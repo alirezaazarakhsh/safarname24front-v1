@@ -8,6 +8,7 @@ import { ICNotificationStatus } from '@/components/icons/ICNotifcationStatus';
 import * as NotificationComponent from '@/components/dashboard/notification';
 import { ICDashedBorder } from '@/components/icons/ICDashedBorder';
 import useNotification from '@/hooks/dashboard/useNotifications';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 // Creating and exporting Notification component as default
 export default function Notification(): ReactNode {
@@ -26,7 +27,7 @@ export default function Notification(): ReactNode {
     <>
       <button
         onClick={() => setSheetOpened((prev) => !prev)}
-        className="flex h-12 px-4 bg-gray-100 transition-all duration-500 hover:bg-gray-200 text-gray-700 items-center justify-center gap-2 rounded-lg relative"
+        className="flex h-12 px-4 bg-gray-100 transition-all duration-500 hover:bg-gray-200/60 text-gray-700 items-center justify-center gap-2 rounded-lg relative"
       >
         {unseenCount !== 0 && (
           <>
@@ -44,8 +45,8 @@ export default function Notification(): ReactNode {
         isOpened={sheetOpened}
         closeFn={() => setSheetOpened(false)}
       >
-        <div>
-          <div className="flex items-center justify-between gap-3 pb-4">
+        <div className="h-[calc(100dvh-130px)] flex flex-col">
+          <div className="flex items-center justify-between gap-3 pb-4 shrink-0">
             <span className="text-[14px] font-bold text-right text-[#2b2b2b] truncate w-full">
               نوتیفیکشن ها
             </span>
@@ -55,12 +56,24 @@ export default function Notification(): ReactNode {
               </div>
             )}
           </div>
-          <ICDashedBorder className="w-full text-[#d4d4d4]" />
-          <div className="flex flex-col gap-3 pt-4">
+          <ICDashedBorder className="w-full text-[#d4d4d4] shrink-0" />
+          <div className="flex flex-col gap-3 pt-4 h-full  overflow-auto custom-scrollbar">
             {data.length === 0 ? (
-              <span className="text-center font-bold text-cs85 text-cs-red mt-3 block truncate">
-                چیزی برای نمایش وجود ندارد !
-              </span>
+              <div className="h-full flex items-center justify-center">
+                <div className="text-cs-red ">
+                  <IconsaxIcons
+                    name="Forbidden2"
+                    color="currentColor"
+                    className="size-20 mb-4 block mx-auto"
+                  />
+                  <span className="text-center truncate block text-[14px] font-semibold text-black mb-1">
+                    صندوق پیام خالی است!
+                  </span>
+                  <p className="text-center text-[12px] font-medium text-gray-500">
+                    در حال حاضر هیچ پیامی برایتان ارسال نشده است.
+                  </p>
+                </div>
+              </div>
             ) : (
               data.map((item, index) => (
                 <NotificationComponent.default

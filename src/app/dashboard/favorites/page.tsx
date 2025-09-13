@@ -11,6 +11,9 @@ import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETFavorites } from '@/types/dashboard/api/get';
 import { ReactNode, useEffect, useState } from 'react';
 
+// Defining static route for empty collection image
+const emptyCollectionLogoSrc = '/image/dashboardFavorites/logo.png';
+
 // Creating and exporting Favorites page as default
 export default function Favorites(): ReactNode {
   // Defining states of component
@@ -37,7 +40,7 @@ export default function Favorites(): ReactNode {
 
   // Returning JSX
   return (
-    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:px-5 px-[24px]">
+    <main className="lg:p-5 lg:pb-5 p-0 pt-[24px] pb-[50px] flex flex-col lg:gap-10 gap-[24px] lg:px-5 px-[24px]">
       {getData.isLoading || getData.isRefetching ? (
         <>
           <Filter
@@ -56,10 +59,10 @@ export default function Favorites(): ReactNode {
                 data={{
                   id: index,
                   title: 'TITLE',
-                  images: [
-                    '/image/hotel/hotel-1.png',
-                    '/image/hotel/hotel-1.png',
-                    '/image/hotel/hotel-1.png',
+                  images: new Array(3).fill(emptyCollectionLogoSrc) as [
+                    string,
+                    string,
+                    string,
                   ],
                 }}
               />
@@ -80,7 +83,7 @@ export default function Favorites(): ReactNode {
             refetch={getData.refetch}
           />
           <EmptyTable
-            className="lg:col-span-4 col-span-1"
+            className="lg:col-span-4 col-span-1 lg:bg-transparent border-none"
             title="هیچ علاقه مندی فعلا ندارید!"
             description="مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم."
           />
@@ -108,18 +111,18 @@ export default function Favorites(): ReactNode {
                         ? [
                             item.thumbnails[0],
                             item.thumbnails[1],
-                            '/image/dashboardFavorites/empty-favorite.jpg',
+                            emptyCollectionLogoSrc,
                           ]
                         : item.thumbnails.length === 1
                           ? [
                               item.thumbnails[0],
-                              '/image/dashboardFavorites/empty-favorite.jpg',
-                              '/image/dashboardFavorites/empty-favorite.jpg',
+                              emptyCollectionLogoSrc,
+                              emptyCollectionLogoSrc,
                             ]
                           : [
-                              '/image/dashboardFavorites/empty-favorite.jpg',
-                              '/image/dashboardFavorites/empty-favorite.jpg',
-                              '/image/dashboardFavorites/empty-favorite.jpg',
+                              emptyCollectionLogoSrc,
+                              emptyCollectionLogoSrc,
+                              emptyCollectionLogoSrc,
                             ],
                   title: item.title,
                 }}

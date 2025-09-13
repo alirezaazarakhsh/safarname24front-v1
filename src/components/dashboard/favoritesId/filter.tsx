@@ -30,7 +30,7 @@ export default function Filter({
         }
       >
         <div className="lg:hidden block mb-[12px]">
-          <span className="text-[12px] font-semibold text-black w-full truncate block text-right mb-[10px]">
+          <span className="block truncate text-right w-full font-semibold lg:text-[16px] text-[12px] text-black lg:mb-0 mb-[12px]">
             دسته بندی :
           </span>
           {loading ? (

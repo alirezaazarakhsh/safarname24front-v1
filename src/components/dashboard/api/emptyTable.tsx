@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 import { cn } from '@/utils/utils';
 import { EmptyTableComponentPropsType } from '@/types/dashboard/component';
 import Image from 'next/image';
-import EmptyImage from '../../../../public/image/empty.png';
+import EmptyImage from '../../../../public/image/empty.svg';
 
 // Creating and exporting EmptyTable component as default
 // Ths component has to be rendred on conditions and not via props like open or etc
@@ -25,16 +25,16 @@ export default function EmptyTable({
     >
       <div>
         <Image
-          alt='هیچ لیست رزروی فعلا ندارید!'
+          alt="هیچ لیست رزروی فعلا ندارید!"
           src={EmptyImage.src}
           width={500}
           height={500}
-          className='h-auto lg:w-[250px] w-[200px] aspect-square block mb-4 mx-auto'
+          className="h-[200px] aspect-square block mb-4 mx-auto"
         />
-        <span className='block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold'>
+        <span className="block text-center w-full text-black lg:text-cs95 text-[12px] lg:mb-2 mb-3 font-bold">
           {title}
         </span>
-        <span className='block text-center w-full lg:text-black text-gray-500 lg:text-cs09 text-[10px] font-normal lg:mb-0 mb-6'>
+        <span className="block text-center w-full lg:text-black text-gray-500 lg:text-cs09 text-[10px] font-normal lg:mb-0 mb-6">
           {description}
         </span>
       </div>
