@@ -48,17 +48,18 @@ export default function MainWrapper(props: Props) {
         const response: ApiResponse = await generalInstance(
           '/config/coming-soon',
         );
+
         setActive(response?.data.data.is_active);
       } catch (error) {
         setError(true);
-        console.log(error);
+        console.error(error);
       }
     })();
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isError ? (
+      {false ? (
         <ServerError />
       ) : isActive ? (
         <ComingSoon />

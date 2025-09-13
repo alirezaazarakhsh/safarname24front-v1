@@ -3,30 +3,40 @@
 import { useState } from 'react';
 import { numberSeparation } from '@/utils';
 import { IoIosCheckmark } from 'react-icons/io';
+import { usePaymentInvoiceDispatch } from '@/context';
 
 type Props = {
-  price?: number;
+  price: number;
+  enabled: boolean;
   type: 'enter' | 'exit';
 };
 
 // ------------------------------
 
 export function HalfCharge(props: Props) {
-  const { type, price } = props;
-  const [isActive, setActive] = useState(false);
+  const { type, enabled, price } = props;
+  const [isActive, setActive] = useState(enabled);
+
+  const dispatch = usePaymentInvoiceDispatch();
 
   function handleToggleIsActive() {
     setActive((prevValue) => !prevValue);
+    dispatch({
+      payload: price,
+      type: 'half-charges',
+      actionType: isActive ? 'remove' : 'add',
+    });
   }
 
   return (
     <button
-      className="bg-zinc-100 text-cs08 font-semibold px-4 py-3.5 flex-between rounded-cs-10"
+      type="button"
       onClick={handleToggleIsActive}
+      className="h-12 bg-zinc-100 text-cs08 font-semibold px-4 flex-between rounded-cs-10"
     >
       <div className="flex items-center gap-1">
         <div
-          className={`w-5 ml-1.5 aspect-square flex-center overflow-hidden rounded-[5px] transition-colors ease-in-out ${isActive ? 'bg-zinc-300/80' : 'bg-zinc-200'}`}
+          className={`w-[1.3rem] ml-1.5 aspect-square flex-center overflow-hidden rounded-[5px] transition-colors ease-in-out ${isActive ? 'bg-zinc-300/80' : 'bg-zinc-200'}`}
         >
           <IoIosCheckmark
             color="#333"
@@ -40,7 +50,7 @@ export function HalfCharge(props: Props) {
       </div>
 
       <div className="flex items-center gap-1">
-        <span>{numberSeparation(price || 0)}</span>
+        <span>{numberSeparation(price)}</span>
         <span>تومان</span>
       </div>
     </button>

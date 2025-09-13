@@ -65,16 +65,16 @@ export function Location() {
 
   return (
     <>
-      <div className="flex items-center gap-3.5">
-        <div className="bg-zinc-100 w-12 h-12 flex-center rounded-lg">
+      <div className="flex items-center gap-3">
+        <div className="bg-zinc-100 w-[2.6rem] aspect-square flex-center rounded-lg">
           <IconsaxIcons name="Location" size={22} />
         </div>
 
-        <div className="text-cs85 font-bold flex flex-col gap-1">
+        <div className="text-cs85 font-bold flex flex-col justify-between">
           <span>موقعیت هتل :</span>
 
           <Dialog>
-            <DialogTrigger className="text-blue-500 text-right underline">
+            <DialogTrigger className="text-blue-500 text-cs08 text-right underline font-semibold">
               مشاهده
             </DialogTrigger>
 

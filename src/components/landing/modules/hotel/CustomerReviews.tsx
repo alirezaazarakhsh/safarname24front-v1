@@ -36,7 +36,9 @@ export function CustomerReviews(props: Props) {
     queryFn: () => generalInstance(`/hotel/hotels/${hotelSlug}/comments`),
   });
 
-  if (isEmptyOrInvalid({ data, status })) return null;
+  console.log(data)
+
+  // if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <Section sectionID="customer-reviews" className="relative">

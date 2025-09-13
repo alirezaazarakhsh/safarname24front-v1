@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Step } from './molecules/stepper';
-import { payment } from '@/constants/landing';
+import { Step } from '../molecules/stepper';
+import { payment } from '../helpers/constant';
 
 // ------------------------------
 
@@ -18,7 +18,7 @@ export function Stepper() {
     setActiveStep((prev) => (prev <= 0 ? prev : prev - 1));
 
   return (
-    <div>
+    <div className='lg:col-span-2'>
       <div className="flex-between items-center lg:bg-white lg:p-4 lg:border lg:rounded-xl">
         {/* === Steps */}
         <div className="flex-1 flex gap-1.5 lg:flex-none lg:gap-14">
