@@ -8,6 +8,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import Sheet from './ui/sheet';
 import IconsaxIcons from '../icons/iconsaxIcons';
 import useNotification from '@/hooks/dashboard/useNotifications';
+import moment from 'jalali-moment';
 
 // Creating and exporting MobileNotification component as default
 export default function MobileNotification({
@@ -44,9 +45,21 @@ export default function MobileNotification({
           </div>
           <div className="flex flex-col lg:gap-3 gap-[15px] border-t-2 border-dashed border-gray-200 lg:pt-3 pt-[15px]">
             {data.length === 0 ? (
-              <span className="text-center font-bold text-cs85 text-cs-red mt-3 block truncate">
-                چیزی برای نمایش وجود ندارد !
-              </span>
+              <div className="flex items-center justify-center h-[55dvh]">
+                <div className="text-cs-red ">
+                  <IconsaxIcons
+                    name="Forbidden2"
+                    color="currentColor"
+                    className="size-20 mb-4 block mx-auto"
+                  />
+                  <span className="text-center truncate block text-[14px] font-semibold text-black mb-1">
+                    صندوق پیام خالی است!
+                  </span>
+                  <p className="text-center text-[12px] font-medium text-gray-500">
+                    در حال حاضر هیچ پیامی برایتان ارسال نشده است.
+                  </p>
+                </div>
+              </div>
             ) : (
               data.map((item, index) => (
                 <NotificationComponent.default
