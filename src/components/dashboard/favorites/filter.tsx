@@ -45,7 +45,7 @@ export default function Filter({
           <>
             {!listIsEmpty && (
               <button
-                className="flex items-center justify-center lg:gap-2 gap-[12px] bg-cs-red/10 lg:rounded-lg rounded-[6px] lg:px-4 px-2 lg:h-[45px] h-[40px] text-cs-red col-span-2 transition-all duration-500 hover:bg-cs-red/20 lg:w-auto w-[50%]"
+                className="flex items-center justify-center lg:gap-2 gap-[12px] bg-cs-red/5 lg:rounded-lg rounded-[6px] lg:px-4 px-2 lg:h-[45px] h-[40px] text-cs-red col-span-2 transition-all duration-500 hover:bg-cs-red/10 lg:w-auto w-[50%]"
                 onClick={() => setDeleteState((prev) => !prev)}
               >
                 <span className="lg:text-cs07 text-[10px] lg:font-bold font-semibold text-current block text-right truncate">

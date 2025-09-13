@@ -26,7 +26,7 @@ export default function Notification(): ReactNode {
     <>
       <button
         onClick={() => setSheetOpened((prev) => !prev)}
-        className="flex h-12 px-4 bg-gray-100 transition-all duration-500 hover:bg-gray-200 text-gray-700 items-center justify-center gap-2 rounded-lg relative"
+        className="flex h-12 px-4 bg-gray-100 transition-all duration-500 hover:bg-gray-200/60 text-gray-700 items-center justify-center gap-2 rounded-lg relative"
       >
         {unseenCount !== 0 && (
           <>
