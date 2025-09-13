@@ -2,24 +2,14 @@
 'use client';
 
 // Importing part
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogClose,
   DialogFooter,
 } from '@/components/ui/dialog';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer';
 import { DialogComponentPropsType } from '@/types/dashboard/component';
 import { useMediaQuery } from '@/hooks';
 import toast from '../../ui/customSonner/toast';
@@ -64,13 +54,21 @@ export default function AddNewCollectionDialog({
     resolver: zodResolver(formSchema),
   });
 
+  // Using useEffect to reset every value from form  when dialog closes
+  useEffect(() => {
+    if (!isOpened) {
+      form.reset({
+        name: '',
+      });
+    }
+  }, [isOpened]);
+
   // Fetching data
   const fetchData = useApiMutation({
     url: '/favorite/collections/',
     method: 'post',
     options: {
       onError: () => {
-        refetch && refetch();
         closeFn && closeFn();
 
         if (isMobile) {
@@ -125,7 +123,7 @@ export default function AddNewCollectionDialog({
           />
         </>
       )}
-      <DialogContent className="lg:w-[28dvw] md:w-[50dvw] w-[calc(100vw-100px)] p-0 block gap-0">
+      <DialogContent className="w-full max-w-[320px] gap-0 p-0">
         <div className="md:px-6 px-3 py-3 border-b border-b-black/10 flex items-center justify-between gap-3">
           <DialogTitle className="text-right md:text-[14px] text-[12px] md:font-bold  font-semibold text-black block truncate w-full">
             لیست جدید مورد علاقه ها
@@ -159,7 +157,7 @@ export default function AddNewCollectionDialog({
           })}
         >
           <input
-            className="bg-gray-100 h-[45px] px-3 md:rounded-md rounded-[6px] md:text-cs07 text-[10px] md:font-normal font-semibold md:placeholder:text-cs07 placeholder:text-[10px] placeholder:text-black/50 text-black w-full block"
+            className="bg-gray-100 h-[45px] px-3 md:rounded-md rounded-[6px] md:text-[12px] text-[10px] font-semibold md:placeholder:text-[12px] placeholder:text-[10px] placeholder:text-black/50 text-black w-full block"
             placeholder="نام لیست خود را وارد نمایید"
             type="text"
             {...form.register('name')}
@@ -167,7 +165,7 @@ export default function AddNewCollectionDialog({
           <DialogFooter dir="ltr">
             <Button
               disabled={form.formState.isSubmitting}
-              className="flex items-center justify-center px-4 md:rounded-md rounded-[6px] md:font-medium font-semibold text-white bg-black w-full h-[45px] hover:bg-black disabled:opacity-100 md:text-cs07 text-[10px]"
+              className="flex items-center justify-center px-4 md:rounded-md rounded-[6px] font-semibold text-white bg-black w-full h-[45px] hover:bg-black disabled:opacity-100 md:text-[12px] text-[10px]"
               type="submit"
             >
               {form.formState.isSubmitting ? <Loading /> : 'تایید اطلاعات'}

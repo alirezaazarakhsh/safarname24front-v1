@@ -39,11 +39,11 @@ export default function ErrorTable({
         className="lg:w-32 lg:h-32 w-16 h-16 block mx-auto lg:mb-4 mb-2"
       />
       <span className="block text-center w-full text-current lg:text-[16px] text-[14px] mb-2 font-bold">
-        !خطایی رخ داده است
+        خطایی رخ داده است !
       </span>
       <span className="block text-center w-full lg:text-black text-gray-500 lg:text-[15px] text-[14px] font-medium lg:mb-4 mb-3">
-        !متأسفانه در بارگذاری این بخش مشکلی پیش آمده. لطفاً صفحه را بازنشانی
-        کرده یا بعداً دوباره امتحان کنید.
+        متأسفانه در بارگذاری این بخش مشکلی پیش آمده. لطفاً صفحه را بازنشانی کرده
+        یا بعداً دوباره امتحان کنید.
       </span>
       <Button
         onClick={() => refetch && refetch()}

@@ -8,7 +8,7 @@ export function ServerError() {
       <Image
         width={1000}
         height={440}
-        alt="server-error"
+        alt="servererror"
         src={'/image/logo/server-error.png'}
         className="w-full max-w-[40rem] mb-8 object-contain"
       />
