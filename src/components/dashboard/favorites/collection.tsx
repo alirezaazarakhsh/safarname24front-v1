@@ -53,21 +53,21 @@ export default function Collection({
 
   // Fetching data
   const fetchData = useApiMutation({
-    url: `/favorite/collections/${id}/`,
-    method: 'patch',
+    url: `/favorite/collections/${id}/update/`,
+    method: 'put',
     options: {
       onError: () => {
         toast({
           title: 'خطایی رخ داد!',
-          description: 'در حذف لیست مشکلی پیش آمد مجدد تلاش کنید.',
+          description: 'تغییر نام این کالکشن با مشکل مواجه شد.',
           theme: 'theme',
         });
       },
       onSuccess: () => {
         refetch();
         toast({
-          title: 'مجموعه جدید ایجاد شد!',
-          description: 'کاربر گرامی محموعه جدید شما به درست شد ! ',
+          title: 'نام مجموعه تغیر یافت !',
+          description: `کاربر گرامی نام مجموعه مد نظر شما به ${form.getValues('name')} تغیر یافت.`,
           theme: 'green',
         });
       },
