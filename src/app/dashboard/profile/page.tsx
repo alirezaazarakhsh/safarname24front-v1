@@ -31,51 +31,151 @@ import { cn } from '@/utils/utils';
 
 // Defining form schemas
 const personalFormSchema = z.object({
-  name: z.string().min(2).max(32),
-  lastName: z.string().min(3).max(32),
+  name: z
+    .string({
+      message: 'نام الزامی است',
+    })
+    .min(2, { message: 'نام باید حداقل ۲ کاراکتر باشد' })
+    .max(32, { message: 'نام نمی‌تواند بیشتر از ۳۲ کاراکتر باشد' }),
+
+  lastName: z
+    .string({
+      message: 'نام خانوادگی الزامی است',
+    })
+    .min(3, { message: 'نام خانوادگی باید حداقل ۳ کاراکتر باشد' })
+    .max(32, { message: 'نام خانوادگی نمی‌تواند بیشتر از ۳۲ کاراکتر باشد' }),
+
   meliCode: z
+    .string({
+      message: 'کد ملی الزامی است',
+    })
+    .length(10, { message: 'کد ملی باید دقیقا ۱۰ رقم باشد' })
+    .refine((value) => verifyIranianNationalId(value), {
+      message: 'کد ملی وارد شده معتبر نیست',
+    }),
+
+  tell: z
+    .string({
+      message: 'شماره موبایل الزامی است',
+    })
+    .regex(/^09\d{9}$/, {
+      message: 'شماره موبایل باید با 09 شروع شود و ۱۱ رقم باشد',
+    }),
+
+  email: z
     .string()
-    .length(10)
-    .refine((value) => verifyIranianNationalId(value)),
-  tell: z.string().regex(/^09\d{9}$/),
-  email: z.string().max(254).email().or(z.literal('')).optional(),
-  postCode: z.string().length(10).or(z.literal('')).optional(),
+    .max(254, { message: 'ایمیل نمی‌تواند بیشتر از ۲۵۴ کاراکتر باشد' })
+    .email({ message: 'ایمیل معتبر نیست' })
+    .or(z.literal(''))
+    .optional(),
+
+  postCode: z
+    .string()
+    .length(10, { message: 'کد پستی باید دقیقا ۱۰ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
+
   creditCard: z
     .string()
-    .length(16)
-    .refine((value) => verifyCardNumber(Number(value)))
+    .length(16, { message: 'شماره کارت باید ۱۶ رقم باشد' })
+    .refine((value) => verifyCardNumber(Number(value)), {
+      message: 'شماره کارت وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
+
   shabaNumber: z
     .string()
-    .length(24)
-    .refine((value) => isShebaValid(value))
+    .length(24, { message: 'شماره شبا باید ۲۴ رقم باشد' })
+    .refine((value) => isShebaValid(value), {
+      message: 'شماره شبا وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
-  address: z.string().min(5).max(256).or(z.literal('')).optional(),
+
+  address: z
+    .string()
+    .min(5, { message: 'آدرس باید حداقل ۵ کاراکتر باشد' })
+    .max(256, { message: 'آدرس نمی‌تواند بیشتر از ۲۵۶ کاراکتر باشد' })
+    .or(z.literal(''))
+    .optional(),
 });
 
 const legalFormSchema = z.object({
-  name: z.string().min(2).max(64),
-  id: z.string().length(11),
-  registrationId: z.string().min(1).max(16).regex(/^\d+$/),
-  economicCode: z.string().min(1).max(16).regex(/^\d+$/),
-  tell: z.string().regex(/^09\d{9}$/),
-  email: z.string().max(254).email().or(z.literal('')).optional(),
-  postCode: z.string().length(10).or(z.literal('')).optional(),
+  name: z
+    .string({
+      message: 'نام شرکت الزامی است',
+    })
+    .min(2, { message: 'نام شرکت باید حداقل ۲ کاراکتر باشد' })
+    .max(64, { message: 'نام شرکت نمی‌تواند بیشتر از ۶۴ کاراکتر باشد' }),
+
+  id: z
+    .string({
+      message: 'شناسه ملی الزامی است',
+    })
+    .length(11, { message: 'شناسه ملی باید دقیقا ۱۱ رقم باشد' }),
+
+  registrationId: z
+    .string({
+      message: 'شماره ثبت الزامی است',
+    })
+    .min(1, { message: 'شماره ثبت نمی‌تواند خالی باشد' })
+    .max(16, { message: 'شماره ثبت نمی‌تواند بیشتر از ۱۶ رقم باشد' })
+    .regex(/^\d+$/, { message: 'شماره ثبت باید فقط عددی باشد' }),
+
+  economicCode: z
+    .string({
+      message: 'کد اقتصادی الزامی است',
+    })
+    .min(1, { message: 'کد اقتصادی نمی‌تواند خالی باشد' })
+    .max(16, { message: 'کد اقتصادی نمی‌تواند بیشتر از ۱۶ رقم باشد' })
+    .regex(/^\d+$/, { message: 'کد اقتصادی باید فقط عددی باشد' }),
+
+  tell: z
+    .string({
+      message: 'شماره موبایل الزامی است',
+    })
+    .regex(/^09\d{9}$/, {
+      message: 'شماره موبایل باید با 09 شروع شود و ۱۱ رقم باشد',
+    }),
+
+  email: z
+    .string()
+    .max(254, { message: 'ایمیل نمی‌تواند بیشتر از ۲۵۴ کاراکتر باشد' })
+    .email({ message: 'ایمیل معتبر نیست' })
+    .or(z.literal(''))
+    .optional(),
+
+  postCode: z
+    .string()
+    .length(10, { message: 'کد پستی باید دقیقا ۱۰ رقم باشد' })
+    .or(z.literal(''))
+    .optional(),
+
   creditCard: z
     .string()
-    .length(16)
-    .refine((value) => verifyCardNumber(Number(value)))
+    .length(16, { message: 'شماره کارت باید ۱۶ رقم باشد' })
+    .refine((value) => verifyCardNumber(Number(value)), {
+      message: 'شماره کارت وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
+
   shabaNumber: z
     .string()
-    .length(24)
-    .refine((value) => isShebaValid(value))
+    .length(24, { message: 'شماره شبا باید ۲۴ رقم باشد' })
+    .refine((value) => isShebaValid(value), {
+      message: 'شماره شبا وارد شده معتبر نیست',
+    })
     .or(z.literal(''))
     .optional(),
-  address: z.string().min(5).max(254).or(z.literal('')).optional(),
+
+  address: z
+    .string()
+    .min(5, { message: 'آدرس باید حداقل ۵ کاراکتر باشد' })
+    .max(254, { message: 'آدرس نمی‌تواند بیشتر از ۲۵۴ کاراکتر باشد' })
+    .or(z.literal(''))
+    .optional(),
 });
 
 // Defining formType

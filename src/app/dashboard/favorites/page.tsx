@@ -80,7 +80,7 @@ export default function Favorites(): ReactNode {
             refetch={getData.refetch}
           />
           <EmptyTable
-            className="lg:col-span-4 col-span-1"
+            className="lg:col-span-4 col-span-1 lg:bg-transparent border-none"
             title="هیچ علاقه مندی فعلا ندارید!"
             description="مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم."
           />
