@@ -6,20 +6,10 @@ import { ReactNode, useEffect, useState } from 'react';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogClose,
   DialogFooter,
 } from '@/components/ui/dialog';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer';
 import { DialogComponentPropsType } from '@/types/dashboard/component';
 import { useMediaQuery } from '@/hooks';
 import toast from '../../ui/customSonner/toast';
@@ -79,7 +69,6 @@ export default function AddNewCollectionDialog({
     method: 'post',
     options: {
       onError: () => {
-        refetch && refetch();
         closeFn && closeFn();
 
         if (isMobile) {
