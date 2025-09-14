@@ -70,6 +70,7 @@ export default function EditCollectionNameDialog({
     method: 'put',
     options: {
       onError: () => {
+        closeFn && closeFn();
         if (isMobile) {
           setErrorMobileDrawerOpened(true);
         } else {
