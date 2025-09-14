@@ -117,8 +117,8 @@ export default function EditCollectionNameDialog({
           theme="green"
         />
         <CanclationErrorDrawer
-          title="خطایی رخ داد"
-          description="در حذف لیست مشکلی پیش آمد مجدد تلاش کنید."
+          title="خطایی رخ داد !"
+          description="در تغیر نام این کالکشن مشکلی به وجود امد."
           isOpened={errorMobileDrawerOpened}
           closeFn={() => setErrorMobileDrawerOpened(false)}
         />
