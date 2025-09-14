@@ -43,7 +43,7 @@ export default function MobileNotification({
               </div>
             )}
           </div>
-          <div className="flex flex-col lg:gap-3 gap-[15px] border-t-2 border-dashed border-gray-200 lg:pt-3 pt-[15px]">
+          <div className="flex flex-col lg:gap-3 gap-[15px] border-t-2 border-dashed border-gray-200 lg:pt-3 pt-[15px] pb-20">
             {data.length === 0 ? (
               <div className="flex items-center justify-center h-[55dvh]">
                 <div className="text-cs-red ">

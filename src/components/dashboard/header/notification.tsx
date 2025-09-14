@@ -9,6 +9,7 @@ import * as NotificationComponent from '@/components/dashboard/notification';
 import { ICDashedBorder } from '@/components/icons/ICDashedBorder';
 import useNotification from '@/hooks/dashboard/useNotifications';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import { cn } from '@/utils/utils';
 
 // Creating and exporting Notification component as default
 export default function Notification(): ReactNode {
@@ -57,7 +58,12 @@ export default function Notification(): ReactNode {
             )}
           </div>
           <ICDashedBorder className="w-full text-[#d4d4d4] shrink-0" />
-          <div className="flex flex-col gap-3 pt-4 h-full  overflow-auto custom-scrollbar">
+          <div
+            className={cn(
+              'flex flex-col gap-3 py-4',
+              data.length === 0 && ' h-full  overflow-auto custom-scrollbar',
+            )}
+          >
             {data.length === 0 ? (
               <div className="h-full flex items-center justify-center">
                 <div className="text-cs-red ">
