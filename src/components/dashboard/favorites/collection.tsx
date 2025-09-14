@@ -18,8 +18,8 @@ import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import toast from '../ui/customSonner/toast';
 import Loading from '../ui/loading';
 
-// Defining static route for empty collection image
-const emptyCollectionLogoSrc = '/image/dashboardFavorites/logo.png';
+// Defining code used for showing svg icon instead of image as placeholder in collection components
+const emptyCollectionCode = 'EmptyCollectionImage';
 
 // Defining formSchema
 const formSchema = z.object({
@@ -140,21 +140,27 @@ export default function Collection({
             className="grid grid-cols-2 grid-rows-2 gap-[10px] overflow-hidden rounded-md h-[200px] mb-2 aria-disabled:pointer-events-none"
           >
             {images.map((item, index) =>
-              item === emptyCollectionLogoSrc ? (
+              item === emptyCollectionCode ? (
                 <div
                   key={index}
                   className={cn(
-                    'rounded-md overflow-hidden w-full h-full bg-white flex items-center justify-center',
+                    'rounded-md overflow-hidden w-full h-full bg-[#ededed] flex items-center justify-center',
                     index === 0 && 'row-span-2',
                   )}
                 >
-                  <Image
-                    width={500}
-                    height={500}
-                    alt={'عکس شماره 1 مجموعه'}
-                    src={item}
-                    className="size-[80px]"
-                  />
+                  <div
+                    className={
+                      index === 0
+                        ? 'border-2 border-[#b9b9b9] rounded-lg p-1'
+                        : ''
+                    }
+                  >
+                    <IconsaxIcons
+                      className="size-[30px]"
+                      color="#b9b9b9"
+                      name="Image"
+                    />
+                  </div>
                 </div>
               ) : (
                 <Image
