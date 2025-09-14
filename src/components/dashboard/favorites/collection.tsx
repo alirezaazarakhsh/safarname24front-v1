@@ -31,12 +31,15 @@ export default function Collection({
   if (loading) {
     return (
       <div>
-        <div className="grid grid-cols-2 grid-rows-2 gap-[10px] overflow-hidden rounded-md h-[200px] mb-4">
+        <div className="grid grid-cols-2 grid-rows-2 gap-[10px] overflow-hidden rounded-md h-[200px] mb-3">
           <Skeleton className="rounded-md object-cover col-span-1 row-span-2 w-full h-full" />
           <Skeleton className="rounded-md object-cover col-span-1 row-span-1 w-full h-full" />
           <Skeleton className="rounded-md object-cover col-span-1 row-span-1 w-full h-full" />
         </div>
-        <Skeleton className="w-full rounded-[8px] h-[20px]" />
+        <div className="flex items-center justify-between gap-3">
+          <Skeleton className="w-full flex-1 rounded-[8px] h-7" />
+          <Skeleton className="shrink-0 rounded-md size-7" />
+        </div>
       </div>
     );
   } else {
@@ -57,7 +60,7 @@ export default function Collection({
         />
         <div className="block relative">
           <motion.button
-            className="w-[40px] h-[40px] flex items-center justify-center rounded-md bg-cs-red text-white absolute -right-[20px] -top-[20px]"
+            className="w-[40px] h-[40px] flex items-center justify-center rounded-md bg-cs-red text-white absolute lg:right-[-20px] lg:top-[-20px] right-3 top-3"
             exit={{ opacity: 0, scale: 0.8 }}
             initial={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.6 }}
@@ -119,17 +122,19 @@ export default function Collection({
             )}
           </Link>
           <button
-            className="flex items-center justify-start gap-3 pt-3 mt-1 w-full text-cs-red"
+            className="flex items-center justify-between gap-3 pt-3 w-full text-black"
             onClick={() => setEditDialogOpened(true)}
           >
-            <span className="text-black font-semibold text-right text-[13px] truncate">
+            <span className="text-current font-semibold text-right text-[13px] truncate flex-1">
               {title}
             </span>
-            <IconsaxIcons
-              name="Edit2"
-              color="currentColor"
-              className="size-4 shrink-0"
-            />
+            <div className="shrink-0 lg:size-7 size-8 bg-[#ededed] rounded-md flex items-center justify-center p-1.5">
+              <IconsaxIcons
+                name="Edit"
+                color="currentColor"
+                className="w-full"
+              />
+            </div>
           </button>
         </div>
       </>

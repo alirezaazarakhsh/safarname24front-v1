@@ -131,7 +131,7 @@ export default function AddNewCollectionDialog({
           <DialogClose asChild>
             <button
               onClick={closeFn}
-              className="shrink-0 md:text-black text-gray-300"
+              className="shrink-0 text-gray-300"
               type="button"
             >
               <ICX
