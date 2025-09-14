@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
 
+import { HotelInitialInfo } from '@/types/landing';
 import { ICApartment, ICClock, ICLocation } from '@/components/icons';
 
 export const HotelMap = dynamic(
@@ -19,23 +20,8 @@ export const HotelMap = dynamic(
   },
 );
 
-type ApiResponse = {
-  data: {
-    name: string;
-    stars: number;
-    address: string;
-    latitude: number;
-    longitude: number;
-    city_name: string;
-    rooms_count: number;
-    logo_preview: string;
-    floors_count: number;
-    check_in_time: string;
-    check_out_time: string;
-  };
-};
-
 type Props = { hotelSlug: string };
+type ApiResponse = { data: HotelInitialInfo };
 
 // -----------------------------------------
 

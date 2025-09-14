@@ -1,35 +1,55 @@
+import { apiBaseUrl } from './constants';
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// =====================================
+const SYSTEM_PATHS = ['/_next', '/api', '/images', '/favicon.ico'];
+
+function isSystemPath(pathname: string) {
+  return SYSTEM_PATHS.some((p) =>
+    pathname === p ? true : pathname.startsWith(p),
+  );
+}
+
+function redirectTo(path: string, request: NextRequest) {
+  return NextResponse.redirect(new URL(path, request.url));
+}
+
+// -----------------------------
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   let isError = false;
-  let comingSoonIsActive = false;
+  let appIsInActive = false;
+  
+  const token = request.cookies.get('auth')?.value;
 
-  // === Check for coming-soon or error ui
   try {
-    const response = await fetch(
-      'https://cps.safarnameh24.com/api/v1/config/coming-soon/',
-      { cache: 'no-store' },
-    );
+    const response = await fetch(apiBaseUrl + '/config/coming-soon/', {
+      cache: 'no-store',
+    });
+
     const json = await response.json();
-    comingSoonIsActive = json.data.is_active;
+    appIsInActive = json.data.is_active;
   } catch (error) {
-    isError = true;
+    // isError = true;
   }
 
-  const isSystemPath =
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/api') ||
-    pathname.startsWith('/images') ||
-    pathname === '/favicon.ico';
-
-  if ((comingSoonIsActive || isError) && pathname !== '/' && !isSystemPath) {
-    return NextResponse.redirect(new URL('/', request.url));
+  if (
+    (appIsInActive || isError) &&
+    pathname !== '/' &&
+    !isSystemPath(pathname)
+  ) {
+    return redirectTo('/', request);
   }
+
+  // if (
+  //   (pathname.startsWith('/payment') || pathname.startsWith('/dashboard')) &&
+  //   !token
+  // ) {
+  //   return redirectTo('/', request);
+  // }
 
   return NextResponse.next();
 }
