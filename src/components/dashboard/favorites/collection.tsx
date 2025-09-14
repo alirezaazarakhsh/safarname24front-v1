@@ -11,28 +11,10 @@ import { ReactNode, useState } from 'react';
 import DeleteCollectionDialog from './dialog/deleteCollectionDialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/utils/utils';
-import { z } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import toast from '../ui/customSonner/toast';
-import Loading from '../ui/loading';
+import EditCollectionNameDialog from './dialog/editCollectionNameDialog';
 
-// Defining static route for empty collection image
-const emptyCollectionLogoSrc = '/image/dashboardFavorites/logo.png';
-
-// Defining formSchema
-const formSchema = z.object({
-  name: z
-    .string({
-      required_error: 'لطفا این فیلد را پر کنید.',
-    })
-    .min(5, {
-      message: 'نام کالکشن نمیتواند کمتر از 5 کاراکتر باشد.',
-    }),
-});
-
-type formType = z.infer<typeof formSchema>;
+// Defining code used for showing svg icon instead of image as placeholder in collection components
+const emptyCollectionCode = 'EmptyCollectionImage';
 
 // Creating and exporting Collection componenet as default
 export default function Collection({
@@ -43,56 +25,33 @@ export default function Collection({
 }: CollectionComponentPropsType): ReactNode {
   // Defining hooks
   const [dialogOpened, setDialogOpened] = useState<boolean>(false);
-  const form = useForm<formType>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: title,
-    },
-    reValidateMode: 'onChange',
-  });
+  const [editDialogOpened, setEditDialogOpened] = useState<boolean>(false);
 
-  // Fetching data
-  const fetchData = useApiMutation({
-    url: `/favorite/collections/${id}/update/`,
-    method: 'put',
-    options: {
-      onError: () => {
-        toast({
-          title: 'خطایی رخ داد!',
-          description: 'تغییر نام این کالکشن با مشکل مواجه شد.',
-          theme: 'theme',
-        });
-      },
-      onSuccess: () => {
-        refetch();
-        toast({
-          title: 'نام مجموعه تغیر یافت !',
-          description: `کاربر گرامی نام مجموعه مد نظر شما به ${form.getValues('name')} تغیر یافت.`,
-          theme: 'green',
-        });
-      },
-    },
-  });
-
-  const submitEventHandler: SubmitHandler<formType> = async ({ name }) => {
-    await fetchData.mutateAsync({ title: name });
-  };
-
-  // Conditional rendering
+  // Returning JSX
   if (loading) {
     return (
       <div>
-        <div className="grid grid-cols-2 grid-rows-2 gap-[10px] overflow-hidden rounded-md h-[200px] mb-2">
+        <div className="grid grid-cols-2 grid-rows-2 gap-[10px] overflow-hidden rounded-md h-[200px] mb-3">
           <Skeleton className="rounded-md object-cover col-span-1 row-span-2 w-full h-full" />
           <Skeleton className="rounded-md object-cover col-span-1 row-span-1 w-full h-full" />
           <Skeleton className="rounded-md object-cover col-span-1 row-span-1 w-full h-full" />
         </div>
-        <Skeleton className="w-full rounded=[8px] h-[20px]" />
+        <div className="flex items-center justify-between gap-3">
+          <Skeleton className="w-full flex-1 rounded-[8px] h-7" />
+          <Skeleton className="shrink-0 rounded-md size-7" />
+        </div>
       </div>
     );
   } else {
     return (
       <>
+        <EditCollectionNameDialog
+          id={id}
+          refetch={refetch}
+          isOpened={editDialogOpened}
+          closeFn={() => setEditDialogOpened(false)}
+          infos={[title]}
+        />
         <DeleteCollectionDialog
           id={id}
           refetch={refetch}
@@ -100,21 +59,8 @@ export default function Collection({
           closeFn={() => setDialogOpened(false)}
         />
         <div className="block relative">
-          <motion.div
-            className="w-full h-full rounded-lg flex items-center justify-center bg-black/10 absolute left-0 top-0 backdrop-blur-xl"
-            exit={{ opacity: 0, pointerEvents: 'none' }}
-            initial={{ opacity: 0, pointerEvents: 'none' }}
-            transition={{ duration: 0.6 }}
-            animate={{
-              opacity: fetchData.isPending ? 1 : 0,
-              pointerEvents: fetchData.isPending ? 'auto' : 'none',
-            }}
-          >
-            <Loading className="bg-white" />
-          </motion.div>
           <motion.button
-            disabled={!isDeletingByUser || fetchData.isPending}
-            className="w-[40px] h-[40px] flex items-center justify-center rounded-md bg-cs-red text-white absolute -right-[20px] -top-[20px]"
+            className="w-[40px] h-[40px] flex items-center justify-center rounded-md bg-cs-red text-white absolute lg:right-[-20px] lg:top-[-20px] right-3 top-3"
             exit={{ opacity: 0, scale: 0.8 }}
             initial={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.6 }}
@@ -135,26 +81,30 @@ export default function Collection({
           </motion.button>
           <Link
             href={`/dashboard/favorites/${id}`}
-            tabIndex={fetchData.isPending ? -1 : 0}
-            aria-disabled={fetchData.isPending}
-            className="grid grid-cols-2 grid-rows-2 gap-[10px] overflow-hidden rounded-md h-[200px] mb-2 aria-disabled:pointer-events-none"
+            className="grid grid-cols-2 grid-rows-2 gap-[10px] overflow-hidden rounded-md h-[200px] aria-disabled:pointer-events-none"
           >
             {images.map((item, index) =>
-              item === emptyCollectionLogoSrc ? (
+              item === emptyCollectionCode ? (
                 <div
                   key={index}
                   className={cn(
-                    'rounded-md overflow-hidden w-full h-full bg-white flex items-center justify-center',
+                    'rounded-md overflow-hidden w-full h-full bg-[#ededed] flex items-center justify-center',
                     index === 0 && 'row-span-2',
                   )}
                 >
-                  <Image
-                    width={500}
-                    height={500}
-                    alt={'عکس شماره 1 مجموعه'}
-                    src={item}
-                    className="size-[80px]"
-                  />
+                  <div
+                    className={
+                      index === 0
+                        ? 'border-2 border-[#b9b9b9] rounded-lg p-1'
+                        : ''
+                    }
+                  >
+                    <IconsaxIcons
+                      className="size-[30px]"
+                      color="#b9b9b9"
+                      name="Image"
+                    />
+                  </div>
                 </div>
               ) : (
                 <Image
@@ -171,29 +121,21 @@ export default function Collection({
               ),
             )}
           </Link>
-          <form
-            action="#"
-            className="mt-3"
-            onSubmit={form.handleSubmit(submitEventHandler, (errors) => {
-              if (errors.name?.message) {
-                toast({
-                  title: 'خطایی رخ داد!',
-                  description: errors.name.message,
-                  theme: 'theme',
-                });
-              }
-            })}
+          <button
+            className="flex items-center justify-between gap-3 pt-3 w-full text-black"
+            onClick={() => setEditDialogOpened(true)}
           >
-            <input
-              type="text"
-              className="text-black font-semibold block text-right text-[13px] placeholder:text-[13px] placeholder:font-semibold placeholder:text-gray-500 m-0 p-0 pb-3 border-b transition-all duration-500 bg-transparent w-full border-transparent focus:border-b-black/20 aria-[invalid=true]:border-b-cs-red/20 aria-[invalid=true]:text-cs-red"
-              placeholder="نام لیست را وارد کنید"
-              disabled={fetchData.isPending}
-              tabIndex={fetchData.isPending ? -1 : 0}
-              aria-invalid={form.formState.errors.name?.message !== undefined}
-              {...form.register('name')}
-            />
-          </form>
+            <span className="text-current font-semibold text-right text-[13px] truncate flex-1">
+              {title}
+            </span>
+            <div className="shrink-0 lg:size-7 size-8 bg-[#ededed] rounded-md flex items-center justify-center p-1.5">
+              <IconsaxIcons
+                name="Edit"
+                color="currentColor"
+                className="w-full"
+              />
+            </div>
+          </button>
         </div>
       </>
     );

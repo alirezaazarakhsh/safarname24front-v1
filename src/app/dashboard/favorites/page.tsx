@@ -11,8 +11,8 @@ import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETFavorites } from '@/types/dashboard/api/get';
 import { ReactNode, useEffect, useState } from 'react';
 
-// Defining static route for empty collection image
-const emptyCollectionLogoSrc = '/image/dashboardFavorites/logo.png';
+// Defining code used for showing svg icon instead of image as placeholder in collection components
+const emptyCollectionCode = 'EmptyCollectionImage';
 
 // Creating and exporting Favorites page as default
 export default function Favorites(): ReactNode {
@@ -59,7 +59,7 @@ export default function Favorites(): ReactNode {
                 data={{
                   id: index,
                   title: 'TITLE',
-                  images: new Array(3).fill(emptyCollectionLogoSrc) as [
+                  images: new Array(3).fill(emptyCollectionCode) as [
                     string,
                     string,
                     string,
@@ -111,18 +111,18 @@ export default function Favorites(): ReactNode {
                         ? [
                             item.thumbnails[0],
                             item.thumbnails[1],
-                            emptyCollectionLogoSrc,
+                            emptyCollectionCode,
                           ]
                         : item.thumbnails.length === 1
                           ? [
                               item.thumbnails[0],
-                              emptyCollectionLogoSrc,
-                              emptyCollectionLogoSrc,
+                              emptyCollectionCode,
+                              emptyCollectionCode,
                             ]
                           : [
-                              emptyCollectionLogoSrc,
-                              emptyCollectionLogoSrc,
-                              emptyCollectionLogoSrc,
+                              emptyCollectionCode,
+                              emptyCollectionCode,
+                              emptyCollectionCode,
                             ],
                   title: item.title,
                 }}
