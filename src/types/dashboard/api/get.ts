@@ -243,7 +243,7 @@ export type GETUserLevels = {
 };
 export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
-export type GETFavorites = GETPaginationAPILayout<GETFavoriteItem[]>;
+export type GETFavorites = GETFavoriteItem[];
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
 export type GETCustomerClubList = GETPaginationAPILayout<
   GETCustomerClubListItem[]

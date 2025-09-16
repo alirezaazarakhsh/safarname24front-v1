@@ -85,7 +85,7 @@ export default function FavoritesPage(): ReactNode {
             />
             {itemToRender.length === 0 ? (
               <EmptyTable
-                className="lg:col-span-4 col-span-1"
+                className="lg:col-span-4 col-span-1 lg:bg-transparent border-none"
                 title="هیچ آیتمی فعلا ندارید!"
                 description="مشتری گرامی، برای ثبت آیتم می‌توانید از وبسایت اقدام نمایید. از همراهی شما متشکریم."
               />
@@ -97,6 +97,7 @@ export default function FavoritesPage(): ReactNode {
                       isOpened={deleteDialogOpened}
                       id={deleteDialogId}
                       refetch={getData.refetch}
+                      type={savedType === 'savedHotels' ? 'hotel' : 'article'}
                       closeFn={() => {
                         setDeleteDialogOpened(false);
                         setDeleteDialogId(undefined);
