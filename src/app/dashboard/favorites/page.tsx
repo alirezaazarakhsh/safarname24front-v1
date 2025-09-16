@@ -6,10 +6,9 @@ import EmptyTable from '@/components/dashboard/api/emptyTable';
 import ErrorTable from '@/components/dashboard/api/errorTable';
 import Collection from '@/components/dashboard/favorites/collection';
 import Filter from '@/components/dashboard/favorites/filter';
-import CustomPagination from '@/components/dashboard/ui/customPagination';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETFavorites } from '@/types/dashboard/api/get';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 // Defining code used for showing svg icon instead of image as placeholder in collection components
 const emptyCollectionCode = 'EmptyCollectionImage';
@@ -18,25 +17,15 @@ const emptyCollectionCode = 'EmptyCollectionImage';
 export default function Favorites(): ReactNode {
   // Defining states of component
   const [deleteState, setDeleteState] = useState<boolean>(false);
-  const [paginationNumber, setPaginationNumber] = useState<number>(0);
 
   // Fetching the data
   const getData = useApiQuery<GETFavorites>({
-    url: `/favorite/collections?p=${paginationNumber + 1}`,
+    url: `/favorite/collections`,
     queryKey: ['favoritesCollection'],
     options: {
       staleTime: 30000, // 30 Sec
     },
   });
-
-  // Using useEffect to make useApiQuery Fetch again while pagination number changes
-  useEffect(() => {
-    async function handleRefetch() {
-      await getData.refetch();
-    }
-
-    handleRefetch();
-  }, [paginationNumber]);
 
   // Returning JSX
   return (
@@ -67,14 +56,11 @@ export default function Favorites(): ReactNode {
                 }}
               />
             ))}
-            <div className="flex items-center lg:justify-end justify-center">
-              <CustomPagination count={18} loading />
-            </div>
           </div>
         </>
       ) : getData.isError ? (
         <ErrorTable refetch={getData.refetch} />
-      ) : getData.data && getData.data.count === 0 ? (
+      ) : getData.data && getData.data.length === 0 ? (
         <>
           <Filter
             deleteState={deleteState}
@@ -88,7 +74,7 @@ export default function Favorites(): ReactNode {
             description="مشتری گرامی برای ثبت  علاقه مندی میتوانید از وبسایت اقدام نمایید از همراهی شما متشکریم."
           />
         </>
-      ) : getData.data && getData.data.count !== 0 ? (
+      ) : getData.data && getData.data.length !== 0 ? (
         <>
           <Filter
             refetch={getData.refetch}
@@ -97,7 +83,7 @@ export default function Favorites(): ReactNode {
             listIsEmpty={false}
           />
           <div className="grid lg:grid-cols-4 grid-cols-1 lg:gap-10 gap-[24px]">
-            {getData.data.results.map((item, index) => (
+            {getData.data.map((item, index) => (
               <Collection
                 refetch={getData.refetch}
                 isDeletingByUser={deleteState}
@@ -129,15 +115,6 @@ export default function Favorites(): ReactNode {
               />
             ))}
           </div>
-          {getData.data.count > 18 && (
-            <div className="flex items-center lg:justify-end justify-center">
-              <CustomPagination
-                count={getData.data.count}
-                activeIndex={paginationNumber}
-                setActiveIndex={setPaginationNumber}
-              />
-            </div>
-          )}
         </>
       ) : (
         false

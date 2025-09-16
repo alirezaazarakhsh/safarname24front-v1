@@ -120,7 +120,10 @@ export interface DeleteCollectionDialogPropsType
   id: number;
 }
 
-export type DeleteItemDialogPropsType = DeleteCollectionDialogPropsType;
+export interface DeleteItemDialogPropsType
+  extends DeleteCollectionDialogPropsType {
+  type: 'hotel' | 'article';
+}
 
 export interface ToastProps {
   title: string;

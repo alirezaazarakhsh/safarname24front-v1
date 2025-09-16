@@ -34,6 +34,7 @@ export default function DeleteItemDialog({
   isOpened = false,
   id,
   refetch,
+  type,
 }: DeleteItemDialogPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -48,7 +49,7 @@ export default function DeleteItemDialog({
 
   // Defining fetchings
   const fetchingData = useApiMutation({
-    url: `/favorite/collections/${paramId}/items/${id}`,
+    url: `/favorite/collections/${paramId}/items/${id}?type=${type}`,
     method: 'delete',
     options: {
       onError: () => {
