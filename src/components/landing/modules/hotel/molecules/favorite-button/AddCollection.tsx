@@ -14,6 +14,7 @@ import { IoClose } from 'react-icons/io5';
 
 import { useForm } from 'react-hook-form';
 import { axiosInstance } from '@/utils/axios';
+import loader from '@/styles/loader.module.css';
 
 import useCallReactions from './helpers/useCallReactions';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -116,7 +117,7 @@ export function AddCollection(props: Props) {
             className="bg-cs-dark-blue h-12 mt-4 flex-center gap-1.5 rounded-cs-10"
           >
             {status === 'pending' ? (
-              <div className="loader-dots" />
+              <div className={loader.dots} />
             ) : (
               <>
                 <Plus color="#fff" size={16} />

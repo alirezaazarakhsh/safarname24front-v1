@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { axiosInstance } from '@/utils/axios';
-import styles from '@/styles/loader.module.css';
+import loader from '@/styles/loader.module.css';
 
 import useCallReactions from './helpers/useCallReactions';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -74,7 +74,7 @@ export function CollectionListItem(props: Props) {
       <div
         className={`fixed inset-0 z-30 bg-black/10 flex-center transition-all ${status === 'pending' ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
       >
-        <span className={styles.spinner} />
+        <span className={loader['dots-dark']} style={{ scale: '1.2' }} />
       </div>
     </button>
   );
