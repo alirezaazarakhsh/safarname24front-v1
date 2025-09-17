@@ -23,7 +23,7 @@ export function Footer() {
   return (
     <>
       {/* Small-Device */}
-      <footer className="relative bg-white text-cs08 font-medium p-4 pb-24 mt-auto flex flex-col items-center gap-4 border-t-4 border-zinc-200 xl:pb-8 xl:hidden">
+      <footer className="relative bg-white text-cs08 font-medium p-4 pb-28 mt-auto flex flex-col items-center gap-4 border-t-4 border-zinc-200 xl:pb-8 xl:hidden">
         <Logo />
         <Description />
         <QuickAccess />

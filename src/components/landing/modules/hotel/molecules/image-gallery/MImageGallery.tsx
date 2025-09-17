@@ -46,7 +46,12 @@ export default function MImageGallery(props: Props) {
   });
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  if (isDesktop || isEmptyOrInvalid({ data, status })) return null;
+  if (isDesktop || isEmptyOrInvalid({ data, status }))
+    return (
+      <button className="text-zinc-500 text-cs08 font-semibold">
+        گالری تصاویر ندارد
+      </button>
+    );
 
   return (
     <Sheet>

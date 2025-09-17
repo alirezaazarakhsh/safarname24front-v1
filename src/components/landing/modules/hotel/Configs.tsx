@@ -6,7 +6,7 @@ import { BackToTopBtn } from '../rules';
 import { SectionLinks } from './SectionLinks';
 
 import Sharing from './molecules/sharing/Sharing';
-import FavoriteButton from './molecules/FavoriteButton';
+import { FavoriteButton } from './molecules/favorite-button';
 
 type Props = {
   hotelSlug: string;

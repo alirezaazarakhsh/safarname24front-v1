@@ -37,19 +37,11 @@ export default function useLogout() {
           theme: 'theme',
         });
 
-        if (pathname === '/') {
-          window.location.reload();
-        } else {
-          router.push('/');
-        }
+        window.location.pathname = '/';
       },
       onSuccess: () => {
         startTransition(() => {
-          if (pathname === '/') {
-            window.location.reload();
-          } else {
-            router.push('/');
-          }
+          window.location.pathname = '/';
 
           setTimeout(() => {
             ['AUTH', 'UPN', 'auth'].forEach((key) => Cookies.remove(key));

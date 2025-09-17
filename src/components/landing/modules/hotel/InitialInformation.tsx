@@ -39,7 +39,7 @@ export function InitialInformation(props: Props) {
       {status === 'pending' ? (
         <Skeleton className="h-72" />
       ) : (
-        <div className="relative h-auto bg-white text-[clamp(0.75rem,2vw,0.8rem)] p-5 overflow-hidden border border-zinc-200 rounded-xl md:text-cs75">
+        <div className="relative h-auto bg-white text-cs08 p-5 overflow-hidden border border-zinc-200 rounded-xl">
           {/* Logo | HotelName | City | Stars */}
           <div className="flex items-center gap-4">
             <div className="w-20 p-1 aspect-square overflow-hidden border rounded-cs-10">
@@ -55,7 +55,7 @@ export function InitialInformation(props: Props) {
             </div>
 
             <div className="space-y-1 flex-1">
-              <div className="text-zinc-800 text-cs85 font-extrabold flex items-center gap-1 overflow-hidden">
+              <div className="text-zinc-800 text-cs09 font-extrabold flex items-center gap-1 overflow-hidden">
                 <span>هتل</span>
                 <span className="max-w-40 truncate lg:max-w-32 xl:max-w-52">
                   {data?.data.name}
@@ -119,7 +119,12 @@ export function InitialInformation(props: Props) {
               <div className="flex-center gap-1">
                 <span>ساعت ورود</span>
                 <span className="mx-0.5">:</span>
-                <span>{data?.data.check_in_time}</span>
+                <span>
+                  {data?.data.check_in_time.slice(
+                    0,
+                    data?.data.check_in_time.length - 3,
+                  )}
+                </span>
               </div>
             </div>
 
@@ -131,7 +136,12 @@ export function InitialInformation(props: Props) {
               <div className="flex-center gap-1">
                 <span>ساعت خروج</span>
                 <span className="mx-0.5">:</span>
-                <span>{data?.data.check_out_time}</span>
+                <span>
+                  {data?.data.check_out_time.slice(
+                    0,
+                    data?.data.check_out_time.length - 3,
+                  )}
+                </span>
               </div>
             </div>
           </div>

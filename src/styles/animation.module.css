@@ -1,0 +1,12 @@
+@keyframes radial-progress {
+  from {
+    stroke-dashoffset: 565px;
+  }
+  to {
+    stroke-dashoffset: 0px;
+  }
+}
+
+.animate {
+  animation: radial-progress linear forwards;
+}

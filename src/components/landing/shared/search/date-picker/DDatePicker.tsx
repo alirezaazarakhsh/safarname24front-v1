@@ -6,7 +6,7 @@ import {
 import '@/styles/date-picker/general.css';
 import '@/styles/date-picker/desktop.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar, DateObject } from 'react-multi-date-picker';
 import weekends from 'react-multi-date-picker/plugins/highlight_weekends';
 
@@ -44,6 +44,11 @@ export function DDatePicker(props: Props) {
 
   const [isOpen, setOpen] = useState(false);
   const calendarDetail = getCalendarDetail(calendarType);
+
+  // === Auto-Close
+  useEffect(() => {
+    if (value?.length === 2) setOpen(false);
+  }, [value]);
 
   function handleDateChange(date: DateObject[]) {
     if (date?.[0] && date?.[1]) {

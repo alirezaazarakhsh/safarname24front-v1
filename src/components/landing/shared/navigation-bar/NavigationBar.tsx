@@ -33,7 +33,14 @@ export function NavigationBar() {
       const currentScrollY = window.scrollY;
       const direction = currentScrollY > lastScrollY ? 'down' : 'up';
 
-      direction === 'down' ? setShowNav(false) : setShowNav(true);
+      const distanceFromBottom =
+        document.documentElement.scrollHeight -
+        window.scrollY -
+        window.innerHeight;
+
+      direction === 'down' || distanceFromBottom < 100
+        ? setShowNav(false)
+        : setShowNav(true);
       setLastScrollY(currentScrollY);
     };
 

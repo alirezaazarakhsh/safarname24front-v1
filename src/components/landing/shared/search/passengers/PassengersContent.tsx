@@ -78,10 +78,10 @@ export default function PassengersContent(props: Props) {
           <span>تایید</span>
 
           <div className="flex-center gap-0.5">
-            (<span className="w-2 text-center">{totalPeople}</span>
+            (<span className="text-center px-0.5">{totalPeople}</span>
             <span>مسافر</span>
             <span>,</span>
-            <span className="w-2 text-center">{rooms.length}</span>
+            <span className="text-center px-0.5">{rooms.length}</span>
             <span>اتاق</span>)
           </div>
         </button>

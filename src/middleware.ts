@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
 
   let isError = false;
   let appIsInActive = false;
-  
+
   const token = request.cookies.get('auth')?.value;
 
   try {
@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     const json = await response.json();
     appIsInActive = json.data.is_active;
   } catch (error) {
-    // isError = true;
+    isError = true;
   }
 
   if (
@@ -44,12 +44,12 @@ export async function middleware(request: NextRequest) {
     return redirectTo('/', request);
   }
 
-  // if (
-  //   (pathname.startsWith('/payment') || pathname.startsWith('/dashboard')) &&
-  //   !token
-  // ) {
-  //   return redirectTo('/', request);
-  // }
+  if (
+    (pathname.startsWith('/payment') || pathname.startsWith('/dashboard')) &&
+    !token
+  ) {
+    return redirectTo('/', request);
+  }
 
   return NextResponse.next();
 }

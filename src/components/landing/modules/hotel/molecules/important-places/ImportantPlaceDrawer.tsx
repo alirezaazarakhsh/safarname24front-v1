@@ -46,7 +46,7 @@ export default function ImportantPlaceDrawer(props: Data) {
         <DrawerDescription className="hidden"></DrawerDescription>
 
         {/* Image */}
-        <div className="h-56 overflow-hidden rounded-xl">
+        <div className="h-48 overflow-hidden rounded-xl">
           {image && (
             <Image
               src={image}
@@ -59,7 +59,7 @@ export default function ImportantPlaceDrawer(props: Data) {
         </div>
 
         {/* Title */}
-        <span className="text-zinc-800 text-[clamp(0.8rem,3vw,0.85rem)] font-extrabold mt-6 mb-4">
+        <span className="text-zinc-800 text-[clamp(0.85rem,3vw,0.09rem)] font-bold my-4">
           {title}
         </span>
 

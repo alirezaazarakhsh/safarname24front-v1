@@ -8,13 +8,15 @@ import Cookies from 'js-cookie';
 import { TopBarConfig } from '../../shared';
 import { Section } from './molecules/Section';
 import { HotelCustomerReview } from '@/types';
-import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+import { generalInstance } from '@/utils/services';
+import { HiMiniExclamationCircle } from 'react-icons/hi2';
 
 import { Swiper as SwiperType } from 'swiper/types';
 
 import Reviews from './molecules/customer-reviews/Reviews';
 import ReviewsAverage from './molecules/customer-reviews/ReviewsAverage';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import { AddCommentProvider } from '@/context/AddCommentContext';
 import AuthGuardReaction from '../../shared/auth/AuthGuardReaction';
 import AddCommentWrapper from './molecules/customer-review/AddCommentWrapper';
@@ -31,21 +33,16 @@ export function CustomerReviews(props: Props) {
   const [isOpen, setOpen] = useState(false);
   const [addCommentIsOpen, setAddCommentIsOpen] = useState(false);
 
-  const { data,status } = useQuery<ApiResponse>({
+  const { data, status } = useQuery<ApiResponse>({
     queryKey: ['hotel-comments-list'],
     queryFn: () => generalInstance(`/hotel/hotels/${hotelSlug}/comments`),
   });
-
-  console.log(data)
-
-  // if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
     <Section sectionID="customer-reviews" className="relative">
       <TopBarConfig
         maxLength={2}
         arraylength={data?.data?.length}
-        className="mb-3 lg:mb-4"
         subtitle={
           data?.data.length
             ? `${data?.data.length} دیدگاه از سوی کاربران به ثبت رسیده است`
@@ -56,6 +53,7 @@ export function CustomerReviews(props: Props) {
         nextClickFunc={() => swiperRef.current?.slideNext()}
       />
 
+      {/* === Add-Comment */}
       <button
         className="absolute bg-white/50 top-1 left-0 h-10 px-4 pr-3 flex-center gap-2 border rounded-lg"
         onClick={() => {
@@ -71,16 +69,38 @@ export function CustomerReviews(props: Props) {
         </span>
       </button>
 
-      <div className="flex flex-col gap-6 overflow-hidden lg:h-[30rem] lg:flex-row lg:gap-8">
-        <div className="lg:w-4/12">
-          <ReviewsAverage hotelSlug={hotelSlug} />
+      {/* === Data-Content */}
+      {status === 'pending' ? (
+        <div className="grid gap-6 lg:h-[30rem] lg:grid lg:grid-cols-[1fr_2fr] lg:gap-8">
+          <Skeleton className="h-[30rem] rounded-xl lg:h-auto" />
+          <Skeleton className="h-96 rounded-xl lg:h-auto" />
         </div>
-
-        <div className="overflow-hidden lg:w-8/12">
+      ) : data?.data.length ? (
+        <div className="grid gap-6 overflow-hidden lg:h-[30rem] lg:grid-cols-[1fr_2fr] lg:gap-8">
+          <ReviewsAverage hotelSlug={hotelSlug} />
           <Reviews hotelSlug={hotelSlug} ref={swiperRef} />
         </div>
-      </div>
+      ) : (
+        <div className="bg-cs-blue/10 p-5 text-cs-blue text-cs85/6 font-semibold flex flex-col items-center justify-center gap-3 rounded-xl lg:text-cs09/5 lg:p-8">
+          <div className="flex-center gap-1.5">
+            <HiMiniExclamationCircle
+              color="#4b5bce"
+              className="size-5 lg:size-6"
+            />
 
+            <p className="font-bold">دیدگاهی برای این هتل ثبت نشده است</p>
+          </div>
+
+          <div className="w-[90%] border-b border-dashed border-cs-blue/20 md:w-1/3" />
+
+          <p className="text-cs08/6 text-center lg:text-cs85/6">
+            برای افزودن دیدگاه خود از دکمه "افزودن نظر" استفاده نمایید و اولین
+            دیدگاه را شما ثبت کنید .
+          </p>
+        </div>
+      )}
+
+      {/* === Context-Provider */}
       <AddCommentProvider>
         <AddCommentWrapper
           hotelSlug={hotelSlug}

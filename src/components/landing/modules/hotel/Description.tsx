@@ -21,7 +21,7 @@ type Props = {
 };
 
 const buttonStyle =
-  'bg-zinc-200 text-zinc-800 text-cs75 font-semibold px-4 py-1.5 rounded-md';
+  'bg-zinc-200/50 text-zinc-800 text-cs75 font-semibold px-4 py-1.5 rounded-md';
 
 // -----------------------------------------
 
