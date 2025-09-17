@@ -101,15 +101,15 @@ function Questions(props: QuestionProps) {
         <AccordionItem
           key={index}
           value={`item-${index}`}
-          className="border-b last:border-none"
+          className="border-b last:border-none gap-4"
         >
-          <AccordionTrigger className="text-zinc-800 text-cs85 font-bold py-5">
+          <AccordionTrigger className="text-zinc-800 text-cs08/6 font-bold py-5 lg:text-cs85/6">
             <div className="flex items-center gap-3">
               {item.icon.link && (
                 <Image src={item.icon.link} alt="icon" width={24} height={24} />
               )}
 
-              <span>{item.question}</span>
+              <div className="text-right">{item.question}</div>
             </div>
           </AccordionTrigger>
 
