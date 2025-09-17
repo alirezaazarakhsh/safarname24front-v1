@@ -26,7 +26,7 @@ export default function CommunicationWays() {
 
   return (
     <div className="w-full flex flex-col gap-y-3 lg:gap-y-2">
-      <h4 className="w-full text-zinc-800 text-cs07 font-bold lg:text-cs08 lg:mb-2">
+      <h4 className="w-full text-zinc-800 text-cs75 font-bold lg:text-cs08 lg:mb-2">
         راه ارتباطی با ما :
       </h4>
 
