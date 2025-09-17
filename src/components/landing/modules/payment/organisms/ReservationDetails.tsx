@@ -78,10 +78,24 @@ export function ReservationDetails() {
           isLoading={isLoading}
         />
 
-        <RoomName
+        <ReservationField
+          value="دارد"
+          icon="ReceiptText"
+          title="نیم شارژ ورود هتل"
+          isLoading={isLoading}
+        />
+
+        <ReservationField
+          value="دارد"
+          icon="ReceiptText"
+          title="نیم شارژ خروج هتل"
+          isLoading={isLoading}
+        />
+
+        {/* <RoomName
           isLoading={isLoading}
           rooms={['1 تخته لوکس ویژن', '1 تخته لوکس ویژن']}
-        />
+        /> */}
 
         <TrackingCode isLoading={isLoading} value={trackingCode} />
       </div>

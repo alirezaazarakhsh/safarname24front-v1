@@ -44,11 +44,11 @@ export function OtherPassengers(props: Props) {
     });
   }
 
+  if (!length) return null;
+
   return (
     <div className="space-y-4">
-      {length > 0 && (
-        <h4 className="text-cs08 font-bold flex gap-2">سایر مسافران :</h4>
-      )}
+      <h4 className="text-cs08 font-bold flex gap-2">سایر مسافران :</h4>
 
       {otherFields.map((field, idx) => (
         <div

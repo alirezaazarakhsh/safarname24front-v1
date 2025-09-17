@@ -64,6 +64,8 @@ export function ExtraCapacityPassengers(props: Props) {
     });
   }
 
+  if (!length) return null;
+
   return (
     <div className="space-y-4">
       {/* === Extra-Capacity-Passengers (Titles) */}

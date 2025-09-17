@@ -1,24 +1,22 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { payment } from '../helpers/constant';
 
 // ------------------------------
 
 export function Description() {
   const [value, setValue] = useState('');
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     const sessionValue = sessionStorage.getItem('payment-description');
-  //     if (sessionValue) setValue(sessionValue);
-  //   }
-  // }, []);
+  // === Providing Textarea-Value From AIP
+  useEffect(() => {}, []);
 
-  // useEffect(() => {
-  //   if (typeof window !== undefined) {
-  //     sessionStorage.setItem('payment-description', value);
-  //   }
-  // }, [value]);
+  // === Updating Session-Storage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(payment.descriptionKey, value);
+    }
+  }, [value]);
 
   return (
     <div className="bg-white p-5 pt-4 grid gap-3 overflow-hidden border rounded-xl">

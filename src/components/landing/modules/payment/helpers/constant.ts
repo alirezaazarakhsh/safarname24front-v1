@@ -4,6 +4,7 @@ import { IconsName } from '@/types';
 
 export const payment = {
   NUMBER_OF_STEPS: 4,
+  descriptionKey: 'reservation-description',
   reservationId: 'tracking-code',
   stepper: [
     {
@@ -45,13 +46,13 @@ export const payment = {
     {
       id: 5,
       name: 'یک تخته (اقامت 7 ساعته)',
-      capacity: 2,
-      extra_capacity: 2,
+      capacity: 1,
+      extra_capacity: 0,
       discount_on_purchase: 2_000_000,
       extra_capacity_price: 1_500_000,
       half_charges: {
-        enter: { enabled: false, price: 2_000_000 },
-        exit: { enabled: false, price: 3_000_000 },
+        enter: { enabled: false, price: 0 },
+        exit: { enabled: false, price: 0 },
       },
       passengers: {
         main_passenger: {
@@ -61,11 +62,11 @@ export const payment = {
           national_code: '',
         },
         other_passengers: [
-          {
-            first_name: '',
-            last_name: '',
-            national_code: '',
-          },
+          // {
+          //   first_name: '',
+          //   last_name: '',
+          //   national_code: '',
+          // },
         ],
         extra_capacity_passengers: [],
       },
