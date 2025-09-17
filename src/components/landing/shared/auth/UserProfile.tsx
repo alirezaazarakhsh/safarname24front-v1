@@ -46,7 +46,7 @@ export default function UserProfile(props: Props) {
           {userName}
         </div>
 
-        <div dir="rtl" className="grid divide-y divide-zinc-100/80">
+        <div dir="rtl" className="grid divide-y divide-zinc-100">
           <UserProfileItem
             type="link"
             href="/dashboard/profile"

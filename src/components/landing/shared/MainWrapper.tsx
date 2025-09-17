@@ -6,6 +6,7 @@ import {
   HotelOrCityProvider,
 } from '@/context';
 
+import { ToastContainer } from 'react-toastify';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Suspense, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -59,7 +60,7 @@ export default function MainWrapper(props: Props) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {false ? (
+      {isError ? (
         <ServerError />
       ) : isActive ? (
         <ComingSoon />
@@ -74,6 +75,7 @@ export default function MainWrapper(props: Props) {
 
                 <HotelQueryProvider>
                   <NuqsAdapter>{props.children}</NuqsAdapter>
+                  <ToastContainer newestOnTop style={{ zIndex: 99999 }} />
                 </HotelQueryProvider>
               </PassengersProvider>
             </DatePickerProvider>
