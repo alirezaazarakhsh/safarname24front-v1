@@ -70,33 +70,38 @@ export const payment = {
         extra_capacity_passengers: [],
       },
     },
-    // {
-    //   id: 5,
-    //   name: 'یک تخته (اقامت 7 ساعته)',
-    //   capacity: 1,
-    //   extra_capacity: 2,
-    //   discount_on_purchase: 2_000_000,
-    //   extra_capacity_price: 1_500_000,
-    //   half_charges: {
-    //     enter: { enabled: false, price: 2_000_000 },
-    //     exit: { enabled: false, price: 3_000_000 },
-    //   },
-    //   passengers: {
-    //     main_passenger: {
-    //       first_name: '',
-    //       last_name: '',
-    //       phone_number: '',
-    //       national_code: '',
-    //     },
-    //     other_passengers: [
-    //       // {
-    //       //   first_name: '',
-    //       //   last_name: '',
-    //       //   national_code: '',
-    //       // },
-    //     ],
-    //     extra_capacity_passengers: [],
-    //   },
-    // },
+    {
+      id: 5,
+      name: 'یک تخته (اقامت 7 ساعته)',
+      capacity: 3,
+      extra_capacity: 2,
+      discount_on_purchase: 2_000_000,
+      extra_capacity_price: 1_500_000,
+      half_charges: {
+        enter: { enabled: false, price: 2_000_000 },
+        exit: { enabled: false, price: 3_000_000 },
+      },
+      passengers: {
+        main_passenger: {
+          first_name: '',
+          last_name: '',
+          phone_number: '',
+          national_code: '',
+        },
+        other_passengers: [
+          {
+            first_name: '',
+            last_name: '',
+            national_code: '',
+          },
+          {
+            first_name: '',
+            last_name: '',
+            national_code: '',
+          },
+        ],
+        extra_capacity_passengers: [],
+      },
+    },
   ],
 };

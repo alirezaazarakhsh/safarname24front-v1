@@ -2,7 +2,6 @@
 
 import {
   RoomName,
-  Location,
   TrackingCode,
   ReservationField,
 } from '../molecules/reservation-details';
@@ -71,8 +70,6 @@ export function ReservationDetails() {
           isLoading={isLoading}
           value={`تهران - تهران`}
         />
-
-        <Location />
 
         <ReservationField
           value={`2 اتاق`}

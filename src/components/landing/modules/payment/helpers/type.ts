@@ -69,6 +69,7 @@ type Reservation = {
       exit: { enabled: boolean; price: string };
     };
   }>;
+  half_charges: { enter: boolean; exit: boolean };
   invoice: {
     total_price: string;
     extra_passengers: string;
