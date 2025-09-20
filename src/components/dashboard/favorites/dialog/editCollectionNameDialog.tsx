@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -176,27 +176,24 @@ export default function EditCollectionNameDialog({
   } else {
     return (
       <Dialog open={isOpened}>
-        <DialogContent className="w-full max-w-[320px] gap-0 p-0">
-          <div className="md:px-6 px-3 py-3 border-b border-b-black/10 flex items-center justify-between gap-3">
-            <DialogTitle className="text-right md:text-[14px] text-[12px] md:font-bold  font-semibold text-black block truncate w-full">
+        <DialogContent className="max-w-[400px] text-cs85 font-semibold p-0 gap-0">
+          <div className="px-6 h-16 border-b border-b-black/10 flex items-center justify-between gap-3 shadow-light">
+            <DialogTitle className="text-zinc-800 text-[0.95rem]/6! font-extrabold truncate text-right block flex-1">
               ویرایش متن
             </DialogTitle>
             <DialogClose asChild>
               <button
                 onClick={closeFn}
-                className="shrink-0 text-gray-300"
+                className="shrink-0 text-[rgb(136_136_136)]"
                 type="button"
               >
-                <ICX
-                  className="md:w-3 md:h-3 w-[12px] h-[12px] text-current"
-                  fill="currentColor"
-                />
+                <ICX className="size-[10px] text-current" fill="currentColor" />
               </button>
             </DialogClose>
           </div>
           <form
             action="#"
-            className="px-3 md:py-3 py-4 md:space-y-6 space-y-[12px] w-full"
+            className="p-6 w-full"
             onSubmit={form.handleSubmit(submitEventHandler, (e) => {
               const nameError = e.name?.message;
 
@@ -210,27 +207,35 @@ export default function EditCollectionNameDialog({
             })}
           >
             <input
-              className="bg-white border border-black h-[45px] px-3 md:rounded-md rounded-[6px] md:text-[12px] text-[10px] font-semibold md:placeholder:text-[12px] placeholder:text-[10px] placeholder:text-black/50 text-black w-full block"
+              className="bg-white border border-black h-12 mb-6 px-3 md:rounded-md rounded-[6px] md:text-[12px] text-[10px] font-semibold md:placeholder:text-[12px] placeholder:text-[10px] placeholder:text-black/50 text-black w-full block"
               placeholder="نام لیست خود را وارد نمایید"
               type="text"
               {...form.register('name')}
             />
             <DialogFooter dir="ltr" className="grid grid-cols-2 gap-1">
-              <Button
+              <button
                 disabled={form.formState.isSubmitting}
-                className="flex items-center justify-center px-4 md:rounded-md rounded-[6px] transition-all duration-500 font-semibold text-white bg-black h-[40px] hover:bg-black disabled:opacity-100 md:text-[12px] text-[10px] truncate"
+                className="bg-cs-dark-blue text-white h-12 flex-center gap-1.5 rounded-cs-10"
                 type="submit"
               >
-                {form.formState.isSubmitting ? <Loading /> : 'ثبت تغیرات'}
-              </Button>
-              <Button
+                {form.formState.isSubmitting ? (
+                  <Loading />
+                ) : (
+                  <span className="text-current text-cs08 font-semibold">
+                    ثبت تغیرات
+                  </span>
+                )}
+              </button>
+              <button
                 disabled={form.formState.isSubmitting}
-                className="flex items-center justify-center px-4 md:rounded-md rounded-[6px] font-semibold transition-all duration-500 text-black bg-[#ededed] h-[40px] hover:bg-[#b9b9b9] disabled:opacity-100 md:text-[12px] text-[10px] truncate"
+                className="bg-zinc-200 text-black h-12 flex-center gap-1.5 rounded-cs-10"
                 type="button"
                 onClick={closeFn && closeFn}
               >
-                برگشت
-              </Button>
+                <span className="text-current text-cs08 font-semibold">
+                  برگشت
+                </span>
+              </button>
             </DialogFooter>
           </form>
         </DialogContent>
