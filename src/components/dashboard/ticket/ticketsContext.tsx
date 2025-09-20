@@ -662,7 +662,7 @@ export default function TicketsContext({
                   }}
                 >
                   {!ticketNotifications && (
-                    <div className="absolute left-[50%] -translate-x-[50%] top-0 w-[2px] h-full bg-current rotate-[45deg] scale-125" />
+                    <div className="absolute left-[50%] -translate-x-[50%] top-0 w-[2px] h-full bg-gray-500 rotate-[45deg] scale-125" />
                   )}
                   <IconsaxIcons
                     name="Notification"
@@ -677,7 +677,7 @@ export default function TicketsContext({
                 >
                   <IconsaxIcons
                     name="Grid4"
-                    className="size-5"
+                    className="size-5 group-data-[size=lg]:rotate-0 group-data-[size=sm]:rotate-180"
                     color="currentColor"
                   />
                 </button>
