@@ -24,7 +24,7 @@ export default function TicketItem({
       disabled={disabled}
       onClick={() => !disabled && onClick && onClick()}
       className={cn(
-        'flex items-center justify-between gap-3 w-full transition-all duration-500 disabled:cursor-not-allowed cursor-pointer bg-white disabled:hover:bg-white hover:bg-gray-100 p-[12px] rounded-lg',
+        'flex items-center justify-between gap-3 w-full transition-all duration-500 disabled:cursor-not-allowed cursor-pointer bg-white disabled:hover:bg-white hover:bg-gray-100 py-[12px] lg:px-[20px] px-[12px] rounded-lg',
         className,
       )}
     >
@@ -57,8 +57,8 @@ export default function TicketItem({
               : 'مشخص نشده'}
           </span>
           {newNotifications && newNotifications !== 0 && (
-            <div className="bg-cs-red/10 text-cs-red rounded-full lg:size-[15px] size-[20px] shrink-0 aspect-square flex items-center justify-center mt-1">
-              <span className="lg:text-[8px] text-[10px] font-light text-current text-center truncate block">
+            <div className="bg-cs-red/10 text-cs-red rounded-full size-[20px] shrink-0 aspect-square flex items-center justify-center mt-1">
+              <span className="lg:text-[9px] text-[10px] font-semibold -mb-1 text-current text-center truncate block">
                 {newNotifications}
               </span>
             </div>

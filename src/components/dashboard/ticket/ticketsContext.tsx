@@ -685,7 +685,7 @@ export default function TicketsContext({
             </div>
             <div
               style={{ background: walpaper }}
-              className="p-[24px] flex flex-col gap-4 rounded-lg h-full w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar"
+              className="p-[24px] flex flex-col gap-4 rounded-[12px] h-full w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar"
             >
               <DateSeprator date={new Date().toISOString()} />
               {!foundedTicketItem ? (
@@ -725,7 +725,7 @@ export default function TicketsContext({
             />
           </div>
           <div className="w-[25%] flex flex-col">
-            <div className="px-[12px] py-[24px] shrink-0 border-b border-b-black/10">
+            <div className="px-[20px] py-[24px] shrink-0 border-b border-b-black/10">
               <Button
                 onClick={() => setModalOpened(true)}
                 className="flex items-center justif-center px-[12px] h-[50px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg"
@@ -736,17 +736,22 @@ export default function TicketsContext({
               </Button>
             </div>
             <div className="shrink-0 border-b border-b-black/10 py-[12px]  overflow-auto custom-scrollbar h-[200px]">
-              <div className="px-[12px]">
+              <div className="px-[20px]">
                 <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
                   تیکت های حال حاضر
                 </span>
               </div>
-              <div className="flex flex-col px-[12px]">
+              <div>
                 {tickets.currentTickets.map((item, index) => (
                   <TicketItem
                     key={index}
                     onClick={() => setSelectedTicket(item.id)}
-                    className={selectedTicket === item.id ? 'bg-gray-100' : ''}
+                    className={cn(
+                      'rounded-none',
+                      selectedTicket === item.id
+                        ? 'bg-[#eaecfd] hover:bg-[#eaecfd]'
+                        : '',
+                    )}
                     newNotifications={10}
                     data={{
                       createdAt: item.user.lastSeen,
@@ -776,7 +781,7 @@ export default function TicketsContext({
               </div>
             ) : (
               <div className="h-full overflow-auto custom-scrollbar pt-[24px]">
-                <div className="px-[12px]">
+                <div className="px-[20px]">
                   <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
                     تیکت های گذشته
                   </span>
@@ -788,7 +793,7 @@ export default function TicketsContext({
                       key={index}
                     >
                       <AccordionTrigger asChild>
-                        <button className="flex items-center justify-between gap-3 px-[12px] py-[10px] bg-white transition-all duration-500 hover:bg-gray-100 w-full text-black/70 group">
+                        <button className="flex items-center justify-between gap-3 px-[20px] py-[10px] bg-white transition-all duration-500 hover:bg-gray-100 w-full text-black/70 group">
                           <span className="text-cs75 font-medium text-current text-right truncate block flex-1">
                             تیکت های{' '}
                             {moment(item.date)
@@ -808,11 +813,12 @@ export default function TicketsContext({
                             key={innerIndex}
                             onClick={() => setSelectedTicket(innerItem.id)}
                             type="prevois"
-                            className={
+                            className={cn(
+                              'px-[12px]',
                               selectedTicket === innerItem.id
                                 ? 'bg-gray-100'
-                                : ''
-                            }
+                                : '',
+                            )}
                             data={{
                               createdAt: innerItem.user.lastSeen,
                               subTitle: innerItem.user.status,
@@ -827,7 +833,7 @@ export default function TicketsContext({
                 </Accordion>
               </div>
             )}
-            <div className="px-[12px] py-[24px] shrink-0">
+            <div className="px-[20px] py-[24px] shrink-0">
               <Button
                 onClick={() => setExitModalOpened(true)}
                 className="flex items-center justif-center h-[50px] px-[12px] bg-cs-red/10 !text-cs-red w-full transition-all duration-500 hover:bg-cs-red/20 rounded-lg gap-2"
