@@ -77,27 +77,15 @@ export default function AddPassengersDialog({
     method: 'post',
     options: {
       onSuccess: () => {
-        form.reset({
-          firstName: '',
-          lastName: '',
-          nationalOrPassportCode: '',
-          phoneNumber: '',
-        });
-
         closeFn && closeFn();
         refetch && refetch();
         setSuccessOpened(true);
+        setErrorOpened(false);
       },
       onError: () => {
-        form.reset({
-          firstName: '',
-          lastName: '',
-          nationalOrPassportCode: '',
-          phoneNumber: '',
-        });
-
         closeFn && closeFn();
         setErrorOpened(true);
+        setSuccessOpened(false);
       },
     },
   });
@@ -130,31 +118,49 @@ export default function AddPassengersDialog({
       onOpenChange={(open) => {
         if (!open && closeFn) {
           closeFn();
-          setName('');
+        }
+      }}
+    >
+      <PassengerAddedSucessDialog
+        isOpened={successOpened}
+        closeFn={() => {
+          setSuccessOpened(false);
 
+          setName('');
           form.reset({
             firstName: '',
             lastName: '',
             nationalOrPassportCode: '',
             phoneNumber: '',
           });
-        }
-      }}
-    >
-      <PassengerAddedSucessDialog
-        isOpened={successOpened}
-        closeFn={() => setSuccessOpened(false)}
+        }}
         infos={[name]}
       />
       <PassengerAddedErrorDialog
         isOpened={errorOpened}
-        closeFn={() => setErrorOpened(false)}
-        tryAgainFn={() => {
+        closeFn={() => {
           setErrorOpened(false);
-          submitEventHandler(form.getValues());
+
+          setName('');
+          form.reset({
+            firstName: '',
+            lastName: '',
+            nationalOrPassportCode: '',
+            phoneNumber: '',
+          });
+        }}
+        isTryAgainRefetching={addNewPassenger.isPending}
+        tryAgainFn={() => {
+          const data = form.getValues();
+          addNewPassenger.mutate({
+            first_name: data.firstName,
+            last_name: data.lastName,
+            identification_code: data.nationalOrPassportCode,
+            phone_number: data.phoneNumber,
+          });
         }}
       />
-      <DialogContent className="lg:w-[28dvw] w-dvw p-0 block gap-0 scrollbar-hide overflow-auto lg:max-h-[calc(100dvh-50px)] max-h-dvh lg:rounded-2xl rounded-none lg:h-auto h-dvh">
+      <DialogContent className="w-full lg:max-w-[28dvw] max-w-full  p-0 block gap-0 scrollbar-hide overflow-auto lg:max-h-[calc(100dvh-50px)] max-h-dvh lg:rounded-2xl rounded-none lg:h-auto h-dvh">
         <div className="px-3 py-3 border-b border-b-black/10 lg:hidden block">
           <DialogClose asChild>
             <button className="flex items-center justify-start gap-[10px] w-full">
@@ -229,8 +235,9 @@ export default function AddPassengersDialog({
           </div>
           <DialogFooter className="grid lg:grid-cols-2 grid-cols-1 gap-3 w-full shrink-0">
             <button
-              className="bg-green-400 lg:rounded-md rounded-[10px] flex items-center justify-center text-white lg:font-medium font-semibold lg:text-cs07 text-[14px] h-[45px] px-3 truncate transition-all duration-500 hover:bg-green-600"
+              className="bg-green-400 lg:rounded-md rounded-[10px] flex items-center justify-center text-white lg:font-medium font-semibold lg:text-cs07 text-[14px] h-[45px] px-3 truncate transition-all duration-500 hover:bg-green-600 disabled:opacity-50"
               type="submit"
+              disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
             </button>

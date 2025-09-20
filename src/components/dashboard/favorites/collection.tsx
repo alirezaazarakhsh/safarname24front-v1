@@ -92,19 +92,11 @@ export default function Collection({
                     index === 0 && 'row-span-2',
                   )}
                 >
-                  <div
-                    className={
-                      index === 0
-                        ? 'border-2 border-[#b9b9b9] rounded-lg p-1'
-                        : ''
-                    }
-                  >
-                    <IconsaxIcons
-                      className="size-[30px]"
-                      color="#b9b9b9"
-                      name="Image"
-                    />
-                  </div>
+                  <IconsaxIcons
+                    className={index === 0 ? 'size-[50px]' : 'size-[30px]'}
+                    color="#b9b9b9"
+                    name={index === 0 ? 'Gallery' : 'Image'}
+                  />
                 </div>
               ) : (
                 <Image

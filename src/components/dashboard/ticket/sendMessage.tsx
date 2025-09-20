@@ -52,8 +52,8 @@ export default function SendMessage({
       <div className="relative">
         {reply.name !== '' && (
           <div className="left-0 bottom-full z-50 lg:absolute w-full bg-gray-100 rounded-t-lg overflow-hidden border-b border-b-cs-blue">
-            <div className="flex items-start justify-between gap-5 w-full bg-cs-blue/10">
-              <div className="flex justify-start items-center">
+            <div className="flex items-start justify-between gap-5 w-full bg-cs-blue/10 py-[5px]">
+              <div className="flex justify-start items-center gap-[5px]">
                 <div className="size-[50px] shrink-0 flex items-center justify-center">
                   <div className="aspect-sqaure  size-[30px] flex items-center justify-center bg-cs-blue rounded-full text-white">
                     <IconsaxIcons
@@ -65,10 +65,10 @@ export default function SendMessage({
                 </div>
                 <div className="overflow-hidden flex-1 min-h-[50px] flex items-center">
                   <div className="flex-1">
-                    <span className="text-cs-blue font-bold text-right block truncate mb-0.5 text-cs65">
+                    <span className="text-cs-blue font-bold text-right block truncate mb-[5px] text-[12px]">
                       {reply.name}
                     </span>
-                    <p className="text-black/60 font-semibold text-cs65 text-right leading-4">
+                    <p className="text-black/80 font-semibold text-[12px] text-right leading-4">
                       {reply.message}
                     </p>
                   </div>
@@ -166,7 +166,7 @@ export default function SendMessage({
                 <File className="currentColor size-5" />
               </div>
               <div className="flex-1 overflow-hidden">
-                <span className="text-cs85 font-bold text-right block text-black/50 truncate">
+                <span className="text-[14px] font-semibold text-right block text-black/50 truncate">
                   {media.name}
                 </span>
               </div>
@@ -175,7 +175,7 @@ export default function SendMessage({
             <input
               onChange={(e) => setValue(e.currentTarget.value)}
               value={value}
-              className="text-cs65 font-medium placeholder:text-cs65 placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
+              className="text-[14px] font-semibold placeholder:text-[13px] placeholder:font-medium placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
               type="text"
               placeholder="متن خود را بنویسید..."
             />
@@ -197,7 +197,7 @@ export default function SendMessage({
                   />
                   <button
                     type="button"
-                    className="flex items-center justify-center shrink-0 h-full aspect-square"
+                    className="flex items-center justify-center shrink-0 h-full"
                     onClick={() => mediaInputRef.current?.click()}
                   >
                     <IconsaxIcons
@@ -210,7 +210,7 @@ export default function SendMessage({
               ) : (
                 <button
                   type="button"
-                  className="flex items-center justify-center shrink-0 h-full aspect-square"
+                  className="flex items-center justify-center shrink-0 h-full"
                   onClick={() => setMedia(undefined)}
                 >
                   <IconsaxIcons

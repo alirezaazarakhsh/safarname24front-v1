@@ -109,6 +109,7 @@ export interface DialogComponentPropsType {
   isOpened?: boolean;
   closeFn?: () => void;
   tryAgainFn?: () => void;
+  isTryAgainRefetching?: boolean;
   refetch?: () => void;
   id?: number;
   phoneNumbers?: string[];
