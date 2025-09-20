@@ -28,7 +28,7 @@ export default function Filter({
         closeFn={() => setAddNewCollectionOpened(false)}
         refetch={refetch}
       />
-      <span className="block truncate text-right w-full font-semibold lg:text-[16px] text-[12px] text-black lg:mb-0 mb-[12px]">
+      <span className="block truncate text-right w-full font-bold lg:text-[16px] text-[12px] text-black lg:mb-0 mb-[12px]">
         لیست مورد علاقه ها
       </span>
       <div

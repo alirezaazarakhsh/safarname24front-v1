@@ -22,7 +22,7 @@ export default function RadioItem({
       type="button"
       className={cn('flex group items-center justify-start gap-3', className)}
     >
-      <div className="size-6 flex items-center justify-center rounded-md transition-all duration-500 group-data-[selected=true]:bg-green-500 group-data-[selected=false]:bg-gray-100 text-white">
+      <div className="size-6 flex items-center justify-center rounded-md transition-all duration-500 group-data-[selected=true]:bg-[#20AC53] group-data-[selected=false]:bg-gray-100 text-white">
         <IconsaxIcons
           name="TickSquare"
           variant="Bold"

@@ -132,7 +132,7 @@ export default function SelectDepartmentDialog({
                 </button>
               </DialogClose>
               <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full lg:block hidden">
-                انتخواب دپارتمان تیکت
+                انتخاب دپارتمان تیکت جدید
               </DialogTitle>
               <span className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full lg:hidden block">
                 بازگشت به صفحه
@@ -180,10 +180,10 @@ export default function SelectDepartmentDialog({
             <button
               disabled={form.formState.isSubmitting}
               type="submit"
-              className="w-full p-4 lg:h-[40px] h-[50px] rounded-lg bg-green-500 flex items-center justify-center transition-all duration-500 hover:bg-green-600 text-white disabled:opacity-50"
+              className="w-full p-4 lg:h-[40px] h-[50px] rounded-lg bg-[#20AC53] flex items-center justify-center transition-all duration-500 hover:bg[#1b9648] text-white disabled:opacity-50"
             >
               {!form.formState.isSubmitting ? (
-                <span className="text-center block font-bold text-current text-cs07">
+                <span className="text-center block font-bold text-current text-[13px]">
                   ثبت تیکت
                 </span>
               ) : (
