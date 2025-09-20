@@ -21,7 +21,7 @@ const AudioWave = forwardRef<AudioWaveHandle, AudioWavePropsType>(
     {
       audioUrl,
       className,
-      backgroundColor = '#B1B1B1',
+      backgroundColor = '#A9C5FB',
       progressColor = '#343434',
     },
     ref,

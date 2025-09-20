@@ -25,6 +25,7 @@ import {
 } from '@/types/dashboard/component';
 import useLocalStorageState from 'use-local-storage-state';
 import { File } from 'lucide-react';
+import PlayIcon from '../ui/playIcon';
 
 export default function MessageItem({
   data,
@@ -153,7 +154,9 @@ export default function MessageItem({
                   color: data.from === 'answerer' ? theme : 'white',
                   background:
                     data.from === 'answerer'
-                      ? hexToRgba(theme, 0.2)
+                      ? theme === '#548BF6'
+                        ? '#548bf61c'
+                        : hexToRgba(theme, 0.2)
                       : 'rgba(256,256,256,0.2)',
                 }}
                 className={
@@ -185,12 +188,16 @@ export default function MessageItem({
                   }}
                   className="size-[35px] aspect-square flex items-center justify-center rounded-full shrink-0"
                 >
-                  <IconsaxIcons
-                    className="size-[15px]"
-                    name={isPlaying ? 'Pause' : 'Play'}
-                    variant="Bold"
-                    color="currentColor"
-                  />
+                  {!isPlaying ? (
+                    <PlayIcon className="size-[15px] text-current" />
+                  ) : (
+                    <IconsaxIcons
+                      className="size-[15px]"
+                      name={'Pause'}
+                      variant="Bold"
+                      color="currentColor"
+                    />
+                  )}
                 </button>
                 <div className="flex-1 h-[35px] overflow-hidden">
                   <AudioWave
@@ -245,18 +252,18 @@ export default function MessageItem({
                 </div>
               </Link>
             ) : (
-              <p className="text-current font-normal text-cs08 text-right select-none leading-6">
+              <p className="text-current font-semibold text-[13px] text-right select-none leading-6">
                 {data.message}
               </p>
             )}
           </div>
           <span
             style={{
-              color: isColorDark(walpaper) ? '#ffffff' : '#000000',
+              color: isColorDark(walpaper) ? '#ffffff' : '#484848',
             }}
             className={cn(
               data.from === 'user' ? 'text-right' : 'text-left',
-              'block truncate font-light mt-2 text-cs06',
+              'block truncate font-semibold mt-2 text-[10px]',
             )}
           >
             {moment(data.createdAt).locale('fa').format('HH:mm A')}
