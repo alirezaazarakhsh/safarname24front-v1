@@ -157,18 +157,18 @@ export default function MessageItem({
                       ? theme === '#548BF6'
                         ? '#548bf61c'
                         : hexToRgba(theme, 0.2)
-                      : 'rgba(256,256,256,0.2)',
+                      : 'rgba(255,255,255,0.13)',
                 }}
                 className={
                   'border-r-2 border-r-current py-1 px-3 mb-2 rounded-l-md'
                 }
               >
-                <span className="text-current font-bold text-right block truncate mb-1 text-cs06 select-none">
+                <span className="text-current font-bold text-right block truncate mb-1 text-[11px] select-none">
                   {data.from === 'answerer'
                     ? `${userInfo.first_name} ${userInfo.last_name}`
                     : data.answererName}
                 </span>
-                <p className="text-current font-normal text-cs06 text-right leading-4 select-none">
+                <p className="text-current font-semibold text-[11px] text-right leading-4 select-none">
                   {data.replyMessage}
                 </p>
               </div>

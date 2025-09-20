@@ -166,7 +166,7 @@ export default function SendMessage({
                 <File className="currentColor size-5" />
               </div>
               <div className="flex-1 overflow-hidden">
-                <span className="text-cs85 font-bold text-right block text-black/50 truncate">
+                <span className="text-[14px] font-semibold text-right block text-black/50 truncate">
                   {media.name}
                 </span>
               </div>
@@ -175,7 +175,7 @@ export default function SendMessage({
             <input
               onChange={(e) => setValue(e.currentTarget.value)}
               value={value}
-              className="text-cs65 font-medium placeholder:text-cs65 placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
+              className="text-[14px] font-semibold placeholder:text-[13px] placeholder:font-medium placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
               type="text"
               placeholder="متن خود را بنویسید..."
             />
@@ -197,7 +197,7 @@ export default function SendMessage({
                   />
                   <button
                     type="button"
-                    className="flex items-center justify-center shrink-0 h-full aspect-square"
+                    className="flex items-center justify-center shrink-0 h-full"
                     onClick={() => mediaInputRef.current?.click()}
                   >
                     <IconsaxIcons
@@ -210,7 +210,7 @@ export default function SendMessage({
               ) : (
                 <button
                   type="button"
-                  className="flex items-center justify-center shrink-0 h-full aspect-square"
+                  className="flex items-center justify-center shrink-0 h-full"
                   onClick={() => setMedia(undefined)}
                 >
                   <IconsaxIcons
