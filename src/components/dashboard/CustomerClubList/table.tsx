@@ -17,6 +17,8 @@ import {
 import { handleZeroBeforeNumber, hanldeClipboardCopy } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Skeleton } from '@/components/ui/skeleton';
+import Tooltip from '../ui/tooltip';
+import { addCommas } from '@persian-tools/persian-tools';
 
 // Creating and exporting CustomerClubListTable component as default
 export default function CustomerClubListTable({
@@ -153,7 +155,7 @@ export default function CustomerClubListTable({
           <Table dir="rtl" className="border-none lg:table hidden">
             <TableHeader className="bg-gray-100 border-y border-y-black/10">
               <TableRow className="border-none">
-                <TableHead className="text-right p-3 w-8 truncate text-xs font-medium text-gray-400">
+                <TableHead className="text-right p-3 w-[40px] truncate text-xs font-medium text-gray-400">
                   ردیف
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
@@ -163,10 +165,16 @@ export default function CustomerClubListTable({
                   کد تخفیف
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                  مبلغ تخفیف
+                </TableHead>
+                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
+                  امتیاز مورد نیاز
+                </TableHead>
+                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
                   زمان فعال سازی
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  مبلغ تخفیف
+                  تاریخ اعتبار
                 </TableHead>
                 <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
               </TableRow>
@@ -183,18 +191,26 @@ export default function CustomerClubListTable({
                   )}
                 >
                   <TableCell className="p-3 w-[30px]">
-                    <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
+                    <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[30px] w-full">
                       <span className="font-normal text-[12px] text-black block text-num-en">
                         {handleZeroBeforeNumber(index + 1)}
                       </span>
                     </div>
                   </TableCell>
                   <TableCell className="p-3">
-                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.discount_type === 'تخفیف اتاق'
-                        ? item.related_info.room_name || '-'
-                        : item.related_info.shopping_center_name || '-'}
-                    </span>
+                    <Tooltip
+                      content={
+                        item.discount_type === 'تخفیف اتاق'
+                          ? item.related_info.room_name || '-'
+                          : item.related_info.shopping_center_name || '-'
+                      }
+                    >
+                      <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                        {item.discount_type === 'تخفیف اتاق'
+                          ? item.related_info.room_name || '-'
+                          : item.related_info.shopping_center_name || '-'}
+                      </span>
+                    </Tooltip>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-start gap-2">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
@@ -213,23 +229,35 @@ export default function CustomerClubListTable({
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      {`${item.discount_value} تومان`}
+                    </span>
+                  </TableCell>
+                  <TableCell className="p-3">
+                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
+                      {`${addCommas(item.required_points)} امتیاز`}
+                    </span>
+                  </TableCell>
+                  <TableCell className="p-3">
+                    <span className="text-xs font-medium text-gray-600 truncate block text-right">
                       {item.activated_at}
                     </span>
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.discount_value}
+                      -
                     </span>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-end gap-3">
-                    <div className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black">
-                      <IconsaxIcons
-                        name="Cup"
-                        color="currentColor"
-                        className="w-3 h-3 shrink-0"
-                      />
+                    <div
+                      className={cn(
+                        'w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500  rounded-md',
+                        item.reward_claimed
+                          ? 'text-gray-700 bg-gray-200'
+                          : 'text-green-500 bg-green-500/10',
+                      )}
+                    >
                       <span className="text-xs text-current font-medium text-right truncate">
-                        {`${item.required_points} امتیاز`}
+                        {item.reward_claimed ? 'استفاده شد' : 'فعال میباشد'}
                       </span>
                     </div>
                   </TableCell>
@@ -267,17 +295,15 @@ export default function CustomerClubListTable({
                     </div>
                     <div className="flex items-center justify-between gap-[10px]">
                       <div
-                        className={
-                          'h-[40px] gap-2 flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black px-[20px]'
-                        }
+                        className={cn(
+                          'w-[100px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500  rounded-md',
+                          item.reward_claimed
+                            ? 'text-gray-700 bg-gray-200'
+                            : 'text-green-500 bg-green-500/10',
+                        )}
                       >
-                        <IconsaxIcons
-                          name="Cup"
-                          color="currentColor"
-                          className="w-[12px] h-[12px] shrink-0"
-                        />
-                        <span className="text-[10px] text-current font-medium w-full text-right block truncate">
-                          {`${item.required_points} امتیاز`}
+                        <span className="text-[10px] text-current font-semibold w-full text-center block truncate">
+                          {item.reward_claimed ? 'استفاده شد' : 'فعال میباشد'}
                         </span>
                       </div>
                     </div>
@@ -313,7 +339,39 @@ export default function CustomerClubListTable({
                   <div className="flex items-center justify-start gap-[10px] mb-[25px]">
                     <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                       <IconsaxIcons
-                        name="Calendar1"
+                        name="Money2"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        مبلغ تخفیف
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {`${addCommas(item.discount_value)} تومان`}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Cup"
+                        className="w-[20px] h-[20px] text-black"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                        امتیاز مورد نیاز
+                      </span>
+                      <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
+                        {`${addCommas(item.required_points)} امتیاز`}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
+                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                      <IconsaxIcons
+                        name="Calendar"
                         className="w-[20px] h-[20px] text-black"
                       />
                     </div>
@@ -329,16 +387,16 @@ export default function CustomerClubListTable({
                   <div className="flex items-center justify-start gap-[10px] mb-[25px]">
                     <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
                       <IconsaxIcons
-                        name="Money2"
+                        name="CalendarRemove"
                         className="w-[20px] h-[20px] text-black"
                       />
                     </div>
                     <div>
                       <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                        مبلغ تخفیف
+                        تاریخ اعتبار
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {item.discount_value}
+                        -
                       </span>
                     </div>
                   </div>
