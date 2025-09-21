@@ -25,6 +25,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import SafarnameLogo from '../../../../public/image/logo/white.webp';
 import CustomPagination from '../ui/customPagination';
 import EmptyTable from '../api/emptyTable';
+import useCustomerClubPoints from '@/hooks/dashboard/useCustomerClubPoints';
+import toast from '../ui/customSonner/toast';
 
 // Creating and exporting RoomTable component as default
 export default function RoomTable({
@@ -45,6 +47,8 @@ export default function RoomTable({
     useState<boolean>(false);
   const [giftGainErrorDialogOpened, setGiftGainErrorDialogOpened] =
     useState<boolean>(false);
+
+  const customerClubPoints = useCustomerClubPoints();
 
   // Returning JSX
   return (
@@ -336,9 +340,17 @@ export default function RoomTable({
                   <TableCell className="p-3 flex items-center justify-end gap-3">
                     <button
                       onClick={() => {
-                        setAcceptRulesDialogOpened(true);
-                        setRules(item.activation_rules);
-                        setCode(item.code);
+                        if (customerClubPoints.points >= item.required_points) {
+                          setAcceptRulesDialogOpened(true);
+                          setRules(item.activation_rules);
+                          setCode(item.code);
+                        } else {
+                          toast({
+                            title: 'امتیاز کافی نیست',
+                            description: `برای فعال‌سازی این آیتم به ${item.required_points} امتیاز نیاز دارید.`,
+                            theme: 'theme',
+                          });
+                        }
                       }}
                       className={
                         'w-[125px] h-[40px] transition-all duration-500 rounded-md flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100'
@@ -385,9 +397,17 @@ export default function RoomTable({
                     <button
                       className="w-[105px] h-[40px] transition-all duration-500 shrink-0 rounded-[7px] flex items-center justify-center disabled:text-gray-600 disabled:bg-gray-100 text-black bg-white border border-black/20 hover:bg-gray-100"
                       onClick={() => {
-                        setAcceptRulesDialogOpened(true);
-                        setRules(item.activation_rules);
-                        setCode(item.code);
+                        if (customerClubPoints.points >= item.required_points) {
+                          setAcceptRulesDialogOpened(true);
+                          setRules(item.activation_rules);
+                          setCode(item.code);
+                        } else {
+                          toast({
+                            title: 'امتیاز کافی نیست',
+                            description: `برای فعال‌سازی این آیتم به ${item.required_points} امتیاز نیاز دارید.`,
+                            theme: 'theme',
+                          });
+                        }
                       }}
                     >
                       <span className="text-[10px] text-current font-semibold">

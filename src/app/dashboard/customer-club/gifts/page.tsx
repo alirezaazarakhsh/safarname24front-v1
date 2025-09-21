@@ -7,7 +7,6 @@ import Filter from '@/components/dashboard/customClub/filter';
 import CustomersClubTable from '@/components/dashboard/customClub/table';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import ErrorTable from '@/components/dashboard/api/errorTable';
-import EmptyTable from '@/components/dashboard/api/emptyTable';
 import {
   GETCustomerClubRoomList,
   GETCustomerClubShoppingCentreList,
