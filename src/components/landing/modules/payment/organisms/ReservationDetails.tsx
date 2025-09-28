@@ -1,34 +1,32 @@
 'use client';
 
 import {
-  RoomName,
   TrackingCode,
   ReservationField,
 } from '../molecules/reservation-details';
 
 import { payment } from '../helpers/constant';
-import { HotelInitialInfo } from '@/types/landing';
-import { generalInstance } from '@/utils/services';
+import { axiosInstance } from '@/utils/axios';
 
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
+import { ReservationDetail } from '../helpers/type';
 
-type ApiResponse = { data: HotelInitialInfo };
+type Response = { data: ReservationDetail };
 
 // ------------------------------
 
 export function ReservationDetails() {
-  const { reservationId: reserveId } = payment;
-
   const searchParams = useSearchParams();
-  const trackingCode = searchParams.get(reserveId);
+  const trackingCode = searchParams.get(payment.reservationId);
 
-  const { data, status } = useQuery<ApiResponse>({
-    queryKey: ['hotel-information'],
+  const { data, status } = useQuery<Response>({
+    queryKey: ['reservation-detail'],
     queryFn: () =>
-      generalInstance(`/hotel/hotels/${'parsianazadi'}/introduction`),
+      axiosInstance(`/hotel/reservation/reservation-detail/${trackingCode}/`),
   });
 
+  const detail = data?.data;
   const isLoading = status === 'pending';
 
   return (
@@ -40,62 +38,57 @@ export function ReservationDetails() {
           icon="Clock"
           isLoading={isLoading}
           title="تاریخ و ساعت ورود"
-          value={`1404/08/15 - ساعت 15:00`}
+          value={`${detail?.date.enter.replaceAll('-', '/')} - ساعت ${detail?.time.enter.slice(0, 5)}`}
         />
 
         <ReservationField
           icon="Clock"
           isLoading={isLoading}
           title="تاریخ و ساعت خروج"
-          value={`1404/08/18 - ساعت 11:00`}
+          value={`${detail?.date.exit.replaceAll('-', '/')} - ساعت ${detail?.time.exit.slice(0, 5)}`}
         />
 
         <ReservationField
           icon="Moon"
-          value={`3 شب`}
           isLoading={isLoading}
           title="تعداد شب اقامت"
+          value={`${detail?.number_of_nights} شب`}
         />
 
         <ReservationField
           title="هتل"
           icon="Buliding"
           isLoading={isLoading}
-          value={`پارسیان آزادی - 5 ستاره`}
+          value={`${detail?.hotel_name} - ${detail?.hotel_star} ستاره`}
         />
 
         <ReservationField
           icon="Buildings2"
           title="شهر و استان"
           isLoading={isLoading}
-          value={`تهران - تهران`}
+          value={`${detail?.city_name} - ${detail?.province_name}`}
         />
 
         <ReservationField
-          value={`2 اتاق`}
           icon="Buildings"
           title="تعداد اتاق"
           isLoading={isLoading}
+          value={`${detail?.number_of_rooms} اتاق`}
         />
 
         <ReservationField
-          value="دارد"
           icon="ReceiptText"
+          isLoading={isLoading}
           title="نیم شارژ ورود هتل"
-          isLoading={isLoading}
+          value={detail?.half_charges.enter ? 'دارد' : 'ندارد'}
         />
 
         <ReservationField
-          value="دارد"
           icon="ReceiptText"
+          isLoading={isLoading}
           title="نیم شارژ خروج هتل"
-          isLoading={isLoading}
+          value={detail?.half_charges.exit ? 'دارد' : 'ندارد'}
         />
-
-        {/* <RoomName
-          isLoading={isLoading}
-          rooms={['1 تخته لوکس ویژن', '1 تخته لوکس ویژن']}
-        /> */}
 
         <TrackingCode isLoading={isLoading} value={trackingCode} />
       </div>

@@ -33,13 +33,13 @@ export const payment = {
       first_name: 'ساشا',
       last_name: 'آذرخش',
       phone_number: '09155525185',
-      national_code: '1373751208',
+      national_code: '0023467444',
     },
     {
       first_name: 'پرهام',
       last_name: 'رحیمی',
       phone_number: '09135131340',
-      national_code: '4569852364',
+      national_code: '1461337879',
     },
   ],
   rooms: [

@@ -33,7 +33,7 @@ export function HalfCharge(props: Props) {
     <button
       type="button"
       onClick={handleToggleIsActive}
-      className="h-11 bg-zinc-100 text-cs08 font-semibold px-4 pr-3 flex-between gap-8 rounded-cs-10"
+      className="h-11 bg-zinc-100 text-cs08 font-semibold px-4 pr-3 flex-between gap-4 rounded-cs-10"
     >
       <div className="flex items-center gap-1">
         <div

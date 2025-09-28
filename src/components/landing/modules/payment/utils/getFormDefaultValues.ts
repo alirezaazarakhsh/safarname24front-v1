@@ -1,20 +1,27 @@
-import { payment } from '../helpers/constant';
+import { axiosInstance } from '@/utils/axios';
 import { mapRoomsToForm } from './mapRoomsToForm';
+import { Person, RoomForm } from '../helpers/type';
+
+type Response = {
+  reserver: Person;
+  rooms: RoomForm[];
+};
 
 // ------------------------------
 
-export async function getFormDefaultValues() {
-  const isEmpty = true;
-  const isError = false;
+export async function getFormDefaultValues(trackingCode: string | null) {
+  try {
+    const response = await axiosInstance<Response>(
+      `/hotel/reservation/form/${trackingCode}`,
+    );
 
-  const { person, rooms } = payment;
+    const data = response.data;
+    const isEmpty = !data.rooms[0].passengers.main_passenger.first_name;
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  if (isError) throw new Error('an error occurred');
-
-  if (isEmpty) {
-    return { reserver: person, rooms: mapRoomsToForm(rooms) };
+    if (isEmpty) {
+      return { reserver: data.reserver, rooms: mapRoomsToForm(data.rooms) };
+    } else return { reserver: data.reserver, rooms: data.rooms };
+  } catch (error) {
+    throw new Error('an error occurred');
   }
-
-  return { reserver: person, rooms: rooms };
 }

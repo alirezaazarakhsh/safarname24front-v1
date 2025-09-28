@@ -1,109 +1,103 @@
 'use client';
 
-import { useEffect } from 'react';
-import { numberSeparation } from '@/utils';
-import { usePaymentInvoiceContext } from '@/context';
+import { Invoice } from '../helpers/type';
+import { useEffect, useMemo } from 'react';
+import { payment } from '../helpers/constant';
+
+import { axiosInstance } from '@/utils/axios';
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+
+import { InvoiceItem, Loading } from '../molecules/payment-invoice';
+import { usePaymentInvoiceContext, usePaymentInvoiceDispatch } from '@/context';
+
+type Response = { data: Invoice };
 
 // ------------------------------
 
 export function PaymentInvoice() {
-  const numberOfNights = 4;
-  const totalPrice = 12_000_000;
-  const discountOnPurchase = 2_000_000;
+  const searchParams = useSearchParams();
+  const trackingCode = searchParams.get(payment.reservationId);
 
+  const { data, status } = useQuery<Response>({
+    queryKey: ['reservation-invoice'],
+    queryFn: () => axiosInstance(`/hotel/reservation/invoice/${trackingCode}/`),
+  });
+
+  const invoice = data?.data;
+  const dispatch = usePaymentInvoiceDispatch();
   const { discountCode, extraPassengers, halfCharges } =
     usePaymentInvoiceContext();
 
-  const finalTotalPrice =
-    totalPrice +
-    extraPassengers +
-    halfCharges -
-    (discountCode + discountOnPurchase);
+  // === Final-Total-Price
+  const finalTotalPrice = useMemo(() => {
+    if (!invoice) return 0;
 
-  // === Update PaymentInvoice Context
-  useEffect(() => {}, []);
+    return (
+      (invoice.total_price ?? 0) +
+      extraPassengers +
+      halfCharges -
+      (discountCode + (invoice.discount_on_purchase ?? 0))
+    );
+  }, [invoice, extraPassengers, halfCharges, discountCode]);
+
+  // === Update PaymentInvoice-Context
+  useEffect(() => {
+    if (!invoice) return;
+
+    dispatch({
+      actionType: null,
+      type: 'first-render',
+      payload: {
+        halfCharges: invoice?.half_charges,
+        discountCode: invoice?.discount_code,
+        extraPassengers: invoice?.extra_passengers,
+      },
+    });
+  }, [invoice]);
 
   return (
-    <div className="bg-white text-cs08 font-semibold p-5 pt-4 grid gap-3.5 border rounded-xl">
-      <span className="text-cs85 font-bold pb-3 mb-1 border-b border-dashed">
+    <div className="bg-white p-5 pt-4 grid gap-4 border rounded-xl">
+      <span className="text-cs85 font-bold pb-3.5 mb-1 border-b">
         صورتحساب پرداختی
       </span>
 
-      {/* === Total-Price */}
-      <div className="flex-between">
-        <div className="text-zinc-700 flex items-center gap-1">
-          <span>قیمت کل</span>
-          <span>{numberOfNights}</span>
-          <span>شب :</span>
-        </div>
+      {status === 'pending' ? (
+        <Loading />
+      ) : (
+        <>
+          {invoice?.total_price && (
+            <InvoiceItem name="قیمت کل" value={invoice?.total_price} />
+          )}
 
-        <div className="flex items-center gap-1">
-          <span>{numberSeparation(totalPrice)}</span>
-          <span>تومان</span>
-        </div>
-      </div>
+          {extraPassengers > 0 && (
+            <InvoiceItem name="نفرات اضافه" value={extraPassengers} />
+          )}
 
-      {/* === Extra-Passengers */}
-      {extraPassengers > 0 && (
-        <div className="flex-between">
-          <div className="text-zinc-700 flex items-center gap-1">
-            نفرات اضافه :
-          </div>
+          {halfCharges > 0 && (
+            <InvoiceItem name="نیم شارژ" value={halfCharges} />
+          )}
 
-          <div className="flex items-center gap-1">
-            <span>{numberSeparation(extraPassengers)}</span>
-            <span>تومان</span>
-          </div>
-        </div>
+          {discountCode > 0 && (
+            <InvoiceItem type="discount" name="کد تخفیف" value={discountCode} />
+          )}
+
+          {invoice?.discount_on_purchase &&
+          invoice?.discount_on_purchase > 0 ? (
+            <InvoiceItem
+              type="discount"
+              name="تخفیف هنگام خرید"
+              value={invoice?.discount_on_purchase}
+            />
+          ) : null}
+
+          <InvoiceItem
+            name="مبلغ نهایی"
+            value={finalTotalPrice}
+            specialType="final-total-price"
+          />
+        </>
       )}
-
-      {/* === Half-Charges */}
-      {halfCharges > 0 && (
-        <div className="flex-between">
-          <div className="text-zinc-700 flex items-center gap-1">
-            نیم شارژ ها :
-          </div>
-
-          <div className="flex items-center gap-1">
-            <span>{numberSeparation(halfCharges)}</span>
-            <span>تومان</span>
-          </div>
-        </div>
-      )}
-
-      {/* === Discount-Code */}
-      {discountCode > 0 && (
-        <div className="text-cs-red flex-between">
-          <div className="flex items-center gap-1">کد تخفیف :</div>
-
-          <div className="flex items-center gap-1">
-            <span>{numberSeparation(discountCode)}</span>
-            <span>تومان</span>
-          </div>
-        </div>
-      )}
-
-      {/* === Discount-On-Purchase */}
-      {discountOnPurchase > 0 && (
-        <div className="text-cs-red flex-between">
-          <div className="flex items-center gap-1">تخفیف هنگام خرید :</div>
-
-          <div className="flex items-center gap-1">
-            <span>2,000,000</span>
-            <span>تومان</span>
-          </div>
-        </div>
-      )}
-
-      {/* === Final-Total-Price */}
-      <div className="bg-[#22AD5A] text-white h-11 px-4 mt-1 flex-between items-center rounded-cs-10">
-        <span>مبلغ پرداختی :</span>
-
-        <div className="flex items-center gap-1">
-          <span>{numberSeparation(finalTotalPrice)}</span>
-          <span>تومان</span>
-        </div>
-      </div>
     </div>
   );
 }

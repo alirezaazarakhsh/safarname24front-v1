@@ -42,9 +42,9 @@ export function ExtraCapacityPassengers(props: Props) {
       national_code: '',
     });
     dispatch({
-      type: 'extra-passengers',
       actionType: 'add',
       payload: passengerPrice,
+      type: 'extra-passengers',
     });
   }
 
@@ -58,9 +58,9 @@ export function ExtraCapacityPassengers(props: Props) {
   function removePassenger(idx: number) {
     removeExtraPassenger(idx);
     dispatch({
-      type: 'extra-passengers',
       actionType: 'remove',
       payload: passengerPrice,
+      type: 'extra-passengers',
     });
   }
 

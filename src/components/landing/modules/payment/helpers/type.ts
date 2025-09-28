@@ -1,3 +1,29 @@
+type ReservationDetail = {
+  date: { enter: string; exit: string };
+  time: { enter: string; exit: string };
+  number_of_nights: number;
+  hotel_name: string;
+  hotel_star: number;
+  city_name: string;
+  province_name: string;
+  number_of_rooms: number;
+  half_charges: { enter: boolean; exit: boolean };
+};
+
+// ------------------------------
+
+type Invoice = {
+  total_price: number;
+  nights_count: number;
+  half_charges: number;
+  discount_code: number;
+  extra_passengers: number;
+  final_total_price: number;
+  discount_on_purchase: number;
+};
+
+// ------------------------------
+
 type Person = {
   first_name: string;
   last_name: string;
@@ -80,4 +106,4 @@ type Reservation = {
   };
 };
 
-export type { FormSchema, Person, RoomForm };
+export type { FormSchema, Person, RoomForm, ReservationDetail, Invoice };

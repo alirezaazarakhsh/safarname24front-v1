@@ -25,10 +25,14 @@ export function TrackingCode(props: Props) {
         {isLoading ? (
           <Skeleton className="w-1/2 max-w-40 h-3 rounded" />
         ) : (
-          <div className="max-w-52 text-zinc-500 font-semibold truncate">
-            {pathname === '/payment/complete-passengers-information'
-              ? '- - - - - - -'
-              : value || 'sdv45hy'}
+          // <div className="max-w-52 text-zinc-500 font-semibold truncate">
+          //   {pathname === '/payment/complete-passengers-information'
+          //     ? '- - - - - - -'
+          //     : value || 'sdv45hy'}
+          // </div>
+
+          <div className="max-w-52 text-zinc-500 font-inter font-semibold uppercase truncate">
+            {value}
           </div>
         )}
       </div>

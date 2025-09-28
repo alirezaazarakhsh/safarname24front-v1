@@ -3,26 +3,28 @@
 import Image from 'next/image';
 import { Gallery } from 'iconsax-react';
 
+import { payment } from '../helpers/constant';
+import { axiosInstance } from '@/utils/axios';
+
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-
-import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
 
-type ApiResponse = { data: { main_image: string } };
+type ApiResponse = { data: { hotel_image: string } };
 
 // ------------------------------
 
 export function HotelPicture() {
   const searchParams = useSearchParams();
-  const hotelSlug = searchParams.get('hotel');
+  const trackingCode = searchParams.get(payment.reservationId);
 
   const { data, status } = useQuery<ApiResponse>({
-    queryKey: ['hotel-images'],
-    queryFn: () => generalInstance(`/hotel/hotels/${hotelSlug}/images`),
+    queryKey: ['reservation-hotel-image'],
+    queryFn: () =>
+      axiosInstance(`/hotel/reservation/hotel-slug/${trackingCode}/`),
   });
 
-  const hotelMainImage = data?.data?.main_image;
+  const hotelImage = data?.data?.hotel_image;
 
   return (
     <div className="min-h-60 overflow-hidden rounded-xl">
@@ -33,12 +35,12 @@ export function HotelPicture() {
           <Gallery size={80} color="#d4d4d8" />
         </div>
       ) : (
-        hotelMainImage && (
+        hotelImage && (
           <Image
             alt="hotel"
             width={600}
             height={400}
-            src={hotelMainImage}
+            src={hotelImage}
             className="full-size object-cover"
           />
         )

@@ -11,10 +11,13 @@ import {
 import { useState } from 'react';
 import { FormSchema } from '../helpers/type';
 
+import { usePaymentLoading } from '@/context';
+import { payment } from '../helpers/constant';
 import { formSchema } from '../helpers/schema';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { getFormDefaultValues } from '../utils';
+import { useSearchParams } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Loading, Error } from '../atoms/reservation-form';
 
 import { OtherPassengers } from '../molecules/reservation-form';
@@ -27,6 +30,10 @@ export function ReservationForm() {
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
+  const searchParams = useSearchParams();
+  const { handleToggleLoading } = usePaymentLoading();
+  const trackingCode = searchParams.get(payment.reservationId);
+
   const methods = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: async () => {
@@ -34,7 +41,7 @@ export function ReservationForm() {
         setLoading(true);
         setError(false);
 
-        return await getFormDefaultValues();
+        return await getFormDefaultValues(trackingCode);
       } catch (error) {
         console.error(error);
         setError(true);
@@ -60,14 +67,15 @@ export function ReservationForm() {
       ) : (
         <form
           id="passengers-form"
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={methods.handleSubmit((formData) =>
+            onSubmit(formData, trackingCode, handleToggleLoading),
+          )}
           className="bg-white p-5 pb-6 border rounded-xl"
           onKeyDown={(e) => {
             if (e.key === 'Enter') e.preventDefault();
           }}
         >
           <Reserver />
-
           {roomFields.map((room, roomIndex) => {
             return (
               <fieldset
