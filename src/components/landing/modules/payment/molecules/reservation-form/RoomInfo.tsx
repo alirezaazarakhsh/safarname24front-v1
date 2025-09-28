@@ -1,8 +1,6 @@
 import { TbUsers } from 'react-icons/tb';
-import { FiUserPlus } from 'react-icons/fi';
-
 import { numberSeparation } from '@/utils';
-import { MdOutlineRoomService } from 'react-icons/md';
+import { FiUserPlus } from 'react-icons/fi';
 
 type Props = {
   name: string;
@@ -18,15 +16,14 @@ export function RoomInfo(props: Props) {
 
   return (
     <legend className="w-full font-bold flex items-center">
-      <span className="text-cs85 flex items-center gap-2 md:text-cs09">
-        <MdOutlineRoomService size={24} color="#333" />
-
+      <span className="text-cs85 flex items-center gap-1">
+        {/* <MdOutlineRoomService size={24} color="#333" /> */}*
         <span>اتاق {name}</span>
       </span>
 
       {discountOnPurchase > 0 && (
-        <p className="bg-zinc-100/50 text-zinc-400 text-cs07/5 font-semibold px-2.5 py-1 mr-4 hidden rounded-md md:block">
-          <span className="text-zinc-500 font-extrabold inline-block mx-1">
+        <p className="bg-zinc-100/50 text-zinc-500 text-cs75/5 font-semibold px-2.5 py-1 mr-4 hidden rounded-md md:block">
+          <span className="font-extrabold inline-block mx-1">
             {numberSeparation(discountOnPurchase)}
           </span>
           تخفیف هنگام خرید

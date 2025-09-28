@@ -37,8 +37,14 @@ export default function NumberOfNights(props: Props) {
               </span>
 
               <span className="text-zinc-500 text-cs08 font-semibold flex item-center gap-1">
-                <span>{numberOfNights}</span>
-                <span>شب</span>
+                {numberOfNights > 0 ? (
+                  <>
+                    <span>{numberOfNights}</span>
+                    <span>شب</span>
+                  </>
+                ) : (
+                  '- - - - - -'
+                )}
               </span>
             </div>
           ) : (

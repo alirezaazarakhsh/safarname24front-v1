@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import AuthHandler from './AuthHandler';
 import { HotelQueryProvider } from '@/context';
+import { Toaster } from '@/components/ui/sooner';
 import { generalInstance } from '@/utils/services';
 
 import { ServerError } from './ServerError';
@@ -75,6 +76,7 @@ export default function MainWrapper(props: Props) {
 
                 <HotelQueryProvider>
                   <NuqsAdapter>{props.children}</NuqsAdapter>
+
                   <ToastContainer newestOnTop style={{ zIndex: 99999 }} />
                 </HotelQueryProvider>
               </PassengersProvider>

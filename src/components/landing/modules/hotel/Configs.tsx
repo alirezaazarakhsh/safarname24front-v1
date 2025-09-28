@@ -40,7 +40,7 @@ export default function Configs(props: Props) {
   return (
     <div
       ref={stickyRef}
-      className={`sticky z-30 top-2 bg-[#f8f8f8] h-16 py-3 -mt-10 -mb-8 items-center justify-between gap-12 hidden transition-all duration-300 lg:flex ${isAtTop ? 'px-0' : 'px-4 shadow-[0_0_2rem_rgba(0,0,0,0.07)] rounded-xl'}`}
+      className={`sticky z-30 top-2 bg-[#f8f8f8] h-16 py-3 -mt-10 -mb-8 items-center justify-between gap-12 hidden transition-all duration-300 lg:flex lg:-mt-12 ${isAtTop ? 'px-0' : 'px-4 shadow-[0_0_2rem_rgba(0,0,0,0.07)] rounded-xl'}`}
     >
       <div className="flex-1">
         <SectionLinks sectionList={sectionList} />

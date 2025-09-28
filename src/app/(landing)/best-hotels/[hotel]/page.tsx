@@ -63,7 +63,7 @@ export default async function Hotel(props: Props) {
         <div className="relative mt-5 flex flex-col gap-14 lg:mt-10 lg:gap-20">
           <Pictures hotelSlug={hotelSlug} />
 
-          <div className="bg-white relative h-16 p-2.5 -my-9 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
+          <div className="bg-white relative h-[3.6rem] p-2 -my-9 flex gap-2.5 rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:hidden">
             <FavoriteButton hotelSlug={hotelSlug} />
 
             <div className="flex-1 grid grid-cols-2 gap-2.5 sm:flex-none sm:mr-auto">

@@ -53,6 +53,22 @@ export const formSchema = z
     reserver: personWithPhoneSchema,
     rooms: z.array(
       z.object({
+        id: z.union([z.string(), z.number()]), 
+        name: z.string(),
+        capacity: z.number(),
+        extra_capacity: z.number(),
+        discount_on_purchase: z.number(),
+        extra_capacity_price: z.number(),
+        half_charges: z.object({
+          enter: z.object({
+            enabled: z.boolean(),
+            price: z.number(),
+          }),
+          exit: z.object({
+            enabled: z.boolean(),
+            price: z.number(),
+          }),
+        }),
         passengers: z.object({
           main_passenger: personWithPhoneSchema,
           other_passengers: z.array(personSchema),

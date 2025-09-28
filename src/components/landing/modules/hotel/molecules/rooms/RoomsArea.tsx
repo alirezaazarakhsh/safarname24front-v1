@@ -3,7 +3,9 @@ import PackedRoom from './PackedRoom';
 
 import { Room } from '@/types/landing';
 import { Warning2 } from 'iconsax-react';
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { AuthGuardReaction } from '../favorite-button/AuthGuardReaction';
 
 type PackedRoom = {
   room_count: number;
@@ -21,6 +23,7 @@ type Props = {
 
 export default function RoomsArea(props: Props) {
   const { data, status } = props;
+  const [authReactionOpen, setAuthReactionOpen] = useState(false);
 
   const isNormalRooms =
     Array.isArray(data) && data.every((item) => 'capacity' in item);
@@ -29,6 +32,15 @@ export default function RoomsArea(props: Props) {
   useEffect(() => {
     setVisibleCount(isNormalRooms ? 8 : 4);
   }, [data, isNormalRooms]);
+
+  function handleCheckAuth(): boolean {
+    const authToken = Cookies.get('auth');
+
+    if (!authToken) {
+      setAuthReactionOpen(true);
+      return false;
+    } else return true;
+  }
 
   if (status === 'pending') {
     return (
@@ -58,9 +70,13 @@ export default function RoomsArea(props: Props) {
         .slice(0, visibleCount)
         .map((room, index: number) =>
           'room_count' in room && 'pack_rooms' in room ? (
-            <PackedRoom key={index} {...(room as PackedRoom)} />
+            <PackedRoom
+              key={index}
+              packData={room}
+              checkAuth={handleCheckAuth}
+            />
           ) : (
-            <NormalRoom key={index} {...(room as Room)} />
+            <NormalRoom key={index} room={room} checkAuth={handleCheckAuth} />
           ),
         )}
 
@@ -74,6 +90,11 @@ export default function RoomsArea(props: Props) {
           مشاهده بیشتر
         </button>
       )}
+
+      <AuthGuardReaction
+        isOpen={authReactionOpen}
+        setOpen={setAuthReactionOpen}
+      />
     </div>
   );
 }

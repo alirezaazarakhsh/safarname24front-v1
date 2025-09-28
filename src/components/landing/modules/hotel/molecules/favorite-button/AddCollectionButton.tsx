@@ -14,7 +14,7 @@ export default function AddCollectionButton(props: Props) {
     >
       <Plus color="#fff" size={16} />
       <span className="text-white text-cs08 font-semibold">
-        افزودن لیست جدید
+        ایجاد لیست جدید
       </span>
     </button>
   );

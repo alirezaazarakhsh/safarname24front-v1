@@ -1,7 +1,6 @@
-'use client';
-
 import { useState } from 'react';
 import { numberSeparation } from '@/utils';
+
 import { IoIosCheckmark } from 'react-icons/io';
 import { usePaymentInvoiceDispatch } from '@/context';
 
@@ -28,11 +27,13 @@ export function HalfCharge(props: Props) {
     });
   }
 
+  if (!price) return null;
+
   return (
     <button
       type="button"
       onClick={handleToggleIsActive}
-      className="h-12 bg-zinc-100 text-cs08 font-semibold px-4 flex-between rounded-cs-10"
+      className="h-11 bg-zinc-100 text-cs08 font-semibold px-4 pr-3 flex-between gap-4 rounded-cs-10"
     >
       <div className="flex items-center gap-1">
         <div
@@ -43,10 +44,8 @@ export function HalfCharge(props: Props) {
             className={`full-size transition-all ease-in-out ${isActive ? 'opacity-100' : 'opacity-0'}`}
           />
         </div>
-
         <span>نیم شارژ</span>
-        <span>{type === 'enter' ? 'ورود' : 'خروج'}</span>
-        <span>هتل :</span>
+        <span>{type === 'enter' ? 'ورود' : 'خروج'}</span>:
       </div>
 
       <div className="flex items-center gap-1">

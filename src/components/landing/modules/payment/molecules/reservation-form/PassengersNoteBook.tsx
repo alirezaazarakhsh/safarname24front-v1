@@ -16,14 +16,23 @@ import {
 
 import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
+import loader from '@/styles/loader.module.css';
 
 import { useState } from 'react';
 import { FaUserFriends } from 'react-icons/fa';
-import { filterPassengers } from '../../utils';
 
 import { Person } from '../../helpers/type';
-import { payment } from '../../helpers/constant';
+import { axiosInstance } from '@/utils/axios';
+import { useQuery } from '@tanstack/react-query';
 import { NoteBookItem } from '../../atoms/reservation-form';
+
+type Response = {
+  id: number;
+  last_name: string;
+  first_name: string;
+  phone_number: string;
+  identification_code: string;
+}[];
 
 type Props = {
   idx: number;
@@ -39,9 +48,14 @@ export function PassengersNoteBook(props: Props) {
   const [searchedValue, setSearchedValue] = useState('');
 
   const handleCloseSheet = () => setSheetOpen(false);
-  const passengerList = filterPassengers({
-    passengers: payment.passengersNoteBook,
-    searchedValue,
+
+  const { data, status } = useQuery<Response>({
+    queryKey: ['passengers-notebook'],
+    enabled: sheetIsOpen,
+    queryFn: async () => {
+      const response = await axiosInstance('hotel/reservation/passengers/');
+      return response.data;
+    },
   });
 
   return (
@@ -101,15 +115,24 @@ export function PassengersNoteBook(props: Props) {
 
         {/* === List */}
         <div className="-mx-6 px-6 divide-y divide-dashed overflow-auto custom-scrollbar">
-          {passengerList.map((passenger, index) => (
-            <NoteBookItem
-              idx={idx}
-              key={index}
-              passenger={passenger}
-              fillPassenger={fillPassenger}
-              handleCloseSheet={handleCloseSheet}
-            />
-          ))}
+          {status === 'pending' ? (
+            <div className="flex-center h-full">
+              <span className={loader.dots} style={{ scale: '1.2' }} />
+            </div>
+          ) : (
+            data?.map((passenger, index) => (
+              <NoteBookItem
+                idx={idx}
+                key={index}
+                passenger={{
+                  ...passenger,
+                  national_code: passenger.identification_code,
+                }}
+                fillPassenger={fillPassenger}
+                handleCloseSheet={handleCloseSheet}
+              />
+            ))
+          )}
         </div>
       </SheetContent>
     </Sheet>

@@ -14,7 +14,16 @@ type Actions =
   | { type: 'extra-passengers'; actionType: 'add'; payload: number }
   | { type: 'extra-passengers'; actionType: 'remove'; payload: number }
   | { type: 'half-charges'; actionType: 'add'; payload: number }
-  | { type: 'half-charges'; actionType: 'remove'; payload: number };
+  | { type: 'half-charges'; actionType: 'remove'; payload: number }
+  | {
+      type: 'first-render';
+      actionType: null;
+      payload: {
+        halfCharges: number;
+        discountCode: number;
+        extraPassengers: number;
+      };
+    };
 
 const initialState: Type = {
   halfCharges: 0,
@@ -48,6 +57,9 @@ const reducerFn = (state: Type, action: Actions): Type => {
             ? state.halfCharges + payload
             : state.halfCharges - payload,
       };
+
+    case 'first-render':
+      return payload;
 
     default:
       return state;

@@ -5,22 +5,32 @@ import { numberSeparation } from '@/utils';
 import { Room as Room } from '@/types/landing';
 import { SecondaryInfo } from './atoms/SecondaryInfo';
 
+import ReserveButton from './atoms/ReserveButton';
 import { DeadlineTimer } from './atoms/DeadlineTimer';
 import NormalPrimaryInfo from './atoms/NormalPrimaryInfo';
+import { CloudHail } from 'lucide-react';
 
-type Props = Room;
+type Props = {
+  room: Room;
+  checkAuth: () => boolean;
+};
 
 // -------------------------------------
 
 export default function NormalRoom(props: Props) {
   const {
-    name,
-    price,
-    capacity,
-    descriptions,
-    room_services,
-    extra_capacity,
-    customer_club_points,
+    room: {
+      hotel,
+      id,
+      name,
+      price,
+      capacity,
+      descriptions,
+      room_services,
+      extra_capacity,
+      customer_club_points,
+    },
+    checkAuth,
   } = props;
 
   const formattedDeadline = moment
@@ -73,7 +83,9 @@ export default function NormalRoom(props: Props) {
         ) : null}
       </div>
 
-      <NormalPrimaryInfo {...props} />
+      <NormalPrimaryInfo room={props.room}>
+        <ReserveButton checkAuth={checkAuth} roomId={[id]} hotelId={hotel} />
+      </NormalPrimaryInfo>
     </div>
   );
 }

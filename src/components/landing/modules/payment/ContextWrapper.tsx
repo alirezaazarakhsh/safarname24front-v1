@@ -1,8 +1,16 @@
 'use client';
 
+import { Toaster } from 'sonner';
 import { PropsWithChildren } from 'react';
-import { PaymentInvoiceProvider } from '@/context';
+import { PaymentInvoiceProvider, PaymentLoadingProvider } from '@/context';
 
 export function ContextWrapper(props: PropsWithChildren) {
-  return <PaymentInvoiceProvider>{props.children}</PaymentInvoiceProvider>;
+  return (
+    <>
+      <PaymentInvoiceProvider>
+        <Toaster position="bottom-left" />
+        <PaymentLoadingProvider>{props.children}</PaymentLoadingProvider>
+      </PaymentInvoiceProvider>
+    </>
+  );
 }

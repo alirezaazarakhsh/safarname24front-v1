@@ -1,23 +1,30 @@
+import moment from 'jalali-moment';
 import { Room } from '@/types/landing';
 import { numberSeparation } from '@/utils';
-import { Building, InfoCircle, Moon } from 'iconsax-react';
 
 import { SecondaryInfo } from './atoms/SecondaryInfo';
-import PackedPrimaryInfo from './atoms/PackedPrimaryInfo';
 import { DeadlineTimer } from './atoms/DeadlineTimer';
-import moment from 'jalali-moment';
+
+import ReserveButton from './atoms/ReserveButton';
+import PackedPrimaryInfo from './atoms/PackedPrimaryInfo';
+import { Building, InfoCircle, Moon } from 'iconsax-react';
 
 type Props = {
-  room_count: number;
-  pack_rooms: Room[];
-  night_count: number;
-  total_price: number;
+  packData: {
+    pack_rooms: Room[];
+    night_count: number;
+    total_price: number;
+  };
+  checkAuth: () => boolean;
 };
 
 // -------------------------------------
 
 export default function PackedRoom(props: Props) {
-  const { night_count, pack_rooms, total_price } = props;
+  const {
+    packData: { night_count, pack_rooms, total_price },
+    checkAuth,
+  } = props;
 
   return (
     <div className="bg-white border divide-y overflow-hidden rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:rounded-2xl">
@@ -146,9 +153,11 @@ export default function PackedRoom(props: Props) {
             </div>
           </div>
 
-          <button className="h-11 bg-cs-blue/10 text-cs-blue text-cs85 font-bold rounded-lg lg:px-8">
-            رزرو اتاق ها
-          </button>
+          <ReserveButton
+            checkAuth={checkAuth}
+            hotelId={pack_rooms[0].hotel}
+            roomId={pack_rooms.map((room) => room.id)}
+          />
         </div>
       </div>
     </div>

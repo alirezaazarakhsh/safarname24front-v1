@@ -3,6 +3,7 @@
 import {
   RoomInfo,
   Reserver,
+  HalfCharges,
   MainPassenger,
   ExtraCapacityPassengers,
 } from '../molecules/reservation-form';
@@ -10,21 +11,28 @@ import {
 import { useState } from 'react';
 import { FormSchema } from '../helpers/type';
 
+import { usePaymentLoading } from '@/context';
+import { payment } from '../helpers/constant';
 import { formSchema } from '../helpers/schema';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 import { getFormDefaultValues } from '../utils';
+import { useSearchParams } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Loading, Error } from '../atoms/reservation-form';
-import { handleSubmit as onSubmit } from '../utils/handle-submission';
 
+import { OtherPassengers } from '../molecules/reservation-form';
+import { handleSubmit as onSubmit } from '../utils/handle-submission';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import { HalfCharge, OtherPassengers } from '../molecules/reservation-form';
 
 // ------------------------------
 
 export function ReservationForm() {
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
+
+  const searchParams = useSearchParams();
+  const { handleToggleLoading } = usePaymentLoading();
+  const trackingCode = searchParams.get(payment.reservationId);
 
   const methods = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -33,7 +41,7 @@ export function ReservationForm() {
         setLoading(true);
         setError(false);
 
-        return await getFormDefaultValues();
+        return await getFormDefaultValues(trackingCode);
       } catch (error) {
         console.error(error);
         setError(true);
@@ -59,17 +67,21 @@ export function ReservationForm() {
       ) : (
         <form
           id="passengers-form"
-          onSubmit={methods.handleSubmit(onSubmit)}
-          className="bg-white p-5 border rounded-xl"
+          onSubmit={methods.handleSubmit((formData) =>
+            onSubmit(formData, trackingCode, handleToggleLoading),
+          )}
+          className="bg-white p-5 pb-6 border rounded-xl"
           onKeyDown={(e) => {
             if (e.key === 'Enter') e.preventDefault();
           }}
         >
           <Reserver />
-
           {roomFields.map((room, roomIndex) => {
             return (
-              <fieldset key={room.id} className="mt-6 space-y-5">
+              <fieldset
+                key={room.id}
+                className="mt-6 pb-7 space-y-5 border-b last:border-0 last:pb-0"
+              >
                 <RoomInfo
                   name={room.name}
                   capacity={room.capacity}
@@ -91,19 +103,7 @@ export function ReservationForm() {
                   passengerPrice={room.extra_capacity_price}
                 />
 
-                <div className="mt-6 grid gap-4 md:grid-cols-2 md:gap-5">
-                  <HalfCharge
-                    type="enter"
-                    price={room.half_charges.enter.price}
-                    enabled={room.half_charges.enter.enabled}
-                  />
-
-                  <HalfCharge
-                    type="exit"
-                    price={room.half_charges.exit.price}
-                    enabled={room.half_charges.exit.enabled}
-                  />
-                </div>
+                <HalfCharges halfCharges={room.half_charges} />
               </fieldset>
             );
           })}
