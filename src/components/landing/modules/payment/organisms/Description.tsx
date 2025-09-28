@@ -47,7 +47,7 @@ export function Description() {
         </span>
       </div>
 
-      {status !== 'pending' && (
+      {status === 'pending' && (
         <div className="absolute left-0 -top-0.5 flex-center">
           <span className={loader.spinner} style={{ scale: '0.25' }} />
         </div>
