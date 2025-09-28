@@ -40,6 +40,7 @@ export interface GETPersonalProfile {
   address: string;
   level: number | null;
   level_name: null | string;
+  phone_number: string;
   card_numbers: {
     id: number;
     card_number: string;
