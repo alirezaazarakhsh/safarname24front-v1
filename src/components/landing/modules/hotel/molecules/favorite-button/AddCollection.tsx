@@ -18,6 +18,7 @@ import loader from '@/styles/loader.module.css';
 
 import useCallReactions from './helpers/useCallReactions';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { CSSVars } from '@/types/landing';
 
 type Props = {
   open: boolean;
@@ -102,7 +103,7 @@ export function AddCollection(props: Props) {
                 message: '* حداکثر تعداد کاراکتر "40" میباشد !',
               },
             })}
-            placeholder="نام لیست خود را وارد نمایید ..."
+            placeholder="عنوان لیست خود را وارد نمایید ..."
             className={`bg-zinc-100/50 h-12 text-zinc-800 text-cs08 font-semibold px-4 border rounded-cs-10 placeholder:font-medium ${form.formState.errors.collection?.message ? 'border-cs-red' : 'border-zinc-200 '}`}
           />
 
@@ -117,12 +118,15 @@ export function AddCollection(props: Props) {
             className="bg-cs-dark-blue h-12 mt-4 flex-center gap-1.5 rounded-cs-10"
           >
             {status === 'pending' ? (
-              <div className={loader.dots} />
+              <div
+                className={loader.dots}
+                style={{ '--dots-color': '#fff' } as CSSVars}
+              />
             ) : (
               <>
                 <Plus color="#fff" size={16} />
                 <span className="text-white text-cs08 font-semibold">
-                  افزودن لیست
+                  ایجاد لیست
                 </span>
               </>
             )}

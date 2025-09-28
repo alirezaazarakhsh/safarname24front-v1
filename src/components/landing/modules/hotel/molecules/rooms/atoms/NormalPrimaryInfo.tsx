@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import moment from 'jalali-moment';
 import { InfoCircle } from 'iconsax-react';
 
@@ -8,24 +7,30 @@ import { numberSeparation } from '@/utils';
 import DeadlineTimer from './DeadlineTimer';
 import PriceCalendar from '../price-calendar/PriceCalendar';
 
-type Props = Room;
+type Props = {
+  room: Room;
+  children: React.ReactNode;
+};
 
 // -------------------------------------
 
 export default function NormalPrimaryInfo(props: Props) {
   const {
-    name,
-    capacity,
-    night_count,
-    price_calendar,
-    price: {
-      total_price,
-      discount_date,
-      discount_amount,
-      discount_percentage,
-      total_price_discount,
-      is_fixed_discount_one_time,
+    room: {
+      name,
+      capacity,
+      night_count,
+      price_calendar,
+      price: {
+        total_price,
+        discount_date,
+        discount_amount,
+        discount_percentage,
+        total_price_discount,
+        is_fixed_discount_one_time,
+      },
     },
+    children,
   } = props;
 
   const formattedDeadline = moment
@@ -105,12 +110,7 @@ export default function NormalPrimaryInfo(props: Props) {
             <span>تومان</span>
           </div>
 
-          <Link
-            href={''}
-            className="bg-cs-dark-blue text-zinc-100 text-cs08 font-bold h-11 flex-center col-span-2 rounded-[10px]"
-          >
-            رزرو اتاق
-          </Link>
+          {children}
         </div>
       </div>
 
@@ -166,12 +166,7 @@ export default function NormalPrimaryInfo(props: Props) {
             </div>
           )}
 
-          <Link
-            href={''}
-            className="bg-cs-dark-blue text-zinc-100 flex-center flex-1 rounded-lg"
-          >
-            رزرو اتاق
-          </Link>
+          {children}
         </div>
       </div>
     </>
