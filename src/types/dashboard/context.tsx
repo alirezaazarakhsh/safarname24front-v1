@@ -11,3 +11,8 @@ export interface PsersonalInfoContext {
   data: GETPersonalProfile;
   refetch?: () => void;
 }
+
+export interface CustomerClubPointsContext {
+  points: number;
+  refetch?: () => void;
+}

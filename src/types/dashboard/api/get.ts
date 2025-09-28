@@ -40,6 +40,7 @@ export interface GETPersonalProfile {
   address: string;
   level: number | null;
   level_name: null | string;
+  phone_number: string;
   card_numbers: {
     id: number;
     card_number: string;
@@ -217,6 +218,7 @@ export interface GETUserPoints {
 
 export interface GETCustomerClubListItem {
   id: number;
+  expires_at: string;
   user: string;
   discount_type: 'تخفیف مرکز خرید' | 'تخفیف اتاق';
   code: string;

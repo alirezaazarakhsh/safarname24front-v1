@@ -15,9 +15,11 @@ import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import {
   GETNotifications,
   GETPersonalProfile,
+  GETUserPoints,
   GETWalletBalance,
 } from '@/types/dashboard/api/get';
 import {
+  CustomerClubPointsContext,
   NotificationsContext,
   PsersonalInfoContext,
 } from '@/types/dashboard/context';
@@ -35,6 +37,10 @@ export const userWalletBalanceContext = createContext<
 
 export const notificationContext = createContext<
   NotificationsContext | undefined
+>(undefined);
+
+export const customerClubPointsContext = createContext<
+  CustomerClubPointsContext | undefined
 >(undefined);
 
 // defining query client for react query
@@ -108,6 +114,17 @@ function InnerPage({
     },
   });
 
+  const customerClubPointsFetch = useApiQuery<GETUserPoints>({
+    url: '/crm/customer-club/points/',
+    queryKey: ['user-points'],
+    options: {
+      enabled:
+        personalDataFetch.data !== undefined &&
+        walletBalanceFetch.data !== undefined,
+      refetchInterval: 5000,
+    },
+  });
+
   const isReservationSubPage = /^\/dashboard\/reservations\/[^/]+$/.test(
     pathname,
   );
@@ -116,7 +133,12 @@ function InnerPage({
   const irregularPages = isReservationSubPage || isTicketPage;
 
   // Condititional rendering
-  if (personalDataFetch.isLoading || walletBalanceFetch.isLoading) {
+  if (
+    personalDataFetch.isLoading ||
+    walletBalanceFetch.isLoading ||
+    notificationsFetch.isLoading ||
+    customerClubPointsFetch.isLoading
+  ) {
     return (
       <>
         <div className="bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0" />
@@ -137,8 +159,10 @@ function InnerPage({
   } else if (
     !personalDataFetch.isError &&
     !walletBalanceFetch.isError &&
+    !customerClubPointsFetch.isError &&
     personalDataFetch.data &&
-    walletBalanceFetch.data
+    walletBalanceFetch.data &&
+    customerClubPointsFetch.data
   ) {
     return (
       <userFetchedInfoContext.Provider
@@ -154,29 +178,38 @@ function InnerPage({
               refetch: notificationsFetch.refetch,
             }}
           >
-            {!irregularPages && <Header />}
-            {!isTicketPage && <MobileNav />}
-            <div
-              className={cn(
-                'overflow-hidden',
-                isReservationSubPage
-                  ? 'bg-white'
-                  : irregularPages
-                    ? 'w-full'
-                    : '',
-                className,
-              )}
+            <customerClubPointsContext.Provider
+              value={{
+                points: customerClubPointsFetch.data.points ?? 0,
+                refetch: customerClubPointsFetch.refetch,
+              }}
             >
-              {isReservationSubPage ? (
-                <div className="max-w-screen-template bg-white mx-auto">
-                  {children}
-                </div>
-              ) : irregularPages ? (
-                children
-              ) : (
-                <div className="max-w-screen-template mx-auto">{children}</div>
-              )}
-            </div>
+              {!irregularPages && <Header />}
+              {!isTicketPage && <MobileNav />}
+              <div
+                className={cn(
+                  'overflow-hidden',
+                  isReservationSubPage
+                    ? 'bg-white'
+                    : irregularPages
+                      ? 'w-full'
+                      : '',
+                  className,
+                )}
+              >
+                {isReservationSubPage ? (
+                  <div className="max-w-screen-template bg-white mx-auto">
+                    {children}
+                  </div>
+                ) : irregularPages ? (
+                  children
+                ) : (
+                  <div className="max-w-screen-template mx-auto">
+                    {children}
+                  </div>
+                )}
+              </div>
+            </customerClubPointsContext.Provider>
           </notificationContext.Provider>
         </userWalletBalanceContext.Provider>
       </userFetchedInfoContext.Provider>

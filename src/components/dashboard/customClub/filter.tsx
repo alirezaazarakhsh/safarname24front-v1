@@ -9,8 +9,7 @@ import ToggleButtons from '../ui/toggleButtons';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
 import { numberSeparation } from '@/utils';
-import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETUserPoints } from '@/types/dashboard/api/get';
+import useCustomerClubPoints from '@/hooks/dashboard/useCustomerClubPoints';
 
 // Creating and exporting Filter component/section of Customers club page as default
 export default function Filter({
@@ -19,21 +18,7 @@ export default function Filter({
 }: FilterCustomClubPageComponentPropsType): ReactNode {
   // Defining states of component
   const [val, setVal] = useState<'shoppingCentre' | 'hotel'>('shoppingCentre');
-
-  // Fetching data of users current points
-  const getData = useApiQuery<GETUserPoints>({
-    url: '/crm/customer-club/points/',
-    queryKey: ['user-points'],
-    options: {
-      enabled: !loading,
-      refetchInterval: 5000,
-    },
-  });
-
-  // Using useEffect to refetch data when value of filter changes
-  useEffect(() => {
-    getData.refetch();
-  }, [val]);
+  const { points } = useCustomerClubPoints();
 
   // Using useEffect to attach onChange prop to component
   useEffect(() => onChange && onChange(val), [val, onChange]);
@@ -57,7 +42,7 @@ export default function Filter({
             لیست جایزه های دریافتی
           </span>
         </Link>
-        {loading || getData.isLoading ? (
+        {loading ? (
           <>
             <Skeleton className="lg:h-[45px] h-[40px] lg:w-[200px] w-auto col-span-2 lg:rounded-lg rounded-[6px]" />
             <Skeleton className="lg:h-[45px] h-[40px] lg:w-[250px] w-full col-span-3 lg:rounded-lg rounded-[6px]" />
@@ -71,9 +56,7 @@ export default function Filter({
                 color="currentColor"
               />
               <span className="lg:text-cs07 text-[10px] lg:font-bold font-semibold text-current block text-right truncate">
-                {!getData.isLoading && !getData.isError && getData.data
-                  ? `جمع دریافتی : ${numberSeparation(getData.data.points)} امتیاز`
-                  : 'مشکلی در دریافت اطلاعات به وجود امد !'}
+                {`جمع دریافتی : ${numberSeparation(points)} امتیاز`}
               </span>
             </div>
             <ToggleButtons
