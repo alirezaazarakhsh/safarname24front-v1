@@ -19,6 +19,7 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Skeleton } from '@/components/ui/skeleton';
 import Tooltip from '../ui/tooltip';
 import { addCommas } from '@persian-tools/persian-tools';
+import moment from 'jalali-moment';
 
 // Creating and exporting CustomerClubListTable component as default
 export default function CustomerClubListTable({
@@ -239,12 +240,16 @@ export default function CustomerClubListTable({
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.activated_at}
+                      {item.activated_at
+                        ? moment(item.activated_at).format('YYYY/MM/DD')
+                        : '-'}
                     </span>
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      -
+                      {item.expires_at
+                        ? moment(item.expires_at).format('YYYY/MM/DD')
+                        : '-'}
                     </span>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-end gap-3">
@@ -380,7 +385,9 @@ export default function CustomerClubListTable({
                         زمان فعال سازی
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {item.activated_at}
+                        {item.activated_at
+                          ? moment(item.activated_at).format('YYYY/MM/DD')
+                          : '-'}
                       </span>
                     </div>
                   </div>
@@ -396,7 +403,9 @@ export default function CustomerClubListTable({
                         تاریخ اعتبار
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        -
+                        {item.expires_at
+                          ? moment(item.expires_at).format('YYYY/MM/DD')
+                          : '-'}
                       </span>
                     </div>
                   </div>

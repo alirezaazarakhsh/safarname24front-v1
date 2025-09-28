@@ -218,6 +218,7 @@ export interface GETUserPoints {
 
 export interface GETCustomerClubListItem {
   id: number;
+  expires_at: string;
   user: string;
   discount_type: 'تخفیف مرکز خرید' | 'تخفیف اتاق';
   code: string;
