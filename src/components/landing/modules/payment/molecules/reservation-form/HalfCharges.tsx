@@ -8,6 +8,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { HalfCharge } from '../../atoms/reservation-form';
 
 type Props = {
+  roomIndex: number;
   halfCharges: {
     enter: { enabled: boolean; price: number };
     exit: { enabled: boolean; price: number };
@@ -18,6 +19,7 @@ type Props = {
 
 export function HalfCharges(props: Props) {
   const {
+    roomIndex,
     halfCharges: { enter, exit },
   } = props;
 
@@ -50,9 +52,8 @@ export function HalfCharges(props: Props) {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 md:gap-5 xl:w-2/3 xl:mr-auto">
-        <HalfCharge type="enter" price={enter.price} enabled={enter.enabled} />
-
-        <HalfCharge type="exit" price={exit.price} enabled={exit.enabled} />
+        <HalfCharge type="enter" price={enter.price} roomIndex={roomIndex} />
+        <HalfCharge type="exit" price={exit.price} roomIndex={roomIndex} />
       </div>
     </div>
   );

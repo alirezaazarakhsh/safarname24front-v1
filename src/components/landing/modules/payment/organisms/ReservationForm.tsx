@@ -103,7 +103,7 @@ export function ReservationForm() {
                   passengerPrice={room.extra_capacity_price}
                 />
 
-                <HalfCharges halfCharges={room.half_charges} />
+                <HalfCharges roomIndex={roomIndex} halfCharges={room.half_charges} />
               </fieldset>
             );
           })}

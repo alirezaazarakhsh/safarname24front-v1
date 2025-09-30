@@ -66,8 +66,11 @@ export function PaymentInvoice() {
         <Loading />
       ) : (
         <>
-          {invoice?.total_price && (
-            <InvoiceItem name="قیمت کل" value={invoice?.total_price} />
+          {(invoice?.total_price ?? 0) > 0 && (
+            <InvoiceItem
+              value={invoice?.total_price}
+              name={`مبغ کل ${invoice?.nights_count} شب`}
+            />
           )}
 
           {extraPassengers > 0 && (
@@ -82,14 +85,21 @@ export function PaymentInvoice() {
             <InvoiceItem type="discount" name="کد تخفیف" value={discountCode} />
           )}
 
-          {invoice?.discount_on_purchase &&
-          invoice?.discount_on_purchase > 0 ? (
+          {(invoice?.discount_on_purchase ?? 0) > 0 && (
             <InvoiceItem
               type="discount"
               name="تخفیف هنگام خرید"
               value={invoice?.discount_on_purchase}
             />
-          ) : null}
+          )}
+
+          {(invoice?.wallet_balance ?? 0) > 0 && (
+            <InvoiceItem
+              type="discount"
+              name="کسر شده از کیف پول"
+              value={invoice?.wallet_balance}
+            />
+          )}
 
           <InvoiceItem
             name="مبلغ نهایی"
