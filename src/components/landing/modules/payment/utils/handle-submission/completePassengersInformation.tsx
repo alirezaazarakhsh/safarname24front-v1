@@ -31,7 +31,7 @@ export async function handleSubmit(
       { duration: 5000 },
     );
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     toast.custom(
       (id) => (
         <CustomSoonerToast

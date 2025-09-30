@@ -3,6 +3,8 @@ export * from './Description';
 export * from './HotelPicture';
 export * from './WalletBallance';
 export * from './PaymentInvoice';
+export * from './ReservationInfo';
 export * from './ReservationForm';
+export * from './CheckReservationInfo';
 export * from './ApplyDiscountCode';
 export * from './ReservationDetails';
