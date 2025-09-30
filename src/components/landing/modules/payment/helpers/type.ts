@@ -17,6 +17,7 @@ type Invoice = {
   nights_count: number;
   half_charges: number;
   discount_code: number;
+  wallet_balance: number;
   extra_passengers: number;
   final_total_price: number;
   discount_on_purchase: number;
