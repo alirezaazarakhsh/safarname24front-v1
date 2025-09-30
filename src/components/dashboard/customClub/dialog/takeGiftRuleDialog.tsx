@@ -28,6 +28,7 @@ import { Checkbox } from '@radix-ui/react-checkbox';
 import { Label } from '@radix-ui/react-label';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import Loading from '../../ui/loading';
+import useCustomerClubPoints from '@/hooks/dashboard/useCustomerClubPoints';
 
 // Creating and exporting TakeGiftRuleDialog component as default
 export default function TakeGiftRuleDialog({
@@ -43,6 +44,7 @@ export default function TakeGiftRuleDialog({
   // Defining hooks
   const [rulesAccepted, setRulesAccepted] = useState<boolean>(false);
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const customerClubPoints = useCustomerClubPoints();
 
   // Fetching data
   const fetchData = useApiMutation({
@@ -57,6 +59,7 @@ export default function TakeGiftRuleDialog({
         closeFn && closeFn();
         refetch && refetch();
 
+        customerClubPoints.refetch && customerClubPoints.refetch();
         setGiftGainedDialogOpened(true);
       },
     },

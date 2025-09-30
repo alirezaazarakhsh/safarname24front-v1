@@ -135,10 +135,14 @@ const legalFormSchema = z.object({
     .string({
       message: 'شماره موبایل الزامی است',
     })
-    .regex(/^09\d{9}$/, {
-      message: 'شماره موبایل باید با 09 شروع شود و ۱۱ رقم باشد',
+    .length(11, 'شماره باید دقیقاً ۱۱ رقم باشد.')
+    .regex(/^\d+$/, { message: 'شماره تماس باید فقط شامل اعداد باشد.' })
+    .refine((s) => s.startsWith('0'), {
+      message: 'شماره تماس باید با 0 شروع شود.',
+    })
+    .refine((s) => /^0[1-8]\d{9}$/.test(s), {
+      message: 'شماره شرکت معتبر نیست.',
     }),
-
   email: z
     .string()
     .max(254, { message: 'ایمیل نمی‌تواند بیشتر از ۲۵۴ کاراکتر باشد' })
@@ -214,8 +218,6 @@ export default function ProfilePage(): ReactNode {
     reValidateMode: 'onChange',
   });
 
-  const authCookie = Cookies.get('auth') || '';
-  const savedTellNumber = `0${JSON.parse(authCookie).phoneNumber}`;
   const creditCard = userInfo.card_numbers[0];
 
   // Setting form values based on parsed userInfo in first fetch and passed with context
@@ -226,7 +228,7 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('lastName', userInfo.last_name);
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
-    personalForm.setValue('tell', savedTellNumber);
+    personalForm.setValue('tell', userInfo.phone_number);
     setUserImage(userInfo.image || '');
 
     if (creditCard) {
@@ -268,7 +270,7 @@ export default function ProfilePage(): ReactNode {
       legalForm.setValue('email', legalInfo.email || '');
       legalForm.setValue('address', legalInfo.address);
       legalForm.setValue('postCode', legalInfo.postal_code);
-      legalForm.setValue('tell', savedTellNumber);
+      legalForm.setValue('tell', legalInfo.phone_number);
       setLegalUserImage(legalInfo.image || '');
 
       setUserStatus({

@@ -19,6 +19,7 @@ export default function useUserInfo(): GETPersonalProfile {
         level: 0,
         national_code: '',
         postal_code: '',
+        phone_number: '',
         card_numbers: [
           {
             account_holder_name: 'Unknown',
