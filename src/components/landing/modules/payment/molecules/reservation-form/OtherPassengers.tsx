@@ -83,7 +83,7 @@ export function OtherPassengers(props: Props) {
                 <GrClear size={20} color="#f30f26" />
               </TooltipTrigger>
 
-              <TooltipContent>پاک سازی اطلاعات مسافر</TooltipContent>
+              <TooltipContent>حذف اطلاعات مسافر</TooltipContent>
             </Tooltip>
           </div>
         </div>
