@@ -54,7 +54,7 @@ export function PaymentInvoice() {
         extraPassengers: invoice?.extra_passengers,
       },
     });
-  }, [invoice]);
+  }, [invoice, dispatch]);
 
   return (
     <div className="bg-white p-5 pt-4 grid gap-4 border rounded-xl">
