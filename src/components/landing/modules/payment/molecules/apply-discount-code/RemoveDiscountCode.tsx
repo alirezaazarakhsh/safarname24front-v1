@@ -4,8 +4,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { IoClose } from 'react-icons/io5';
 import { axiosInstance } from '@/utils/axios';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import { useMutation } from '@tanstack/react-query';
 
 type Props = {
@@ -16,13 +16,11 @@ type Props = {
 // ------------------------------
 
 export function RemoveDiscountCode(props: Props) {
-  const { discountCode, trackingCode } = props;
+  const { trackingCode } = props;
 
   const { mutate } = useMutation({
     mutationFn: () => {
-      return axiosInstance.post(`/auth/${trackingCode}`, {
-        discount_code: discountCode,
-      });
+      return axiosInstance.post(`/auth/${trackingCode}`);
     },
     onSuccess: (data) => {
       console.log(data);
@@ -33,22 +31,16 @@ export function RemoveDiscountCode(props: Props) {
   });
 
   return (
-    <>
-      {discountCode && (
-        <div className="absolute inset-0 bg-black/10 backdrop-blur-sm opacity-0 flex-center group transition-all duration-200 ease-in-out hover:opacity-100">
-          <Tooltip>
-            <TooltipTrigger
-              type="button"
-              onClick={() => mutate()}
-              className="full-size flex-center"
-            >
-              <IoClose size={24} color="#444" />
-            </TooltipTrigger>
+    <Tooltip>
+      <TooltipTrigger
+        type="button"
+        onClick={() => mutate()}
+        className="w-10 bg-cs-red/90 flex-center rounded-lg transition-colors hover:bg-cs-red"
+      >
+        <FaRegTrashAlt color="#fff" size={19} />
+      </TooltipTrigger>
 
-            <TooltipContent>حذف کد تخفیف</TooltipContent>
-          </Tooltip>
-        </div>
-      )}
-    </>
+      <TooltipContent>حذف کد تخفیف</TooltipContent>
+    </Tooltip>
   );
 }

@@ -16,9 +16,9 @@ import { payment } from '../helpers/constant';
 import { formSchema } from '../helpers/schema';
 
 import { getFormDefaultValues } from '../utils';
-import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loading, Error } from '../atoms/reservation-form';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { OtherPassengers } from '../molecules/reservation-form';
 import { handleSubmit as onSubmit } from '../utils/handle-submission';
@@ -30,7 +30,9 @@ export function ReservationForm() {
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
+  const router = useRouter();
   const searchParams = useSearchParams();
+
   const { handleToggleLoading } = usePaymentLoading();
   const trackingCode = searchParams.get(payment.reservationId);
 
@@ -58,6 +60,12 @@ export function ReservationForm() {
     name: 'rooms',
   });
 
+  function handleNavigation() {
+    router.push(
+      `/payment/check-reservation-information?${payment.reservationId}=${trackingCode}`,
+    );
+  }
+
   return (
     <FormProvider {...methods}>
       {isLoading ? (
@@ -68,7 +76,12 @@ export function ReservationForm() {
         <form
           id="passengers-form"
           onSubmit={methods.handleSubmit((formData) =>
-            onSubmit(formData, trackingCode, handleToggleLoading),
+            onSubmit(
+              formData,
+              trackingCode,
+              handleNavigation,
+              handleToggleLoading,
+            ),
           )}
           className="bg-white p-5 pb-6 border rounded-xl"
           onKeyDown={(e) => {
@@ -103,7 +116,10 @@ export function ReservationForm() {
                   passengerPrice={room.extra_capacity_price}
                 />
 
-                <HalfCharges roomIndex={roomIndex} halfCharges={room.half_charges} />
+                <HalfCharges
+                  roomIndex={roomIndex}
+                  halfCharges={room.half_charges}
+                />
               </fieldset>
             );
           })}

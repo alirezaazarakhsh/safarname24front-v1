@@ -5,7 +5,10 @@ import {
   SubmitDiscountCode,
 } from '../molecules/apply-discount-code';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Invoice } from '../helpers/type';
+import { numberSeparation } from '@/utils';
+
 import { axiosInstance } from '@/utils/axios';
 import { payment } from '../helpers/constant';
 
@@ -13,7 +16,7 @@ import loader from '@/styles/loader.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
-type ApiResponse = { discount_code: string };
+type ApiResponse = { data: Invoice };
 
 // ------------------------------
 
@@ -33,55 +36,58 @@ export function ApplyDiscountCode() {
     setDiscountCode(filteredInput);
   }
 
-  // === GET
+  // === GET Price-Number of Discount-Code
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['reservation-invoice'],
     queryFn: () => axiosInstance(`/hotel/reservation/invoice/${trackingCode}/`),
   });
 
-  // === Set-State Discount-Code
-  useEffect(() => {
-    if (data?.discount_code) {
-      setDiscountCode(data?.discount_code);
-    }
-  }, [data]);
-
   return (
     <div className="relative bg-white text-cs08 font-semibold p-5 pt-4 border rounded-xl">
-      <span className="text-cs85 font-bold">اعمال کد تخفیف</span>
-      <div className="my-3 border-b" />
-      <span className="text-zinc-500">
-        مشترک گرامی کد تخفیف خود را وارد نمایید :
-      </span>
-
-      {status === 'pending' && (
-        <div className="absolute left-0 -top-0.5 flex-center">
-          <span className={loader.spinner} style={{ scale: '0.25' }} />
-        </div>
-      )}
-
-      <div className="h-11 mt-6 grid grid-cols-2 gap-3.5">
-        <SubmitDiscountCode
-          trackingCode={trackingCode}
-          discountCode={discountCode}
-        />
-
-        <div className="relative flex overflow-hidden rounded-cs-10">
-          <RemoveDiscountCode
-            trackingCode={trackingCode}
-            discountCode={data?.discount_code}
-          />
-
-          <input
-            type="text"
-            maxLength={8}
-            value={discountCode}
-            onChange={handleInputChange}
-            placeholder="- - - - - - - -"
-            className="w-full bg-zinc-100 text-zinc-500 text-cs08 font-inter text-center"
-          />
-        </div>
+      <div className="text-cs85 font-bold pb-3 mb-3 border-b">
+        اعمال کد تخفیف
       </div>
+
+      {status === 'pending' ? (
+        <div className="h-24 flex-center">
+          <div className={loader.dots} />
+        </div>
+      ) : data?.data.discount_code ? (
+        <>
+          <div className="h-10 mt-4 flex gap-2.5">
+            <div className="bg-cs-red/10 text-cs-red font-bold px-3.5 flex-between flex-1 items-center gap-1 border border-cs-red/10 rounded-lg">
+              <span>مبلغ تخفیف :</span>
+              <span>{numberSeparation(3_000_000)} تومان</span>
+            </div>
+
+            <RemoveDiscountCode trackingCode={trackingCode} />
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="text-zinc-500">
+            مشتری گرامی کد تخفیف خود را وارد نمایید :
+          </p>
+
+          <div className="h-11 mt-5 grid grid-cols-2 gap-3.5">
+            <SubmitDiscountCode
+              trackingCode={trackingCode}
+              discountCode={discountCode}
+            />
+
+            <div className="relative flex overflow-hidden rounded-cs-10">
+              <input
+                type="text"
+                maxLength={8}
+                value={discountCode}
+                onChange={handleInputChange}
+                placeholder="- - - - - - - -"
+                className="w-full bg-zinc-100 text-zinc-500 text-cs08 font-inter text-center"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

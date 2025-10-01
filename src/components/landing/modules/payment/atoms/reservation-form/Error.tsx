@@ -4,8 +4,8 @@ import { VscError } from 'react-icons/vsc';
 
 export function Error() {
   return (
-    <div className="bg-white h-[30rem] p-5 flex flex-col items-center justify-center gap-3 border rounded-xl">
-      <VscError size={40} color="#444" />
+    <div className="bg-white h-[30rem] p-5 flex flex-col items-center justify-center gap-4 border rounded-xl">
+      <VscError size={40} color="#888" />
       <p className="text-zinc-600 text-cs85 font-semibold">
         متاسفانه در واکشی اطلاعات فرم مشکلی رخ داده است !
       </p>

@@ -35,6 +35,12 @@ export function ReservationInfo() {
         <div className="bg-white h-96 p-5 flex-center border rounded-xl">
           <div className={loader.dots} style={{ scale: '1.6' }} />
         </div>
+      ) : status === 'error' ? (
+        <div className="bg-white p-5 flex items-center border rounded-xl">
+          <p className="text-zinc-500 text-cs08 font-semibold">
+            خطا در محاسبه اطلاعات مسافران !
+          </p>
+        </div>
       ) : (
         <div className="bg-white p-5 pb-6 border rounded-xl">
           <Reserver reserver={data?.data.reserver} />

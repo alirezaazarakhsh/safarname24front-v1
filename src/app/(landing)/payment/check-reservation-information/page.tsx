@@ -8,7 +8,7 @@ import {
 
 // ------------------------------
 
-export default function CheckRoomsCapacity() {
+export default function CheckReservationInformation() {
   return (
     <>
       {/* === Small-Screen */}

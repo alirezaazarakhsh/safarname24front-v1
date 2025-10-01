@@ -48,6 +48,10 @@ export function CheckReservationInfo() {
         <div className="h-28 flex-center">
           <div className={loader.dots} />
         </div>
+      ) : status === 'error' ? (
+        <p className="text-zinc-500 text-cs08 font-semibold">
+          خطا در محاسبه اطلاعات رزرو !
+        </p>
       ) : (
         <>
           <p
