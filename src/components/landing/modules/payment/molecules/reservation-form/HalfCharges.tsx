@@ -30,10 +30,10 @@ export function HalfCharges(props: Props) {
       <div className="flex items-center gap-4">
         <span>نیم شارژ اتاق :</span>
 
-        <Popover>
+        {/* <Popover>
           <PopoverTrigger className="w-9 aspect-square bg-blue-500/5 text-blue-500 text-cs75/6 flex-center gap-1.5 rounded-lg transition-all hover:bg-blue-500/10 hover:underline">
             <FaInfoCircle color="#3b82f6" size={16} />
-            {/* <span>اطلاعات بیشتر</span> */}
+            <span>اطلاعات بیشتر</span>
           </PopoverTrigger>
 
           <PopoverContent
@@ -48,7 +48,7 @@ export function HalfCharges(props: Props) {
               like Aldus PageMaker including versions of Lorem Ipsum.
             </p>
           </PopoverContent>
-        </Popover>
+        </Popover> */}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 md:gap-5 xl:w-2/3 xl:mr-auto">

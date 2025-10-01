@@ -54,7 +54,7 @@ export function PaymentInvoice() {
         extraPassengers: invoice?.extra_passengers,
       },
     });
-  }, [invoice]);
+  }, [invoice, dispatch]);
 
   return (
     <div className="bg-white p-5 pt-4 grid gap-4 border rounded-xl">
@@ -64,12 +64,16 @@ export function PaymentInvoice() {
 
       {status === 'pending' ? (
         <Loading />
+      ) : status === 'error' ? (
+        <p className="text-zinc-500 text-cs08 font-semibold">
+          خطا در محاسبه صورتحساب !
+        </p>
       ) : (
         <>
           {(invoice?.total_price ?? 0) > 0 && (
             <InvoiceItem
               value={invoice?.total_price}
-              name={`مبغ کل ${invoice?.nights_count} شب`}
+              name={`مبلغ کل ${invoice?.nights_count} شب`}
             />
           )}
 
