@@ -80,14 +80,14 @@ export function ReservationDetails() {
           icon="ReceiptText"
           isLoading={isLoading}
           title="نیم شارژ ورود هتل"
-          value={`${detail?.half_charges.enter ? 'دارد (نصف مبلغ شب اول)' : 'ندارد'} `}
+          value={`${detail?.half_charges.enter.enabled ? 'دارد (نصف مبلغ شب اول)' : 'ندارد'} `}
         />
 
         <ReservationField
           icon="ReceiptText"
           isLoading={isLoading}
           title="نیم شارژ خروج هتل"
-          value={`${detail?.half_charges.exit ? 'دارد (نصف مبلغ شب آخر)' : 'ندارد'}`}
+          value={`${detail?.half_charges.exit.enabled ? 'دارد (نصف مبلغ شب آخر)' : 'ندارد'}`}
         />
 
         <TrackingCode isLoading={isLoading} value={trackingCode} />
