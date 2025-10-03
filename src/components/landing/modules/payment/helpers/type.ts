@@ -7,7 +7,7 @@ type ReservationDetail = {
   city_name: string;
   province_name: string;
   number_of_rooms: number;
-  half_charges: { enter: boolean; exit: boolean };
+  half_charges: { enter: HalfCharge; exit: HalfCharge };
 };
 
 // ------------------------------
