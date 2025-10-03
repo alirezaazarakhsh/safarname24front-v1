@@ -13,8 +13,8 @@ import { axiosInstance } from '@/utils/axios';
 import { payment } from '../helpers/constant';
 
 import loader from '@/styles/loader.module.css';
-import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 type ApiResponse = { data: Invoice };
 
@@ -24,6 +24,7 @@ export function ApplyDiscountCode() {
   const searchParams = useSearchParams();
   const trackingCode = searchParams.get(payment.reservationId);
 
+  const queryClient = useQueryClient();
   const [discountCode, setDiscountCode] = useState('');
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -42,6 +43,11 @@ export function ApplyDiscountCode() {
     queryFn: () => axiosInstance(`/hotel/reservation/invoice/${trackingCode}/`),
   });
 
+  function handleInvalidateQuery() {
+    setDiscountCode('');
+    queryClient.invalidateQueries({ queryKey: ['reservation-invoice'] });
+  }
+
   return (
     <div className="relative bg-white text-cs08 font-semibold p-5 pt-4 border rounded-xl">
       <div className="text-cs85 font-bold pb-3 mb-3 border-b">
@@ -49,7 +55,7 @@ export function ApplyDiscountCode() {
       </div>
 
       {status === 'pending' ? (
-        <div className="h-24 flex-center">
+        <div className="h-20 flex-center">
           <div className={loader.dots} />
         </div>
       ) : data?.data.discount_code ? (
@@ -57,10 +63,13 @@ export function ApplyDiscountCode() {
           <div className="h-10 mt-4 flex gap-2.5">
             <div className="bg-cs-red/10 text-cs-red font-bold px-3.5 flex-between flex-1 items-center gap-1 border border-cs-red/10 rounded-lg">
               <span>مبلغ تخفیف :</span>
-              <span>{numberSeparation(3_000_000)} تومان</span>
+              <span>{numberSeparation(data?.data.discount_code)} تومان</span>
             </div>
 
-            <RemoveDiscountCode trackingCode={trackingCode} />
+            <RemoveDiscountCode
+              trackingCode={trackingCode}
+              handleInvalidateQuery={handleInvalidateQuery}
+            />
           </div>
         </>
       ) : (
@@ -73,6 +82,7 @@ export function ApplyDiscountCode() {
             <SubmitDiscountCode
               trackingCode={trackingCode}
               discountCode={discountCode}
+              handleInvalidateQuery={handleInvalidateQuery}
             />
 
             <div className="relative flex overflow-hidden rounded-cs-10">
