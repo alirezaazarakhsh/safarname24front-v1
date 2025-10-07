@@ -5,6 +5,7 @@ import { useEffect, useMemo } from 'react';
 import { payment } from '../helpers/constant';
 
 import { axiosInstance } from '@/utils/axios';
+import SimpleError from '../atoms/SimpleError';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
@@ -25,6 +26,7 @@ export function PaymentInvoice() {
   });
 
   const invoice = data?.data;
+
   const dispatch = usePaymentInvoiceDispatch();
   const { discountCode, extraPassengers, halfCharges } =
     usePaymentInvoiceContext();
@@ -65,9 +67,7 @@ export function PaymentInvoice() {
       {status === 'pending' ? (
         <Loading />
       ) : status === 'error' ? (
-        <p className="text-zinc-500 text-cs08 font-semibold">
-          خطا در محاسبه صورتحساب !
-        </p>
+        <SimpleError desc="خطا در نمایش اطلاعات صورتحساب" />
       ) : (
         <>
           {(invoice?.total_price ?? 0) > 0 && (
@@ -97,11 +97,11 @@ export function PaymentInvoice() {
             />
           )}
 
-          {(invoice?.wallet_balance ?? 0) > 0 && (
+          {(invoice?.wallet_withdraw ?? 0) > 0 && (
             <InvoiceItem
               type="discount"
               name="کسر شده از کیف پول"
-              value={invoice?.wallet_balance}
+              value={invoice?.wallet_withdraw}
             />
           )}
 

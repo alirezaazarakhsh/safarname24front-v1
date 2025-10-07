@@ -1,17 +1,18 @@
 'use client';
 
+import { CSSVars } from '@/types/landing';
 import { usePaymentLoading } from '@/context';
 import loader from '@/styles/loader.module.css';
-import { CSSVars } from '@/types/landing';
 
 // ------------------------------
 
-export function SubmitButton() {
+export function FirstStepSubmitButton() {
   const { isLoading } = usePaymentLoading();
 
   return (
     <button
       type="submit"
+      disabled={isLoading}
       form="passengers-form"
       className="w-full h-12 bg-cs-dark-blue rounded-cs-10"
     >

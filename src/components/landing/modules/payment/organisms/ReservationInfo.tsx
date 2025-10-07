@@ -1,22 +1,17 @@
 'use client';
 
+import { FormSchema } from '../helpers/type';
 import { payment } from '../helpers/constant';
 import { axiosInstance } from '@/utils/axios';
+
+import SimpleError from '../atoms/SimpleError';
 import loader from '@/styles/loader.module.css';
 
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
-import { Person, RoomForm } from '../helpers/type';
 import { RoomInfo } from '../molecules/reservation-form';
 import { Reserver, RoomTable } from '../molecules/passengers-table';
-
-type ApiResponse = {
-  data: {
-    reserver: Person;
-    rooms: RoomForm[];
-  };
-};
 
 // ------------------------------
 
@@ -24,28 +19,30 @@ export function ReservationInfo() {
   const searchParams = useSearchParams();
   const trackingCode = searchParams.get(payment.reservationId);
 
-  const { data, status } = useQuery<ApiResponse>({
+  const { data, status } = useQuery<FormSchema>({
     queryKey: ['reservation-form'],
-    queryFn: () => axiosInstance(`/hotel/reservation/form/${trackingCode}`),
+    queryFn: async () => {
+      return axiosInstance(`/hotel/reservation/form/${trackingCode}/`).then(
+        (data) => data.data,
+      );
+    },
   });
 
   return (
-    <>
+    <div className="bg-white p-5 border rounded-xl">
       {status === 'pending' ? (
-        <div className="bg-white h-96 p-5 flex-center border rounded-xl">
+        <div className="h-80 flex-center">
           <div className={loader.dots} style={{ scale: '1.6' }} />
         </div>
       ) : status === 'error' ? (
-        <div className="bg-white p-5 flex items-center border rounded-xl">
-          <p className="text-zinc-500 text-cs08 font-semibold">
-            خطا در محاسبه اطلاعات مسافران !
-          </p>
+        <div className="ml-auto">
+          <SimpleError desc="خطا در نمایش اطلاعات مسافران" />
         </div>
       ) : (
-        <div className="bg-white p-5 pb-6 border rounded-xl">
-          <Reserver reserver={data?.data.reserver} />
+        <div className="pb-1">
+          <Reserver reserver={data?.reserver} />
 
-          {data?.data.rooms.map((room, index) => (
+          {data?.rooms.map((room, index) => (
             <div
               key={index}
               className="space-y-5 border-b pb-6 last:border-b-0 last:pb-0"
@@ -64,6 +61,6 @@ export function ReservationInfo() {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }

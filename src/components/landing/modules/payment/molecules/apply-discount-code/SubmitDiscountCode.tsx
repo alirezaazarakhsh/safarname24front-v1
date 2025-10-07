@@ -46,15 +46,10 @@ export function SubmitDiscountCode(props: Props) {
     },
   });
 
-  function handlePostDiscountCode() {
-    if (discountCode.length < 8) return;
-    mutate();
-  }
-
   return (
     <button
-      onClick={handlePostDiscountCode}
-      disabled={discountCode.length < 8}
+      onClick={() => mutate()}
+      disabled={discountCode.length < 8 || status === 'pending'}
       className="bg-cs-dark-blue text-white flex-center rounded-cs-10 transition-all disabled:cursor-not-allowed"
     >
       {status === 'pending' ? (

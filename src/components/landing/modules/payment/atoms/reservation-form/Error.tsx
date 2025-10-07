@@ -5,17 +5,10 @@ import { VscError } from 'react-icons/vsc';
 export function Error() {
   return (
     <div className="bg-white h-[30rem] p-5 flex flex-col items-center justify-center gap-4 border rounded-xl">
-      <VscError size={40} color="#888" />
-      <p className="text-zinc-600 text-cs85 font-semibold">
-        متاسفانه در واکشی اطلاعات فرم مشکلی رخ داده است !
+      <VscError size={40} color="#f30f26" />
+      <p className="text-cs-red text-cs85 font-semibold">
+        متاسفانه در نمایش اطلاعات اتاق ها خطایی رخ داده است !
       </p>
-
-      <button
-        className="bg-zinc-100/50 text-zinc-600 text-cs08 font-semibold px-4 py-2 mt-4 border rounded-lg"
-        onClick={() => window.location.reload()}
-      >
-        بارگذاری مجدد
-      </button>
     </div>
   );
 }

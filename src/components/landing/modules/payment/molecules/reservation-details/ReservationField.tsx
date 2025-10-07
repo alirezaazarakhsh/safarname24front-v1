@@ -6,13 +6,14 @@ interface Props {
   title: string;
   value: string;
   icon: IconsName;
+  isError: boolean;
   isLoading: boolean;
 }
 
 // ------------------------------
 
 export function ReservationField(props: Props) {
-  const { icon, title, value, isLoading } = props;
+  const { icon, title, value, isLoading, isError } = props;
 
   if (!isLoading && !value) return null;
 
@@ -29,7 +30,7 @@ export function ReservationField(props: Props) {
           <Skeleton className="w-1/2 max-w-40 h-3 rounded" />
         ) : (
           <div className="max-w-52 text-zinc-500 font-semibold truncate ">
-            {value}
+            {isError ? '- - - - - -' : value}
           </div>
         )}
       </div>

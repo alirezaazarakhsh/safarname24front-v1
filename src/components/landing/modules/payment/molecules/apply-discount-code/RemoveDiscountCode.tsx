@@ -4,8 +4,12 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { CSSVars } from '@/types/landing';
 import { axiosInstance } from '@/utils/axios';
+
 import { FaRegTrashAlt } from 'react-icons/fa';
+import loader from '@/styles/loader.module.css';
+
 import { useMutation } from '@tanstack/react-query';
 import { showCMToast } from '@/components/landing/shared/toast';
 
@@ -19,7 +23,7 @@ type Props = {
 export function RemoveDiscountCode(props: Props) {
   const { trackingCode, handleInvalidateQuery } = props;
 
-  const { mutate } = useMutation({
+  const { mutate, status } = useMutation({
     mutationFn: () => {
       return axiosInstance.delete(
         `/hotel/reservation/discount-code/${trackingCode}/`,
@@ -49,9 +53,17 @@ export function RemoveDiscountCode(props: Props) {
       <TooltipTrigger
         type="button"
         onClick={() => mutate()}
+        disabled={status === 'pending'}
         className="w-10 bg-cs-red/90 flex-center rounded-lg transition-colors hover:bg-cs-red"
       >
-        <FaRegTrashAlt color="#fff" size={18} />
+        {status === 'pending' ? (
+          <div
+            className={loader.spinner}
+            style={{ '--spinner-color': '#fff', scale: '0.4' } as CSSVars}
+          />
+        ) : (
+          <FaRegTrashAlt color="#fff" size={18} />
+        )}
       </TooltipTrigger>
 
       <TooltipContent>حذف کد تخفیف</TooltipContent>
