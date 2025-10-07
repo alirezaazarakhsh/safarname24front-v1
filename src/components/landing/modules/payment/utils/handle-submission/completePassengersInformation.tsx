@@ -26,8 +26,6 @@ export async function handleSubmit(
       description: 'کاربر گرامی اطلاعات با موفقیت بروزرسانی شد',
     });
   } catch (error) {
-    // console.error(error);
-
     showCMToast({
       type: 'error',
       title: 'عملیات با خطا مواجه شد !',

@@ -1,13 +1,13 @@
 type ReservationDetail = {
-  date: { enter: string; exit: string };
-  time: { enter: string; exit: string };
-  number_of_nights: number;
+  city_name: string;
   hotel_name: string;
   hotel_star: number;
-  city_name: string;
   province_name: string;
   number_of_rooms: number;
-  half_charges: { enter: boolean; exit: boolean };
+  number_of_nights: number;
+  date: { enter: string; exit: string };
+  time: { enter: string; exit: string };
+  half_charges: { enter: HalfCharge; exit: HalfCharge };
 };
 
 // ------------------------------
@@ -17,7 +17,7 @@ type Invoice = {
   nights_count: number;
   half_charges: number;
   discount_code: number;
-  wallet_balance: number;
+  wallet_withdraw: number;
   extra_passengers: number;
   final_total_price: number;
   discount_on_purchase: number;

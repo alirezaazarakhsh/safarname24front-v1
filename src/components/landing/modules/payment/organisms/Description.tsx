@@ -6,9 +6,10 @@ import { axiosInstance } from '@/utils/axios';
 
 import loader from '@/styles/loader.module.css';
 import { useQuery } from '@tanstack/react-query';
+
 import { usePathname, useSearchParams } from 'next/navigation';
 
-type Response = { data: { description: string } };
+type ApiResponse = { data: { description: string } };
 
 // ------------------------------
 
@@ -19,13 +20,13 @@ export function Description() {
   const [value, setValue] = useState('');
   const trackingCode = searchParams.get(payment.reservationId);
 
-  const { data, status } = useQuery<Response>({
+  const { data, status } = useQuery<ApiResponse>({
     queryKey: ['reservation-description'],
     queryFn: () =>
       axiosInstance(`/hotel/reservation/description/${trackingCode}/`),
   });
 
-  // === Updating Value Based-On data
+  // === Updating Value based-on data
   useEffect(() => {
     const description = data?.data.description;
     if (description) setValue(data?.data.description);
@@ -48,8 +49,8 @@ export function Description() {
       </div>
 
       {status === 'pending' && (
-        <div className="absolute left-0 -top-0.5 flex-center">
-          <span className={loader.spinner} style={{ scale: '0.25' }} />
+        <div className="absolute left-0.5 top-0.5 flex-center">
+          <span className={loader.spinner} style={{ scale: '0.35' }} />
         </div>
       )}
 
@@ -59,7 +60,7 @@ export function Description() {
         onChange={(e) => setValue(e.target.value)}
         placeholder="توضیحات تکمیلی خود را وارد نمایید ..."
         readOnly={pathname !== '/payment/complete-passengers-information'}
-        className="min-h-20 max-h-40 text-zinc-500 text-cs08/5 font-semibold custom-scrollbar resize-y outline-none"
+        className="h-14 text-zinc-500 text-cs08/5 font-semibold custom-scrollbar resize-none outline-none"
       />
     </div>
   );

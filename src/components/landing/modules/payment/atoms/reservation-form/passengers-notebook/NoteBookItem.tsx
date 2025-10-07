@@ -1,4 +1,4 @@
-import { Person } from '../../helpers/type';
+import { Person } from '../../../helpers/type';
 
 type Props = {
   idx: number;

@@ -7,7 +7,7 @@ import {
 } from '@/components/landing/modules/payment/organisms';
 
 import { useMediaQuery } from '@/hooks';
-import { SubmitButton } from '@/components/landing/modules/payment/molecules/submit-buttons';
+import { FirstStepSubmitButton as SubmitButton } from '@/components/landing/modules/payment/molecules/submit-buttons';
 
 // ------------------------------
 

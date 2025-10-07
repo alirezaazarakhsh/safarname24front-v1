@@ -8,14 +8,16 @@ import {
   ExtraCapacityPassengers,
 } from '../molecules/reservation-form';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { FormSchema } from '../helpers/type';
 
 import { usePaymentLoading } from '@/context';
 import { payment } from '../helpers/constant';
+
+import { axiosInstance } from '@/utils/axios';
 import { formSchema } from '../helpers/schema';
 
-import { getFormDefaultValues } from '../utils';
+import { useQuery } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loading, Error } from '../atoms/reservation-form';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -27,38 +29,35 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 // ------------------------------
 
 export function ReservationForm() {
-  const [isError, setError] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const { handleToggleLoading } = usePaymentLoading();
   const trackingCode = searchParams.get(payment.reservationId);
 
+  const { data, status } = useQuery<FormSchema>({
+    queryKey: ['reservation-form'],
+    queryFn: async () => {
+      return axiosInstance(`/hotel/reservation/form/${trackingCode}/`).then(
+        (data) => data.data,
+      );
+    },
+  });
+
   const methods = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: async () => {
-      try {
-        setLoading(true);
-        setError(false);
-
-        return await getFormDefaultValues(trackingCode);
-      } catch (error) {
-        console.error(error);
-        setError(true);
-
-        return {} as FormSchema;
-      } finally {
-        setLoading(false);
-      }
-    },
+    defaultValues: {},
   });
 
   const { fields: roomFields } = useFieldArray({
     control: methods.control,
     name: 'rooms',
   });
+
+  // === Reset Form After Fetch-Data
+  useEffect(() => {
+    if (data) methods.reset(data);
+  }, [data, methods.reset]);
 
   function handleNavigation() {
     router.push(
@@ -68,9 +67,9 @@ export function ReservationForm() {
 
   return (
     <FormProvider {...methods}>
-      {isLoading ? (
+      {status === 'pending' ? (
         <Loading />
-      ) : isError ? (
+      ) : status === 'error' ? (
         <Error />
       ) : (
         <form

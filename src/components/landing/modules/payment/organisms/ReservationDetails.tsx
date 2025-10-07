@@ -38,6 +38,7 @@ export function ReservationDetails() {
           icon="Clock"
           isLoading={isLoading}
           title="تاریخ و ساعت ورود"
+          isError={status === 'error'}
           value={`${detail?.date.enter.replaceAll('-', '/')} - ساعت ${detail?.time.enter.slice(0, 5)}`}
         />
 
@@ -45,6 +46,7 @@ export function ReservationDetails() {
           icon="Clock"
           isLoading={isLoading}
           title="تاریخ و ساعت خروج"
+          isError={status === 'error'}
           value={`${detail?.date.exit.replaceAll('-', '/')} - ساعت ${detail?.time.exit.slice(0, 5)}`}
         />
 
@@ -52,6 +54,7 @@ export function ReservationDetails() {
           icon="Moon"
           isLoading={isLoading}
           title="تعداد شب اقامت"
+          isError={status === 'error'}
           value={`${detail?.number_of_nights} شب`}
         />
 
@@ -60,6 +63,7 @@ export function ReservationDetails() {
           icon="Buliding"
           isLoading={isLoading}
           value={`${detail?.hotel_name} - ${detail?.hotel_star} ستاره`}
+          isError={status === 'error'}
         />
 
         <ReservationField
@@ -67,6 +71,7 @@ export function ReservationDetails() {
           title="شهر و استان"
           isLoading={isLoading}
           value={`${detail?.city_name} - ${detail?.province_name}`}
+          isError={status === 'error'}
         />
 
         <ReservationField
@@ -74,23 +79,30 @@ export function ReservationDetails() {
           title="تعداد اتاق"
           isLoading={isLoading}
           value={`${detail?.number_of_rooms} اتاق`}
+          isError={status === 'error'}
         />
 
         <ReservationField
           icon="ReceiptText"
           isLoading={isLoading}
           title="نیم شارژ ورود هتل"
-          value={`${detail?.half_charges.enter ? 'دارد (نصف مبلغ شب اول)' : 'ندارد'} `}
+          isError={status === 'error'}
+          value={`${detail?.half_charges.enter.enabled ? 'دارد (نصف مبلغ شب اول)' : 'ندارد'} `}
         />
 
         <ReservationField
           icon="ReceiptText"
           isLoading={isLoading}
           title="نیم شارژ خروج هتل"
-          value={`${detail?.half_charges.exit ? 'دارد (نصف مبلغ شب آخر)' : 'ندارد'}`}
+          isError={status === 'error'}
+          value={`${detail?.half_charges.exit.enabled ? 'دارد (نصف مبلغ شب آخر)' : 'ندارد'}`}
         />
 
-        <TrackingCode isLoading={isLoading} value={trackingCode} />
+        <TrackingCode
+          value={trackingCode}
+          isLoading={isLoading}
+          isError={status === 'error'}
+        />
       </div>
     </div>
   );

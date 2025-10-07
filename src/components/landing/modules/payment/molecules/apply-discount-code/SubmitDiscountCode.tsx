@@ -1,71 +1,55 @@
-import { toast } from 'sonner';
 import { CSSVars } from '@/types/landing';
-
 import { numberSeparation } from '@/utils';
 import { axiosInstance } from '@/utils/axios';
 
 import loader from '@/styles/loader.module.css';
 import { useMutation } from '@tanstack/react-query';
-import { CustomSoonerToast } from '@/components/landing/shared/toast';
+import { showCMToast } from '@/components/landing/shared/toast';
 
 type Props = {
   discountCode: string;
   trackingCode: string | null;
+  handleInvalidateQuery: () => void;
 };
 
-type ApiResponse = { discount_price: number };
+type ApiResponse = { data: { discount_value: number } };
 
 // ------------------------------
 
 export function SubmitDiscountCode(props: Props) {
-  const { discountCode, trackingCode } = props;
+  const { discountCode, trackingCode, handleInvalidateQuery } = props;
 
   const { mutate, status } = useMutation<ApiResponse>({
     mutationFn: () => {
-      return axiosInstance.post(`/auth/${trackingCode}`, {
-        discount_code: discountCode,
-      });
+      return axiosInstance.post(
+        `/hotel/reservation/discount-code/${trackingCode}/`,
+        {
+          discount_code: discountCode,
+        },
+      );
     },
     onSuccess: (data) => {
-      console.log(data);
-      toast.custom(
-        (id) => (
-          <CustomSoonerToast
-            id={id}
-            type="success"
-            duration={10000}
-            title="اعمال کد تخفیف با موفقیت انجام شد"
-            subtitle={`کاربر گرامی مبلغ ${numberSeparation(data.discount_price ?? 3_000_000)} تومان از صورتحساب شما کسر گردید`}
-          />
-        ),
-        { duration: 10000 },
-      );
+      handleInvalidateQuery();
+      showCMToast({
+        duration: 8000,
+        type: 'success',
+        title: 'اعمال کد تخفیف با موفقیت انجام شد',
+        description: `کاربر گرامی مبلغ ${numberSeparation(data?.data.discount_value)} تومان از صورتحساب شما کسر گردید`,
+      });
     },
-    onError: (error) => {
-      console.error(error);
-      toast.custom(
-        (id) => (
-          <CustomSoonerToast
-            id={id}
-            type="error"
-            title="اعمال کد تخفیف با خطا مواجه شد !"
-            subtitle="کاربر گرامی کد تخفیف وارد شده معتبر نمی باشد"
-          />
-        ),
-        { duration: 5000 },
-      );
+    onError: () => {
+      showCMToast({
+        type: 'error',
+        title: 'اعمال کد تخفیف با خطا مواجه شد !',
+        description: 'کاربر گرامی کد تخفیف وارد شده معتبر نمی باشد',
+      });
     },
   });
 
-  function handlePostDiscountCode() {
-    if (discountCode.length < 8) return;
-    mutate();
-  }
-
   return (
     <button
-      onClick={handlePostDiscountCode}
-      disabled={discountCode.length < 8}
+      onClick={() => mutate()}
+      disabled={discountCode.length < 8 || status === 'pending'}
       className="bg-cs-dark-blue text-white flex-center rounded-cs-10 transition-all disabled:cursor-not-allowed"
     >
       {status === 'pending' ? (
