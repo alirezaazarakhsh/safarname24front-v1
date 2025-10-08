@@ -50,7 +50,7 @@ export default function ReserveButton(props: Props) {
     onSuccess: (response) => {
       router.push(
         `/payment/complete-passengers-information?${payment.reservationId}=${response.data.tracking_code}`,
-        { scroll: true },
+        { scroll: false },
       );
     },
     onError: (error) => {
