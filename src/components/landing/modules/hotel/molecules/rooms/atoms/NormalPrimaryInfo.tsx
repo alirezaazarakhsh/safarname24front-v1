@@ -40,14 +40,14 @@ export default function NormalPrimaryInfo(props: Props) {
   return (
     <>
       {/* === Small-Screen */}
-      <div className="text-zinc-800 text-cs75 font-bold border-t lg:hidden">
+      <div className="text-zinc-800 text-cs08 font-bold border-t lg:hidden">
         <div className="p-5 grid grid-cols-[2fr_1fr] gap-3">
           {is_fixed_discount_one_time && (
             <div className="bg-zinc-100 h-11 flex-center gap-1 col-span-2 rounded-lg">
               <button className="relative ml-1 rounded-full group">
                 <InfoCircle size={16} color="#666" />
 
-                <span className="bg-cs-dark-blue text-zinc-100 font-medium w-60 text-right px-3 py-2 absolute -top-14 right-0 transition-all ease-in-out rounded-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:-top-16">
+                <span className="bg-cs-dark-blue text-zinc-100 text-cs75/5 font-medium w-60 text-right px-3 py-2 absolute -top-14 right-0 transition-all ease-in-out rounded-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:-top-20">
                   این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر میگردد
                 </span>
               </button>
