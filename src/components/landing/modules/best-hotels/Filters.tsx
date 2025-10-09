@@ -20,6 +20,12 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 
+import {
+  Accordion,
+  AccordionItem,
+  AccordionContent,
+} from '@/components/ui/accordion';
+
 import { Suspense } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { useHotelQuery } from '@/context';
@@ -56,13 +62,21 @@ export function Filters() {
               </SheetClose>
             </SheetHeader>
 
-            <div className="px-6 divide-y overflow-auto custom-scrollbar">
-              <Star />
-              <PriceRange />
-              <ResidenceType />
-              <OtherFilters />
-              <HotelFacilities />
-              <RoomFacilities />
+            <div className="divide-y overflow-auto custom-scrollbar">
+              <Accordion type="single" defaultValue="item-1">
+                <AccordionItem value="item-1">
+                  <AccordionContent className="pb-0">
+                    <Accordion type="multiple" className="divide-y">
+                      <Star />
+                      <PriceRange />
+                      <ResidenceType />
+                      <OtherFilters />
+                      <HotelFacilities />
+                      <RoomFacilities />
+                    </Accordion>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
 
             <div className="h-20 px-6 flex items-center justify-between border-t shadow-light">
@@ -103,13 +117,21 @@ export function Filters() {
         </div>
 
         <div dir="ltr" className="max-h-[60dvh] overflow-auto custom-scrollbar">
-          <div dir="rtl" className="divide-y">
-            <Star />
-            <PriceRange />
-            <ResidenceType />
-            <OtherFilters />
-            <HotelFacilities />
-            <RoomFacilities />
+          <div dir="rtl">
+            <Accordion type="single" defaultValue="item-1">
+              <AccordionItem value="item-1">
+                <AccordionContent className="pb-0">
+                  <Accordion collapsible type="single" className="divide-y">
+                    <Star />
+                    <PriceRange />
+                    <ResidenceType />
+                    <OtherFilters />
+                    <HotelFacilities />
+                    <RoomFacilities />
+                  </Accordion>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
 

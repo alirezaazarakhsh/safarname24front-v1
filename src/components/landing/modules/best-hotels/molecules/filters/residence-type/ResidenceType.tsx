@@ -1,5 +1,4 @@
 import {
-  Accordion,
   AccordionItem,
   AccordionContent,
   AccordionTrigger,
@@ -22,18 +21,16 @@ export function ResidenceType() {
   });
 
   return (
-    <Accordion type="single" collapsible>
-      <AccordionItem value="residence-type" className="lg:px-5">
-        <AccordionTrigger className="text-[0.85rem] font-bold">
-          نوع اقامتگاه
-        </AccordionTrigger>
+    <AccordionItem value="residence-type" className="px-5">
+      <AccordionTrigger className="text-[0.85rem] font-bold">
+        نوع اقامتگاه
+      </AccordionTrigger>
 
-        <AccordionContent className="space-y-4">
-          {data?.data?.map((residence) => (
-            <SwitchCase key={residence.id} {...residence} />
-          ))}
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+      <AccordionContent className="space-y-4">
+        {data?.data?.map((residence) => (
+          <SwitchCase key={residence.id} {...residence} />
+        ))}
+      </AccordionContent>
+    </AccordionItem>
   );
 }
