@@ -1,15 +1,11 @@
 'use client';
 
-import { axiosInstance } from '@/utils/axios';
 import { payment } from '../helpers/constant';
 import loader from '@/styles/loader.module.css';
 
-import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
-
-type ApiResponse = {};
-type TResponse = 'success' | 'cancel' | 'error';
+import { TimerDisplay } from '../molecules/check-reservation-info';
+import { useReservationStatus } from '../helpers/useReservationStatus';
 
 // ------------------------------
 
@@ -19,68 +15,44 @@ export function CheckReservationInfo() {
   const { reservationId, checkReservationInfo: info } = payment;
   const trackingCode = searchParams.get(reservationId);
 
-  const type: TResponse = 'success';
-
-  useEffect(() => {
-    // wss://cps.safarnameh24.com/ws/reservation/sfa5098846462/
-    const ws = new WebSocket(
-      `wss://cps.safarnameh24.com/ws/${trackingCode}/`,
-    );
-
-    ws.onopen = () => {
-      console.log('Connected to WebSocket server');
-    };
-
-    console.log('event');
-    ws.onmessage = (event) => {
-      try {
-        console.log(event);
-        const data = JSON.parse(event.data);
-        console.log(data);
-      } catch (error) {
-        console.error('Error parsing message:', error);
-      }
-    };
-
-    ws.onclose = () => {
-      console.log('Disconnected from WebSocket server');
-    };
-  }, []);
-
-  function handleClick() {}
+  const { queryStatus, status, timer } = useReservationStatus(trackingCode);
+  console.log({ status, timer, queryStatus });
 
   return (
     <>
-      {/* <div className="bg-white text-cs08/6 font-semibold p-5 py-4 grid overflow-hidden border rounded-xl">
-        {status === 'pending' ? (
+      <div className="bg-white text-cs08/6 font-semibold p-5 py-4 grid overflow-hidden border rounded-xl">
+        {status === 'initial' ? (
           <div className="h-28 flex-center">
             <div className={loader.dots} />
           </div>
-        ) : status === 'error' ? (
+        ) : queryStatus === 'error' ? (
           <p className="text-zinc-500 text-cs08 font-semibold">
-            خطا در محاسبه اطلاعات رزرو !
+            خطا در بررسی اطلاعات رزرو !
           </p>
         ) : (
           <>
             <p
-              className={`text-cs85 font-bold pb-2.5 border-b ${type === 'success' ? 'text-green-600' : 'text-cs-red'}`}
+              className={`text-cs85 font-bold pb-2.5 border-b ${status === 'confirmed' ? 'text-green-600' : status === 'rejected' ? 'text-cs-red' : 'text-zinc-800'}`}
             >
-              {info[type].title}
+              {status === 'confirmed'
+                ? info.confirmed.title
+                : status === 'rejected'
+                  ? info.rejected.title
+                  : 'در حال بررسی تایید ادمین ...'}
             </p>
 
-            <p className="text-zinc-600 mt-3"> {info[type].desc}</p>
-
-            {type !== 'success' && (
-              <button
-                onClick={handleClick}
-                className="w-fit bg-zinc-100 text-zinc-800 px-5 py-2 rounded-lg"
-              >
-                {info[type].button}
-              </button>
-            )}
+            <div className="text-zinc-600 mt-3">
+              {status === 'confirmed' ? (
+                info.confirmed.desc
+              ) : status === 'rejected' ? (
+                info.rejected.desc
+              ) : (
+                <TimerDisplay seconds={timer} />
+              )}
+            </div>
           </>
         )}
-      </div> */}
+      </div>
     </>
   );
 }

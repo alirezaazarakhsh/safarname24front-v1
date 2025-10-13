@@ -67,7 +67,7 @@ export default function PackedRoom(props: Props) {
                   <button className="relative ml-1 rounded-full group">
                     <InfoCircle size={16} color="#16a34a" />
 
-                    <span className="bg-cs-dark-blue text-zinc-100 text-cs75 font-medium w-64 text-right px-3 py-2 absolute -top-14 right-0 transition-all ease-in-out rounded-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:-top-16">
+                    <span className="bg-cs-dark-blue text-zinc-100 text-cs75/5 font-medium w-64 text-right px-3 py-2 absolute -top-14 right-0 transition-all ease-in-out rounded-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:-top-16">
                       این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر
                       میگردد
                     </span>
@@ -85,7 +85,7 @@ export default function PackedRoom(props: Props) {
                     <button className="relative ml-1 rounded-full group">
                       <InfoCircle size={16} color="#16a34a" />
 
-                      <span className="bg-cs-dark-blue text-cs75 text-zinc-100 font-medium w-60 text-right px-3 py-2 absolute top-6 -right-4 transition-all ease-in-out rounded-cs-10 invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:top-7 lg:w-52">
+                      <span className="bg-cs-dark-blue text-cs75/5 text-zinc-100 font-medium w-60 text-right px-3 py-2 absolute top-6 -right-12 transition-all ease-in-out rounded-cs-10 invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:top-8 lg:w-52">
                         این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر
                         میگردد
                       </span>

@@ -1,5 +1,4 @@
 import {
-  Accordion,
   AccordionItem,
   AccordionContent,
   AccordionTrigger,
@@ -11,17 +10,15 @@ import SwitchCase from './SwitchCase';
 
 export function OtherFilters() {
   return (
-    <Accordion type="single" collapsible>
-      <AccordionItem value="other-filters" className="lg:px-5">
-        <AccordionTrigger className="text-[0.85rem] font-bold">
-          سایر فیلتر ها
-        </AccordionTrigger>
+    <AccordionItem value="other-filters" className="px-5">
+      <AccordionTrigger className="text-[0.85rem] font-bold">
+        سایر فیلتر ها
+      </AccordionTrigger>
 
-        <AccordionContent className="space-y-4">
-          <SwitchCase id="suggested-hotels" title="هتل های پیشنهادی" />
-          <SwitchCase id="amazing-hotels" title="هتل های شگفت انگیز" />
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+      <AccordionContent className="space-y-4">
+        <SwitchCase id="suggested-hotels" title="هتل های پیشنهادی" />
+        <SwitchCase id="amazing-hotels" title="هتل های شگفت انگیز" />
+      </AccordionContent>
+    </AccordionItem>
   );
 }

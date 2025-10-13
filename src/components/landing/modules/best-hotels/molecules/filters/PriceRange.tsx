@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Accordion,
   AccordionItem,
   AccordionContent,
   AccordionTrigger,
@@ -102,70 +101,64 @@ export function PriceRange() {
   }, [dates, passengers, rooms]);
 
   return (
-    <Accordion type="single" collapsible>
-      <AccordionItem value="price-range" className="lg:px-5">
-        <AccordionTrigger className="text-[0.85rem] font-bold">
-          محدوده قیمت
-        </AccordionTrigger>
+    <AccordionItem value="price-range" className='px-5'>
+      <AccordionTrigger className="text-[0.85rem] font-bold">
+        محدوده قیمت
+      </AccordionTrigger>
 
-        <AccordionContent>
-          {data?.data && (
-            <ReactSlider
-              invert
-              step={100_000}
-              min={data.data.min_price}
-              max={data.data.max_price}
-              value={localRange}
-              onChange={(value: number[]) =>
-                setLocalRange(value as [number, number])
-              }
-              onAfterChange={(value: number[]) => {
-                setMinPrice(value[0]);
-                setMaxPrice(value[1]);
-              }}
-              className="w-full h-4 flex-center"
-              renderTrack={(props, state) => {
-                const { key, ...restProps } = props;
-                return (
-                  <div
-                    key={key}
-                    {...restProps}
-                    className={`h-1 rounded-full ${
-                      state.index === 1 ? 'bg-cs-blue' : 'bg-zinc-100'
-                    }`}
-                  />
-                );
-              }}
-              thumbClassName="bg-cs-blue w-3 h-3 rounded-full"
-            />
-          )}
+      <AccordionContent>
+        {data?.data && (
+          <ReactSlider
+            invert
+            step={100_000}
+            min={data.data.min_price}
+            max={data.data.max_price}
+            value={localRange}
+            onChange={(value: number[]) =>
+              setLocalRange(value as [number, number])
+            }
+            onAfterChange={(value: number[]) => {
+              setMinPrice(value[0]);
+              setMaxPrice(value[1]);
+            }}
+            className="w-full h-4 flex-center"
+            renderTrack={(props, state) => {
+              const { key, ...restProps } = props;
+              return (
+                <div
+                  key={key}
+                  {...restProps}
+                  className={`h-1 rounded-full ${
+                    state.index === 1 ? 'bg-cs-blue' : 'bg-zinc-100'
+                  }`}
+                />
+              );
+            }}
+            thumbClassName="bg-cs-blue w-3 h-3 rounded-full"
+          />
+        )}
 
-          <div className="text-zinc-500 text-cs65 font-bold mt-2 mb-4 flex-between">
-            <span>حداقل</span>
-            <span>حداکثر</span>
+        <div className="text-zinc-500 text-cs65 font-bold mt-2 mb-4 flex-between">
+          <span>حداقل</span>
+          <span>حداکثر</span>
+        </div>
+
+        <div className="h-9 text-zinc-800 text-cs75 font-extrabold grid grid-cols-[1fr_1.5rem_1fr] gap-2">
+          <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
+            <span>{localRange[0] ? numberSeparation(localRange[0]) : ''}</span>
           </div>
 
-          <div className="h-9 text-zinc-800 text-cs75 font-extrabold grid grid-cols-[1fr_1.5rem_1fr] gap-2">
-            <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
-              <span>
-                {localRange[0] ? numberSeparation(localRange[0]) : ''}
-              </span>
-            </div>
-
-            <div className="relative text-cs65 pt-2 flex-center">
-              <span>توما</span>
-              <span className="absolute top-1 left-1">ن</span>
-            </div>
-
-            <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
-              <span>
-                {localRange[1] ? numberSeparation(localRange[1]) : ''}
-              </span>
-              <span>+</span>
-            </div>
+          <div className="relative text-cs65 pt-2 flex-center">
+            <span>توما</span>
+            <span className="absolute top-1 left-1">ن</span>
           </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+
+          <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
+            <span>{localRange[1] ? numberSeparation(localRange[1]) : ''}</span>
+            <span>+</span>
+          </div>
+        </div>
+      </AccordionContent>
+    </AccordionItem>
   );
 }

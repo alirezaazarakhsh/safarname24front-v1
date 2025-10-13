@@ -60,11 +60,11 @@ export default function NormalRoom(props: Props) {
         {price.is_fixed_discount_one_time || price.discount_date ? (
           <div className="absolute top-5 left-5 h-10 hidden lg:flex">
             {price.is_fixed_discount_one_time && (
-              <div className="bg-zinc-100 text-zin-800 text-cs07 font-bold px-4 flex-center gap-1 rounded-lg">
+              <div className="bg-zinc-100 text-zin-800 text-cs08 font-bold px-4 flex-center gap-1 rounded-lg">
                 <button className="relative ml-1 rounded-full group">
                   <InfoCircle size={16} color="#666" />
 
-                  <span className="bg-cs-dark-blue text-zinc-100 font-medium w-60 text-right px-3 py-2 absolute top-8 -right-4 transition-all ease-in-out rounded-cs-10 invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:top-9 lg:w-48">
+                  <span className="bg-cs-dark-blue text-zinc-100 text-cs75/5 font-medium w-60 text-right px-3 py-2 absolute top-8 -right-4 transition-all ease-in-out rounded-cs-10 invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:top-9 lg:w-52">
                     این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر میگردد
                   </span>
                 </button>

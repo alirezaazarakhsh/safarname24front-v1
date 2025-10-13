@@ -17,7 +17,7 @@ export default function PaymentLayout(props: Props) {
       <ContextWrapper>
         <Suspense>
           <div className="grid gap-6 overflow-hidden lg:grid-cols-[1fr_2.8fr]">
-            {/* <Stepper /> */}
+            <Stepper />
             <HotelPicture />
             <ReservationDetails />
           </div>
