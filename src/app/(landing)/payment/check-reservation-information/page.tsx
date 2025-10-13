@@ -16,7 +16,7 @@ export default function CheckReservationInformation() {
     <>
       {/* === Small-Screen */}
       <div className="space-y-6 lg:hidden">
-        {/* <CheckReservationInfo /> */}
+        <CheckReservationInfo />
         <ReservationInfo />
         <Description />
         <ApplyDiscountCode />
@@ -29,7 +29,7 @@ export default function CheckReservationInformation() {
       <div className="hidden grid-cols-[1fr_2.8fr] gap-x-6 overflow-hidden lg:grid">
         {/* --- Right-Column */}
         <div className="space-y-6">
-          {/* <CheckReservationInfo /> */}
+          <CheckReservationInfo />
           <ApplyDiscountCode />
           <PaymentInvoice />
           <WalletWithdraw />
