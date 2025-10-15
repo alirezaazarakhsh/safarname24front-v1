@@ -2,7 +2,7 @@ import { axiosInstance } from '@/utils/axios';
 import { mapRoomsToForm } from './mapRoomsToForm';
 import { Person, RoomForm } from '../helpers/type';
 
-type Response = {
+type ApiResponse = {
   reserver: Person;
   rooms: RoomForm[];
 };
@@ -11,7 +11,7 @@ type Response = {
 
 export async function getFormDefaultValues(trackingCode: string | null) {
   try {
-    const response = await axiosInstance<Response>(
+    const response = await axiosInstance<ApiResponse>(
       `/hotel/reservation/form/${trackingCode}`,
     );
 

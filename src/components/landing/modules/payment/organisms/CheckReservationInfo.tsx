@@ -16,7 +16,7 @@ export function CheckReservationInfo() {
   const trackingCode = searchParams.get(reservationId);
 
   const { queryStatus, status, timer } = useReservationStatus(trackingCode);
-  console.log({ status, timer, queryStatus });
+  // console.log({ status, timer, queryStatus });
 
   return (
     <>

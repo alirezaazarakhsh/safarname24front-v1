@@ -4,3 +4,4 @@ export * from './HotelOrCityContext';
 export * from './PaymentInvoiceContext';
 export * from './PaymentLoadingContext';
 export * from './HotelListQueryContext';
+export * from './ReservationStatusContext';

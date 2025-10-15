@@ -14,8 +14,8 @@ import { FormSchema } from '../helpers/type';
 import { usePaymentLoading } from '@/context';
 import { payment } from '../helpers/constant';
 
-import { axiosInstance } from '@/utils/axios';
 import { formSchema } from '../helpers/schema';
+import { getFormDefaultValues } from '../utils';
 
 import { useQuery } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,12 +36,8 @@ export function ReservationForm() {
   const trackingCode = searchParams.get(payment.reservationId);
 
   const { data, status } = useQuery<FormSchema>({
-    queryKey: ['reservation-form'],
-    queryFn: async () => {
-      return axiosInstance(`/hotel/reservation/form/${trackingCode}/`).then(
-        (data) => data.data,
-      );
-    },
+    queryKey: ['reservation-form/1'],
+    queryFn: () => getFormDefaultValues(trackingCode),
   });
 
   const methods = useForm<FormSchema>({
@@ -105,7 +101,7 @@ export function ReservationForm() {
                 <OtherPassengers
                   roomIndex={roomIndex}
                   control={methods.control}
-                  length={room.passengers.other_passengers.length}
+                  length={room.capacity - 1}
                 />
 
                 <ExtraCapacityPassengers

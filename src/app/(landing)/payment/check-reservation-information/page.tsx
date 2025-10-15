@@ -7,13 +7,14 @@ import {
   CheckReservationInfo,
 } from '@/components/landing/modules/payment/organisms';
 
+import StepTwoWrapper from '@/components/landing/modules/payment/StepTwoWrapper';
 import { SecondStepSubmitButton as SubmitButton } from '@/components/landing/modules/payment/molecules/submit-buttons';
 
 // ------------------------------
 
 export default function CheckReservationInformation() {
   return (
-    <>
+    <StepTwoWrapper>
       {/* === Small-Screen */}
       <div className="space-y-6 lg:hidden">
         <CheckReservationInfo />
@@ -42,6 +43,6 @@ export default function CheckReservationInformation() {
           <Description />
         </div>
       </div>
-    </>
+    </StepTwoWrapper>
   );
 }
