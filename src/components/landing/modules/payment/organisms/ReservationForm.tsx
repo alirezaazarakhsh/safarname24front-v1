@@ -36,7 +36,7 @@ export function ReservationForm() {
   const trackingCode = searchParams.get(payment.reservationId);
 
   const { data, status } = useQuery<FormSchema>({
-    queryKey: ['reservation-form'],
+    queryKey: ['reservation-form/1'],
     queryFn: () => getFormDefaultValues(trackingCode),
   });
 
