@@ -10,17 +10,20 @@ import { useSearchParams } from 'next/navigation';
 
 import { useMutation } from '@tanstack/react-query';
 import { showCMToast } from '@/components/landing/shared/toast';
-import { useReservationStatus } from '../../helpers/useReservationStatus';
 
 type ApiResponse = { data: { discount_value: number } };
 
+type Props = {
+  status: 'pending' | 'initial' | 'confirmed' | 'rejected';
+};
+
 // ------------------------------
 
-export function SecondStepSubmitButton() {
+export function SecondStepSubmitButton(props: Props) {
+  const { status } = props;
+
   const searchParams = useSearchParams();
   const trackingCode = searchParams.get(payment.reservationId);
-
-  const { status } = useReservationStatus(trackingCode);
 
   const { mutate, status: mutateStatus } = useMutation<ApiResponse>({
     mutationFn: () => {
@@ -51,8 +54,8 @@ export function SecondStepSubmitButton() {
       {status === 'confirmed' && (
         <button
           onClick={() => mutate()}
-          className="w-full h-12 bg-cs-dark-blue rounded-cs-10"
-          disabled={mutateStatus === 'pending'}
+          disabled={status !== 'confirmed' && mutateStatus === 'pending'}
+          className="w-full h-12 bg-cs-dark-blue mt-4 rounded-cs-10 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {mutateStatus === 'pending' ? (
             <div className="full-size flex-center">
@@ -63,7 +66,7 @@ export function SecondStepSubmitButton() {
             </div>
           ) : (
             <span className="text-zinc-100 text-cs85 font-semibold flex-center gap-2">
-              تایید نهایی و پرداخت
+              پرداخت صورتحساب
               <ArrowLeft size={18} color="#fff" />
             </span>
           )}

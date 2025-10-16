@@ -5,7 +5,9 @@ import loader from '@/styles/loader.module.css';
 
 import { useSearchParams } from 'next/navigation';
 import { TimerDisplay } from '../molecules/check-reservation-info';
+
 import { useReservationStatus } from '../helpers/useReservationStatus';
+import { SecondStepSubmitButton as SubmitButton } from '../molecules/submit-buttons';
 
 // ------------------------------
 
@@ -50,6 +52,8 @@ export function CheckReservationInfo() {
                 <TimerDisplay seconds={timer} />
               )}
             </div>
+
+            <SubmitButton status={status} />
           </>
         )}
       </div>
