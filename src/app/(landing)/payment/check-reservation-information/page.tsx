@@ -8,7 +8,6 @@ import {
 } from '@/components/landing/modules/payment/organisms';
 
 import StepTwoWrapper from '@/components/landing/modules/payment/StepTwoWrapper';
-import { SecondStepSubmitButton as SubmitButton } from '@/components/landing/modules/payment/molecules/submit-buttons';
 
 // ------------------------------
 
@@ -21,9 +20,8 @@ export default function CheckReservationInformation() {
         <ReservationInfo />
         <Description />
         <ApplyDiscountCode />
-        <PaymentInvoice />
         <WalletWithdraw />
-        <SubmitButton />
+        <PaymentInvoice />
       </div>
 
       {/* === Large-Screen */}
@@ -32,9 +30,8 @@ export default function CheckReservationInformation() {
         <div className="space-y-6">
           <CheckReservationInfo />
           <ApplyDiscountCode />
-          <PaymentInvoice />
           <WalletWithdraw />
-          <SubmitButton />
+          <PaymentInvoice />
         </div>
 
         {/* --- Left-Column */}
