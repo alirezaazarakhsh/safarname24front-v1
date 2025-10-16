@@ -7,34 +7,33 @@ import { showCMToast } from '@/components/landing/shared/toast';
 
 type Props = {
   trackingCode: string | null;
+  handleClearAmount: () => void;
   handleInvalidateQuery: () => void;
 };
 
 // ------------------------------
 
 export function RemoveWithdraw(props: Props) {
-  const { trackingCode, handleInvalidateQuery } = props;
+  const { trackingCode, handleInvalidateQuery, handleClearAmount } = props;
 
   const { mutate, status } = useMutation({
     mutationFn: () => {
       return axiosInstance.delete(
-        `/hotel/reservation/discount-code/${trackingCode}/`,
+        `/hotel/reservation/wallet/withdraw/${trackingCode}/`,
       );
     },
-    onSuccess: (data) => {
-      console.log(data);
-      // handleInvalidateQuery();
+    onSuccess: () => {
+      handleInvalidateQuery();
+      handleClearAmount();
 
       showCMToast({
-        duration: 8000,
+        duration: 5000,
         type: 'success',
         title: 'عملیات حذف با موفقیت انجام شد',
         description: 'کاربر گرامی مبلغ انتخایی کیف پول از صورتحساب حذف گردید',
       });
     },
-    onError: (error) => {
-      console.error(error);
-
+    onError: () => {
       showCMToast({
         type: 'error',
         title: 'عملیات حذف با خطا مواجه شد !',
