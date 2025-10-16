@@ -13,7 +13,7 @@ import {
   WalletWithdrawAccordionTrigger,
 } from '../molecules/wallet-withdraw';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Invoice } from '../helpers/type';
 import { numberSeparation } from '@/utils';
 
@@ -62,6 +62,11 @@ export function WalletWithdraw() {
   const walletBalance = wallet?.balance;
   const paymentInvoice = invoice?.data.wallet_withdraw;
 
+  // === Set Withdraw-Amount in input
+  useEffect(() => {
+    if (paymentInvoice) setWithdrawalAmount(`${paymentInvoice} تومان`);
+  }, [paymentInvoice]);
+
   return (
     <div>
       <Accordion
@@ -99,6 +104,7 @@ export function WalletWithdraw() {
                 <RemoveWithdraw
                   trackingCode={trackingCode}
                   handleInvalidateQuery={handleInvalidateQuery}
+                  handleClearAmount={() => setWithdrawalAmount('')}
                 />
               ) : (
                 <SubmitWithdraw

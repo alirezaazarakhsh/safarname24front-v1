@@ -113,7 +113,7 @@ export function SuggestedHotel(props: Props) {
           <span>شروع قیمت اتاق :</span>
 
           <div className="font-bold flex items-center gap-1">
-            <span>{numberSeparation(total_price)}</span>
+            <span>{total_price ? numberSeparation(total_price) : 0}</span>
             <span>تومان</span>
           </div>
         </div>

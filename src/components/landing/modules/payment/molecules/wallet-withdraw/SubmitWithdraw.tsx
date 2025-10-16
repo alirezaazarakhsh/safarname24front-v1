@@ -31,15 +31,14 @@ export function SubmitWithdraw(props: Props) {
   const { mutate, status } = useMutation<ApiResponse>({
     mutationFn: () => {
       return axiosInstance.post(
-        `/hotel/reservation/discount-code/${trackingCode}/`,
+        `/hotel/reservation/wallet/withdraw/${trackingCode}/`,
         {
-          withdrawal_amount: withdrawalAmount,
+          amount: withdrawalAmount,
         },
       );
     },
-    onSuccess: (data) => {
-      console.log(data);
-      // handleInvalidateQuery();
+    onSuccess: () => {
+      handleInvalidateQuery();
 
       showCMToast({
         duration: 8000,
@@ -48,9 +47,7 @@ export function SubmitWithdraw(props: Props) {
         description: `کاربر گرامی مبلغ ${numberSeparation(withdrawalAmount)} تومان از کیف پول شما کسر گردید`,
       });
     },
-    onError: (error) => {
-      console.error(error);
-
+    onError: () => {
       showCMToast({
         type: 'error',
         title: 'برداشت از کیف پول با خطا مواجه شد !',
