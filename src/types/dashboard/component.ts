@@ -818,3 +818,8 @@ export interface TicketsNavBarPropsType {
   activeTabState: string;
   setActiveTabState: Dispatch<SetStateAction<string>>;
 }
+
+export interface VoiceRecorderPropsType {
+  className?: string;
+  onChange?: (audioblob: Blob) => void;
+}
