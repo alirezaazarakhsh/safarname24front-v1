@@ -146,6 +146,7 @@ export interface CanclationReasonDialogComponentProps
 
 export interface HotelAcceptSectionPropsType {
   className?: string;
+  printFn?: () => void;
   data: {
     reserver: string;
     createdAt: string;
