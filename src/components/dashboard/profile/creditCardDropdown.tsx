@@ -73,7 +73,7 @@ export default function CreditCardDropDown({
         <span
           dir={value && value !== '' ? 'ltr' : 'rtl'}
           className={
-            'text-xs font-normal text-right truncate block text-current'
+            'lg:text-[12px] text-[10px] font-normal text-right truncate block text-current'
           }
         >
           {value && value !== '' ? seprateVal(value) : placeholder}
@@ -129,7 +129,7 @@ export default function CreditCardDropDown({
             <span
               dir={value && value !== '' ? 'ltr' : 'rtl'}
               className={
-                'text-xs font-normal text-right truncate block text-current'
+                'lg:text-[12px] text-[10px] font-normal text-right truncate block text-current'
               }
             >
               {value && value !== '' ? seprateVal(value) : placeholder}

@@ -146,6 +146,7 @@ export interface CanclationReasonDialogComponentProps
 
 export interface HotelAcceptSectionPropsType {
   className?: string;
+  printFn?: () => void;
   data: {
     reserver: string;
     createdAt: string;
@@ -817,4 +818,9 @@ export interface TicketsNavBarPropsType {
   className?: string;
   activeTabState: string;
   setActiveTabState: Dispatch<SetStateAction<string>>;
+}
+
+export interface VoiceRecorderPropsType {
+  className?: string;
+  onChange?: (audioblob: Blob) => void;
 }

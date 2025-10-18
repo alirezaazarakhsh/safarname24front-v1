@@ -15,8 +15,8 @@ export default function Header(): ReactNode {
 
   // Returning JSX
   return (
-    <header>
-      <div className='lg:block hidden'>
+    <header className="print:hidden">
+      <div className="lg:block hidden">
         <Logo />
       </div>
       <div
@@ -24,11 +24,11 @@ export default function Header(): ReactNode {
         className="lg:hidden block py-[16px] px-[24px] border-b-[1.5px] border-b-black/10 fixed w-full top-0 left-0 z-30 bg-transparent transition-all duration-500 data-[scrolled='false']:bg-gray-100 data-[scrolled='true']:bg-white"
       >
         <Link
-          href='/dashboard/reservations'
-          className='flex items-center justify-start gap-[10px] w-full overflow-hidden'
+          href="/dashboard/reservations"
+          className="flex items-center justify-start gap-[10px] w-full overflow-hidden print:hidden"
         >
-          <ICArrowFlashRight className='w-[24px] h-[24px] aspect-square shrink-0' />
-          <span className='block truncate text-black text-[14px] font-bold w-full text-right'>
+          <ICArrowFlashRight className="w-[24px] h-[24px] aspect-square shrink-0" />
+          <span className="block truncate text-black text-[14px] font-bold w-full text-right">
             بازگشت به صفحه اصلی
           </span>
         </Link>
