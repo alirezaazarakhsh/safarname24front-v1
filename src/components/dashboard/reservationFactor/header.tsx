@@ -25,7 +25,7 @@ export default function Header(): ReactNode {
       >
         <Link
           href="/dashboard/reservations"
-          className="flex items-center justify-start gap-[10px] w-full overflow-hidden"
+          className="flex items-center justify-start gap-[10px] w-full overflow-hidden print:hidden"
         >
           <ICArrowFlashRight className="w-[24px] h-[24px] aspect-square shrink-0" />
           <span className="block truncate text-black text-[14px] font-bold w-full text-right">
