@@ -141,27 +141,44 @@ export interface GETFavoriteItemSingle {
   items: Array<GETHotel | GETArticle>;
 }
 
-export interface GETCustomerClubRoomListItem {
-  id: number;
-  room: {
-    id: number;
-    title: string;
-    hotel_name: string;
-    hotel_main_image: string;
-  };
-  discount_value: string;
-  is_public: boolean;
-  code: string;
-  usage_limit: number;
-  required_points: number;
-  created_at: string;
-  expires_at: string;
-  activation_rules: string;
-  user: number;
-  user_level: number;
-  activated_users: number[];
-  users: number[];
-}
+export type GETCustomerClubRoomListItem =
+  | {
+      id: number;
+      discount_type: 'room';
+      code: string;
+      discount_value: string;
+      usage_limit: number;
+      remaining_uses: number;
+      required_points: number;
+      user_level: number;
+      created_at: string;
+      expires_at: string;
+      activation_rules: string;
+      room: {
+        id: number;
+        title: string;
+        hotel_name: string;
+        hotel_main_image: string;
+      };
+    }
+  | {
+      id: number;
+      discount_type: 'hotel';
+      code: string;
+      discount_value: string;
+      usage_limit: number;
+      remaining_uses: number;
+      required_points: number;
+      user_level: number;
+      created_at: string;
+      expires_at: string;
+      activation_rules: string;
+      hotel: {
+        id: number;
+        hotel_name: string;
+        main_image: string;
+      };
+    };
 
 export interface GETCustomerClubShoppingCentreListItem {
   id: number;
