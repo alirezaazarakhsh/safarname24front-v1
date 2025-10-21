@@ -42,7 +42,7 @@ export default function SubscriptionType({
     return (
       <div
         className={cn(
-          'lg:rounded-lg rounded-[12px] bg-gradient-to-tr to-[#282828] from-[#282828] lg:p-4 p-[14px] flex items-center justify-start gap-3 text-white overflow-hidden relative group transition-all duration-500 opacity-50 cursor-not-allowed',
+          'lg:rounded-[10px] rounded-[14px] bg-gradient-to-tr to-[#282828] from-[#282828] lg:p-4 p-[14px] flex items-center justify-start gap-3 text-white overflow-hidden relative group transition-all duration-500 opacity-50 cursor-not-allowed',
           className,
         )}
       >
@@ -123,7 +123,7 @@ export default function SubscriptionType({
               src={userLevel?.icon.url || ''}
               width={30}
               height={30}
-              className="lg:w-[20px] lg:h-[20px] w-[27px] h-[27px]"
+              className="size-[30px]"
             />
           </div>
           <div className="w-full overflow-hidden">

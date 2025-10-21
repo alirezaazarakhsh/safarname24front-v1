@@ -152,7 +152,7 @@ export default function LegalBankInfo({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] overflow-hidden row-span-2 col-span-1',
+        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] overflow-hidden row-span-2 col-span-1',
         className,
       )}
     >
@@ -190,14 +190,14 @@ export default function LegalBankInfo({
           <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
             {creditCards?.length === 0
               ? 'اطلاعات بانکی شرکت'
-              : `اطلاعات بانکی و پروفایل (${currentCardOwner})`}
+              : `اطلاعات بانکی و پروفایل${currentCardOwner ? ` (${currentCardOwner})` : ''}`}
           </span>
           <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
             مشتری گرامی شماره کارت و شبا خود را پر نمایید.
           </p>
         </div>
       </div>
-      <div className="lg:p-4 p-[14px] grid lg:grid-cols-2 grid-cols-1 lg:gap-x-6 lg:gap-y-8 gap-x-[16px] gap-y-[16px]">
+      <div className="lg:p-4 p-[14px] grid lg:grid-cols-2 grid-cols-1 lg:gap-x-[20px] lg:gap-y-8 gap-x-[20px] gap-y-[20px]">
         <div
           data-loading={loading}
           className='lg:hidden flex items-center justify-start w-full gap-3 transition-all duration-500 data-[loading="false"]:opacity-100 data-[loading="true"]:opacity-50'
