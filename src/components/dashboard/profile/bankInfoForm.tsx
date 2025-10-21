@@ -146,7 +146,7 @@ export default function BankInfoForm({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] lg:overflow-hidden row-span-2 col-span-1',
+        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] lg:overflow-hidden row-span-2 col-span-1',
         className,
       )}
     >
@@ -181,7 +181,7 @@ export default function BankInfoForm({
             <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
               {userInfo.card_numbers.length === 0
                 ? 'اطلاعات بانکی و پروفایل'
-                : `اطلاعات بانکی و پروفایل (${currentCardOwner})`}
+                : `اطلاعات بانکی و پروفایل${currentCardOwner ? ` (${currentCardOwner})` : ''}`}
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
               مشتری گرامی شماره کارت و شبا خود را پر نمایید.
@@ -189,7 +189,7 @@ export default function BankInfoForm({
           </div>
         </div>
       </div>
-      <div className="lg:p-4 p-[14px] lg:grid flex flex-col grid-cols-2 lg:gap-6 gap-[20px]">
+      <div className="lg:p-4 p-[14px] lg:grid flex flex-col grid-cols-2 gap-[20px]">
         <div className="lg:hidden flex items-center justify-start w-full gap-3">
           <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&

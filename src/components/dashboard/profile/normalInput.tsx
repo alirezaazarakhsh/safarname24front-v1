@@ -21,7 +21,7 @@ export default function NormalInput({
         placeholder={required ? `* ${placeholder}` : placeholder}
         data-errored={error ? true : false}
         className={cn(
-          'px-4 py-4 h-[50px] w-full block bg-white placeholder:text-black/50 text-black/50 focus:text-black border-2 border-black/10 lg:rounded-lg rounded-[8px] lg:text-cs75 text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold  transition-all duration-500 focus:border-black focus:placeholder:text-black data-[errored="true"]:border-cs-red data-[errored="true"]:focus:border-cs-red data-[errored="true"]:text-cs-red disabled:cursor-not-allowed disabled:opacity-50',
+          'px-4 py-4 h-[50px] w-full block bg-white placeholder:text-black/50 text-black focus:text-black border-[1.2px] border-black/10 lg:rounded-lg rounded-[8px] lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold  transition-all duration-500 focus:border-black focus:placeholder:text-black data-[errored="true"]:border-cs-red data-[errored="true"]:focus:border-cs-red data-[errored="true"]:text-cs-red disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}
         {...props}

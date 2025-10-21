@@ -19,7 +19,7 @@ export default function LegalInfoForm({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] overflow-hidden row-span-2 col-span-1',
+        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] overflow-hidden row-span-2 col-span-1',
         className,
       )}
     >
@@ -44,7 +44,7 @@ export default function LegalInfoForm({
           </p>
         </div>
       </div>
-      <div className="lg:p-4 p-[14px] grid lg:grid-cols-2 lg:gap-6 gap-[16px]">
+      <div className="lg:p-4 p-[14px] grid lg:grid-cols-2 gap-[20px]">
         <NormalInput
           placeholder="نام شرکت خود را وارد نمایید"
           required

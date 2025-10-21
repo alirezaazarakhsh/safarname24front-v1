@@ -11,7 +11,7 @@ export default function Description({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] overflow-hidden lg:p-4 p-[14px]',
+        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] overflow-hidden lg:p-4 p-[14px]',
         className,
       )}
     >

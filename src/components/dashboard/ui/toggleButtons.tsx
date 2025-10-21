@@ -45,7 +45,7 @@ export default function ToggleButtons({
           key={index}
           onClick={() => setActiveButtonIndex(index)}
         >
-          <span className="lg:text-cs65 text-[12px] lg:font-normal font-semibold w-full block text-center truncate text-current">
+          <span className="text-[12px] font-semibold w-full block text-center truncate text-current">
             {item}
           </span>
         </button>
