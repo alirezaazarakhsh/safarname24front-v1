@@ -86,8 +86,8 @@ export default function AllFactorsTable({
           className,
         )}
       >
-        <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-[20px]">
-          <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
+        <div className="lg:flex hidden items-center justify-between gap-3 p-[23px]">
+          <span className="block truncate text-right w-full font-semibold lg:text-cs85 text-black">
             مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
           </span>
           <CustomPagination loading count={12} />
@@ -95,25 +95,25 @@ export default function AllFactorsTable({
         <Table dir="rtl" className="border-none lg:table hidden">
           <TableHeader className="bg-[#f7f7f7] border-y border-y-black/10">
             <TableRow className="border-none">
-              <TableHead className="text-right p-[20px] w-8 truncate text-xs font-medium text-[#3d4046]">
+              <TableHead className="text-right p-[20px] w-[32px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                 ردیف
               </TableHead>
-              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+              <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                 کد پیگیری
               </TableHead>
-              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+              <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                 هتل
               </TableHead>
-              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+              <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                 تاریخ ورود و خروج
               </TableHead>
-              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+              <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                 مسافران
               </TableHead>
-              <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+              <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                 وضعیت مالی
               </TableHead>
-              <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
+              <TableHead className="w-[30%] text-right truncate text-[12.5px] font-semibold" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -143,7 +143,7 @@ export default function AllFactorsTable({
                 </TableCell>
                 <TableCell className="p-[20px]">
                   <div className="flex items-center justify-start gap-2">
-                    <Skeleton className="w-2 h-2 shrink-0 rounded-full" />
+                    <Skeleton className="size-[7px] shrink-0 rounded-full" />
                     <Skeleton className="rounded-[5px] w-[60px] h-[16px]" />
                   </div>
                 </TableCell>
@@ -166,7 +166,7 @@ export default function AllFactorsTable({
               >
                 <div className="flex items-center justify-between gap-3 mb-[20px]">
                   <div className="flex items-center justify-start gap-[10px]">
-                    <Skeleton className="rounded-[5px] w-[30px] h-[40px]" />
+                    <Skeleton className="rounded-[5px] size-[40px]" />
                     <div>
                       <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
                       <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
@@ -203,7 +203,7 @@ export default function AllFactorsTable({
                   <div>
                     <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
                     <div className="flex items-center justify-start gap-[5px]">
-                      <Skeleton className="w-[4px] h-[4px] shrink-0 rounded-full" />
+                      <Skeleton className="size-[7px] shrink-0 rounded-full" />
                       <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
                     </div>
                   </div>
@@ -269,37 +269,37 @@ export default function AllFactorsTable({
           </div>
         ) : (
           <>
-            <div className="lg:flex hidden items-center justify-between gap-3 py-5 px-[20px]">
-              <span className="block truncate text-right w-full font-bold lg:text-cs85 text-black">
+            <div className="lg:flex hidden items-center justify-between gap-3 p-[23px]">
+              <span className="block truncate text-right w-full font-semibold lg:text-cs85 text-black">
                 مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
               </span>
               <CustomPagination
                 count={12}
-              // onChange={(index) => console.log(index)}
+                // onChange={(index) => console.log(index)}
               />
             </div>
             <Table dir="rtl" className="border-none lg:table hidden">
               <TableHeader className="bg-[#f7f7f7] border-y border-y-black/10">
                 <TableRow className="border-none">
-                  <TableHead className="text-right p-[20px] w-8 truncate text-xs font-medium text-[#3d4046]">
+                  <TableHead className="text-right p-[20px] w-[32px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                     ردیف
                   </TableHead>
-                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+                  <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                     کد پیگیری
                   </TableHead>
-                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+                  <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                     هتل
                   </TableHead>
-                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+                  <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                     تاریخ ورود و خروج
                   </TableHead>
-                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+                  <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                     مسافران
                   </TableHead>
-                  <TableHead className="text-right p-[20px] truncate text-xs font-medium text-[#3d4046]">
+                  <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                     وضعیت مالی
                   </TableHead>
-                  <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
+                  <TableHead className="w-[30%] text-right truncate text-[12.5px] font-semibold" />
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -314,40 +314,40 @@ export default function AllFactorsTable({
                   >
                     <TableCell className="p-[20px] w-[30px]">
                       <div className="rounded-[5px] bg-gray-100 flex items-center justify-center h-[40px] w-full">
-                        <span className="font-normal text-[12px] text-black block text-num-en">
+                        <span className="font-medium text-[12.5px] text-black block text-num-en">
                           {handleZeroBeforeNumber(index + 1)}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell className="p-[20px]">
-                      <span className="text-xs font-600 text-gray-600 truncate block text-right">
+                      <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
                         {item.uuid}
                       </span>
                     </TableCell>
                     <TableCell className="p-[20px]">
-                      <span className="text-xs font-600 text-gray-600 truncate block text-right">
+                      <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
                         {item.additional_details}
                       </span>
                     </TableCell>
                     <TableCell className="p-[20px]">
-                      <span className="text-xs font-600 text-gray-600 truncate block text-right">
+                      <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
                         {`${moment(item.created).locale('fa').format('YYYY/MM/DD')} - ${item.expired_date ? moment(item.expired_date).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
                       </span>
                     </TableCell>
                     <TableCell className="p-[20px]">
-                      <span className="text-xs font-600 text-gray-600 truncate block text-right">
+                      <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
                         {item.passengers}
                       </span>
                     </TableCell>
                     <TableCell className="p-[20px]">
                       <div className="flex items-center justify-start gap-2">
                         <div
-                          className="w-2 h-2 shrink-0 rounded-full"
+                          className="size-[7px] shrink-0 rounded-full"
                           style={{
                             backgroundColor: returnStatus(item.status).color,
                           }}
                         />
-                        <span className="text-xs font-600 text-gray-600 truncate block text-right">
+                        <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
                           {returnStatus(item.status).title}
                         </span>
                       </div>
@@ -357,19 +357,19 @@ export default function AllFactorsTable({
                         item.status === 'payment' ||
                         item.status === 'success' ||
                         item.status === 'pending_approve') && (
-                          <button
-                            className="px-6 h-[40px] rounded-md border border-red-600/50 bg-red-50 text-red-600 font-bold text-[12px] transition-all duration-500 hover:bg-red-100"
-                            onClick={() => setCanclationReasonDialogOpened(true)}
-                          >
-                            کنسل
-                          </button>
-                        )}
+                        <button
+                          className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
+                          onClick={() => setCanclationReasonDialogOpened(true)}
+                        >
+                          کنسل
+                        </button>
+                      )}
                       {item.status === 'approved' ||
-                        item.status === 'payment' ||
-                        item.status === 'success' ? (
+                      item.status === 'payment' ||
+                      item.status === 'success' ? (
                         <Link
                           href={`/dashboard/reservations/${item.uuid}`}
-                          className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-100"
+                          className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-50"
                         >
                           <IconsaxIcons
                             name="Eye"
@@ -426,22 +426,22 @@ export default function AllFactorsTable({
                           item.status === 'payment' ||
                           item.status === 'success' ||
                           item.status === 'pending_approve') && (
-                            <button
-                              className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
-                              onClick={() =>
-                                setCanclationReasonDialogOpened(true)
-                              }
-                            >
-                              <IconsaxIcons
-                                name="Forbidden2"
-                                color="currentColor"
-                                className="w-[20px] h-[20px]"
-                              />
-                            </button>
-                          )}
+                          <button
+                            className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
+                            onClick={() =>
+                              setCanclationReasonDialogOpened(true)
+                            }
+                          >
+                            <IconsaxIcons
+                              name="Forbidden2"
+                              color="currentColor"
+                              className="w-[20px] h-[20px]"
+                            />
+                          </button>
+                        )}
                         {item.status === 'approved' ||
-                          item.status === 'payment' ||
-                          item.status === 'success' ? (
+                        item.status === 'payment' ||
+                        item.status === 'success' ? (
                           <Link
                             href={`/dashboard/reservations/${item.uuid}`}
                             className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"
@@ -536,7 +536,7 @@ export default function AllFactorsTable({
                         </span>
                         <div className="flex items-center justify-start gap-[5px]">
                           <div
-                            className="w-[4px] h-[4px] shrink-0 rounded-full"
+                            className="size-[7px] shrink-0 rounded-full"
                             style={{
                               backgroundColor: returnStatus(item.status).color,
                             }}

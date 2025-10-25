@@ -26,74 +26,74 @@ const data: {
     href: string;
   }[];
 }[] = [
-    {
-      icon: <ICCategory className="w-[19px] h-[19px] text-current shrink-0" />,
-      label: 'داشبورد',
-      href: '/dashboard',
-    },
-    {
-      icon: (
-        <ICDocumentText className="w-[19px] h-[19px] text-current shrink-0" />
-      ),
-      label: 'لیست رزرو من',
-      href: '/dashboard/reservations',
-    },
-    {
-      icon: <ICWallet className="w-[19px] h-[19px] text-current shrink-0" />,
-      label: 'بخش مالی',
-      href: '/dashboard/financial/wallet',
-      dropdown: [
-        {
-          label: 'شارژ کیف پول',
-          href: '/dashboard/financial/wallet',
-        },
-        {
-          label: 'کارت به کارت',
-          href: '/dashboard/financial/cart-to-cart',
-        },
-        {
-          label: 'برداشت وجه',
-          href: '/dashboard/financial/take-out',
-        },
-        {
-          label: 'فاکتور ها',
-          href: '/dashboard/financial/factors',
-        },
-      ],
-    },
-    {
-      icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
-      label: 'باشگاه مشتریان',
-      href: '/dashboard/customer-club/gifts',
-      dropdown: [
-        {
-          label: 'جوایز هتل، مرکز خرید',
-          href: '/dashboard/customer-club/gifts',
-        },
-        {
-          label: 'لیست جایزه های دریافتی',
-          href: '/dashboard/customer-club/list',
-        },
-      ],
-    },
-    {
-      icon: <ICMessageText className="w-[19px] h-[19px] text-current shrink-0" />,
-      label: 'مدیریت تیکت ها',
-      href: '/dashboard/tickets',
-    },
-    {
-      icon: <ICSave2 className="w-[19px] h-[19px] text-current shrink-0" />,
-      label: 'علاقه مندی های من',
-      href: '/dashboard/favorites',
-    },
-    {
-      icon: (
-        <ICProfile2User className="w-[19px] h-[19px] text-current shrink-0" />
-      ),
-      label: 'مسافران من',
-      href: '/dashboard/passengers',
-    },
-  ];
+  {
+    icon: <ICCategory className="w-[19px] h-[19px] text-current shrink-0" />,
+    label: 'داشبورد',
+    href: '/dashboard',
+  },
+  {
+    icon: (
+      <ICDocumentText className="w-[19px] h-[19px] text-current shrink-0" />
+    ),
+    label: 'لیست رزرو من',
+    href: '/dashboard/reservations',
+  },
+  {
+    icon: <ICWallet className="w-[19px] h-[19px] text-current shrink-0" />,
+    label: 'بخش مالی',
+    href: '/dashboard/financial/wallet',
+    dropdown: [
+      {
+        label: 'شارژ کیف پول',
+        href: '/dashboard/financial/wallet',
+      },
+      {
+        label: 'کارت به کارت',
+        href: '/dashboard/financial/cart-to-cart',
+      },
+      {
+        label: 'برداشت وجه',
+        href: '/dashboard/financial/take-out',
+      },
+      {
+        label: 'فاکتور ها',
+        href: '/dashboard/financial/factors',
+      },
+    ],
+  },
+  {
+    icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
+    label: 'باشگاه مشتریان',
+    href: '/dashboard/customer-club/gifts',
+    dropdown: [
+      {
+        label: 'جوایز هتل، مرکز خرید',
+        href: '/dashboard/customer-club/gifts',
+      },
+      {
+        label: 'لیست جایزه های دریافتی',
+        href: '/dashboard/customer-club/list',
+      },
+    ],
+  },
+  {
+    icon: <ICMessageText className="w-[19px] h-[19px] text-current shrink-0" />,
+    label: 'مدیریت تیکت ها',
+    href: '/dashboard/tickets',
+  },
+  {
+    icon: <ICSave2 className="w-[19px] h-[19px] text-current shrink-0" />,
+    label: 'علاقه مندی های من',
+    href: '/dashboard/favorites',
+  },
+  {
+    icon: (
+      <ICProfile2User className="w-[19px] h-[19px] text-current shrink-0" />
+    ),
+    label: 'مسافران من',
+    href: '/dashboard/passengers',
+  },
+];
 
 // Creating and exporting NavBar component of header as default
 export default function NavBar(): ReactNode {
@@ -161,7 +161,7 @@ export default function NavBar(): ReactNode {
 
   // Returning JSX
   return (
-    <nav className="border-b-[1.5px] border-b-black/10 bg-white lg:block hidden">
+    <nav className="border-b-[1.4px] border-b-black/10 bg-white lg:block hidden">
       <div
         ref={itemsParentRef}
         className="max-w-screen-template mx-auto flex items-center justify-start overflow-auto scrollbar-hide relative px-5 gap-5"
@@ -181,7 +181,7 @@ export default function NavBar(): ReactNode {
               }
             >
               {item.icon}
-              <span className="block truncate text-right text-[13px] font-bold">
+              <span className="block truncate text-right text-[13px] font-semibold">
                 {item.label}
               </span>
             </Link>
