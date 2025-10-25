@@ -358,7 +358,7 @@ export default function AllFactorsTable({
                         item.status === 'success' ||
                         item.status === 'pending_approve') && (
                         <button
-                          className="px-6 h-[40px] rounded-md border border-red-600/50 bg-red-50 text-red-600 font-bold text-[12px] transition-all duration-500 hover:bg-red-100"
+                          className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
                           onClick={() => setCanclationReasonDialogOpened(true)}
                         >
                           کنسل
@@ -369,7 +369,7 @@ export default function AllFactorsTable({
                       item.status === 'success' ? (
                         <Link
                           href={`/dashboard/reservations/${item.uuid}`}
-                          className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-100"
+                          className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-50"
                         >
                           <IconsaxIcons
                             name="Eye"
