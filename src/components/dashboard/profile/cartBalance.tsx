@@ -66,7 +66,7 @@ export default function CartBalance({
       return (
         <div
           className={cn(
-            'lg:p-4 p-[14px] bg-white border border-black/10 rounded-[14px]',
+            'lg:p-4 p-[14px] bg-white border border-black/10 rounded-[10px]',
             className,
           )}
         >
@@ -106,12 +106,12 @@ export default function CartBalance({
       return (
         <div
           className={cn(
-            'bg-white lg:h-auto h-[64px] lg:rounded-lg rounded-[12px] border border-black/10 lg:p-4 p-[14px] flex items-center justify-between gap-3',
+            'bg-white lg:h-auto h-[64px] lg:rounded-[10px] rounded-[12px] border border-black/10 lg:p-4 p-[14px] flex items-center justify-between gap-3',
             className,
           )}
         >
           <div className="flex items-center justify-start gap-3 overflow-hidden">
-            <div className="flex items-center justify-center w-[50px] h-[50px] border border-black/10 shrink-0 rounded-md">
+            <div className="flex items-center justify-center size-[45px] border border-black/10 shrink-0 rounded-md">
               <IconsaxIcons
                 name="Wallet"
                 className="w-[20px] h-[20px] shrink-0 text-current"

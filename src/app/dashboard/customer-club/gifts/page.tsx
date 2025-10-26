@@ -65,10 +65,10 @@ export default function CustomerClubPage(): ReactNode {
       {giftsType === 'shoppingCentre' ? (
         <>
           {shoppingCentresFetch.isLoading ||
-            shoppingCentresFetch.isRefetching ? (
+          shoppingCentresFetch.isRefetching ? (
             <CustomersClubTable
               paginationActiveIndex={0}
-              setPaginationActiveIndex={() => { }}
+              setPaginationActiveIndex={() => {}}
               loading
             />
           ) : shoppingCentresFetch.error ? (
@@ -90,7 +90,7 @@ export default function CustomerClubPage(): ReactNode {
           {roomsFetch.isLoading || roomsFetch.isRefetching ? (
             <RoomTable
               paginationActiveIndex={0}
-              setPaginationActiveIndex={() => { }}
+              setPaginationActiveIndex={() => {}}
               loading
             />
           ) : roomsFetch.error ? (

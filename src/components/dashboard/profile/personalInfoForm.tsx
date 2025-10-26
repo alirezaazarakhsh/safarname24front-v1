@@ -20,7 +20,7 @@ export default function PersonalInfoForm({
     <div
       data-loading={loading}
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] overflow-hidden row-span-2 col-span-1 transition-all duration-500 data-[loading="false"]:cursor-auto data-[loading="true"]:cursor-wait',
+        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] overflow-hidden row-span-2 col-span-1 transition-all duration-500 data-[loading="false"]:cursor-auto data-[loading="true"]:cursor-wait',
         className,
       )}
     >
@@ -45,7 +45,7 @@ export default function PersonalInfoForm({
           </p>
         </div>
       </div>
-      <div className="lg:p-4 p-[14px] grid lg:grid-cols-2 lg:gap-6 gap-[15px]">
+      <div className="lg:p-4 p-[14px] grid lg:grid-cols-2 gap-[20px]">
         <NormalInput
           placeholder="نام خود را وارد نمایید"
           required

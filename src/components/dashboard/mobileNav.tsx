@@ -84,7 +84,7 @@ export default function MobileNav(): ReactNode {
   return (
     <nav
       className={cn(
-        'fixed z-50 inset-x-0 bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0',
+        'fixed z-50 inset-x-0 print:hidden bg-white h-[4.5rem] px-6 flex-between items-center border-t shadow-[0_0_2rem_rgba(0,0,0,0.1)] transition-all duration-500 delay-100 ease-in-out md:flex-center md:gap-8 lg:hidden bottom-0',
         isAtBottom || scrollDirection === 'down' ? '-bottom-20' : 'bottom-0',
       )}
     >

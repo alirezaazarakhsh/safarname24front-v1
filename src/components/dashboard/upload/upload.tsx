@@ -76,7 +76,7 @@ export default function Upload({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg rounded-[14px] overflow-hidden flex flex-col items-start justify-start lg:w-[50%] w-full',
+        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] overflow-hidden flex flex-col items-start justify-start lg:w-[50%] w-full',
         className,
       )}
     >
@@ -135,9 +135,9 @@ export default function Upload({
                 : files.length === 0
                   ? 'حداکثر آپلود فایل 30MB میباشد'
                   : `حجم فایل : ${Math.ceil(
-                    files.reduce((acc, file) => acc + file.size, 0) /
-                    (1024 * 1024),
-                  )} مگابایت`}
+                      files.reduce((acc, file) => acc + file.size, 0) /
+                        (1024 * 1024),
+                    )} مگابایت`}
             </span>
           </div>
         </div>

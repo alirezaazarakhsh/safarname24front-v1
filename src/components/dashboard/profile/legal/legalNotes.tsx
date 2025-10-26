@@ -23,7 +23,7 @@ export default function LegalNotes({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-lg  rounded-[14px] overflow-hidden lg:pr-3 lg:py-4 px-[14px] py-[14px] flex flex-col',
+        'bg-white border border-black/10 lg:rounded-[10px]  rounded-[14px] overflow-hidden lg:pr-3 lg:py-4 px-[14px] py-[14px] flex flex-col',
         getData.isError || getData.isLoading ? 'lg:h-[500px]' : '',
         className,
       )}

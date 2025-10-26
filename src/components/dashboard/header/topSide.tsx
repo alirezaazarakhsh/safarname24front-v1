@@ -106,7 +106,7 @@ export default function TopSide(): ReactNode {
 
   // Returning JSX
   return (
-    <div className="bg-transparent transition-all duration-500 border-b-[1.5px] border-b-black/10">
+    <div className="bg-transparent transition-all duration-500 border-b-[1.4px] border-b-black/10">
       <div className="p-5 max-w-screen-template mx-auto lg:flex hidden items-center justify-between">
         <Logo />
         <div className="flex items-center justify-between gap-4">

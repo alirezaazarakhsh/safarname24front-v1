@@ -19,6 +19,7 @@ import moment from 'jalali-moment';
 export default function HotelAcceptSection({
   className,
   data,
+  printFn,
 }: HotelAcceptSectionPropsType): ReactNode {
   // Returning JSX
   return (
@@ -33,7 +34,10 @@ export default function HotelAcceptSection({
           </span>
         </div>
         <div className="flex items-center justify-between gap-2 shrink-0">
-          <button className="lg:h-10 h-[40px] lg:px-3 px-[22px] border border-green-500 bg-[#e3ffed] rounded-[7px] transition-all duration-500 lg:hover:bg-green-200 text-[#178941] lg:text-cs75 text-[12px] font-semibold">
+          <button
+            onClick={printFn}
+            className="lg:h-10 h-[40px] lg:px-3 px-[22px] border border-green-500 bg-[#e3ffed] rounded-[7px] transition-all duration-500 lg:hover:bg-green-200 text-[#178941] lg:text-cs75 text-[12px] font-semibold print:hidden"
+          >
             دانلود
           </button>
           <Link

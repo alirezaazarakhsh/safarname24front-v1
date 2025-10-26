@@ -25,16 +25,16 @@ export default function ProfileToggler({
   return (
     <div
       className={cn(
-        'bg-white lg:rounded-lg rounded-[14px] border border-black/10 lg:p-4 p-[14px] flex lg:flex-row flex-col lg:items-center lg:justify-between lg:gap-3 gap-[20px]',
+        'bg-white lg:rounded-[10px] rounded-[14px] border border-black/10 lg:p-4 p-[14px] flex lg:flex-row flex-col lg:items-center lg:justify-between lg:gap-3 gap-[20px]',
         className,
       )}
     >
       <div>
         <span className="lg:font-bold font-semibold lg:text-cs08 text-[12px] text-black mb-2 block text-right truncate">
-          {val === 'legal' ? 'پروفایل حقوقی' : 'پروفایل حقیقی'}
+          {val === 'legal' ? 'پروفایل حقوقی' : 'پروفایل کاربری'}
         </span>
         <span className="lg:font-normal font-semibold lg:text-cs07 text-[10px] text-gray-500 block text-right truncate">
-          یکی از پروفایل های خود را انتخواب کنید.
+          یکی از پروفایل های خود را انتخاب کنید.
         </span>
       </div>
       <ToggleButtons

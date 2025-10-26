@@ -53,10 +53,7 @@ export default function CreditCardDropDown({
 
   // Defining variables
   const dataToRender = useLegalInfo ? useLegalInfo : userInfo.card_numbers;
-  const filtredData = dataToRender.filter(
-    (item) =>
-      verifyCardNumber(Number(item.card_number)) && isShebaValid(item.iban),
-  );
+  const filtredData = dataToRender;
 
   // Conditional rendering
   if (useSheba) {
@@ -65,7 +62,7 @@ export default function CreditCardDropDown({
         ref={triggerRef}
         disabled={disabled || filtredData.length === 0}
         className={cn(
-          'bg-white transitaion-all duration-500 disabled:opacity-50 border-2 border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black/50',
+          'bg-white transitaion-all duration-500 disabled:opacity-50 border-[1.2px] border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black',
           className,
         )}
         {...props}
@@ -73,7 +70,7 @@ export default function CreditCardDropDown({
         <span
           dir={value && value !== '' ? 'ltr' : 'rtl'}
           className={
-            'text-xs font-normal text-right truncate block text-current'
+            'lg:text-[12px] text-[10px] font-normal text-right truncate block text-current'
           }
         >
           {value && value !== '' ? seprateVal(value) : placeholder}
@@ -121,7 +118,7 @@ export default function CreditCardDropDown({
             data-opened={isOpened}
             ref={triggerRef}
             className={cn(
-              'bg-white transitaion-all duration-500 disabled:opacity-50 border-2 border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black/50 data-[opened=true]:text-black data-[opened=true]:border-black',
+              'bg-white transitaion-all duration-500 disabled:opacity-50 border-[1.2px] border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black data-[opened=true]:border-black',
               className,
             )}
             {...props}
@@ -129,7 +126,7 @@ export default function CreditCardDropDown({
             <span
               dir={value && value !== '' ? 'ltr' : 'rtl'}
               className={
-                'text-xs font-normal text-right truncate block text-current'
+                'lg:text-[12px] text-[10px] font-normal text-right truncate block text-current'
               }
             >
               {value && value !== '' ? seprateVal(value) : placeholder}
@@ -169,7 +166,7 @@ export default function CreditCardDropDown({
         <DropdownMenuContent
           style={{ width: triggerWidth }}
           side={side}
-          className="shadow-black/10 border border-black/20 max-h-[150px] overflow-auto scrollbar-hide"
+          className="shadow-black/10 border-[1.2px] border-black/20 max-h-[150px] overflow-auto scrollbar-hide"
         >
           {side === 'top' && filtredData.length < 2 && (
             <div className="p-3 border-b border-b-black/20">

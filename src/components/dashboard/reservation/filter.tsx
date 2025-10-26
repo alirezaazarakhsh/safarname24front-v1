@@ -26,32 +26,32 @@ export default function Filter({
           className,
         )}
       >
-        <span className='lg:block hidden truncate text-right w-full font-bold text-[16px] text-black'>
+        <span className="lg:block hidden truncate text-right w-full font-bold text-[16px] text-black">
           لیست رزرو هتل های من
         </span>
-        <div className='flex items-center justify-end lg:gap-4 gap-[14px]'>
+        <div className="flex items-center justify-end lg:gap-4 gap-[14px]">
           {loading ? (
             <>
-              <Skeleton className='lg:w-[200px] w-full lg:h-10 h-[45px] lg:rounded-md rounded-[7px]' />
-              <Skeleton className='lg:w-[100px] w-[100px] lg:h-10 h-[45px] lg:rounded-md rounded-[7px] lg:shrink shrink-0' />
+              <Skeleton className="lg:w-[200px] w-full lg:h-10 h-[45px] lg:rounded-md rounded-[7px]" />
+              <Skeleton className="lg:w-[100px] w-[100px] lg:h-10 h-[45px] lg:rounded-md rounded-[7px] lg:shrink shrink-0" />
             </>
           ) : (
             <>
               {dataNotEmpty && (
                 <IconInput
-                  wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-[200px] w-full'
-                  icon='SearchStatus'
-                  className='lg:h-10 h-[45px]'
-                  placeholder='جستجو مسافر، هتل'
+                  wholeClassName="lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-[220px] w-full"
+                  icon="SearchStatus"
+                  className="lg:h-10 h-[45px]"
+                  placeholder="جستجو مسافر، هتل"
                   onChange={(e) => onChange && onChange(e.target.value)}
                 />
               )}
-              <Button className='flex items-center justify-center gap-2 lg:h-10 h-[45px] lg:bg-white lg:hover:bg-white hover:bg-gray-100 bg-gray-100 lg:rounded-md rounded-[7px] lg:px-3 px-[10px] lg:shrink shrink-0 text-[#2b2b2b]'>
+              <Button className="flex items-center justify-center gap-[5px] lg:h-10 h-[45px] lg:bg-white lg:hover:bg-white hover:bg-gray-100 bg-gray-100 lg:rounded-md rounded-[7px] lg:px-3 px-[10px] lg:shrink shrink-0 text-[#2b2b2b]">
                 <IconsaxIcons
-                  name='Add'
-                  className='w-[18px] h-[18px]  shrink-0 text-current'
+                  name="Add"
+                  className="w-[18px] h-[18px]  shrink-0 text-current"
                 />
-                <span className='block text-right truncate font-semibold whitespace-nowrap text-[12px] text-current'>
+                <span className="block text-right truncate font-semibold whitespace-nowrap text-[12px] text-current">
                   ثبت رزرو
                 </span>
               </Button>

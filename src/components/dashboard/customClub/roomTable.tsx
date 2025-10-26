@@ -300,20 +300,34 @@ export default function RoomTable({
                   <TableCell className="p-3 w-[50px]">
                     <div className="rounded-[5px] border border-black/10 bg-gray-100 flex items-center justify-center size-[50px] shrink-0 overflow-hidden p-1 relative">
                       <Image
-                        alt={item.room.title}
+                        alt={
+                          item.discount_type === 'hotel'
+                            ? item.hotel.hotel_name
+                            : item.room.hotel_name
+                        }
                         width={40}
                         height={40}
-                        src={item.room.hotel_main_image || SafarnameLogo.src}
+                        src={
+                          item.discount_type === 'hotel'
+                            ? item.hotel.main_image || SafarnameLogo.src
+                            : item.room.hotel_main_image || SafarnameLogo.src
+                        }
                         className="w-full h-full absolute top-0 left-0 object-cover"
                       />
                     </div>
                   </TableCell>
                   <TableCell className="p-3">
                     <Tooltip
-                      content={`${item.room.hotel_name} - ${item.room.title}`}
+                      content={
+                        item.discount_type === 'room'
+                          ? `${item.room.hotel_name} - ${item.room.title}`
+                          : item.hotel.hotel_name
+                      }
                     >
                       <span className="text-xs font-medium text-gray-600 truncate block text-right max-w-[30ch]">
-                        {`${item.room.hotel_name} - ${item.room.title}`}
+                        {item.discount_type === 'room'
+                          ? `${item.room.hotel_name} - ${item.room.title}`
+                          : item.hotel.hotel_name}
                       </span>
                     </Tooltip>
                   </TableCell>
@@ -334,7 +348,7 @@ export default function RoomTable({
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                      {item.expires_at}
+                      {item.expires_at || '-'}
                     </span>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-end gap-3">
@@ -378,20 +392,32 @@ export default function RoomTable({
                     <div className="flex items-center justify-start gap-[12px]">
                       <div className="rounded-[8px] shrink-0 border border-black/10 bg-gray-100 flex items-center justify-center w-[60px] h-[60px] overflow-hidden p-1 relative">
                         <Image
-                          alt={item.room.hotel_name}
+                          alt={
+                            item.discount_type === 'hotel'
+                              ? item.hotel.hotel_name
+                              : item.room.hotel_name
+                          }
+                          src={
+                            item.discount_type === 'hotel'
+                              ? item.hotel.main_image || SafarnameLogo.src
+                              : item.room.hotel_main_image || SafarnameLogo.src
+                          }
                           width={60}
                           height={60}
-                          src={item.room.hotel_main_image || SafarnameLogo.src}
                           className="w-full h-full absolute top-0 left-0 object-cover"
                         />
                       </div>
                       <div>
                         <span className="text-black truncate block w-full mb-2 text-right font-semibold text-[12px]">
-                          {item.room.title}
+                          {item.discount_type === 'room'
+                            ? item.room.hotel_name
+                            : item.hotel.hotel_name}
                         </span>
-                        <span className="text-gray-500 truncate block w-full text-right font-semibold text-[10px]">
-                          {item.room.hotel_name}
-                        </span>
+                        {item.discount_type === 'room' && (
+                          <span className="text-gray-500 truncate block w-full text-right font-semibold text-[10px]">
+                            {item.room.hotel_name}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <button
@@ -427,7 +453,9 @@ export default function RoomTable({
                         اتاق :
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {`${item.room.hotel_name} - ${item.room.title}`}
+                        {item.discount_type === 'room'
+                          ? item.room.title
+                          : item.hotel.hotel_name}
                       </span>
                     </div>
                   </div>
@@ -493,7 +521,7 @@ export default function RoomTable({
                         تاریخ اعتبار کد تخفیف :
                       </span>
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                        {item.expires_at}
+                        {item.expires_at || '-'}
                       </span>
                     </div>
                   </div>
