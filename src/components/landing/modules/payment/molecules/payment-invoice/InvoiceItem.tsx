@@ -12,8 +12,6 @@ type Props = {
 export function InvoiceItem(props: Props) {
   const { name, type = 'cost', value, specialType } = props;
 
-  if (!value) return;
-
   return (
     <div
       className={`text-[0.82rem] font-semibold flex-between ${specialType === 'final-total-price' ? 'bg-[#22AD5A] text-white h-11 px-4 rounded-cs-10' : type === 'discount' ? 'text-cs-red' : ''}`}
@@ -21,7 +19,9 @@ export function InvoiceItem(props: Props) {
       <div className="flex items-center gap-1">{name} :</div>
 
       <div className="flex items-center gap-1">
-        <span className="font-bold">{numberSeparation(value)}</span>
+        <span className="font-bold">
+          {value ? numberSeparation(value) : value}
+        </span>
         <span>تومان</span>
       </div>
     </div>

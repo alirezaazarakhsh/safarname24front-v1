@@ -62,6 +62,8 @@ export function WalletWithdraw() {
   const walletBalance = wallet?.balance;
   const paymentInvoice = invoice?.data.wallet_withdraw;
 
+  console.log(walletBalance, paymentInvoice);
+
   // === Set Withdraw-Amount in input
   useEffect(() => {
     if (paymentInvoice) setWithdrawalAmount(`${paymentInvoice} تومان`);
@@ -78,7 +80,13 @@ export function WalletWithdraw() {
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>
-            <WalletWithdrawAccordionTrigger walletBalance={walletBalance} />
+            <WalletWithdrawAccordionTrigger
+              walletBalance={
+                paymentInvoice && walletBalance
+                  ? walletBalance - paymentInvoice
+                  : walletBalance
+              }
+            />
           </AccordionTrigger>
 
           <AccordionContent className="border-t">

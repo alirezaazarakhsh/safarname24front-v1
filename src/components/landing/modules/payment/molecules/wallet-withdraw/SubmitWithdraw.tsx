@@ -47,7 +47,9 @@ export function SubmitWithdraw(props: Props) {
         description: `کاربر گرامی مبلغ ${numberSeparation(withdrawalAmount)} تومان از کیف پول شما کسر گردید`,
       });
     },
-    onError: () => {
+    onError: (error) => {
+      console.log(error);
+
       showCMToast({
         type: 'error',
         title: 'برداشت از کیف پول با خطا مواجه شد !',

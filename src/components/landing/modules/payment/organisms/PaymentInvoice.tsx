@@ -1,10 +1,11 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Invoice } from '../helpers/type';
-import { useEffect, useMemo } from 'react';
-import { payment } from '../helpers/constant';
 
+import { payment } from '../helpers/constant';
 import { axiosInstance } from '@/utils/axios';
+
 import SimpleError from '../atoms/SimpleError';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
@@ -28,20 +29,7 @@ export function PaymentInvoice() {
   const invoice = data?.data;
 
   const dispatch = usePaymentInvoiceDispatch();
-  const { discountCode, extraPassengers, halfCharges } =
-    usePaymentInvoiceContext();
-
-  // === Final-Total-Price
-  const finalTotalPrice = useMemo(() => {
-    if (!invoice) return 0;
-
-    return (
-      (invoice.total_price ?? 0) +
-      extraPassengers +
-      halfCharges -
-      (discountCode + (invoice.discount_on_purchase ?? 0))
-    );
-  }, [invoice, extraPassengers, halfCharges, discountCode]);
+  const { extraPassengers, halfCharges } = usePaymentInvoiceContext();
 
   // === Update PaymentInvoice-Context
   useEffect(() => {
@@ -49,10 +37,9 @@ export function PaymentInvoice() {
 
     dispatch({
       actionType: null,
-      type: 'first-render',
+      type: 'refresh',
       payload: {
         halfCharges: invoice?.half_charges,
-        discountCode: invoice?.discount_code,
         extraPassengers: invoice?.extra_passengers,
       },
     });
@@ -85,8 +72,12 @@ export function PaymentInvoice() {
             <InvoiceItem name="نیم شارژ" value={halfCharges} />
           )}
 
-          {discountCode > 0 && (
-            <InvoiceItem type="discount" name="کد تخفیف" value={discountCode} />
+          {(invoice?.discount_code ?? 0) > 0 && (
+            <InvoiceItem
+              type="discount"
+              name="کد تخفیف"
+              value={invoice?.discount_code}
+            />
           )}
 
           {(invoice?.discount_on_purchase ?? 0) > 0 && (
@@ -107,7 +98,7 @@ export function PaymentInvoice() {
 
           <InvoiceItem
             name="مبلغ نهایی"
-            value={finalTotalPrice}
+            value={invoice?.final_price}
             specialType="final-total-price"
           />
         </>
