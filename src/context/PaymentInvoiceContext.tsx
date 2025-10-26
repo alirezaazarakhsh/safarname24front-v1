@@ -4,30 +4,25 @@ import { createContext, useReducer, useContext } from 'react';
 
 type Type = {
   halfCharges: number;
-  discountCode: number;
   extraPassengers: number;
 };
 
 type Actions =
-  | { type: 'discount-code'; actionType: 'add'; payload: number }
-  | { type: 'discount-code'; actionType: 'remove'; payload: undefined }
-  | { type: 'extra-passengers'; actionType: 'add'; payload: number }
-  | { type: 'extra-passengers'; actionType: 'remove'; payload: number }
   | { type: 'half-charges'; actionType: 'add'; payload: number }
   | { type: 'half-charges'; actionType: 'remove'; payload: number }
+  | { type: 'extra-passengers'; actionType: 'add'; payload: number }
+  | { type: 'extra-passengers'; actionType: 'remove'; payload: number }
   | {
-      type: 'first-render';
+      type: 'refresh';
       actionType: null;
       payload: {
         halfCharges: number;
-        discountCode: number;
         extraPassengers: number;
       };
     };
 
 const initialState: Type = {
   halfCharges: 0,
-  discountCode: 0,
   extraPassengers: 0,
 };
 
@@ -37,9 +32,6 @@ const reducerFn = (state: Type, action: Actions): Type => {
   const { type, actionType, payload } = action;
 
   switch (type) {
-    case 'discount-code':
-      return { ...state, discountCode: actionType === 'add' ? payload : 0 };
-
     case 'extra-passengers':
       return {
         ...state,
@@ -58,7 +50,7 @@ const reducerFn = (state: Type, action: Actions): Type => {
             : state.halfCharges - payload,
       };
 
-    case 'first-render':
+    case 'refresh':
       return payload;
 
     default:

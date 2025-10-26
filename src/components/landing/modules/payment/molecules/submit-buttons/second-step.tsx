@@ -34,9 +34,13 @@ export function SecondStepSubmitButton() {
     },
     onSuccess: (data) => {
       const res = data?.data;
-      console.log(res);
+      // console.log(res);
 
-      res.ok && router.push(res.payment_link);
+      res.ok
+        ? router.push(res.payment_link)
+        : router.push(
+            `/payment/watcher-info?${payment.reservationId}=${trackingCode}`,
+          );
     },
     onError: (error) => {
       console.log(error);

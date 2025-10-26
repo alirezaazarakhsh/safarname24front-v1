@@ -14,12 +14,12 @@ type ReservationDetail = {
 
 type Invoice = {
   total_price: number;
+  final_price: number;
   nights_count: number;
   half_charges: number;
   discount_code: number;
   wallet_withdraw: number;
   extra_passengers: number;
-  final_total_price: number;
   discount_on_purchase: number;
 };
 

@@ -1,4 +1,5 @@
 export * from './Stepper';
+export * from './WatcherInfo';
 export * from './Description';
 export * from './HotelPicture';
 export * from './WalletBallance';
