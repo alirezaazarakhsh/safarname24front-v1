@@ -19,6 +19,7 @@ import {
   GETPassengerItem,
   GETPasssengers,
   GETReservation,
+  GETReservationItem,
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 import { reportTypes } from '@/components/dashboard/ticket/dialog/reportTicket';
@@ -93,7 +94,11 @@ export interface IconInputComponentPropsType
 export interface AllFactorsTableComponentPropsType {
   className?: string;
   loading: boolean;
-  data: GETReservation;
+  data: GETReservationItem[];
+  refetch?: () => void;
+  activeIndex?: number;
+  setActiveIndex?: Dispatch<SetStateAction<number>>;
+  paginationCount?: number;
 }
 
 export interface CustomPaginationComponentPropsType {
@@ -140,8 +145,7 @@ export interface CircluarTimerComponentPropsType {
 
 export interface CanclationReasonDialogComponentProps
   extends DialogComponentPropsType {
-  openFailedDialog: () => void;
-  openAcceptDialog: () => void;
+  trackingCode: string;
 }
 
 export interface HotelAcceptSectionPropsType {

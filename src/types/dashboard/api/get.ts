@@ -7,27 +7,13 @@ export interface GETPaginationAPILayout<T> {
 }
 
 export interface GETReservationItem {
-  uuid: string;
-  user: number;
-  room_dates: number[];
-  passengers: number[];
-  extra_passengers: number[];
-  paid_price: number;
-  status:
-    | 'payment'
-    | 'pending_approve'
-    | 'approved'
-    | 'rejected'
-    | 'failed'
-    | 'success'
-    | 'expired';
-  fail_reason: string;
-  expired_date: string;
-  additional_details: string;
-  has_check_in_half_day_charge: boolean;
-  has_check_out_half_day_charge: boolean;
-  created: string;
-  updated: string;
+  tracking_code: string;
+  hotel_name: string;
+  check_in_date: string;
+  check_out_date: string;
+  created_at: string;
+  total_guests: number;
+  payment_status: 'paid' | 'unpaid' | 'pending';
 }
 
 export interface GETPersonalProfile {
@@ -250,26 +236,37 @@ export interface GETCustomerClubListItem {
   };
 }
 
+export interface GETCanclationReason {
+  cancellation_reasons: {
+    id: number;
+    title: string;
+  }[];
+}
+
 export interface GETLegalNotes {
   description: string;
 }
 
-export type GETReservation = GETReservationItem[];
-export type GETNotifications = GETNotificationItem[];
-export type GETUploadedDocuments = GETUploadedDocumentItem[];
 export type GETUserLevels = {
   data: GETUserLevelItem[];
 };
+
+export type GETCustomerClubList = GETPaginationAPILayout<
+  GETCustomerClubListItem[]
+>;
+
+export type GETCustomerClubRoomList = GETPaginationAPILayout<
+  GETCustomerClubRoomListItem[]
+>;
+
+export type GETCustomerClubShoppingCentreList = GETPaginationAPILayout<
+  GETCustomerClubShoppingCentreListItem[]
+>;
+
+export type GETNotifications = GETNotificationItem[];
+export type GETUploadedDocuments = GETUploadedDocumentItem[];
 export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETFavoriteItem[];
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
-export type GETCustomerClubList = GETPaginationAPILayout<
-  GETCustomerClubListItem[]
->;
-export type GETCustomerClubRoomList = GETPaginationAPILayout<
-  GETCustomerClubRoomListItem[]
->;
-export type GETCustomerClubShoppingCentreList = GETPaginationAPILayout<
-  GETCustomerClubShoppingCentreListItem[]
->;
+export type GETReservation = GETPaginationAPILayout<GETReservationItem[]>;

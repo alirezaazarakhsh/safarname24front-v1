@@ -10,12 +10,15 @@ import { File } from 'lucide-react';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import VoiceRecorder from './voiceRecorder';
+import ReportTicket, { reportGroupData } from './dialog/reportTicket';
 
 // Creating and exporting Tikcets SendMessage component as default
 export default function SendMessage({
   className,
   disabled = false,
   reply,
+  isClosed,
+  reportTypes,
   clearReply,
 }: TicketsSendMessagePropsType): ReactNode {
   // Defining hooks
@@ -109,225 +112,258 @@ export default function SendMessage({
       </div>
     );
   } else {
-    if (mode === 'text') {
+    if (isClosed) {
       return (
-        <div className="relative">
-          <Reply />
-          <form
-            action="#"
-            className={cn(
-              'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
-              reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
-              className,
-            )}
-          >
-            <motion.div
-              className="absolute right-0 bottom-full z-30"
-              transition={{
-                duration: 0.2,
-                ease: 'easeInOut',
-              }}
-              exit={{
-                y: -20,
-                opacity: 0,
-                pointerEvents: 'none',
-              }}
-              initial={{
-                y: -20,
-                opacity: 0,
-                pointerEvents: 'none',
-              }}
-              animate={
-                emojiOpened
-                  ? {
-                      y: -20,
-                      opacity: 100,
-                      pointerEvents: 'auto',
-                    }
-                  : {
-                      y: 0,
-                      opacity: 0,
-                      pointerEvents: 'none',
-                    }
-              }
-            >
-              <Picker
-                theme="light"
-                onClickOutside={() => emojiOpened && setEmojiOpened(false)}
-                set="apple"
-                locale="fa"
-                navPosition="none"
-                previewPosition="none"
-                searchPosition="none"
-                onEmojiSelect={(emoji: any) =>
-                  setTextValue((prev) => prev + emoji.native)
-                }
-              />
-            </motion.div>
-            <button
-              onClick={() => setEmojiOpened((prev) => !prev)}
-              type="button"
-              className="flex items-center justify-center shrink-0 h-full aspect-square"
-            >
-              <IconsaxIcons
-                name="Happyemoji"
-                className="size-5"
-                color="currentColor"
-              />
-            </button>
-            <input
-              onChange={(e) => setTextValue(e.currentTarget.value)}
-              value={textValue}
-              className="text-[14px] font-semibold placeholder:text-[13px] placeholder:font-medium placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
-              type="text"
-              placeholder="متن خود را بنویسید..."
-            />
-            <div className="flex items-center justify-end shrink-0">
-              {(!textValue || textValue === '') && (
-                <button
-                  type="button"
-                  className="flex items-center justify-center shrink-0 h-full"
-                  onClick={() => setMode('file')}
-                >
-                  <IconsaxIcons
-                    name="Gallery"
-                    className="size-5"
-                    color="currentColor"
-                  />
-                </button>
-              )}
-              <button
-                type={!textValue || textValue === '' ? 'button' : 'submit'}
-                className="flex items-center justify-center shrink-0 h-full aspect-square"
-                onClick={() => {
-                  if (!textValue || textValue === '') {
-                    setMode('voice');
-                  } else {
-                  }
-                }}
-              >
-                <IconsaxIcons
-                  name={!textValue || textValue === '' ? 'Microphone' : 'Send'}
-                  className={cn(
-                    'size-5',
-                    !textValue || (textValue && 'rotate-180'),
-                  )}
-                  color="currentColor"
-                />
-              </button>
-            </div>
-          </form>
-        </div>
-      );
-    } else if (mode === 'file') {
-      return (
-        <div className="relative">
-          <Reply />
-          <form
-            action="#"
-            className={cn(
-              'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
-              reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
-              className,
-            )}
-          >
-            <div
-              onClick={() => mediaInputRef.current?.click()}
-              className="flex items-center justify-start flex-1 overflow-hidden"
-            >
-              <div className="size-[50px] flex items-center justify-center shrink-0">
-                <File className="currentColor size-5" />
-              </div>
-              <div className="flex-1 overflow-hidden">
-                <span className="text-[14px] font-semibold text-right block text-black/50 truncate">
-                  {mediaValue ? mediaValue.name : '-'}
+        <div
+          className={cn(
+            'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500 gap-4',
+            className,
+          )}
+        >
+          <div className="flex-1 flex items-center overflow-hidden pr-[12px]">
+            <span className="text-cs65 font-medium text-current/30 text-right block w-full truncate">
+              * مشتری گرامی تیکت شما توسط ادمین بسته شده است شما می توانید برای
+              این تیکت بازخورد ثبت کنید و در راستای بهتر شدن کیفیت پشتیبانی به
+              ما کمک کنید.
+            </span>
+          </div>
+          <div className="flex items-center justify-center h-[50px] pl-[12px]  shrink-0">
+            {!reportTypes ? (
+              <ReportTicket />
+            ) : (
+              <div className="px-4 rounded-md flex items-center justify-center py-2">
+                <span className="text-cs65 font-medium text-current text-center truncate block">
+                  {reportGroupData.find((item) => item.value === reportTypes)
+                    ?.label || 'گزارش شنما'}
                 </span>
               </div>
-            </div>
-            <div className="flex items-center justify-end shrink-0 mr-4">
-              <input
-                type="file"
-                accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                hidden
-                ref={mediaInputRef}
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                    setMediaValue(e.target.files[0]);
-                  }
-                }}
-              />
-              <button
-                type={'button'}
-                className="flex items-center justify-center shrink-0 h-full"
-              >
-                <IconsaxIcons
-                  name={'CloseSquare'}
-                  className={'size-5 rotate-180'}
-                  color="currentColor"
-                  onClick={() => {
-                    setMode('text');
-                    setMediaValue(undefined);
-                  }}
-                />
-              </button>
-              <button
-                type={'submit'}
-                className="flex items-center justify-center shrink-0 h-full aspect-square"
-              >
-                <IconsaxIcons
-                  name={'Send'}
-                  className={'size-5 rotate-180'}
-                  color="currentColor"
-                />
-              </button>
-            </div>
-          </form>
+            )}
+          </div>
         </div>
       );
     } else {
-      return (
-        <div className="relative">
-          <Reply />
-          <form
-            action="#"
-            className={cn(
-              'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
-              reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
-              className,
-            )}
-          >
-            <div className="flex-1 overflow-hidden">
-              <VoiceRecorder onChange={(blob) => setVoiceMedia(blob)} />
-            </div>
-            <div className="flex items-center justify-end shrink-0 mr-4">
-              <button
-                type={'button'}
-                className="flex items-center justify-center shrink-0 h-full"
-                onClick={() => {
-                  setMode('text');
-                  setVoiceMedia(undefined);
+      if (mode === 'text') {
+        return (
+          <div className="relative">
+            <Reply />
+            <form
+              action="#"
+              className={cn(
+                'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
+                reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
+                className,
+              )}
+            >
+              <motion.div
+                className="absolute right-0 bottom-full z-30"
+                transition={{
+                  duration: 0.2,
+                  ease: 'easeInOut',
                 }}
+                exit={{
+                  y: -20,
+                  opacity: 0,
+                  pointerEvents: 'none',
+                }}
+                initial={{
+                  y: -20,
+                  opacity: 0,
+                  pointerEvents: 'none',
+                }}
+                animate={
+                  emojiOpened
+                    ? {
+                        y: -20,
+                        opacity: 100,
+                        pointerEvents: 'auto',
+                      }
+                    : {
+                        y: 0,
+                        opacity: 0,
+                        pointerEvents: 'none',
+                      }
+                }
               >
-                <IconsaxIcons
-                  name={'CloseSquare'}
-                  className={'size-5 rotate-180'}
-                  color="currentColor"
+                <Picker
+                  theme="light"
+                  onClickOutside={() => emojiOpened && setEmojiOpened(false)}
+                  set="apple"
+                  locale="fa"
+                  navPosition="none"
+                  previewPosition="none"
+                  searchPosition="none"
+                  onEmojiSelect={(emoji: any) =>
+                    setTextValue((prev) => prev + emoji.native)
+                  }
                 />
-              </button>
+              </motion.div>
               <button
-                type={'submit'}
+                onClick={() => setEmojiOpened((prev) => !prev)}
+                type="button"
                 className="flex items-center justify-center shrink-0 h-full aspect-square"
               >
                 <IconsaxIcons
-                  name={'Send'}
-                  className={'size-5 rotate-180'}
+                  name="Happyemoji"
+                  className="size-5"
                   color="currentColor"
                 />
               </button>
-            </div>
-          </form>
-        </div>
-      );
+              <input
+                onChange={(e) => setTextValue(e.currentTarget.value)}
+                value={textValue}
+                className="text-[14px] font-semibold placeholder:text-[13px] placeholder:font-medium placeholder:black/30 text-black text-right truncate block flex-1  h-[50px] bg-transparent outline-0"
+                type="text"
+                placeholder="متن خود را بنویسید..."
+              />
+              <div className="flex items-center justify-end shrink-0">
+                {(!textValue || textValue === '') && (
+                  <button
+                    type="button"
+                    className="flex items-center justify-center shrink-0 h-full"
+                    onClick={() => setMode('file')}
+                  >
+                    <IconsaxIcons
+                      name="Gallery"
+                      className="size-5"
+                      color="currentColor"
+                    />
+                  </button>
+                )}
+                <button
+                  type={!textValue || textValue === '' ? 'button' : 'submit'}
+                  className="flex items-center justify-center shrink-0 h-full aspect-square"
+                  onClick={() => {
+                    if (!textValue || textValue === '') {
+                      setMode('voice');
+                    } else {
+                    }
+                  }}
+                >
+                  <IconsaxIcons
+                    name={
+                      !textValue || textValue === '' ? 'Microphone' : 'Send'
+                    }
+                    className={cn(
+                      'size-5',
+                      !textValue || (textValue && 'rotate-180'),
+                    )}
+                    color="currentColor"
+                  />
+                </button>
+              </div>
+            </form>
+          </div>
+        );
+      } else if (mode === 'file') {
+        return (
+          <div className="relative">
+            <Reply />
+            <form
+              action="#"
+              className={cn(
+                'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
+                reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
+                className,
+              )}
+            >
+              <div
+                onClick={() => mediaInputRef.current?.click()}
+                className="flex items-center justify-start flex-1 overflow-hidden"
+              >
+                <div className="size-[50px] flex items-center justify-center shrink-0">
+                  <File className="currentColor size-5" />
+                </div>
+                <div className="flex-1 overflow-hidden">
+                  <span className="text-[14px] font-semibold text-right block text-black/50 truncate">
+                    {mediaValue ? mediaValue.name : '-'}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center justify-end shrink-0 mr-4">
+                <input
+                  type="file"
+                  accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  hidden
+                  ref={mediaInputRef}
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setMediaValue(e.target.files[0]);
+                    }
+                  }}
+                />
+                <button
+                  type={'button'}
+                  className="flex items-center justify-center shrink-0 h-full"
+                >
+                  <IconsaxIcons
+                    name={'CloseSquare'}
+                    className={'size-5 rotate-180'}
+                    color="currentColor"
+                    onClick={() => {
+                      setMode('text');
+                      setMediaValue(undefined);
+                    }}
+                  />
+                </button>
+                <button
+                  type={'submit'}
+                  className="flex items-center justify-center shrink-0 h-full aspect-square"
+                >
+                  <IconsaxIcons
+                    name={'Send'}
+                    className={'size-5 rotate-180'}
+                    color="currentColor"
+                  />
+                </button>
+              </div>
+            </form>
+          </div>
+        );
+      } else {
+        return (
+          <div className="relative">
+            <Reply />
+            <form
+              action="#"
+              className={cn(
+                'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
+                reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
+                className,
+              )}
+            >
+              <div className="flex-1 overflow-hidden">
+                <VoiceRecorder onChange={(blob) => setVoiceMedia(blob)} />
+              </div>
+              <div className="flex items-center justify-end shrink-0 mr-4">
+                <button
+                  type={'button'}
+                  className="flex items-center justify-center shrink-0 h-full"
+                  onClick={() => {
+                    setMode('text');
+                    setVoiceMedia(undefined);
+                  }}
+                >
+                  <IconsaxIcons
+                    name={'CloseSquare'}
+                    className={'size-5 rotate-180'}
+                    color="currentColor"
+                  />
+                </button>
+                <button
+                  type={'submit'}
+                  className="flex items-center justify-center shrink-0 h-full aspect-square"
+                >
+                  <IconsaxIcons
+                    name={'Send'}
+                    className={'size-5 rotate-180'}
+                    color="currentColor"
+                  />
+                </button>
+              </div>
+            </form>
+          </div>
+        );
+      }
     }
   }
 }
