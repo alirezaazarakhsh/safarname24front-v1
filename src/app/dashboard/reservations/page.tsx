@@ -33,7 +33,7 @@ export default function ReservationsPage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px] lg:bg-transparent bg-white">
-      {data.isLoading ? (
+      {data.isLoading || data.isRefetching ? (
         <>
           <Filter loading dataNotEmpty />
           <AllFactorsTable data={[]} loading />
@@ -56,7 +56,11 @@ export default function ReservationsPage(): ReactNode {
             {filteredData.length === 0 ? (
               <EmptyTable />
             ) : (
-              <AllFactorsTable data={filteredData} loading={false} />
+              <AllFactorsTable
+                refetch={data.refetch}
+                data={filteredData}
+                loading={false}
+              />
             )}
           </>
         )

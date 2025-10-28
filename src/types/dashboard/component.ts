@@ -95,6 +95,7 @@ export interface AllFactorsTableComponentPropsType {
   className?: string;
   loading: boolean;
   data: GETReservationItem[];
+  refetch?: () => void;
 }
 
 export interface CustomPaginationComponentPropsType {
@@ -141,8 +142,7 @@ export interface CircluarTimerComponentPropsType {
 
 export interface CanclationReasonDialogComponentProps
   extends DialogComponentPropsType {
-  openFailedDialog: () => void;
-  openAcceptDialog: () => void;
+  trackingCode: string;
 }
 
 export interface HotelAcceptSectionPropsType {

@@ -17,8 +17,6 @@ import { handleZeroBeforeNumber } from '@/utils/string';
 import Link from 'next/link';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Loading from '@/components/dashboard/ui/loading';
-import AcceptCanclationDialog from '@/components/dashboard/reservation/dialog/acceptCancleationDialog';
-import FailedToCancleDialog from '@/components/dashboard/reservation/dialog/failedToCancleDialog';
 import CanclationReasonDialog from './dialog/canclationReseaonDialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GETReservationItem } from '@/types/dashboard/api/get';
@@ -28,14 +26,15 @@ export default function AllFactorsTable({
   className,
   data,
   loading,
+  refetch,
 }: AllFactorsTableComponentPropsType): ReactNode {
   // Defining states of component
-  const [acceptCanclationDialogOpened, setAcceptCanclationDialogOpened] =
-    useState<boolean>(false);
-  const [failedToCancleDialogOpened, setFailedToCancleDialogOpened] =
-    useState<boolean>(false);
   const [canclationReasonDialogOpened, setCanclationReasonDialogOpened] =
     useState<boolean>(false);
+
+  const [trackingCode, setTrackingCode] = useState<string | undefined>(
+    undefined,
+  );
 
   // Defining a function to return status infos based on given props
   type StatusTypes = GETReservationItem['payment_status'];
@@ -211,20 +210,14 @@ export default function AllFactorsTable({
           className,
         )}
       >
-        <AcceptCanclationDialog
-          isOpened={acceptCanclationDialogOpened}
-          closeFn={() => setAcceptCanclationDialogOpened(false)}
-        />
-        <FailedToCancleDialog
-          isOpened={failedToCancleDialogOpened}
-          closeFn={() => setFailedToCancleDialogOpened(false)}
-          tryAgainFn={() => setAcceptCanclationDialogOpened(true)}
-        />
         <CanclationReasonDialog
           isOpened={canclationReasonDialogOpened}
-          closeFn={() => setCanclationReasonDialogOpened(false)}
-          openFailedDialog={() => setFailedToCancleDialogOpened(true)}
-          openAcceptDialog={() => setAcceptCanclationDialogOpened(true)}
+          trackingCode={trackingCode || '-'}
+          refetch={refetch}
+          closeFn={() => {
+            setCanclationReasonDialogOpened(false);
+            setTrackingCode(undefined);
+          }}
         />
         <div className="lg:flex hidden items-center justify-between gap-3 p-[23px]">
           <span className="block truncate text-right w-full font-semibold lg:text-cs85 text-black">
@@ -307,16 +300,16 @@ export default function AllFactorsTable({
                   </div>
                 </TableCell>
                 <TableCell className="p-[20px] flex items-center justify-end gap-3">
-                  {item.payment_status === 'unpaid' && (
-                    <button
-                      className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
-                      onClick={() => setCanclationReasonDialogOpened(true)}
-                    >
-                      کنسل
-                    </button>
-                  )}
-                  {item.payment_status === 'unpaid' ||
-                  item.payment_status === 'paid' ? (
+                  <button
+                    className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
+                    onClick={() => {
+                      setCanclationReasonDialogOpened(true);
+                      setTrackingCode(item.tracking_code);
+                    }}
+                  >
+                    کنسل
+                  </button>
+                  {item.payment_status === 'paid' ? (
                     <Link
                       href={`/dashboard/${item.tracking_code}`}
                       className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-50"
@@ -366,20 +359,20 @@ export default function AllFactorsTable({
                     </div>
                   </div>
                   <div className="flex items-center justify-between gap-[10px]">
-                    {item.payment_status === 'unpaid' && (
-                      <button
-                        className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
-                        onClick={() => setCanclationReasonDialogOpened(true)}
-                      >
-                        <IconsaxIcons
-                          name="Forbidden2"
-                          color="currentColor"
-                          className="w-[20px] h-[20px]"
-                        />
-                      </button>
-                    )}
-                    {item.payment_status === 'unpaid' ||
-                    item.payment_status === 'paid' ? (
+                    <button
+                      className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
+                      onClick={() => {
+                        setCanclationReasonDialogOpened(true);
+                        setTrackingCode(item.tracking_code);
+                      }}
+                    >
+                      <IconsaxIcons
+                        name="Forbidden2"
+                        color="currentColor"
+                        className="w-[20px] h-[20px]"
+                      />
+                    </button>
+                    {item.payment_status === 'paid' ? (
                       <Link
                         href={`/dashboard/${item.tracking_code}`}
                         className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"

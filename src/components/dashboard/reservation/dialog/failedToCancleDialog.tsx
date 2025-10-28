@@ -28,11 +28,11 @@ import Loading from '../../ui/loading';
 export default function FailedToCancleDialog({
   closeFn,
   isOpened = false,
-    tryAgainFn
+  isTryAgainRefetching,
+  tryAgainFn,
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
-  const [isFetching, setFetching] = useState<boolean>(false);
 
   // conditional rendering
   if (isMobile) {
@@ -51,10 +51,17 @@ export default function FailedToCancleDialog({
             </DrawerDescription>
           </div>
           <DrawerFooter className="px-[24px] mt-[20px] py-0">
-            <button className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit">
-              <span className="text-[12px] font-semibold text-white">
-                تلاش مجدد
-              </span>
+            <button
+              className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit"
+              onClick={tryAgainFn}
+            >
+              {isTryAgainRefetching ? (
+                <Loading />
+              ) : (
+                <span className="text-[12px] font-semibold text-white">
+                  تلاش مجدد
+                </span>
+              )}
             </button>
           </DrawerFooter>
         </DrawerContent>
@@ -82,21 +89,12 @@ export default function FailedToCancleDialog({
                 بستن
               </button>
             </DialogClose>
-            <button disabled={isFetching} onClick={async () => {
-              if (tryAgainFn) {
-                setFetching(true);
-                await new Promise(resolve => setTimeout(resolve, 5000)); 
-
-                setFetching(false);
-                tryAgainFn();  // TODO: FIX LATER
-                closeFn && closeFn();
-              }
-            }} className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600 h-[40px] transition-all duration-500 disabled:opacity-50">
-              {
-                (isFetching)
-                  ? <Loading />
-                  : "تلاش مجدد"
-              }
+            <button
+              disabled={isTryAgainRefetching}
+              onClick={tryAgainFn}
+              className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600 h-[40px] transition-all duration-500 disabled:opacity-50"
+            >
+              {isTryAgainRefetching ? <Loading /> : 'تلاش مجدد'}
             </button>
           </DialogFooter>
         </DialogContent>

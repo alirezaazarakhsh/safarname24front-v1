@@ -235,6 +235,13 @@ export interface GETCustomerClubListItem {
   };
 }
 
+export interface GETCanclationReason {
+  cancellation_reasons: {
+    id: number;
+    title: string;
+  }[];
+}
+
 export interface GETLegalNotes {
   description: string;
 }
@@ -254,6 +261,7 @@ export type GETCustomerClubList = GETPaginationAPILayout<
 export type GETCustomerClubRoomList = GETPaginationAPILayout<
   GETCustomerClubRoomListItem[]
 >;
+
 export type GETCustomerClubShoppingCentreList = GETPaginationAPILayout<
   GETCustomerClubShoppingCentreListItem[]
 >;
