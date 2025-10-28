@@ -8,27 +8,37 @@ import AllFactorsTable from '@/components/dashboard/reservation/allFactorsTable'
 import Filter from '@/components/dashboard/reservation/filter';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETReservation } from '@/types/dashboard/api/get';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 // Creating and exporting Reservations page as default
 export default function ReservationsPage(): ReactNode {
   // Defining hooks
   const [filterVal, setFilterVal] = useState<string>('');
+  const [paginationNumber, setPaginationNumber] = useState<number>(0);
   const data = useApiQuery<GETReservation>({
-    url: '/hotel/reservation/user-reservations/',
+    url: `/hotel/reservation/user-reservations/?p=${paginationNumber + 1}`,
     queryKey: ['reservations'],
   });
 
   // Defining variables
   const filteredData = data.data
     ? filterVal === ''
-      ? data.data.reservations
-      : data.data.reservations.filter((item) =>
+      ? data.data.results
+      : data.data.results.filter((item) =>
           [item.tracking_code, item.hotel_name].some((field) =>
             field?.toLowerCase().includes(filterVal),
           ),
         )
     : [];
+
+  // Using useEffect to make useApiQuery Fetch again while pagination number changes
+  useEffect(() => {
+    async function handleRefetch() {
+      await data.refetch();
+    }
+
+    handleRefetch();
+  }, [paginationNumber]);
 
   // Returning JSX
   return (
@@ -41,7 +51,7 @@ export default function ReservationsPage(): ReactNode {
       ) : data.isError ? (
         <ErrorTable refetch={data.refetch} />
       ) : !data.isLoading && !data.isError && data.data ? (
-        data.data.reservations.length === 0 ? (
+        data.data.count === 0 ? (
           <>
             <Filter loading={false} dataNotEmpty={false} />
             <EmptyTable />
@@ -60,6 +70,9 @@ export default function ReservationsPage(): ReactNode {
                 refetch={data.refetch}
                 data={filteredData}
                 loading={false}
+                activeIndex={paginationNumber}
+                paginationCount={data.data.count}
+                setActiveIndex={setPaginationNumber}
               />
             )}
           </>

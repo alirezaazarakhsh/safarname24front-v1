@@ -20,12 +20,18 @@ import Loading from '@/components/dashboard/ui/loading';
 import CanclationReasonDialog from './dialog/canclationReseaonDialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GETReservationItem } from '@/types/dashboard/api/get';
+import moment from 'jalali-moment';
+import { isOneHourPassed } from '@/utils/date';
+import CustomPagination from '../ui/customPagination';
 
 // Creating and exporting AllFactorsTable component as default
 export default function AllFactorsTable({
   className,
   data,
   loading,
+  activeIndex,
+  paginationCount,
+  setActiveIndex,
   refetch,
 }: AllFactorsTableComponentPropsType): ReactNode {
   // Defining states of component
@@ -54,7 +60,7 @@ export default function AllFactorsTable({
               : '#00000',
       title:
         status === 'paid'
-          ? 'پرداهت شده'
+          ? 'پرداخت شده'
           : status === 'unpaid'
             ? 'پرداخت نشده'
             : status === 'pending'
@@ -76,6 +82,7 @@ export default function AllFactorsTable({
           <span className="block truncate text-right w-full font-semibold lg:text-cs85 text-black">
             مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
           </span>
+          <CustomPagination loading count={12} />
         </div>
         <Table dir="rtl" className="border-none lg:table hidden">
           <TableHeader className="bg-[#f7f7f7] border-y border-y-black/10">
@@ -223,6 +230,11 @@ export default function AllFactorsTable({
           <span className="block truncate text-right w-full font-semibold lg:text-cs85 text-black">
             مشتری گرامی در این لیست شما دسترسی به تمام فاکتور ها دارید.
           </span>
+          <CustomPagination
+            count={paginationCount ?? 12}
+            activeIndex={activeIndex ?? 0}
+            setActiveIndex={setActiveIndex}
+          />
         </div>
         <Table dir="rtl" className="border-none lg:table hidden">
           <TableHeader className="bg-[#f7f7f7] border-y border-y-black/10">
@@ -277,7 +289,7 @@ export default function AllFactorsTable({
                 </TableCell>
                 <TableCell className="p-[20px]">
                   <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
-                    {`${item.check_in_date} | ${item.check_out_date}`}
+                    {`${moment(item.check_in_date).format('YYYY/MM/DD')} - ${moment(item.check_out_date).format('YYYY/MM/DD')}`}
                   </span>
                 </TableCell>
                 <TableCell className="p-[20px]">
@@ -300,15 +312,17 @@ export default function AllFactorsTable({
                   </div>
                 </TableCell>
                 <TableCell className="p-[20px] flex items-center justify-end gap-3">
-                  <button
-                    className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
-                    onClick={() => {
-                      setCanclationReasonDialogOpened(true);
-                      setTrackingCode(item.tracking_code);
-                    }}
-                  >
-                    کنسل
-                  </button>
+                  {!isOneHourPassed(item.created_at) && (
+                    <button
+                      className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
+                      onClick={() => {
+                        setCanclationReasonDialogOpened(true);
+                        setTrackingCode(item.tracking_code);
+                      }}
+                    >
+                      کنسل
+                    </button>
+                  )}
                   {item.payment_status === 'paid' ? (
                     <Link
                       href={`/dashboard/${item.tracking_code}`}
@@ -425,7 +439,7 @@ export default function AllFactorsTable({
                       تاریخ ورود و خروج :
                     </span>
                     <span className="text-[10px] font-600 text-gray-600 truncate block text-right">
-                      {`${item.check_in_date} | ${item.check_out_date}`}
+                      {`${moment(item.check_in_date).format('YYYY/MM/DD')} - ${moment(item.check_out_date).format('YYYY/MM/DD')}`}
                     </span>
                   </div>
                 </div>
@@ -473,6 +487,11 @@ export default function AllFactorsTable({
               </div>
             ))}
           </div>
+          <CustomPagination
+            count={paginationCount ?? 12}
+            activeIndex={activeIndex ?? 0}
+            setActiveIndex={setActiveIndex}
+          />
         </div>
       </section>
     );

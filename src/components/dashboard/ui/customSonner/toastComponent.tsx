@@ -70,10 +70,10 @@ export default function ToastComponent({
   // Returning JSX
   return (
     <div
-      dir='rtl'
-      className='flex items-center justify-between gap-3 lg:w-[23dvw] w-full bg-white p-3 rounded-md z-[70] font-sans shadow-lg shadow-black/20'
+      dir="rtl"
+      className="flex items-center justify-between gap-3 lg:w-[23dvw] w-full bg-white p-3 rounded-md !z-[70] font-sans shadow-lg shadow-black/20"
     >
-      <div className='overflow-hidden'>
+      <div className="overflow-hidden">
         <span
           className={cn(
             'mb-1 font-medium text-cs08 block truncate text-right w-full',

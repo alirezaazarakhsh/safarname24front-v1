@@ -11,6 +11,7 @@ export interface GETReservationItem {
   hotel_name: string;
   check_in_date: string;
   check_out_date: string;
+  created_at: string;
   total_guests: number;
   payment_status: 'paid' | 'unpaid' | 'pending';
 }
@@ -246,10 +247,6 @@ export interface GETLegalNotes {
   description: string;
 }
 
-export type GETReservation = {
-  reservations: GETReservationItem[];
-};
-
 export type GETUserLevels = {
   data: GETUserLevelItem[];
 };
@@ -272,3 +269,4 @@ export type GetCreditCards = GETPaginationAPILayout<GETCreditCardItem[]>;
 export type GETPasssengers = GETPaginationAPILayout<GETPassengerItem[]>;
 export type GETFavorites = GETFavoriteItem[];
 export type GETFavoritesSingle = GETPaginationAPILayout<GETFavoriteItemSingle>;
+export type GETReservation = GETPaginationAPILayout<GETReservationItem[]>;

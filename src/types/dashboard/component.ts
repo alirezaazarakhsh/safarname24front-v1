@@ -96,6 +96,9 @@ export interface AllFactorsTableComponentPropsType {
   loading: boolean;
   data: GETReservationItem[];
   refetch?: () => void;
+  activeIndex?: number;
+  setActiveIndex?: Dispatch<SetStateAction<number>>;
+  paginationCount?: number;
 }
 
 export interface CustomPaginationComponentPropsType {
