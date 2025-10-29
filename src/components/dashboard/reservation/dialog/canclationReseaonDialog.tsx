@@ -68,6 +68,7 @@ export default function CanclationReasonDialog({
     queryKey: ['reservation-cancle-reason'],
     options: {
       enabled: isOpened,
+      staleTime: Infinity,
     },
   });
 
@@ -92,7 +93,7 @@ export default function CanclationReasonDialog({
     reason,
   }) => {
     await canclePOST.mutateAsync({
-      reservation_id: trackingCode,
+      tracking_code: trackingCode,
       reasons: [reason],
       description: message,
     });
@@ -111,6 +112,7 @@ export default function CanclationReasonDialog({
       <FailedToCancleDialog
         isOpened={failedToCancleDialogOpened}
         closeFn={() => {
+          setFailedToCancleDialogOpened(false);
           formHook.reset({
             message: '',
             reason: undefined,

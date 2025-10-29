@@ -9,6 +9,7 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import IconInput from '../ui/iconInput';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
 
 // Creating and exporting Filter component as default
 export default function Filter({
@@ -46,14 +47,19 @@ export default function Filter({
                   onChange={(e) => onChange && onChange(e.target.value)}
                 />
               )}
-              <Button className="flex items-center justify-center gap-[5px] lg:h-10 h-[45px] lg:bg-white lg:hover:bg-white hover:bg-gray-100 bg-gray-100 lg:rounded-md rounded-[7px] lg:px-3 px-[10px] lg:shrink shrink-0 text-[#2b2b2b]">
-                <IconsaxIcons
-                  name="Add"
-                  className="w-[18px] h-[18px]  shrink-0 text-current"
-                />
-                <span className="block text-right truncate font-semibold whitespace-nowrap text-[12px] text-current">
-                  ثبت رزرو
-                </span>
+              <Button
+                asChild
+                className="flex items-center justify-center gap-[5px] lg:h-10 h-[45px] lg:bg-white lg:hover:bg-white hover:bg-gray-100 bg-gray-100 lg:rounded-md rounded-[7px] lg:px-3 px-[10px] lg:shrink shrink-0 text-[#2b2b2b]"
+              >
+                <Link href="/best-hotels">
+                  <IconsaxIcons
+                    name="Add"
+                    className="w-[18px] h-[18px]  shrink-0 text-current"
+                  />
+                  <span className="block text-right truncate font-semibold whitespace-nowrap text-[12px] text-current">
+                    ثبت رزرو
+                  </span>
+                </Link>
               </Button>
             </>
           )}
