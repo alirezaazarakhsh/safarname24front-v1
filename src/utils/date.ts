@@ -34,14 +34,18 @@ export function getTodayDate(): {
   };
 }
 
-export function isOneHourPassed(jalaliDateStr: string): boolean {
-  const past = moment(jalaliDateStr, 'YYYY/MM/DD HH:mm', true);
+export function isMinutesPassed(
+  jalaliDateStr: string,
+  minute: number,
+): boolean {
+  const date = moment(jalaliDateStr, 'jYYYY/jMM/jDD HH:mm');
 
-  if (!past.isValid()) {
-    throw new Error(`Invalid Jalali date: ${jalaliDateStr}`);
-  } else {
+  if (date.isValid()) {
+    const addedMinuteToDate = date.clone().add(minute, 'minutes');
     const now = moment();
-    const minutesDiff = now.diff(past, 'minutes');
-    return minutesDiff >= 60;
+
+    return addedMinuteToDate.isBefore(now);
+  } else {
+    return false;
   }
 }

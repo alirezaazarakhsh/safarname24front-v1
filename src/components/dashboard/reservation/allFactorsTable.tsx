@@ -21,7 +21,7 @@ import CanclationReasonDialog from './dialog/canclationReseaonDialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GETReservationItem } from '@/types/dashboard/api/get';
 import moment from 'jalali-moment';
-import { isOneHourPassed } from '@/utils/date';
+import { isMinutesPassed } from '@/utils/date';
 import CustomPagination from '../ui/customPagination';
 
 // Creating and exporting AllFactorsTable component as default
@@ -64,7 +64,7 @@ export default function AllFactorsTable({
           : status === 'unpaid'
             ? 'پرداخت نشده'
             : status === 'pending'
-              ? 'در حال تایید'
+              ? 'در حال پرداخت'
               : 'نا معلوم',
     };
   }
@@ -312,35 +312,38 @@ export default function AllFactorsTable({
                   </div>
                 </TableCell>
                 <TableCell className="p-[20px] flex items-center justify-end gap-3">
-                  {!isOneHourPassed(item.created_at) && (
-                    <button
-                      className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
-                      onClick={() => {
-                        setCanclationReasonDialogOpened(true);
-                        setTrackingCode(item.tracking_code);
-                      }}
-                    >
-                      کنسل
-                    </button>
-                  )}
+                  {!isMinutesPassed(item.created_at, 30) &&
+                    item.payment_status === 'paid' && (
+                      <button
+                        className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
+                        onClick={() => {
+                          setCanclationReasonDialogOpened(true);
+                          setTrackingCode(item.tracking_code);
+                        }}
+                      >
+                        کنسل
+                      </button>
+                    )}
                   {item.payment_status === 'paid' ? (
                     <Link
                       href={`/dashboard/${item.tracking_code}`}
-                      className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-50"
+                      className="min-w-[125px] px-2 h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-50"
                     >
                       <IconsaxIcons
                         name="Eye"
                         className="w-[16px] h-[16px] shrink-0"
                         color="currentColor"
                       />
-                      <span className="text-[12px] text-current font-bold">
-                        مشاهده فاکتور
+                      <span className="text-[12px] text-current font-bold truncate text-right">
+                        پرداخت شده - مشاهده فاکتور
                       </span>
                     </Link>
-                  ) : (
+                  ) : item.payment_status === 'pending' ? (
                     <div className="h-[40px] w-[125px] bg-white border border-[#d8d8d8] rounded-md text-black flex items-center justify-center">
                       <Loading />
                     </div>
+                  ) : (
+                    false
                   )}
                 </TableCell>
               </TableRow>
@@ -373,26 +376,29 @@ export default function AllFactorsTable({
                     </div>
                   </div>
                   <div className="flex items-center justify-between gap-[10px]">
-                    <button
-                      className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
-                      onClick={() => {
-                        setCanclationReasonDialogOpened(true);
-                        setTrackingCode(item.tracking_code);
-                      }}
-                    >
-                      <IconsaxIcons
-                        name="Forbidden2"
-                        color="currentColor"
-                        className="w-[20px] h-[20px]"
-                      />
-                    </button>
+                    {!isMinutesPassed(item.created_at, 30) &&
+                      item.payment_status === 'paid' && (
+                        <button
+                          className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
+                          onClick={() => {
+                            setCanclationReasonDialogOpened(true);
+                            setTrackingCode(item.tracking_code);
+                          }}
+                        >
+                          <IconsaxIcons
+                            name="Forbidden2"
+                            color="currentColor"
+                            className="w-[20px] h-[20px]"
+                          />
+                        </button>
+                      )}
                     {item.payment_status === 'paid' ? (
                       <Link
                         href={`/dashboard/${item.tracking_code}`}
                         className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"
                       >
                         <span className="text-[10px] text-current font-semibold w-full text-right block truncate">
-                          مشاهده فاکتور
+                          پرداخت شده - مشاهده فاکتور
                         </span>
                         <IconsaxIcons
                           name="Eye"
@@ -400,7 +406,7 @@ export default function AllFactorsTable({
                           className="w-[17px] h-[17px] shrink-0"
                         />
                       </Link>
-                    ) : (
+                    ) : item.payment_status === 'pending' ? (
                       <div
                         className={
                           'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black px-[20px]'
@@ -408,6 +414,8 @@ export default function AllFactorsTable({
                       >
                         <Loading />
                       </div>
+                    ) : (
+                      false
                     )}
                   </div>
                 </div>
