@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Invoice } from '../helpers/type';
 
 import { payment } from '../helpers/constant';
@@ -44,6 +44,20 @@ export function PaymentInvoice() {
       },
     });
   }, [invoice, dispatch]);
+
+  // === Calculate Final-TotalPrice
+  const finalTotalPrice = useMemo(() => {
+    if (!invoice) return;
+
+    return (
+      invoice?.total_price +
+      halfCharges +
+      extraPassengers -
+      (invoice?.discount_code +
+        invoice?.wallet_withdraw +
+        invoice?.discount_on_purchase)
+    );
+  }, [invoice, extraPassengers, halfCharges]);
 
   return (
     <div className="bg-white p-5 pt-4 grid gap-4 border rounded-xl">
@@ -98,8 +112,10 @@ export function PaymentInvoice() {
 
           <InvoiceItem
             name="مبلغ نهایی"
-            value={invoice?.final_price}
             specialType="final-total-price"
+            value={
+              finalTotalPrice ? (finalTotalPrice < 0 ? 0 : finalTotalPrice) : 0
+            }
           />
         </>
       )}

@@ -45,7 +45,7 @@ export function WatcherInfo() {
 
               <Link
                 href={`/dashboard/reservations/${trackingCode}`}
-                className="bg-zinc-100 w-fit px-5 py-2.5 text-zinc-800 rounded-lg"
+                className="bg-zinc-100 w-fit px-5 py-2 text-zinc-800 rounded-lg"
               >
                 مشاهده واچر
               </Link>
@@ -65,7 +65,7 @@ export function WatcherInfo() {
 
               <Link
                 href={'/best-hotels'}
-                className="bg-zinc-100 w-fit px-5 py-2.5 text-zinc-800 rounded-cs-10"
+                className="bg-zinc-100 w-fit px-5 py-2 text-zinc-800 rounded-cs-10"
               >
                 ثبت رزرو جدید
               </Link>

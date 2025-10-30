@@ -58,7 +58,7 @@ export function SecondStepSubmitButton() {
       <button
         onClick={() => mutate()}
         disabled={status !== 'confirmed' || mutateStatus === 'pending'}
-        className="w-full h-12 bg-cs-dark-blue mt-4 rounded-cs-10 disabled:opacity-90 disabled:cursor-not-allowed"
+        className="w-full h-12 bg-cs-dark-blue rounded-cs-10 disabled:opacity-90 disabled:cursor-not-allowed"
       >
         {mutateStatus === 'pending' ? (
           <div className="full-size flex-center">
