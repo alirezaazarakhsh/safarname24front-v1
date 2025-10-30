@@ -1,4 +1,7 @@
-import { WatcherInfo as Info } from '@/components/landing/modules/payment/organisms';
+import {
+  ReservationInfo,
+  WatcherInfo as Info,
+} from '@/components/landing/modules/payment/organisms';
 
 // ------------------------------
 
@@ -8,6 +11,7 @@ export default function WatcherInfo() {
       {/* === Small-Screen */}
       <div className="space-y-6 lg:hidden">
         <Info />
+        <ReservationInfo />
       </div>
 
       {/* === Large-Screen */}
@@ -18,7 +22,9 @@ export default function WatcherInfo() {
         </div>
 
         {/* --- Left-Column */}
-        <div className="space-y-6"></div>
+        <div className="space-y-6">
+          <ReservationInfo />
+        </div>
       </div>
     </>
   );
