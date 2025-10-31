@@ -22,7 +22,6 @@ export function WatcherInfo() {
   });
 
   const paymentStatus = data?.data.payment_status;
-  //   console.log(paymentStatus);
 
   return (
     <div className="bg-white p-5 border text-cs08/6 font-semibold rounded-xl">

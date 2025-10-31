@@ -62,8 +62,6 @@ export function WalletWithdraw() {
   const walletBalance = wallet?.balance;
   const paymentInvoice = invoice?.data.wallet_withdraw;
 
-  console.log(walletBalance, paymentInvoice);
-
   // === Set Withdraw-Amount in input
   useEffect(() => {
     if (paymentInvoice) setWithdrawalAmount(`${paymentInvoice} تومان`);
