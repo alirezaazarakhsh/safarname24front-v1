@@ -10,6 +10,8 @@ import { Step, StepBackButton } from '../molecules/stepper';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useReservationStatus } from '../helpers/useReservationStatus';
 
+type ApiResponse = { data: { payment_status: 'unpaid' | 'paid' | 'pending' } };
+
 // ------------------------------
 
 export function Stepper() {
@@ -22,28 +24,20 @@ export function Stepper() {
   const { status } = useReservationStatus(trackingCode);
 
   // === Fetch Form-Data
-  const { data: reservationForm, isLoading: formLoading } =
-    useQuery<FormSchema>({
-      queryKey: ['reservation-form'],
-      queryFn: async () => {
-        return axiosInstance(`/hotel/reservation/form/${trackingCode}/`).then(
-          (data) => data.data,
-        );
-      },
-    });
+  const { data: reservationForm } = useQuery<FormSchema>({
+    queryKey: ['reservation-form'],
+    queryFn: async () => {
+      return axiosInstance(`/hotel/reservation/form/${trackingCode}/`).then(
+        (data) => data.data,
+      );
+    },
+  });
 
-  // === Calculate Active-Step
-  const activeStep = useMemo(() => {
-    function checkInclude(value: string) {
-      return pathname.includes(value);
-    }
-
-    return checkInclude('complete-passengers-information')
-      ? 1
-      : checkInclude('check-reservation-information')
-        ? 2
-        : 4;
-  }, [pathname]);
+  // === Fetch Payment-Status
+  const { data: paymentStatus } = useQuery<ApiResponse>({
+    queryKey: ['payment-status'],
+    queryFn: () => axiosInstance(`/payment/payment-status/${trackingCode}/`),
+  });
 
   // === Calculate Confirmation
   function calculateConfirmedIndex(index: number) {
@@ -61,25 +55,32 @@ export function Stepper() {
           : status === 'rejected'
             ? 'rejected'
             : 'pending';
+    } else {
+      const status = paymentStatus?.data.payment_status;
+
+      isConfirmed =
+        status === 'paid'
+          ? 'confirmed'
+          : status === 'unpaid'
+            ? 'rejected'
+            : 'pending';
     }
 
     return isConfirmed;
   }
 
-  // === Calculate Loading
-  function calculateLoadingState(index: number) {
-    let isLoading = true;
+  // === Calculate Active-Step
+  const activeStep = useMemo(() => {
+    const checkInclude = (value: string) => pathname.includes(value);
+    let activeStep = 0;
 
-    if (index + 1 === 1) {
-      isLoading = formLoading;
-    } else if (index + 1 === 2) {
-      isLoading = activeStep === 2 ? status === 'initial' : false;
-    } else {
-      isLoading = false;
-    }
+    if (checkInclude('complete-passengers-information')) activeStep = 1;
+    else if (checkInclude('check-reservation-information')) activeStep = 2;
+    else if (checkInclude('watcher-info')) activeStep = 4;
+    else activeStep = 0;
 
-    return isLoading;
-  }
+    return activeStep;
+  }, [pathname]);
 
   return (
     <div className="lg:col-span-2">
@@ -92,7 +93,7 @@ export function Stepper() {
               icon={step.icon}
               title={step.title}
               isActive={activeStep === index + 1}
-              isLoading={calculateLoadingState(index)}
+              // isLoading={calculateLoadingState(index)}
               isConfirmed={calculateConfirmedIndex(index)}
             />
           ))}
