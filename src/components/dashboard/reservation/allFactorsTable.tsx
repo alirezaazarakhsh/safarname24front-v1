@@ -313,6 +313,7 @@ export default function AllFactorsTable({
                 </TableCell>
                 <TableCell className="p-[20px] flex items-center justify-end gap-3">
                   {!isMinutesPassed(item.created_at, 30) &&
+                    !item.cancellation_status &&
                     item.payment_status === 'paid' && (
                       <button
                         className="px-6 h-[40px] rounded-md border border-cs-red bg-cs-red/5 text-cs-red font-bold text-[12px] transition-all duration-500 hover:bg-cs-red/10"
@@ -326,7 +327,7 @@ export default function AllFactorsTable({
                     )}
                   {item.payment_status === 'paid' ? (
                     <Link
-                      href={`/dashboard/${item.tracking_code}`}
+                      href={`/dashboard/reservations/${item.tracking_code}`}
                       className="min-w-[125px] px-2 h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-50"
                     >
                       <IconsaxIcons
@@ -377,6 +378,7 @@ export default function AllFactorsTable({
                   </div>
                   <div className="flex items-center justify-between gap-[10px]">
                     {!isMinutesPassed(item.created_at, 30) &&
+                      !item.cancellation_status &&
                       item.payment_status === 'paid' && (
                         <button
                           className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
@@ -394,7 +396,7 @@ export default function AllFactorsTable({
                       )}
                     {item.payment_status === 'paid' ? (
                       <Link
-                        href={`/dashboard/${item.tracking_code}`}
+                        href={`/dashboard/reservations/${item.tracking_code}`}
                         className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"
                       >
                         <span className="text-[10px] text-current font-semibold w-full text-right block truncate">

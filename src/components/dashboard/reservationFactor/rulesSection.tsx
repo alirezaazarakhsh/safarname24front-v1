@@ -10,6 +10,7 @@ import SignitureImage from '../../../../public/image/signatures1.png';
 import { QRCodeCanvas } from 'qrcode.react';
 import toast from '../ui/customSonner/toast';
 import { handleZeroBeforeNumber } from '@/utils/string';
+import { RulesSectionPropsType } from '@/types/dashboard/component';
 
 // Defining rules to render
 const rules: string[] = [
@@ -21,7 +22,9 @@ const rules: string[] = [
 ];
 
 // Creating and exporting RulesSection Component as default
-export default function RulesSection(): ReactNode {
+export default function RulesSection({
+  hotelName,
+}: RulesSectionPropsType): ReactNode {
   // Defining url to copy and to genrate qr code with
   const qrCodeUrl = window.location.href;
 
@@ -36,7 +39,7 @@ export default function RulesSection(): ReactNode {
             className="lg:w-4 lg:h-4 w-[22px] h-[22px] shrink-0 aspect-square"
           />
           <span className="block w-full truncate text-right lg:text-cs08 text-[12px] font-semibold text-current">
-            قوانین و مقرارت هتل و رزرواسیون
+            قوانین و مقرارت هتل {hotelName}
           </span>
         </div>
         <ol className="lg:gap-3 gap-[12px] lg:mt-5 mt-[20px] list-none list-inside flex flex-col overflow-hidden">
@@ -50,10 +53,10 @@ export default function RulesSection(): ReactNode {
           ))}
         </ol>
       </div>
-      <div className="flex items-center lg:justify-end lg:gap-6 gap-[23px] lg:shrink-0">
+      <div className="flex items-center lg:justify-end justify-center lg:gap-6 gap-[23px] lg:shrink-0">
         <Link
           href="tel:02122490842"
-          className="bg-[#f8f8f8] border lg:rounded-lg rounded-[12px] border-black/10 aspect-square lg:h-40 h-auto lg:w-auto w-[50%] flex items-center justify-center p-4"
+          className="bg-[#f8f8f8] border lg:rounded-lg rounded-[12px] border-black/10 aspect-square size-40 flex items-center justify-center p-4"
         >
           <div>
             <Image
@@ -72,14 +75,14 @@ export default function RulesSection(): ReactNode {
           </div>
         </Link>
         <button
-          className="bg-[#f8f8f8] lg:transition-all lg:duration-500 lg:hover:bg-gray-100 border lg:rounded-lg rounded-[12px] border-black/10 aspect-square lg:h-40 h-auto lg:w-auto w-[50%] flex items-center justify-center p-4"
+          className="bg-[#f8f8f8] lg:transition-all lg:duration-500 lg:hover:bg-gray-100 border lg:rounded-lg rounded-[12px] border-black/10 aspect-square size-40 w-auto flex items-center justify-center p-4"
           onClick={() => {
             navigator.clipboard.writeText(qrCodeUrl);
 
             toast({
               description: 'لینک تاییدیه هتل خودرا میتوانید به اشتراک بزارید.',
               title: 'لینک Qr Code کپی شد !',
-              theme: "green"
+              theme: 'green',
             });
           }}
         >

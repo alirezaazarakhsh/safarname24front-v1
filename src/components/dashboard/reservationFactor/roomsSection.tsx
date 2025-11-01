@@ -41,7 +41,7 @@ export default function RoomsSection({
                     مدت اقامت
                   </TableHead>
                   <TableHead className="text-right p-3 truncate text-xs font-semibold text-[#515a6a]">
-                    وعده غذایی
+                    خدمات اتاق
                   </TableHead>
                   <TableHead className="text-right p-3 truncate text-xs font-semibold text-[#515a6a]">
                     نیم شارژ ورود
@@ -144,7 +144,7 @@ export default function RoomsSection({
               </div>
               <div>
                 <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  وعده غذایی
+                  خدمات اتاق
                 </span>
                 <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
                   {item.info.meals}

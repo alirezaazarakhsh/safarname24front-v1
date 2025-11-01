@@ -31,6 +31,7 @@ export interface RootLayoutPropsType {
 
 export interface LogoComponentPropsType {
   onlyLogo?: boolean;
+  className?: string;
 }
 
 export interface PageComponentPropsType {
@@ -827,4 +828,8 @@ export interface TicketsNavBarPropsType {
 export interface VoiceRecorderPropsType {
   className?: string;
   onChange?: (audioblob: Blob) => void;
+}
+
+export interface RulesSectionPropsType {
+  hotelName: string;
 }

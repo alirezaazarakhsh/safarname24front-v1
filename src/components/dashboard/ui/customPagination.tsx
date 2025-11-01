@@ -43,7 +43,7 @@ export default function CustomPagination({
           className,
         )}
       >
-        <div className='lg:w-auto w-full lg:gap-3 gap-[17px] flex justify-between items-center'>
+        <div className="lg:w-auto w-full lg:gap-3 gap-[17px] flex justify-between items-center">
           {[...new Array(5)].map((_, index) => (
             <Skeleton
               key={index}
@@ -62,12 +62,12 @@ export default function CustomPagination({
           'lg:w-auto w-full lg:overflow-visible overflow-auto scrollbar-hide mx-0',
           className,
         )}
-        dir='ltr'
+        dir="ltr"
       >
-        <PaginationContent className='lg:w-auto w-full lg:gap-3 gap-[17px] lg:justify-start justify-center'>
+        <PaginationContent className="lg:w-auto w-full lg:gap-3 gap-[17px] lg:justify-start justify-center">
           <PaginationItem>
             <button
-              className='lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]'
+              className="lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]"
               onClick={() => {
                 if (activeIndex !== undefined && setActiveIndex) {
                   const prevIndex = activeIndex - 1;
@@ -76,27 +76,79 @@ export default function CustomPagination({
               }}
             >
               <IconsaxIcons
-                name='ArrowUp2'
-                className='-rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current'
+                name="ArrowUp2"
+                className="-rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current"
               />
             </button>
           </PaginationItem>
-          {getPageNumbers().map((_, pageIndex) => (
-            <PaginationItem key={pageIndex}>
-              <button
-                data-active={activeIndex === pageIndex}
-                className={buttonClassName}
-                onClick={() => setActiveIndex && setActiveIndex(pageIndex)}
-              >
-                <span className='text-[12px] font-bold text-current'>
-                  {pageIndex + 1}
-                </span>
-              </button>
-            </PaginationItem>
-          ))}
+          {getPageNumbers().length >= 7 ? (
+            <>
+              {getPageNumbers()
+                .slice(0, 2)
+                .map((_, pageIndex) => (
+                  <PaginationItem key={pageIndex}>
+                    <button
+                      data-active={activeIndex === pageIndex}
+                      className={buttonClassName}
+                      onClick={() =>
+                        setActiveIndex && setActiveIndex(pageIndex)
+                      }
+                    >
+                      <span className="text-[12px] font-bold text-current">
+                        {pageIndex + 1}
+                      </span>
+                    </button>
+                  </PaginationItem>
+                ))}
+              <PaginationItem>
+                <button
+                  data-active={false}
+                  className={cn(buttonClassName, 'pointer-events-none')}
+                  disabled
+                >
+                  <span className="text-[12px] font-bold text-current">
+                    ...
+                  </span>
+                </button>
+              </PaginationItem>
+              {getPageNumbers()
+                .slice(getPageNumbers().length - 2)
+                .map((item, pageIndex) => (
+                  <PaginationItem key={pageIndex}>
+                    <button
+                      data-active={item - 1 === pageIndex}
+                      className={buttonClassName}
+                      onClick={() =>
+                        setActiveIndex && setActiveIndex(pageIndex)
+                      }
+                    >
+                      <span className="text-[12px] font-bold text-current">
+                        {item}
+                      </span>
+                    </button>
+                  </PaginationItem>
+                ))}
+            </>
+          ) : (
+            <>
+              {getPageNumbers().map((_, pageIndex) => (
+                <PaginationItem key={pageIndex}>
+                  <button
+                    data-active={activeIndex === pageIndex}
+                    className={buttonClassName}
+                    onClick={() => setActiveIndex && setActiveIndex(pageIndex)}
+                  >
+                    <span className="text-[12px] font-bold text-current">
+                      {pageIndex + 1}
+                    </span>
+                  </button>
+                </PaginationItem>
+              ))}
+            </>
+          )}
           <PaginationItem>
             <button
-              className='lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]'
+              className="lg:w-10 lg:h-10 w-[43px] h-[43px] lg:rounded-lg rounded-[7px] flex items-center justify-center text-black transition-all duration-500 bg-[#f6f6f6] hover:bg-[#D6D6D6]"
               onClick={() => {
                 if (activeIndex !== undefined && setActiveIndex) {
                   const nextIndex = activeIndex + 1;
@@ -105,8 +157,8 @@ export default function CustomPagination({
               }}
             >
               <IconsaxIcons
-                name='ArrowUp2'
-                className='rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current'
+                name="ArrowUp2"
+                className="rotate-90 lg:w-4 w-[20px] lg:h-4 h-[20px] text-current"
               />
             </button>
           </PaginationItem>

@@ -8,6 +8,7 @@ import RoomsSection from '@/components/dashboard/reservationFactor/roomsSection'
 import RulesSection from '@/components/dashboard/reservationFactor/rulesSection';
 import Header from '@/components/dashboard/reservationFactor/header';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import Logo from '@/components/dashboard/ui/logo';
 
 // Defining some dummy data
 const data: {
@@ -73,6 +74,7 @@ export default function SingleReservationPage(): ReactNode {
   return (
     <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] bg-white print:p-0 print:m-0 print:w-full">
       <Header />
+      <Logo className="hidden print:flex" />
       <HotelAcceptSection
         printFn={() => {
           window.print();
@@ -109,7 +111,7 @@ export default function SingleReservationPage(): ReactNode {
           </div>
         </div>
       )}
-      <RulesSection />
+      <RulesSection hotelName={'اسپیناس پالاس'} />
     </main>
   );
 }
