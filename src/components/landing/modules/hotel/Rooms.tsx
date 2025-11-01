@@ -1,17 +1,18 @@
 'use client';
 
+import { Room } from '@/types/landing';
 import { useRouter } from 'next/navigation';
+
+import { axiosInstance } from '@/utils/axios';
+import { Section } from './molecules/Section';
 import { useQuery } from '@tanstack/react-query';
+
+import { DateObject } from 'react-multi-date-picker';
 import { useEffect, useMemo, useState } from 'react';
+import { RoomsContent } from './molecules/rooms/RoomsContent';
 
 import persianCalendar from 'react-date-object/calendars/persian';
 import persianLanguage from 'react-date-object/locales/persian_en';
-
-import { Room } from '@/types/landing';
-import { Section } from './molecules/Section';
-import { generalInstance } from '@/utils/services';
-import { DateObject } from 'react-multi-date-picker';
-import { RoomsContent } from './molecules/rooms/RoomsContent';
 import { useDatePickerContext, usePassengersContext } from '@/context';
 
 type Props = { hotelSlug: string };
@@ -29,6 +30,8 @@ const buildQueryString = (options: {
 }) => {
   return `start-date=${options.startDate}&end-date=${options.endDate}&passengers=${options.passengers}`;
 };
+
+// ----------------------------------
 
 export function Rooms({ hotelSlug }: Props) {
   const router = useRouter();
@@ -50,7 +53,7 @@ export function Rooms({ hotelSlug }: Props) {
   const { data, status } = useQuery<{ data: Room[] }>({
     queryKey: ['hotel-rooms', queryString],
     queryFn: () =>
-      generalInstance(`/hotel/hotels/${hotelSlug}/rooms?${queryString}`),
+      axiosInstance(`/hotel/hotels/${hotelSlug}/rooms?${queryString}`),
   });
 
   // === Update query-options & url

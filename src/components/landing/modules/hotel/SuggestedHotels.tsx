@@ -5,6 +5,7 @@ import 'swiper/css/pagination';
 
 import { useRef } from 'react';
 import { Hotel } from '@/types';
+import { axiosInstance } from '@/utils/axios';
 import { useQuery } from '@tanstack/react-query';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,8 +14,8 @@ import { Navigation, Autoplay } from 'swiper/modules';
 
 import { Section } from './molecules/Section';
 import { Skeleton } from '@/components/ui/skeleton';
+import { isEmptyOrInvalid } from '@/utils/services';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
-import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type Props = { hotelSlug: string };
 type ApiResponse = { data: Array<Hotel> };
@@ -27,7 +28,7 @@ export function SuggestedHotels(props: Props) {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['suggested-hotels'],
-    queryFn: () => generalInstance(`/hotel/hotels/by-hotel-slug/${hotelSlug}`),
+    queryFn: () => axiosInstance(`/hotel/hotels/by-hotel-slug/${hotelSlug}`),
   });
 
   if (isEmptyOrInvalid({ data, status })) return null;

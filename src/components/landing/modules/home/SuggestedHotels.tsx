@@ -11,9 +11,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 import { Navigation, Autoplay } from 'swiper/modules';
 
+import { axiosInstance } from '@/utils/axios';
 import { Skeleton } from '@/components/ui/skeleton';
+import { isEmptyOrInvalid } from '@/utils/services';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
-import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
 
 type ApiResponse = {
   data: Hotel[];
@@ -26,7 +27,7 @@ export function SuggestedHotels() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['suggested-hotels'],
-    queryFn: () => generalInstance('/hotel/hotels/suggested-hotels'),
+    queryFn: () => axiosInstance('/hotel/hotels/suggested-hotels'),
   });
 
   if (isEmptyOrInvalid({ data, status })) return null;

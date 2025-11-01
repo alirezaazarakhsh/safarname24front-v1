@@ -16,10 +16,10 @@ import {
   parseAsShowToggle,
 } from './helpers/hotel-list';
 
-import { generalInstance } from '@/utils/services';
 import { HotelListContent } from './HotelListContent';
 
 import { useRouter } from 'next/navigation';
+import { axiosInstance } from '@/utils/axios';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { useQueryState, parseAsArrayOf, parseAsInteger } from 'nuqs';
@@ -68,7 +68,7 @@ export function HotelList() {
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['hotel-list', queryString],
     queryFn: () =>
-      generalInstance(`/hotel/best-hotels/best-filter?${queryString}`),
+      axiosInstance(`/hotel/best-hotels/best-filter?${queryString}`),
   });
 
   // === Update query-state context
