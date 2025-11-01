@@ -9,10 +9,10 @@ import {
 import ReactSlider from 'react-slider';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { generalInstance } from '@/utils/services';
 import { useQueryState, parseAsInteger } from 'nuqs';
 
 import { numberSeparation } from '@/utils';
+import { axiosInstance } from '@/utils/axios';
 import { getDates } from '../../helpers/hotel-list';
 import { useDatePickerContext, usePassengersContext } from '@/context';
 
@@ -46,7 +46,7 @@ export function PriceRange() {
   const { data } = useQuery<ApiResponse>({
     queryKey: ['hotel-list', queryOptions],
     queryFn: () =>
-      generalInstance(
+      axiosInstance(
         `/hotel/best-hotels/price-range?start-date=${queryOptions.startDate}&end-date=${queryOptions.endDate}&passengers=${queryOptions.passengers}`,
       ),
   });
@@ -101,7 +101,7 @@ export function PriceRange() {
   }, [dates, passengers, rooms]);
 
   return (
-    <AccordionItem value="price-range" className='px-5'>
+    <AccordionItem value="price-range" className="px-5">
       <AccordionTrigger className="text-[0.85rem] font-bold">
         محدوده قیمت
       </AccordionTrigger>
