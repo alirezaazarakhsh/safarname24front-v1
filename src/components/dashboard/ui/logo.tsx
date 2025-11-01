@@ -4,15 +4,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import LogoImage from '../../../../public/image/logo/red-gray.png';
 import { LogoComponentPropsType } from '@/types/dashboard/component';
+import { cn } from '@/utils/utils';
 
 // Creating and exporting Logo component as deafult
 export default function Logo({
   onlyLogo = false,
+  className,
 }: LogoComponentPropsType): ReactNode {
   // Conditional rendering
   if (onlyLogo) {
     return (
-      <Link href="/" className="shrink-0">
+      <Link href="/" className={cn('shrink-0', className)}>
         <Image
           width={100}
           height={100}
@@ -24,7 +26,7 @@ export default function Logo({
     );
   } else {
     return (
-      <div className="flex items-center justify-start gap-2">
+      <div className={cn('flex items-center justify-start gap-2', className)}>
         <Link href="/" className="shrink-0">
           <Image
             width={100}
