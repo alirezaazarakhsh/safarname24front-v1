@@ -326,7 +326,7 @@ export default function AllFactorsTable({
                     )}
                   {item.payment_status === 'paid' ? (
                     <Link
-                      href={`/dashboard/${item.tracking_code}`}
+                      href={`/dashboard/reservations/${item.tracking_code}`}
                       className="min-w-[125px] px-2 h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-[#d8d8d8] rounded-md text-[#2b2b2b] hover:bg-gray-50"
                     >
                       <IconsaxIcons
@@ -394,7 +394,7 @@ export default function AllFactorsTable({
                       )}
                     {item.payment_status === 'paid' ? (
                       <Link
-                        href={`/dashboard/${item.tracking_code}`}
+                        href={`/dashboard/reservations/${item.tracking_code}`}
                         className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"
                       >
                         <span className="text-[10px] text-current font-semibold w-full text-right block truncate">
