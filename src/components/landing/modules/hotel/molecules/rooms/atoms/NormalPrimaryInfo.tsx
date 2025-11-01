@@ -146,9 +146,9 @@ export default function NormalPrimaryInfo(props: Props) {
           </div>
         </div>
 
-        <div className="h-10 flex gap-3">
+        <div className="flex gap-3">
           {discount_percentage && (
-            <div className="relative bg-cs-red/10 text-cs-red w-11 flex-center gap-1 group rounded-lg">
+            <div className="relative text-cs08 bg-cs-red/10 text-cs-red w-12 flex-center gap-1 group rounded-lg">
               <span className="-ml-0.5">%</span>
               <span className="font-extrabold">
                 {discount_percentage.toFixed(0)}
@@ -166,7 +166,7 @@ export default function NormalPrimaryInfo(props: Props) {
             </div>
           )}
 
-          {children}
+          <div className="flex-1">{children}</div>
         </div>
       </div>
     </>

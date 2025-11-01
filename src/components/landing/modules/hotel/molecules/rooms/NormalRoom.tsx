@@ -8,7 +8,6 @@ import { SecondaryInfo } from './atoms/SecondaryInfo';
 import ReserveButton from './atoms/ReserveButton';
 import { DeadlineTimer } from './atoms/DeadlineTimer';
 import NormalPrimaryInfo from './atoms/NormalPrimaryInfo';
-import { CloudHail } from 'lucide-react';
 
 type Props = {
   room: Room;
