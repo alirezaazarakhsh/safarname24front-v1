@@ -12,7 +12,7 @@ export function Pagination(props: Props) {
   const { pageCount } = props;
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
 
-  if (!pageCount) return null;
+  if (!pageCount || pageCount <= 1) return null;
 
   return (
     <ReactPaginate
