@@ -16,7 +16,8 @@ import { Pagination, Navigation } from 'swiper/modules';
 
 import BestSellingHotelA from './molecules/BestSellingHotelA';
 import BestSellingHotelB from './molecules/BestSellingHotelB';
-import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+import { isEmptyOrInvalid } from '@/utils/services';
+import { axiosInstance } from '@/utils/axios';
 
 type ApiResponse = {
   data: (Hotel & { reservation_count: number })[];
@@ -33,7 +34,7 @@ export function BestSellingHotels() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['best-selling-hotels'],
-    queryFn: () => generalInstance('/hotel/hotels/best-sellers'),
+    queryFn: () => axiosInstance('/hotel/hotels/best-sellers'),
   });
 
   const hotels = data?.data ?? [];

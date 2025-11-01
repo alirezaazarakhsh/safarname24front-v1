@@ -5,9 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useQueryState, parseAsStringEnum } from 'nuqs';
 
 import { Hotel } from '@/types';
-import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
+import { axiosInstance } from '@/utils/axios';
 
 const parseAsShowToggle = parseAsStringEnum(['show', 'hide']).withDefault(
   'hide',
@@ -26,7 +26,7 @@ export function SuggestedHotels() {
   const { data, status } = useQuery<ApiResponse>({
     enabled: isActive,
     queryKey: ['suggested-hotels'],
-    queryFn: () => generalInstance('/hotel/hotels/suggested-hotels'),
+    queryFn: () => axiosInstance('/hotel/hotels/suggested-hotels'),
   });
 
   const suggestedHotels = data?.data ?? [];

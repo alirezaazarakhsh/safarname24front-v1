@@ -13,7 +13,8 @@ import { Navigation, Autoplay } from 'swiper/modules';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { SuggestedHotel, TopBarConfig } from '../../shared';
-import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+import { isEmptyOrInvalid } from '@/utils/services';
+import { axiosInstance } from '@/utils/axios';
 
 type ApiResponse = {
   data: Hotel[];
@@ -25,7 +26,7 @@ export function AmazingHotels() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['amazing-hotels'],
-    queryFn: () => generalInstance('/hotel/hotels/amazing-hotels'),
+    queryFn: () => axiosInstance('/hotel/hotels/amazing-hotels'),
   });
 
   if (isEmptyOrInvalid({ data, status })) return null;
