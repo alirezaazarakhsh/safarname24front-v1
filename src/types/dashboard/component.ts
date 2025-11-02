@@ -84,12 +84,15 @@ export interface ReservationsFilterComponentPropsType {
   dataNotEmpty: boolean;
   onChange?: (val: string) => void;
   loading: boolean;
+  filterValue?: string;
 }
 
 export interface IconInputComponentPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
   icon: IconsName;
   wholeClassName?: string;
+  onClear?: () => void;
+  value?: string;
 }
 
 export interface AllFactorsTableComponentPropsType {

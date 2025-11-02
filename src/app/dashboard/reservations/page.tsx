@@ -61,6 +61,7 @@ export default function ReservationsPage(): ReactNode {
             <Filter
               onChange={(val) => setFilterVal(val)}
               dataNotEmpty
+              filterValue={filterVal}
               loading={false}
             />
             {filteredData.length === 0 ? (
