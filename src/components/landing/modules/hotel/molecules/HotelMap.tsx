@@ -28,7 +28,7 @@ type Props = {
   };
   geoLocation: { lat?: number; lng?: number };
 };
-  
+
 // ---------------------------------
 
 //* delete L.Icon.Default.prototype._getIconUrl;
@@ -43,7 +43,7 @@ function RecenterMap({ lat, lng }: { lat: number; lng: number }) {
   const map = useMap();
 
   useEffect(() => {
-    map.setView([lat, lng], 16);
+    map.setView([lat, lng], 17);
   }, [lat, lng, map]);
 
   return null;
@@ -75,7 +75,6 @@ export function HotelMap(props: Props) {
           </DialogClose>
 
           <MapContainer
-            zoom={16}
             center={[0, 0]}
             scrollWheelZoom={true}
             className="full-size z-10"

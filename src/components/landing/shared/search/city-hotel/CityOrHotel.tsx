@@ -10,13 +10,14 @@ import {
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMediaQuery } from '@/hooks';
-import { useHotelOrCityContext, useHotelOrCityDispatch } from '@/context';
+import { usePathname } from 'next/navigation';
 
 import CityOrHotelContent from './CityOrHotelContent';
 import CityOrHotelTrigger from './CityOrHotelTrigger';
-import { usePathname, useSearchParams } from 'next/navigation';
+
+import { useHotelOrCityContext, useHotelOrCityDispatch } from '@/context';
 
 type CommonProps = {
   sideOffset?: number;
@@ -44,7 +45,6 @@ export default function CityOrHotel(props: Props) {
   } = props;
 
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isOpen, setOpen] = useState(false);
 
   const dispatch = useHotelOrCityDispatch();

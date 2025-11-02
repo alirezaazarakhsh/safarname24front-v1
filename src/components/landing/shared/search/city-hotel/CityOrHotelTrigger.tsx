@@ -41,7 +41,14 @@ export default function CityOrHotelTrigger(props: Props) {
 
     const delayScroll = props.scrollPosition ?? 300;
     if (scrollPosition !== delayScroll && !isOpen) {
-      window.scrollTo({ top: delayScroll });
+      if (window.innerHeight < 800) {
+        document
+          .getElementById('city-or-hotel-trigger')
+          ?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: delayScroll });
+      }
+
       delayRef.current = setTimeout(() => {
         handleSetOpen();
       }, 300);
@@ -49,7 +56,11 @@ export default function CityOrHotelTrigger(props: Props) {
   }
 
   return (
-    <DropdownMenuTrigger asChild className="hidden lg:block">
+    <DropdownMenuTrigger
+      asChild
+      id="city-or-hotel-trigger"
+      className="hidden lg:block"
+    >
       <button onPointerDown={(e) => handleDropDownTrigger(e)}>
         {type === 'home' ? (
           <div className="flex flex-col items-start gap-y-2 truncate">

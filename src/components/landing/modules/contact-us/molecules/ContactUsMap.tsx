@@ -31,7 +31,7 @@ function RecenterMap({ lat, lng }: { lat: number; lng: number }) {
   const map = useMap();
 
   useEffect(() => {
-    map.setView([lat, lng], 16);
+    map.setView([lat, lng], 17);
   }, [lat, lng, map]);
 
   return null;
@@ -54,7 +54,6 @@ export function ContactUsMap() {
   return (
     <>
       <MapContainer
-        zoom={16}
         center={[0, 0]}
         scrollWheelZoom={true}
         className="full-size z-10"
