@@ -1,4 +1,3 @@
-import { usePathname } from 'next/navigation';
 import {
   ReactNode,
   useEffect,
@@ -8,6 +7,7 @@ import {
 } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
+import { usePathname } from 'next/navigation';
 
 type Passengers = {
   confirmedPassengers: { rooms: number; passengers: number };
