@@ -155,6 +155,7 @@ export interface CanclationReasonDialogComponentProps
 export interface HotelAcceptSectionPropsType {
   className?: string;
   printFn?: () => void;
+  hotelName: string;
   data: {
     reserver: string;
     createdAt: string;
@@ -162,7 +163,7 @@ export interface HotelAcceptSectionPropsType {
     phoneNumber: string;
     enterAt: string;
     exitAt: string | null;
-  }[];
+  };
 }
 
 export interface RoomsSectionPropsType {
@@ -170,8 +171,8 @@ export interface RoomsSectionPropsType {
   data: {
     info: {
       hotelName: string;
-      timeSpan: 8; // in Nights
-      meals: string;
+      timeSpan: number; // in Nights
+      meals: string[];
       enteranceHalfCharge: boolean;
       exitHalfCharge: boolean;
       reserver: string;
@@ -835,4 +836,5 @@ export interface VoiceRecorderPropsType {
 
 export interface RulesSectionPropsType {
   hotelName: string;
+  rules: string;
 }

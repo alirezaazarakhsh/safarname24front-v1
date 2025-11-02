@@ -2,116 +2,93 @@
 'use client';
 
 // Importing part
-import { ReactNode } from 'react';
+import { ReactNode, use } from 'react';
 import HotelAcceptSection from '@/components/dashboard/reservationFactor/hotelAcceptSection';
 import RoomsSection from '@/components/dashboard/reservationFactor/roomsSection';
 import RulesSection from '@/components/dashboard/reservationFactor/rulesSection';
 import Header from '@/components/dashboard/reservationFactor/header';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Logo from '@/components/dashboard/ui/logo';
-
-// Defining some dummy data
-const data: {
-  note?: string;
-  location: {
-    label: string;
-    googleMapURL: string;
-  };
-  accept: {
-    reserver: string;
-    createdAt: string;
-    codePeigiri: string;
-    phoneNumber: string;
-    enterAt: string;
-    exitAt: string | null;
-  }[];
-  rooms: {
-    info: {
-      hotelName: string;
-      timeSpan: 8; // in Nights
-      meals: string;
-      enteranceHalfCharge: boolean;
-      exitHalfCharge: boolean;
-      reserver: string;
-    };
-    passenger: string[];
-  }[];
-} = {
-  note: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است که بهبود بخشیده شده که میتواند به تمامی دیزاینر کمک کند.',
-  location: {
-    label:
-      'آدرس هتل : جردن، خیابان مطهری، رو به روی بانک پارسیان نرسیده به هتل بین اللملی ایران',
-    googleMapURL: '#',
-  },
-  accept: [
-    {
-      reserver: 'علیرضا آذرخش آلوچه',
-      createdAt: new Date().toISOString(),
-      codePeigiri: '45HGI13968V',
-      phoneNumber: '09912346598',
-      enterAt: new Date().toISOString(),
-      exitAt: null,
-    },
-  ],
-  rooms: [
-    {
-      info: {
-        hotelName: 'هتل اسپیناس پالاس  - اتاق دوبلکس',
-        timeSpan: 8,
-        meals: 'ناهار و صبحانه',
-        enteranceHalfCharge: true,
-        exitHalfCharge: true,
-        reserver: 'علیرضا آذرخش آلوچه',
-      },
-      passenger: ['پرهام رحیمی', 'محمد مهدی تاشا'],
-    },
-  ],
-};
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETReservationFactor } from '@/types/dashboard/api/get';
+import Loading from '@/components/dashboard/ui/loading';
+import ErrorTable from '@/components/dashboard/api/errorTable';
 
 // Creating and exporting single Reservation edit page as default
-export default function SingleReservationPage(): ReactNode {
-  // Returning JSX
-  return (
-    <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] bg-white print:p-0 print:m-0 print:w-full">
-      <Header />
-      <Logo className="hidden print:flex" />
-      <HotelAcceptSection
-        printFn={() => {
-          window.print();
-        }}
-        data={data.accept}
-      />
-      <div className="p-3 lg:h-16 bg-[#f8f8f8] border border-black/10 rounded-lg lg:flex hidden items-center justify-between gap-5">
-        <p className="font-semibold text-[#2c2c2c] text-cs75 block text-right truncate">{`${data.location.label}`}</p>
-      </div>
-      <div className="lg:hidden block py-[20px] border-y-[1.5px] border-black/10">
-        <div className="flex items-start justify-start gap-[10px]">
-          <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-            <IconsaxIcons name="Location" className="h-[17px] w-[17px]" />
-          </div>
-          <div>
-            <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-              آدرس هتل
-            </span>
-            <p className="text-[10px] font-medium text-gray-600 text-right">
-              جردن، خیابان مطهری، رو به روی بانک پارسیان نرسیده به هتل بین
-              اللملی ایران پلاک 20 واحد 7
-            </p>
+export default function SingleReservationPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): ReactNode {
+  // Defining hooks
+  const { id } = use(params);
+  const factorData = useApiQuery<GETReservationFactor>({
+    url: `/hotel/reservation/invoices/${id}/`,
+    queryKey: [`reservation-factor-${id}`],
+  });
+
+  // Conditional rendering
+  if (factorData.isLoading || factorData.isRefetching) {
+    return (
+      <main className="p-5 h-dvh w-dvw flex items-center justify-center">
+        <Loading />
+      </main>
+    );
+  } else if (factorData.isError) {
+    return <ErrorTable refetch={factorData.refetch} />;
+  } else if (!factorData.isLoading && !factorData.isError && factorData.data) {
+    const data = factorData.data.reservation;
+    return (
+      <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] bg-white print:p-0 print:m-0 print:w-full">
+        <Header />
+        <Logo className="hidden print:flex" />
+        <HotelAcceptSection
+          printFn={() => window.print()}
+          hotelName={data.hotel.name}
+          data={{
+            codePeigiri: data.tracking_code,
+            createdAt: new Date().toISOString(), // TODO: Later fetch with real time data
+            enterAt: new Date().toISOString(), // TODO: Later fetch with real time data
+            exitAt: new Date().toISOString(), // TODO: Later fetch with real time data
+            phoneNumber: data.reserver_phone,
+            reserver: data.reserver_name,
+          }}
+        />
+        <div className="p-3 lg:h-16 bg-[#f8f8f8] border border-black/10 rounded-lg lg:flex hidden items-center justify-between gap-5">
+          <p className="font-semibold text-[#2c2c2c] text-cs75 block text-right truncate">{`هتل ${data.hotel.name} - ${data.hotel.address}`}</p>
+        </div>
+        <div className="lg:hidden block py-[20px] border-y-[1.5px] border-black/10">
+          <div className="flex items-start justify-start gap-[10px]">
+            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+              <IconsaxIcons name="Location" className="h-[17px] w-[17px]" />
+            </div>
+            <div>
+              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                آدرس هتل
+              </span>
+              <p className="text-[10px] font-medium text-gray-600 text-right">
+                {data.hotel.address}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <RoomsSection data={data.rooms} />
-      {data.note && (
-        <div className="lg:border-b-0 border-b-[1.5px] border-b-black/10 lg:pb-0 pb-[20px]">
-          <div className="lg:p-3 p-[12px] bg-cs-red/10 lg:rounded-lg rounded-[10px] lg:h-16 flex items-center justify-start">
-            <p className="font-medium  text-cs-red lg:text-cs75 text-[10px] block text-right lg:truncate">
-              توضیحات : <br className="lg:hidden block" />
-              {data.note}
-            </p>
-          </div>
-        </div>
-      )}
-      <RulesSection hotelName={'اسپیناس پالاس'} />
-    </main>
-  );
+        <RoomsSection
+          data={data.rooms.map((item) => ({
+            info: {
+              enteranceHalfCharge: item.half_day_in,
+              exitHalfCharge: item.half_day_out,
+              hotelName: item.room_name,
+              meals: item.services,
+              reserver: data.reserver_name,
+              timeSpan: item.nights,
+            },
+            passenger: data.passengers
+              .filter((passenger) => passenger.name !== data.reserver_name)
+              .map((passenger) => passenger.name),
+          }))}
+        />
+        <RulesSection hotelName={data.hotel.name} rules={data.hotel_rules} />
+      </main>
+    );
+  }
 }

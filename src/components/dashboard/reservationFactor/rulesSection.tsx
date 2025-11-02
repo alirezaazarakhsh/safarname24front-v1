@@ -24,6 +24,7 @@ const rules: string[] = [
 // Creating and exporting RulesSection Component as default
 export default function RulesSection({
   hotelName,
+  rules,
 }: RulesSectionPropsType): ReactNode {
   // Defining url to copy and to genrate qr code with
   const qrCodeUrl = window.location.href;
@@ -42,16 +43,9 @@ export default function RulesSection({
             قوانین و مقرارت هتل {hotelName}
           </span>
         </div>
-        <ol className="lg:gap-3 gap-[12px] lg:mt-5 mt-[20px] list-none list-inside flex flex-col overflow-hidden">
-          {rules.map((item, index) => (
-            <li
-              className="lg:text-cs75 text-[10px] lg:font-medium font-semibold text-[#6e6e70] lg:truncate"
-              key={index}
-            >
-              {`${handleZeroBeforeNumber(index + 1)} - ${item}`}
-            </li>
-          ))}
-        </ol>
+        <p className="lg:text-cs75 text-[10px] lg:font-medium font-semibold text-[#6e6e70] leading-5 line-clamp-5 mt-4">
+          {rules}
+        </p>
       </div>
       <div className="flex items-center lg:justify-end justify-center lg:gap-6 gap-[23px] lg:shrink-0">
         <Link

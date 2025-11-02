@@ -20,6 +20,7 @@ export default function HotelAcceptSection({
   className,
   data,
   printFn,
+  hotelName,
 }: HotelAcceptSectionPropsType): ReactNode {
   // Returning JSX
   return (
@@ -30,7 +31,7 @@ export default function HotelAcceptSection({
             <span className="font-bold text-[12px] text-black block">01</span>
           </div>
           <span className="truncate text-right w-full lg:font-bold font-semibold lg:text-cs85 text-[12px] text-black">
-            تائيدیه هتل اسپیناس پالاس (تهران)
+            {hotelName}
           </span>
         </div>
         <div className="flex items-center justify-between gap-2 shrink-0">
@@ -81,134 +82,114 @@ export default function HotelAcceptSection({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((item, index) => (
-              <TableRow
-                key={index}
-                className={cn(
-                  'bg-white hover:bg-white',
-                  index + 1 !== data.length
-                    ? 'border-b border-b-black/10'
-                    : 'border-b-0',
-                )}
-              >
-                <TableCell className="p-3 w-[30px]">
-                  <div className="rounded-[5px] bg-[#f8f8f8] flex items-center justify-center h-[40px] w-full">
-                    <span className="font-normal text-[12px] text-black block text-num-en">
-                      {handleZeroBeforeNumber(index + 1)}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="p-3">
-                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
-                    {item.reserver}
+            <TableRow className={'bg-white hover:bg-white'}>
+              <TableCell className="p-3 w-[30px]">
+                <div className="rounded-[5px] bg-[#f8f8f8] flex items-center justify-center h-[40px] w-full">
+                  <span className="font-normal text-[12px] text-black block text-num-en">
+                    {handleZeroBeforeNumber(1)}
                   </span>
-                </TableCell>
-                <TableCell className="p-3">
-                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
-                    {moment(item.createdAt)
-                      .locale('fa')
-                      .format('jYYYY/jMM/jDD')}
-                  </span>
-                </TableCell>
-                <TableCell className="p-3">
-                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
-                    {item.codePeigiri}
-                  </span>
-                </TableCell>
-                <TableCell className="p-3">
-                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
-                    {item.phoneNumber}
-                  </span>
-                </TableCell>
-                <TableCell className="p-3">
-                  <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
-                    {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
+                </div>
+              </TableCell>
+              <TableCell className="p-3">
+                <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
+                  {data.reserver}
+                </span>
+              </TableCell>
+              <TableCell className="p-3">
+                <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
+                  {moment(data.createdAt).locale('fa').format('jYYYY/jMM/jDD')}
+                </span>
+              </TableCell>
+              <TableCell className="p-3">
+                <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
+                  {data.codePeigiri}
+                </span>
+              </TableCell>
+              <TableCell className="p-3">
+                <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
+                  {data.phoneNumber}
+                </span>
+              </TableCell>
+              <TableCell className="p-3">
+                <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
+                  {`${moment(data.enterAt).locale('fa').format('YYYY/MM/DD')} - ${data.exitAt ? moment(data.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
+                </span>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </div>
       <div className="lg:hidden flex flex-col gap-[25px]">
-        {data.map((item, index) => (
-          <div key={index} className="lg:hidden flex flex-col gap-[13px]">
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons name="User" className="h-[17px] w-[17px]" />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  رزرو کننده
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {item.reserver}
-                </span>
-              </div>
+        <div className="lg:hidden flex flex-col gap-[13px]">
+          <div className="flex items-center justify-start gap-[10px]">
+            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+              <IconsaxIcons name="User" className="h-[17px] w-[17px]" />
             </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons
-                  name="CalendarTick"
-                  className="h-[17px] w-[17px]"
-                />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  تاریخ رزرو
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {moment(item.createdAt).locale('fa').format('jYYYY/jMM/jDD')}
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons name="HashtagUp" className="h-[17px] w-[17px]" />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  کد پیگیری
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {item.codePeigiri}
-                </span>
-              </div>
-            </div>
-            <Link
-              href={`tel:${item.phoneNumber}`}
-              className="flex items-center justify-start gap-[10px]"
-            >
-              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons
-                  name="CallCalling"
-                  className="h-[17px] w-[17px]"
-                />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  شماره تماس
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {item.phoneNumber}
-                </span>
-              </div>
-            </Link>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons name="Calendar" className="h-[17px] w-[17px]" />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  تاریخ ورود و خروج
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {`${moment(item.enterAt).locale('fa').format('YYYY/MM/DD')} - ${item.exitAt ? moment(item.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
-                </span>
-              </div>
+            <div>
+              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                رزرو کننده
+              </span>
+              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                {data.reserver}
+              </span>
             </div>
           </div>
-        ))}
+          <div className="flex items-center justify-start gap-[10px]">
+            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+              <IconsaxIcons name="CalendarTick" className="h-[17px] w-[17px]" />
+            </div>
+            <div>
+              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                تاریخ رزرو
+              </span>
+              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                {moment(data.createdAt).locale('fa').format('jYYYY/jMM/jDD')}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center justify-start gap-[10px]">
+            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+              <IconsaxIcons name="HashtagUp" className="h-[17px] w-[17px]" />
+            </div>
+            <div>
+              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                کد پیگیری
+              </span>
+              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                {data.codePeigiri}
+              </span>
+            </div>
+          </div>
+          <Link
+            href={`tel:${data.phoneNumber}`}
+            className="flex items-center justify-start gap-[10px]"
+          >
+            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+              <IconsaxIcons name="CallCalling" className="h-[17px] w-[17px]" />
+            </div>
+            <div>
+              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                شماره تماس
+              </span>
+              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                {data.phoneNumber}
+              </span>
+            </div>
+          </Link>
+          <div className="flex items-center justify-start gap-[10px]">
+            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+              <IconsaxIcons name="Calendar" className="h-[17px] w-[17px]" />
+            </div>
+            <div>
+              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                تاریخ ورود و خروج
+              </span>
+              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                {`${moment(data.enterAt).locale('fa').format('YYYY/MM/DD')} - ${data.exitAt ? moment(data.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
