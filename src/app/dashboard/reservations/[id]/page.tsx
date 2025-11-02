@@ -85,9 +85,9 @@ export default function SingleReservationPage({
           hotelName={`${settings.title} - هتل ${data.hotel.name}`}
           data={{
             codePeigiri: data.tracking_code,
-            createdAt: new Date().toISOString(), // TODO: Later fetch with real time data
-            enterAt: new Date().toISOString(), // TODO: Later fetch with real time data
-            exitAt: new Date().toISOString(), // TODO: Later fetch with real time data
+            createdAt: data.created_at,
+            enterAt: data.check_in_date,
+            exitAt: data.check_out_date,
             phoneNumber: data.reserver_phone,
             reserver: data.reserver_name,
           }}

@@ -97,7 +97,7 @@ export default function HotelAcceptSection({
               </TableCell>
               <TableCell className="p-3">
                 <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
-                  {moment(data.createdAt).locale('fa').format('jYYYY/jMM/jDD')}
+                  {moment(data.createdAt).format('YYYY/MM/DD')}
                 </span>
               </TableCell>
               <TableCell className="p-3">
@@ -112,7 +112,7 @@ export default function HotelAcceptSection({
               </TableCell>
               <TableCell className="p-3">
                 <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
-                  {`${moment(data.enterAt).locale('fa').format('YYYY/MM/DD')} - ${data.exitAt ? moment(data.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
+                  {`${moment(data.enterAt).format('YYYY/MM/DD')} - ${data.exitAt ? moment(data.exitAt).format('YYYY/MM/DD') : 'و/ن'}`}
                 </span>
               </TableCell>
             </TableRow>
@@ -143,7 +143,7 @@ export default function HotelAcceptSection({
                 تاریخ رزرو
               </span>
               <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                {moment(data.createdAt).locale('fa').format('jYYYY/jMM/jDD')}
+                {moment(data.createdAt).format('YYYY/MM/DD')}
               </span>
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function HotelAcceptSection({
                 تاریخ ورود و خروج
               </span>
               <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                {`${moment(data.enterAt).locale('fa').format('YYYY/MM/DD')} - ${data.exitAt ? moment(data.exitAt).locale('fa').format('YYYY/MM/DD') : 'و/ن'}`}
+                {`${moment(data.enterAt).format('YYYY/MM/DD')} - ${data.exitAt ? moment(data.exitAt).format('YYYY/MM/DD') : 'و/ن'}`}
               </span>
             </div>
           </div>
