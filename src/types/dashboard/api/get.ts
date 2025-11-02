@@ -13,7 +13,7 @@ export interface GETReservationItem {
   check_out_date: string;
   created_at: string;
   total_guests: number;
-  cancellation_status: null | true;
+  cancellation_status: null | boolean;
   payment_status: 'paid' | 'unpaid' | 'pending';
 }
 
