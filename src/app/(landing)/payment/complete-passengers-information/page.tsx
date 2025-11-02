@@ -6,6 +6,7 @@ import {
   ReservationForm,
 } from '@/components/landing/modules/payment/organisms';
 
+import { useEffect } from 'react';
 import { useMediaQuery } from '@/hooks';
 import { FirstStepSubmitButton as SubmitButton } from '@/components/landing/modules/payment/molecules/submit-buttons';
 
@@ -13,6 +14,19 @@ import { FirstStepSubmitButton as SubmitButton } from '@/components/landing/modu
 
 export default function CompletePassengersInformation() {
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+  // === Scroll To Top On Mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
