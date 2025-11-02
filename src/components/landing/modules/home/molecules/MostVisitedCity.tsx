@@ -35,7 +35,7 @@ export default function MostVisitedCity(props: Props) {
 
       {/* Number of residence */}
       <div className="absolute top-3.5 right-3.5 bg-zinc-100 h-6 px-3 text-zinc-800 text-cs07 font-bold pt-1 flex-center gap-1 opacity-100 rounded-md transition-all duration-200 ease-in-out md:top-0 md:opacity-0 md:group-hover:opacity-100 md:group-hover:top-3 xl:h-7 xl:text-cs75">
-        <span>{hotels_number ?? 23}</span>
+        <span>{hotels_number ? hotels_number : 'بدون'}</span>
         <span>اقامتگاه</span>
       </div>
 
