@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         // pathname: '/media/images/**',
         hostname: 'cps.safarnameh24.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'safarnameh24.com',
+        port: '',
+        pathname: '/media/signatures/**',
+      },
     ],
   },
 };

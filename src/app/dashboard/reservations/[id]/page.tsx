@@ -10,7 +10,10 @@ import Header from '@/components/dashboard/reservationFactor/header';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Logo from '@/components/dashboard/ui/logo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETReservationFactor } from '@/types/dashboard/api/get';
+import {
+  GETReservationFactor,
+  GETReservationFactorSettings,
+} from '@/types/dashboard/api/get';
 import Loading from '@/components/dashboard/ui/loading';
 import ErrorTable from '@/components/dashboard/api/errorTable';
 
@@ -27,24 +30,48 @@ export default function SingleReservationPage({
     queryKey: [`reservation-factor-${id}`],
   });
 
+  const settingsData = useApiQuery<GETReservationFactorSettings>({
+    url: '/hotel/reservation/factor/signator/',
+    queryKey: [`reservation-factor-settings`],
+    options: {
+      enabled: !factorData.isLoading,
+    },
+  });
+
   // Conditional rendering
-  if (factorData.isLoading || factorData.isRefetching) {
+  if (
+    factorData.isLoading ||
+    factorData.isRefetching ||
+    settingsData.isLoading ||
+    settingsData.isRefetching
+  ) {
     return (
       <main className="p-5 h-dvh w-dvw flex items-center justify-center">
         <Loading />
       </main>
     );
-  } else if (factorData.isError) {
+  } else if (factorData.isError || settingsData.isError) {
     return <ErrorTable refetch={factorData.refetch} />;
-  } else if (!factorData.isLoading && !factorData.isError && factorData.data) {
+  } else if (
+    !factorData.isLoading &&
+    !factorData.isError &&
+    factorData.data &&
+    !settingsData.isLoading &&
+    !settingsData.isError &&
+    settingsData.data
+  ) {
+    // Defining variables
     const data = factorData.data.reservation;
+    const settings = settingsData.data.invoice_settings;
+
+    // Returning JSX
     return (
       <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] bg-white print:p-0 print:m-0 print:w-full">
         <Header />
         <Logo className="hidden print:flex" />
         <HotelAcceptSection
           printFn={() => window.print()}
-          hotelName={data.hotel.name}
+          hotelName={`${settings.title} - هتل ${data.hotel.name}`}
           data={{
             codePeigiri: data.tracking_code,
             createdAt: new Date().toISOString(), // TODO: Later fetch with real time data
@@ -87,7 +114,12 @@ export default function SingleReservationPage({
               .map((passenger) => passenger.name),
           }))}
         />
-        <RulesSection hotelName={data.hotel.name} rules={data.hotel_rules} />
+        <RulesSection
+          contactNumber={settings.contact_number}
+          signatureImage={settings.signature_image}
+          hotelName={data.hotel.name}
+          rules={data.hotel_rules}
+        />
       </main>
     );
   }

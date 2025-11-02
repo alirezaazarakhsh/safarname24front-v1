@@ -837,4 +837,6 @@ export interface VoiceRecorderPropsType {
 export interface RulesSectionPropsType {
   hotelName: string;
   rules: string;
+  signatureImage: string;
+  contactNumber: string;
 }
