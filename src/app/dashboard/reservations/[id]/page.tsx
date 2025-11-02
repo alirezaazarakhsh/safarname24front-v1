@@ -57,7 +57,12 @@ export default function SingleReservationPage({
       </main>
     );
   } else if (factorData.isError || settingsData.isError) {
-    return <ErrorTable refetch={factorData.refetch} />;
+    return (
+      <ErrorTable
+        className="bg-transparent p-5 min-h-dvh h-auto"
+        refetch={factorData.refetch}
+      />
+    );
   } else if (
     !factorData.isLoading &&
     !factorData.isError &&
