@@ -3,7 +3,7 @@
 
 // Importing part
 import { IconInputComponentPropsType } from '@/types/dashboard/component';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { cn } from '@/utils/utils';
 import { motion } from 'framer-motion';
@@ -17,11 +17,13 @@ export default function IconInput({
   className,
   autoFocus,
   onChange,
+  onClear,
+  value,
   ...props
 }: IconInputComponentPropsType): ReactNode {
-  // Defining states of component
-  const [localValueState, setLocalValueState] = useState<string>('');
+  // Defining hooks
   const [isFocused, setFocused] = useState<boolean>(autoFocus || false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   // Returning JSX
   return (
@@ -42,7 +44,9 @@ export default function IconInput({
           'lg:h-8 h-10 lg:py-2 py-[10px]  flex-1 block placeholder:text-[12px] text-[12px] placeholder:font-semibold font-semibold text-current placeholder:text-current outline-0 bg-transparent',
           className,
         )}
+        ref={inputRef}
         autoFocus={autoFocus}
+        value={value}
         onBlur={(e) => {
           setFocused(false);
 
@@ -55,32 +59,26 @@ export default function IconInput({
         }}
         onChange={(e) => {
           onChange && onChange(e);
-          setLocalValueState(e.target.value);
         }}
-        value={localValueState}
         {...props}
       />
-      {localValueState &&
-        localValueState !== '' &&
-        !localValueState.startsWith(' ') && (
-          <motion.button
-            initial={{ opacity: 0 }}
-            exit={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            type="button"
-            className="shrink-0"
-            onClick={() => {
-              setLocalValueState('');
-            }}
-          >
-            <IconsaxIcons
-              name={'CloseCircle'}
-              className="w-[18px] h-[18px] text-current aspect-square"
-              color="currentColor"
-            />
-          </motion.button>
-        )}
+      {value && value !== '' && !value.startsWith(' ') && (
+        <motion.button
+          initial={{ opacity: 0 }}
+          exit={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          type="button"
+          className="shrink-0"
+          onClick={onClear}
+        >
+          <IconsaxIcons
+            name={'CloseCircle'}
+            className="w-[18px] h-[18px] text-current aspect-square"
+            color="currentColor"
+          />
+        </motion.button>
+      )}
     </div>
   );
 }

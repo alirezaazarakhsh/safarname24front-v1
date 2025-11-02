@@ -17,6 +17,7 @@ export default function Filter({
   dataNotEmpty,
   onChange,
   loading,
+  filterValue,
 }: ReservationsFilterComponentPropsType): ReactNode {
   // Returning JSX
   return (
@@ -44,6 +45,8 @@ export default function Filter({
                   icon="SearchStatus"
                   className="lg:h-10 h-[45px]"
                   placeholder="جستجو مسافر، هتل"
+                  value={filterValue && filterValue}
+                  onClear={() => onChange && onChange('')}
                   onChange={(e) => onChange && onChange(e.target.value)}
                 />
               )}

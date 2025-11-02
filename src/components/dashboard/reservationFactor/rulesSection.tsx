@@ -6,24 +6,16 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import SignitureImage from '../../../../public/image/signatures1.png';
 import { QRCodeCanvas } from 'qrcode.react';
 import toast from '../ui/customSonner/toast';
-import { handleZeroBeforeNumber } from '@/utils/string';
 import { RulesSectionPropsType } from '@/types/dashboard/component';
-
-// Defining rules to render
-const rules: string[] = [
-  'لورم اپیسوم متن ساختگی با تولید سادگی نامفهوم از صعنت چاپ به دیزاینر ها کمک نامفهوم از صعنت چاپ میکند که بهترین خدمات به کاربران میدهند.',
-  'لورم اپیسوم متن ساختگی با تولید سادگی نامفهوم از صعنت چاپ به دیزاینر ها کمک نامفهوم از صعنت چاپ میکند که بهترین خدمات به کاربران میدهند.',
-  'لورم اپیسوم متن ساختگی با تولید سادگی نامفهوم از صعنت چاپ به دیزاینر ها کمک نامفهوم از صعنت چاپ میکند که بهترین خدمات به کاربران میدهند.',
-  'لورم اپیسوم متن ساختگی با تولید سادگی نامفهوم از صعنت چاپ به دیزاینر ها کمک نامفهوم از صعنت چاپ میکند که بهترین خدمات به کاربران میدهند.',
-  'لورم اپیسوم متن ساختگی با تولید سادگی نامفهوم از صعنت چاپ به دیزاینر ها کمک نامفهوم از صعنت چاپ میکند که بهترین خدمات به کاربران میدهند.',
-];
 
 // Creating and exporting RulesSection Component as default
 export default function RulesSection({
   hotelName,
+  rules,
+  contactNumber,
+  signatureImage,
 }: RulesSectionPropsType): ReactNode {
   // Defining url to copy and to genrate qr code with
   const qrCodeUrl = window.location.href;
@@ -42,20 +34,13 @@ export default function RulesSection({
             قوانین و مقرارت هتل {hotelName}
           </span>
         </div>
-        <ol className="lg:gap-3 gap-[12px] lg:mt-5 mt-[20px] list-none list-inside flex flex-col overflow-hidden">
-          {rules.map((item, index) => (
-            <li
-              className="lg:text-cs75 text-[10px] lg:font-medium font-semibold text-[#6e6e70] lg:truncate"
-              key={index}
-            >
-              {`${handleZeroBeforeNumber(index + 1)} - ${item}`}
-            </li>
-          ))}
-        </ol>
+        <p className="lg:text-cs75 text-[10px] lg:font-medium font-semibold text-[#6e6e70] leading-5 line-clamp-5 mt-4">
+          {rules}
+        </p>
       </div>
       <div className="flex items-center lg:justify-end justify-center lg:gap-6 gap-[23px] lg:shrink-0">
         <Link
-          href="tel:02122490842"
+          href={`tel:${contactNumber.replace('-', '')}`}
           className="bg-[#f8f8f8] border lg:rounded-lg rounded-[12px] border-black/10 aspect-square size-40 flex items-center justify-center p-4"
         >
           <div>
@@ -63,14 +48,14 @@ export default function RulesSection({
               width={200}
               height={200}
               alt="واحد رزرواسیون و پشتیبانی"
-              src={SignitureImage.src}
+              src={signatureImage}
               className="w-[75%] h-auto block mx-auto mb-2"
             />
             <span className="lg:font-medium font-semibold lg:text-cs75 text-[10px] block text-center truncate w-full text-black mb-1">
               واحد رزرواسیون و پشتیبانی
             </span>
             <span className="lg:font-medium font-semibold lg:text-cs75 text-[10px] block text-center truncate w-full text-black">
-              021-22490842
+              {contactNumber}
             </span>
           </div>
         </Link>

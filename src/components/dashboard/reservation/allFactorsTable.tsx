@@ -44,29 +44,45 @@ export default function AllFactorsTable({
 
   // Defining a function to return status infos based on given props
   type StatusTypes = GETReservationItem['payment_status'];
+  type CanclationTypes = GETReservationItem['cancellation_status'];
 
-  function returnStatus(status: StatusTypes): {
+  function returnStatus(
+    status: StatusTypes,
+    isCancled: CanclationTypes,
+  ): {
     color: string;
     title: string;
   } {
-    return {
-      color:
-        status === 'unpaid'
-          ? '#F30F26'
-          : status === 'pending'
-            ? '#4B5BCE'
-            : status === 'paid'
-              ? '#35A346'
-              : '#00000',
-      title:
-        status === 'paid'
-          ? 'پرداخت شده'
-          : status === 'unpaid'
-            ? 'پرداخت نشده'
+    if (isCancled === null) {
+      return {
+        color:
+          status === 'unpaid'
+            ? '#F30F26'
             : status === 'pending'
-              ? 'در حال پرداخت'
-              : 'نا معلوم',
-    };
+              ? '#4B5BCE'
+              : status === 'paid'
+                ? '#35A346'
+                : '#00000',
+        title:
+          status === 'paid'
+            ? 'پرداخت شده'
+            : status === 'unpaid'
+              ? 'پرداخت نشده'
+              : status === 'pending'
+                ? 'در حال پرداخت'
+                : 'نا معلوم',
+      };
+    } else if (!isCancled) {
+      return {
+        color: '#F30F26',
+        title: 'کنسلی تایید نشد',
+      };
+    } else {
+      return {
+        color: '#F30F26',
+        title: 'کنسل شده',
+      };
+    }
   }
 
   // Conditional rendering
@@ -302,12 +318,19 @@ export default function AllFactorsTable({
                     <div
                       className="size-[7px] shrink-0 rounded-full"
                       style={{
-                        backgroundColor: returnStatus(item.payment_status)
-                          .color,
+                        backgroundColor: returnStatus(
+                          item.payment_status,
+                          item.cancellation_status,
+                        ).color,
                       }}
                     />
                     <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
-                      {returnStatus(item.payment_status).title}
+                      {
+                        returnStatus(
+                          item.payment_status,
+                          item.cancellation_status,
+                        ).title
+                      }
                     </span>
                   </div>
                 </TableCell>
@@ -484,12 +507,19 @@ export default function AllFactorsTable({
                       <div
                         className="size-[7px] shrink-0 rounded-full"
                         style={{
-                          backgroundColor: returnStatus(item.payment_status)
-                            .color,
+                          backgroundColor: returnStatus(
+                            item.payment_status,
+                            item.cancellation_status,
+                          ).color,
                         }}
                       />
                       <span className="text-[10px] font-600 text-gray-600 truncate block text-right">
-                        {returnStatus(item.payment_status).title}
+                        {
+                          returnStatus(
+                            item.payment_status,
+                            item.cancellation_status,
+                          ).title
+                        }
                       </span>
                     </div>
                   </div>

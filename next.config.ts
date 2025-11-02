@@ -10,10 +10,10 @@ const nextConfig: NextConfig = {
         hostname: 'cps.safarnameh24.com',
       },
       {
-        port: '',
-        search: '',
         protocol: 'https',
         hostname: 'safarnameh24.com',
+        port: '',
+        pathname: '/media/signatures/**',
       },
     ],
   },

@@ -48,13 +48,13 @@ export default function PassengersPage(): ReactNode {
     ? filter === ''
       ? getData.data.results
       : getData.data.results.filter((item) =>
-        [
-          item.first_name,
-          item.last_name,
-          item.identification_code,
-          item.phone_number,
-        ].some((field) => field?.toLowerCase().includes(filter)),
-      )
+          [
+            item.first_name,
+            item.last_name,
+            item.identification_code,
+            item.phone_number,
+          ].some((field) => field?.toLowerCase().includes(filter)),
+        )
     : [];
 
   // Returning JSX
@@ -82,7 +82,7 @@ export default function PassengersPage(): ReactNode {
               onChange={(val) => setFilter(val)}
             />
             <EmptyTable
-              title="لسیت مسافاران خالی میباشد!"
+              title="لسیت مسافران خالی میباشد!"
               description="لطفا از بالا مسافران خود را اضافه کنید"
             />
           </>

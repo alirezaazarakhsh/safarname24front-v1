@@ -13,7 +13,7 @@ export interface GETReservationItem {
   check_out_date: string;
   created_at: string;
   total_guests: number;
-  cancellation_status: null | true;
+  cancellation_status: null | boolean;
   payment_status: 'paid' | 'unpaid' | 'pending';
 }
 
@@ -242,6 +242,41 @@ export interface GETCanclationReason {
     id: number;
     title: string;
   }[];
+}
+
+export interface GETReservationFactor {
+  reservation: {
+    reserver_name: string;
+    reserver_phone: string;
+    tracking_code: string;
+    created_at: string;
+    check_in_date: string;
+    check_out_date: string;
+    hotel: {
+      name: string;
+      address: string;
+    };
+    rooms: {
+      room_name: string;
+      nights: number;
+      services: string[];
+      half_day_in: boolean;
+      half_day_out: boolean;
+    }[];
+    passengers: {
+      name: string;
+      type: 'اصلی' | 'اضافه';
+    }[];
+    hotel_rules: string;
+  };
+}
+
+export interface GETReservationFactorSettings {
+  invoice_settings: {
+    title: string;
+    contact_number: string;
+    signature_image: string;
+  };
 }
 
 export interface GETLegalNotes {

@@ -73,7 +73,7 @@ export default function RoomsSection({
                   </TableCell>
                   <TableCell className="p-3">
                     <span className="text-xs font-semibold text-[#2c2c2c] truncate block text-right">
-                      {item.info.meals}
+                      {item.info.meals.join(' - ')}
                     </span>
                   </TableCell>
                   <TableCell className="p-3">
@@ -147,7 +147,7 @@ export default function RoomsSection({
                   خدمات اتاق
                 </span>
                 <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {item.info.meals}
+                  {item.info.meals.join(' - ')}
                 </span>
               </div>
             </div>

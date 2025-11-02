@@ -126,7 +126,7 @@ export default function TakeGiftRuleDialog({
                 onClick={async () => {
                   await fetchData.mutateAsync({
                     code: code,
-                    discount_type: type === 'room' ? 'room' : 'shopping_center',
+                    discount_type: type,
                   });
                   setRulesAccepted(false);
                 }}
@@ -203,8 +203,7 @@ export default function TakeGiftRuleDialog({
                   onClick={async () => {
                     await fetchData.mutateAsync({
                       code: code,
-                      discount_type:
-                        type === 'room' ? 'room' : 'shopping_center',
+                      discount_type: type,
                     });
                     setRulesAccepted(false);
                   }}

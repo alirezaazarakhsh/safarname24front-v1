@@ -41,6 +41,7 @@ export default function RoomTable({
   // Defining state of component
   const [rules, setRules] = useState<string | undefined>();
   const [code, setCode] = useState<string | undefined>();
+  const [type, setType] = useState<'room' | 'hotel' | undefined>();
   const [acceptRulesDialogOpened, setAcceptRulesDialogOpened] =
     useState<boolean>(false);
   const [giftGainedDialogOpened, setGiftGainedDialogOpened] =
@@ -83,11 +84,12 @@ export default function RoomTable({
         setGiftGainErrorDialogOpened={setGiftGainErrorDialogOpened}
         setGiftGainedDialogOpened={setGiftGainedDialogOpened}
         rules={rules}
-        type="room"
+        type={type || 'room'}
         code={code || ''}
         closeFn={() => {
           setAcceptRulesDialogOpened(false);
           setRules(undefined);
+          setType(undefined);
         }}
       />
       {loading ? (
@@ -358,6 +360,7 @@ export default function RoomTable({
                           setAcceptRulesDialogOpened(true);
                           setRules(item.activation_rules);
                           setCode(item.code);
+                          setType(item.discount_type);
                         } else {
                           toast({
                             title: 'امتیاز کافی نیست',
@@ -427,6 +430,7 @@ export default function RoomTable({
                           setAcceptRulesDialogOpened(true);
                           setRules(item.activation_rules);
                           setCode(item.code);
+                          setType(item.discount_type);
                         } else {
                           toast({
                             title: 'امتیاز کافی نیست',

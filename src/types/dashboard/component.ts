@@ -84,12 +84,15 @@ export interface ReservationsFilterComponentPropsType {
   dataNotEmpty: boolean;
   onChange?: (val: string) => void;
   loading: boolean;
+  filterValue?: string;
 }
 
 export interface IconInputComponentPropsType
   extends InputHTMLAttributes<HTMLInputElement> {
   icon: IconsName;
   wholeClassName?: string;
+  onClear?: () => void;
+  value?: string;
 }
 
 export interface AllFactorsTableComponentPropsType {
@@ -152,6 +155,7 @@ export interface CanclationReasonDialogComponentProps
 export interface HotelAcceptSectionPropsType {
   className?: string;
   printFn?: () => void;
+  hotelName: string;
   data: {
     reserver: string;
     createdAt: string;
@@ -159,7 +163,7 @@ export interface HotelAcceptSectionPropsType {
     phoneNumber: string;
     enterAt: string;
     exitAt: string | null;
-  }[];
+  };
 }
 
 export interface RoomsSectionPropsType {
@@ -167,8 +171,8 @@ export interface RoomsSectionPropsType {
   data: {
     info: {
       hotelName: string;
-      timeSpan: 8; // in Nights
-      meals: string;
+      timeSpan: number; // in Nights
+      meals: string[];
       enteranceHalfCharge: boolean;
       exitHalfCharge: boolean;
       reserver: string;
@@ -414,7 +418,7 @@ export interface RoomTablePropsType {
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
   setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
   setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
-  type: 'room' | 'shoppingCentre';
+  type: 'room' | 'shoppingCentre' | 'hotel';
   code: string;
   rules?: string;
 }
@@ -832,4 +836,7 @@ export interface VoiceRecorderPropsType {
 
 export interface RulesSectionPropsType {
   hotelName: string;
+  rules: string;
+  signatureImage: string;
+  contactNumber: string;
 }
