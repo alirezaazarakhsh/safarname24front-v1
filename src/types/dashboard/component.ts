@@ -418,7 +418,7 @@ export interface RoomTablePropsType {
 export interface TakeGiftRuleDialogPropsType extends DialogComponentPropsType {
   setGiftGainedDialogOpened: Dispatch<SetStateAction<boolean>>;
   setGiftGainErrorDialogOpened: Dispatch<SetStateAction<boolean>>;
-  type: 'room' | 'shoppingCentre';
+  type: 'room' | 'shoppingCentre' | 'hotel';
   code: string;
   rules?: string;
 }
