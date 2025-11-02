@@ -44,9 +44,13 @@ export function WatcherInfo() {
 
               <Link
                 href={`/dashboard/reservations/${trackingCode}`}
-                className="bg-zinc-100 w-fit px-5 py-2 text-zinc-800 rounded-lg"
+                className="bg-cs-blue/10 text-cs-blue w-fit px-5 py-2 font-bold rounded-cs-10 flex items-center gap-2.5"
               >
-                مشاهده واچر
+                <div className="relative w-3 aspect-square bg-cs-blue/90 rounded-full">
+                  <span className="absolute inset-0 pointer-events-none rounded-lg animate-ping bg-cs-blue" />
+                </div>
+
+                <span>مشاهده واچر</span>
               </Link>
             </div>
           ) : (

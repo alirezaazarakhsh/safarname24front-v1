@@ -41,7 +41,6 @@ export function ReservationStatusProvider({
     socket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data) as ReservationStatus;
-        // ⏱️ ذخیره در cache
         queryClient.setQueryData<ReservationStatus>(
           ['reservation-status', trackingCode],
           data,

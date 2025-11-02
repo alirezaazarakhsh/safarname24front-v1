@@ -93,7 +93,6 @@ export function Stepper() {
               icon={step.icon}
               title={step.title}
               isActive={activeStep === index + 1}
-              // isLoading={calculateLoadingState(index)}
               isConfirmed={calculateConfirmedIndex(index)}
             />
           ))}

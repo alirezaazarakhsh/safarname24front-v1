@@ -39,7 +39,14 @@ export default function PassengersTrigger(props: Props) {
 
     const delayScroll = props.scrollPosition ?? 300;
     if (scrollPosition !== delayScroll && !isOpen) {
-      window.scrollTo({ top: delayScroll });
+      if (window.innerHeight < 800) {
+        document
+          .getElementById('passengers-trigger')
+          ?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: delayScroll });
+      }
+
       delayRef.current = setTimeout(() => {
         handleSetOpen();
       }, 300);
@@ -47,7 +54,7 @@ export default function PassengersTrigger(props: Props) {
   }
 
   return (
-    <DropdownMenuTrigger asChild>
+    <DropdownMenuTrigger asChild id="passengers-trigger">
       <button onPointerDown={(e) => handleDropDownTrigger(e)}>
         {type === 'home' ? (
           <div className="flex flex-col items-start gap-y-2">
