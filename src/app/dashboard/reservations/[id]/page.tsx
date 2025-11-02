@@ -28,6 +28,10 @@ export default function SingleReservationPage({
   const factorData = useApiQuery<GETReservationFactor>({
     url: `/hotel/reservation/invoices/${id}/`,
     queryKey: [`reservation-factor-${id}`],
+    options: {
+      refetchInterval: Infinity,
+      staleTime: Infinity,
+    },
   });
 
   const settingsData = useApiQuery<GETReservationFactorSettings>({
@@ -35,6 +39,8 @@ export default function SingleReservationPage({
     queryKey: [`reservation-factor-settings`],
     options: {
       enabled: !factorData.isLoading,
+      refetchInterval: Infinity,
+      staleTime: Infinity,
     },
   });
 
@@ -46,8 +52,8 @@ export default function SingleReservationPage({
     settingsData.isRefetching
   ) {
     return (
-      <main className="p-5 h-dvh w-dvw flex items-center justify-center">
-        <Loading />
+      <main className="p-5 h-dvh w-dvw flex items-center justify-center fixed top-0 left-0">
+        <Loading className="bg-cs-red" />
       </main>
     );
   } else if (factorData.isError || settingsData.isError) {
