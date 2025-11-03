@@ -121,7 +121,7 @@ export function FavoriteButton(props: Props) {
 
       <motion.button
         onClick={handleClick}
-        className={`relative w-11 aspect-square flex-center overflow-hidden rounded-lg transition-all duration-300 ease-in-out ${isFavorite ? 'bg-cs-red/10' : 'bg-zinc-200/50'}`}
+        className={`relative w-11 h-full flex-center overflow-hidden rounded-cs-10 transition-all duration-300 ease-in-out ${isFavorite ? 'bg-cs-red/10' : 'bg-zinc-200/50'}`}
       >
         <AnimatePresence>
           {isFavorite ? (

@@ -1,4 +1,4 @@
-export * from './Pictures';
+export * from './organisms/Pictures';
 export * from './SectionLinks';
 export * from './Description';
 export * from './InitialInformation';
