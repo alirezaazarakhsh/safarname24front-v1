@@ -115,12 +115,12 @@ export default function NormalPrimaryInfo(props: Props) {
       </div>
 
       {/* === Large-Screen */}
-      <div className="text-zinc-800 text-cs75 font-bold p-5 flex-col gap-4 hidden lg:flex">
+      <div className="text-zinc-800 text-cs08 font-bold p-5 flex-col gap-4 hidden justify-center lg:flex">
         <div className="text-cs85 font-extrabold flex-between items-center">
           <span>{discount_percentage ? 'قیمت نهایی :' : 'قیمت کل :'}</span>
 
           <div className="flex-center gap-1">
-            <span>
+            <span className="text-cs09">
               {discount_percentage
                 ? numberSeparation(total_price_discount)
                 : numberSeparation(total_price)}
@@ -129,7 +129,7 @@ export default function NormalPrimaryInfo(props: Props) {
           </div>
         </div>
 
-        <div className="h-10 mt-auto grid grid-cols-[2fr_1fr] gap-3">
+        <div className="h-10 mt-1 grid grid-cols-[2fr_1fr] gap-3">
           <PriceCalendar
             info={{
               capacity,

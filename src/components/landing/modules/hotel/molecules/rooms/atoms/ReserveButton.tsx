@@ -86,7 +86,7 @@ export default function ReserveButton(props: Props) {
   return (
     <button
       onClick={handleClick}
-      className={`text-cs85 h-11 flex-center rounded-cs-10 ${isMultipleRoom ? 'bg-cs-blue/10 text-cs-blue font-extrabold lg:w-32' : 'w-full bg-cs-dark-blue text-zinc-100 font-bold col-span-2'}`}
+      className={`text-cs08 h-11 flex-center rounded-cs-10 ${isMultipleRoom ? 'bg-cs-blue/10 text-cs-blue font-extrabold lg:w-32' : 'w-full bg-cs-dark-blue text-zinc-100 font-bold col-span-2'}`}
     >
       {isLoading ? (
         <span

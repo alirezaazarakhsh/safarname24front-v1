@@ -18,7 +18,7 @@ export function SecondaryInfo(props: Props) {
   } = props;
 
   return (
-    <div className="mt-4 grid gap-3 overflow-hidden lg:grid-cols-2 xl:flex xl:gap-10 xl:mt-auto">
+    <div className="mt-4 grid gap-3.5 overflow-hidden lg:grid-cols-2 lg:mt-auto">
       <InfoItem value={capacity} type="capacity" />
       <InfoItem value={services} type="services" />
       <InfoItem value={extraCapacity} type="extraCapacity" />
