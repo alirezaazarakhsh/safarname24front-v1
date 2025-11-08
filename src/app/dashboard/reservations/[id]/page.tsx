@@ -89,6 +89,8 @@ export default function ReservationFactorPage({
             width={500}
             height={500}
             className="w-[25%] -translate-y-1/4 h-auto fixed left-0 top-0 pointer-events-none select-none z-10"
+            priority
+            unoptimized
           />
           <Image
             alt="Traiangle Icon"
@@ -96,16 +98,22 @@ export default function ReservationFactorPage({
             width={500}
             height={500}
             className="w-[25%] translate-y-1/4 h-auto fixed right-0 bottom-0 rotate-180 pointer-events-none select-none z-10"
+            priority
+            unoptimized
           />
           <Image
             alt="لوگو سفرنامه"
             src={LogoAndDetailsImage.src}
             width={100}
             height={100}
+            priority
+            unoptimized
             className="w-[100px] h-auto absolute right-5 top-5 pointer-events-none select-none z-20"
           />
           <Image
             alt="لوگو سفرنامه"
+            priority
+            unoptimized
             src={LogoIcon.src}
             width={500}
             height={500}
