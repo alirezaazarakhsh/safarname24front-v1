@@ -11,7 +11,6 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { cn } from '@/utils/utils';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import moment from 'jalali-moment';
 
@@ -43,7 +42,7 @@ export default function HotelAcceptSection({
           </button>
           <Link
             href="/dashboard/reservations"
-            className="lg:flex hidden items-center h-10 justify-center gap-2 rounded-md bg-cs-red/10 hover:bg-cs-red/15 transition-all duration-500 text-cs-red px-3"
+            className="lg:flex hidden items-center h-10 justify-center gap-2 rounded-md bg-cs-red/10 hover:bg-cs-red/15 transition-all duration-500 text-cs-red px-3 print:hidden"
           >
             <IconsaxIcons
               color="currentColor"

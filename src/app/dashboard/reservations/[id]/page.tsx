@@ -83,37 +83,37 @@ export default function ReservationFactorPage({
     // Returning JSX
     return (
       <>
-        <div className="w-dvw h-dvh bg-white text-black p-5 relative ">
+        <div className="w-dvw bg-white text-black p-5 hidden print:block">
           <Image
             alt="Traiangle Icon"
             src={TraiangleIcon.src}
             width={500}
             height={500}
-            className="w-[25%] -translate-y-1/4 h-auto absolute left-0 top-0 pointer-events-none select-none"
+            className="w-[25%] -translate-y-1/4 h-auto fixed left-0 top-0 pointer-events-none select-none z-10"
           />
           <Image
             alt="Traiangle Icon"
             src={TraiangleIcon.src}
             width={500}
             height={500}
-            className="w-[25%] translate-y-1/4 h-auto absolute right-0 bottom-0 rotate-180 pointer-events-none select-none"
+            className="w-[25%] translate-y-1/4 h-auto fixed right-0 bottom-0 rotate-180 pointer-events-none select-none z-10"
           />
           <Image
             alt="لوگو سفرنامه"
             src={LogoAndDetailsImage.src}
             width={100}
             height={100}
-            className="w-[100px] h-auto absolute right-5 top-5 pointer-events-none select-none"
+            className="w-[100px] h-auto absolute right-5 top-5 pointer-events-none select-none z-20"
           />
           <Image
             alt="لوگو سفرنامه"
             src={LogoIcon.src}
             width={500}
             height={500}
-            className="w-[75%] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 contrast-0 pointer-events-none select-none"
+            className="w-[75%] fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 contrast-0 pointer-events-none select-none z-0"
           />
           <div
-            className="fixed bottom-5 left-5 border-y border-y-black py-3"
+            className="absolute bottom-5 left-5 border-y border-y-black py-3 z-20"
             dir="ltr"
           >
             <div className="flex items-center justify-between gap-5 mb-2">
@@ -157,8 +157,39 @@ export default function ReservationFactorPage({
               />
             </div>
           </div>
+          <div className="pt-[120px] h-auto absolute w-full right-0 p-5">
+            <HotelAcceptSection
+              className="z-10 relative"
+              printFn={() => window.print()}
+              hotelName={`${settings.title} - هتل ${data.hotel.name}`}
+              data={{
+                codePeigiri: data.tracking_code,
+                createdAt: data.created_at,
+                enterAt: data.check_in_date,
+                exitAt: data.check_out_date,
+                phoneNumber: data.reserver_phone,
+                reserver: data.reserver_name,
+              }}
+            />
+            <RoomsSection
+              className="z-10 relative mt-5 pt-5 border-t border-t-black/50"
+              data={data.rooms.map((item) => ({
+                info: {
+                  enteranceHalfCharge: item.half_day_in,
+                  exitHalfCharge: item.half_day_out,
+                  hotelName: item.room_name,
+                  meals: item.services,
+                  reserver: data.reserver_name,
+                  timeSpan: item.nights,
+                },
+                passenger: data.passengers
+                  .filter((passenger) => passenger.name !== data.reserver_name)
+                  .map((passenger) => passenger.name),
+              }))}
+            />
+          </div>
         </div>
-        <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] flex flex-col lg:gap-8 gap-[25px] bg-white hidden">
+        <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] print:hidden flex flex-col lg:gap-8 gap-[25px] bg-white">
           <Header />
           <HotelAcceptSection
             printFn={() => window.print()}
