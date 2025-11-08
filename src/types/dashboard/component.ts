@@ -155,6 +155,7 @@ export interface CanclationReasonDialogComponentProps
 export interface HotelAcceptSectionPropsType {
   className?: string;
   printFn?: () => void;
+  noMq?: boolean;
   hotelName: string;
   data: {
     reserver: string;
@@ -168,6 +169,7 @@ export interface HotelAcceptSectionPropsType {
 
 export interface RoomsSectionPropsType {
   className?: string;
+  noMq?: boolean;
   data: {
     info: {
       hotelName: string;

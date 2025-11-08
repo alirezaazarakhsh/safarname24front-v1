@@ -8,7 +8,6 @@ import RoomsSection from '@/components/dashboard/reservationFactor/roomsSection'
 import RulesSection from '@/components/dashboard/reservationFactor/rulesSection';
 import Header from '@/components/dashboard/reservationFactor/header';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import Logo from '@/components/dashboard/ui/logo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import {
   GETReservationFactor,
@@ -160,8 +159,8 @@ export default function ReservationFactorPage({
           <div className="pt-[120px] h-auto absolute w-full right-0 p-5">
             <HotelAcceptSection
               className="z-10 relative"
-              printFn={() => window.print()}
               hotelName={`${settings.title} - هتل ${data.hotel.name}`}
+              noMq
               data={{
                 codePeigiri: data.tracking_code,
                 createdAt: data.created_at,
@@ -173,6 +172,7 @@ export default function ReservationFactorPage({
             />
             <RoomsSection
               className="z-10 relative mt-5 pt-5 border-t border-t-black/50"
+              noMq
               data={data.rooms.map((item) => ({
                 info: {
                   enteranceHalfCharge: item.half_day_in,
