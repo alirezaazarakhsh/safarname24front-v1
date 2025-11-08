@@ -11,9 +11,9 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { cn } from '@/utils/utils';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import moment from 'jalali-moment';
+import { cn } from '@/utils/utils';
 
 // Creatgina and exporting HotelAcceptSection as deafult
 export default function HotelAcceptSection({
@@ -21,6 +21,7 @@ export default function HotelAcceptSection({
   data,
   printFn,
   hotelName,
+  noMq = false,
 }: HotelAcceptSectionPropsType): ReactNode {
   // Returning JSX
   return (
@@ -43,7 +44,7 @@ export default function HotelAcceptSection({
           </button>
           <Link
             href="/dashboard/reservations"
-            className="lg:flex hidden items-center h-10 justify-center gap-2 rounded-md bg-cs-red/10 hover:bg-cs-red/15 transition-all duration-500 text-cs-red px-3"
+            className="lg:flex hidden items-center h-10 justify-center gap-2 rounded-md bg-cs-red/10 hover:bg-cs-red/15 transition-all duration-500 text-cs-red px-3 print:hidden"
           >
             <IconsaxIcons
               color="currentColor"
@@ -56,7 +57,12 @@ export default function HotelAcceptSection({
           </Link>
         </div>
       </div>
-      <div className="border border-black/10 bg-white rounded-lg overflow-hidden lg:block hidden">
+      <div
+        className={cn(
+          'border border-black/10 bg-white rounded-lg overflow-hidden',
+          !noMq && 'lg:block hidden',
+        )}
+      >
         <Table dir="rtl">
           <TableHeader className="bg-[#f8f8f8] border-b border-b-black/10">
             <TableRow className="border-none">
@@ -119,78 +125,86 @@ export default function HotelAcceptSection({
           </TableBody>
         </Table>
       </div>
-      <div className="lg:hidden flex flex-col gap-[25px]">
-        <div className="lg:hidden flex flex-col gap-[13px]">
-          <div className="flex items-center justify-start gap-[10px]">
-            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-              <IconsaxIcons name="User" className="h-[17px] w-[17px]" />
+      {!noMq && (
+        <div className={cn('flex-col gap-[25px] lg:hidden flex', !noMq && '')}>
+          <div className="lg:hidden flex flex-col gap-[13px]">
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons name="User" className="h-[17px] w-[17px]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  رزرو کننده
+                </span>
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                  {data.reserver}
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                رزرو کننده
-              </span>
-              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                {data.reserver}
-              </span>
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons
+                  name="CalendarTick"
+                  className="h-[17px] w-[17px]"
+                />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  تاریخ رزرو
+                </span>
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                  {moment(data.createdAt).format('YYYY/MM/DD')}
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center justify-start gap-[10px]">
-            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-              <IconsaxIcons name="CalendarTick" className="h-[17px] w-[17px]" />
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons name="HashtagUp" className="h-[17px] w-[17px]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  کد پیگیری
+                </span>
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                  {data.codePeigiri}
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                تاریخ رزرو
-              </span>
-              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                {moment(data.createdAt).format('YYYY/MM/DD')}
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center justify-start gap-[10px]">
-            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-              <IconsaxIcons name="HashtagUp" className="h-[17px] w-[17px]" />
-            </div>
-            <div>
-              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                کد پیگیری
-              </span>
-              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                {data.codePeigiri}
-              </span>
-            </div>
-          </div>
-          <Link
-            href={`tel:${data.phoneNumber}`}
-            className="flex items-center justify-start gap-[10px]"
-          >
-            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-              <IconsaxIcons name="CallCalling" className="h-[17px] w-[17px]" />
-            </div>
-            <div>
-              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                شماره تماس
-              </span>
-              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                {data.phoneNumber}
-              </span>
-            </div>
-          </Link>
-          <div className="flex items-center justify-start gap-[10px]">
-            <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-              <IconsaxIcons name="Calendar" className="h-[17px] w-[17px]" />
-            </div>
-            <div>
-              <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                تاریخ ورود و خروج
-              </span>
-              <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                {`${moment(data.enterAt).format('YYYY/MM/DD')} - ${data.exitAt ? moment(data.exitAt).format('YYYY/MM/DD') : 'و/ن'}`}
-              </span>
+            <Link
+              href={`tel:${data.phoneNumber}`}
+              className="flex items-center justify-start gap-[10px]"
+            >
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons
+                  name="CallCalling"
+                  className="h-[17px] w-[17px]"
+                />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  شماره تماس
+                </span>
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                  {data.phoneNumber}
+                </span>
+              </div>
+            </Link>
+            <div className="flex items-center justify-start gap-[10px]">
+              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                <IconsaxIcons name="Calendar" className="h-[17px] w-[17px]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                  تاریخ ورود و خروج
+                </span>
+                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                  {`${moment(data.enterAt).format('YYYY/MM/DD')} - ${data.exitAt ? moment(data.exitAt).format('YYYY/MM/DD') : 'و/ن'}`}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

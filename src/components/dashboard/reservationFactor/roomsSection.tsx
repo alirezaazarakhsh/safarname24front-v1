@@ -20,6 +20,7 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 export default function RoomsSection({
   data,
   className,
+  noMq = false,
 }: RoomsSectionPropsType): ReactNode {
   // Returning JSX
   return (
@@ -27,7 +28,12 @@ export default function RoomsSection({
       {data.map((item, index) => (
         <div key={index}>
           <span className="truncate lg:block hidden text-right lg:mb-5 mb-[25px] w-full text-cs75 font-semibold text-[#2c2c2c]">{`اتاق ${index + 1} - تعداد مسافر (${item.passenger.length + 1})`}</span>
-          <div className="border border-black/10 bg-white rounded-lg overflow-hidden lg:mb-5 mb-[25px] lg:block hidden">
+          <div
+            className={cn(
+              'border border-black/10 bg-white rounded-lg overflow-hidden lg:mb-5 mb-[25px]',
+              !noMq && 'lg:block hidden',
+            )}
+          >
             <Table dir="rtl">
               <TableHeader className="bg-[#f8f8f8] border-b border-b-black/10">
                 <TableRow className="border-none">
@@ -90,108 +96,134 @@ export default function RoomsSection({
               </TableBody>
             </Table>
           </div>
-          <div className="lg:hidden flex flex-col gap-[10px]">
-            <div className="lg:hidden flex flex-col gap-[13px]">
-              <div className="flex items-center justify-start gap-[10px]">
-                <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
-                  <span className="font-bold text-[12px] text-black block text-num-en">
-                    {handleZeroBeforeNumber(index + 1)}
+          {!noMq && (
+            <div className="lg:hidden flex flex-col gap-[10px]">
+              <div className="lg:hidden flex flex-col gap-[13px]">
+                <div className="flex items-center justify-start gap-[10px]">
+                  <div className="h-[40px] w-[30px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+                    <span className="font-bold text-[12px] text-black block text-num-en">
+                      {handleZeroBeforeNumber(index + 1)}
+                    </span>
+                  </div>
+                  <span className="text-[12px] font-bold text-black truncate block text-right">
+                    {`اتاق ${index + 1} - تعداد مسافر (${item.passenger.length + 1})`}
                   </span>
                 </div>
-                <span className="text-[12px] font-bold text-black truncate block text-right">
-                  {`اتاق ${index + 1} - تعداد مسافر (${item.passenger.length + 1})`}
-                </span>
+              </div>
+              <div className="flex items-center justify-start gap-[10px]">
+                <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <IconsaxIcons
+                    name="Bank"
+                    className="w-[17px] h-[17px] text-black"
+                  />
+                </div>
+                <div>
+                  <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                    نام هتل / اتاق
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                    {item.info.hotelName}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center justify-start gap-[10px]">
+                <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <IconsaxIcons
+                    name="Calendar"
+                    className="w-[17px] h-[17px] text-black"
+                  />
+                </div>
+                <div>
+                  <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                    مدت اقامت
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                    {`${item.info.timeSpan} شب`}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center justify-start gap-[10px]">
+                <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <IconsaxIcons
+                    name="Coffee"
+                    className="w-[17px] h-[17px] text-black"
+                  />
+                </div>
+                <div>
+                  <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                    خدمات اتاق
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                    {item.info.meals.join(' - ')}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center justify-start gap-[10px]">
+                <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <IconsaxIcons
+                    name="ReceiptItem"
+                    className="w-[17px] h-[17px] text-black"
+                  />
+                </div>
+                <div>
+                  <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                    نیم شارژ ورود
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                    {item.info.enteranceHalfCharge ? 'دارد' : 'ندارد'}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center justify-start gap-[10px]">
+                <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                  <IconsaxIcons
+                    name="ReceiptItem"
+                    className="w-[17px] h-[17px] text-black"
+                  />
+                </div>
+                <div>
+                  <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                    نیم شارژ خروج
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
+                    {item.info.exitHalfCharge ? 'دارد' : 'ندارد'}
+                  </span>
+                </div>
               </div>
             </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons
-                  name="Bank"
-                  className="w-[17px] h-[17px] text-black"
-                />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  نام هتل / اتاق
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {item.info.hotelName}
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons
-                  name="Calendar"
-                  className="w-[17px] h-[17px] text-black"
-                />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  مدت اقامت
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {`${item.info.timeSpan} شب`}
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons
-                  name="Coffee"
-                  className="w-[17px] h-[17px] text-black"
-                />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  خدمات اتاق
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {item.info.meals.join(' - ')}
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons
-                  name="ReceiptItem"
-                  className="w-[17px] h-[17px] text-black"
-                />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  نیم شارژ ورود
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {item.info.enteranceHalfCharge ? 'دارد' : 'ندارد'}
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                <IconsaxIcons
-                  name="ReceiptItem"
-                  className="w-[17px] h-[17px] text-black"
-                />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                  نیم شارژ خروج
-                </span>
-                <span className="text-[10px] font-semibold text-[#2c2c2c] truncate block text-right">
-                  {item.info.exitHalfCharge ? 'دارد' : 'ندارد'}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex lg:flex-row flex-col items-center justify-start lg:gap-2 gap-[12px] lg:flex-wrap w-full lg:mt-0 mt-[20px]">
-            <div className="lg:px-4 lg:w-auto w-full px-[24px] lg:rounded-lg rounded-[10px] bg-[#f8f8f8] border border-black/10 lg:h-10 h-[50px] flex items-center lg:justify-center justify-start">
-              <span className="lg:text-cs75 text-[12px] font-semibold text-[#2c2c2c]">{`نفر اصلی : ${item.info.reserver}`}</span>
+          )}
+          <div
+            className={cn(
+              'flex items-center justify-start w-full',
+              !noMq
+                ? 'lg:flex-row flex-col lg:gap-2 lg:mt-0 mt-[20px] gap-[12px] lg:flex-wrap'
+                : 'flex-row gap-2 mt-0 flex-wrap',
+            )}
+          >
+            <div
+              className={cn(
+                ' bg-[#f8f8f8] border border-black/10 flex items-center lg:justify-center justify-start',
+                !noMq
+                  ? 'lg:px-4 lg:w-auto w-full px-[24px] lg:rounded-lg rounded-[10px] lg:h-10 h-[50px]'
+                  : 'px-4 w-fit rounded-lg h-10',
+              )}
+            >
+              <span
+                className={cn(
+                  'font-semibold text-[#2c2c2c]',
+                  !noMq ? 'lg:text-cs75 text-[12px]' : 'text-cs75',
+                )}
+              >{`نفر اصلی : ${item.info.reserver}`}</span>
             </div>
             {item.passenger.map((passenger, passengerIndex) => (
               <div
                 key={passengerIndex}
-                className="lg:px-4 px-[24px] lg:w-auto w-full lg:rounded-lg rounded-[10px]  bg-[#f8f8f8] border border-black/10 lg:h-10 h-[50px] flex items-center lg:justify-center justify-start"
+                className={cn(
+                  ' bg-[#f8f8f8] border border-black/10 flex items-center lg:justify-center justify-start',
+                  !noMq
+                    ? 'lg:px-4 lg:w-auto w-full px-[24px] lg:rounded-lg rounded-[10px] lg:h-10 h-[50px]'
+                    : 'px-4 w-fit rounded-lg h-10',
+                )}
               >
                 <span className="lg:text-cs75 text-[12px] font-semibold text-[#2c2c2c]">{`مسافر : ${passenger}`}</span>
               </div>
