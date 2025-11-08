@@ -8,6 +8,7 @@ type Room = {
   hotel: number;
   hotel_name: string;
   id: number;
+  image: string;
   name: string;
   night_count: number;
   room_number: number;

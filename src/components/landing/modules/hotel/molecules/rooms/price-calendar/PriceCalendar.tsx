@@ -40,8 +40,8 @@ export default function PriceCalendar(props: Props) {
 
   return (
     <Sheet>
-      <SheetTrigger className="bg-cs-blue/10 text-cs-blue h-11 rounded-lg md:h-10">
-        مشاهده تقویم قیمتی
+      <SheetTrigger className="bg-cs-blue/10 text-cs-blue  h-11 rounded-lg md:h-10">
+        تقویم قیمتی
       </SheetTrigger>
 
       <SheetContent

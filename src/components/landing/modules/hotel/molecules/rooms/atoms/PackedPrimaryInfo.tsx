@@ -67,7 +67,7 @@ export default function PackedPrimaryInfo(props: Props) {
           }}
         />
 
-        <div className="text-cs85 font-extrabold flex-between mt-1 lg:mt-0">
+        <div className="text-cs85 font-extrabold flex-between mt-1">
           <span>{discount_percentage ? 'قیمت نهایی :' : 'قیمت کل :'}</span>
 
           <div className="flex items-center justify-end gap-1">

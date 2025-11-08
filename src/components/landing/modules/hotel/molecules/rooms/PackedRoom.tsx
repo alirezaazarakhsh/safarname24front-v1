@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import moment from 'jalali-moment';
 import { Room } from '@/types/landing';
 import { numberSeparation } from '@/utils';
@@ -8,6 +9,7 @@ import { DeadlineTimer } from './atoms/DeadlineTimer';
 import ReserveButton from './atoms/ReserveButton';
 import PackedPrimaryInfo from './atoms/PackedPrimaryInfo';
 import { Building, InfoCircle, Moon } from 'iconsax-react';
+import RoomPicture from './atoms/RoomPicture';
 
 type Props = {
   packData: {
@@ -32,6 +34,7 @@ export default function PackedRoom(props: Props) {
         const {
           name,
           price,
+          image,
           capacity,
           descriptions,
           room_services,
@@ -45,25 +48,41 @@ export default function PackedRoom(props: Props) {
 
         return (
           <div key={index} className="grid lg:grid-cols-[1fr_17rem]">
-            <div className="relative text-zinc-800 text-cs08 font-semibold p-5 flex flex-col gap-2 overflow-hidden lg:justify-center lg:border-l lg:p-6">
-              <div className="text-cs09 font-extrabold truncate">{name}</div>
-
-              <div className="text-zinc-500 text-cs08 line-clamp-2 lg:line-clamp-1 lg:w-2/3 lg:mb-4">
-                {descriptions}
+            <div className="relative text-zinc-800 text-cs08 font-semibold p-3 overflow-hidden lg:flex gap-3 lg:border-l lg:p-4">
+              <div className="relative flex-center bg-zinc-100 h-48 rounded-cs-10 overflow-hidden lg:w-60 lg:rounded-xl lg:h-40">
+                {image ? (
+                  <RoomPicture image={image} />
+                ) : (
+                  <Image
+                    alt="logo"
+                    width={100}
+                    height={100}
+                    src={'/image/logo/red.png'}
+                    className="grayscale opacity-20"
+                  />
+                )}
               </div>
 
-              <SecondaryInfo
-                info={{
-                  capacity,
-                  services: room_services,
-                  extraCapacity: extra_capacity,
-                  customerClub: customer_club_points,
-                }}
-              />
+              <div className="p-2 mt-3 lg:mt-0 lg:flex lg:flex-col">
+                <div className="text-cs09 font-extrabold truncate">{name}</div>
+
+                <div className="text-zinc-500 text-cs08 mt-2">
+                  {descriptions}
+                </div>
+
+                <SecondaryInfo
+                  info={{
+                    capacity,
+                    services: room_services,
+                    extraCapacity: extra_capacity,
+                    customerClub: customer_club_points,
+                  }}
+                />
+              </div>
 
               {/* === Small-Screen */}
               {price.is_fixed_discount_one_time && (
-                <div className="text-green-600 mt-4 flex items-center gap-1 lg:hidden">
+                <div className="text-green-600 my-2 px-2.5 flex items-center gap-1 lg:hidden">
                   <button className="relative ml-1 rounded-full group">
                     <InfoCircle size={16} color="#16a34a" />
 
@@ -79,7 +98,7 @@ export default function PackedRoom(props: Props) {
               )}
 
               {/* === Large-Screen */}
-              <div className="absolute top-5 left-5 hidden lg:block">
+              <div className="absolute top-5 left-5 hidden xl:block">
                 {price.is_fixed_discount_one_time && (
                   <div className="text-green-600 text-center hidden items-center gap-1 lg:flex">
                     <button className="relative ml-1 rounded-full group">

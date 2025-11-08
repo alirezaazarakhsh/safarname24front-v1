@@ -56,8 +56,6 @@ export function Rooms({ hotelSlug }: Props) {
       axiosInstance(`/hotel/hotels/${hotelSlug}/rooms?${queryString}`),
   });
 
-  console.log(data);
-
   // === Update query-options & url
   useEffect(() => {
     const startDate =
