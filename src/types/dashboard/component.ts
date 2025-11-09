@@ -857,3 +857,13 @@ export interface SelecterPropsType {
   onCheckChange?: (checked: boolean) => void;
   label: string;
 }
+
+export interface UserCreditCardPropsType {
+  className?: string;
+  data?: {
+    id: number;
+    card_number: string;
+    iban: string;
+    account_holder_name: string;
+  };
+}

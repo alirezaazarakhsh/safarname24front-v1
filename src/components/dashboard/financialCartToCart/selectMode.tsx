@@ -17,7 +17,7 @@ export default function SelectMode({
   return (
     <div
       className={cn(
-        'bg-white border rounded-xl border-black/10 p-4 flex items-center justify-between gap-3',
+        'bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] flex items-center justify-between gap-3',
         className,
       )}
     >
