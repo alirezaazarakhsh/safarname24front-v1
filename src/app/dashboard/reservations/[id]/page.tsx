@@ -119,13 +119,11 @@ export default function ReservationFactorPage({
             height={500}
             className="w-[75%] fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 contrast-0 pointer-events-none select-none z-0"
           />
-          <div
-            className="absolute bottom-5 left-5 border-y border-y-black py-3 z-20"
-            dir="ltr"
-          >
+          <div className="absolute bottom-5 left-5 py-3 z-20" dir="ltr">
+            <div className="h-px w-full mb-3 bg-gradient-to-r from-transparent to-transparent via-black" />
             <div className="flex items-center justify-between gap-5 mb-2">
               <Link
-                href={`tel:${settings.contact_number}`}
+                href={`tel:${settings.contact_number_1}`}
                 className="flex items-center justify-start gap-2 w-fit text-cs-red"
               >
                 <IconsaxIcons
@@ -135,11 +133,11 @@ export default function ReservationFactorPage({
                   className="size-5"
                 />
                 <span className="text-black font-light text-left text-xs flex-1 truncate block">
-                  {settings.contact_number}
+                  {settings.contact_number_1}
                 </span>
               </Link>
               <Link
-                href={`tel:${settings.contact_number}`}
+                href={`tel:${settings.contact_number_2}`}
                 className="flex items-center justify-start gap-2 w-fit text-cs-red"
               >
                 <IconsaxIcons
@@ -149,13 +147,13 @@ export default function ReservationFactorPage({
                   className="size-5"
                 />
                 <span className="text-black font-light text-left text-xs flex-1 truncate block">
-                  {settings.contact_number}
+                  {settings.contact_number_2}
                 </span>
               </Link>
             </div>
             <div className="flex items-center justify-end gap-2 text-cs-red">
               <span className="text-black font-light text-right text-xs flex-1 truncate block">
-                {factorData.data.reservation.hotel.address}
+                {settingsData.data.invoice_settings.postal_address}
               </span>
               <IconsaxIcons
                 name="Location"
@@ -163,6 +161,7 @@ export default function ReservationFactorPage({
                 className="size-5 shrink-0"
               />
             </div>
+            <div className="h-px w-full mt-3 bg-gradient-to-r from-transparent to-transparent via-black" />
           </div>
           <div className="pt-[120px] h-auto absolute w-full right-0 p-5">
             <HotelAcceptSection
@@ -245,7 +244,7 @@ export default function ReservationFactorPage({
             }))}
           />
           <RulesSection
-            contactNumber={settings.contact_number}
+            contactNumber={settings.contact_number_1}
             signatureImage={settings.signature_image}
             hotelName={data.hotel.name}
             rules={data.hotel_rules}
