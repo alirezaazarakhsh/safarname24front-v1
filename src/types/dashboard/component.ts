@@ -556,6 +556,7 @@ export interface NormalInputComponentPropsType
   error?: string;
   wholeClassName?: string;
   noErrorText?: boolean;
+  clearFn?: () => void;
 }
 
 export interface BankInfoFormComponentPropsType {
@@ -865,5 +866,15 @@ export interface UserCreditCardPropsType {
     card_number: string;
     iban: string;
     account_holder_name: string;
+  };
+}
+
+export interface CardShowCasePropsType {
+  className?: string;
+  data?: {
+    bankName: string;
+    bankIcon: BankNameType;
+    number: string;
+    iban: string;
   };
 }

@@ -6,6 +6,9 @@ import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { UserCreditCardPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { JSX } from 'react';
+import NormalInput from '../profile/normalInput';
+import { getBankFromCard } from '@/utils/string';
+import CardShowCase from './cardShowCase';
 
 // Creating and exporting UserCreditCart component as default
 export default function UserCreditCard({
@@ -38,27 +41,50 @@ export default function UserCreditCard({
         </div>
       </div>
       <div className="lg:p-4 p-[14px]">
-        <div className="h-[200px] bg-gray-200 mb-4 rounded-lg"></div>
+        <div className="h-[180px] bg-gray-200 mb-4 rounded-lg p-4 flex items-center justify-center">
+          <CardShowCase className="w-[75%] h-full" />
+        </div>
         <div className="space-y-4">
           <div>
             <span className="font-semibold text-cs07 text-black truncate text-right mb-1 block">
               بانک
             </span>
             <span className="font-medium text-cs07 text-black/70 truncate text-right block">
-              سیستم بانکی ناشناخته است!
+              {data
+                ? getBankFromCard(data.card_number)?.name ||
+                  'سیستم بانکی ناشناخته است!'
+                : 'سیستم بانکی ناشناخته است!'}
             </span>
           </div>
           <div>
-            <span className="font-semibold text-cs85 text-black truncate text-right mb-1 block">
+            <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
               شماره کارت بانکی
             </span>
-            <div className="bg-gray-100 h-[20px] w-full" />
+            <NormalInput
+              type="text"
+              className="h-[45px]"
+              placeholder="16 رقم شماره کارت را وارد نمایید"
+              value={data?.card_number}
+              disabled
+              clearFn={() => {
+                alert('X');
+              }}
+            />
           </div>
           <div>
-            <span className="font-semibold text-cs85 text-black truncate text-right mb-1 block">
+            <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
               شماره شبا کارت بانکی
             </span>
-            <div className="bg-gray-100 h-[20px] w-full" />
+            <NormalInput
+              type="text"
+              className="h-[45px]"
+              placeholder="24 رقم شماره شبا کارت را وارد نمایید"
+              value={data?.iban}
+              disabled
+              clearFn={() => {
+                alert('X');
+              }}
+            />
           </div>
         </div>
       </div>
