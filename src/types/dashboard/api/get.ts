@@ -274,8 +274,10 @@ export interface GETReservationFactor {
 export interface GETReservationFactorSettings {
   invoice_settings: {
     title: string;
-    contact_number: string;
     signature_image: string;
+    contact_number_1: string;
+    contact_number_2: string;
+    postal_address: string;
   };
 }
 

@@ -556,6 +556,7 @@ export interface NormalInputComponentPropsType
   error?: string;
   wholeClassName?: string;
   noErrorText?: boolean;
+  clearFn?: () => void;
 }
 
 export interface BankInfoFormComponentPropsType {
@@ -841,4 +842,39 @@ export interface RulesSectionPropsType {
   rules: string;
   signatureImage: string;
   contactNumber: string;
+}
+
+// Financial cart to cart page
+export type CartToCartFinancialMode = 'personal' | 'company' | 'custom';
+export interface SelectModePropsType {
+  className?: string;
+  onValueChange?: (val: CartToCartFinancialMode) => void;
+  value?: CartToCartFinancialMode;
+}
+
+export interface SelecterPropsType {
+  className?: string;
+  checked?: boolean;
+  onCheckChange?: (checked: boolean) => void;
+  label: string;
+}
+
+export interface UserCreditCardPropsType {
+  className?: string;
+  data?: {
+    id: number;
+    card_number: string;
+    iban: string;
+    account_holder_name: string;
+  };
+}
+
+export interface CardShowCasePropsType {
+  className?: string;
+  data?: {
+    bankName: string;
+    bankIcon: BankNameType;
+    number: string;
+    iban: string;
+  };
 }
