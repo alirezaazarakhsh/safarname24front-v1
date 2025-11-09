@@ -842,3 +842,18 @@ export interface RulesSectionPropsType {
   signatureImage: string;
   contactNumber: string;
 }
+
+// Financial cart to cart page
+export type CartToCartFinancialMode = 'personal' | 'company' | 'custom';
+export interface SelectModePropsType {
+  className?: string;
+  onValueChange?: (val: CartToCartFinancialMode) => void;
+  value?: CartToCartFinancialMode;
+}
+
+export interface SelecterPropsType {
+  className?: string;
+  checked?: boolean;
+  onCheckChange?: (checked: boolean) => void;
+  label: string;
+}
