@@ -15,6 +15,9 @@ export default function UserCreditCard({
   className,
   data,
 }: UserCreditCardPropsType): JSX.Element {
+  // Defining variables
+  const creditCardInfo = data && getBankFromCard(data.card_number);
+
   // Returning JSX
   return (
     <div
@@ -42,7 +45,15 @@ export default function UserCreditCard({
       </div>
       <div className="lg:p-4 p-[14px]">
         <div className="h-[180px] bg-gray-200 mb-4 rounded-lg p-4 flex items-center justify-center">
-          <CardShowCase className="w-[75%] h-full" />
+          <CardShowCase
+            className="w-[80%] min-h-full"
+            data={{
+              bankIcon: creditCardInfo?.type || 'unknown',
+              bankName: creditCardInfo?.name || 'نامعلوم',
+              iban: data?.iban || '************************',
+              number: data?.card_number || '****************',
+            }}
+          />
         </div>
         <div className="space-y-4">
           <div>
