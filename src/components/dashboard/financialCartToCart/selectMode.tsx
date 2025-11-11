@@ -12,6 +12,8 @@ export default function SelectMode({
   className,
   onValueChange,
   value,
+  onSubmit,
+  submitDisabled,
 }: SelectModePropsType): JSX.Element {
   // Returning JSX
   return (
@@ -51,7 +53,11 @@ export default function SelectMode({
             checked && onValueChange && onValueChange('custom')
           }
         />
-        <button className="px-6 py-3 flex items-center justify-center rounded-md text-black border border-black/10 bg-gray-50 transition-all duration-500 hover:bg-gray-100 text-cs75 font-medium truncate">
+        <button
+          onClick={onSubmit}
+          disabled={submitDisabled}
+          className="px-6 py-3 flex items-center justify-center rounded-md disabled:text-black border disabled:border-black/10 disabled:bg-gray-50 transition-all duration-500 text-cs75 font-medium truncate bg-green-500 border-green-500 hover:bg-green-600 text-white"
+        >
           ارسال اطلاعات
         </button>
       </div>

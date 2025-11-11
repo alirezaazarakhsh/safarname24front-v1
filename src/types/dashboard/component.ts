@@ -23,6 +23,7 @@ import {
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 import { reportTypes } from '@/components/dashboard/ticket/dialog/reportTicket';
+import { formType } from '@/components/dashboard/financialCartToCart/emergencieForm';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -550,6 +551,7 @@ export interface NormalInputComponentPropsType
   wholeClassName?: string;
   noErrorText?: boolean;
   clearFn?: () => void;
+  textLTR?: boolean;
   validationText?: string;
 }
 
@@ -844,6 +846,8 @@ export interface SelectModePropsType {
   className?: string;
   onValueChange?: (val: CartToCartFinancialMode) => void;
   value?: CartToCartFinancialMode;
+  onSubmit?: () => void;
+  submitDisabled?: boolean;
 }
 
 export interface SelecterPropsType {
@@ -855,12 +859,18 @@ export interface SelecterPropsType {
 
 export interface UserCreditCardPropsType {
   className?: string;
-  data?: {
+  onValueChange?: (data: {
     id: number;
     card_number: string;
     iban: string;
     account_holder_name: string;
-  };
+  }) => void;
+  data: {
+    id: number;
+    card_number: string;
+    iban: string;
+    account_holder_name: string;
+  }[];
 }
 
 export interface CardShowCasePropsType {
@@ -875,4 +885,5 @@ export interface CardShowCasePropsType {
 
 export interface EmergencieFormPropsType {
   className?: string;
+  onChange?: (data: formType) => void;
 }

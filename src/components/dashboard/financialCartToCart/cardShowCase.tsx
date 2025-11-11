@@ -4,7 +4,7 @@
 // Importing part
 import { CardShowCasePropsType } from '@/types/dashboard/component';
 import { cn, getRandomTailwind500Color } from '@/utils/utils';
-import { JSX } from 'react';
+import { JSX, useState } from 'react';
 import BankIcon from '../ui/bankIcon';
 import { numberSeparation } from '@/utils';
 
@@ -14,7 +14,7 @@ export default function CardShowCase({
   data,
 }: CardShowCasePropsType): JSX.Element {
   // Defining variables
-  const randomColor = getRandomTailwind500Color();
+  const [randomColor] = useState(getRandomTailwind500Color());
 
   // Returning JSX
   return (
@@ -35,7 +35,8 @@ export default function CardShowCase({
         </span>
         <BankIcon
           name={data ? data?.bankIcon : 'unknown'}
-          className="size-7 shrink-0 text-white"
+          className="size-7 shrink-0"
+          color="currentColor"
         />
       </div>
       <div className="w-full">
