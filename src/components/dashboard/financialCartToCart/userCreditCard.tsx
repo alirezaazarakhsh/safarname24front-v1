@@ -44,7 +44,7 @@ export default function UserCreditCard({
         </div>
       </div>
       <div className="lg:p-4 p-[14px]">
-        <div className="h-[180px] bg-gray-200 mb-4 rounded-lg p-4 flex items-center justify-center">
+        <div className="h-[190px] bg-gray-200 mb-4 rounded-xl p-4 flex items-center justify-center">
           <CardShowCase
             className="w-[80%] min-h-full"
             data={{
