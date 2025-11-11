@@ -16,6 +16,7 @@ export default function NormalInput({
   placeholder,
   noErrorText = false,
   clearFn,
+  validationText,
   ...props
 }: NormalInputComponentPropsType): ReactNode {
   // Defining hooks
@@ -63,6 +64,45 @@ export default function NormalInput({
               className="size-[20px]"
             />
           </button>
+        </div>
+        {error && !noErrorText && (
+          <p className="text-cs07 font-medium text-cs-red block text-right mt-2">
+            {error}
+          </p>
+        )}
+      </div>
+    );
+  } else if (validationText) {
+    return (
+      <div className={cn('w-full', wholeClassName)}>
+        <div
+          data-errored={error ? true : false}
+          data-focused={focused}
+          data-disabled={props.disabled || false}
+          className={cn(
+            'data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 group py-4 h-[50px] flex items-center justify-between w-full bg-white border-[1.2px] border-black/10 overflow-hidden lg:rounded-lg rounded-[8px]  transition-all duration-500 data-[focused=true]:border-black data-[errored="true"]:border-cs-red data-[errored="true"]:focus:border-cs-red data-[errored="true"]:text-cs-red',
+            className,
+          )}
+        >
+          <input
+            className="placeholder:text-black/50 flex-1 transition-all duration-500 text-black px-4 focus:text-black lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold group-data-[focused=true]:placeholder:text-black"
+            required={required}
+            placeholder={required ? `* ${placeholder}` : placeholder}
+            onFocus={(e) => {
+              setFocused(true);
+              props.onFocus && props.onFocus(e);
+            }}
+            onBlur={(e) => {
+              setFocused(false);
+              props.onBlur && props.onBlur(e);
+            }}
+            {...props}
+          />
+          <div className="ml-3 shrink-0 px-4 h-[30px] bg-gray-100 rounded-md flex items-center justify-center">
+            <span className="text-cs06 text-black truncate block text-center">
+              {validationText}
+            </span>
+          </div>
         </div>
         {error && !noErrorText && (
           <p className="text-cs07 font-medium text-cs-red block text-right mt-2">

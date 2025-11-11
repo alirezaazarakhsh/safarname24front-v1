@@ -1,6 +1,7 @@
 // Forcning Next.js to render this component as client side component
 'use client';
 
+import EmergencieForm from '@/components/dashboard/financialCartToCart/emergencieForm';
 // Importing part
 import SelectMode from '@/components/dashboard/financialCartToCart/selectMode';
 import UserCreditCard from '@/components/dashboard/financialCartToCart/userCreditCard';
@@ -31,6 +32,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
             />
           </div>
         </div>
+        <EmergencieForm />
       </div>
     </main>
   );

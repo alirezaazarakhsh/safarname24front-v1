@@ -264,13 +264,6 @@ export interface UploadComponentPropsType {
   fetchURL?: string;
 }
 
-export interface EmergenciesComponentPropsType {
-  previousInfos: {
-    file: File | undefined;
-    card: string | undefined;
-  };
-}
-
 export type CreditCardSubscriptionChartType = [
   { month: 'فروردین'; price: number },
   { month: 'اردیبهشت'; price: number },
@@ -557,6 +550,7 @@ export interface NormalInputComponentPropsType
   wholeClassName?: string;
   noErrorText?: boolean;
   clearFn?: () => void;
+  validationText?: string;
 }
 
 export interface BankInfoFormComponentPropsType {
@@ -877,4 +871,8 @@ export interface CardShowCasePropsType {
     number: string;
     iban: string;
   };
+}
+
+export interface EmergencieFormPropsType {
+  className?: string;
 }
