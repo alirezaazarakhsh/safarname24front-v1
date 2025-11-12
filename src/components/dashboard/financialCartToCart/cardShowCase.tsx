@@ -40,12 +40,12 @@ export default function CardShowCase({
         />
       </div>
       <div className="w-full">
-        <span className="text-left truncate block text-white font-semibold text-cs75 mb-2">
+        <span className="text-left truncate block text-white font-semibold text-cs75 mb-2 font-inter">
           {data
             ? `IR ${numberSeparation(data.iban, ' ', 4)}`
             : `IR ${numberSeparation('000000000000000000000000', ' ', 4)}`}
         </span>
-        <span className="text-left truncate block text-white font-medium text-cs07">
+        <span className="text-left truncate block text-white font-medium text-cs07 font-inter">
           {data
             ? numberSeparation(data.number, ' ', 4)
             : numberSeparation('0000000000000000', ' ', 4)}

@@ -161,6 +161,7 @@ export default function UserCreditCard({
               className="h-[45px]"
               placeholder="24 رقم شماره شبا کارت را وارد نمایید"
               textLTR
+              disabled
               value={
                 data.length !== 0
                   ? numberSeparation(data[activeSwiperSlideIndex].iban, ' ', 4)

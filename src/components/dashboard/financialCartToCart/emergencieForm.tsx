@@ -5,7 +5,7 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { EmergencieFormPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { JSX, useEffect } from 'react';
+import { JSX } from 'react';
 import NormalInput from '../profile/normalInput';
 import DatePickerInput from './datePickerInput';
 import { z } from 'zod';
@@ -100,7 +100,10 @@ export default function EmergencieForm({
             type="text"
             className="h-[45px]"
             placeholder="شماره پیگیری خود را وارد نمایید"
-            validationText="12 رقم"
+            validationText={{
+              label: '12 رقم',
+              isValid: !form.getFieldState('trackingNumber').invalid,
+            }}
             error={form.formState.errors.trackingNumber?.message}
             onChange={(e) =>
               form.setValue('trackingNumber', e.currentTarget.value)

@@ -22,6 +22,7 @@ export default function NormalInput({
 }: NormalInputComponentPropsType): ReactNode {
   // Defining hooks
   const [focused, setFocused] = useState<boolean>(props.autoFocus || false);
+  const validationInputRef = useRef<HTMLInputElement>(null);
 
   // Conditional rendering
   if (clearFn) {
@@ -78,7 +79,10 @@ export default function NormalInput({
     );
   } else if (validationText) {
     return (
-      <div className={cn('w-full', wholeClassName)}>
+      <div
+        onClick={() => validationInputRef.current?.focus()}
+        className={cn('w-full', wholeClassName)}
+      >
         <div
           data-errored={error ? true : false}
           data-disabled={props.disabled || false}
@@ -98,11 +102,15 @@ export default function NormalInput({
             placeholder={required ? `* ${placeholder}` : placeholder}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
+            ref={validationInputRef}
             {...props}
           />
-          <div className="ml-3 shrink-0 px-4 h-[30px] bg-gray-100 rounded-md flex items-center justify-center">
-            <span className="text-cs06 text-black leading-none truncate block text-center">
-              {validationText}
+          <div
+            data-valid={validationText.isValid}
+            className="ml-3 shrink-0 px-4 h-[30px] transition-all duration-500 data-[valid=true]:text-white data-[valid=true]:bg-green-500 data-[valid=false]:text-black data-[valid=false]:bg-gray-100  rounded-md flex items-center justify-center"
+          >
+            <span className="text-cs06 text-current leading-none truncate block text-center">
+              {validationText.label}
             </span>
           </div>
         </div>
