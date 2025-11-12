@@ -38,7 +38,7 @@ export default function CheckboxItem({
         }
       }}
     >
-      <div className="flex items-center justify-between gap-2 ">
+      <div className="flex items-center justify-between gap-2">
         <div
           className={cn(
             'relative lg:w-[30px] lg:h-[30px] w-[25px] h-[25px] shrink-0 aspect-square pointer-events-none',

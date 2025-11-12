@@ -210,7 +210,10 @@ export default function CreditCardDropDown({
                   {getBankFromCard(item.card_number)?.name || 'نامعلوم'}
                 </span>
               </div>
-              <span className="text-cs65 font-semibold text-black truncate block text-left">
+              <span
+                className="text-cs65 font-semibold text-black truncate block text-left"
+                dir="ltr"
+              >
                 {numberSeparation(item.card_number, ' - ', 4)}
               </span>
             </DropdownMenuItem>

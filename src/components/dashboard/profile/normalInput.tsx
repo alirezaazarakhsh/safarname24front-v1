@@ -58,7 +58,7 @@ export default function NormalInput({
             type="button"
             className="shrink-0 size-[30px] ml-3 flex items-center justify-center bg-gray-100 rounded-md text-black group-data-[disabled=true]:cursor-not-allowed"
             onClick={() => {
-              if (props.disabled && !props.disabled) {
+              if (!props.disabled) {
                 clearFn();
               }
             }}
