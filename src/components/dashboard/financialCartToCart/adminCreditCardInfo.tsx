@@ -44,8 +44,8 @@ export default function AdminCreditCardInfo({
           </p>
         </div>
       </div>
-      <div className="lg:p-4 p-[14px] grid grid-cols-5 gap-4">
-        <div className="h-[190px] bg-gray-200 rounded-xl py-4 px-8 overflow-hidden col-span-2">
+      <div className="lg:p-4 p-[14px] grid lg:grid-cols-5 gap-4">
+        <div className="h-[190px] bg-gray-200 rounded-xl py-4 px-8 overflow-hidden lg:col-span-2">
           <CardShowCase
             className="h-[calc(190px-32px)]"
             data={{
@@ -56,8 +56,8 @@ export default function AdminCreditCardInfo({
             }}
           />
         </div>
-        <div className="col-span-3">
-          <div className="grid grid-cols-2 gap-4 flex-wrap mb-6">
+        <div className="lg:col-span-3">
+          <div className="grid lg:grid-cols-2 gap-4 flex-wrap mb-6">
             <div className="flex items-center justif-start gap-3">
               <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
                 <IconsaxIcons

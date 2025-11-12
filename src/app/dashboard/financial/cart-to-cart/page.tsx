@@ -45,7 +45,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
           });
         }}
       />
-      <div className="grid grid-cols-3 lg:gap-5 gap-[24px]">
+      <div className="grid lg:grid-cols-3 lg:gap-5 gap-[24px]">
         <UserCreditCard
           data={userInfo.card_numbers}
           onValueChange={setSelectedCreditCard}
@@ -61,8 +61,8 @@ export default function CartToCartFinancialPage(): JSX.Element {
         </div>
         <EmergencieForm onChange={setEmergencieFormValue} />
       </div>
-      <div className="grid grid-cols-5 lg:gap-5 gap-[24px]">
-        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] col-span-2">
+      <div className="lg:grid flex flex-col  lg:grid-cols-5 lg:gap-5 gap-[24px]">
+        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] lg:col-span-2">
           <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
             بخش مالی - بخش اطلاعاتی
           </span>
@@ -70,7 +70,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
             مشتری گرامی در این بخش میتوایند مبلغ مدنظرتون واریز و برداشت کنید.
           </p>
         </div>
-        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] col-span-3">
+        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] lg:col-span-3">
           <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
             نکته ضروری :
           </span>
@@ -84,16 +84,16 @@ export default function CartToCartFinancialPage(): JSX.Element {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-6  lg:gap-5 gap-[24px]">
+      <div className="grid lg:grid-cols-6  lg:gap-5 gap-[24px]">
         <AdminCreditCardInfo
-          className="col-span-4"
+          className="lg:col-span-4"
           data={{
             name: 'امیرحسین لامعی',
             iban: '606723561235125612351256',
             number: '6067235612351256',
           }}
         />
-        <Subscription className="col-span-2" />
+        <Subscription className="lg:col-span-2" />
       </div>
       <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">
         <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">

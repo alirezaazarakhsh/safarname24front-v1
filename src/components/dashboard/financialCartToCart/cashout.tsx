@@ -56,7 +56,7 @@ export default function CashOut(): ReactNode {
 
   // Returning JSX
   return (
-    <section className="bg-white border rounded-xl border-black/10 p-4 grid grid-cols-4 gap-10">
+    <section className="bg-white border rounded-xl border-black/10 p-4 grid lg:grid-cols-4 gap-10">
       <div className="flex flex-col justify-between">
         <div className="w-full">
           <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
@@ -88,9 +88,9 @@ export default function CashOut(): ReactNode {
       <form
         action="#"
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid col-span-3 grid-cols-3 gap-4"
+        className="lg:grid flex flex-col lg:col-span-3 lg:grid-cols-3 gap-4"
       >
-        <div>
+        <div className="w-full">
           <div className="mb-5 w-full">
             <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
               مبلغ برداشت کیف پول
@@ -99,6 +99,7 @@ export default function CashOut(): ReactNode {
               type="number"
               placeholder="مبلغ مد نظر خود را وارد نمایید"
               error={form.formState.errors.walletAmount?.message}
+              className="w-full"
               value={form.watch('walletAmount')}
               onChange={(e) =>
                 form.setValue('walletAmount', e.currentTarget.value)
@@ -136,7 +137,7 @@ export default function CashOut(): ReactNode {
               name={form.register('shaba').name}
             />
           </div>
-          <div className="flex items-center justify-between gap-4 w-full">
+          <div className="flex lg:flex-row flex-col lg:items-center items-start lg:justify-between justify-start gap-4 w-full">
             <Selecter
               label="شماره کارت و شماره شبا را تایید میکنم."
               checked={approved}

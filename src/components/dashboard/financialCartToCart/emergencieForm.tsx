@@ -142,10 +142,10 @@ export default function EmergencieForm({
         </div>
       </div>
       <div className="lg:p-4 p-[14px] shrink-0 w-full border-t border-t-black/10">
-        <button
+        <div
           data-invalid={!form.formState.isValid}
           className={cn(
-            'transition-all duration-500 w-fit  h-[40px] lg:rounded-lg rounded-[10px] lg:gap-2 flex items-center justify-center lg:p-3',
+            'transition-all duration-500 lg:w-fit  w-full h-[40px] lg:rounded-lg rounded-[10px] gap-2 flex items-center justify-start px-3',
             'data-[invalid=false]:bg-green-500/5 data-[invalid=false]:hover:bg-green-500/10 data-[invalid=false]:text-green-500',
             'data-[invalid=true]:bg-gray-100 data-[invalid=true]:text-black/50 data-[invalid=true]:opacity-100',
           )}
@@ -160,7 +160,7 @@ export default function EmergencieForm({
               ? 'اطلاعات فیلد ها تکمیل شده'
               : 'اطلاعات فیلد ها تکمیل نشده'}
           </span>
-        </button>
+        </div>
       </div>
     </form>
   );
