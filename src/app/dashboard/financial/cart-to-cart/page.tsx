@@ -58,6 +58,29 @@ export default function CartToCartFinancialPage(): JSX.Element {
         </div>
         <EmergencieForm onChange={setEmergencieFormValue} />
       </div>
+      <div className="grid grid-cols-5 lg:gap-5 gap-[24px]">
+        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] col-span-2">
+          <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
+            بخش مالی - بخش اطلاعاتی
+          </span>
+          <p className="text-cs75 font-normal truncate text-right block text-black/70">
+            مشتری گرامی در این بخش میتوایند مبلغ مدنظرتون واریز و برداشت کنید.
+          </p>
+        </div>
+        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] col-span-3">
+          <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
+            نکته ضروری :
+          </span>
+          <p className="text-cs75 font-normal truncate text-right block text-black/70">
+            اگر مبلغی را واریز کردید و به کیف پول شما واریز نگردید در آنی واحد
+            به تیم{' '}
+            <span className="text-cs-red font-semibold">
+              پشتیبانی سفرنامه 24
+            </span>{' '}
+            تماس بگیرید.
+          </p>
+        </div>
+      </div>
     </main>
   );
 }
