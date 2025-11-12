@@ -890,3 +890,12 @@ export interface EmergencieFormPropsType {
   className?: string;
   onChange?: (data: formType) => void;
 }
+
+export interface AdminCreditCardInfoPropsType {
+  className?: string;
+  data: {
+    name: string;
+    number: string;
+    iban: string;
+  };
+}

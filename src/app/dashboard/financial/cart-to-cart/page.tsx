@@ -1,6 +1,7 @@
 // Forcning Next.js to render this component as client side component
 'use client';
 
+import AdminCreditCardInfo from '@/components/dashboard/financialCartToCart/adminCreditCardInfo';
 // Importing part
 import EmergencieForm, {
   formType,
@@ -80,6 +81,16 @@ export default function CartToCartFinancialPage(): JSX.Element {
             تماس بگیرید.
           </p>
         </div>
+      </div>
+      <div className="grid grid-cols-4  lg:gap-5 gap-[24px]">
+        <AdminCreditCardInfo
+          className="col-span-3"
+          data={{
+            name: 'امیرحسین لامعی',
+            iban: '606723561235125612351256',
+            number: '6067235612351256',
+          }}
+        />
       </div>
     </main>
   );
