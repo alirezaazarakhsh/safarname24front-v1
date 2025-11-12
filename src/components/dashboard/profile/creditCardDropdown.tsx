@@ -3,7 +3,6 @@
 
 // Importing part
 import { CreditCardDropDownPropsType } from '@/types/dashboard/component';
-import { verifyCardNumber, isShebaValid } from '@persian-tools/persian-tools';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
@@ -18,7 +17,6 @@ import {
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 // Creating and exporting CreditCardDropDown component as default
 export default function CreditCardDropDown({
@@ -39,7 +37,6 @@ export default function CreditCardDropDown({
   const userInfo = useUserInfo();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [triggerWidth, setTriggerWidth] = useState(0);
-  const router = useRouter();
 
   // Using useEffect to set width of trigger
   useEffect(() => {

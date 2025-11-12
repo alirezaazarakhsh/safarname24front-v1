@@ -1,5 +1,9 @@
 // Importing part
-import { GETNotifications, GETPersonalProfile } from './api/get';
+import {
+  GETLegalProfile,
+  GETNotifications,
+  GETPersonalProfile,
+} from './api/get';
 
 // Creating and exporting type of contexts of dashboard pages
 export interface NotificationsContext {
@@ -9,6 +13,11 @@ export interface NotificationsContext {
 
 export interface PsersonalInfoContext {
   data: GETPersonalProfile;
+  refetch?: () => void;
+}
+
+export interface LegalUserInfoContext {
+  data: GETLegalProfile;
   refetch?: () => void;
 }
 

@@ -3,7 +3,6 @@
 
 // Importing part
 import { ReactNode, useState } from 'react';
-import { Label } from '@/components/ui/label';
 import CheckboxItem from '@/components/dashboard/financial/checkboxItem';
 import NormalInput from '../profile/normalInput';
 import CreditCardDropDown from '../profile/creditCardDropdown';
@@ -62,6 +61,7 @@ export default function CashOut(): ReactNode {
             placeholder="مبلغ مد نظر خود را وارد نمایید"
             className="w-full"
             hideCreate
+            side="bottom"
           />
         </div>
       </div>

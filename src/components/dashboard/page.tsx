@@ -13,6 +13,7 @@ import Logo from './ui/logo';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import {
+  GETLegalProfile,
   GETNotifications,
   GETPersonalProfile,
   GETUserPoints,
@@ -20,6 +21,7 @@ import {
 } from '@/types/dashboard/api/get';
 import {
   CustomerClubPointsContext,
+  LegalUserInfoContext,
   NotificationsContext,
   PsersonalInfoContext,
 } from '@/types/dashboard/context';
@@ -29,6 +31,10 @@ import useLocalStorageState from 'use-local-storage-state';
 export const uidContext = createContext<string>('');
 export const userFetchedInfoContext = createContext<
   PsersonalInfoContext | undefined
+>(undefined);
+
+export const legalProfileInfoContext = createContext<
+  LegalUserInfoContext | undefined
 >(undefined);
 
 export const userWalletBalanceContext = createContext<
@@ -125,6 +131,17 @@ function InnerPage({
     },
   });
 
+  const legalUserInfoFetching = useApiQuery<GETLegalProfile>({
+    url: '/juridical-profiles/',
+    queryKey: ['legalUserInfo'],
+    options: {
+      enabled:
+        personalDataFetch.data !== undefined &&
+        walletBalanceFetch.data !== undefined,
+      staleTime: Infinity,
+    },
+  });
+
   const isReservationSubPage = /^\/dashboard\/reservations\/[^/]+$/.test(
     pathname,
   );
@@ -136,6 +153,7 @@ function InnerPage({
   if (
     personalDataFetch.isLoading ||
     walletBalanceFetch.isLoading ||
+    notificationsFetch.isLoading ||
     notificationsFetch.isLoading ||
     customerClubPointsFetch.isLoading
   ) {
@@ -160,9 +178,11 @@ function InnerPage({
     !personalDataFetch.isError &&
     !walletBalanceFetch.isError &&
     !customerClubPointsFetch.isError &&
+    !legalUserInfoFetching.isError &&
     personalDataFetch.data &&
     walletBalanceFetch.data &&
-    customerClubPointsFetch.data
+    customerClubPointsFetch.data &&
+    legalUserInfoFetching.data
   ) {
     return (
       <userFetchedInfoContext.Provider
@@ -171,47 +191,58 @@ function InnerPage({
           refetch: personalDataFetch.refetch,
         }}
       >
-        <userWalletBalanceContext.Provider value={walletBalanceFetch.data}>
-          <notificationContext.Provider
+        <legalProfileInfoContext.Provider
+          value={{
+            data: legalUserInfoFetching.data,
+            refetch: legalUserInfoFetching.refetch,
+          }}
+        >
+          <userWalletBalanceContext.Provider
             value={{
-              data: notificationsFetch.data ? notificationsFetch.data : [],
-              refetch: notificationsFetch.refetch,
+              balance: walletBalanceFetch.data.balance,
             }}
           >
-            <customerClubPointsContext.Provider
+            <notificationContext.Provider
               value={{
-                points: customerClubPointsFetch.data.points ?? 0,
-                refetch: customerClubPointsFetch.refetch,
+                data: notificationsFetch.data ? notificationsFetch.data : [],
+                refetch: notificationsFetch.refetch,
               }}
             >
-              {!irregularPages && <Header />}
-              {!isTicketPage && <MobileNav />}
-              <div
-                className={cn(
-                  'overflow-hidden',
-                  isReservationSubPage
-                    ? 'bg-white'
-                    : irregularPages
-                      ? 'w-full'
-                      : '',
-                  className,
-                )}
+              <customerClubPointsContext.Provider
+                value={{
+                  points: customerClubPointsFetch.data.points ?? 0,
+                  refetch: customerClubPointsFetch.refetch,
+                }}
               >
-                {isReservationSubPage ? (
-                  <div className="max-w-screen-template bg-white mx-auto">
-                    {children}
-                  </div>
-                ) : irregularPages ? (
-                  children
-                ) : (
-                  <div className="max-w-screen-template mx-auto">
-                    {children}
-                  </div>
-                )}
-              </div>
-            </customerClubPointsContext.Provider>
-          </notificationContext.Provider>
-        </userWalletBalanceContext.Provider>
+                {!irregularPages && <Header />}
+                {!isTicketPage && <MobileNav />}
+                <div
+                  className={cn(
+                    'overflow-hidden',
+                    isReservationSubPage
+                      ? 'bg-white'
+                      : irregularPages
+                        ? 'w-full'
+                        : '',
+                    className,
+                  )}
+                >
+                  {isReservationSubPage ? (
+                    <div className="max-w-screen-template bg-white mx-auto">
+                      {children}
+                    </div>
+                  ) : irregularPages ? (
+                    children
+                  ) : (
+                    <div className="max-w-screen-template mx-auto">
+                      {children}
+                    </div>
+                  )}
+                </div>
+              </customerClubPointsContext.Provider>
+            </notificationContext.Provider>
+          </userWalletBalanceContext.Provider>
+        </legalProfileInfoContext.Provider>
       </userFetchedInfoContext.Provider>
     );
   } else {
