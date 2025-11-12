@@ -94,6 +94,21 @@ export default function CartToCartFinancialPage(): JSX.Element {
         />
         <Subscription className="col-span-2" />
       </div>
+      <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">
+        <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
+          توضیحات تکمیلی :
+        </span>
+        <p className="text-cs75 font-normal text-right block text-black/70">
+          مشتری گرامی لازم به ذکر میباشد که مبلغ بالای 10,000,000 تومان اگر به
+          شارژ کیف پول اقدام نمایید در مدت 24 ساعت کاری (بانک) مبلغ به حساب کیف
+          پول شما واریز میشود و اگر مبلغ کمتر از 10,000,000 تومان واریز انجام
+          دهید مبلغ به کیف پول شما در آنی واحد واریز میشود. مشتری گرامی لازم به
+          ذکر میباشد که مبلغ بالای 10,000,000 تومان اگر به شارژ کیف پول اقدام
+          نمایید در مدت 24 ساعت کاری (بانک) مبلغ به حساب کیف پول شما واریز میشود
+          و اگر مبلغ کمتر از 10,000,000 تومان واریز انجام دهید مبلغ به کیف پول
+          شما در آنی واحد واریز میشود.
+        </p>
+      </div>
     </main>
   );
 }
