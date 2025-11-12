@@ -3,7 +3,6 @@
 
 // Importing part
 import { CreditCardDropDownPropsType } from '@/types/dashboard/component';
-import { verifyCardNumber, isShebaValid } from '@persian-tools/persian-tools';
 import { cn } from '@/utils/utils';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
@@ -24,13 +23,13 @@ export default function CreditCardDropDown({
   placeholder,
   className,
   onValueChange,
-  hasIRIcon,
   disabled,
   useSheba = false,
   useLegalInfo,
   side = 'bottom',
   value,
   reset,
+  hideCreate = false,
   ...props
 }: CreditCardDropDownPropsType): ReactNode {
   // Defining hooks
@@ -76,17 +75,15 @@ export default function CreditCardDropDown({
           {value && value !== '' ? seprateVal(value) : placeholder}
         </span>
         <div className="flex items-center justify-between gap-1 shrink-0 bg-transparent">
-          {hasIRIcon && (
-            <div
-              className={
-                'w-[30px] h-[30px] flex items-center justify-center rounded-md bg-gray-100 text-black/50'
-              }
-            >
-              <span className="text-cs06 block text-center truncate font-medium text-current -mb-0.5">
-                IR
-              </span>
-            </div>
-          )}
+          <div
+            className={
+              'w-[30px] h-[30px] flex items-center justify-center rounded-md bg-gray-100 text-black/50'
+            }
+          >
+            <span className="text-cs06 block text-center truncate font-medium text-current -mb-0.5">
+              IR
+            </span>
+          </div>
           <div
             onPointerDown={(e) => {
               if (!disabled) {
@@ -118,7 +115,7 @@ export default function CreditCardDropDown({
             data-opened={isOpened}
             ref={triggerRef}
             className={cn(
-              'bg-white transitaion-all duration-500 disabled:opacity-50 border-[1.2px] border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black data-[opened=true]:border-black',
+              'bg-white transitaion-all duration-500 disabled:opacity-50 border-[1.2px] border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black data-[opened=true]:border-black group',
               className,
             )}
             {...props}
@@ -132,17 +129,17 @@ export default function CreditCardDropDown({
               {value && value !== '' ? seprateVal(value) : placeholder}
             </span>
             <div className="flex items-center justify-between gap-1 shrink-0 bg-transparent">
-              {hasIRIcon && (
-                <div
-                  className={
-                    'w-[30px] h-[30px] flex items-center justify-center rounded-md bg-gray-100 text-black/50'
-                  }
-                >
-                  <span className="text-cs06 block text-center truncate font-medium text-current -mb-0.5">
-                    IR
-                  </span>
-                </div>
-              )}
+              <div
+                className={
+                  'w-[30px] h-[30px] flex items-center justify-center rounded-md bg-gray-100 text-black/50 cursor-pointer'
+                }
+              >
+                <IconsaxIcons
+                  color={'currentColor'}
+                  name={'ArrowUp2'}
+                  className="w-[15px] h-[15px] transition-all duration-300 group-data-[opened=false]:rotate-0 group-data-[opened=true]:rotate-180"
+                />
+              </div>
               <div
                 onPointerDown={(e) => {
                   if (!disabled) {
@@ -168,7 +165,12 @@ export default function CreditCardDropDown({
           side={side}
           className="shadow-black/10 border-[1.2px] border-black/20 max-h-[150px] overflow-auto scrollbar-hide"
         >
-          {side === 'top' && filtredData.length < 2 && (
+          <div className="p-3 border-b border-b-black/10" dir="rtl">
+            <span className="text-right truncate block font-bold text-cs75">
+              شماره کارت خود را انتخاب کنید.
+            </span>
+          </div>
+          {side === 'top' && filtredData.length < 2 && !hideCreate && (
             <div className="p-3 border-b border-b-black/20">
               <Link
                 href="/dashboard/financial/cart-to-cart"
@@ -188,34 +190,35 @@ export default function CreditCardDropDown({
           {filtredData.map((item, index) => (
             <DropdownMenuItem
               key={index}
-              dir="ltr"
+              dir="rtl"
               onClick={() => {
                 onValueChange && onValueChange(item.card_number, item.iban);
               }}
               className={
-                'transition-all duration-500 hover:bg-gray-100 !cursor-pointer px-3 py-2 w-full flex items-center justify-start gap-3 [&:not(:last-of-type)]:border-b [&:not(:last-of-type)]:border-b-black/20'
+                'transition-all duration-500 hover:bg-gray-100 !cursor-pointer p-3 w-full flex items-center justify-between gap-3'
               }
             >
-              <div className="shrink-0 aspect-square w-[40px] h-[40px] flex items-center justify-center text-black border border-black/10 rounded-md">
+              <div className="flex items-center justify-star gap-3">
                 <BankIcon
-                  className="w-[20px] h-[20px]"
+                  className="size-7 shrink-0"
                   name={
                     getBankFromCard(item.card_number.slice(0, 6))?.type ||
                     'unknown'
                   }
                 />
-              </div>
-              <div className="flex-1">
-                <span className="text-cs65 font-semibold text-black truncate block text-left">
-                  {seprateVal(item.card_number)}
+                <span className="text-cs65 font-semibold text-black truncate block text-right">
+                  {getBankFromCard(item.card_number)?.name || 'نامعلوم'}
                 </span>
-                <p className="text-left truncate text-black/50 text-cs06 font-semibold">
-                  {seprateVal(item.iban)}
-                </p>
               </div>
+              <span
+                className="text-cs65 font-semibold text-black truncate block text-left"
+                dir="ltr"
+              >
+                {numberSeparation(item.card_number, ' - ', 4)}
+              </span>
             </DropdownMenuItem>
           ))}
-          {side === 'bottom' && filtredData.length < 2 && (
+          {side === 'bottom' && filtredData.length < 2 && !hideCreate && (
             <div className="p-3">
               <Link
                 href="/dashboard/financial/cart-to-cart"

@@ -20,7 +20,6 @@ import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAc
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETLegalProfile } from '@/types/dashboard/api/get';
-import Cookies from 'js-cookie';
 import {
   isShebaValid,
   verifyCardNumber,
@@ -28,6 +27,7 @@ import {
 } from '@persian-tools/persian-tools';
 import useLocalStorageState from 'use-local-storage-state';
 import { cn } from '@/utils/utils';
+import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 
 // Defining form schemas
 const personalFormSchema = z.object({
@@ -191,6 +191,7 @@ export default function ProfilePage(): ReactNode {
   // Defining hooks
   const [file, setFile] = useState<File | undefined>();
   const userInfo = useUserInfo();
+  const userLegalInfo = useUserLegalInfo();
   const [legalUserImage, setLegalUserImage] = useState<string | undefined>();
   const [userImage, setUserImage] = useState<string | undefined>();
   const [userStatus, setUserStatus] = useState<
@@ -242,53 +243,36 @@ export default function ProfilePage(): ReactNode {
     }
   }, [personalForm, userInfo]);
 
-  // Fetching stuff
-  const legalUserFetching = useApiQuery<GETLegalProfile>({
-    url: '/juridical-profiles/',
-    queryKey: ['legalUserInfo'],
-    options: {
-      enabled: profileState === 'legal',
-      staleTime: Infinity,
-    },
-  });
-
   // Setting form values (legal profiles)
   useEffect(() => {
-    if (
-      legalUserFetching &&
-      legalUserFetching.data &&
-      !legalUserFetching.isLoading &&
-      !legalUserFetching.isRefetching
-    ) {
-      const legalInfo = legalUserFetching.data;
-      const firstCard = legalInfo.card_numbers[0];
+    const legalInfo = userLegalInfo.data;
+    const firstCard = legalInfo.card_numbers[0];
 
-      legalForm.setValue('name', legalInfo.organization_name);
-      legalForm.setValue('id', legalInfo.national_id);
-      legalForm.setValue('registrationId', legalInfo.registeration_number);
-      legalForm.setValue('economicCode', legalInfo.economical_code);
-      legalForm.setValue('email', legalInfo.email || '');
-      legalForm.setValue('address', legalInfo.address);
-      legalForm.setValue('postCode', legalInfo.postal_code);
-      legalForm.setValue('tell', legalInfo.phone_number);
-      setLegalUserImage(legalInfo.image || '');
+    legalForm.setValue('name', legalInfo.organization_name);
+    legalForm.setValue('id', legalInfo.national_id);
+    legalForm.setValue('registrationId', legalInfo.registeration_number);
+    legalForm.setValue('economicCode', legalInfo.economical_code);
+    legalForm.setValue('email', legalInfo.email || '');
+    legalForm.setValue('address', legalInfo.address);
+    legalForm.setValue('postCode', legalInfo.postal_code);
+    legalForm.setValue('tell', legalInfo.phone_number);
+    setLegalUserImage(legalInfo.image || '');
 
-      setUserStatus({
-        rejectReason: legalInfo.reject_reason,
-        status: legalInfo.status,
-      });
+    setUserStatus({
+      rejectReason: legalInfo.reject_reason,
+      status: legalInfo.status,
+    });
 
-      if (firstCard) {
-        if (
-          verifyCardNumber(Number(firstCard.card_number)) &&
-          isShebaValid(firstCard.iban)
-        ) {
-          legalForm.setValue('creditCard', firstCard.card_number);
-          legalForm.setValue('shabaNumber', firstCard.iban);
-        }
+    if (firstCard) {
+      if (
+        verifyCardNumber(Number(firstCard.card_number)) &&
+        isShebaValid(firstCard.iban)
+      ) {
+        legalForm.setValue('creditCard', firstCard.card_number);
+        legalForm.setValue('shabaNumber', firstCard.iban);
       }
     }
-  }, [legalForm, legalUserFetching.isLoading, legalUserFetching.isRefetching]);
+  }, []);
 
   // Returning JSX
   return (
@@ -312,7 +296,7 @@ export default function ProfilePage(): ReactNode {
         />
         {profileState === 'legal' && (
           <LegalInfoForm
-            loading={legalUserFetching.isLoading}
+            loading={false}
             form={legalForm}
             className="overflow-auto scrollbar-hide lg:col-span-2 lg:row-span-2 lg:col-start-1 lg:row-start-2"
           />
@@ -333,14 +317,14 @@ export default function ProfilePage(): ReactNode {
           <>
             <LegalBankInfo
               userImage={legalUserImage}
-              loading={legalUserFetching.isLoading}
+              loading={false}
               className="overflow-auto scrollbar-hide lg:col-span-2 lg:row-span-3 lg:col-start-3 lg:row-start-1"
               form={legalForm}
-              creditCards={legalUserFetching.data?.card_numbers || []}
-              refetch={legalUserFetching.refetch}
+              creditCards={userLegalInfo.data.card_numbers}
+              refetch={userLegalInfo.refetch}
               userStatus={{
-                rejectReason: legalUserFetching.data?.reject_reason || '',
-                status: legalUserFetching.data?.status,
+                rejectReason: userLegalInfo.data.reject_reason || '',
+                status: userLegalInfo.data.status,
               }}
             />
             <div className="lg:col-span-4 flex lg:flex-row flex-col lg:gap-5 gap-[20px]">

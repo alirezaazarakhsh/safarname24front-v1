@@ -12,16 +12,18 @@ export default function SelectMode({
   className,
   onValueChange,
   value,
+  onSubmit,
+  submitDisabled,
 }: SelectModePropsType): JSX.Element {
   // Returning JSX
   return (
     <div
       className={cn(
-        'bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] flex items-center justify-between gap-3',
+        'bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] flex lg:flex-row flex-col items-center justify-between gap-3',
         className,
       )}
     >
-      <div className="overflow-hidden flex-1">
+      <div className="overflow-hidden flex-1 lg:w-auto w-full">
         <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
           بخش مالی - کارت به کارت
         </span>
@@ -29,9 +31,10 @@ export default function SelectMode({
           مشتری گرامی در این بخش میتوایند مبلغ مدنظرتون واریز و برداشت کنید.
         </span>
       </div>
-      <div className="flex items-center justify-end gap-5 shrink-0">
+      <div className="flex lg:flex-row flex-col lg:w-auto w-full items-center justify-end gap-5 shrink-0">
         <Selecter
           label="انتخاب شماره کارت حقیقی"
+          className="lg:w-auto w-full"
           checked={value === 'personal'}
           onCheckChange={(checked) =>
             checked && onValueChange && onValueChange('personal')
@@ -40,18 +43,24 @@ export default function SelectMode({
         <Selecter
           label="انتخاب شماره کارت حقوقی"
           checked={value === 'company'}
+          className="lg:w-auto w-full"
           onCheckChange={(checked) =>
             checked && onValueChange && onValueChange('company')
           }
         />
         <Selecter
           label="انتخاب شماره کارت دلخواه"
+          className="lg:w-auto w-full"
           checked={value === 'custom'}
           onCheckChange={(checked) =>
             checked && onValueChange && onValueChange('custom')
           }
         />
-        <button className="px-6 py-3 flex items-center justify-center rounded-md text-black border border-black/10 bg-gray-50 transition-all duration-500 hover:bg-gray-100 text-cs75 font-medium truncate">
+        <button
+          onClick={onSubmit}
+          disabled={submitDisabled}
+          className="lg:w-auto w-full px-6 py-3  flex items-center justify-center rounded-md disabled:text-black border disabled:border-black/10 disabled:bg-gray-50 transition-all duration-500 text-cs75 font-medium truncate bg-green-500 border-green-500 hover:bg-green-600 text-white"
+        >
           ارسال اطلاعات
         </button>
       </div>

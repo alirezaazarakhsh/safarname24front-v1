@@ -332,7 +332,6 @@ export default function LegalBankInfo({
         </div>
         <CreditCardDropDown
           className="h-[50px] w-full"
-          hasIRIcon
           useSheba
           side="top"
           placeholder="24 رقم شماره شبا کارت را وارد نمایید"

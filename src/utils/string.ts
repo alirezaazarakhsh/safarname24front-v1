@@ -70,15 +70,15 @@ export function hanldeClipboardCopy(text: string): void {
     .writeText(text)
     .then(() =>
       toast({
-        title: 'کد با موفقیت کپی شد',
+        title: 'با موفقیت کپی شد',
         theme: 'green',
-        description: `مشتری گرامی کد تخفیف “${text}” کپی شد.`,
+        description: `مشتری گرامی “${text}” در کلیپورد شما کپی شد.`,
       }),
     )
     .catch(() =>
       toast({
         title: 'کد کپی نشد!',
-        description: 'خطایی در کپی کردن کد پیش امد.',
+        description: 'خطایی در کپی کردن پیش امد.',
       }),
     );
 }

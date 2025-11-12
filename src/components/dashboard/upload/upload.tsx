@@ -80,8 +80,8 @@ export default function Upload({
         className,
       )}
     >
-      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
-        <div className="shrink-0 lg:w-[38px] lg:h-[38px] w-[44px] h-[44px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
+      <div className="lg:p-4 p-[14px] flex items-center justify-start border-b border-b-black/10 gap-3 shrink-0 w-full">
+        <div className="shrink-0 size-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
           <IconsaxIcons
             name="CloudAdd"
             className="w-[20px] h-[20px]"
@@ -142,7 +142,7 @@ export default function Upload({
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between gap-4 px-3 py-4 shrink-0 w-full overflow-auto scrollbar-hide">
+      <div className="flex items-center justify-between gap-4 lg:p-4 p-[14px] shrink-0 w-full overflow-auto scrollbar-hide">
         <div className="flex items-center justify-between gap-3">
           <Button
             className="bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white"
@@ -204,7 +204,7 @@ export default function Upload({
           onClick={() => {
             setFiles([]);
           }}
-          className="transition-all duration-500 lg:w-auto w-[40px] h-[40px] lg:rounded-lg rounded-[10px] lg:gap-2 flex items-center justify-center lg:p-3 bg-cs-red/10 hover:bg-cs-red/15 text-cs-red disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 disabled:hover:bg-gray-100"
+          className="transition-all duration-500 lg:w-auto w-[40px] h-[40px] lg:rounded-lg rounded-[10px] lg:gap-2 flex items-center justify-center lg:p-3 bg-cs-red/5 hover:bg-cs-red/10 text-cs-red disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 disabled:hover:bg-gray-100"
         >
           <IconsaxIcons
             name={'Trash'}
