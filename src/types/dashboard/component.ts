@@ -215,6 +215,7 @@ export interface CheckboxItemComponentPropsType {
   title: string;
   isCardSelection?: boolean;
   disabledReason?: string;
+  hideTooltip?: boolean;
 }
 
 export interface SwitchItemComponentPropsType {
@@ -688,9 +689,9 @@ export interface CreditCardDropDownPropsType
   value?: string;
   side?: 'top' | 'bottom';
   onValueChange?: (card: string, shaba: string) => void;
-  hasIRIcon?: boolean;
   useSheba?: boolean;
   reset?: () => void;
+  hideCreate?: boolean;
 }
 
 export interface CustomerClubGiftGainedPropsType

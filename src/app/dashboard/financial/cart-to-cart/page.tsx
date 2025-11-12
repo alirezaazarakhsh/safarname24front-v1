@@ -2,6 +2,7 @@
 'use client';
 
 import AdminCreditCardInfo from '@/components/dashboard/financialCartToCart/adminCreditCardInfo';
+import CashOut from '@/components/dashboard/financialCartToCart/cashout';
 // Importing part
 import EmergencieForm, {
   formType,
@@ -109,6 +110,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
           شما در آنی واحد واریز میشود.
         </p>
       </div>
+      <CashOut />
     </main>
   );
 }

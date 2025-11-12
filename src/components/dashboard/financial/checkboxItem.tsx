@@ -17,6 +17,7 @@ export default function CheckboxItem({
   disabledReason,
   isCardSelection = false,
   className,
+  hideTooltip = false,
 }: CheckboxItemComponentPropsType): ReactNode {
   // Defining refrences
   const checkboxRef = useRef<HTMLButtonElement | null>(null);
@@ -73,7 +74,7 @@ export default function CheckboxItem({
             className={cn(
               'w-[15px] h-[15px] aspect-square absolute transition-all duration-500 top-[50%] left-[50%] block -translate-y-[50%] -translate-x-[50%] pointer-events-none',
               !disabled &&
-              "data-[checked='false']:opacity-0 data-[checked='true']:opacity-100",
+                "data-[checked='false']:opacity-0 data-[checked='true']:opacity-100",
             )}
           />
         </div>
@@ -90,7 +91,7 @@ export default function CheckboxItem({
         )}
       >
         {disabled ||
-          (!checked && (
+          (!checked && !hideTooltip && (
             <div className="p-2 lg:rounded-md rounded-[6px] bg-[#FFE9EB] text-cs-red absolute lg:bottom-full -translate-y-[20px] bottom-[calc(75%+10px)] left-0 w-[210px] transition-all duration-500 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
               <p className="text-right text-current font-medium lg:text-[11px] text-[8px] leading-5">
                 مشتری گرامی روش انتخابی روی (مبلغ دستی اضافه) قرار دادید
