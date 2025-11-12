@@ -7,6 +7,7 @@ import EmergencieForm, {
   formType,
 } from '@/components/dashboard/financialCartToCart/emergencieForm';
 import SelectMode from '@/components/dashboard/financialCartToCart/selectMode';
+import Subscription from '@/components/dashboard/financialCartToCart/subscription/subscription';
 import UserCreditCard from '@/components/dashboard/financialCartToCart/userCreditCard';
 import CartBalance from '@/components/dashboard/profile/cartBalance';
 import Upload from '@/components/dashboard/upload/upload';
@@ -82,15 +83,16 @@ export default function CartToCartFinancialPage(): JSX.Element {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-4  lg:gap-5 gap-[24px]">
+      <div className="grid grid-cols-6  lg:gap-5 gap-[24px]">
         <AdminCreditCardInfo
-          className="col-span-3"
+          className="col-span-4"
           data={{
             name: 'امیرحسین لامعی',
             iban: '606723561235125612351256',
             number: '6067235612351256',
           }}
         />
+        <Subscription className="col-span-2" />
       </div>
     </main>
   );

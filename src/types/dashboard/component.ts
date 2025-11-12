@@ -326,6 +326,7 @@ export interface SubscriptionChartComponentPropsType {
 
 export interface SubscriptionComponentPropsType {
   subscription?: CreditCardSubscriptionType;
+  className?: string;
 }
 
 export interface LabledCheckboxComponentPropsType {
