@@ -193,8 +193,8 @@ export default function BankInfoForm({
         <div className="lg:hidden flex items-center justify-start w-full gap-3">
           <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&
-            !form.getFieldState('shabaNumber').invalid &&
-            bankInfo ? (
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
               <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
             ) : (
               <IconsaxIcons name="Bank" color="currentColor" />
@@ -206,8 +206,8 @@ export default function BankInfoForm({
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
               {!form.getFieldState('creditCard').invalid &&
-              !form.getFieldState('shabaNumber').invalid &&
-              bankInfo
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
                 ? bankInfo?.name
                 : 'سیستم بانکی ناشناخته است!'}
             </p>
@@ -297,8 +297,8 @@ export default function BankInfoForm({
         <div className="lg:flex hidden items-center justify-start w-full gap-3">
           <div className="shrink-0 aspect-square lg:w-[50px] lg:h-[50px] w-[45px] h-[45px] flex items-center justify-center text-black border border-black/10 rounded-md">
             {!form.getFieldState('creditCard').invalid &&
-            !form.getFieldState('shabaNumber').invalid &&
-            bankInfo ? (
+              !form.getFieldState('shabaNumber').invalid &&
+              bankInfo ? (
               <BankIcon name={bankInfo.type} className="w-[30px] h-[30px]" />
             ) : (
               <IconsaxIcons name="Bank" color="currentColor" />
@@ -310,8 +310,8 @@ export default function BankInfoForm({
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
               {!form.getFieldState('creditCard').invalid &&
-              !form.getFieldState('shabaNumber').invalid &&
-              bankInfo
+                !form.getFieldState('shabaNumber').invalid &&
+                bankInfo
                 ? bankInfo?.name
                 : 'سیستم بانکی ناشناخته است!'}
             </p>
@@ -319,7 +319,6 @@ export default function BankInfoForm({
         </div>
         <CreditCardDropDown
           className="h-[50px] w-full"
-          hasIRIcon
           useSheba
           side="top"
           placeholder="24 رقم شماره شبا کارت را وارد نمایید"
