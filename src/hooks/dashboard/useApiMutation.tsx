@@ -1,36 +1,33 @@
-// Importing part
 import { useMutation } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { axiosInstance } from '@/utils/axios';
-import { UseApiMutationProps } from '@/types/dashboard/hook';
 
-// creating and Exporting useApiMutation custom hook as default
-// Used for non-get methods (CRUD)
 export default function useApiMutation<TData = unknown, TVariables = unknown>({
   url,
   method,
   options,
-  isFormData,
-}: UseApiMutationProps<TData, TVariables>) {
-  return useMutation<TData, AxiosError, TVariables>({
+}: {
+  url: string;
+  method: 'get' | 'post' | 'put' | 'delete' | 'patch';
+  options?: any;
+}) {
+  return useMutation<TData, any, TVariables>({
     mutationFn: async (variables) => {
-      const isFullUrl = /^https?:\/\//i.test(url);
-      const client = isFullUrl ? axios : axiosInstance;
+      // Fix: Treat any URL starting with /api/ as internal → don't use axiosInstance
+      const useInternalRoute = url.startsWith('/api/');
+      const client = useInternalRoute
+        ? axios.create({ baseURL: '' })
+        : axiosInstance;
+
       const { data } = await client.request<TData>({
         url,
         method: method.toUpperCase(),
         data: variables,
-        headers: isFormData
-          ? { 'Content-Type': 'multipart/form-data' }
-          : undefined,
+        withCredentials: true,
       });
 
       return data;
     },
-    onError: (error, variables, context) => {
-      options?.onError?.(error, variables, context);
-    },
-    onSuccess: options?.onSuccess,
     ...options,
   });
 }

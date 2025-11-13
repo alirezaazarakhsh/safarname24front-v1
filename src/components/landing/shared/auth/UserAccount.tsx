@@ -20,6 +20,7 @@ export default function UserAccount() {
   const { isOpen, toggle } = useUserAccountContext();
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const [dialogStep, setDialogStep] = useState<DialogStep>('phone-number');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   // Control Body-Overflow
   useControlBodyOverflow(isOpen);
@@ -77,6 +78,7 @@ export default function UserAccount() {
                 >
                   <PhoneNumber
                     setDialogStep={() => setDialogStep('otp-verification')}
+                    setPhoneNumber={setPhoneNumber}
                   />
                 </motion.div>
               ) : (
@@ -93,6 +95,7 @@ export default function UserAccount() {
                   className="absolute inset-0"
                 >
                   <OTPVerification
+                    phoneNumber={phoneNumber}
                     setDialogStep={() => setDialogStep('phone-number')}
                   />
                 </motion.div>

@@ -1,132 +1,143 @@
 import axios, {
-  AxiosError,
   AxiosInstance,
   InternalAxiosRequestConfig,
+  AxiosError,
 } from 'axios';
-import Cookies from 'js-cookie';
 
-export const axiosInstance: AxiosInstance = axios.create({
+// ===========================================================
+// AXIOS INSTANCES
+// ===========================================================
+export const axiosInstance = axios.create({
   baseURL: 'https://cps.safarnameh24.com/api/v1',
   withCredentials: true,
 });
 
-let isRefreshing = false;
-let failedQueue: {
-  resolve: (value?: unknown) => void;
-  reject: (reason?: unknown) => void;
-}[] = [];
-let logoutCalled = false;
+const refreshInstance = axios.create({
+  baseURL: '',
+  withCredentials: true,
+});
 
-const processQueue = (error: any, token: string | null = null) => {
-  failedQueue.forEach((prom) =>
-    error ? prom.reject(error) : prom.resolve(token),
-  );
+// ===========================================================
+// STATE
+// ===========================================================
+let isRefreshing = false;
+let isLoggingOut = false;
+let refreshAttempted = false; // ✅ New guard: only try refresh once per session
+
+type QueueItem = {
+  resolve: () => void;
+  reject: (reason: any) => void;
+};
+let failedQueue: QueueItem[] = [];
+
+const processQueue = (error: any) => {
+  failedQueue.forEach((p) => (error ? p.reject(error) : p.resolve()));
   failedQueue = [];
 };
 
-const clearAuth = () => {
-  Cookies.remove('auth');
-  Cookies.remove('AUTH');
-  Cookies.remove('UPN');
-};
-
-const forceLogout = () => {
-  clearAuth();
-  if (logoutCalled) return;
-  logoutCalled = true;
-
-  // const isAlreadyOnAuthPage = window.location.pathname === '/';
-  // if (!isAlreadyOnAuthPage) {
-  //   window.location.href = '/';
-  // }
-};
-
-// REQUEST interceptor → attach token if exists
+// ===========================================================
+// REQUEST INTERCEPTOR
+// ===========================================================
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const authCookie = Cookies.get('auth');
-    const accessUID = authCookie && JSON.parse(authCookie)?.accessUID;
-    if (accessUID && config.headers) {
-      config.headers['Authorization'] = `Bearer ${accessUID}`;
-    }
+    if (config.url?.includes('/token/refresh/')) return config;
     return config;
   },
-  (error) => Promise.reject(error),
+  (err) => Promise.reject(err),
 );
 
-// RESPONSE interceptor → refresh token logic
+// ===========================================================
+// RESPONSE INTERCEPTOR
+// ===========================================================
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalRequest: any = error.config;
+    const originalReq = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+      retryCount?: number;
+    };
 
-    // If unauthorized
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      const authCookie = Cookies.get('auth');
-      const refreshUID = authCookie && JSON.parse(authCookie)?.refreshUID;
+    const status = error.response?.status;
 
-      // If no refresh token → logout
-      if (!refreshUID) {
-        forceLogout();
+    // Only handle 401 (Unauthorized)
+    if (status === 401 && !originalReq.url?.includes('/token/refresh/')) {
+      // If already tried refresh once and failed → don't reload again
+      if (refreshAttempted) {
+        console.log('Already attempted refresh – user is logged out.');
         return Promise.reject(error);
       }
 
-      originalRequest._retry = true;
+      // Skip logout for public routes
+      const publicRoutes = ['/login', '/register', '/forgot-password'];
+      const isPublic = publicRoutes.some((path) =>
+        originalReq.url?.includes(path),
+      );
+      if (isPublic) return Promise.reject(error);
 
-      // If already refreshing → wait in queue
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            if (token && originalRequest.headers) {
-              originalRequest.headers['Authorization'] = `Bearer ${token}`;
-            }
-            return axiosInstance(originalRequest);
+      // Retry logic
+      if (!originalReq._retry) {
+        originalReq._retry = true;
+
+        if (isRefreshing) {
+          return new Promise<void>((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
           })
-          .catch((err) => {
-            forceLogout();
-            return Promise.reject(err);
-          });
-      }
-
-      isRefreshing = true;
-
-      try {
-        // Attempt token refresh
-        const { data } = await axios.post(
-          'https://cps.safarnameh24.com/api/v1/token/refresh/',
-          { refreshToken: refreshUID },
-          { withCredentials: true },
-        );
-
-        const { accessToken, refreshToken } = data;
-
-        // Save new tokens
-        Cookies.set(
-          'auth',
-          JSON.stringify({ accessUID: accessToken, refreshUID: refreshToken }),
-          { path: '/' },
-        );
-
-        axiosInstance.defaults.headers.common['Authorization'] =
-          `Bearer ${accessToken}`;
-        processQueue(null, accessToken);
-
-        // Retry original request
-        if (originalRequest.headers) {
-          originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+            .then(() => axiosInstance(originalReq))
+            .catch((err) => Promise.reject(err));
         }
-        return axiosInstance(originalRequest);
-      } catch (err) {
-        processQueue(err, null);
-        forceLogout();
-        return Promise.reject(err);
-      } finally {
-        isRefreshing = false;
+
+        isRefreshing = true;
+        refreshAttempted = true; // ✅ Mark that we tried once
+
+        try {
+          console.log('Attempting token refresh...');
+          const refreshRes = await refreshInstance.post(
+            'https://cps.safarnameh24.com/api/v1/token/refresh/',
+            {},
+            { withCredentials: true },
+          );
+
+          if (!refreshRes || refreshRes.status !== 200) {
+            throw new Error('Refresh failed');
+          }
+
+          console.log('Token refreshed successfully.');
+          processQueue(null);
+          return await axiosInstance(originalReq);
+        } catch (refreshErr) {
+          console.error('Refresh failed:', refreshErr);
+          processQueue(refreshErr);
+          // ❌ DO NOT reload — just reject and let app show login UI
+          return Promise.reject(refreshErr);
+        } finally {
+          isRefreshing = false;
+        }
       }
     }
 
     return Promise.reject(error);
   },
 );
+
+// ===========================================================
+// LOGOUT (manual only, no auto-loop)
+// ===========================================================
+export const performLogout = async () => {
+  if (isLoggingOut) return;
+  isLoggingOut = true;
+
+  console.log('Performing logout...');
+  try {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+  } catch (e) {
+    console.warn('Logout API failed (non-critical):', e);
+  } finally {
+    if (typeof window !== 'undefined') {
+      // Only reload when logout is explicitly called by user
+      window.location.reload();
+    }
+  }
+};
