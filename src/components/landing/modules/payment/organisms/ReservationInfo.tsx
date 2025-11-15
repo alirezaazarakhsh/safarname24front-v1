@@ -29,9 +29,9 @@ export function ReservationInfo() {
   });
 
   return (
-    <div className="bg-white p-5 border rounded-xl">
+    <div className="rounded-xl border bg-white p-5">
       {status === 'pending' ? (
-        <div className="h-80 flex-center">
+        <div className="flex-center h-80">
           <div className={loader.dots} style={{ scale: '1.6' }} />
         </div>
       ) : status === 'error' ? (
@@ -42,23 +42,22 @@ export function ReservationInfo() {
         <div className="pb-1">
           <Reserver reserver={data?.reserver} />
 
-          {data?.rooms.map((room, index) => (
-            <div
-              key={index}
-              className="space-y-5 border-b pb-6 last:border-b-0 last:pb-0"
-            >
-              <RoomInfo
-                name={room.name}
-                discountOnPurchase={0}
-                capacity={room.capacity}
-                extraCapacity={room.extra_capacity}
-              />
+          <div className="space-y-8 pb-1">
+            {[...data?.rooms, ...data?.rooms].map((room, index) => (
+              <div key={index} className="space-y-4">
+                <RoomInfo
+                  name={room.name}
+                  discountOnPurchase={0}
+                  capacity={room.capacity}
+                  extraCapacity={room.extra_capacity}
+                />
 
-              <div className="border overflow-auto rounded-cs-10">
-                <RoomTable room={room} />
+                <div className="overflow-auto rounded-cs-10 border">
+                  <RoomTable room={room} />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>
