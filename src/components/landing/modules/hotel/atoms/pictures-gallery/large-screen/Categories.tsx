@@ -1,7 +1,4 @@
 import 'swiper/css';
-import '@/styles/swiper.css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
 import Image from 'next/image';
 import { TGallery } from '@/types/landing';
@@ -33,26 +30,27 @@ export default function Categories(props: Props) {
             category.images[0] && (
               <SwiperSlide
                 key={index}
-                onClick={() => setCategoryIndex(index)}
                 className={`max-w-full`}
+                onClick={() => setCategoryIndex(index)}
               >
                 <div className="flex flex-col gap-2">
-                  <div
-                    className={`relative h-24 bg-zinc-800 overflow-hidden border-2 rounded-xl ${
-                      categoryIndex === index ? 'border-cs-red' : 'border-white'
-                    }`}
-                  >
+                  <div className="relative h-24 overflow-hidden rounded-xl">
                     <Image
                       fill
                       alt="hotel-view"
                       src={category.images[0]}
                       className="object-cover"
                     />
+
+                    <div
+                      data-active={categoryIndex === index}
+                      className="absolute -inset-1 rounded-xl border-4 border-cs-red transition-all duration-200 data-[active=true]:inset-0"
+                    />
                   </div>
 
-                  <div className="text-cs08 font-bold text-zinc-800">
+                  <span className="text-cs08 font-bold text-zinc-800">
                     {category.title}
-                  </div>
+                  </span>
                 </div>
               </SwiperSlide>
             ),

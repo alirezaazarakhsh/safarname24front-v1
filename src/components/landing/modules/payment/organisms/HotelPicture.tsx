@@ -27,11 +27,11 @@ export function HotelPicture() {
   const hotelImage = data?.data?.hotel_image;
 
   return (
-    <div className="min-h-60 max-h-80 overflow-hidden rounded-xl">
+    <div className="max-h-80 min-h-60 overflow-hidden rounded-xl">
       {status === 'pending' ? (
         <Skeleton className="full-size" />
       ) : status === 'error' ? (
-        <div className="bg-zinc-200/50 full-size flex-center">
+        <div className="full-size flex-center bg-zinc-200/50">
           <Gallery size={80} color="#d4d4d8" />
         </div>
       ) : (
