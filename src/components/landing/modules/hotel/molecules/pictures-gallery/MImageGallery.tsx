@@ -69,13 +69,13 @@ export default function MImageGallery(props: Props) {
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
-      <SheetTrigger className="bg-zinc-100 text-zinc-800 text-cs08 font-bold rounded-cs-10 md:hidden">
+      <SheetTrigger className="rounded-cs-10 bg-zinc-100 text-cs08 font-bold text-zinc-800 md:hidden">
         تصاویر هتل
       </SheetTrigger>
 
       <SheetContent
         side={'left'}
-        className="bg-[#0E0E0E] text-white w-full grid grid-rows-[auto_clamp(20rem,50vw,30rem)_5rem] content-between border-none"
+        className="grid w-full grid-rows-[auto_clamp(20rem,50vw,30rem)_5rem] content-between border-none bg-[#0E0E0E] text-white"
       >
         <SheetTitle className="hidden"></SheetTitle>
         <SheetDescription className="hidden"></SheetDescription>
@@ -86,7 +86,7 @@ export default function MImageGallery(props: Props) {
         />
 
         <div className="-mx-6 flex flex-col items-center gap-6 overflow-hidden">
-          <span className="bg-[#181818] text-[clamp(0.8rem,2vw,0.85rem)] w-fit font-medium px-6 py-3 rounded-lg">
+          <span className="w-fit rounded-lg bg-[#181818] px-6 py-3 text-[clamp(0.8rem,2vw,0.85rem)] font-medium">
             {formattedGallery?.[categoryIndex].title}
           </span>
 

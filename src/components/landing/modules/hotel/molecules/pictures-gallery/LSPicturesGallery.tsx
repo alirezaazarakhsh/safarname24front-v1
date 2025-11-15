@@ -19,6 +19,7 @@ import { TGallery, THotelSlug } from '@/types/landing';
 import TopBar from '../../atoms/pictures-gallery/large-screen/TopBar';
 import Pictures from '../../atoms/pictures-gallery/large-screen/Pictures';
 import Categories from '../../atoms/pictures-gallery/large-screen/Categories';
+import { FaRegImages } from 'react-icons/fa6';
 
 type Props = THotelSlug;
 type TGalleryResponse = TGallery;
@@ -70,21 +71,21 @@ export default function DImageGallery(props: Props) {
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       {/* === Small-Screen */}
-      <DialogTrigger className="bg-zinc-100 text-zinc-700 text-cs08 font-bold gap-1 hidden rounded-cs-10 md:flex-center">
+      <DialogTrigger className="md:flex-center hidden gap-1 rounded-cs-10 bg-zinc-100 text-cs08 font-bold text-zinc-700 xl:hidden">
         تصاویر هتل
       </DialogTrigger>
 
       {/* === Large-Screen */}
-      <DialogTrigger className="absolute bottom-4 left-4 bg-zinc-100 text-cs08 font-bold px-5 py-2.5 hidden backdrop-blur-lg rounded-cs-10 xl:block">
-        مجموعه تصاویر هتل
+      <DialogTrigger className="xl:flex-center absolute bottom-4 left-4 hidden h-10 gap-2 rounded-cs-10 bg-zinc-100 px-5">
+        <FaRegImages className="size-5" color="#444" />
+        <span className="text-cs08 font-bold">مجموعه تصاویر هتل</span>
       </DialogTrigger>
 
-      <DialogContent className="max-w-[70%] w-full h-[30rem] flex flex-col gap-4 p-4 rounded-3xl lg:max-w-[42rem] lg:h-[32rem]">
+      <DialogContent className="grid h-[30rem] w-full max-w-[70%] grid-rows-[1fr_auto] gap-4 rounded-3xl p-4 lg:h-[32rem] lg:max-w-[44rem]">
         <DialogTitle className="hidden"></DialogTitle>
         <DialogDescription className="hidden"></DialogDescription>
 
-        {/* Pictures */}
-        <div className="relative flex-1 overflow-hidden rounded-2xl">
+        <div className="relative overflow-hidden rounded-2xl">
           <TopBar
             activeIndex={activeIndex}
             categoryLength={

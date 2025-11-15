@@ -42,7 +42,7 @@ export default function Pictures(props: Props) {
             image && (
               <SwiperSlide
                 key={image + index}
-                className="bg-zinc-800 select-none overflow-hidden"
+                className="select-none overflow-hidden bg-zinc-100"
               >
                 <Image
                   fill
@@ -51,7 +51,7 @@ export default function Pictures(props: Props) {
                   className="object-cover"
                 />
 
-                <div className="absolute pointer-events-none inset-0 top-2/3 bg-gradient-to-t from-[#0E0E0E]/50 to-transparent" />
+                <div className="pointer-events-none absolute inset-0 top-2/3 bg-gradient-to-t from-[#0E0E0E]/50 to-transparent" />
               </SwiperSlide>
             ),
         )}
