@@ -96,6 +96,7 @@ function InnerPage({
     queryKey: ['personalProfile', 'persoanl', 'profile'],
     options: {
       staleTime: Infinity,
+      refetchInterval: Infinity,
     },
   });
 
@@ -103,8 +104,8 @@ function InnerPage({
     url: '/finance/wallet/',
     queryKey: ['walletBalance'],
     options: {
-      enabled: personalDataFetch.data !== undefined,
       staleTime: Infinity,
+      refetchInterval: 10000,
     },
   });
 
@@ -112,10 +113,7 @@ function InnerPage({
     url: '/notification/notifications/',
     queryKey: ['notifications'],
     options: {
-      enabled:
-        personalDataFetch.data !== undefined &&
-        walletBalanceFetch.data !== undefined,
-      staleTime: 10000,
+      staleTime: Infinity,
       refetchInterval: 10000,
     },
   });
@@ -124,10 +122,8 @@ function InnerPage({
     url: '/crm/customer-club/points/',
     queryKey: ['user-points'],
     options: {
-      enabled:
-        personalDataFetch.data !== undefined &&
-        walletBalanceFetch.data !== undefined,
-      refetchInterval: 5000,
+      refetchInterval: 10000,
+      staleTime: Infinity,
     },
   });
 
@@ -135,10 +131,8 @@ function InnerPage({
     url: '/juridical-profiles/',
     queryKey: ['legalUserInfo'],
     options: {
-      enabled:
-        personalDataFetch.data !== undefined &&
-        walletBalanceFetch.data !== undefined,
       staleTime: Infinity,
+      refetchInterval: Infinity,
     },
   });
 
@@ -174,9 +168,21 @@ function InnerPage({
         </div>
       </>
     );
+  } else if (personalDataFetch.isError) {
+    // redirecting user
+    router.push('/');
+
+    // Returning JSX
+    return (
+      <div className="max-w-screen-template min-h-dvh mx-auto flex items-center justify-center">
+        <span className="font-medium text-center text-lg block">
+          شما درحال انتقال به صفحه ورود هستید.
+        </span>
+      </div>
+    );
   } else if (
-    !personalDataFetch.isError &&
     !walletBalanceFetch.isError &&
+    !personalDataFetch.isError &&
     !customerClubPointsFetch.isError &&
     !legalUserInfoFetching.isError &&
     personalDataFetch.data &&
@@ -244,18 +250,6 @@ function InnerPage({
           </userWalletBalanceContext.Provider>
         </legalProfileInfoContext.Provider>
       </userFetchedInfoContext.Provider>
-    );
-  } else {
-    // redirecting user
-    router.push('/');
-
-    // Returning JSX
-    return (
-      <div className="max-w-screen-template min-h-dvh mx-auto flex items-center justify-center">
-        <span className="font-medium text-center text-lg block">
-          شما درحال انتقال به صفحه ورود هستید.
-        </span>
-      </div>
     );
   }
 }

@@ -9,12 +9,10 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogClose,
   DialogFooter,
 } from '@/components/ui/dialog';
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -28,6 +26,7 @@ import { useMediaQuery } from '@/hooks';
 export default function PaymentErrorDialog({
   closeFn,
   isOpened = false,
+  refetch,
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -49,7 +48,10 @@ export default function PaymentErrorDialog({
             </DrawerDescription>
           </div>
           <DrawerFooter className="px-[24px] mt-[20px] py-0 flex items-start justify-start gap-4 lg:flex-wrap">
-            <button className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit">
+            <button
+              onClick={refetch}
+              className="px-[50px] h-[43px] flex items-center justify-center bg-cs-red rounded-[8px] w-fit"
+            >
               <span className="text-[12px] font-semibold text-white">
                 تلاش مجدد
               </span>
@@ -60,7 +62,12 @@ export default function PaymentErrorDialog({
     );
   } else {
     return (
-      <Dialog open={isOpened}>
+      <Dialog
+        open={isOpened}
+        onOpenChange={(open) => {
+          !open && closeFn && closeFn();
+        }}
+      >
         <DialogContent className="lg:w-auto w-[calc(100vw-25px)]">
           <DialogHeader>
             <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black">
@@ -72,7 +79,10 @@ export default function PaymentErrorDialog({
             از صبر و شکیبایی شما متشکریم.
           </DialogDescription>
           <DialogFooter dir="ltr" className="space-x-2">
-            <button className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600">
+            <button
+              onClick={refetch}
+              className="flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium text-white bg-red-600"
+            >
               تلاش مجدد
             </button>
           </DialogFooter>

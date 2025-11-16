@@ -227,7 +227,7 @@ export interface SwitchItemComponentPropsType {
 
 export interface customChargeComponentPropsType {
   disabled: boolean;
-  onSubmit: (value: number) => void;
+  onSubmit: (value: number | undefined) => void;
 }
 
 export interface InvoiceComponentPropsType {

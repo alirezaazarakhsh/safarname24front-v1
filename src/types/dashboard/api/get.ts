@@ -289,6 +289,15 @@ export type GETUserLevels = {
   data: GETUserLevelItem[];
 };
 
+export type GETWalletPacks = [
+  {
+    amount_1: string;
+    amount_2: string;
+    amount_3: string;
+    amount_4: string;
+  },
+];
+
 export type GETCustomerClubList = GETPaginationAPILayout<
   GETCustomerClubListItem[]
 >;
