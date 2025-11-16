@@ -7,15 +7,15 @@ import {
 } from '@/components/ui/input-otp';
 
 import { z } from 'zod';
-import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import ResendOTPToken from './ResendOTPToken';
 import { convertToEnglishDigits } from '@/utils';
 import RulesAndRegulation from './RulesAndRegulation';
-import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { axiosInstance } from '@/utils/axios';
+import { useMutation } from '@tanstack/react-query';
 
 const formSchema = z.object({
   otp: z.string().min(4),
@@ -36,38 +36,19 @@ export default function OTPVerification(props: Props) {
     defaultValues: { otp: '' },
   });
 
-  const mutation = useApiMutation<{
-    access: string;
-    refresh: string;
-  }>({
-    url: '/token/',
-    method: 'post',
-    options: {
-      onError: () => {
-        form.setError('otp', {
-          message: 'مشکلی پیش امد. لطفا مجددا تلاش کنید.',
-        });
-      },
-      onSuccess: (data) => {
-        Cookies.set('AUTH', form.getValues('otp'), {
-          path: '/',
-          expires: 3,
-          secure: true,
-          sameSite: 'Strict',
-        });
-
-        Cookies.set(
-          'auth',
-          JSON.stringify({
-            accessUID: data.access,
-            refreshUID: data.refresh,
-            otp: form.getValues('otp'),
-            phoneNumber: Cookies.get('UPN'),
-          }),
-        );
-
-        window.location.reload();
-      },
+  const mutation = useMutation({
+    mutationFn: (values: { phone: string; otp: string }) => {
+      return axiosInstance({
+        data: values,
+        method: 'POST',
+        url: '/token/',
+      });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: (data) => {
+      console.log(data);
     },
   });
 
@@ -79,13 +60,13 @@ export default function OTPVerification(props: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="h-full flex flex-col md:items-center"
+        className="flex h-full flex-col md:items-center"
       >
-        <span className="text-zinc-800 text-cs09 font-extrabold mb-2.5">
+        <span className="mb-2.5 text-cs09 font-extrabold text-zinc-800">
           تایید شماره همراه
         </span>
 
-        <p className="text-zinc-600 text-cs08 font-semibold flex gap-1 md:items-center">
+        <p className="flex gap-1 text-cs08 font-semibold text-zinc-600 md:items-center">
           <span>کد 4 رقمی به شماره</span>
           <span dir="ltr" className="tracking-wider">
             (+98 {phoneNumber})
@@ -96,7 +77,7 @@ export default function OTPVerification(props: Props) {
         {/* OPT-Input | Resend */}
         <div
           dir="ltr"
-          className="w-full h-10 mt-6 flex items-center justify-end gap-4 md:justify-center"
+          className="mt-6 flex h-10 w-full items-center justify-end gap-4 md:justify-center"
         >
           <FormField
             name="otp"
@@ -114,7 +95,7 @@ export default function OTPVerification(props: Props) {
                     maxLength={4}
                     pattern="^[0-9۰-۹]+$"
                   >
-                    <InputOTPGroup className="text-zinc-600 text-[0.9rem] gap-2">
+                    <InputOTPGroup className="gap-2 text-[0.9rem] text-zinc-600">
                       {[0, 1, 2, 3].map((_) => (
                         <InputOTPSlot
                           key={_}
@@ -135,29 +116,29 @@ export default function OTPVerification(props: Props) {
         {/* Edit-Phone-Number */}
         <button
           type="button"
-          className="w-fit text-zinc-500 text-cs08 font-bold my-6 flex-center gap-2 rounded-md transition-colors md:mt-5 hover:text-zinc-600"
+          className="flex-center my-6 w-fit gap-2 rounded-md text-cs08 font-bold text-zinc-500 transition-colors hover:text-zinc-600 md:mt-5"
           onClick={setDialogStep}
         >
           <span>ویرایش شماره همراه</span>
         </button>
 
-        <div className="hidden md:flex md:mt-auto">
+        <div className="hidden md:mt-auto md:flex">
           <RulesAndRegulation />
         </div>
 
         {/* Submit-Button */}
         <button
           disabled={mutation.isPending}
-          className={`relative w-full h-12 bg-cs-dark-blue mt-auto overflow-hidden rounded-lg transition-colors duration-300 ease-in-out md:mt-0 hover:bg-cs-dark-blue/95 ${mutation.isPending ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
+          className={`relative mt-auto h-12 w-full overflow-hidden rounded-lg bg-cs-dark-blue transition-colors duration-300 ease-in-out hover:bg-cs-dark-blue/95 md:mt-0 ${mutation.isPending ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
         >
           <span
-            className={`absolute inset-0 text-zinc-100 text-cs85 font-semibold flex-center pointer-events-none transition-all duration-300 ease-in-out ${mutation.isPending ? 'opacity-0 invisible -right-8' : 'opacity-100 visible right-0'}`}
+            className={`flex-center pointer-events-none absolute inset-0 text-cs85 font-semibold text-zinc-100 transition-all duration-300 ease-in-out ${mutation.isPending ? 'invisible -right-8 opacity-0' : 'visible right-0 opacity-100'}`}
           >
             تایید و ادامه فرآیند
           </span>
 
           <div
-            className={`absolute inset-0 flex-center pointer-events-none transition-all duration-300 ease-in-out ${mutation.isPending ? 'opacity-100 visible left-0' : 'opacity-0 invisible -left-8'}`}
+            className={`flex-center pointer-events-none absolute inset-0 transition-all duration-300 ease-in-out ${mutation.isPending ? 'visible left-0 opacity-100' : 'invisible -left-8 opacity-0'}`}
           >
             <div className="loader-dots" />
           </div>
