@@ -29,7 +29,7 @@ export default function PackedRoom(props: Props) {
   } = props;
 
   return (
-    <div className="bg-white border divide-y overflow-hidden rounded-xl shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:rounded-2xl">
+    <div className="divide-y overflow-hidden rounded-xl border bg-white shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:rounded-2xl">
       {pack_rooms?.map((room, index) => {
         const {
           name,
@@ -48,25 +48,25 @@ export default function PackedRoom(props: Props) {
 
         return (
           <div key={index} className="grid lg:grid-cols-[1fr_17rem]">
-            <div className="relative text-zinc-800 text-cs08 font-semibold p-3 overflow-hidden lg:flex gap-3 lg:border-l lg:p-4">
-              <div className="relative flex-center bg-zinc-100 h-48 rounded-cs-10 overflow-hidden lg:w-60 lg:rounded-xl lg:h-40">
+            <div className="relative gap-3 overflow-hidden p-3 text-cs08 font-semibold text-zinc-800 lg:flex lg:border-l lg:p-4">
+              <div className="flex-center relative h-48 overflow-hidden rounded-cs-10 bg-zinc-100 lg:h-40 lg:w-60 lg:rounded-xl">
                 {image ? (
                   <RoomPicture image={image} />
                 ) : (
                   <Image
                     alt="logo"
-                    width={100}
-                    height={100}
+                    width={90}
+                    height={90}
                     src={'/image/logo/red.png'}
-                    className="grayscale opacity-20"
+                    className="opacity-20 grayscale"
                   />
                 )}
               </div>
 
-              <div className="p-2 mt-3 lg:mt-0 lg:flex lg:flex-col">
-                <div className="text-cs09 font-extrabold truncate">{name}</div>
+              <div className="mt-3 p-2 lg:mt-0 lg:flex lg:flex-col">
+                <div className="truncate text-cs09 font-extrabold">{name}</div>
 
-                <div className="text-zinc-500 text-cs08 mt-2">
+                <div className="mt-2 text-cs08 text-zinc-500">
                   {descriptions}
                 </div>
 
@@ -82,11 +82,11 @@ export default function PackedRoom(props: Props) {
 
               {/* === Small-Screen */}
               {price.is_fixed_discount_one_time && (
-                <div className="text-green-600 my-2 px-2.5 flex items-center gap-1 lg:hidden">
-                  <button className="relative ml-1 rounded-full group">
+                <div className="my-2 flex items-center gap-1 px-2.5 text-green-600 lg:hidden">
+                  <button className="group relative ml-1 rounded-full">
                     <InfoCircle size={16} color="#16a34a" />
 
-                    <span className="bg-cs-dark-blue text-zinc-100 text-cs75/5 font-medium w-64 text-right px-3 py-2 absolute -top-14 right-0 transition-all ease-in-out rounded-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:-top-16">
+                    <span className="invisible absolute -top-14 right-0 w-64 rounded-lg bg-cs-dark-blue px-3 py-2 text-right text-cs75/5 font-medium text-zinc-100 opacity-0 transition-all ease-in-out group-hover:visible group-hover:-top-16 group-hover:opacity-100">
                       این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر
                       میگردد
                     </span>
@@ -98,13 +98,13 @@ export default function PackedRoom(props: Props) {
               )}
 
               {/* === Large-Screen */}
-              <div className="absolute top-5 left-5 hidden xl:block">
+              <div className="absolute left-5 top-5 hidden xl:block">
                 {price.is_fixed_discount_one_time && (
-                  <div className="text-green-600 text-center hidden items-center gap-1 lg:flex">
-                    <button className="relative ml-1 rounded-full group">
+                  <div className="hidden items-center gap-1 text-center text-green-600 lg:flex">
+                    <button className="group relative ml-1 rounded-full">
                       <InfoCircle size={16} color="#16a34a" />
 
-                      <span className="bg-cs-dark-blue text-cs75/5 text-zinc-100 font-medium w-60 text-right px-3 py-2 absolute top-6 -right-12 transition-all ease-in-out rounded-cs-10 invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:top-8 lg:w-52">
+                      <span className="invisible absolute -right-12 top-6 w-60 rounded-cs-10 bg-cs-dark-blue px-3 py-2 text-right text-cs75/5 font-medium text-zinc-100 opacity-0 transition-all ease-in-out group-hover:visible group-hover:top-8 group-hover:opacity-100 lg:w-52">
                         این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر
                         میگردد
                       </span>
@@ -116,15 +116,15 @@ export default function PackedRoom(props: Props) {
                 )}
 
                 {price.discount_percentage && price.discount_date && (
-                  <div className="grid grid-cols-[1fr_3fr] h-11 lg:h-8">
-                    <div className="relative bg-cs-red/10 text-cs-red w-11 flex-center gap-1 group rounded-lg">
+                  <div className="grid h-11 grid-cols-[1fr_3fr] lg:h-8">
+                    <div className="flex-center group relative w-11 gap-1 rounded-lg bg-cs-red/10 text-cs-red">
                       <span className="-ml-0.5">%</span>
                       <span className="font-extrabold">
                         {price.discount_percentage.toFixed(0)}
                       </span>
 
-                      <div className="absolute z-20 left-10 pointer-events-none opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:left-[3.2rem]">
-                        <div className="w-max h-8 bg-red-100 text-cs-red text-cs07 px-4 flex-center gap-1 rounded-lg">
+                      <div className="pointer-events-none absolute left-10 z-20 opacity-0 transition-all duration-300 ease-in-out group-hover:left-[3.2rem] group-hover:opacity-100">
+                        <div className="flex-center h-8 w-max gap-1 rounded-lg bg-red-100 px-4 text-cs07 text-cs-red">
                           <span>به ارزش قیمت : </span>
                           <span>{numberSeparation(price.discount_amount)}</span>
                           <span>تومان</span>
@@ -143,8 +143,8 @@ export default function PackedRoom(props: Props) {
         );
       })}
 
-      <div className="flex flex-col divide-y lg:flex-row lg:flex-between">
-        <div className="text-cs-blue text-cs08 font-bold p-5 flex flex-col gap-3 lg:flex-row lg:gap-8">
+      <div className="lg:flex-between flex flex-col divide-y lg:flex-row">
+        <div className="flex flex-col gap-3 p-5 text-cs08 font-bold text-cs-blue lg:flex-row lg:gap-8">
           <div className="flex items-center gap-1">
             <Moon color="currentColor" size={20} className="ml-1.5" />
             <span>مدت اقامت</span>
@@ -162,11 +162,11 @@ export default function PackedRoom(props: Props) {
           </div>
         </div>
 
-        <div className="text-cs85 p-5 flex flex-col gap-4 lg:flex-row lg:gap-8">
-          <div className="font-bold flex-between items-center gap-4">
+        <div className="flex flex-col gap-4 p-5 text-cs85 lg:flex-row lg:gap-8">
+          <div className="flex-between items-center gap-4 font-bold">
             <span>قیمت نهایی :</span>
 
-            <div className="text-cs09 flex-center gap-1">
+            <div className="flex-center gap-1 text-cs09">
               <span>{numberSeparation(total_price)}</span>
               <span>تومان</span>
             </div>
