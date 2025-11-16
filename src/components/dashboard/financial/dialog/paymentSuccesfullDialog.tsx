@@ -28,6 +28,7 @@ import {
 export default function PaymentSuccessDialog({
   closeFn,
   isOpened = false,
+  infos,
 }: DialogComponentPropsType): ReactNode {
   // Defining hooks
   const isMobile = useMediaQuery('(max-width: 1024px)');
@@ -44,8 +45,8 @@ export default function PaymentSuccessDialog({
           </DrawerHeader>
           <div className="px-[24px] py-0">
             <DrawerDescription className="text-[12px] font-medium text-gray-500">
-              مشترک گرامی عزیز حساب شما به مبلغ 10,000,000 تومان شارژ شد و
-              فاکتور برای شما در بخش مالی (فاکتور ها) صادر شد.
+              مشترک گرامی عزیز حساب شما به مبلغ {infos ? infos[0] : 0} تومان
+              شارژ شد و فاکتور برای شما در بخش مالی (فاکتور ها) صادر شد.
             </DrawerDescription>
           </div>
           <DrawerFooter className="px-[24px] py-0 mt-[10px]">
@@ -70,8 +71,8 @@ export default function PaymentSuccessDialog({
             </DialogTitle>
           </DialogHeader>
           <DialogDescription className="text-right text-sm font-medium text-black">
-            مشترک گرامی عزیز حساب شما به مبلغ 10,000,000 تومان شارژ شد و فاکتور
-            برای شما در بخش مالی (فاکتور ها) صادر شد.
+            مشترک گرامی عزیز حساب شما به مبلغ {infos ? infos[0] : 0} تومان شارژ
+            شد و فاکتور برای شما در بخش مالی (فاکتور ها) صادر شد.
           </DialogDescription>
           <DialogFooter dir="ltr">
             <DialogClose asChild>

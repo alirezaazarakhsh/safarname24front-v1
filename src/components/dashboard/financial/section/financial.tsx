@@ -13,6 +13,9 @@ import Invoice from '../invoice';
 import Link from 'next/link';
 import useUserWalletBalance from '@/hooks/dashboard/useUserWalletBalance';
 import { useMediaQuery } from '@/hooks';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETWalletPacks } from '@/types/dashboard/api/get';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Defining fake data for rendering selected price to be dynamic
 const selectedPriceData: number[] = [1000000, 2000000, 5000000, 10000000];
@@ -42,6 +45,15 @@ export default function Financial({
   // Defining hooks
   const wallet = useUserWalletBalance();
 
+  // Fetching data
+  const walletPacks = useApiQuery<GETWalletPacks>({
+    url: '/finance/wallet/packs/',
+    queryKey: ['wallet-packs'],
+    options: {
+      staleTime: Infinity,
+    },
+  });
+
   // Returning JSX
   return (
     <section className={className}>
@@ -60,30 +72,42 @@ export default function Financial({
           </p>
         </div>
       </div>
-      <div className="lg:grid grid-cols-4 hidden gap-5 mb-5">
-        {selectedPriceData.map((item, index) => (
-          <IconedPrice
-            key={index}
-            icon="DollarSquare"
-            title="مبلغ انتخابی"
-            price={item}
-            selected={selectedPrice === item}
-            disabled={priceType === 'dynamic'}
-            onClick={() => {
-              selectedPrice === item
-                ? setSelectedPrice(undefined)
-                : setSelectedPrice(item);
-            }}
-          />
-        ))}
-        {!isMobile &&
-          [...new Array(4 - selectedPriceData.length)].map((_, index) => (
-            <div
-              key={index}
-              className="bg-white lg:h-auto h-[64px] lg:rounded-[10px] rounded-[12px] border lg:px-3 lg:py-4 px-[16px] py-[16px] border-black/10"
-            />
+      {walletPacks.isLoading ? (
+        <div className="lg:grid grid-cols-4 hidden gap-5 mb-5">
+          {[...new Array(4)].map((_, index) => (
+            <Skeleton className="h-[74px]" key={index} />
           ))}
-      </div>
+        </div>
+      ) : !walletPacks.isLoading && !walletPacks.isError && walletPacks.data ? (
+        <div className="lg:grid grid-cols-4 hidden gap-5 mb-5">
+          {Object.values(walletPacks.data[0])
+            .map((str) => parseFloat(str))
+            .map((item, index) => (
+              <IconedPrice
+                key={index}
+                icon="DollarSquare"
+                title="مبلغ انتخابی"
+                price={item}
+                selected={selectedPrice === item}
+                disabled={priceType === 'dynamic'}
+                onClick={() => {
+                  selectedPrice === item
+                    ? setSelectedPrice(undefined)
+                    : setSelectedPrice(item);
+                }}
+              />
+            ))}
+          {!isMobile &&
+            [...new Array(4 - selectedPriceData.length)].map((_, index) => (
+              <div
+                key={index}
+                className="bg-white lg:h-auto h-[64px] lg:rounded-[10px] rounded-[12px] border lg:px-3 lg:py-4 px-[16px] py-[16px] border-black/10"
+              />
+            ))}
+        </div>
+      ) : (
+        false
+      )}
       <div className="grid lg:grid-cols-4 lg:gap-5 gap-0">
         <div className="flex flex-col lg:gap-5 gap-[16px] lg:px-0 px-[24px] lg:mb-0 mb-[24px]">
           <CheckboxItem

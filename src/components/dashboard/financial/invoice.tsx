@@ -4,20 +4,24 @@
 // Importing part
 import { InvoiceComponentPropsType } from '@/types/dashboard/component';
 import { numberSeparation } from '@/utils';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import num2persian from 'num2persian';
 import Loading from '../ui/loading';
 import PaymantCancledDialog from './dialog/paymentCancledDialog';
 import PaymentSuccessDialog from './dialog/paymentSuccesfullDialog';
 import PaymentErrorDialog from './dialog/paymentErrorDialog';
 import { ICDashedBorder } from '@/components/icons/ICDashedBorder';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import { POSTCreatePaymentLink } from '@/types/dashboard/api/post';
+import { useSearchParams } from 'next/navigation';
+import { addCommas } from '@persian-tools/persian-tools';
 
 // Creating and exporting Invoice componnent as default
 export default function Invoice({
   value,
 }: InvoiceComponentPropsType): ReactNode {
-  // Defining states of component
-  const [isLoading, setLoading] = useState<boolean>(false);
+  // Defining hooks
+  const searchParams = useSearchParams();
   const [paymantCancledDialogOpened, setPaymantCancledDialogOpened] =
     useState<boolean>(false);
   const [paymantSuccessDialogOpened, setPaymantSuccessDialogOpened] =
@@ -25,17 +29,40 @@ export default function Invoice({
   const [paymantErrorDialogOpened, setPaymantErrorDialogOpened] =
     useState<boolean>(false);
 
-  // Handling onClick of submit button
-  const handleClickOfSubmit = async () => {
-    setLoading(true);
-    const randomNum = Math.floor(Math.random() * 2); // For Testing purposes for now which returns random number of 1 (accepted) or 0 (failed)
-    await new Promise((resolve) => setTimeout(() => resolve(true), 2000));
+  // Defining variables
+  const amount = searchParams.get('amount') as string | null;
+  const paymentStatus = searchParams.get('payment_status') as
+    | 'success'
+    | 'unsuccessfull'
+    | null;
 
-    setLoading(false);
-    randomNum === 1
-      ? setPaymantSuccessDialogOpened(true)
-      : setPaymantErrorDialogOpened(true);
-  };
+  // Using useEffect to open success and failed dialog after redirecting from payment page to this page
+  useEffect(() => {
+    if (paymentStatus) {
+      if (paymentStatus === 'success') {
+        setPaymantErrorDialogOpened(false);
+        setPaymantSuccessDialogOpened(true);
+      } else {
+        setPaymantErrorDialogOpened(true);
+        setPaymantSuccessDialogOpened(false);
+      }
+    }
+  }, []);
+
+  // Fetching data
+  const sendData = useApiMutation<POSTCreatePaymentLink>({
+    url: '/finance/wallet/create-payment-link/',
+    method: 'post',
+    options: {
+      onSuccess: (data) => {
+        window.location.href = data.payment_link;
+      },
+      onError: () => setPaymantErrorDialogOpened(true),
+    },
+  });
+
+  // Handling onClick of submit button
+  const handleClickOfSubmit = () => sendData.mutate({ amount: value });
 
   // Returning JSX
   return (
@@ -46,11 +73,20 @@ export default function Invoice({
       />
       <PaymentSuccessDialog
         isOpened={paymantSuccessDialogOpened}
+        infos={[amount ? addCommas(amount) : '0']}
         closeFn={() => setPaymantSuccessDialogOpened(false)}
       />
       <PaymentErrorDialog
         isOpened={paymantErrorDialogOpened}
         closeFn={() => setPaymantErrorDialogOpened(false)}
+        refetch={() => {
+          if (paymentStatus !== 'success') {
+            setPaymantErrorDialogOpened(false);
+          } else {
+            setPaymantErrorDialogOpened(false);
+            handleClickOfSubmit();
+          }
+        }}
       />
       <div className="w-full">
         <span className="lg:text-cs85 text-[12px] font-semibold text-black truncate block">
@@ -80,11 +116,11 @@ export default function Invoice({
           </span>
         </div>
         <button
-          disabled={value === 0 || isLoading}
+          disabled={value === 0 || sendData.isPending}
           onClick={handleClickOfSubmit}
           className="bg-green-600 lg:h-[40px] h-[50px] lg:rounded-lg rounded-[8px] text-white flex items-center justify-center lg:p-3 p-[18px] transition-all duration-500 hover:bg-green-700 disabled:bg-[#f0f0f0] disabled:text-gray-500"
         >
-          {isLoading ? (
+          {sendData.isPending ? (
             <Loading />
           ) : (
             <span className="text-current font-semibold text-[13px] block text-center truncate">

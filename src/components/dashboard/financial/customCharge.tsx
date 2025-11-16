@@ -9,10 +9,10 @@ import { z } from 'zod';
 import Loading from '../ui/loading';
 import toast from '../ui/customSonner/toast';
 import { customChargeComponentPropsType } from '@/types/dashboard/component';
-import { numberSeparation } from '@/utils';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import CanclationErrorDrawer from '../reservation/canclationErrorDrawer';
 import { useMediaQuery } from '@/hooks';
+import { addCommas, removeCommas } from '@persian-tools/persian-tools';
 
 // Defining formSchema
 const formSchema = z.object({
@@ -20,16 +20,11 @@ const formSchema = z.object({
     .string({
       message: 'لطفا این فیلد را پر کنید.',
     })
-    .transform((value) => {
-      const removedCommas = value.replace(/,/g, '').replace(' تومان', '');
-
-      return Number(removedCommas);
-    })
-    .refine((val) => val > 1000000, {
+    .refine((val) => Number(removeCommas(val)) >= 1000000, {
       message: 'حداقل وارد کردن مبلغ سقف (1,000,000 تومان) میباشد',
     })
-    .refine((val) => val < 100000000, {
-      message: 'حداکثر وارد کردن مبلغ به سقف (100,000,000 تومان) میباشد.',
+    .refine((val) => Number(removeCommas(val)) < 10000000, {
+      message: 'حداکثر وارد کردن مبلغ به سقف (10,000,000 تومان) میباشد.',
     }),
 });
 
@@ -45,15 +40,11 @@ export default function CustomCharge({
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      amount: 0,
-    },
   });
 
   // Defining a function to handle submit Event
   const submitEventHandler: SubmitHandler<formType> = async (data) => {
-    await new Promise((resolve) => setTimeout(() => resolve(true), 2000)); // TODO: Remove later
-    onSubmit(data.amount);
+    onSubmit(Number(removeCommas(data.amount)));
   };
 
   // Returning JSX
@@ -99,26 +90,23 @@ export default function CustomCharge({
               placeholder="مثال : 21,000,000 تومان"
               disabled={disabled}
               data-errored={form.formState.errors.amount?.message !== undefined}
-              onKeyDown={(e) => {
-                if (e.key.toLowerCase() === 'backspace') {
-                  form.setValue('amount', 0);
-                }
-              }}
               onInput={(e) => {
                 const value = e.currentTarget.value;
-                const removedCommas = value
-                  .replace(/,/g, '')
-                  .replace(' تومان', '');
-                const formattedValue = numberSeparation(removedCommas);
-
-                e.currentTarget.value = `${formattedValue} تومان`;
+                const removedCommas = removeCommas(value);
+                const translatedValue = addCommas(removedCommas);
+                e.currentTarget.value = translatedValue;
               }}
+              type="text"
+              inputMode="numeric"
               {...form.register('amount')}
             />
             <button
               disabled={form.getValues('amount') === undefined}
               type="button"
-              onClick={() => form.setValue('amount', 0)}
+              onClick={() => {
+                form.resetField('amount', undefined);
+                onSubmit(undefined);
+              }}
               className="h-[35px] w-[35px] rounded-[6px] transition-all duration-500 bg-cs-red/10 text-cs-red disabled:bg-gray-100 disabled:text-gray-300 lg:hidden flex items-center justify-center"
             >
               <IconsaxIcons
