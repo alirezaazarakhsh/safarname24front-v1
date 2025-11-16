@@ -23,8 +23,8 @@ const formSchema = z.object({
     .refine((val) => Number(removeCommas(val)) >= 1000000, {
       message: 'حداقل وارد کردن مبلغ سقف (1,000,000 تومان) میباشد',
     })
-    .refine((val) => Number(removeCommas(val)) < 10000000, {
-      message: 'حداکثر وارد کردن مبلغ به سقف (10,000,000 تومان) میباشد.',
+    .refine((val) => Number(removeCommas(val)) < 100000000, {
+      message: 'حداکثر وارد کردن مبلغ به سقف (100,000,000 تومان) میباشد.',
     }),
 });
 
