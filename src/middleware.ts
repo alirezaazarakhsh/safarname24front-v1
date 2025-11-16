@@ -23,8 +23,6 @@ export async function middleware(request: NextRequest) {
   let isError = false;
   let appIsInActive = false;
 
-  const token = request.cookies.get('auth')?.value;
-
   try {
     const response = await fetch(apiBaseUrl + '/config/coming-soon/', {
       cache: 'no-store',
@@ -40,13 +38,6 @@ export async function middleware(request: NextRequest) {
     (appIsInActive || isError) &&
     pathname !== '/' &&
     !isSystemPath(pathname)
-  ) {
-    return redirectTo('/', request);
-  }
-
-  if (
-    (pathname.startsWith('/payment') || pathname.startsWith('/dashboard')) &&
-    !token
   ) {
     return redirectTo('/', request);
   }

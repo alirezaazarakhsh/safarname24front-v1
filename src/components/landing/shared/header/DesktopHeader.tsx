@@ -1,7 +1,5 @@
 'use client';
 
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
 import { Profile2User } from 'iconsax-react';
 import { usePathname } from 'next/navigation';
 
@@ -13,7 +11,6 @@ import UserProfile from '../auth/UserProfile';
 import UserFavorites from '../auth/UserFavorites';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETPersonalProfile } from '@/types/dashboard/api/get';
-import toast from '@/components/dashboard/ui/customSonner/toast';
 import { useUserAccountContext } from '@/context/UserAccountContext';
 
 // --------------------------------
@@ -24,67 +21,51 @@ export default function DesktopHeader() {
   const scrollPosition = useScrollPosition();
 
   const desktopCondition = scrollPosition > 0 || pathname !== '/';
-  const [userIsLoggedIn, setUserLoggedIn] = useState<boolean | null>(null);
 
-  // Check if user is logged in
-  useEffect(() => {
-    const cookie = Cookies.get('auth');
-    setUserLoggedIn(!!cookie);
-  }, []);
-
-  const personalDataFetch = useApiQuery<GETPersonalProfile>({
+  const personalData = useApiQuery<GETPersonalProfile>({
     url: '/natural-profiles/',
-    queryKey: ['personalProfile', 'persoanl', 'profile'],
+    queryKey: ['personalProfile', 'personal', 'profile'],
     options: {
       staleTime: Infinity,
     },
   });
 
-  // Using useEffect to handle errors of personal data fetching
-  useEffect(() => {
-    toast({
-      title: 'مشکلی رخ داد!',
-      description: 'در دریافت اطلاعات مشکلی پیش امد.',
-      theme: 'theme',
-    });
-  }, [personalDataFetch.isError]);
-
   return (
     <>
       <div
-        className={`fixed top-0 inset-x-0 z-20 bg-[#f8f8f8] h-[5rem] hidden border-b transition-all duration-500 ease-in-out lg:block ${
+        className={`fixed inset-x-0 top-0 z-20 hidden h-[5rem] border-b bg-[#f8f8f8] transition-all duration-500 ease-in-out lg:block ${
           desktopCondition
             ? 'shadow-[0_0_2rem_rgba(0,0,0,0.1)]'
             : 'border-transparent'
         }`}
       ></div>
 
-      <header className="sticky top-0 z-30 max-w-screen-template h-[5rem] mx-auto hidden lg:flex-center">
-        <section className="w-full font-bold mx-5 flex-between items-center gap-4">
+      <header className="lg:flex-center sticky top-0 z-30 mx-auto hidden h-[5rem] max-w-screen-template">
+        <section className="flex-between mx-5 w-full items-center gap-4 font-bold">
           {/* Logo | Title | Subtitle */}
           <DHeaderStatics />
           {/* -------- */}
           <NavLinks />
 
           {/* User-Favorites - User-Profile */}
-          <div className="h-11 text-zinc-800 text-cs07 flex gap-2 xl:gap-3">
+          <div className="flex h-11 gap-2 text-cs07 text-zinc-800 xl:gap-3">
             <UserFavorites />
 
-            {personalDataFetch.isLoading ? (
-              <button className="bg-zinc-200/50 w-16 flex-center gap-2 rounded-lg xl:w-28">
+            {personalData.isLoading ? (
+              <button className="flex-center w-16 gap-2 rounded-lg bg-zinc-200/50 xl:w-28">
                 <span className="loader-dots-dark"></span>
               </button>
-            ) : userIsLoggedIn ? (
+            ) : personalData.data?.first_name ? (
               <UserProfile
                 userName={
-                  personalDataFetch.isError || !personalDataFetch.data
+                  personalData.isError || !personalData.data
                     ? 'خطا در دریافت اطلاغات!'
-                    : `${personalDataFetch.data.first_name} ${personalDataFetch.data.last_name}`
+                    : `${personalData.data.first_name} ${personalData.data.last_name}`
                 }
               />
             ) : (
               <button
-                className="bg-zinc-200/50 px-4 flex-center gap-2 rounded-lg transition-colors duration-300 ease-in-out hover:bg-zinc-200/80"
+                className="flex-center gap-2 rounded-lg bg-zinc-200/50 px-4 transition-colors duration-300 ease-in-out hover:bg-zinc-200/80"
                 onClick={() => toggle()}
               >
                 <Profile2User size={19} color="#292D32" />
