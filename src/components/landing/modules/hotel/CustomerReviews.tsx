@@ -4,7 +4,6 @@ import { PiPlus } from 'react-icons/pi';
 import { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-import Cookies from 'js-cookie';
 import { TopBarConfig } from '../../shared';
 import { Section } from './molecules/Section';
 import { HotelCustomerReview } from '@/types';
@@ -20,6 +19,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { AddCommentProvider } from '@/context/AddCommentContext';
 import AuthGuardReaction from '../../shared/auth/AuthGuardReaction';
 import AddCommentWrapper from './molecules/customer-review/AddCommentWrapper';
+import { useCheckAuth } from '@/hooks';
 
 type Props = { hotelSlug: string };
 type ApiResponse = { data: HotelCustomerReview[] };
@@ -28,6 +28,7 @@ type ApiResponse = { data: HotelCustomerReview[] };
 
 export function CustomerReviews(props: Props) {
   const { hotelSlug } = props;
+  const { isAuthenticated } = useCheckAuth();
   const swiperRef = useRef<SwiperType>(null);
 
   const [isOpen, setOpen] = useState(false);
@@ -55,23 +56,22 @@ export function CustomerReviews(props: Props) {
 
       {/* === Add-Comment */}
       <button
-        className="absolute bg-white/50 top-1 left-0 h-10 px-4 pr-3 flex-center gap-2 border rounded-lg"
+        className="flex-center absolute left-0 top-1 h-10 gap-2 rounded-lg border bg-white/50 px-4 pr-3"
         onClick={() => {
-          const authToken = Cookies.get('auth');
-          if (authToken) setAddCommentIsOpen(true);
+          if (isAuthenticated) setAddCommentIsOpen(true);
           else setOpen(true);
         }}
       >
         <PiPlus size={14} />
 
-        <span className="text-zinc-800 text-cs08 font-semibold">
+        <span className="text-cs08 font-semibold text-zinc-800">
           افزودن نظر
         </span>
       </button>
 
       {/* === Data-Content */}
       {status === 'pending' ? (
-        <div className="grid gap-6 lg:h-[30rem] lg:grid lg:grid-cols-[1fr_2fr] lg:gap-8">
+        <div className="grid gap-6 lg:grid lg:h-[30rem] lg:grid-cols-[1fr_2fr] lg:gap-8">
           <Skeleton className="h-[30rem] rounded-xl lg:h-auto" />
           <Skeleton className="h-96 rounded-xl lg:h-auto" />
         </div>
@@ -81,21 +81,23 @@ export function CustomerReviews(props: Props) {
           <Reviews hotelSlug={hotelSlug} ref={swiperRef} />
         </div>
       ) : (
-        <div className="bg-cs-blue/10 p-5 text-cs-blue text-cs85/6 font-semibold flex flex-col items-center justify-center gap-3 rounded-xl lg:text-cs09/5 lg:p-8">
+        <div className="flex flex-col items-center justify-center gap-3 rounded-xl bg-cs-blue/10 p-6 text-cs85/6 font-semibold text-cs-blue lg:p-8 lg:text-cs09/5">
           <div className="flex-center gap-1.5">
             <HiMiniExclamationCircle
               color="#4b5bce"
               className="size-5 lg:size-6"
             />
 
-            <p className="font-bold">دیدگاهی برای این هتل ثبت نشده است</p>
+            <p className="font-bold">
+              تاکنون دیدگاهی برای این هتل به ثبت نرسیده است !
+            </p>
           </div>
 
           <div className="w-[90%] border-b border-dashed border-cs-blue/20 md:w-1/3" />
 
-          <p className="text-cs08/6 text-center lg:text-cs85/6">
-            برای افزودن دیدگاه خود از دکمه "افزودن نظر" استفاده نمایید و اولین
-            دیدگاه را شما ثبت کنید .
+          <p className="text-center text-cs08/6 lg:text-cs85/6">
+            * برای افزودن دیدگاه خود از دکمه "افزودن نظر" استفاده نمایید و اولین
+            دیدگاه را ثبت کنید .
           </p>
         </div>
       )}

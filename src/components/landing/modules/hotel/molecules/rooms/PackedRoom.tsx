@@ -55,8 +55,8 @@ export default function PackedRoom(props: Props) {
                 ) : (
                   <Image
                     alt="logo"
-                    width={90}
-                    height={90}
+                    width={100}
+                    height={100}
                     src={'/image/logo/red.png'}
                     className="opacity-20 grayscale"
                   />

@@ -1,5 +1,4 @@
 import { apiBaseUrl } from './constants';
-
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -21,24 +20,28 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   let isError = false;
-  let appIsInActive = false;
+  let comingSoonIsActive = false;
+
+  const access = request.cookies.get('access_token');
 
   try {
-    const response = await fetch(apiBaseUrl + '/config/coming-soon/', {
-      cache: 'no-store',
-    });
+    const response = await fetch(apiBaseUrl + '/config/coming-soon/');
 
     const json = await response.json();
-    appIsInActive = json.data.is_active;
+    comingSoonIsActive = json.data.is_active;
   } catch (error) {
     isError = true;
   }
 
   if (
-    (appIsInActive || isError) &&
+    (comingSoonIsActive || isError) &&
     pathname !== '/' &&
     !isSystemPath(pathname)
   ) {
+    return redirectTo('/', request);
+  }
+
+  if (pathname.startsWith('/dashboard') && !access) {
     return redirectTo('/', request);
   }
 
