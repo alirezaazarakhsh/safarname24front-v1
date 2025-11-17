@@ -1,16 +1,16 @@
 'use client';
 
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useCheckAuth } from '@/hooks';
 
 import { axiosInstance } from '@/utils/axios';
-import { AnimatePresence, motion } from 'framer-motion';
-
 import { FavoriteIcon } from './FavoriteIcon';
+
 import { AddCollection } from './AddCollection';
 import { CollectionList } from './CollectionList';
-
 import { generalInstance } from '@/utils/services';
+
+import { AnimatePresence, motion } from 'framer-motion';
 import AddCollectionButton from './AddCollectionButton';
 
 import { AuthGuardReaction } from './AuthGuardReaction';
@@ -26,7 +26,6 @@ type HotelInformation = { data: { id: number } };
 
 export function FavoriteButton(props: Props) {
   const [guardIsOpen, setGuardIsOpen] = useState(false);
-  const [isAuthenticated, setAuthenticate] = useState(false);
 
   const [collectionsOpen, setOpenCollection] = useState(false);
   const [addCollectionOpen, setAddCollectionOpen] = useState(false);
@@ -35,12 +34,11 @@ export function FavoriteButton(props: Props) {
   const callReactions = useCallReactions();
 
   // === Check-Auth
-  useEffect(() => {
-    setAuthenticate(!!Cookies.get('auth'));
-  }, []);
+  const { isAuthenticated } = useCheckAuth();
 
   // === Check Hotel-Collections Length
   const { data: hotelCollections, status } = useQuery({
+    enabled: isAuthenticated,
     queryKey: ['hotel-favorite-collections'],
     queryFn: () => axiosInstance('/favorite/website/collections/'),
   });
@@ -121,7 +119,7 @@ export function FavoriteButton(props: Props) {
 
       <motion.button
         onClick={handleClick}
-        className={`relative w-11 h-full flex-center overflow-hidden rounded-cs-10 transition-all duration-300 ease-in-out ${isFavorite ? 'bg-cs-red/10' : 'bg-zinc-200/50'}`}
+        className={`flex-center relative h-full w-11 overflow-hidden rounded-cs-10 transition-all duration-300 ease-in-out ${isFavorite ? 'bg-cs-red/10' : 'bg-zinc-200/50'}`}
       >
         <AnimatePresence>
           {isFavorite ? (

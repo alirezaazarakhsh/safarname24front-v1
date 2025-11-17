@@ -1,9 +1,9 @@
 import NormalRoom from './NormalRoom';
 import PackedRoom from './PackedRoom';
+import { useCheckAuth } from '@/hooks';
 
 import { Room } from '@/types/landing';
 import { Warning2 } from 'iconsax-react';
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { AuthGuardReaction } from '../favorite-button/AuthGuardReaction';
 
@@ -23,20 +23,20 @@ type Props = {
 
 export default function RoomsArea(props: Props) {
   const { data, status } = props;
+
+  const { isAuthenticated } = useCheckAuth();
+  const [visibleCount, setVisibleCount] = useState(0);
   const [authReactionOpen, setAuthReactionOpen] = useState(false);
 
   const isNormalRooms =
     Array.isArray(data) && data.every((item) => 'capacity' in item);
-  const [visibleCount, setVisibleCount] = useState(0);
 
   useEffect(() => {
     setVisibleCount(isNormalRooms ? 8 : 4);
   }, [data, isNormalRooms]);
 
   function handleCheckAuth(): boolean {
-    const authToken = Cookies.get('auth');
-
-    if (!authToken) {
+    if (!isAuthenticated) {
       setAuthReactionOpen(true);
       return false;
     } else return true;
@@ -44,7 +44,7 @@ export default function RoomsArea(props: Props) {
 
   if (status === 'pending') {
     return (
-      <div className="h-40 flex-center lg:h-60">
+      <div className="flex-center h-40 lg:h-60">
         <div className="large-dots-dark" />
       </div>
     );
@@ -52,9 +52,9 @@ export default function RoomsArea(props: Props) {
 
   if (status === 'error' || !data || !data.length) {
     return (
-      <div className="flex flex-col items-center py-12 text-zinc-600 font-semibold text-cs08">
+      <div className="flex flex-col items-center py-12 text-cs08 font-semibold text-zinc-600">
         <Warning2 size={60} color="currentColor" className="text-cs-red" />
-        <p className="text-zinc-800 text-[clamp(0.85rem,3vw,0.95rem)] font-bold mt-4 mb-2">
+        <p className="mb-2 mt-4 text-[clamp(0.85rem,3vw,0.95rem)] font-bold text-zinc-800">
           متاسفانه جستجوی شما در تاریخ مورد نظر نتیجه ای نداشت !
         </p>
 
@@ -85,7 +85,7 @@ export default function RoomsArea(props: Props) {
           onClick={() =>
             setVisibleCount((prev) => prev + (isNormalRooms ? 8 : 4))
           }
-          className="w-fit bg-zinc-200/80 text-cs08 font-semibold px-5 py-2.5 rounded-lg"
+          className="w-fit rounded-lg bg-zinc-200/80 px-5 py-2.5 text-cs08 font-semibold"
         >
           مشاهده بیشتر
         </button>

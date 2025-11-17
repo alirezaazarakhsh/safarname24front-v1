@@ -1,9 +1,9 @@
-import { CSSVars } from '@/types/landing';
-import loader from '@/styles/loader.module.css';
-
 import { useState } from 'react';
 import { AxiosError } from 'axios';
+
+import { CSSVars } from '@/types/landing';
 import { axiosInstance } from '@/utils/axios';
+import loader from '@/styles/loader.module.css';
 import { useMutation } from '@tanstack/react-query';
 
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -66,12 +66,10 @@ export default function ReserveButton(props: Props) {
   });
 
   function handleClick() {
-    const authCheck = checkAuth();
-
     const exitDate = searchParams.get('end-date');
     const enterDate = searchParams.get('start-date');
 
-    if (!authCheck || !enterDate || !exitDate) return;
+    if (!checkAuth() || !enterDate || !exitDate) return;
 
     mutate({
       hotel_id: hotelId,
@@ -86,7 +84,7 @@ export default function ReserveButton(props: Props) {
   return (
     <button
       onClick={handleClick}
-      className={`text-cs08 h-11 flex-center rounded-cs-10 ${isMultipleRoom ? 'bg-cs-blue/10 text-cs-blue font-extrabold lg:w-32' : 'w-full bg-cs-dark-blue text-zinc-100 font-bold col-span-2'}`}
+      className={`flex-center h-11 rounded-cs-10 text-cs08 ${isMultipleRoom ? 'bg-cs-blue/10 font-extrabold text-cs-blue lg:w-32' : 'col-span-2 w-full bg-cs-dark-blue font-bold text-zinc-100'}`}
     >
       {isLoading ? (
         <span
