@@ -48,7 +48,8 @@ export default function OTPVerification(props: Props) {
       console.error(error);
     },
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
+      window.location.reload();
     },
   });
 

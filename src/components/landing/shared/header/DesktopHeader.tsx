@@ -1,15 +1,17 @@
 'use client';
 
-import { Profile2User } from 'iconsax-react';
-import { usePathname } from 'next/navigation';
-
 import NavLinks from './NavLinks';
-import DHeaderStatics from './DHeaderStatics';
+import { Profile2User } from 'iconsax-react';
 
-import { useScrollPosition } from '@/hooks';
+import { usePathname } from 'next/navigation';
+import DHeaderStatics from './DHeaderStatics';
 import UserProfile from '../auth/UserProfile';
+import { axiosInstance } from '@/utils/axios';
+
+import { useQuery } from '@tanstack/react-query';
 import UserFavorites from '../auth/UserFavorites';
-import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+
+import { useCheckAuth, useScrollPosition } from '@/hooks';
 import { GETPersonalProfile } from '@/types/dashboard/api/get';
 import { useUserAccountContext } from '@/context/UserAccountContext';
 
@@ -17,17 +19,22 @@ import { useUserAccountContext } from '@/context/UserAccountContext';
 
 export default function DesktopHeader() {
   const pathname = usePathname();
+  const { isAuthenticated } = useCheckAuth();
+
   const { toggle } = useUserAccountContext();
   const scrollPosition = useScrollPosition();
 
   const desktopCondition = scrollPosition > 0 || pathname !== '/';
 
-  const personalData = useApiQuery<GETPersonalProfile>({
-    url: '/natural-profiles/',
-    queryKey: ['personalProfile', 'personal', 'profile'],
-    options: {
-      staleTime: Infinity,
-    },
+  const {
+    status,
+    fetchStatus,
+    data: personalData,
+  } = useQuery<GETPersonalProfile>({
+    enabled: isAuthenticated,
+    queryKey: ['natural-profiles'],
+    queryFn: () =>
+      axiosInstance('/natural-profiles/').then((data) => data.data),
   });
 
   return (
@@ -42,26 +49,19 @@ export default function DesktopHeader() {
 
       <header className="lg:flex-center sticky top-0 z-30 mx-auto hidden h-[5rem] max-w-screen-template">
         <section className="flex-between mx-5 w-full items-center gap-4 font-bold">
-          {/* Logo | Title | Subtitle */}
           <DHeaderStatics />
-          {/* -------- */}
           <NavLinks />
 
-          {/* User-Favorites - User-Profile */}
           <div className="flex h-11 gap-2 text-cs07 text-zinc-800 xl:gap-3">
             <UserFavorites />
 
-            {personalData.isLoading ? (
+            {fetchStatus !== 'idle' && status === 'pending' ? (
               <button className="flex-center w-16 gap-2 rounded-lg bg-zinc-200/50 xl:w-28">
                 <span className="loader-dots-dark"></span>
               </button>
-            ) : personalData.data?.first_name ? (
+            ) : personalData?.first_name ? (
               <UserProfile
-                userName={
-                  personalData.isError || !personalData.data
-                    ? 'خطا در دریافت اطلاغات!'
-                    : `${personalData.data.first_name} ${personalData.data.last_name}`
-                }
+                userName={`${personalData.first_name} ${personalData.last_name}`}
               />
             ) : (
               <button
