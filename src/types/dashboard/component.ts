@@ -894,9 +894,4 @@ export interface EmergencieFormPropsType {
 
 export interface AdminCreditCardInfoPropsType {
   className?: string;
-  data: {
-    name: string;
-    number: string;
-    iban: string;
-  };
 }

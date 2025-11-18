@@ -69,6 +69,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
 
   const form = useForm<cartToCartFormType>({
     resolver: zodResolver(formSchema),
+    reValidateMode: "onChange",
     defaultValues: {
       creditCardNumber: userInfo.card_numbers[0].card_number,
       creditCardIban: userInfo.card_numbers[0].iban,
@@ -144,14 +145,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
         </div>
       </div>
       <div className="grid lg:grid-cols-6  lg:gap-5 gap-[24px]">
-        <AdminCreditCardInfo
-          className="lg:col-span-4"
-          data={{
-            name: 'امیرحسین لامعی',
-            iban: '606723561235125612351256',
-            number: '6067235612351256',
-          }}
-        />
+        <AdminCreditCardInfo className="lg:col-span-4" />
         <Subscription className="lg:col-span-2" />
       </div>
       <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">

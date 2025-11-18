@@ -5,19 +5,36 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { AdminCreditCardInfoPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { JSX } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import CardShowCase from './cardShowCase';
 import { getBankFromCard, hanldeClipboardCopy } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
 import { numberSeparation } from '@/utils';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETAdminCreditCard } from '@/types/dashboard/api/get';
+import { BankInfo } from '@/types/utils';
 
 // Creating and exporting AdminCreditCardInfo component as default
 export default function AdminCreditCardInfo({
   className,
-  data,
 }: AdminCreditCardInfoPropsType): JSX.Element {
-  // Defining variables
-  const cardInfo = getBankFromCard(data.number);
+  // Defining hooks 
+  const [cardInfo, setCardInfo] = useState<BankInfo | null>(null);
+  const getData = useApiQuery<GETAdminCreditCard>({
+    url: "/finance/admin-card-settings/",
+    queryKey: ["admin-card-info"],
+    options: {
+      staleTime: Infinity,
+      refetchInterval: Infinity
+    }
+  });
+
+  // Using useEffect to set info of credit card
+  useEffect(() => {
+    if (!getData.isLoading && !getData.isError && getData.data) {
+      setCardInfo(getBankFromCard(getData.data.card_number))
+    }
+  }, [getData.isLoading])
 
   // Returning JSX
   return (
@@ -51,8 +68,8 @@ export default function AdminCreditCardInfo({
             data={{
               bankIcon: cardInfo?.type || 'unknown',
               bankName: cardInfo?.name || 'نامعلوم',
-              iban: data.iban,
-              number: data.number,
+              iban: getData.data?.iban_number || "-",
+              number: getData.data?.card_number || "-",
             }}
           />
         </div>
@@ -71,7 +88,7 @@ export default function AdminCreditCardInfo({
                   صاحب کارت
                 </span>
                 <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                  {`به نام ${data.name}`}
+                  {`به نام ${getData.data?.account_holder_name || "-"}`}
                 </span>
               </div>
             </div>
@@ -107,14 +124,14 @@ export default function AdminCreditCardInfo({
                   <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
                     شماره کارت
                   </span>
-                  <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                    {numberSeparation(data.number, ' - ', 4)}
+                  <span dir='ltr' className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+                    {numberSeparation(getData.data?.card_number || "****************", ' - ', 4)}
                   </span>
                 </div>
               </div>
               <button
                 className="size-[45px] shrink-0 flex items-center justify-center lg:rounded-md rounded-[10px] transition-all duration-500 bg-gray-100/50 hover:bg-gray-100 tet-black"
-                onClick={() => hanldeClipboardCopy(data.number)}
+                onClick={() => hanldeClipboardCopy(getData.data?.card_number || "****************")}
               >
                 <IconsaxIcons
                   name="DocumentCopy"
@@ -136,14 +153,14 @@ export default function AdminCreditCardInfo({
                   <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
                     شماره شبا
                   </span>
-                  <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                    {`IR ${numberSeparation(data.iban, ' - ', 4)}`}
+                  <span dir='ltr' className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+                    {`IR ${numberSeparation(getData.data?.iban_number || "************************", ' - ', 4)}`}
                   </span>
                 </div>
               </div>
               <button
                 className="size-[45px] shrink-0 flex items-center justify-center lg:rounded-md rounded-[10px] transition-all duration-500 bg-gray-100/50 hover:bg-gray-100 tet-black"
-                onClick={() => hanldeClipboardCopy(data.iban)}
+                onClick={() => hanldeClipboardCopy(getData.data?.card_number || "************************")}
               >
                 <IconsaxIcons
                   name="DocumentCopy"

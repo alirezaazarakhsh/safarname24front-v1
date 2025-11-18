@@ -130,42 +130,42 @@ export interface GETFavoriteItemSingle {
 
 export type GETCustomerClubRoomListItem =
   | {
+    id: number;
+    discount_type: 'room';
+    code: string;
+    discount_value: string;
+    usage_limit: number;
+    remaining_uses: number;
+    required_points: number;
+    user_level: number;
+    created_at: string;
+    expires_at: string;
+    activation_rules: string;
+    room: {
       id: number;
-      discount_type: 'room';
-      code: string;
-      discount_value: string;
-      usage_limit: number;
-      remaining_uses: number;
-      required_points: number;
-      user_level: number;
-      created_at: string;
-      expires_at: string;
-      activation_rules: string;
-      room: {
-        id: number;
-        title: string;
-        hotel_name: string;
-        hotel_main_image: string;
-      };
-    }
-  | {
-      id: number;
-      discount_type: 'hotel';
-      code: string;
-      discount_value: string;
-      usage_limit: number;
-      remaining_uses: number;
-      required_points: number;
-      user_level: number;
-      created_at: string;
-      expires_at: string;
-      activation_rules: string;
-      hotel: {
-        id: number;
-        hotel_name: string;
-        main_image: string;
-      };
+      title: string;
+      hotel_name: string;
+      hotel_main_image: string;
     };
+  }
+  | {
+    id: number;
+    discount_type: 'hotel';
+    code: string;
+    discount_value: string;
+    usage_limit: number;
+    remaining_uses: number;
+    required_points: number;
+    user_level: number;
+    created_at: string;
+    expires_at: string;
+    activation_rules: string;
+    hotel: {
+      id: number;
+      hotel_name: string;
+      main_image: string;
+    };
+  };
 
 export interface GETCustomerClubShoppingCentreListItem {
   id: number;
@@ -297,6 +297,12 @@ export type GETWalletPacks = [
     amount_4: string;
   },
 ];
+
+export interface GETAdminCreditCard {
+  card_number: string
+  iban_number: string;
+  account_holder_name: string;
+}
 
 export type GETCustomerClubList = GETPaginationAPILayout<
   GETCustomerClubListItem[]
