@@ -112,11 +112,11 @@ export default function DatePicker({
       <div
         data-opened={isOpened}
         className={cn(
-          'bg-white p-5 fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 origin-center w-[600px] max-h-[85dvh] overflow-auto scrollbar-hide transition-all duration-500 data-[opened="false"]:opacity-0 data-[opened="false"]:scale-95 data-[opened="false"]:invisible data-[opened="true"]:opacity-100 data-[opened="true"]:scale-100 data-[opened="true"]:visible rounded-xl shadow-xl',
+          'bg-white p-5 fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 origin-center w-[300px] max-h-[85dvh] overflow-hidden scrollbar-hide transition-all duration-500 data-[opened="false"]:opacity-0 data-[opened="false"]:scale-95 data-[opened="false"]:invisible data-[opened="true"]:opacity-100 data-[opened="true"]:scale-100 data-[opened="true"]:visible rounded-xl shadow-xl',
           className,
         )}
       >
-        <div className="grid grid-cols-2 gap-10 mb-4">
+        <div className="flex items-center justify-between gap-10 mb-4">
           <button
             className="flex items-center"
             onClick={() => handleMonthChange('previous')}
@@ -128,21 +128,16 @@ export default function DatePicker({
                 className="w-2.5 h-2.5"
               />
             </div>
-            <span className="block mx-auto w-full text-center truncate text-cs08 font-semibold text-black">
-              {useJalali
-                ? currentMonth.locale('fa').format('jMMMM')
-                : currentMonth.locale('us').format('MMMM')}
-            </span>
           </button>
+          <span className="block mx-auto w-full text-center truncate text-cs08 font-semibold text-black">
+            {useJalali
+              ? currentMonth.locale('fa').format('jMMMM')
+              : currentMonth.locale('us').format('MMMM')}
+          </span>
           <button
             className="flex items-center"
             onClick={() => handleMonthChange('next')}
           >
-            <span className="block mx-auto w-full text-center truncate text-cs08 font-semibold text-black">
-              {useJalali
-                ? nextMonth.locale('fa').format('jMMMM')
-                : nextMonth.locale('us').format('MMMM')}
-            </span>
             <div className="w-5 h-5 aspect-square bg-gray-100 flex items-center justify-center rounded-md shrink-0">
               <IconsaxIcons
                 name="ArrowLeft2"
@@ -152,29 +147,29 @@ export default function DatePicker({
             </div>
           </button>
         </div>
-        <div className="grid grid-cols-2 mb-3">
-          <div className="grid grid-cols-7 gap-3 pl-5 border-l border-l-black/10">
+        <div className="grid grid-cols-1 mb-3">
+          <div className="grid grid-cols-7 gap-3">
             {useJalali
               ? weekDayNames.map((item, index) => (
-                  <div
-                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                    key={`${index}-JWD-1`}
-                  >
-                    <span className="text-cs06 font-medium text-black">
-                      {item}
-                    </span>
-                  </div>
-                ))
+                <div
+                  className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
+                  key={`${index}-JWD-1`}
+                >
+                  <span className="text-cs06 font-medium text-black">
+                    {item}
+                  </span>
+                </div>
+              ))
               : weekDayNamesUS.map((item, index) => (
-                  <div
-                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                    key={`${index}-JWD-1`}
-                  >
-                    <span className="text-cs06 font-medium text-black">
-                      {item}
-                    </span>
-                  </div>
-                ))}
+                <div
+                  className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
+                  key={`${index}-JWD-1`}
+                >
+                  <span className="text-cs06 font-medium text-black">
+                    {item}
+                  </span>
+                </div>
+              ))}
             {[
               ...new Array(
                 currentMonth
@@ -216,102 +211,44 @@ export default function DatePicker({
               </button>
             ))}
           </div>
-          <div className="grid grid-cols-7 gap-3 pr-5">
-            {useJalali
-              ? weekDayNames.map((item, index) => (
-                  <div
-                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                    key={`${index}-JWD-2`}
-                  >
-                    <span className="text-cs06 font-medium text-black">
-                      {item}
-                    </span>
-                  </div>
-                ))
-              : weekDayNamesUS.map((item, index) => (
-                  <div
-                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                    key={`${index}-JWD-2`}
-                  >
-                    <span className="text-cs06 font-medium text-black">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-            {[
-              ...new Array(
-                nextMonth
-                  .clone()
-                  .startOf(useJalali ? 'jMonth' : 'month')
-                  .day(),
-              ),
-            ].map((item, index) => (
-              <div key={`${index}-JDDX-2`} className="aspect-square" />
-            ))}
-            {daysToRenderNextMonth.map((item, index) => (
-              <button
-                key={`${index}-JDD-2`}
-                data-role={checkDayState(item)}
-                onClick={() => {
-                  const dayState = checkDayState(item);
-                  if (dayState !== 'passed') {
-                    setSelectedDate(item);
-                  }
-                }}
-                className={cn(
-                  'flex items-center justify-center aspect-square rounded-md transition-all duration-500',
-                  "data-[role='passed']:bg-white data-[role='passed']:text-gray-200",
-                  "data-[role='selected']:bg-cs-red data-[role='selected']:text-white",
-                  "data-[role='today']:bg-black data-[role='today']:text-white",
-                  "data-[role='normal']:bg-white data-[role='normal']:text-black",
-                )}
-              >
-                <span
-                  className={cn(
-                    'text-current',
-                    useJalali
-                      ? 'font-medium text-cs06'
-                      : 'font-mono font-medium text-cs06',
-                  )}
-                >
-                  {handleZeroBeforeNumber((index + 1).toString())}
-                </span>
-              </button>
-            ))}
-          </div>
         </div>
         <div className="flex items-center justify-between gap-5">
           <Button
             onClick={toggleCalendar}
-            className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50"
+            className="bg-white border border-black/10 rounded-lg flex items-center justify-center size-10 hover:bg-gray-50 text-white"
           >
-            <span className="font-normal text-black/60 truncate block w-full text-center text-xs">
-              {useJalali ? `تبدیل به تقویم میلادی` : `تبدیل به تقویم شمسی`}
-            </span>
+            <IconsaxIcons
+              name="LanguageCircle"
+              className='size-6'
+            />
           </Button>
           <div className="flex items-center justify-end gap-3">
             <Button
               disabled={selectedDate === undefined}
-              className="transition-all duration-500 bg-cs-red rounded-lg flex items-center justify-center py-3 px-5 hover:bg-cs-red disabled:opacity-50"
+              className="transition-all duration-500 bg-cs-red rounded-lg flex items-center justify-center size-10 hover:bg-cs-red disabled:opacity-50 text-white"
               onClick={() => setSelectedDate(undefined)}
             >
-              <span className="font-normal text-white truncate block w-full text-center text-xs">
-                پاک کردن
-              </span>
+              <IconsaxIcons
+                name="CloseCircle"
+                className='size-6'
+                color="currentColor"
+              />
             </Button>
             <Button
               disabled={selectedDate === undefined}
+              className="transition-all duration-500 bg-black rounded-lg flex items-center justify-center size-10 hover:bg-black disabled:opacity-50 text-white"
               onClick={() => {
                 closeFn();
                 if (onSubmit && selectedDate !== undefined) {
                   onSubmit(selectedDate);
                 }
               }}
-              className="transition-all duration-500 bg-black rounded-lg flex items-center justify-center py-3 px-5 hover:bg-black disabled:opacity-50"
             >
-              <span className="font-normal text-white truncate block w-full text-center text-xs">
-                تایید تاریخ
-              </span>
+              <IconsaxIcons
+                name="TickCircle"
+                color="currentColor"
+                className='size-6'
+              />
             </Button>
           </div>
         </div>

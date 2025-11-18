@@ -8,55 +8,15 @@ import { cn } from '@/utils/utils';
 import { JSX } from 'react';
 import NormalInput from '../profile/normalInput';
 import DatePickerInput from './datePickerInput';
-import { z } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-// Defining form schema
-const formSchema = z.object({
-  depositorName: z
-    .string()
-    .min(2, { message: 'نام واریز کننده باید حداقل ۲ کاراکتر باشد' })
-    .nonempty({ message: 'وارد کردن نام واریز کننده الزامی است' }),
-  trackingNumber: z
-    .string()
-    .length(12, { message: 'شماره پیگیری باید دقیقا ۱۲ رقم باشد' })
-    .regex(/^[0-9]+$/, { message: 'شماره پیگیری فقط باید شامل اعداد باشد' }),
-  extraAmount: z
-    .string({
-      required_error: 'وارد کردن مبلغ اضافه الزامی است',
-      invalid_type_error: 'مبلغ باید عدد باشد',
-    })
-    .refine((val) => Number(val) > 10000, {
-      message: 'مبلغ باید بیشتر از 10,000 تومان باشد باشد',
-    }),
-  depositDate: z
-    .string()
-    .nonempty({ message: 'تاریخ واریز وجه را وارد نمایید' }),
-});
-
-// Defining form type
-export type formType = z.infer<typeof formSchema>;
 
 // Creating and exporting EmergencieForm component as default
 export default function EmergencieForm({
   className,
-  onChange,
+  form
 }: EmergencieFormPropsType): JSX.Element {
-  // Defining hooks
-  const form = useForm<formType>({
-    resolver: zodResolver(formSchema),
-    reValidateMode: 'onChange',
-  });
-
-  const onSubmit: SubmitHandler<formType> = (data) =>
-    onChange && onChange(data);
-
   // Returning JSX
   return (
-    <form
-      action="#"
-      onSubmit={form.handleSubmit(onSubmit)}
+    <div
       className={cn(
         'bg-white border rounded-xl border-black/10 overflow-hidden flex items-center justify-between flex-col',
         className,
@@ -162,6 +122,6 @@ export default function EmergencieForm({
           </span>
         </div>
       </div>
-    </form>
+    </div>
   );
 }
