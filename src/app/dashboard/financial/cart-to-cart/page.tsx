@@ -13,15 +13,17 @@ import UserCreditCard from '@/components/dashboard/financialCartToCart/userCredi
 import CartBalance from '@/components/dashboard/profile/cartBalance';
 import Upload from '@/components/dashboard/upload/upload';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 import { CartToCartFinancialMode } from '@/types/dashboard/component';
 import { JSX, useState } from 'react';
 
 // Creating and exporting CartToCart financial page as default
 export default function CartToCartFinancialPage(): JSX.Element {
   // Defining hooks
-  const [mode, setMode] = useState<CartToCartFinancialMode>('custom');
+  const [mode, setMode] = useState<CartToCartFinancialMode>('personal');
   const [file, setFile] = useState<File | undefined>(undefined);
   const userInfo = useUserInfo();
+  const userLegalInfo = useUserLegalInfo();
   const [emergeniceFormValue, setEmergencieFormValue] = useState<
     formType | undefined
   >();
@@ -35,19 +37,12 @@ export default function CartToCartFinancialPage(): JSX.Element {
       <SelectMode
         value={mode}
         onValueChange={setMode}
-        submitDisabled={false}
-        onSubmit={() => {
-          console.log({
-            mode,
-            file,
-            selectedCreditCard,
-            emergeniceFormValue,
-          });
-        }}
+        submitDisabled
       />
       <div className="grid lg:grid-cols-3 lg:gap-5 gap-[24px]">
         <UserCreditCard
-          data={userInfo.card_numbers}
+          title={mode === "company" ? "حقوقی" : "حقیقی"}
+          data={(mode === "company") ? userLegalInfo.data.card_numbers : userInfo.card_numbers}
           onValueChange={setSelectedCreditCard}
         />
         <div className="flex items-center justify-between flex-col lg:gap-5 gap-[24px]">

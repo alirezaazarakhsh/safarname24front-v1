@@ -846,7 +846,7 @@ export interface RulesSectionPropsType {
 }
 
 // Financial cart to cart page
-export type CartToCartFinancialMode = 'personal' | 'company' | 'custom';
+export type CartToCartFinancialMode = 'personal' | 'company';
 export interface SelectModePropsType {
   className?: string;
   onValueChange?: (val: CartToCartFinancialMode) => void;
@@ -864,6 +864,7 @@ export interface SelecterPropsType {
 
 export interface UserCreditCardPropsType {
   className?: string;
+  title: string;
   onValueChange?: (data: {
     id: number;
     card_number: string;

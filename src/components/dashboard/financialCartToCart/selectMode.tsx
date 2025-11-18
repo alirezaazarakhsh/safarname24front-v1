@@ -48,14 +48,6 @@ export default function SelectMode({
             checked && onValueChange && onValueChange('company')
           }
         />
-        <Selecter
-          label="انتخاب شماره کارت دلخواه"
-          className="lg:w-auto w-full"
-          checked={value === 'custom'}
-          onCheckChange={(checked) =>
-            checked && onValueChange && onValueChange('custom')
-          }
-        />
         <button
           onClick={onSubmit}
           disabled={submitDisabled}
