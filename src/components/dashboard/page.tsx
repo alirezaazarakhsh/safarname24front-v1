@@ -4,7 +4,7 @@
 // Imporitng part
 import { PageComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { createContext, ReactNode } from 'react';
 import Header from './header';
 import MobileNav from './mobileNav';
@@ -26,6 +26,7 @@ import {
   PsersonalInfoContext,
 } from '@/types/dashboard/context';
 import useLocalStorageState from 'use-local-storage-state';
+import Link from 'next/link';
 
 // Creating and exporting a context for deeper components within this component to get the value of user id (uid)
 export const uidContext = createContext<string>('');
@@ -58,13 +59,12 @@ export default function Page({
   className,
 }: PageComponentPropsType): ReactNode {
   // Defining hooks to use later
-  const router = useRouter();
   const pathname = usePathname();
 
   // Wrapping everything in QueryClientProvider so hooks below work correctly
   return (
     <QueryClientProvider client={queryClient}>
-      <InnerPage router={router} pathname={pathname} className={className}>
+      <InnerPage pathname={pathname} className={className}>
         {children}
       </InnerPage>
     </QueryClientProvider>
@@ -75,12 +75,10 @@ export default function Page({
 function InnerPage({
   children,
   className,
-  router,
   pathname,
 }: {
   children: ReactNode;
   className?: string;
-  router: ReturnType<typeof useRouter>;
   pathname: string;
 }) {
   // Defining hooks
@@ -136,21 +134,19 @@ function InnerPage({
     },
   });
 
+  // Defining variables
   const isReservationSubPage = /^\/dashboard\/reservations\/[^/]+$/.test(
     pathname,
   );
 
   const isTicketPage = pathname.includes('/dashboard/tickets');
   const irregularPages = isReservationSubPage || isTicketPage;
+  const fetchingArray = [personalDataFetch, walletBalanceFetch, notificationsFetch, customerClubPointsFetch, legalUserInfoFetching];
+  const loading = fetchingArray.some(item => item.isLoading);
+  const error = fetchingArray.some(item => item.isError);
 
   // Condititional rendering
-  if (
-    personalDataFetch.isLoading ||
-    walletBalanceFetch.isLoading ||
-    notificationsFetch.isLoading ||
-    notificationsFetch.isLoading ||
-    customerClubPointsFetch.isLoading
-  ) {
+  if (loading) {
     return (
       <>
         <div className="bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0" />
@@ -168,44 +164,35 @@ function InnerPage({
         </div>
       </>
     );
-  } else if (personalDataFetch.isError) {
-    // redirecting user
-    router.push('/');
-
-    // Returning JSX
+  } else if (error) {
     return (
-      <div className="max-w-screen-template min-h-dvh mx-auto flex items-center justify-center">
-        <span className="font-medium text-center text-lg block">
-          شما درحال انتقال به صفحه ورود هستید.
-        </span>
+      <div className='h-dvh w-dvw flex items-center justify-center p-5'>
+        <div className='text-black'>
+          <h1 className='text-center text-current font-black block truncate text-4xl mb-4'>اوپس !</h1>
+          <p className='text-center font-medium text-lg mb-3 text-current/70'>مشکلی در دریافت اطلاعات شما پیش امد.</p>
+          <Link href="/" className='w-fit mx-auto h-10 px-4 bg-cs-red rounded-lg text-cs75 font-semibold text-white flex items-center justify-center'>
+            بازگشت به خانه
+          </Link>
+        </div>
       </div>
     );
-  } else if (
-    !walletBalanceFetch.isError &&
-    !personalDataFetch.isError &&
-    !customerClubPointsFetch.isError &&
-    !legalUserInfoFetching.isError &&
-    personalDataFetch.data &&
-    walletBalanceFetch.data &&
-    customerClubPointsFetch.data &&
-    legalUserInfoFetching.data
-  ) {
+  } else {
     return (
       <userFetchedInfoContext.Provider
         value={{
-          data: personalDataFetch.data,
+          data: personalDataFetch.data!,
           refetch: personalDataFetch.refetch,
         }}
       >
         <legalProfileInfoContext.Provider
           value={{
-            data: legalUserInfoFetching.data,
+            data: legalUserInfoFetching.data!,
             refetch: legalUserInfoFetching.refetch,
           }}
         >
           <userWalletBalanceContext.Provider
             value={{
-              balance: walletBalanceFetch.data.balance,
+              balance: walletBalanceFetch.data?.balance!,
             }}
           >
             <notificationContext.Provider
@@ -216,7 +203,7 @@ function InnerPage({
             >
               <customerClubPointsContext.Provider
                 value={{
-                  points: customerClubPointsFetch.data.points ?? 0,
+                  points: customerClubPointsFetch.data?.points ?? 0,
                   refetch: customerClubPointsFetch.refetch,
                 }}
               >

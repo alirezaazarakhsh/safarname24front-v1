@@ -41,9 +41,9 @@ export async function middleware(request: NextRequest) {
     return redirectTo('/', request);
   }
 
-  if (pathname.startsWith('/dashboard') && !access) {
-    return redirectTo('/', request);
-  }
+  // if (pathname.startsWith('/dashboard') && !access) {
+  //   return redirectTo('/', request);
+  // }
 
   return NextResponse.next();
 }
