@@ -11,307 +11,202 @@ import { createPortal } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import moment from 'jalali-moment';
 
+// Creating and exporting DatePicker component as default
 export default function DatePicker({
   closeFn,
   isOpened,
   className,
   onSubmit,
+  disableFuture = false,
+  disablePast = false,
 }: DatePickerComponentPropsType): ReactNode {
-  // Defining states of component
+  // Defining hooks
   const [currentMonth, setCurrentMonth] = useState<moment.Moment>(moment());
   const [useJalali, setUseJalali] = useState<boolean>(true);
-  const [selectedDate, setSelectedDate] = useState<moment.Moment | undefined>(
-    moment().clone().add(7, 'jDay'),
-  );
+  const [selectedDate, setSelectedDate] = useState<moment.Moment | undefined>(undefined);
 
-  // Defining Variables
-  const weekDayNames = ['ش', 'ی', 'د', 'س', 'ج', 'پ', 'ج'];
-  const weekDayNamesUS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  const nextMonth = currentMonth.clone().add(1, useJalali ? 'jMonth' : 'month');
-  const today = moment().locale('fa');
-  const daysInCurrentMonth = useJalali
-    ? currentMonth.jDaysInMonth()
-    : currentMonth.daysInMonth();
-  const startOfNextMonth = nextMonth
-    .clone()
-    .startOf(useJalali ? 'jMonth' : 'month');
-  const daysInNextMonth = useJalali
-    ? nextMonth.jDaysInMonth()
-    : nextMonth.daysInMonth();
+  // Defining variables
+  const today = moment();
+  const jalaliToday = moment().locale('fa');
+  const weekDayNamesJalali = ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
+  const weekDayNamesGregorian = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+  // Current month helpers
   const startOfCurrentMonth = currentMonth
     .clone()
     .startOf(useJalali ? 'jMonth' : 'month');
+  const daysInCurrentMonth = useJalali
+    ? currentMonth.jDaysInMonth()
+    : currentMonth.daysInMonth();
+
+  // Build days array for current month
   const daysToRender: moment.Moment[] = Array.from(
     { length: daysInCurrentMonth },
     (_, i) => startOfCurrentMonth.clone().add(i, 'day'),
   );
-  const daysToRenderNextMonth: moment.Moment[] = Array.from(
-    { length: daysInNextMonth },
-    (_, i) => startOfNextMonth.clone().add(i, 'day'),
-  );
 
-  // Function to switch between Jalali and Gregorian
+  // First weekday offset (0 = Saturday in Jalali, 0 = Sunday in Gregorian)
+  const firstDayOffset = startOfCurrentMonth.day();
+  // Toggle Jalali to Gregorian
   const toggleCalendar = () => {
-    setUseJalali((prev) => {
-      const newUseJalali = !prev;
-      const newMonth = newUseJalali
+    setUseJalali(prev => {
+      const newMode = !prev;
+      // Keep the same approximate date when switching
+      const newMonth = newMode
         ? currentMonth.clone().locale('fa')
         : currentMonth.clone().locale('en');
-      updateCurrentMonth(newMonth);
-      return newUseJalali;
+      setCurrentMonth(newMonth);
+      return newMode;
     });
   };
-
-  // Defining a function to check state of rendered day element
-  function checkDayState(
-    day: moment.Moment,
-  ): 'passed' | 'today' | 'selected' | 'normal' {
-    const isToday = day.isSame(today, 'day');
-    const isSelected = selectedDate?.isSame(day, 'day');
-    const isPassed = day.isBefore(today, 'day');
-
-    if (isToday) return 'today';
-    else if (isSelected) return 'selected';
-    else if (isPassed) return 'passed';
-    else return 'normal';
-  }
-
-  // A function to update current month
-  const updateCurrentMonth = (newMonth: moment.Moment) => {
-    setCurrentMonth(
-      useJalali ? newMonth.clone().locale('fa') : newMonth.clone().locale('en'),
-    );
-  };
-
-  // A function to handle month changes
+  // Month navigation (always uses Jalali months when in Jalali mode)
   const handleMonthChange = (direction: 'previous' | 'next') => {
-    setCurrentMonth((prev) =>
+    setCurrentMonth(prev =>
       direction === 'previous'
-        ? prev.clone().subtract(1, 'jMonth')
-        : prev.clone().add(1, 'jMonth'),
+        ? prev.clone().subtract(1, useJalali ? 'jMonth' : 'month')
+        : prev.clone().add(1, useJalali ? 'jMonth' : 'month'),
     );
   };
 
-  // Using useEffect to remove availibilty to scroll when datePicker opens
-  useEffect(() => {
-    const bodyElement = document.body;
+  // Check state of a day
+  const getDayState = (
+    day: moment.Moment,
+  ): {
+    role: 'passed' | 'future' | 'today' | 'selected' | 'normal';
+    disabled: boolean;
+  } => {
+    const isSelected = selectedDate?.isSame(day, 'day');
+    const isToday = useJalali
+      ? day.isSame(jalaliToday, 'day')
+      : day.isSame(today, 'day');
+    const isPast = useJalali
+      ? day.isBefore(jalaliToday, 'day')
+      : day.isBefore(today, 'day');
 
-    isOpened
-      ? (bodyElement.style.overflow = 'hidden')
-      : (bodyElement.style.overflow = 'auto');
+    const isFuture = useJalali
+      ? day.isAfter(jalaliToday, 'day')
+      : day.isAfter(today, 'day');
+
+    const disabled =
+      (disablePast && isPast) ||
+      (disableFuture && isFuture) ||
+      (disablePast && disableFuture && !isToday); // edge case: both true
+
+    let role: 'passed' | 'future' | 'today' | 'selected' | 'normal' = 'normal';
+
+    if (isToday) role = 'today';
+    else if (isSelected) role = 'selected';
+    else if (isPast) role = 'passed';
+    else if (isFuture) role = 'future';
+    return { role, disabled };
+  };
+
+  // Disable body scroll when opened
+  useEffect(() => {
+    document.body.style.overflow = isOpened ? 'hidden' : 'auto';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, [isOpened]);
 
   // Returning JSX
   return createPortal(
     <>
       <div
-        className="z-40 bg-black/20 w-full h-full fixed top-0 left-0 origin-center transition-all duration-500 data-[opened='true']:opacity-100 data-[opened='true']:visible data-[opened='false']:opacity-0 data-[opened='false']:invisible"
-        onClick={closeFn}
+        className="fixed inset-0 bg-black/20 z-40 transition-opacity duration-500 data-[opened=true]:opacity-100 data-[opened=false]:opacity-0 data-[opened=false]:pointer-events-none data-[opened=true]:pointer-events-auto"
         data-opened={isOpened}
+        onClick={closeFn}
       />
       <div
         data-opened={isOpened}
         className={cn(
-          'bg-white p-5 fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 origin-center w-[600px] max-h-[85dvh] overflow-auto scrollbar-hide transition-all duration-500 data-[opened="false"]:opacity-0 data-[opened="false"]:scale-95 data-[opened="false"]:invisible data-[opened="true"]:opacity-100 data-[opened="true"]:scale-100 data-[opened="true"]:visible rounded-xl shadow-xl',
+          'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[300px] max-h-[85dvh] overflow-y-auto rounded-xl bg-white p-5 shadow-2xl transition-all duration-500',
+          'data-[opened=true]:scale-100 data-[opened=true]:opacity-100 data-[opened=true]:visible',
+          'data-[opened=false]:scale-95 data-[opened=false]:opacity-0 data-[opened=false]:invisible',
           className,
         )}
       >
-        <div className="grid grid-cols-2 gap-10 mb-4">
-          <button
-            className="flex items-center"
-            onClick={() => handleMonthChange('previous')}
-          >
-            <div className="w-5 h-5 aspect-square bg-gray-100 flex items-center justify-center rounded-md shrink-0">
-              <IconsaxIcons
-                name="ArrowRight2"
-                color="black"
-                className="w-2.5 h-2.5"
-              />
+        <div className="mb-4 flex items-center justify-between gap-10">
+          <button onClick={() => handleMonthChange('previous')}>
+            <div className="flex size-8 items-center justify-center rounded-md bg-gray-100">
+              <IconsaxIcons name="ArrowRight2" className="size-4" />
             </div>
-            <span className="block mx-auto w-full text-center truncate text-cs08 font-semibold text-black">
-              {useJalali
-                ? currentMonth.locale('fa').format('jMMMM')
-                : currentMonth.locale('us').format('MMMM')}
-            </span>
           </button>
-          <button
-            className="flex items-center"
-            onClick={() => handleMonthChange('next')}
-          >
-            <span className="block mx-auto w-full text-center truncate text-cs08 font-semibold text-black">
-              {useJalali
-                ? nextMonth.locale('fa').format('jMMMM')
-                : nextMonth.locale('us').format('MMMM')}
-            </span>
-            <div className="w-5 h-5 aspect-square bg-gray-100 flex items-center justify-center rounded-md shrink-0">
-              <IconsaxIcons
-                name="ArrowLeft2"
-                color="black"
-                className="w-2.5 h-2.5"
-              />
+          <span className="truncate text-center text-cs08 font-medium">
+            {useJalali
+              ? currentMonth.locale('fa').format('jMMMM jYYYY')
+              : currentMonth.format('MMMM YYYY')}
+          </span>
+          <button onClick={() => handleMonthChange('next')}>
+            <div className="flex size-8 items-center justify-center rounded-md bg-gray-100">
+              <IconsaxIcons name="ArrowLeft2" className="size-4" />
             </div>
           </button>
         </div>
-        <div className="grid grid-cols-2 mb-3">
-          <div className="grid grid-cols-7 gap-3 pl-5 border-l border-l-black/10">
-            {useJalali
-              ? weekDayNames.map((item, index) => (
-                  <div
-                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                    key={`${index}-JWD-1`}
-                  >
-                    <span className="text-cs06 font-medium text-black">
-                      {item}
-                    </span>
-                  </div>
-                ))
-              : weekDayNamesUS.map((item, index) => (
-                  <div
-                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                    key={`${index}-JWD-1`}
-                  >
-                    <span className="text-cs06 font-medium text-black">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-            {[
-              ...new Array(
-                currentMonth
-                  .clone()
-                  .startOf(useJalali ? 'jMonth' : 'month')
-                  .day(),
-              ),
-            ].map((item, index) => (
-              <div key={`${index}-JDDX-1`} className="aspect-square" />
-            ))}
-            {daysToRender.map((item, index) => (
-              <button
-                key={`${index}-JDD-1`}
-                data-role={checkDayState(item)}
-                onClick={() => {
-                  const dayState = checkDayState(item);
-                  if (dayState !== 'passed') {
-                    setSelectedDate(item);
-                  }
-                }}
-                className={cn(
-                  'flex items-center justify-center aspect-square rounded-md transition-all duration-500',
-                  "data-[role='passed']:bg-white data-[role='passed']:text-gray-200",
-                  "data-[role='selected']:bg-cs-red data-[role='selected']:text-white",
-                  "data-[role='today']:bg-black data-[role='today']:text-white",
-                  "data-[role='normal']:bg-white data-[role='normal']:text-black",
-                )}
-              >
-                <span
-                  className={cn(
-                    'text-current',
-                    useJalali
-                      ? 'font-medium text-cs06'
-                      : 'font-mono font-medium text-cs06',
-                  )}
-                >
-                  {handleZeroBeforeNumber((index + 1).toString())}
-                </span>
-              </button>
-            ))}
-          </div>
-          <div className="grid grid-cols-7 gap-3 pr-5">
-            {useJalali
-              ? weekDayNames.map((item, index) => (
-                  <div
-                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                    key={`${index}-JWD-2`}
-                  >
-                    <span className="text-cs06 font-medium text-black">
-                      {item}
-                    </span>
-                  </div>
-                ))
-              : weekDayNamesUS.map((item, index) => (
-                  <div
-                    className="bg-gray-100 flex items-center justify-center aspect-square rounded-md"
-                    key={`${index}-JWD-2`}
-                  >
-                    <span className="text-cs06 font-medium text-black">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-            {[
-              ...new Array(
-                nextMonth
-                  .clone()
-                  .startOf(useJalali ? 'jMonth' : 'month')
-                  .day(),
-              ),
-            ].map((item, index) => (
-              <div key={`${index}-JDDX-2`} className="aspect-square" />
-            ))}
-            {daysToRenderNextMonth.map((item, index) => (
-              <button
-                key={`${index}-JDD-2`}
-                data-role={checkDayState(item)}
-                onClick={() => {
-                  const dayState = checkDayState(item);
-                  if (dayState !== 'passed') {
-                    setSelectedDate(item);
-                  }
-                }}
-                className={cn(
-                  'flex items-center justify-center aspect-square rounded-md transition-all duration-500',
-                  "data-[role='passed']:bg-white data-[role='passed']:text-gray-200",
-                  "data-[role='selected']:bg-cs-red data-[role='selected']:text-white",
-                  "data-[role='today']:bg-black data-[role='today']:text-white",
-                  "data-[role='normal']:bg-white data-[role='normal']:text-black",
-                )}
-              >
-                <span
-                  className={cn(
-                    'text-current',
-                    useJalali
-                      ? 'font-medium text-cs06'
-                      : 'font-mono font-medium text-cs06',
-                  )}
-                >
-                  {handleZeroBeforeNumber((index + 1).toString())}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="flex items-center justify-between gap-5">
-          <Button
-            onClick={toggleCalendar}
-            className="bg-white border border-black/10 rounded-lg flex items-center justify-center py-3 px-5 hover:bg-gray-50"
-          >
-            <span className="font-normal text-black/60 truncate block w-full text-center text-xs">
-              {useJalali ? `تبدیل به تقویم میلادی` : `تبدیل به تقویم شمسی`}
-            </span>
-          </Button>
-          <div className="flex items-center justify-end gap-3">
-            <Button
-              disabled={selectedDate === undefined}
-              className="transition-all duration-500 bg-cs-red rounded-lg flex items-center justify-center py-3 px-5 hover:bg-cs-red disabled:opacity-50"
-              onClick={() => setSelectedDate(undefined)}
+        <div className="mb-3 grid grid-cols-7 gap-2">
+          {(useJalali ? weekDayNamesJalali : weekDayNamesGregorian).map((day, i) => (
+            <div
+              key={i}
+              className="flex aspect-square items-center justify-center rounded-md bg-gray-100 text-cs06 font-medium"
             >
-              <span className="font-normal text-white truncate block w-full text-center text-xs">
-                پاک کردن
-              </span>
+              {day}
+            </div>
+          ))}
+          {Array.from({ length: firstDayOffset }, (_, i) => (
+            <div key={`empty-${i}`} className="aspect-square" />
+          ))}
+          {daysToRender.map((day, index) => {
+            const { role, disabled } = getDayState(day);
+            const dayNumber = useJalali ? day.jDate() : day.date();
+            return (
+              <button
+                key={index}
+                disabled={disabled}
+                onClick={() => !disabled && setSelectedDate(day.clone())}
+                data-state={role}
+                className={cn(
+                  'aspect-square rounded-md !text-cs07 !font-normal transition-all data-[state=normal]:text-black',
+                  disabled ? 'cursor-not-allowed text-gray-300' : 'cursor-pointer hover:bg-gray-100',
+                  'data-[state=today]:bg-black data-[state=today]:text-white',
+                  'data-[state=selected]:bg-cs-red data-[state=selected]:text-white',
+                  !disablePast ? 'data-[state=passed]:text-black' : 'data-[state=passed]:text-black/50',
+                  !disableFuture ? 'data-[state=future]:text-black' : 'data-[state=future]:text-black/50',
+                  !useJalali && "font-inter"
+                )}
+              >
+                {handleZeroBeforeNumber(dayNumber.toString())}
+              </button>
+            );
+          })}
+        </div>
+        <div className="flex items-center justify-between">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleCalendar}
+            className="size-10 rounded-lg border text-black"
+          >
+            <IconsaxIcons name="LanguageCircle" className="size-6" color='currentColor' />
+          </Button>
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              size="icon"
+              disabled={!selectedDate}
+              onClick={() => setSelectedDate(undefined)}
+              className="size-10 rounded-lg text-black"
+            >
+              <IconsaxIcons name="CloseCircle" className="size-6" color='currentColor' />
             </Button>
             <Button
-              disabled={selectedDate === undefined}
+              disabled={!selectedDate}
               onClick={() => {
                 closeFn();
-                if (onSubmit && selectedDate !== undefined) {
-                  onSubmit(selectedDate);
-                }
+                selectedDate && onSubmit?.(selectedDate);
               }}
-              className="transition-all duration-500 bg-black rounded-lg flex items-center justify-center py-3 px-5 hover:bg-black disabled:opacity-50"
+              className="size-10 rounded-lg bg-black text-white hover:bg-black/90 disabled:opacity-50"
             >
-              <span className="font-normal text-white truncate block w-full text-center text-xs">
-                تایید تاریخ
-              </span>
+              <IconsaxIcons name="TickCircle" className="size-6" color='currentColor' />
             </Button>
           </div>
         </div>

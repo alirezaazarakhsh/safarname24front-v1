@@ -43,7 +43,7 @@ export function SecondStepSubmitButton() {
           );
     },
     onError: (error) => {
-      console.log(error);
+      // console.log(error);
 
       showCMToast({
         type: 'success',
@@ -58,7 +58,7 @@ export function SecondStepSubmitButton() {
       <button
         onClick={() => mutate()}
         disabled={status !== 'confirmed' || mutateStatus === 'pending'}
-        className="w-full h-12 bg-cs-dark-blue rounded-cs-10 disabled:opacity-90 disabled:cursor-not-allowed"
+        className="h-12 w-full rounded-cs-10 bg-cs-dark-blue disabled:cursor-not-allowed disabled:opacity-90"
       >
         {mutateStatus === 'pending' ? (
           <div className="full-size flex-center">
@@ -68,7 +68,7 @@ export function SecondStepSubmitButton() {
             />
           </div>
         ) : (
-          <span className="text-zinc-100 text-cs85 font-semibold flex-center gap-2">
+          <span className="flex-center gap-2 text-cs85 font-semibold text-zinc-100">
             پرداخت صورتحساب
             <ArrowLeft size={18} color="#fff" />
           </span>

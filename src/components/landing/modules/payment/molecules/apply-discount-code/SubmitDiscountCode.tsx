@@ -37,7 +37,7 @@ export function SubmitDiscountCode(props: Props) {
         description: `کاربر گرامی مبلغ ${numberSeparation(data?.data.discount_value)} تومان از صورتحساب شما کسر گردید`,
       });
     },
-    onError: () => {
+    onError: (error) => {
       showCMToast({
         type: 'error',
         title: 'اعمال کد تخفیف با خطا مواجه شد !',
@@ -50,7 +50,7 @@ export function SubmitDiscountCode(props: Props) {
     <button
       onClick={() => mutate()}
       disabled={discountCode.length < 8 || status === 'pending'}
-      className="bg-cs-dark-blue text-white flex-center rounded-cs-10 transition-all disabled:cursor-not-allowed"
+      className="flex-center rounded-cs-10 bg-cs-dark-blue text-white transition-all disabled:cursor-not-allowed"
     >
       {status === 'pending' ? (
         <div

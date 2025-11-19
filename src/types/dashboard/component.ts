@@ -7,7 +7,7 @@ import {
   SetStateAction,
   SVGProps,
 } from 'react';
-import { IconsaxIconsPropsType, IconsName } from '../SvgProp';
+import { IconsName } from '../SvgProp';
 import moment from 'jalali-moment';
 import { UseFormReturn } from 'react-hook-form';
 import {
@@ -18,12 +18,11 @@ import {
   GETNotificationItem,
   GETPassengerItem,
   GETPasssengers,
-  GETReservation,
   GETReservationItem,
 } from './api/get';
 import { personalFormType, legalFormType } from '@/app/dashboard/profile/page';
 import { reportTypes } from '@/components/dashboard/ticket/dialog/reportTicket';
-import { formType } from '@/components/dashboard/financialCartToCart/emergencieForm';
+import { cartToCartFormType } from '@/app/dashboard/financial/cart-to-cart/page';
 
 // Creating and exporting type of components of dashboard pages
 export interface RootLayoutPropsType {
@@ -347,6 +346,8 @@ export interface DatePickerComponentPropsType {
   isOpened: boolean;
   closeFn: () => void;
   onSubmit?: (date: moment.Moment) => void;
+  disableFuture?: boolean;
+  disablePast?: boolean;
 }
 
 export interface DatePickerInputComponentPropsType {
@@ -846,13 +847,12 @@ export interface RulesSectionPropsType {
 }
 
 // Financial cart to cart page
-export type CartToCartFinancialMode = 'personal' | 'company' | 'custom';
+export type CartToCartFinancialMode = 'personal' | 'company';
 export interface SelectModePropsType {
   className?: string;
   onValueChange?: (val: CartToCartFinancialMode) => void;
   value?: CartToCartFinancialMode;
   onSubmit?: () => void;
-  submitDisabled?: boolean;
 }
 
 export interface SelecterPropsType {
@@ -864,6 +864,7 @@ export interface SelecterPropsType {
 
 export interface UserCreditCardPropsType {
   className?: string;
+  title: string;
   onValueChange?: (data: {
     id: number;
     card_number: string;
@@ -890,14 +891,9 @@ export interface CardShowCasePropsType {
 
 export interface EmergencieFormPropsType {
   className?: string;
-  onChange?: (data: formType) => void;
+  form: UseFormReturn<cartToCartFormType>;
 }
 
 export interface AdminCreditCardInfoPropsType {
   className?: string;
-  data: {
-    name: string;
-    number: string;
-    iban: string;
-  };
 }

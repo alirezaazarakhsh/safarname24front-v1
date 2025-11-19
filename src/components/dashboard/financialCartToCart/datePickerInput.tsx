@@ -62,6 +62,7 @@ export default function DatePickerInput({
       <DatePicker
         isOpened={isDatePickerOpened}
         closeFn={() => setDatePickerOpened(false)}
+        disableFuture
         onSubmit={(date) => setDateInputValueState(date)}
       />
     </div>

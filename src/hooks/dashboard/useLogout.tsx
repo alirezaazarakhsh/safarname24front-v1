@@ -1,30 +1,26 @@
-'use client';
-
-import Cookies from 'js-cookie';
+// Importing part
 import useApiMutation from './useApiMutation';
 import toast from '@/components/dashboard/ui/customSonner/toast';
 import useLocalStorageState from 'use-local-storage-state';
-import { usePathname, useRouter } from 'next/navigation';
-import { useTransition } from 'react';
 
+// Creating and exporting useLogout custom hooks
 export default function useLogout() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [isPending, startTransition] = useTransition();
-
-  // Local storage states
+  // Defining inner hooks
+  const ticketWalpaper = useLocalStorageState<string>('ticketWalpaper');
+  const ticketTheme = useLocalStorageState<string>('ticketTheme');
   const openedNotifications = useLocalStorageState<number[]>(
     'openedNotifications',
   );
-  const ticketWalpaper = useLocalStorageState<string>('ticketWalpaper');
-  const ticketTheme = useLocalStorageState<string>('ticketTheme');
+
   const ticketNotifications = useLocalStorageState<boolean>(
     'ticketNotifications',
   );
+
   const profileState = useLocalStorageState<'personal' | 'legal'>(
     'profilePageActiveTab',
   );
 
+  // Handling api requests
   const mutation = useApiMutation({
     url: '/auth/logout/',
     method: 'post',
@@ -36,44 +32,22 @@ export default function useLogout() {
             'در دریافت داده‌ها مشکلی به‌وجود آمده است. لطفاً اتصال اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
           theme: 'theme',
         });
-
-        window.location.pathname = '/';
       },
       onSuccess: () => {
-        startTransition(() => {
-          window.location.pathname = '/';
+        openedNotifications[2].removeItem();
+        ticketWalpaper[2].removeItem();
+        ticketTheme[2].removeItem();
+        ticketNotifications[2].removeItem();
+        profileState[2].removeItem();
+        sessionStorage.removeItem("upn");
 
-          setTimeout(() => {
-            ['AUTH', 'UPN', 'auth'].forEach((key) => Cookies.remove(key));
-            [
-              profileState,
-              ticketWalpaper,
-              openedNotifications,
-              ticketTheme,
-              ticketNotifications,
-            ].forEach((state) => state?.[2]?.removeItem?.());
-          }, 50);
-        });
-      },
+        window.location.pathname = '/';
+      }
     },
   });
 
-  function mutate() {
-    let authObj: any = {};
-    try {
-      const cookie = Cookies.get('auth');
-      authObj = cookie ? JSON.parse(cookie) : {};
-    } catch {
-      authObj = {};
-    }
-
-    mutation.mutate({
-      refresh_token: authObj.refreshUID,
-    });
-  }
-
   return {
-    mutate,
-    loading: mutation.isPending || isPending,
+    mutate: () => mutation.mutate({}),
+    loading: mutation.isPending,
   };
 }

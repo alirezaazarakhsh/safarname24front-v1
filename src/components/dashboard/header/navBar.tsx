@@ -26,74 +26,70 @@ const data: {
     href: string;
   }[];
 }[] = [
-  {
-    icon: <ICCategory className="w-[19px] h-[19px] text-current shrink-0" />,
-    label: 'داشبورد',
-    href: '/dashboard',
-  },
-  {
-    icon: (
-      <ICDocumentText className="w-[19px] h-[19px] text-current shrink-0" />
-    ),
-    label: 'لیست رزرو من',
-    href: '/dashboard/reservations',
-  },
-  {
-    icon: <ICWallet className="w-[19px] h-[19px] text-current shrink-0" />,
-    label: 'بخش مالی',
-    href: '/dashboard/financial/wallet',
-    dropdown: [
-      {
-        label: 'شارژ کیف پول',
-        href: '/dashboard/financial/wallet',
-      },
-      {
-        label: 'کارت به کارت',
-        href: '/dashboard/financial/cart-to-cart',
-      },
-      {
-        label: 'برداشت وجه',
-        href: '/dashboard/financial/take-out',
-      },
-      {
-        label: 'فاکتور ها',
-        href: '/dashboard/financial/factors',
-      },
-    ],
-  },
-  {
-    icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
-    label: 'باشگاه مشتریان',
-    href: '/dashboard/customer-club/gifts',
-    dropdown: [
-      {
-        label: 'جوایز هتل، مرکز خرید',
-        href: '/dashboard/customer-club/gifts',
-      },
-      {
-        label: 'لیست جایزه های دریافتی',
-        href: '/dashboard/customer-club/list',
-      },
-    ],
-  },
-  {
-    icon: <ICMessageText className="w-[19px] h-[19px] text-current shrink-0" />,
-    label: 'مدیریت تیکت ها',
-    href: '/dashboard/tickets',
-  },
-  {
-    icon: <ICSave2 className="w-[19px] h-[19px] text-current shrink-0" />,
-    label: 'علاقه مندی های من',
-    href: '/dashboard/favorites',
-  },
-  {
-    icon: (
-      <ICProfile2User className="w-[19px] h-[19px] text-current shrink-0" />
-    ),
-    label: 'مسافران من',
-    href: '/dashboard/passengers',
-  },
-];
+    {
+      icon: <ICCategory className="w-[19px] h-[19px] text-current shrink-0" />,
+      label: 'داشبورد',
+      href: '/dashboard',
+    },
+    {
+      icon: (
+        <ICDocumentText className="w-[19px] h-[19px] text-current shrink-0" />
+      ),
+      label: 'لیست رزرو من',
+      href: '/dashboard/reservations',
+    },
+    {
+      icon: <ICWallet className="w-[19px] h-[19px] text-current shrink-0" />,
+      label: 'بخش مالی',
+      href: '/dashboard/financial/wallet',
+      dropdown: [
+        {
+          label: 'شارژ کیف پول',
+          href: '/dashboard/financial/wallet',
+        },
+        {
+          label: 'کارت به کارت - برداشت وجه',
+          href: '/dashboard/financial/cart-to-cart',
+        },
+        {
+          label: 'فاکتور ها',
+          href: '/dashboard/financial/factors',
+        },
+      ],
+    },
+    {
+      icon: <ICCrown className="w-[19px] h-[19px] text-current shrink-0" />,
+      label: 'باشگاه مشتریان',
+      href: '/dashboard/customer-club/gifts',
+      dropdown: [
+        {
+          label: 'جوایز هتل، مرکز خرید',
+          href: '/dashboard/customer-club/gifts',
+        },
+        {
+          label: 'لیست جایزه های دریافتی',
+          href: '/dashboard/customer-club/list',
+        },
+      ],
+    },
+    {
+      icon: <ICMessageText className="w-[19px] h-[19px] text-current shrink-0" />,
+      label: 'مدیریت تیکت ها',
+      href: '/dashboard/tickets',
+    },
+    {
+      icon: <ICSave2 className="w-[19px] h-[19px] text-current shrink-0" />,
+      label: 'علاقه مندی های من',
+      href: '/dashboard/favorites',
+    },
+    {
+      icon: (
+        <ICProfile2User className="w-[19px] h-[19px] text-current shrink-0" />
+      ),
+      label: 'مسافران من',
+      href: '/dashboard/passengers',
+    },
+  ];
 
 // Creating and exporting NavBar component of header as default
 export default function NavBar(): ReactNode {

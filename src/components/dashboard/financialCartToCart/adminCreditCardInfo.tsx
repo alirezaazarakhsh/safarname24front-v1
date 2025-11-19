@@ -5,19 +5,39 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { AdminCreditCardInfoPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { JSX } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import CardShowCase from './cardShowCase';
 import { getBankFromCard, hanldeClipboardCopy } from '@/utils/string';
 import BankIcon from '../ui/bankIcon';
 import { numberSeparation } from '@/utils';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
+import { GETAdminCreditCard } from '@/types/dashboard/api/get';
+import { BankInfo } from '@/types/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Creating and exporting AdminCreditCardInfo component as default
 export default function AdminCreditCardInfo({
   className,
-  data,
 }: AdminCreditCardInfoPropsType): JSX.Element {
-  // Defining variables
-  const cardInfo = getBankFromCard(data.number);
+  // Defining hooks 
+  const [cardInfo, setCardInfo] = useState<BankInfo | null>(null);
+  const getData = useApiQuery<GETAdminCreditCard>({
+    url: "/finance/admin-card-settings/",
+    queryKey: ["admin-card-info"],
+    options: {
+      staleTime: Infinity,
+      refetchInterval: Infinity
+    }
+  });
+
+  const loading = getData.isLoading;
+
+  // Using useEffect to set info of credit card
+  useEffect(() => {
+    if (!getData.isLoading && !getData.isError && getData.data) {
+      setCardInfo(getBankFromCard(getData.data.card_number))
+    }
+  }, [getData.isLoading])
 
   // Returning JSX
   return (
@@ -46,15 +66,21 @@ export default function AdminCreditCardInfo({
       </div>
       <div className="lg:p-4 p-[14px] grid lg:grid-cols-5 gap-4">
         <div className="h-[190px] bg-gray-200 rounded-xl py-4 px-8 overflow-hidden lg:col-span-2">
-          <CardShowCase
-            className="h-[calc(190px-32px)]"
-            data={{
-              bankIcon: cardInfo?.type || 'unknown',
-              bankName: cardInfo?.name || 'نامعلوم',
-              iban: data.iban,
-              number: data.number,
-            }}
-          />
+          {
+            loading
+              ? <Skeleton className="h-[calc(190px-32px)] bg-black/50" />
+              : (
+                <CardShowCase
+                  className="h-[calc(190px-32px)]"
+                  data={{
+                    bankIcon: cardInfo?.type || 'unknown',
+                    bankName: cardInfo?.name || 'نامعلوم',
+                    iban: getData.data?.iban_number || "-",
+                    number: getData.data?.card_number || "-",
+                  }}
+                />
+              )
+          }
         </div>
         <div className="lg:col-span-3">
           <div className="grid lg:grid-cols-2 gap-4 flex-wrap mb-6">
@@ -70,9 +96,15 @@ export default function AdminCreditCardInfo({
                 <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
                   صاحب کارت
                 </span>
-                <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                  {`به نام ${data.name}`}
-                </span>
+                {
+                  loading
+                    ? <Skeleton className='h-[15px] w-full' />
+                    : (
+                      <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+                        {`به نام ${getData.data?.account_holder_name || "-"}`}
+                      </span>
+                    )
+                }
               </div>
             </div>
             <div className="flex items-center justif-start gap-3">
@@ -87,9 +119,15 @@ export default function AdminCreditCardInfo({
                 <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
                   بانک
                 </span>
-                <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                  {cardInfo?.name || 'نامعلوم'}
-                </span>
+                {
+                  loading
+                    ? <Skeleton className='h-[15px] w-full' />
+                    : (
+                      <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+                        {cardInfo?.name || 'نامعلوم'}
+                      </span>
+                    )
+                }
               </div>
             </div>
           </div>
@@ -107,14 +145,21 @@ export default function AdminCreditCardInfo({
                   <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
                     شماره کارت
                   </span>
-                  <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                    {numberSeparation(data.number, ' - ', 4)}
-                  </span>
+                  {
+                    loading
+                      ? <Skeleton className='h-[15px] w-full' />
+                      : (
+                        <span dir='ltr' className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+                          {numberSeparation(getData.data?.card_number || "****************", ' - ', 4)}
+                        </span>
+                      )
+                  }
                 </div>
               </div>
               <button
-                className="size-[45px] shrink-0 flex items-center justify-center lg:rounded-md rounded-[10px] transition-all duration-500 bg-gray-100/50 hover:bg-gray-100 tet-black"
-                onClick={() => hanldeClipboardCopy(data.number)}
+                className="size-[45px] shrink-0 flex items-center justify-center lg:rounded-md rounded-[10px] transition-all duration-500 bg-gray-100/50 hover:bg-gray-100 text-black disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={loading}
+                onClick={() => hanldeClipboardCopy(getData.data?.card_number || "****************")}
               >
                 <IconsaxIcons
                   name="DocumentCopy"
@@ -136,14 +181,21 @@ export default function AdminCreditCardInfo({
                   <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
                     شماره شبا
                   </span>
-                  <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                    {`IR ${numberSeparation(data.iban, ' - ', 4)}`}
-                  </span>
+                  {
+                    loading
+                      ? <Skeleton className='h-[15px] w-full' />
+                      : (
+                        <span dir='ltr' className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+                          {`IR ${numberSeparation(getData.data?.iban_number || "************************", ' - ', 4)}`}
+                        </span>
+                      )
+                  }
                 </div>
               </div>
               <button
-                className="size-[45px] shrink-0 flex items-center justify-center lg:rounded-md rounded-[10px] transition-all duration-500 bg-gray-100/50 hover:bg-gray-100 tet-black"
-                onClick={() => hanldeClipboardCopy(data.iban)}
+                disabled={loading}
+                className="size-[45px] shrink-0 flex items-center justify-center lg:rounded-md rounded-[10px] transition-all duration-500 bg-gray-100/50 hover:bg-gray-100 text-black disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => hanldeClipboardCopy(getData.data?.card_number || "************************")}
               >
                 <IconsaxIcons
                   name="DocumentCopy"

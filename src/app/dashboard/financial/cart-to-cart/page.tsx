@@ -1,33 +1,85 @@
 // Forcning Next.js to render this component as client side component
 'use client';
 
+// Importing part
 import AdminCreditCardInfo from '@/components/dashboard/financialCartToCart/adminCreditCardInfo';
 import CashOut from '@/components/dashboard/financialCartToCart/cashout';
-// Importing part
-import EmergencieForm, {
-  formType,
-} from '@/components/dashboard/financialCartToCart/emergencieForm';
+import EmergencieForm from '@/components/dashboard/financialCartToCart/emergencieForm';
 import SelectMode from '@/components/dashboard/financialCartToCart/selectMode';
 import Subscription from '@/components/dashboard/financialCartToCart/subscription/subscription';
 import UserCreditCard from '@/components/dashboard/financialCartToCart/userCreditCard';
 import CartBalance from '@/components/dashboard/profile/cartBalance';
+import toast from '@/components/dashboard/ui/customSonner/toast';
 import Upload from '@/components/dashboard/upload/upload';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
+import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 import { CartToCartFinancialMode } from '@/types/dashboard/component';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { isShebaValid, verifyCardNumber } from '@persian-tools/persian-tools';
 import { JSX, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+// Defining formschema 
+const formSchema = z.object({
+  creditCardNumber: z.string({
+    message: "لطفا شماره کارت را وارد کنید."
+  })
+  // .refine(val => verifyCardNumber(Number(val)), {
+  //   message: "شماره شبا معتبر نمی باشد."
+  // })
+  ,
+  creditCardIban: z.string({
+    message: "لطفا شماره شبا را وارد کنید."
+  })
+  // .refine(val => isShebaValid(val), {
+  //   message: "شماره شبا معتبر نمی باشد."
+  // })
+  ,
+  depositorName: z
+    .string()
+    .min(2, { message: 'نام واریز کننده باید حداقل ۲ کاراکتر باشد' })
+    .nonempty({ message: 'وارد کردن نام واریز کننده الزامی است' }),
+  trackingNumber: z
+    .string()
+    .length(12, { message: 'شماره پیگیری باید دقیقا ۱۲ رقم باشد' })
+    .regex(/^[0-9]+$/, { message: 'شماره پیگیری فقط باید شامل اعداد باشد' }),
+  extraAmount: z
+    .string({
+      required_error: 'وارد کردن مبلغ اضافه الزامی است',
+      invalid_type_error: 'مبلغ باید عدد باشد',
+    })
+    .refine((val) => Number(val) > 10000, {
+      message: 'مبلغ باید بیشتر از 10,000 تومان باشد باشد',
+    }),
+  depositDate: z
+    .string()
+    .nonempty({ message: 'تاریخ واریز وجه را وارد نمایید' }),
+})
+
+// Defining form type
+export type cartToCartFormType = z.infer<typeof formSchema>;
 
 // Creating and exporting CartToCart financial page as default
 export default function CartToCartFinancialPage(): JSX.Element {
   // Defining hooks
-  const [mode, setMode] = useState<CartToCartFinancialMode>('custom');
-  const [file, setFile] = useState<File | undefined>(undefined);
+  const [mode, setMode] = useState<CartToCartFinancialMode>('personal');
   const userInfo = useUserInfo();
-  const [emergeniceFormValue, setEmergencieFormValue] = useState<
-    formType | undefined
-  >();
-  const [selectedCreditCard, setSelectedCreditCard] = useState(
-    userInfo.card_numbers[0] ? userInfo.card_numbers[0] : undefined,
-  );
+  const userLegalInfo = useUserLegalInfo();
+
+  const form = useForm<cartToCartFormType>({
+    resolver: zodResolver(formSchema),
+    reValidateMode: "onChange",
+    defaultValues: {
+      creditCardNumber: userInfo.card_numbers[0].card_number,
+      creditCardIban: userInfo.card_numbers[0].iban,
+    }
+  });
+
+  // Defining submit handler
+  const onSubmit: SubmitHandler<cartToCartFormType> = (data) => {
+    console.log(data);
+  }
 
   // Returning JSX
   return (
@@ -35,31 +87,39 @@ export default function CartToCartFinancialPage(): JSX.Element {
       <SelectMode
         value={mode}
         onValueChange={setMode}
-        submitDisabled={false}
-        onSubmit={() => {
-          console.log({
-            mode,
-            file,
-            selectedCreditCard,
-            emergeniceFormValue,
-          });
-        }}
+        onSubmit={form.handleSubmit(onSubmit, (errors) => {
+          const errorMessages = [errors.creditCardIban?.message, errors.creditCardNumber?.message];
+
+          errorMessages.forEach(item => {
+            if (item) {
+              toast({
+                title: "خطایی در ارسال فرم رخ داد!",
+                description: item,
+                theme: "theme"
+              })
+            }
+          })
+        })}
       />
       <div className="grid lg:grid-cols-3 lg:gap-5 gap-[24px]">
         <UserCreditCard
-          data={userInfo.card_numbers}
-          onValueChange={setSelectedCreditCard}
+          title={mode === "company" ? "حقوقی" : "حقیقی"}
+          data={(mode === "company") ? userLegalInfo.data.card_numbers : userInfo.card_numbers}
+          onValueChange={(data) => {
+            form.setValue("creditCardNumber", data.card_number);
+            form.setValue("creditCardIban", data.iban);
+          }}
         />
         <div className="flex items-center justify-between flex-col lg:gap-5 gap-[24px]">
           <CartBalance hasMobileView className="shrink-0 w-full" />
           <div className="w-full h-full">
             <Upload
-              onChange={(data) => setFile(data)}
               className="lg:w-full w-full h-full"
+              onChange={() => { }}
             />
           </div>
         </div>
-        <EmergencieForm onChange={setEmergencieFormValue} />
+        <EmergencieForm form={form} />
       </div>
       <div className="lg:grid flex flex-col  lg:grid-cols-5 lg:gap-5 gap-[24px]">
         <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] lg:col-span-2">
@@ -85,14 +145,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
         </div>
       </div>
       <div className="grid lg:grid-cols-6  lg:gap-5 gap-[24px]">
-        <AdminCreditCardInfo
-          className="lg:col-span-4"
-          data={{
-            name: 'امیرحسین لامعی',
-            iban: '606723561235125612351256',
-            number: '6067235612351256',
-          }}
-        />
+        <AdminCreditCardInfo className="lg:col-span-4" />
         <Subscription className="lg:col-span-2" />
       </div>
       <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">

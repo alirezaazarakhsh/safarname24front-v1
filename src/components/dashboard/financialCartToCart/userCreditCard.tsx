@@ -17,6 +17,7 @@ export default function UserCreditCard({
   className,
   data,
   onValueChange,
+  title
 }: UserCreditCardPropsType): JSX.Element {
   // Defining hooks
   const [activeSwiperSlideIndex, setActiveSwiperSlideIndex] =
@@ -40,7 +41,7 @@ export default function UserCreditCard({
         </div>
         <div className="overflow-hidden w-full">
           <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-            حساب بانکی شما (کارت دلخواه)
+            {`حساب بانکی شما (${title})`}
           </span>
           <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
             میتوانید کارت بانکی دلخواه مدنظر خود را اضافه نمایید.
@@ -101,7 +102,7 @@ export default function UserCreditCard({
                 {data.length === 0
                   ? 'سیستم بانکی ناشناخته است!'
                   : getBankFromCard(data[activeSwiperSlideIndex].card_number)
-                      ?.name || 'سیستم بانکی ناشناخته است!'}
+                    ?.name || 'سیستم بانکی ناشناخته است!'}
               </span>
             </div>
             <div className="shrink-0 flex items-center justify-between gap-2">
@@ -141,10 +142,10 @@ export default function UserCreditCard({
               value={
                 data.length !== 0
                   ? numberSeparation(
-                      data[activeSwiperSlideIndex].card_number,
-                      ' ',
-                      4,
-                    )
+                    data[activeSwiperSlideIndex].card_number,
+                    ' ',
+                    4,
+                  )
                   : ''
               }
               clearFn={() => {
