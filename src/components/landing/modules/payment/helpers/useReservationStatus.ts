@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { useReservationWebSocket } from './useReservationWebSocket';
 
 type ReservationStatus = {
   timer: number | null;
@@ -8,17 +9,17 @@ type ReservationStatus = {
 };
 
 export function useReservationStatus(trackingCode: string | null) {
-  const {
-    data: reservation = { capacity_status: 'initial', timer: null },
-    status,
-  } = useQuery<ReservationStatus>({
+  useReservationWebSocket(trackingCode);
+
+  const { data } = useQuery<ReservationStatus>({
     queryKey: ['reservation-status', trackingCode],
-    queryFn: async () => ({ capacity_status: 'initial', timer: null }),
+    initialData: { timer: null, capacity_status: 'initial' },
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 10,
   });
 
   return {
-    queryStatus: status,
-    timer: reservation.timer,
-    status: reservation.capacity_status,
+    status: data.capacity_status,
+    timer: data.timer,
   };
 }

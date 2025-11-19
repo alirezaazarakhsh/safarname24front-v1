@@ -1,7 +1,7 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 type ReservationStatus = {
   timer?: number;
@@ -29,14 +29,10 @@ export function ReservationStatusProvider({
   useEffect(() => {
     if (!trackingCode) return;
 
-    // 🔌 ایجاد اتصال WebSocket
     const socket = new WebSocket(
       `wss://cps.safarnameh24.com/ws/${trackingCode}/`,
     );
     setWs(socket);
-
-    // socket.onopen = () => console.log('✅ WebSocket connected');
-    // socket.onclose = () => console.log('❌ WebSocket disconnected');
 
     socket.onmessage = (event) => {
       try {
@@ -62,7 +58,6 @@ export function ReservationStatusProvider({
   );
 }
 
-// 🪝 کاستوم هوک برای دسترسی آسان
 export function useReservationSocket() {
   return useContext(ReservationStatusContext);
 }

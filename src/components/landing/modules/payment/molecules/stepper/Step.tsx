@@ -19,9 +19,9 @@ export const Step = memo(function Step(props: Props) {
   const { stepper } = payment;
 
   return (
-    <div className="w-full flex items-center gap-1.5 group last:w-fit lg:max-w-max lg:last:w-full lg:gap-3">
+    <div className="group flex w-full items-center gap-1.5 last:w-fit lg:max-w-max lg:gap-3 lg:last:w-full">
       <div
-        className={`w-11 aspect-square flex-center border rounded-full lg:rounded-cs-10 ${isConfirmed === 'confirmed' ? 'bg-green-500/5 border-green-500' : isConfirmed === 'rejected' ? 'bg-cs-red/5 border-cs-red' : isActive ? 'border-zinc-300' : 'bg-zinc-200/60 border-transparent lg:bg-zinc-100'}`}
+        className={`flex-center aspect-square w-11 rounded-full border lg:rounded-cs-10 ${isConfirmed === 'confirmed' ? 'border-green-500 bg-green-500/5' : isConfirmed === 'rejected' ? 'border-cs-red bg-cs-red/5' : isActive ? 'border-zinc-300' : 'border-transparent bg-zinc-200/60 lg:bg-zinc-100'}`}
       >
         {isConfirmed === 'pending' ? (
           <IconsaxIcons size={20} name={icon} color="#333" />
@@ -35,7 +35,7 @@ export const Step = memo(function Step(props: Props) {
       <div className="hidden gap-1 lg:grid">
         <span
           data-confirm={isConfirmed}
-          className="text-zinc-500 text-cs08/5 font-semibold data-[confirm=confirmed]:text-[#16a34a] data-[confirm=rejected]:text-[#f30f26]"
+          className="text-cs08/5 font-semibold text-zinc-500 data-[confirm=confirmed]:text-[#16a34a] data-[confirm=rejected]:text-[#f30f26]"
         >
           مرحله {stepper[step].step}
         </span>
@@ -49,7 +49,7 @@ export const Step = memo(function Step(props: Props) {
       </div>
 
       <span
-        className={`h-0.5 flex-1 border border-dashed rounded group-last:hidden lg:hidden ${isConfirmed ? 'border-green-500' : 'border-zinc-300'}`}
+        className={`h-0.5 flex-1 rounded border border-dashed group-last:hidden lg:hidden ${isConfirmed ? 'border-green-500' : 'border-zinc-300'}`}
       />
     </div>
   );

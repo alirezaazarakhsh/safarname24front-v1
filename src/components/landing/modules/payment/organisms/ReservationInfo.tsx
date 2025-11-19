@@ -43,7 +43,7 @@ export function ReservationInfo() {
           <Reserver reserver={data?.reserver} />
 
           <div className="space-y-8 pb-1">
-            {[...data?.rooms, ...data?.rooms].map((room, index) => (
+            {data?.rooms.map((room, index) => (
               <div key={index} className="space-y-4">
                 <RoomInfo
                   name={room.name}

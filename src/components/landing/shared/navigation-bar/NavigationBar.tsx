@@ -6,7 +6,7 @@ import { Profile2User } from 'iconsax-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import Link from 'next/link';
-import { useMediaQuery } from '@/hooks';
+import { useCheckAuth, useMediaQuery } from '@/hooks';
 import UserFavorites from '../auth/UserFavorites';
 import NavigationBarItem from './NavigationBarItem';
 import { useUserAccountContext } from '@/context/UserAccountContext';
@@ -14,18 +14,12 @@ import { useUserAccountContext } from '@/context/UserAccountContext';
 // ---------------------------------------
 
 export function NavigationBar() {
-  const [userIsLoggedIn, setUserIsLoggedIn] = useState<boolean | null>(null);
-
   const { toggle } = useUserAccountContext();
   const [showNav, setShowNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-  // Check if user is logged in
-  useEffect(() => {
-    const cookie = Cookies.get('auth');
-    setUserIsLoggedIn(!!cookie);
-  }, []);
+  const { isAuthenticated } = useCheckAuth();
 
   // Hide/show navigation bar on scroll
   useEffect(() => {
@@ -59,7 +53,7 @@ export function NavigationBar() {
             animate={{ transform: 'translateY(0)' }}
             exit={{ transform: 'translateY(100%)' }}
             initial={{ transform: 'translateY(100%)' }}
-            className={`fixed z-30 bottom-0 inset-x-0 bg-white h-[4.4rem] px-4 flex-between items-center overflow-hidden border-t shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:flex-center md:gap-8 lg:hidden`}
+            className={`flex-between md:flex-center fixed inset-x-0 bottom-0 z-30 h-[4.4rem] items-center overflow-hidden border-t bg-white px-4 shadow-[0_0_1.5rem_rgba(0,0,0,0.1)] md:gap-8 lg:hidden`}
           >
             <NavigationBarItem title="خانه" href="/" icon={'Home2'} />
 
@@ -78,13 +72,13 @@ export function NavigationBar() {
             <UserFavorites />
 
             {/* User-Profile | User-Account Triggers */}
-            {userIsLoggedIn !== null && userIsLoggedIn ? (
+            {isAuthenticated ? (
               <Link
                 href={'/dashboard/profile'}
                 className="flex flex-col items-center gap-1.5"
               >
                 <Profile2User size={18} color="#71717a" />
-                <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.75rem)] font-bold">
+                <span className="text-[clamp(0.65rem,3vw,0.75rem)] font-bold text-zinc-500">
                   پروفایل کاربری
                 </span>
               </Link>
@@ -94,7 +88,7 @@ export function NavigationBar() {
                 onClick={() => toggle()}
               >
                 <Profile2User size={18} color="#71717a" />
-                <span className="text-zinc-500 text-[clamp(0.65rem,3vw,0.75rem)] font-bold">
+                <span className="text-[clamp(0.65rem,3vw,0.75rem)] font-bold text-zinc-500">
                   حساب کاربری
                 </span>
               </button>
