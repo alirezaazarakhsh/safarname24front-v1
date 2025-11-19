@@ -31,87 +31,81 @@ const data: {
     subTitle: string;
   }[];
 }[] = [
-  {
-    type: 'notification',
-    icon: 'NotificationStatus',
-    title: 'اعلان ها',
-    subTitle: 'هیچ پیامی دریافت نکردید!',
-  },
-  {
-    type: 'single',
-    icon: 'Category',
-    title: 'داشبورد',
-    subTitle: 'مشاهده و ویرایش اطلاعات شخصی',
-    link: '/dashboard',
-  },
-  {
-    type: 'single',
-    icon: 'DocumentText',
-    title: 'لیست رزرو من',
-    subTitle: 'رزرواسیون سفرهای لیست شده من',
-    link: '/dashboard/reservations',
-  },
-  {
-    type: 'containable',
-    icon: 'Wallet',
-    title: 'بخش مالی',
-    subTitle: 'دریافت اعتبار برای سفر، افزایش موجودی',
-    containable: [
-      {
-        icon: 'CardSend',
-        title: 'شارژ کیف پول',
-        subTitle: 'افزایش اعتبار خرید هتل',
-        link: '/dashboard/financial/wallet',
-      },
-      {
-        icon: 'CardPos',
-        title: 'کارت به کارت',
-        subTitle: 'عملیات واریز وجه بنیانگذار',
-        link: '/dashboard/financial/card-to-card',
-      },
-      {
-        icon: 'Cards',
-        title: 'برداشت وجه',
-        subTitle: 'عملیات برداشت وجه کیف پول',
-        link: '/dashboard/financial/card-to-card',
-      },
-      {
-        icon: 'Receipt',
-        title: 'فاکتور ها',
-        subTitle: 'صدور واچر اختصاصی',
-        link: '/dashboard/financial/factors',
-      },
-    ],
-  },
-  {
-    type: 'single',
-    icon: 'Crown',
-    title: 'باشگاه مشتریان',
-    subTitle: 'امتیاز، جوایز دریافتی های ویژه',
-    link: '/dashboard/customer-club',
-  },
-  {
-    type: 'single',
-    icon: 'MessageText',
-    title: 'مدیریت تیکت ها',
-    subTitle: 'مشاهده و ویرایش اطلاعات شخصی',
-    link: '/dashboard/tickets',
-  },
-  {
-    type: 'single',
-    icon: 'Save2',
-    title: 'علاقه مندی های من',
-    subTitle: 'هتل و مقاله های جذاب ذخیره شده',
-    link: '/dashboard/favorites',
-  },
-  {
-    type: 'single',
-    icon: 'Profile2User',
-    title: 'مسافران من',
-    subTitle: 'لیست هم سفر های من',
-    link: '/dashboard/passengers',
-  },
-];
+    {
+      type: 'notification',
+      icon: 'NotificationStatus',
+      title: 'اعلان ها',
+      subTitle: 'هیچ پیامی دریافت نکردید!',
+    },
+    {
+      type: 'single',
+      icon: 'Category',
+      title: 'داشبورد',
+      subTitle: 'مشاهده و ویرایش اطلاعات شخصی',
+      link: '/dashboard',
+    },
+    {
+      type: 'single',
+      icon: 'DocumentText',
+      title: 'لیست رزرو من',
+      subTitle: 'رزرواسیون سفرهای لیست شده من',
+      link: '/dashboard/reservations',
+    },
+    {
+      type: 'containable',
+      icon: 'Wallet',
+      title: 'بخش مالی',
+      subTitle: 'دریافت اعتبار برای سفر، افزایش موجودی',
+      containable: [
+        {
+          icon: 'CardSend',
+          title: 'شارژ کیف پول',
+          subTitle: 'افزایش اعتبار خرید هتل',
+          link: '/dashboard/financial/wallet',
+        },
+        {
+          icon: 'CardPos',
+          title: 'کارت به کارت',
+          subTitle: 'عملیات واریز وجه بنیانگذار',
+          link: '/dashboard/financial/card-to-card',
+        },
+        {
+          icon: 'Receipt',
+          title: 'فاکتور ها',
+          subTitle: 'صدور واچر اختصاصی',
+          link: '/dashboard/financial/factors',
+        },
+      ],
+    },
+    {
+      type: 'single',
+      icon: 'Crown',
+      title: 'باشگاه مشتریان',
+      subTitle: 'امتیاز، جوایز دریافتی های ویژه',
+      link: '/dashboard/customer-club',
+    },
+    {
+      type: 'single',
+      icon: 'MessageText',
+      title: 'مدیریت تیکت ها',
+      subTitle: 'مشاهده و ویرایش اطلاعات شخصی',
+      link: '/dashboard/tickets',
+    },
+    {
+      type: 'single',
+      icon: 'Save2',
+      title: 'علاقه مندی های من',
+      subTitle: 'هتل و مقاله های جذاب ذخیره شده',
+      link: '/dashboard/favorites',
+    },
+    {
+      type: 'single',
+      icon: 'Profile2User',
+      title: 'مسافران من',
+      subTitle: 'لیست هم سفر های من',
+      link: '/dashboard/passengers',
+    },
+  ];
 
 // Creating and exporting MobileProfile component as default
 export default function MobileProfile({
@@ -290,11 +284,11 @@ export default function MobileProfile({
                 animate={
                   index === activeItemIndex
                     ? {
-                        height: 'auto',
-                        opacity: 1,
-                        paddingTop: 20,
-                        marginTop: 20,
-                      }
+                      height: 'auto',
+                      opacity: 1,
+                      paddingTop: 20,
+                      marginTop: 20,
+                    }
                     : { height: 0, opacity: 0, paddingTop: 0, marginTop: 0 }
                 }
                 exit={{ height: 0, opacity: 0, paddingTop: 0, marginTop: 0 }}
