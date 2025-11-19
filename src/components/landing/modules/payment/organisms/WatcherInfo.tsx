@@ -24,30 +24,30 @@ export function WatcherInfo() {
   const paymentStatus = data?.data.payment_status;
 
   return (
-    <div className="bg-white p-5 border text-cs08/6 font-semibold rounded-xl">
+    <div className="rounded-xl border bg-white p-5 text-cs08/6 font-semibold">
       {status === 'pending' ? (
-        <div className="h-28 flex-center">
+        <div className="flex-center h-28">
           <div className={loader.dots} />
         </div>
       ) : (
         <>
           {paymentStatus === 'paid' ? (
             <div className="grid">
-              <p className="text-cs85/5 font-bold pb-3 border-b text-green-600">
+              <p className="border-b pb-3 text-cs85/5 font-bold text-green-600">
                 پرداخت صورتحساب با موفقیت انجام شد
               </p>
 
-              <p className="text-zinc-600 mt-3.5 mb-4">
+              <p className="mb-4 mt-3.5 text-zinc-600">
                 مشتری گرامی سپاس از اعتماد شما نسبت به مجموعه سفرنامه 24 , خرید
                 شما با موفقیت انجام شد .
               </p>
 
               <Link
                 href={`/dashboard/reservations/${trackingCode}`}
-                className="bg-cs-blue/10 text-cs-blue w-fit px-5 py-2 font-bold rounded-cs-10 flex items-center gap-2"
+                className="flex w-fit items-center gap-2 rounded-cs-10 bg-cs-blue/10 px-5 py-2 font-bold text-cs-blue"
               >
-                <div className="relative w-2.5 aspect-square bg-cs-blue/90 rounded-full">
-                  <span className="absolute inset-0 pointer-events-none rounded-lg animate-ping bg-cs-blue" />
+                <div className="relative aspect-square w-2.5 rounded-full bg-cs-blue/90">
+                  <span className="pointer-events-none absolute inset-0 animate-ping rounded-lg bg-cs-blue" />
                 </div>
 
                 <span>مشاهده واچر</span>
@@ -55,11 +55,11 @@ export function WatcherInfo() {
             </div>
           ) : (
             <div className="grid">
-              <p className="text-cs85/5 font-bold pb-3 border-b text-cs-red">
+              <p className="border-b pb-3 text-cs85/5 font-bold text-cs-red">
                 پرداخت صورتحساب با خطا مواجه شد
               </p>
 
-              <p className="text-zinc-600 mt-3.5 mb-4">
+              <p className="mb-4 mt-3.5 text-zinc-600">
                 مشتری گرامی به دلیل مشکل فنی در سیستم درگاه پرداخت , رزرو شما
                 قابل پیگیری نمیباشد .
                 <br />
@@ -68,7 +68,7 @@ export function WatcherInfo() {
 
               <Link
                 href={'/best-hotels'}
-                className="bg-zinc-100 w-fit px-5 py-2 text-zinc-800 rounded-cs-10"
+                className="w-fit rounded-cs-10 bg-zinc-100 px-5 py-2 text-zinc-800"
               >
                 ثبت رزرو جدید
               </Link>

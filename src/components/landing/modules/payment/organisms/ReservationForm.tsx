@@ -78,7 +78,7 @@ export function ReservationForm() {
               handleToggleLoading,
             ),
           )}
-          className="bg-white p-5 pb-6 border rounded-xl"
+          className="rounded-xl border bg-white p-5 pb-6"
           onKeyDown={(e) => {
             if (e.key === 'Enter') e.preventDefault();
           }}
@@ -88,7 +88,7 @@ export function ReservationForm() {
             return (
               <fieldset
                 key={room.id}
-                className="mt-6 pb-7 space-y-5 border-b last:border-0 last:pb-0"
+                className="mt-6 space-y-5 border-b pb-7 last:border-0 last:pb-0"
               >
                 <RoomInfo
                   name={room.name}

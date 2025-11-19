@@ -20,13 +20,25 @@ function isValidIranianNationalId(input: string): boolean {
 }
 
 const personSchema = z.object({
-  first_name: z.string().nonempty(''),
-  last_name: z.string().nonempty(''),
+  first_name: z.string().nonempty('* نام الزامی است'),
+  last_name: z.string().nonempty('* نام خانوادگی الزامی است'),
   national_code: z
     .string()
-    .nonempty('* کد ملی الزامی است')
-    .transform((v) => convertToEnglishDigits(v || '').replace(/[^\d]/g, ''))
-    .refine(isValidIranianNationalId, { message: '* کد ملی معتبر نیست' }),
+    .optional()
+    .transform((val) => {
+      if (!val) return '';
+      const cleaned = convertToEnglishDigits(val).replace(/[^\d]/g, '').trim();
+      return cleaned;
+    })
+    .pipe(
+      z
+        .string()
+        .refine(
+          (val) => val === '' || isValidIranianNationalId(val),
+          '* کد ملی معتبر نیست',
+        )
+        .default(''),
+    ),
 });
 
 const personWithPhoneSchema = personSchema.extend({
@@ -53,7 +65,7 @@ export const formSchema = z
     reserver: personWithPhoneSchema,
     rooms: z.array(
       z.object({
-        id: z.union([z.string(), z.number()]), 
+        id: z.union([z.string(), z.number()]),
         name: z.string(),
         capacity: z.number(),
         extra_capacity: z.number(),
