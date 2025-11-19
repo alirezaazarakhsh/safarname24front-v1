@@ -125,7 +125,11 @@ export default function FactorsTable({
                   <TableCell className="p-3 flex items-center justify-end gap-3">
                     <div className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black">
                       <span className="text-xs text-current font-medium">
-                        عملیات لغو شد!
+                        {
+                          item.status === "successfull"
+                            ? "عملیات موفقیت امیز بود"
+                            : "عملیات ناموفق بود"
+                        }
                       </span>
                     </div>
                   </TableCell>
@@ -170,7 +174,11 @@ export default function FactorsTable({
                         }
                       >
                         <span className="text-[10px] text-current font-medium w-full text-right block truncate">
-                          عملیات لغو شد!
+                          {
+                            item.status === "successfull"
+                              ? "عملیات موفقیت امیز بود"
+                              : "عملیات ناموفق بود"
+                          }
                         </span>
                       </div>
                     </div>
