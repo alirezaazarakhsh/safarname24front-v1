@@ -1,14 +1,19 @@
 'use client';
 
-import { useMemo } from 'react';
-import { FormSchema } from '../helpers/type';
-import { payment } from '../helpers/constant';
-import { axiosInstance } from '@/utils/axios';
+import {
+  StepOne,
+  StepTwo,
+  StepFour,
+  StepThree,
+  StepBackButton,
+} from '../molecules/stepper';
 
+import { useMemo } from 'react';
+import { payment } from '../helpers/constant';
+
+import { axiosInstance } from '@/utils/axios';
 import { useQuery } from '@tanstack/react-query';
-import { Step, StepBackButton } from '../molecules/stepper';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useReservationStatus } from '../helpers/useReservationStatus';
 
 type ApiResponse = { data: { payment_status: 'unpaid' | 'paid' | 'pending' } };
 
@@ -21,53 +26,11 @@ export function Stepper() {
   const { stepper, reservationId } = payment;
   const trackingCode = searchParams.get(reservationId);
 
-  const { status } = useReservationStatus(trackingCode);
-
-  // === Fetch Form-Data
-  const { data: reservationForm } = useQuery<FormSchema>({
-    queryKey: ['reservation-form'],
-    queryFn: async () => {
-      return axiosInstance(`/hotel/reservation/form/${trackingCode}/`).then(
-        (data) => data.data,
-      );
-    },
-  });
-
   // === Fetch Payment-Status
   const { data: paymentStatus } = useQuery<ApiResponse>({
     queryKey: ['payment-status'],
     queryFn: () => axiosInstance(`/payment/payment-status/${trackingCode}/`),
   });
-
-  // === Calculate Confirmation
-  function calculateConfirmedIndex(index: number) {
-    let isConfirmed: 'confirmed' | 'rejected' | 'pending' = 'pending';
-
-    if (index + 1 === 1) {
-      isConfirmed = reservationForm?.rooms[0].passengers.main_passenger
-        .first_name
-        ? 'confirmed'
-        : 'pending';
-    } else if (index + 1 === 2) {
-      isConfirmed =
-        status === 'confirmed'
-          ? 'confirmed'
-          : status === 'rejected'
-            ? 'rejected'
-            : 'pending';
-    } else {
-      const status = paymentStatus?.data.payment_status;
-
-      isConfirmed =
-        status === 'paid'
-          ? 'confirmed'
-          : status === 'unpaid'
-            ? 'rejected'
-            : 'pending';
-    }
-
-    return isConfirmed;
-  }
 
   // === Calculate Active-Step
   const activeStep = useMemo(() => {
@@ -84,18 +47,12 @@ export function Stepper() {
 
   return (
     <div className="lg:col-span-2">
-      <div className="flex-between items-center lg:bg-white lg:p-5 lg:border lg:rounded-xl">
-        <div className="flex-1 flex gap-1.5 lg:flex-none lg:gap-14">
-          {stepper.map((step, index) => (
-            <Step
-              key={index}
-              step={index}
-              icon={step.icon}
-              title={step.title}
-              isActive={activeStep === index + 1}
-              isConfirmed={calculateConfirmedIndex(index)}
-            />
-          ))}
+      <div className="flex-between items-center lg:rounded-xl lg:border lg:bg-white lg:p-5">
+        <div className="flex flex-1 gap-1.5 lg:flex-none lg:gap-14">
+          <StepOne activeStep={activeStep} trackingCode={trackingCode} />
+          <StepTwo activeStep={activeStep} trackingCode={trackingCode} />
+          <StepThree activeStep={activeStep} trackingCode={trackingCode} />
+          <StepFour activeStep={activeStep} trackingCode={trackingCode} />
         </div>
 
         <div className="hidden lg:block">
@@ -103,8 +60,8 @@ export function Stepper() {
         </div>
       </div>
 
-      <div className="bg-white p-4 mt-6 flex-between items-center border rounded-xl lg:hidden">
-        <div className="text-cs08/5 font-bold grid gap-1.5">
+      <div className="flex-between mt-6 items-center rounded-xl border bg-white p-4 lg:hidden">
+        <div className="grid gap-1.5 text-cs08/5 font-bold">
           <span className="text-zinc-500">
             مرحله {stepper[activeStep - 1].step}
           </span>

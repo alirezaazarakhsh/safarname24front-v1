@@ -74,7 +74,7 @@ export function WalletWithdraw() {
         type="single"
         disabled={(walletBalance ?? 0) === 0}
         defaultValue={paymentInvoice ? 'item-1' : undefined}
-        className={`bg-white px-5 border rounded-xl ${(walletBalance ?? 0) === 0 ? 'opacity-60' : ''}`}
+        className={`rounded-xl border bg-white px-5 ${(walletBalance ?? 0) === 0 ? 'opacity-60' : ''}`}
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>
@@ -89,12 +89,12 @@ export function WalletWithdraw() {
 
           <AccordionContent className="border-t">
             {!paymentInvoice && (
-              <p className="text-zinc-500 text-cs08 font-semibold pt-4">
+              <p className="pt-4 text-cs08 font-semibold text-zinc-500">
                 مبلغ برداشتی از کیف پول خود را وارد نمایید :
               </p>
             )}
 
-            <div className="h-11 text-cs85/5 font-bold mt-5 flex gap-3.5">
+            <div className="mt-5 flex h-11 gap-3.5 text-cs85/5 font-bold">
               <div className="flex-1">
                 <input
                   type="text"
@@ -102,7 +102,7 @@ export function WalletWithdraw() {
                   onChange={handleInputChange}
                   value={numberSeparation(withdrawalAmount)}
                   readOnly={(paymentInvoice ?? 0) > 0 || false}
-                  className="full-size bg-zinc-100 text-zinc-500 text-center px-5 rounded-cs-10 placeholder:font-semibold"
+                  className="full-size rounded-cs-10 bg-zinc-100 px-5 text-center text-zinc-500 placeholder:font-semibold"
                 />
               </div>
 
@@ -123,7 +123,7 @@ export function WalletWithdraw() {
             </div>
 
             {!paymentInvoice && withdrawalAmount && (
-              <div className="text-cs85 font-bold flex-between items-center mt-3.5">
+              <div className="flex-between mt-3.5 items-center text-cs85 font-bold">
                 <span>* مبلغ برداشت : </span>
                 <span>{numberSeparation(withdrawalAmount)} تومان</span>
               </div>

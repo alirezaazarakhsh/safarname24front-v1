@@ -1,14 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
-import Cookies from 'js-cookie';
 import { useState } from 'react';
 import { Heart } from 'iconsax-react';
+import { useCheckAuth } from '@/hooks';
 
 import AuthGuardReaction from './AuthGuardReaction';
 import { usePathname, useRouter } from 'next/navigation';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-
 
 // --------------------------------------------
 
@@ -16,12 +15,12 @@ export default function UserFavorites() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const { isAuthenticated } = useCheckAuth();
   const isActive = pathname === '/dashboard/favorites';
   const [guardIsOpen, setGuardIsOpen] = useState(false);
 
   function handleClick() {
-    const userIsLoggedIn = Cookies.get('auth');
-    if (!userIsLoggedIn) setGuardIsOpen(true);
+    if (!isAuthenticated) setGuardIsOpen(true);
     else router.push('/dashboard/favorites');
   }
 
@@ -42,7 +41,7 @@ export default function UserFavorites() {
 
         <span
           className={clsx(
-            'text-zinc-500 text-[clamp(0.65rem,3vw,0.75rem)] font-bold transition-colors duration-300 ease-in-out',
+            'text-[clamp(0.65rem,3vw,0.75rem)] font-bold text-zinc-500 transition-colors duration-300 ease-in-out',
             isActive && 'text-zinc-800',
           )}
         >
@@ -54,7 +53,7 @@ export default function UserFavorites() {
 
       {/* Large-Device */}
       <button
-        className="bg-zinc-200/50 px-4 hidden gap-2 rounded-lg transition-colors duration-300 ease-in-out hover:bg-zinc-200/80 lg:flex-center"
+        className="lg:flex-center hidden gap-2 rounded-lg bg-zinc-200/50 px-4 transition-colors duration-300 ease-in-out hover:bg-zinc-200/80"
         onClick={handleClick}
       >
         <Heart size={19} variant="Bold" color="#60606a" />

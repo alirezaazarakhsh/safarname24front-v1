@@ -13,7 +13,7 @@ type Props = { children: Readonly<React.ReactNode> };
 
 export default function PaymentLayout(props: Props) {
   return (
-    <div className="mt-6 space-y-6 lg:mt-12">
+    <div className="mt-6 space-y-6 lg:mt-10">
       <Suspense>
         <ContextWrapper>
           <div className="grid gap-6 overflow-hidden lg:grid-cols-[1fr_2.8fr]">

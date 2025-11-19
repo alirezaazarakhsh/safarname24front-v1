@@ -7,6 +7,7 @@ import loader from '@/styles/loader.module.css';
 
 import { useMutation } from '@tanstack/react-query';
 import { showCMToast } from '@/components/landing/shared/toast';
+import { AxiosError } from 'axios';
 
 type Props = {
   walletBalance?: number;
@@ -28,7 +29,7 @@ export function SubmitWithdraw(props: Props) {
     handleInvalidateQuery,
   } = props;
 
-  const { mutate, status } = useMutation<ApiResponse>({
+  const { mutate, status } = useMutation<ApiResponse, AxiosError<any>>({
     mutationFn: () => {
       return axiosInstance.post(
         `/hotel/reservation/wallet/withdraw/${trackingCode}/`,
@@ -48,13 +49,12 @@ export function SubmitWithdraw(props: Props) {
       });
     },
     onError: (error) => {
-      console.log(error);
-
       showCMToast({
         type: 'error',
         title: 'برداشت از کیف پول با خطا مواجه شد !',
-        description:
-          'کاربر گرامی در انجام عملیات برداشت از کیف پول مشکلی وجود دارد',
+        description: error.response?.data.detail
+          ? error.response?.data.detail
+          : 'کاربر گرامی در انجام عملیات برداشت از کیف پول مشکلی وجود دارد',
       });
     },
   });
@@ -85,7 +85,7 @@ export function SubmitWithdraw(props: Props) {
     <button
       onClick={handleSubmitWithdraw}
       disabled={!withdrawalAmount || status === 'pending'}
-      className="w-20 bg-[#22AD5A]/10 text-[#22AD5A] text-cs09 font-bold flex-center rounded-cs-10 transition-colors disabled:cursor-not-allowed hover:bg-[#22AD5A]/15"
+      className="flex-center w-20 rounded-cs-10 bg-[#22AD5A]/10 text-cs09 font-bold text-[#22AD5A] transition-colors hover:bg-[#22AD5A]/15 disabled:cursor-not-allowed"
     >
       {status === 'pending' ? (
         <div
