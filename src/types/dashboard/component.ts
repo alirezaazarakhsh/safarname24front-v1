@@ -346,6 +346,8 @@ export interface DatePickerComponentPropsType {
   isOpened: boolean;
   closeFn: () => void;
   onSubmit?: (date: moment.Moment) => void;
+  disableFuture?: boolean;
+  disablePast?: boolean;
 }
 
 export interface DatePickerInputComponentPropsType {
