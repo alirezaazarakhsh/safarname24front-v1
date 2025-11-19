@@ -16,7 +16,6 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { handleZeroBeforeNumber } from '@/utils/string';
-import Link from 'next/link';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import Image from 'next/image';
 import EmptyImage from '../../../../public/image/empty.png';
@@ -63,7 +62,7 @@ export default function FactorsTable({
             </span>
             <CustomPagination
               count={12}
-              // onChange={(index) => console.log(index)}
+            // onChange={(index) => console.log(index)}
             />
           </div>
           <Table dir="rtl" className="border-none lg:table hidden">
@@ -79,10 +78,7 @@ export default function FactorsTable({
                   مبلغ صورتحساب
                 </TableHead>
                 <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  تاریخ و زمان صدور
-                </TableHead>
-                <TableHead className="text-right p-3 truncate text-xs font-medium text-gray-400">
-                  وضعیت مالی
+                  تاریخ
                 </TableHead>
                 <TableHead className="w-[30%] text-right truncate text-xs font-medium" />
               </TableRow>
@@ -123,54 +119,15 @@ export default function FactorsTable({
                     <span className="text-xs font-medium text-gray-600 truncate block text-right">
                       {moment(item.createdAt)
                         .locale('fa')
-                        .format('jYYYY/jMM/jDD A - HH:mm')}
+                        .format('jYYYY/jMM/jDD')}
                     </span>
                   </TableCell>
-                  <TableCell className="p-3">
-                    <div className="flex items-center justify-start gap-2">
-                      <div
-                        className="w-2 h-2 shrink-0 rounded-full"
-                        style={{
-                          backgroundColor:
-                            item.status === 'unsuccessfull'
-                              ? '#F30F26'
-                              : '#35A346',
-                        }}
-                      />
-                      <span className="text-xs font-medium text-gray-600 truncate block text-right">
-                        {item.status === 'successfull' &&
-                        item.type === 'cashOut'
-                          ? 'انجام شده'
-                          : item.status === 'successfull' &&
-                              item.type === 'cartToCart'
-                            ? 'تایید شده'
-                            : item.status === 'successfull' &&
-                                item.type === 'add'
-                              ? 'پرداخت شده'
-                              : item.status === 'unsuccessfull'
-                                ? 'لغو شده'
-                                : 'لغو شده'}
+                  <TableCell className="p-3 flex items-center justify-end gap-3">
+                    <div className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black">
+                      <span className="text-xs text-current font-medium">
+                        عملیات لغو شد!
                       </span>
                     </div>
-                  </TableCell>
-                  <TableCell className="p-3 flex items-center justify-end gap-3">
-                    {item.status === 'successfull' ? (
-                      <Link
-                        href={`/dashboard/financial/factors/${item.id}`}
-                        className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black hover:bg-gray-100"
-                      >
-                        <IconsaxIcons name="Eye" className="w-3 h-3 shrink-0" />
-                        <span className="text-xs text-current font-medium">
-                          مشاهده فاکتور
-                        </span>
-                      </Link>
-                    ) : (
-                      <div className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black">
-                        <span className="text-xs text-current font-medium">
-                          عملیات لغو شد!
-                        </span>
-                      </div>
-                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -207,31 +164,15 @@ export default function FactorsTable({
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-[10px]">
-                      {item.status === 'successfull' ? (
-                        <Link
-                          href={`/dashboard/financial/factors/${item.id}`}
-                          className="h-[40px] px-[10px] flex gap-[10px] items-center justify-center bg-white border border-black/20 rounded-[7px] text-black"
-                        >
-                          <span className="text-[10px] text-current font-medium w-full text-right block truncate">
-                            مشاهده فاکتور
-                          </span>
-                          <IconsaxIcons
-                            name="Eye"
-                            color="currentColor"
-                            className="w-[17px] h-[17px]"
-                          />
-                        </Link>
-                      ) : (
-                        <div
-                          className={
-                            'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black px-[20px]'
-                          }
-                        >
-                          <span className="text-[10px] text-current font-medium w-full text-right block truncate">
-                            عملیات لغو شد!
-                          </span>
-                        </div>
-                      )}
+                      <div
+                        className={
+                          'h-[40px] flex items-center justify-center bg-white border border-black/20 rounded-[7px] text-black px-[20px]'
+                        }
+                      >
+                        <span className="text-[10px] text-current font-medium w-full text-right block truncate">
+                          عملیات لغو شد!
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-start gap-[10px] mb-[25px]">
@@ -264,46 +205,8 @@ export default function FactorsTable({
                       <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
                         {moment(item.createdAt)
                           .locale('fa')
-                          .format('jYYYY/jMM/jDD A - HH:mm')}
+                          .format('jYYYY/jMM/jDD')}
                       </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-start gap-[10px] mb-[25px]">
-                    <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
-                      <IconsaxIcons
-                        name="Status"
-                        className="w-[20px] h-[20px] text-black"
-                      />
-                    </div>
-                    <div>
-                      <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
-                        وضعیت مالی
-                      </span>
-                      <div className="flex items-center justify-start gap-[10px]">
-                        <div
-                          className="w-[4px] h-[4px] shrink-0 rounded-full"
-                          style={{
-                            backgroundColor:
-                              item.status === 'unsuccessfull'
-                                ? '#F30F26'
-                                : '#35A346',
-                          }}
-                        />
-                        <span className="text-[10px] font-medium text-gray-600 truncate block text-right">
-                          {item.status === 'successfull' &&
-                          item.type === 'cashOut'
-                            ? 'انجام شده'
-                            : item.status === 'successfull' &&
-                                item.type === 'cartToCart'
-                              ? 'تایید شده'
-                              : item.status === 'successfull' &&
-                                  item.type === 'add'
-                                ? 'پرداخت شده'
-                                : item.status === 'unsuccessfull'
-                                  ? 'لغو شده'
-                                  : 'لغو شده'}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
