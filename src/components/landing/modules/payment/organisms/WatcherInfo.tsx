@@ -8,7 +8,7 @@ import loader from '@/styles/loader.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
-type ApiResponse = { data: { payment_status: 'unpaid' | 'paid' | 'pending' } };
+type ApiResponse = { payment_status: 'unpaid' | 'paid' | 'pending' };
 
 // ------------------------------
 
@@ -18,10 +18,13 @@ export function WatcherInfo() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['payment-status'],
-    queryFn: () => axiosInstance(`/payment/payment-status/${trackingCode}/`),
+    queryFn: () =>
+      axiosInstance(`/payment/payment-status/${trackingCode}/`).then(
+        (data) => data.data,
+      ),
   });
 
-  const paymentStatus = data?.data.payment_status;
+  const paymentStatus = data?.payment_status;
 
   return (
     <div className="rounded-xl border bg-white p-5 text-cs08/6 font-semibold">
