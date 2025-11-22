@@ -123,7 +123,7 @@ export default function FactorsTable({
                     </span>
                   </TableCell>
                   <TableCell className="p-3 flex items-center justify-end gap-3">
-                    <div className="w-[125px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black">
+                    <div className="w-[150px] h-[40px] flex gap-2 items-center justify-center transition-all duration-500 bg-white border border-black/20 rounded-md text-black">
                       <span className="text-xs text-current font-medium">
                         {
                           item.status === "successfull"

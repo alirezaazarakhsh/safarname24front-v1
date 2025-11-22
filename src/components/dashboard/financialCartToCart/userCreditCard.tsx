@@ -11,15 +11,22 @@ import { getBankFromCard } from '@/utils/string';
 import CardShowCase from './cardShowCase';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { numberSeparation } from '@/utils';
+import AddCardDialog from './dialog/addCardDialog';
+import EditCurrentCardDialog from './dialog/editCurrentCardDialog';
+import RemoveCurrentCardDialog from './dialog/removeCurrentCard';
 
 // Creating and exporting UserCreditCart component as default
 export default function UserCreditCard({
   className,
   data,
   onValueChange,
-  title
+  title,
+  mode
 }: UserCreditCardPropsType): JSX.Element {
   // Defining hooks
+  const [addCardDialogOpened, setAddCardDialogOpened] = useState<boolean>(false);
+  const [editCardDialogOpened, setEditCardDialogOpened] = useState<boolean>(false);
+  const [deleteCardDialogOpened, setDeleteCardDialogOpened] = useState<boolean>(false);
   const [activeSwiperSlideIndex, setActiveSwiperSlideIndex] =
     useState<number>(0);
 
@@ -106,26 +113,45 @@ export default function UserCreditCard({
               </span>
             </div>
             <div className="shrink-0 flex items-center justify-between gap-2">
+              {
+                data.length < 2 && (
+                  <>
+                    <AddCardDialog mode={mode} open={addCardDialogOpened} onOpenChange={setAddCardDialogOpened} />
+                    <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black" onClick={() => setAddCardDialogOpened(true)}>
+                      <IconsaxIcons
+                        name="Add"
+                        className="size-[18px]"
+                        color="currentColor"
+                      />
+                    </button>
+                  </>
+                )
+              }
               {data.length !== 0 && (
-                <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-cs-red/5 transition-all duration-500 hover:bg-cs-red/10 text-cs-red">
-                  <IconsaxIcons
-                    name="Trash"
-                    className="size-[18px]"
-                    color="currentColor"
+                <>
+                  <EditCurrentCardDialog
+                    mode={mode} open={editCardDialogOpened} onOpenChange={setEditCardDialogOpened}
+                    data={data[activeSwiperSlideIndex]}
                   />
-                </button>
-              )}
-              {data.length < 2 && (
-                <button className="px-2.5 h-[40px] flex items-center justify-center gap-2 bg-white transition-all duration-500 hover:bg-gray-100/50 text-black rounded-md border border-black/10">
-                  <IconsaxIcons
-                    name="Add"
-                    className="size-5"
-                    color="currentColor"
+                  <RemoveCurrentCardDialog
+                    mode={mode} open={deleteCardDialogOpened} onOpenChange={setDeleteCardDialogOpened}
+                    data={data[activeSwiperSlideIndex]}
                   />
-                  <span className="truncate text-right block text-cs07 font-normal text-current">
-                    ثبت کارت جدید
-                  </span>
-                </button>
+                  <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black" onClick={() => setEditCardDialogOpened(true)}>
+                    <IconsaxIcons
+                      name="Edit2"
+                      className="size-[18px]"
+                      color="currentColor"
+                    />
+                  </button>
+                  <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-cs-red/5 transition-all duration-500 hover:bg-cs-red/10 text-cs-red" onClick={() => setDeleteCardDialogOpened(true)}>
+                    <IconsaxIcons
+                      name="Trash"
+                      className="size-[18px]"
+                      color="currentColor"
+                    />
+                  </button>
+                </>
               )}
             </div>
           </div>
