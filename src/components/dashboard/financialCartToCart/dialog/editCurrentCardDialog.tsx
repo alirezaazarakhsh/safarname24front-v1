@@ -54,9 +54,6 @@ export default function EditCurrentCardDialog({
     }
   })
 
-  // Defining variables
-  const formData = form.watch();
-
   // Defining onSubmit event
   const onSubmit: SubmitHandler<formType> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 seconds
@@ -95,7 +92,7 @@ export default function EditCurrentCardDialog({
         <DialogContent className="w-full lg:max-w-[450px] max-w-full gap-0 p-0 lg:rounded-xl rounded-none">
           <DialogHeader className='flex !flex-row items-center justify-between gap-3 border-b border-b-black/10 w-full px-4 h-[50px]'>
             <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black truncate flex-1">
-              اضافه کردن کارت بانکی
+              ویرایش کارت بانکی
             </DialogTitle>
             <DialogClose className='shrink-0 !mt-0' asChild>
               <button>

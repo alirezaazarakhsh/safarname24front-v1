@@ -916,3 +916,13 @@ export interface EditCurrentCardDialogPropsType {
     account_holder_name: string;
   };
 }
+
+export interface RemoveCurrentCardDialogProps {
+  open: boolean;
+  onOpenChange?: (open: boolean) => void;
+  mode: CartToCartFinancialMode;
+  data: {
+    id: number;
+    card_number: string;
+  };
+}

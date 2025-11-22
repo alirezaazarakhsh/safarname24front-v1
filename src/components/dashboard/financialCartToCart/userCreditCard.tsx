@@ -13,6 +13,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { numberSeparation } from '@/utils';
 import AddCardDialog from './dialog/addCardDialog';
 import EditCurrentCardDialog from './dialog/editCurrentCardDialog';
+import RemoveCurrentCardDialog from './dialog/removeCurrentCard';
 
 // Creating and exporting UserCreditCart component as default
 export default function UserCreditCard({
@@ -25,6 +26,7 @@ export default function UserCreditCard({
   // Defining hooks
   const [addCardDialogOpened, setAddCardDialogOpened] = useState<boolean>(false);
   const [editCardDialogOpened, setEditCardDialogOpened] = useState<boolean>(false);
+  const [deleteCardDialogOpened, setDeleteCardDialogOpened] = useState<boolean>(false);
   const [activeSwiperSlideIndex, setActiveSwiperSlideIndex] =
     useState<number>(0);
 
@@ -131,6 +133,10 @@ export default function UserCreditCard({
                     mode={mode} open={editCardDialogOpened} onOpenChange={setEditCardDialogOpened}
                     data={data[activeSwiperSlideIndex]}
                   />
+                  <RemoveCurrentCardDialog
+                    mode={mode} open={deleteCardDialogOpened} onOpenChange={setDeleteCardDialogOpened}
+                    data={data[activeSwiperSlideIndex]}
+                  />
                   <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black" onClick={() => setEditCardDialogOpened(true)}>
                     <IconsaxIcons
                       name="Edit2"
@@ -138,7 +144,7 @@ export default function UserCreditCard({
                       color="currentColor"
                     />
                   </button>
-                  <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-cs-red/5 transition-all duration-500 hover:bg-cs-red/10 text-cs-red">
+                  <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-cs-red/5 transition-all duration-500 hover:bg-cs-red/10 text-cs-red" onClick={() => setDeleteCardDialogOpened(true)}>
                     <IconsaxIcons
                       name="Trash"
                       className="size-[18px]"
