@@ -12,6 +12,7 @@ import CardShowCase from './cardShowCase';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { numberSeparation } from '@/utils';
 import AddCardDialog from './dialog/addCardDialog';
+import EditCurrentCardDialog from './dialog/editCurrentCardDialog';
 
 // Creating and exporting UserCreditCart component as default
 export default function UserCreditCard({
@@ -23,6 +24,7 @@ export default function UserCreditCard({
 }: UserCreditCardPropsType): JSX.Element {
   // Defining hooks
   const [addCardDialogOpened, setAddCardDialogOpened] = useState<boolean>(false);
+  const [editCardDialogOpened, setEditCardDialogOpened] = useState<boolean>(false);
   const [activeSwiperSlideIndex, setActiveSwiperSlideIndex] =
     useState<number>(0);
 
@@ -110,7 +112,7 @@ export default function UserCreditCard({
             </div>
             <div className="shrink-0 flex items-center justify-between gap-2">
               {
-                data.length < 10 && (
+                data.length < 2 && (
                   <>
                     <AddCardDialog mode={mode} open={addCardDialogOpened} onOpenChange={setAddCardDialogOpened} />
                     <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black" onClick={() => setAddCardDialogOpened(true)}>
@@ -120,13 +122,16 @@ export default function UserCreditCard({
                         color="currentColor"
                       />
                     </button>
-
                   </>
                 )
               }
               {data.length !== 0 && (
                 <>
-                  <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black">
+                  <EditCurrentCardDialog
+                    mode={mode} open={editCardDialogOpened} onOpenChange={setEditCardDialogOpened}
+                    data={data[activeSwiperSlideIndex]}
+                  />
+                  <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black" onClick={() => setEditCardDialogOpened(true)}>
                     <IconsaxIcons
                       name="Edit2"
                       className="size-[18px]"

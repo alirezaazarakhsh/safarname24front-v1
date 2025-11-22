@@ -32,12 +32,9 @@ const formSchema = z.object({
   }).refine(value => isShebaValid(value), {
     message: "شماره شبا را درست وارد کنید"
   }),
-  ownerFirstName: z.string({
+  ownerName: z.string({
     message: "لطفا این فیلد را پر کنید.",
   }).min(3, "این فیلد باید دارای حداقل 3 کاراکتر باشد.").max(20, "این فیلد باید دارای حداکثر 20 کاراکتر باشد."),
-  ownerLastName: z.string({
-    message: "لطفا این فیلد را پر کنید.",
-  }).min(3, "این فیلد باید دارای حداقل 3 کاراکتر باشد.").max(20, "این فیلد باید دارای حداکثر 20 کاراکتر باشد.")
 });
 
 // Defining form Type
@@ -186,24 +183,13 @@ export default function AddCardDialog({
             </div>
             <div>
               <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
-                نام صاحب حساب :
+                نام و نام خانوادگی صاحب حساب :
               </span>
               <NormalInput
                 className="h-[45px] w-full"
                 placeholder="نام صاحب حساب را وارد کنید"
-                error={form.formState.errors.ownerFirstName?.message}
-                {...form.register("ownerFirstName")}
-              />
-            </div>
-            <div>
-              <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
-                نام خانوادگی صاحب حساب :
-              </span>
-              <NormalInput
-                className="h-[45px] w-full"
-                placeholder="نام خانوادگی صاحب حساب را وارد کنید"
-                error={form.formState.errors.ownerLastName?.message}
-                {...form.register("ownerLastName")}
+                error={form.formState.errors.ownerName?.message}
+                {...form.register("ownerName")}
               />
             </div>
             <button disabled={form.formState.isSubmitting} className="h-[45px] rounded-md flex items-center justify-center bg-green-500 text-white w-full disabled:text-gray-700 disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">

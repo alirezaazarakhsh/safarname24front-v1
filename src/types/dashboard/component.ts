@@ -904,3 +904,15 @@ export interface AddCardDialogPropsType {
   onOpenChange?: (open: boolean) => void;
   mode: CartToCartFinancialMode;
 }
+
+export interface EditCurrentCardDialogPropsType {
+  open: boolean;
+  onOpenChange?: (open: boolean) => void;
+  mode: CartToCartFinancialMode;
+  data: {
+    id: number;
+    card_number: string;
+    iban: string;
+    account_holder_name: string;
+  };
+}
