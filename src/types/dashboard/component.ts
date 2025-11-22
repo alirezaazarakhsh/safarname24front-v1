@@ -865,6 +865,7 @@ export interface SelecterPropsType {
 export interface UserCreditCardPropsType {
   className?: string;
   title: string;
+  mode: CartToCartFinancialMode;
   onValueChange?: (data: {
     id: number;
     card_number: string;
@@ -896,4 +897,10 @@ export interface EmergencieFormPropsType {
 
 export interface AdminCreditCardInfoPropsType {
   className?: string;
+}
+
+export interface AddCardDialogPropsType {
+  open: boolean;
+  onOpenChange?: (open: boolean) => void;
+  mode: CartToCartFinancialMode;
 }

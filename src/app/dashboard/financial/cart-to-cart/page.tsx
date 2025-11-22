@@ -104,6 +104,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
       <div className="grid lg:grid-cols-3 lg:gap-5 gap-[24px]">
         <UserCreditCard
           title={mode === "company" ? "حقوقی" : "حقیقی"}
+          mode={mode}
           data={(mode === "company") ? userLegalInfo.data.card_numbers : userInfo.card_numbers}
           onValueChange={(data) => {
             form.setValue("creditCardNumber", data.card_number);
