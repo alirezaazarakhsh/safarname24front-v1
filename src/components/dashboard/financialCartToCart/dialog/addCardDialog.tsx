@@ -18,6 +18,7 @@ import Loading from '../../ui/loading';
 import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 import toast from '../../ui/customSonner/toast';
 import { userFetchedInfoContext } from '../../page';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // Defining form schema
 const formSchema = z.object({
@@ -112,30 +113,55 @@ export default function AddCardDialog({
             </DialogClose>
           </DialogHeader>
           <form action="#" onSubmit={form.handleSubmit(onSubmit)} className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
-            {
-              form.formState.isValid && (
-                <div className="h-[200px] bg-gray-200 rounded-xl py-4 px-8 overflow-hidden lg:col-span-2">
-                  <CardShowCase
-                    className="h-[calc(200px-32px)]"
-                    data={{
-                      bankIcon: cardInfo?.type || 'unknown',
-                      bankName: cardInfo?.name || 'نامعلوم',
-                      iban: formData.iban || "-",
-                      number: formData.cardNumber || "-",
+            <AnimatePresence>
+              {
+                form.formState.isValid && (
+                  <motion.div
+                    initial={{
+                      height: 0,
+                      opacity: 0
                     }}
-                  />
-                </div>
-              )
-            }
+                    exit={{
+                      height: 0,
+                      opacity: 0
+                    }}
+                    animate={{
+                      height: 200,
+                      opacity: 100
+                    }}
+                    className="bg-gray-200 rounded-xl py-4 px-8 overflow-hidden lg:col-span-2">
+                    <CardShowCase
+                      className="h-[calc(200px-32px)]"
+                      data={{
+                        bankIcon: cardInfo?.type || 'unknown',
+                        bankName: cardInfo?.name || 'نامعلوم',
+                        iban: formData.iban || "-",
+                        number: formData.cardNumber || "-",
+                      }}
+                    />
+                  </motion.div>
+                )
+              }
+            </AnimatePresence>
+
             <div className='w-full'>
               <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
                 شماره کارت :
               </span>
               <NormalInput
+                type="text"
                 error={form.formState.errors.cardNumber?.message}
                 className="h-[45px] w-full"
-                placeholder="16 رقم شماره کارت را وارد نمایید"
-                {...form.register("cardNumber")}
+                placeholder="24 رقم شماره شبا را وارد نمایید"
+                validationText={{
+                  isValid: !form.getFieldState("cardNumber").invalid,
+                  label: "24 رقم"
+                }}
+                onChange={(e) =>
+                  form.setValue('cardNumber', e.currentTarget.value)
+                }
+                value={form.watch('cardNumber')}
+                name={form.register('cardNumber').name}
               />
             </div>
             <div className='w-full'>
@@ -143,10 +169,19 @@ export default function AddCardDialog({
                 شماره شبا :
               </span>
               <NormalInput
+                type="text"
                 error={form.formState.errors.iban?.message}
                 className="h-[45px] w-full"
                 placeholder="24 رقم شماره شبا را وارد نمایید"
-                {...form.register("iban")}
+                validationText={{
+                  isValid: !form.getFieldState("iban").invalid,
+                  label: "24 رقم"
+                }}
+                onChange={(e) =>
+                  form.setValue('iban', e.currentTarget.value)
+                }
+                value={form.watch('iban')}
+                name={form.register('iban').name}
               />
             </div>
             <div>
