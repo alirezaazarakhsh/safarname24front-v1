@@ -555,10 +555,7 @@ export interface NormalInputComponentPropsType
   noErrorText?: boolean;
   clearFn?: () => void;
   textLTR?: boolean;
-  validationText?: {
-    label: string;
-    isValid: boolean;
-  };
+  lenghtValidation?: number;
 }
 
 export interface BankInfoFormComponentPropsType {

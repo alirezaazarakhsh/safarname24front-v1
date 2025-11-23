@@ -17,12 +17,13 @@ export default function NormalInput({
   noErrorText = false,
   clearFn,
   textLTR = false,
-  validationText,
+  lenghtValidation,
   ...props
 }: NormalInputComponentPropsType): ReactNode {
   // Defining hooks
   const [focused, setFocused] = useState<boolean>(props.autoFocus || false);
   const validationInputRef = useRef<HTMLInputElement>(null);
+  const [valueLenght, setValueLenght] = useState<number>(0);
 
   // Conditional rendering
   if (clearFn) {
@@ -77,7 +78,7 @@ export default function NormalInput({
         )}
       </div>
     );
-  } else if (validationText) {
+  } else if (lenghtValidation) {
     return (
       <div
         onClick={() => validationInputRef.current?.focus()}
@@ -103,14 +104,23 @@ export default function NormalInput({
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
             ref={validationInputRef}
+            onInput={(e) => {
+              props.onInput?.(e);
+
+              setValueLenght(e.currentTarget.value.length);
+            }}
             {...props}
           />
           <div
-            data-valid={validationText.isValid}
+            data-valid={lenghtValidation - valueLenght === 0}
             className="ml-3 shrink-0 px-4 h-[30px] transition-all duration-500 data-[valid=true]:text-white data-[valid=true]:bg-green-500 data-[valid=false]:text-black data-[valid=false]:bg-gray-100  rounded-md flex items-center justify-center"
           >
             <span className="text-cs06 text-current leading-none truncate block text-center">
-              {validationText.label}
+              {
+                lenghtValidation - valueLenght >= 0
+                  ? `${lenghtValidation - valueLenght} رقم`
+                  : "اشتباه"
+              }
             </span>
           </div>
         </div>

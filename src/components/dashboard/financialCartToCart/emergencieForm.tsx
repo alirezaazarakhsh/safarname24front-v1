@@ -60,16 +60,13 @@ export default function EmergencieForm({
             type="text"
             className="h-[45px]"
             placeholder="شماره پیگیری خود را وارد نمایید"
-            validationText={{
-              label: '12 رقم',
-              isValid: !form.getFieldState('trackingNumber').invalid,
-            }}
             error={form.formState.errors.trackingNumber?.message}
+            value={form.watch('trackingNumber')}
+            name={form.register('trackingNumber').name}
+            lenghtValidation={12}
             onChange={(e) =>
               form.setValue('trackingNumber', e.currentTarget.value)
             }
-            value={form.watch('trackingNumber')}
-            name={form.register('trackingNumber').name}
           />
         </div>
         <div>
