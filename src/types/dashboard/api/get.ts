@@ -304,6 +304,21 @@ export interface GETAdminCreditCard {
   account_holder_name: string;
 }
 
+export interface GETWalletOperations {
+  page: number;
+  page_size: number;
+  total_pages: number;
+  total_item: number;
+  operations: {
+    type: "withdrawal" | "wallet_increase" | "card_to_card";
+    service_type: string;
+    amount: number;
+    date: string;
+    status: 'success' | 'unsuccess';
+    status_display: string;
+  }[];
+}
+
 export interface GETCartToCartPageDetails {
   text: string;
 }

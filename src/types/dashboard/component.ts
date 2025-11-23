@@ -373,14 +373,19 @@ export interface SearchFinancialDashboardPropsType {
 }
 
 export interface FinancialFatorsDashboardTablePropsType {
-  data: {
-    type: 'cashOut' | 'cartToCart' | 'add';
-    amount: number;
-    createdAt: string;
-    status: 'successfull' | 'unsuccessfull';
-    id: number;
-  }[];
   className?: string;
+  loading: boolean;
+  paginationCount?: number;
+  paginationActiveIndex?: number;
+  setPaginationActiveIndex?: Dispatch<SetStateAction<number>>;
+  data: {
+    type: "withdrawal" | "wallet_increase" | "card_to_card";
+    service_type: string;
+    amount: number;
+    date: string;
+    status: 'success' | 'unsuccess';
+    status_display: string;
+  }[];
 }
 
 export interface FilterCustomClubPageComponentPropsType {
