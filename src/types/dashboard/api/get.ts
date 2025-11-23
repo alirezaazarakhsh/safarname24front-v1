@@ -304,6 +304,10 @@ export interface GETAdminCreditCard {
   account_holder_name: string;
 }
 
+export interface GETCartToCartPageDetails {
+  text: string;
+}
+
 export type GETCustomerClubList = GETPaginationAPILayout<
   GETCustomerClubListItem[]
 >;

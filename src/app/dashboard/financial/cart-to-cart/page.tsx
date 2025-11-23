@@ -11,8 +11,11 @@ import UserCreditCard from '@/components/dashboard/financialCartToCart/userCredi
 import CartBalance from '@/components/dashboard/profile/cartBalance';
 import toast from '@/components/dashboard/ui/customSonner/toast';
 import Upload from '@/components/dashboard/upload/upload';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
+import { GETCartToCartPageDetails } from '@/types/dashboard/api/get';
 import { CartToCartFinancialMode } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isShebaValid, verifyCardNumber } from '@persian-tools/persian-tools';
@@ -75,6 +78,15 @@ export default function CartToCartFinancialPage(): JSX.Element {
     defaultValues: {
       creditCardNumber: userInfo.card_numbers[0].card_number,
       creditCardIban: userInfo.card_numbers[0].iban,
+    }
+  });
+
+  const getDetails = useApiQuery<GETCartToCartPageDetails>({
+    url: "/finance/card-to-card/instruction/",
+    queryKey: ["cart-to-cart-detail"],
+    options: {
+      staleTime: Infinity,
+      refetchInterval: Infinity,
     }
   });
 
@@ -151,21 +163,24 @@ export default function CartToCartFinancialPage(): JSX.Element {
         <AdminCreditCardInfo className="lg:col-span-4" />
         <Subscription className="lg:col-span-2" />
       </div>
-      <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">
-        <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
-          توضیحات تکمیلی :
-        </span>
-        <p className="text-cs75 font-normal text-right block text-black/70">
-          مشتری گرامی لازم به ذکر میباشد که مبلغ بالای 10,000,000 تومان اگر به
-          شارژ کیف پول اقدام نمایید در مدت 24 ساعت کاری (بانک) مبلغ به حساب کیف
-          پول شما واریز میشود و اگر مبلغ کمتر از 10,000,000 تومان واریز انجام
-          دهید مبلغ به کیف پول شما در آنی واحد واریز میشود. مشتری گرامی لازم به
-          ذکر میباشد که مبلغ بالای 10,000,000 تومان اگر به شارژ کیف پول اقدام
-          نمایید در مدت 24 ساعت کاری (بانک) مبلغ به حساب کیف پول شما واریز میشود
-          و اگر مبلغ کمتر از 10,000,000 تومان واریز انجام دهید مبلغ به کیف پول
-          شما در آنی واحد واریز میشود.
-        </p>
-      </div>
+      {
+        getDetails.isLoading
+          ? <Skeleton className="rounded-xl w-full h-[200px]" />
+          : getDetails.isError
+            ? false
+            : !getDetails.isLoading && !getDetails.isError && getDetails.data
+              ? (
+                <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">
+                  <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
+                    توضیحات تکمیلی :
+                  </span>
+                  <p className="text-cs75 font-normal text-right block text-black/70">
+                    {getDetails.data.text}
+                  </p>
+                </div>
+              ) : false
+
+      }
       <CashOut />
     </main>
   );
