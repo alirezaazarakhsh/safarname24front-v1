@@ -184,7 +184,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
       </div>
       <div className="grid lg:grid-cols-6  lg:gap-5 gap-[24px]">
         <AdminCreditCardInfo className="lg:col-span-4" />
-        <Subscription className="lg:col-span-2" />
+        <Subscription className="lg:col-span-2 cursor-not-allowed opacity-50" />
       </div>
       {
         getDetails.isLoading
