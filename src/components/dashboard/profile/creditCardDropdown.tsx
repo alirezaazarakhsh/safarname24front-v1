@@ -110,10 +110,10 @@ export default function CreditCardDropDown({
         <DropdownMenuTrigger
           disabled={disabled || filtredData.length === 0}
           asChild
+          ref={triggerRef}
         >
           <button
             data-opened={isOpened}
-            ref={triggerRef}
             className={cn(
               'bg-white transitaion-all duration-500 disabled:opacity-50 border-[1.2px] border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black data-[opened=true]:border-black group',
               className,
@@ -192,7 +192,7 @@ export default function CreditCardDropDown({
               key={index}
               dir="rtl"
               onClick={() => {
-                onValueChange && onValueChange(item.card_number, item.iban);
+                onValueChange && onValueChange(item.card_number, item.iban, item.id);
               }}
               className={
                 'transition-all duration-500 hover:bg-gray-100 !cursor-pointer p-3 w-full flex items-center justify-between gap-3'

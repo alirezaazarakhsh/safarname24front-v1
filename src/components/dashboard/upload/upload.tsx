@@ -14,6 +14,9 @@ import useApiMutation from '@/hooks/dashboard/useApiMutation';
 export default function Upload({
   className,
   fetchURL,
+  hideSubmit = false,
+  useSingleFile = false,
+  onChange
 }: UploadComponentPropsType): ReactNode {
   const [isErrored, setErrored] = useState<boolean>(false);
   const [isUploading, setUploading] = useState<boolean>(false);
@@ -27,8 +30,8 @@ export default function Upload({
     rootRef,
     isFileDialogActive,
   } = useDropzone({
-    multiple: true,
-    maxFiles: 3,
+    multiple: !useSingleFile,
+    maxFiles: useSingleFile ? 1 : 3,
     maxSize: 30 * 1024 * 1024,
     accept: {
       'image/*': [],
@@ -42,6 +45,11 @@ export default function Upload({
     onDropAccepted: (accepted) => {
       setErrored(false);
       setFiles(accepted);
+
+      if (hideSubmit && onChange && accepted) {
+        const file: File = accepted[0];
+        onChange(file);
+      }
     },
   });
 
@@ -105,7 +113,7 @@ export default function Upload({
             (isDragActive || isFileDialogActive) && 'bg-black/5',
           )}
         >
-          <input {...getInputProps()} multiple hidden />
+          <input {...getInputProps()} multiple={!useSingleFile} hidden />
           <div className="overflow-hidden">
             <IconsaxIcons
               color={isErrored ? '#F30F26' : 'currentColor'}
@@ -135,57 +143,62 @@ export default function Upload({
                 : files.length === 0
                   ? 'حداکثر آپلود فایل 30MB میباشد'
                   : `حجم فایل : ${Math.ceil(
-                      files.reduce((acc, file) => acc + file.size, 0) /
-                        (1024 * 1024),
-                    )} مگابایت`}
+                    files.reduce((acc, file) => acc + file.size, 0) /
+                    (1024 * 1024),
+                  )} مگابایت`}
             </span>
           </div>
         </div>
       </div>
       <div className="flex items-center justify-between gap-4 lg:p-4 p-[14px] shrink-0 w-full overflow-auto scrollbar-hide">
         <div className="flex items-center justify-between gap-3">
-          <Button
-            className="bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white"
-            onClick={async () => {
-              if (fetchURL && files.length > 0) {
-                const formData = new FormData();
-                files.forEach((f) => formData.append(`file`, f));
-                await uploadComponentFetching.mutateAsync(formData);
-              } else {
-                setUploading(true);
-                await new Promise((resolve) => setTimeout(resolve, 5000));
-                setUploading(false);
-                toast({
-                  title: 'فایل مد نظر اپلود شد',
-                  description: files.length
-                    ? files.map((f) => f.name).join(' | ')
-                    : 'فایل شما با موفقیت اپلود شد :)',
-                  theme: 'green',
-                });
-              }
-            }}
-            disabled={
-              fetchURL
-                ? uploadComponentFetching.isPending || files.length === 0
-                : files.length === 0 || isUploading
-            }
-          >
-            {fetchURL ? (
-              uploadComponentFetching.isPending ? (
-                <Loading />
-              ) : (
-                <span className="font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]">
-                  آپلود فایل
-                </span>
-              )
-            ) : isUploading ? (
-              <Loading />
-            ) : (
-              <span className="font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]">
-                آپلود فایل
-              </span>
-            )}
-          </Button>
+          {
+            !hideSubmit && (
+              <Button
+                className="bg-black lg:rounded-lg rounded-[8px] !h-[40px] flex items-center justify-center lg:py-3 py-0 lg:px-5 px-[20px] transition-all duration-500 disabled:bg-gray-100 disabled:opacity-100 disabled:text-black/50 text-white"
+                onClick={async () => {
+                  if (fetchURL && files.length > 0) {
+                    const formData = new FormData();
+                    files.forEach((f) => formData.append(`file`, f));
+                    await uploadComponentFetching.mutateAsync(formData);
+                  } else {
+                    setUploading(true);
+                    await new Promise((resolve) => setTimeout(resolve, 5000));
+                    setUploading(false);
+                    toast({
+                      title: 'فایل مد نظر اپلود شد',
+                      description: files.length
+                        ? files.map((f) => f.name).join(' | ')
+                        : 'فایل شما با موفقیت اپلود شد :)',
+                      theme: 'green',
+                    });
+                  }
+                }}
+                disabled={
+                  fetchURL
+                    ? uploadComponentFetching.isPending || files.length === 0
+                    : files.length === 0 || isUploading
+                }
+              >
+                {fetchURL ? (
+                  uploadComponentFetching.isPending ? (
+                    <Loading />
+                  ) : (
+                    <span className="font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]">
+                      آپلود فایل
+                    </span>
+                  )
+                ) : isUploading ? (
+                  <Loading />
+                ) : (
+                  <span className="font-normal text-current truncate block w-full text-center lg:text-xs text-[10px]">
+                    آپلود فایل
+                  </span>
+                )}
+              </Button>
+
+            )
+          }
           {files.length > 0 && (
             <UploadSheet
               onDelete={(index) => {
@@ -203,6 +216,7 @@ export default function Upload({
           disabled={files.length === 0}
           onClick={() => {
             setFiles([]);
+            onChange(undefined);
           }}
           className="transition-all duration-500 lg:w-auto w-[40px] h-[40px] lg:rounded-lg rounded-[10px] lg:gap-2 flex items-center justify-center lg:p-3 bg-cs-red/5 hover:bg-cs-red/10 text-cs-red disabled:bg-gray-100 disabled:text-black/50 disabled:opacity-100 disabled:hover:bg-gray-100"
         >

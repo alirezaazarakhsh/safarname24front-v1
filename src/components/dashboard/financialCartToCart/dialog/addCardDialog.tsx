@@ -149,11 +149,8 @@ export default function AddCardDialog({
                 type="text"
                 error={form.formState.errors.cardNumber?.message}
                 className="h-[45px] w-full"
-                placeholder="24 رقم شماره شبا را وارد نمایید"
-                validationText={{
-                  isValid: !form.getFieldState("cardNumber").invalid,
-                  label: "24 رقم"
-                }}
+                placeholder="16 رقم شماره شبا را وارد نمایید"
+                lenghtValidation={16}
                 onChange={(e) =>
                   form.setValue('cardNumber', e.currentTarget.value)
                 }
@@ -170,10 +167,7 @@ export default function AddCardDialog({
                 error={form.formState.errors.iban?.message}
                 className="h-[45px] w-full"
                 placeholder="24 رقم شماره شبا را وارد نمایید"
-                validationText={{
-                  isValid: !form.getFieldState("iban").invalid,
-                  label: "24 رقم"
-                }}
+                lenghtValidation={24}
                 onChange={(e) =>
                   form.setValue('iban', e.currentTarget.value)
                 }

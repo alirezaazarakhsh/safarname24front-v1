@@ -8,6 +8,7 @@ import { cn } from '@/utils/utils';
 import { JSX } from 'react';
 import NormalInput from '../profile/normalInput';
 import DatePickerInput from './datePickerInput';
+import { addCommas, removeCommas } from '@persian-tools/persian-tools';
 
 // Creating and exporting EmergencieForm component as default
 export default function EmergencieForm({
@@ -60,16 +61,13 @@ export default function EmergencieForm({
             type="text"
             className="h-[45px]"
             placeholder="شماره پیگیری خود را وارد نمایید"
-            validationText={{
-              label: '12 رقم',
-              isValid: !form.getFieldState('trackingNumber').invalid,
-            }}
             error={form.formState.errors.trackingNumber?.message}
+            value={form.watch('trackingNumber')}
+            name={form.register('trackingNumber').name}
+            lenghtValidation={12}
             onChange={(e) =>
               form.setValue('trackingNumber', e.currentTarget.value)
             }
-            value={form.watch('trackingNumber')}
-            name={form.register('trackingNumber').name}
           />
         </div>
         <div>
@@ -77,10 +75,17 @@ export default function EmergencieForm({
             مبلغ اضافه
           </span>
           <NormalInput
-            type="number"
             className="h-[45px]"
             placeholder="مبلغ مد نظر خود را وارد نمایید"
             error={form.formState.errors.extraAmount?.message}
+            onInput={(e) => {
+              const value = e.currentTarget.value;
+              const removedCommas = removeCommas(value);
+              const translatedValue = addCommas(removedCommas);
+              e.currentTarget.value = translatedValue;
+            }}
+            type="text"
+            inputMode="numeric"
             {...form.register('extraAmount')}
           />
         </div>

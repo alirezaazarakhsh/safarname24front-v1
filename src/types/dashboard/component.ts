@@ -263,6 +263,8 @@ export interface UploadComponentPropsType {
   onChange: (file: File | undefined) => void;
   className?: string;
   fetchURL?: string;
+  hideSubmit?: boolean;
+  useSingleFile?: boolean;
 }
 
 export type CreditCardSubscriptionChartType = [
@@ -371,14 +373,19 @@ export interface SearchFinancialDashboardPropsType {
 }
 
 export interface FinancialFatorsDashboardTablePropsType {
-  data: {
-    type: 'cashOut' | 'cartToCart' | 'add';
-    amount: number;
-    createdAt: string;
-    status: 'successfull' | 'unsuccessfull';
-    id: number;
-  }[];
   className?: string;
+  loading: boolean;
+  paginationCount?: number;
+  paginationActiveIndex?: number;
+  setPaginationActiveIndex?: Dispatch<SetStateAction<number>>;
+  data: {
+    type: "withdrawal" | "wallet_increase" | "card_to_card";
+    service_type: string;
+    amount: number;
+    date: string;
+    status: 'success' | 'unsuccess';
+    status_display: string;
+  }[];
 }
 
 export interface FilterCustomClubPageComponentPropsType {
@@ -555,10 +562,7 @@ export interface NormalInputComponentPropsType
   noErrorText?: boolean;
   clearFn?: () => void;
   textLTR?: boolean;
-  validationText?: {
-    label: string;
-    isValid: boolean;
-  };
+  lenghtValidation?: number;
 }
 
 export interface BankInfoFormComponentPropsType {
@@ -689,7 +693,7 @@ export interface CreditCardDropDownPropsType
   placeholder?: string;
   value?: string;
   side?: 'top' | 'bottom';
-  onValueChange?: (card: string, shaba: string) => void;
+  onValueChange?: (card: string, shaba: string, id: number) => void;
   useSheba?: boolean;
   reset?: () => void;
   hideCreate?: boolean;
@@ -853,6 +857,7 @@ export interface SelectModePropsType {
   onValueChange?: (val: CartToCartFinancialMode) => void;
   value?: CartToCartFinancialMode;
   onSubmit?: () => void;
+  submitLoading?: boolean;
 }
 
 export interface SelecterPropsType {
