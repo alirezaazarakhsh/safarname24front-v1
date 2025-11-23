@@ -42,7 +42,7 @@ export default function DatePickerInput({
         onClick={() => setDatePickerOpened(true)}
         type="button"
         className={cn(
-          'gap-3 border border-black/10 rounded-lg overflow-hidden p-3 h-[50px] group transition-all duration-500 w-full block bg-white hover:bg-white',
+          'gap-3 border border-black/10 data-[errored=true]:border-cs-red rounded-lg overflow-hidden p-3 h-[50px] group transition-all duration-500 w-full block bg-white hover:bg-white',
           className,
         )}
       >

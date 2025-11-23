@@ -53,7 +53,9 @@ const formSchema = z.object({
       message: 'مبلغ باید بیشتر از 10,000 تومان باشد باشد',
     }),
   depositDate: z
-    .string()
+    .string({
+      message: "لطفا این فیلد را پر کنید."
+    })
     .nonempty({ message: 'تاریخ واریز وجه را وارد نمایید' }),
 })
 
