@@ -130,11 +130,15 @@ export default function UserCreditCard({
               {data.length !== 0 && (
                 <>
                   <EditCurrentCardDialog
-                    mode={mode} open={editCardDialogOpened} onOpenChange={setEditCardDialogOpened}
+                    mode={mode}
+                    open={editCardDialogOpened}
+                    onOpenChange={setEditCardDialogOpened}
                     data={data[activeSwiperSlideIndex]}
                   />
                   <RemoveCurrentCardDialog
-                    mode={mode} open={deleteCardDialogOpened} onOpenChange={setDeleteCardDialogOpened}
+                    mode={mode}
+                    open={deleteCardDialogOpened}
+                    onOpenChange={setDeleteCardDialogOpened}
                     data={data[activeSwiperSlideIndex]}
                   />
                   <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black" onClick={() => setEditCardDialogOpened(true)}>

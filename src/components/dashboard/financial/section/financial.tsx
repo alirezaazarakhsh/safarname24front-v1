@@ -26,7 +26,6 @@ export default function Financial({
 }: FinancialSectionComponentPropsType): ReactNode {
   // Defining hooks of component
   const [priceType, setPriceType] = useState<'dynamic' | 'static'>('static');
-  const [automaticDownload, setAutomaticDownload] = useState<boolean>(false);
   const isMobile = useMediaQuery('(max-width: 1024px)');
   const [selectedPrice, setSelectedPrice] = useState<number | undefined>(
     undefined,
@@ -122,8 +121,7 @@ export default function Financial({
           />
           <SwitchItem
             title="فعالسازی اتومات دانلود فاکتور"
-            onClick={() => setAutomaticDownload((prev) => !prev)}
-            isOn={automaticDownload}
+            disabled
           />
         </div>
         <div className="lg:hidden flex flex-col gap-[16px] border-y-[1.5px] border-y-black/10 lg:px-0 px-[24px] py-[24px]">

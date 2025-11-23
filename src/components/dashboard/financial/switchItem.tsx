@@ -21,7 +21,7 @@ export default function SwitchItem({
     <div
       tabIndex={!disabled ? 0 : -1}
       data-disabled={disabled}
-      className="bg-white lg:h-auto h-[64px] rounded-[10px] border lg:px-3 lg:py-4 py-[12px] px-[12px] flex items-center justify-between gap-3 cursor-pointer"
+      className="bg-white lg:h-auto h-[64px] rounded-[10px] border lg:px-3 lg:py-4 py-[12px] px-[12px] flex items-center justify-between gap-3 data-[disabled=false]:cursor-pointer data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
       onClick={() => {
         if (!disabled) {
           const switchElement = switchRef.current;
