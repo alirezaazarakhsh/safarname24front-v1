@@ -12,6 +12,7 @@ import CartBalance from '@/components/dashboard/profile/cartBalance';
 import toast from '@/components/dashboard/ui/customSonner/toast';
 import Upload from '@/components/dashboard/upload/upload';
 import { Skeleton } from '@/components/ui/skeleton';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
@@ -19,26 +20,15 @@ import { GETCartToCartPageDetails } from '@/types/dashboard/api/get';
 import { CartToCartFinancialMode } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isShebaValid, verifyCardNumber } from '@persian-tools/persian-tools';
+import moment from 'jalali-moment';
 import { JSX, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import IMAGEX from "../../../../../public/image/avatar/1.jpg";
 
 // Defining formschema 
 const formSchema = z.object({
-  creditCardNumber: z.string({
-    message: "لطفا شماره کارت را وارد کنید."
-  })
-  // .refine(val => verifyCardNumber(Number(val)), {
-  //   message: "شماره شبا معتبر نمی باشد."
-  // })
-  ,
-  creditCardIban: z.string({
-    message: "لطفا شماره شبا را وارد کنید."
-  })
-  // .refine(val => isShebaValid(val), {
-  //   message: "شماره شبا معتبر نمی باشد."
-  // })
-  ,
+  creditCard: z.number(),
   depositorName: z
     .string()
     .min(2, { message: 'نام واریز کننده باید حداقل ۲ کاراکتر باشد' })
@@ -71,13 +61,12 @@ export default function CartToCartFinancialPage(): JSX.Element {
   const [mode, setMode] = useState<CartToCartFinancialMode>('personal');
   const userInfo = useUserInfo();
   const userLegalInfo = useUserLegalInfo();
-
+  const [image, setImage] = useState<File | undefined>();
   const form = useForm<cartToCartFormType>({
     resolver: zodResolver(formSchema),
     reValidateMode: "onChange",
     defaultValues: {
-      creditCardNumber: userInfo.card_numbers[0].card_number,
-      creditCardIban: userInfo.card_numbers[0].iban,
+      creditCard: userInfo.card_numbers[0].id
     }
   });
 
@@ -90,9 +79,47 @@ export default function CartToCartFinancialPage(): JSX.Element {
     }
   });
 
+  const depositReceipts = useApiMutation({
+    method: "post",
+    url: "/finance/deposit-receipts/",
+    isFormData: true,
+    options: {
+      onSuccess: () => {
+        toast({
+          title: "انتقال مبلغ موفقیت امیز بود!",
+          description: "مشترک گرامی , انتقال مبلغ مد نظر شما با موفقیت انجام شد.",
+          theme: "green"
+        });
+      },
+      onError: () => {
+        toast({
+          title: "خطایی در انتقال وجه شکل گرفت!",
+          description: "مشترک گرامی , انتقال مبلغ مد نظر شم انجام نشد.",
+          theme: "theme"
+        });
+      }
+    }
+  });
+
   // Defining submit handler
-  const onSubmit: SubmitHandler<cartToCartFormType> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<cartToCartFormType> = async (data) => {
+    if (!image) {
+      toast({
+        title: "خطایی در ارسال فرم رخ داد!",
+        description: "لطفا عکس فیش مربوطه نیز اپلود کنید.",
+        theme: "theme"
+      })
+    } else {
+      await depositReceipts.mutateAsync({
+        profile_type: mode === "personal" ? "natural" : "juridical",
+        card_object_id: data.creditCard,
+        depositor_name: data.depositorName,
+        tracking_number: data.trackingNumber,
+        amount: data.extraAmount,
+        deposit_date_jalali: moment(data.depositDate).format('YYYY/MM/DD'),
+        receipt_image: image
+      });
+    }
   }
 
   // Returning JSX
@@ -101,18 +128,15 @@ export default function CartToCartFinancialPage(): JSX.Element {
       <SelectMode
         value={mode}
         onValueChange={setMode}
+        submitLoading={depositReceipts.isPending}
         onSubmit={form.handleSubmit(onSubmit, (errors) => {
-          const errorMessages = [errors.creditCardIban?.message, errors.creditCardNumber?.message];
-
-          errorMessages.forEach(item => {
-            if (item) {
-              toast({
-                title: "خطایی در ارسال فرم رخ داد!",
-                description: item,
-                theme: "theme"
-              })
-            }
-          })
+          if (errors.creditCard?.message) {
+            toast({
+              title: "خطایی در ارسال فرم رخ داد!",
+              description: errors.creditCard.message,
+              theme: "theme"
+            })
+          }
         })}
       />
       <div className="grid lg:grid-cols-3 lg:gap-5 gap-[24px]">
@@ -120,17 +144,16 @@ export default function CartToCartFinancialPage(): JSX.Element {
           title={mode === "company" ? "حقوقی" : "حقیقی"}
           mode={mode}
           data={(mode === "company") ? userLegalInfo.data.card_numbers : userInfo.card_numbers}
-          onValueChange={(data) => {
-            form.setValue("creditCardNumber", data.card_number);
-            form.setValue("creditCardIban", data.iban);
-          }}
+          onValueChange={(data) => form.setValue("creditCard", Number(data.id))}
         />
         <div className="flex items-center justify-between flex-col lg:gap-5 gap-[24px]">
           <CartBalance hasMobileView className="shrink-0 w-full" />
           <div className="w-full h-full">
             <Upload
+              hideSubmit
               className="lg:w-full w-full h-full"
-              onChange={() => { }}
+              onChange={setImage}
+              useSingleFile
             />
           </div>
         </div>

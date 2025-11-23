@@ -6,6 +6,7 @@ import { SelectModePropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { JSX } from 'react';
 import Selecter from './selecter';
+import Loading from '../ui/loading';
 
 // Creating and exporting SelectMode component as default
 export default function SelectMode({
@@ -13,6 +14,7 @@ export default function SelectMode({
   onValueChange,
   value,
   onSubmit,
+  submitLoading = false
 }: SelectModePropsType): JSX.Element {
   // Returning JSX
   return (
@@ -49,9 +51,14 @@ export default function SelectMode({
         />
         <button
           onClick={onSubmit}
-          className="lg:w-auto w-full px-6 py-3  flex items-center justify-center rounded-md disabled:text-black border disabled:border-black/10 disabled:bg-gray-50 transition-all duration-500 text-cs75 font-medium truncate bg-green-500 border-green-500 hover:bg-green-600 text-white"
+          disabled={submitLoading}
+          className="lg:w-[125px] w-full px-6 h-[45px]  flex items-center justify-center rounded-md disabled:text-black border disabled:border-black/10 disabled:bg-gray-50 transition-all duration-500 text-cs75 font-medium truncate bg-green-500 border-green-500 hover:bg-green-600 text-white"
         >
-          ارسال اطلاعات
+          {
+            !submitLoading
+              ? "ارسال اطلاعات"
+              : <Loading className='bg-current' />
+          }
         </button>
       </div>
     </div>

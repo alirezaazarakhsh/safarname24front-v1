@@ -263,6 +263,8 @@ export interface UploadComponentPropsType {
   onChange: (file: File | undefined) => void;
   className?: string;
   fetchURL?: string;
+  hideSubmit?: boolean;
+  useSingleFile?: boolean;
 }
 
 export type CreditCardSubscriptionChartType = [
@@ -850,6 +852,7 @@ export interface SelectModePropsType {
   onValueChange?: (val: CartToCartFinancialMode) => void;
   value?: CartToCartFinancialMode;
   onSubmit?: () => void;
+  submitLoading?: boolean;
 }
 
 export interface SelecterPropsType {
