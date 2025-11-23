@@ -19,12 +19,11 @@ import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 import { GETCartToCartPageDetails } from '@/types/dashboard/api/get';
 import { CartToCartFinancialMode } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isShebaValid, verifyCardNumber } from '@persian-tools/persian-tools';
+import { removeCommas } from '@persian-tools/persian-tools';
 import moment from 'jalali-moment';
 import { JSX, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import IMAGEX from "../../../../../public/image/avatar/1.jpg";
 
 // Defining formschema 
 const formSchema = z.object({
@@ -34,7 +33,9 @@ const formSchema = z.object({
     .min(2, { message: 'نام واریز کننده باید حداقل ۲ کاراکتر باشد' })
     .nonempty({ message: 'وارد کردن نام واریز کننده الزامی است' }),
   trackingNumber: z
-    .string()
+    .string({
+      message: "لطفا این فیلد را پر کنید."
+    })
     .length(12, { message: 'شماره پیگیری باید دقیقا ۱۲ رقم باشد' })
     .regex(/^[0-9]+$/, { message: 'شماره پیگیری فقط باید شامل اعداد باشد' }),
   extraAmount: z
@@ -42,7 +43,7 @@ const formSchema = z.object({
       required_error: 'وارد کردن مبلغ اضافه الزامی است',
       invalid_type_error: 'مبلغ باید عدد باشد',
     })
-    .refine((val) => Number(val) > 10000, {
+    .refine((val) => Number(removeCommas(val)) > 10000, {
       message: 'مبلغ باید بیشتر از 10,000 تومان باشد باشد',
     }),
   depositDate: z
@@ -94,7 +95,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
       onError: () => {
         toast({
           title: "خطایی در انتقال وجه شکل گرفت!",
-          description: "مشترک گرامی , انتقال مبلغ مد نظر شم انجام نشد.",
+          description: "مشترک گرامی , انتقال مبلغ مد نظر شما انجام نشد.",
           theme: "theme"
         });
       }
@@ -115,7 +116,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
         card_object_id: data.creditCard,
         depositor_name: data.depositorName,
         tracking_number: data.trackingNumber,
-        amount: data.extraAmount,
+        amount: Number(removeCommas(data.extraAmount)),
         deposit_date_jalali: moment(data.depositDate).format('YYYY/MM/DD'),
         receipt_image: image
       });

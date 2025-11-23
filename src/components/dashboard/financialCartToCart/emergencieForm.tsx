@@ -8,6 +8,7 @@ import { cn } from '@/utils/utils';
 import { JSX } from 'react';
 import NormalInput from '../profile/normalInput';
 import DatePickerInput from './datePickerInput';
+import { addCommas, removeCommas } from '@persian-tools/persian-tools';
 
 // Creating and exporting EmergencieForm component as default
 export default function EmergencieForm({
@@ -74,10 +75,17 @@ export default function EmergencieForm({
             مبلغ اضافه
           </span>
           <NormalInput
-            type="number"
             className="h-[45px]"
             placeholder="مبلغ مد نظر خود را وارد نمایید"
             error={form.formState.errors.extraAmount?.message}
+            onInput={(e) => {
+              const value = e.currentTarget.value;
+              const removedCommas = removeCommas(value);
+              const translatedValue = addCommas(removedCommas);
+              e.currentTarget.value = translatedValue;
+            }}
+            type="text"
+            inputMode="numeric"
             {...form.register('extraAmount')}
           />
         </div>

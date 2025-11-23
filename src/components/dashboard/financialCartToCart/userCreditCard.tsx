@@ -173,7 +173,7 @@ export default function UserCreditCard({
                 data.length !== 0
                   ? numberSeparation(
                     data[activeSwiperSlideIndex].card_number,
-                    ' ',
+                    ' - ',
                     4,
                   )
                   : ''
@@ -195,7 +195,7 @@ export default function UserCreditCard({
               disabled
               value={
                 data.length !== 0
-                  ? numberSeparation(data[activeSwiperSlideIndex].iban, ' ', 4)
+                  ? numberSeparation(data[activeSwiperSlideIndex].iban, ' - ', 4)
                   : ''
               }
               clearFn={() => {
