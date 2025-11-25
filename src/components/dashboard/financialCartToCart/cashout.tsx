@@ -13,8 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import toast from '../ui/customSonner/toast';
 import Loading from '../ui/loading';
-import { numberSeparation } from '@/utils';
 import { addCommas, removeCommas } from '@persian-tools/persian-tools';
+import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 
 // Defining form schema
 const formSchema = z.object({
@@ -41,6 +41,7 @@ export default function CashOut(): ReactNode {
   // Defining hooks
   const [profile, setProfile] = useState<'profile' | 'legal'>('legal');
   const [approved, setApproved] = useState<boolean>(false);
+  const useLegalInfo = useUserLegalInfo();
   const [fakeValueOfCard, setFakeValueOfCard] = useState<{
     number: string;
     iban: string;
@@ -156,6 +157,7 @@ export default function CashOut(): ReactNode {
               placeholder="مبلغ مد نظر خود را وارد نمایید"
               className='w-full h-[50px]'
               hideCreate
+              useLegalInfo={profile === "legal" ? useLegalInfo.data.card_numbers : undefined}
               reset={() => {
                 setFakeValueOfCard(undefined);
                 form.resetField("creditCard", undefined);
