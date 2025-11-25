@@ -78,7 +78,6 @@ export default function EditCurrentCardDialog({
         })
       }
     }
-
   })
 
   // Defining onSubmit event
