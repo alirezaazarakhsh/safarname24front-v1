@@ -19,6 +19,7 @@ import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 import toast from '../../ui/customSonner/toast';
 import { userFetchedInfoContext } from '../../page';
 import { AnimatePresence, motion } from 'framer-motion';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 // Defining form schema
 const formSchema = z.object({
@@ -53,31 +54,43 @@ export default function AddCardDialog({
     resolver: zodResolver(formSchema)
   })
 
+  const post = useApiMutation({
+    url: "/card-numbers/",
+    method: "post",
+    options: {
+      onSettled: () => {
+        onOpenChange?.(false);
+        (mode === "company")
+          ? userLegalInfo.refetch?.()
+          : userInfo?.refetch?.();
+      },
+      onSuccess: () => {
+        toast({
+          description: "کارت شما با موفقیت اضافه گردید.",
+          title: "عملیات موفقیت امیز بود.",
+          theme: "green"
+        })
+      }, onError: () => {
+        toast({
+          description: "شماره کارت اضافه نشد.",
+          title: "خطا در ارسال اطلاعات.",
+          theme: "theme"
+        })
+      }
+    }
+  })
+
   // Defining variables
   const formData = form.watch();
 
   // Defining onSubmit event
   const onSubmit: SubmitHandler<formType> = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 seconds
-    console.log(data);
-
-    onOpenChange?.(false);
-
-    (mode === "company")
-      ? userLegalInfo.refetch?.()
-      : userInfo?.refetch?.();
-
-    toast({
-      description: "کارت شما با موفقیت اضافه گردید.",
-      title: "عملیات موفقیت امیز بود.",
-      theme: "green"
+    await post.mutateAsync({
+      profile_type: mode === "company" ? "juridical" : "natural",
+      card_number: data.cardNumber,
+      iban: data.iban,
+      account_holder_name: data.ownerName
     })
-
-    // toast({
-    //   description: "شماره کارت اضافه نشد.",
-    //   title: "خطا در ارسال اطلاعات.",
-    //   theme: "theme"
-    // })
   }
 
   // Using useEffect to reset values
@@ -151,11 +164,7 @@ export default function AddCardDialog({
                 className="h-[45px] w-full"
                 placeholder="16 رقم شماره شبا را وارد نمایید"
                 lenghtValidation={16}
-                onChange={(e) =>
-                  form.setValue('cardNumber', e.currentTarget.value)
-                }
-                value={form.watch('cardNumber')}
-                name={form.register('cardNumber').name}
+                {...form.register("cardNumber")}
               />
             </div>
             <div className='w-full'>
