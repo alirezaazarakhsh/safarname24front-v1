@@ -57,8 +57,13 @@ export default function CashOut(): ReactNode {
       onSuccess: () => {
         toast({
           title: "برداشت مبلغ موفقیت امیز بود!",
-          description: "مشترک گرامی , برداشت مبلغ مد نظر شما با موفقیت انجام شد.",
+          description: "مشترک گرامی , برداشت مبلغ مد نظر شما با موفقیت انجام شد. منتظر تایید ادمین باشید داشته باشه",
           theme: "green"
+        });
+
+        form.reset({
+          creditCard: undefined,
+          walletAmount: undefined
         });
       },
       onError: () => {

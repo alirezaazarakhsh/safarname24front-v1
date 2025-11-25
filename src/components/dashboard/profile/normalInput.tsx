@@ -18,6 +18,9 @@ export default function NormalInput({
   clearFn,
   textLTR = false,
   lenghtValidation,
+  onBlur,
+  onFocus,
+  onInput,
   ...props
 }: NormalInputComponentPropsType): ReactNode {
   // Defining hooks
@@ -45,13 +48,14 @@ export default function NormalInput({
             )}
             required={required}
             placeholder={required ? `* ${placeholder}` : placeholder}
+            onInput={onInput}
             onFocus={(e) => {
               setFocused(true);
-              props.onFocus && props.onFocus(e);
+              onFocus?.(e);
             }}
             onBlur={(e) => {
               setFocused(false);
-              props.onBlur && props.onBlur(e);
+              onBlur?.(e);
             }}
             {...props}
           />
@@ -101,12 +105,18 @@ export default function NormalInput({
             )}
             required={required}
             placeholder={required ? `* ${placeholder}` : placeholder}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
             ref={validationInputRef}
+            value={props.value}
+            onFocus={(e) => {
+              setFocused(true);
+              onFocus?.(e);
+            }}
+            onBlur={(e) => {
+              setFocused(false);
+              onBlur?.(e);
+            }}
             onInput={(e) => {
-              props.onInput?.(e);
-
+              onInput?.(e);
               setValueLenght(e.currentTarget.value.length);
             }}
             {...props}
@@ -139,6 +149,9 @@ export default function NormalInput({
           required={required}
           placeholder={required ? `* ${placeholder}` : placeholder}
           data-errored={error ? true : false}
+          onInput={onInput}
+          onFocus={onFocus}
+          onBlur={onBlur}
           className={cn(
             'px-4 py-4 h-[50px] w-full text-right block bg-white placeholder:text-black/50 text-black focus:text-black border-[1.2px] border-black/10 lg:rounded-lg rounded-[8px] lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold  transition-all duration-500 focus:border-black focus:placeholder:text-black data-[errored="true"]:border-cs-red data-[errored="true"]:focus:border-cs-red data-[errored="true"]:text-cs-red disabled:cursor-not-allowed disabled:opacity-50',
             textLTR ? 'text-left' : 'text-right',

@@ -358,6 +358,7 @@ export interface DatePickerInputComponentPropsType {
   error?: string;
   className?: string;
   placeholder: string;
+  value: string;
 }
 
 export interface SheetComponentPropsType {
