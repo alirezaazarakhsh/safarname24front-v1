@@ -67,7 +67,14 @@ export default function CartToCartFinancialPage(): JSX.Element {
     resolver: zodResolver(formSchema),
     reValidateMode: "onChange",
     defaultValues: {
-      creditCard: mode === "personal" ? userInfo.card_numbers[0].id : userLegalInfo.data.card_numbers[0].id
+      creditCard:
+        mode === "personal"
+          ? userInfo.card_numbers.length !== 0
+            ? userInfo.card_numbers[0].id
+            : undefined
+          : userLegalInfo.data.card_numbers.length !== 0
+            ? userLegalInfo.data.card_numbers[0].id
+            : undefined
     }
   });
 
