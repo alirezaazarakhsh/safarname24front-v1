@@ -13,24 +13,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import toast from '../ui/customSonner/toast';
 import Loading from '../ui/loading';
-import { numberSeparation } from '@/utils';
 import { addCommas, removeCommas } from '@persian-tools/persian-tools';
+import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 
 // Defining form schema
 const formSchema = z.object({
   walletAmount: z
     .string({
-      message: 'لفا این فیلد را پر کنید.',
+      message: 'لطفا این فیلد را پر کنید.',
     })
     .refine((val) => Number(removeCommas(val)) >= 10000, {
       message: 'مقدار وارد شده نباید کمتر از 10,000 تومان باشد',
     }),
   creditCard: z
     .string({
-      message: "لطفا این فیلد را پر کنید."
+      message: "لطفا کارت را انتخواب کنید."
     })
-    .min(1, "شناسه ضروری است")
-    .refine((val) => !isNaN(Number(val)), "شناسه باید فقط عدد باشد")
+    .min(1, "لطفا کارت را انتخواب کنید.")
+    .refine((val) => !isNaN(Number(val)), "شناسه باید فقط عدد باشد").nullable()
 });
 
 // Defining form type
@@ -41,6 +41,7 @@ export default function CashOut(): ReactNode {
   // Defining hooks
   const [profile, setProfile] = useState<'profile' | 'legal'>('legal');
   const [approved, setApproved] = useState<boolean>(false);
+  const useLegalInfo = useUserLegalInfo();
   const [fakeValueOfCard, setFakeValueOfCard] = useState<{
     number: string;
     iban: string;
@@ -57,9 +58,13 @@ export default function CashOut(): ReactNode {
       onSuccess: () => {
         toast({
           title: "برداشت مبلغ موفقیت امیز بود!",
-          description: "مشترک گرامی , برداشت مبلغ مد نظر شما با موفقیت انجام شد.",
+          description: "مشترک گرامی , برداشت مبلغ مد نظر شما با موفقیت انجام شد. منتظر تایید ادمین باشید داشته باشه",
           theme: "green"
         });
+
+        form.resetField("creditCard", undefined);
+        form.resetField("walletAmount", undefined);
+        setFakeValueOfCard(undefined);
       },
       onError: () => {
         toast({
@@ -113,8 +118,16 @@ export default function CashOut(): ReactNode {
       </div>
       <form
         action="#"
-        onSubmit={form.handleSubmit(onSubmit)}
         className="lg:grid flex flex-col lg:col-span-3 lg:grid-cols-3 gap-4"
+        onSubmit={form.handleSubmit(onSubmit, (errors) => {
+          if (errors.creditCard?.message) {
+            toast({
+              title: "مشکلی پیش امد.",
+              description: errors.creditCard?.message,
+              theme: "theme"
+            })
+          }
+        })}
       >
         <div className="w-full">
           <div className="mb-5 w-full">
@@ -142,8 +155,9 @@ export default function CashOut(): ReactNode {
             </span>
             <CreditCardDropDown
               placeholder="مبلغ مد نظر خود را وارد نمایید"
-              className="w-full"
+              className='w-full h-[50px]'
               hideCreate
+              useLegalInfo={profile === "legal" ? useLegalInfo.data.card_numbers : undefined}
               reset={() => {
                 setFakeValueOfCard(undefined);
                 form.resetField("creditCard", undefined);
@@ -165,19 +179,15 @@ export default function CashOut(): ReactNode {
             <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
               شماره شبا کارت بانکی
             </span>
-            <NormalInput
-              type="text"
+            <CreditCardDropDown
+              useSheba
               placeholder="24 رقم شماره شبا کارت را وارد نمایید"
-              textLTR
-              value={fakeValueOfCard ? numberSeparation(fakeValueOfCard.iban, " - ", 4) : ""}
-              error={form.formState.errors.creditCard?.message}
-              clearFn={() => {
+              value={fakeValueOfCard ? fakeValueOfCard.iban : ""}
+              className='w-full h-[50px]'
+              reset={() => {
                 setFakeValueOfCard(undefined);
-                form.reset({
-                  creditCard: undefined
-                });
+                form.resetField("creditCard", undefined);
               }}
-              disabled
             />
           </div>
           <div className="flex lg:flex-row flex-col lg:items-center items-start lg:justify-between justify-start gap-4 w-full">

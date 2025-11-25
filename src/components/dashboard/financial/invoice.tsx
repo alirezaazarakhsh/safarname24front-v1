@@ -88,7 +88,7 @@ export default function Invoice({
           }
         }}
       />
-      <div className="w-full">
+      <div className="w-full mb-2">
         <span className="lg:text-cs85 text-[12px] font-semibold text-black truncate block">
           صورتحساب پرداختی
         </span>

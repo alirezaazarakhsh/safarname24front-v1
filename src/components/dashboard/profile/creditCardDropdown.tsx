@@ -60,6 +60,7 @@ export default function CreditCardDropDown({
       <button
         ref={triggerRef}
         disabled={disabled || filtredData.length === 0}
+        type="button"
         className={cn(
           'bg-white transitaion-all duration-500 disabled:opacity-50 border-[1.2px] border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black',
           className,
@@ -114,6 +115,7 @@ export default function CreditCardDropDown({
         >
           <button
             data-opened={isOpened}
+            type="button"
             className={cn(
               'bg-white transitaion-all duration-500 disabled:opacity-50 border-[1.2px] border-black/10 rounded-lg flex items-center justify-between gap-3 p-3 text-black data-[opened=true]:border-black group',
               className,

@@ -62,12 +62,8 @@ export default function EmergencieForm({
             className="h-[45px]"
             placeholder="شماره پیگیری خود را وارد نمایید"
             error={form.formState.errors.trackingNumber?.message}
-            value={form.watch('trackingNumber')}
-            name={form.register('trackingNumber').name}
             lenghtValidation={12}
-            onChange={(e) =>
-              form.setValue('trackingNumber', e.currentTarget.value)
-            }
+            {...form.register("trackingNumber")}
           />
         </div>
         <div>
@@ -95,6 +91,7 @@ export default function EmergencieForm({
             className="h-[45px]"
             placeholder="تاریخ واریز خود را انتخاب نمایید"
             error={form.formState.errors.depositDate?.message}
+            value={form.watch("depositDate")}
             onChange={(date) =>
               form.setValue('depositDate', date.format('jYYYY-jMM-jDD'))
             }

@@ -15,6 +15,7 @@ import Loading from '../../ui/loading';
 import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 import toast from '../../ui/customSonner/toast';
 import { userFetchedInfoContext } from '../../page';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 // Defining form schema
 const formSchema = z.object({
@@ -53,28 +54,41 @@ export default function EditCurrentCardDialog({
     }
   })
 
+  const put = useApiMutation({
+    url: "/card-numbers/",
+    method: "put",
+    options: {
+      onSettled: () => {
+        onOpenChange?.(false);
+        (mode === "company")
+          ? userLegalInfo.refetch?.()
+          : userInfo?.refetch?.();
+      },
+      onSuccess: () => {
+        toast({
+          description: "کارت شما با موفقیت ویرایش گردید.",
+          title: "عملیات موفقیت امیز بود.",
+          theme: "green"
+        })
+      }, onError: () => {
+        toast({
+          description: "کارت مد نظر ویرایش پیدا نکرد.",
+          title: "خطا در ارسال اطلاعات.",
+          theme: "theme"
+        })
+      }
+    }
+  })
+
   // Defining onSubmit event
-  const onSubmit: SubmitHandler<formType> = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 seconds
-    console.log(data);
-
-    onOpenChange?.(false);
-
-    (mode === "company")
-      ? userLegalInfo.refetch?.()
-      : userInfo?.refetch?.();
-
-    toast({
-      description: "کارت شما با موفقیت ویرایش گردید.",
-      title: "عملیات موفقیت امیز بود.",
-      theme: "green"
+  const onSubmit: SubmitHandler<formType> = async (submitData) => {
+    await put.mutateAsync({
+      profile_type: mode === "company" ? "juridical" : "natural",
+      card_id: data.id,
+      card_number: submitData.cardNumber,
+      iban: submitData.iban,
+      account_holder_name: submitData.ownerName
     })
-
-    // toast({
-    //   description: "کارت مد نظر ویرایش پیدا نکرد.",
-    //   title: "خطا در ارسال اطلاعات.",
-    //   theme: "theme"
-    // })
   }
 
   // Using useEffect to reset values
@@ -110,11 +124,7 @@ export default function EditCurrentCardDialog({
                 className="h-[45px] w-full"
                 placeholder="16 رقم شماره شبا را وارد نمایید"
                 lenghtValidation={16}
-                onChange={(e) =>
-                  form.setValue('cardNumber', e.currentTarget.value)
-                }
-                value={form.watch('cardNumber')}
-                name={form.register('cardNumber').name}
+                {...form.register("cardNumber")}
               />
             </div>
             <div className='w-full'>
@@ -127,11 +137,7 @@ export default function EditCurrentCardDialog({
                 className="h-[45px] w-full"
                 placeholder="24 رقم شماره شبا را وارد نمایید"
                 lenghtValidation={24}
-                onChange={(e) =>
-                  form.setValue('iban', e.currentTarget.value)
-                }
-                value={form.watch('iban')}
-                name={form.register('iban').name}
+                {...form.register("iban")}
               />
             </div>
             <div>

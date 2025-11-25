@@ -11,6 +11,7 @@ import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 import toast from '../../ui/customSonner/toast';
 import { userFetchedInfoContext } from '../../page';
 import { numberSeparation } from '@/utils';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 // Creating and exporting RemoveCurrentCardDialog component as default
 export default function RemoveCurrentCardDialog({
@@ -18,9 +19,34 @@ export default function RemoveCurrentCardDialog({
   mode, data
 }: RemoveCurrentCardDialogProps): JSX.Element {
   // Defining hooks
-  const [loading, setLoading] = useState<boolean>(false);
   const userLegalInfo = useUserLegalInfo();
   const userInfo = useContext(userFetchedInfoContext);
+
+  const deleteCard = useApiMutation({
+    url: "/card-numbers/",
+    method: "delete",
+    options: {
+      onSettled: () => {
+        onOpenChange?.(false);
+        (mode === "company")
+          ? userLegalInfo.refetch?.()
+          : userInfo?.refetch?.();
+      },
+      onSuccess: () => {
+        toast({
+          description: "کارت بانکی مد نظر با موفقیت حذف شد.",
+          title: "عملیات موفقیت امیز بود",
+          theme: "green"
+        })
+      }, onError: () => {
+        toast({
+          description: "کارت بانکی مد نظر حذف نشد.",
+          title: "عملیات با خطا رو به رو شد.",
+          theme: "theme"
+        })
+      }
+    }
+  })
 
   // Returning JSX
   return (
@@ -43,29 +69,17 @@ export default function RemoveCurrentCardDialog({
             </DialogDescription>
             <DialogFooter dir="ltr">
               <button
-                disabled={loading}
+                disabled={deleteCard.isPending}
                 className='flex items-center justify-center px-6 h-[45px] rounded-md text-cs08 font-medium  transition-all duration-500 text-white bg-red-600 disabled:bg-gray-100'
-                onClick={async () => {
-                  setLoading(true);
-                  await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 seconds
-                  setLoading(false);
-                  onOpenChange?.(false);
-
-                  toast({
-                    description: "کارت بانکی مد نظر با موفقیت حذف شد.",
-                    title: "عملیات موفقیت امیز بود",
-                    theme: "green"
+                onClick={() => {
+                  deleteCard.mutate({
+                    profile_type: mode === "company" ? "juridical" : "natural",
+                    card_id: data.id
                   })
-
-                  // toast({
-                  //   description: "کارت بانکی مد نظر حذف نشد.",
-                  //   title: "عملیات با خطا رو به رو شد.",
-                  //   theme: "theme"
-                  // })
                 }}
               >
                 {
-                  loading ? <Loading className="bg-black/70" /> : (
+                  deleteCard.isPending ? <Loading className="bg-black/70" /> : (
                     <span className='text-[12px] font-semibold text-white'>
                       تایید اطلاعات
                     </span>

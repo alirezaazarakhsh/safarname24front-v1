@@ -17,19 +17,13 @@ export default function DatePickerInput({
   error,
   className,
   placeholder,
+  value
 }: DatePickerInputComponentPropsType): ReactNode {
   // Defining states of component
   const [isDatePickerOpened, setDatePickerOpened] = useState<boolean>(false);
-  const [dateInputValueState, setDateInputValueState] = useState<
-    moment.Moment | undefined
-  >(undefined);
 
-  // Attaching onChange prop to component
-  useEffect(() => {
-    if (onChange && dateInputValueState) {
-      onChange(dateInputValueState);
-    }
-  }, [dateInputValueState, onChange]);
+  // Defining variables
+  const valueIsEmpty = value === undefined || value === "" || value.startsWith(" ");
 
   // Returning JSX
   return (
@@ -49,13 +43,13 @@ export default function DatePickerInput({
         <span
           className={cn(
             'w-full block outline-0 border-0 bg-white text-xs text-right truncate',
-            dateInputValueState
+            !valueIsEmpty
               ? 'text-black'
               : 'group-data-[errored="false"]:text-black/50 group-data-[errored="true"]:text-cs-red',
           )}
         >
-          {dateInputValueState
-            ? dateInputValueState.clone().locale('fa').format('jYYYY/jMM/jDD')
+          {!valueIsEmpty
+            ? value
             : placeholder}
         </span>
       </Button>
@@ -63,7 +57,7 @@ export default function DatePickerInput({
         isOpened={isDatePickerOpened}
         closeFn={() => setDatePickerOpened(false)}
         disableFuture
-        onSubmit={(date) => setDateInputValueState(date)}
+        onSubmit={(date) => onChange?.(date)}
       />
     </div>
   );
