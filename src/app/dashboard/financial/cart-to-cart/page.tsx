@@ -85,19 +85,17 @@ export default function CartToCartFinancialPage(): JSX.Element {
     url: "/finance/deposit-receipts/",
     isFormData: true,
     options: {
-      onSettled: () => {
-        form.resetField("trackingNumber");
-        form.resetField("depositorName");
-        form.resetField("extraAmount");
-        form.setValue("depositDate", "");
-        setImage(undefined);
-      },
       onSuccess: () => {
         toast({
           title: "انتقال مبلغ موفقیت امیز بود!",
           description: "مشترک گرامی , انتقال مبلغ مد نظر شما با موفقیت انجام شد. منتظر تایید ادمین باشید داشته باشه",
           theme: "green"
         });
+
+        form.resetField("trackingNumber");
+        form.resetField("depositorName");
+        form.resetField("extraAmount");
+        form.setValue("depositDate", "");
       },
       onError: () => {
         toast({
