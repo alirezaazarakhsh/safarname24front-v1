@@ -931,3 +931,9 @@ export interface RemoveCurrentCardDialogProps {
     card_number: string;
   };
 }
+
+export interface WalletIntroductionPropsType {
+  className?: string;
+  onValueChange: (value: "dynamic" | "static") => void;
+  value: "dynamic" | "static";
+}

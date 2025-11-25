@@ -6,8 +6,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import IconedPrice from '@/components/dashboard/financial/iconedPrice';
 import Introduction from '@/components/dashboard/financial/introduction';
 import { FinancialSectionComponentPropsType } from '@/types/dashboard/component';
-import CheckboxItem from '../checkboxItem';
-import SwitchItem from '../switchItem';
 import CustomCharge from '../customCharge';
 import Invoice from '../invoice';
 import Link from 'next/link';
@@ -57,7 +55,11 @@ export default function Financial({
   return (
     <section className={className}>
       <div className="grid lg:grid-cols-4 lg:gap-5 gap-[16px] lg:px-0 px-[24px] lg:mb-5 mb-[24px]">
-        <Introduction />
+        <Introduction
+          value={priceType}
+          onValueChange={setPriceType}
+          className='lg:col-span-3'
+        />
         <div>
           <IconedPrice
             icon="Wallet"
@@ -107,23 +109,7 @@ export default function Financial({
       ) : (
         false
       )}
-      <div className="grid lg:grid-cols-4 lg:gap-5 gap-0">
-        <div className="flex flex-col lg:gap-5 gap-[16px] lg:px-0 px-[24px] lg:mb-0 mb-[24px]">
-          <CheckboxItem
-            title="مبلغ انتخابی"
-            onClick={() => setPriceType('static')}
-            checked={priceType === 'static'}
-          />
-          <CheckboxItem
-            title="مبلغ دستی اضافه"
-            onClick={() => setPriceType('dynamic')}
-            checked={priceType === 'dynamic'}
-          />
-          <SwitchItem
-            title="فعالسازی اتومات دانلود فاکتور"
-            disabled
-          />
-        </div>
+      <div className="grid lg:grid-cols-5 lg:gap-5 gap-0">
         <div className="lg:hidden flex flex-col gap-[16px] border-y-[1.5px] border-y-black/10 lg:px-0 px-[24px] py-[24px]">
           <IconedPrice
             icon="DollarSquare"
@@ -178,7 +164,7 @@ export default function Financial({
             }}
           />
         </div>
-        <div className="grid lg:grid-cols-3 lg:col-span-3 grid-cols-1 lg:gap-5 gap-[16px] lg:bg-transparent bg-white">
+        <div className="grid lg:grid-cols-3 lg:col-span-5 grid-cols-1 lg:gap-5 gap-[16px] lg:bg-transparent bg-white">
           <CustomCharge
             disabled={priceType === 'static'}
             onSubmit={(value) => setDynamicPrice(value)}
