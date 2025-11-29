@@ -71,9 +71,9 @@ const data: {
         },
         {
           icon: 'Receipt',
-          title: 'فاکتور ها',
-          subTitle: 'صدور واچر اختصاصی',
-          link: '/dashboard/financial/factors',
+          title: 'لیست ریز گزارشات',
+          subTitle: 'اطلاعات کامل تراکنش های شما',
+          link: '/dashboard/financial/detailed-report',
         },
       ],
     },

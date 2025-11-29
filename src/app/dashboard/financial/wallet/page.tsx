@@ -104,7 +104,7 @@ export default function FinancialPage(): ReactNode {
             />
             <div className="lg:p-0 p-[24px] border-t-[1.5px] lg:border-transparent border-black/10">
               <Link
-                href="/dashboard/financial/factors"
+                href="/dashboard/financial/detailed-report"
                 className="rounded-[12px] border border-black/10 p-[14px] lg:hidden flex items-center justify-between gap-3 mb-[16px]"
               >
                 <span className="truncate text-[12px] font-semibold text-black block text-right">

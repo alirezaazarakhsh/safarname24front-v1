@@ -371,6 +371,7 @@ export interface SheetComponentPropsType {
 export interface SearchFinancialDashboardPropsType {
   onChange?: (val: string) => void;
   loading?: boolean;
+  hideInput?: boolean;
 }
 
 export interface FinancialFatorsDashboardTablePropsType {
