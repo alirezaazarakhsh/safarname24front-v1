@@ -39,7 +39,7 @@ const binToBank: Record<string, BankInfo> = {
   '639346': { type: 'sina', name: 'بانک سینا' },
   '606373': { type: 'mehr-iran', name: 'بانک قرض‌الحسنه مهر ایران' },
   '504706': { type: 'shahr', name: 'بانک شهر' },
-  '636214': { type: 'ayandeh', name: 'بانک آینده' },
+  '636214': { type: 'melli', name: 'بانک ملی ایران' },
   '627381': { type: 'ansar', name: 'بانک انصار' },
   '505416': { type: 'gardeshgari', name: 'بانک گردشگری' },
   '636949': { type: 'hekmat', name: 'بانک حکمت ایرانیان' },
