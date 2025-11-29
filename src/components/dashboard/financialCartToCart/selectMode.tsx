@@ -14,7 +14,8 @@ export default function SelectMode({
   onValueChange,
   value,
   onSubmit,
-  submitLoading = false
+  submitLoading = false,
+  disabled = false
 }: SelectModePropsType): JSX.Element {
   // Returning JSX
   return (
@@ -51,7 +52,7 @@ export default function SelectMode({
         />
         <button
           onClick={onSubmit}
-          disabled={submitLoading}
+          disabled={submitLoading || disabled}
           className="lg:w-[125px] w-full px-6 h-[45px]  flex items-center justify-center rounded-md disabled:text-black border disabled:border-black/10 disabled:bg-gray-50 transition-all duration-500 text-cs75 font-medium truncate bg-green-500 border-green-500 hover:bg-green-600 text-white"
         >
           {

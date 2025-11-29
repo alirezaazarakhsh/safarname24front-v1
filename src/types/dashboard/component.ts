@@ -265,6 +265,7 @@ export interface UploadComponentPropsType {
   fetchURL?: string;
   hideSubmit?: boolean;
   useSingleFile?: boolean;
+  disabled?: boolean;
 }
 
 export type CreditCardSubscriptionChartType = [
@@ -355,6 +356,7 @@ export interface DatePickerComponentPropsType {
 export interface DatePickerInputComponentPropsType {
   onChange?: (date: moment.Moment) => void;
   label: string;
+  disabled?: boolean;
   error?: string;
   className?: string;
   placeholder: string;
@@ -860,6 +862,7 @@ export interface SelectModePropsType {
   value?: CartToCartFinancialMode;
   onSubmit?: () => void;
   submitLoading?: boolean;
+  disabled?: boolean;
 }
 
 export interface SelecterPropsType {
@@ -899,6 +902,7 @@ export interface CardShowCasePropsType {
 
 export interface EmergencieFormPropsType {
   className?: string;
+  disabled?: boolean;
   form: UseFormReturn<cartToCartFormType>;
 }
 

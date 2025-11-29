@@ -13,13 +13,15 @@ import { addCommas, removeCommas } from '@persian-tools/persian-tools';
 // Creating and exporting EmergencieForm component as default
 export default function EmergencieForm({
   className,
-  form
+  form,
+  disabled = false
 }: EmergencieFormPropsType): JSX.Element {
   // Returning JSX
   return (
     <div
+      data-disabled={disabled}
       className={cn(
-        'bg-white border rounded-xl border-black/10 overflow-hidden flex items-center justify-between flex-col',
+        'bg-white border rounded-xl border-black/10 overflow-hidden flex items-center justify-between flex-col transition-all duration-500 data-[disabled=true]:opacity-50 data-[disabled=true]:cursor-not-allowed',
         className,
       )}
     >
@@ -47,6 +49,7 @@ export default function EmergencieForm({
           </span>
           <NormalInput
             type="text"
+            disabled={disabled}
             className="h-[45px]"
             placeholder="نام واریز کننده فیش خود را وارد نمایید"
             error={form.formState.errors.depositorName?.message}
@@ -63,6 +66,7 @@ export default function EmergencieForm({
             placeholder="شماره پیگیری خود را وارد نمایید"
             error={form.formState.errors.trackingNumber?.message}
             lenghtValidation={12}
+            disabled={disabled}
             {...form.register("trackingNumber")}
           />
         </div>
@@ -74,6 +78,7 @@ export default function EmergencieForm({
             className="h-[45px]"
             placeholder="مبلغ مد نظر خود را وارد نمایید"
             error={form.formState.errors.extraAmount?.message}
+            disabled={disabled}
             onInput={(e) => {
               const value = e.currentTarget.value;
               const removedCommas = removeCommas(value);
@@ -87,6 +92,7 @@ export default function EmergencieForm({
         </div>
         <div>
           <DatePickerInput
+            disabled={disabled}
             label="تاریخ واریز وجه"
             className="h-[45px]"
             placeholder="تاریخ واریز خود را انتخاب نمایید"
