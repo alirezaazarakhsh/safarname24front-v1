@@ -896,6 +896,7 @@ export interface CardShowCasePropsType {
   data?: {
     bankName: string;
     bankIcon: BankNameType;
+    holderName: string;
     number: string;
     iban: string;
   };
