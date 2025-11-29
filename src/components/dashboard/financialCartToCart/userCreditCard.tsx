@@ -62,6 +62,7 @@ export default function UserCreditCard({
               className="h-[calc(190px-32px)]"
               data={{
                 bankIcon: 'unknown',
+                holderName: "-",
                 bankName: 'Safarnameh24',
                 iban: '************************',
                 number: '****************',
@@ -92,6 +93,7 @@ export default function UserCreditCard({
                         getBankFromCard(item.card_number)?.name || 'نامعلوم',
                       iban: item.iban || '************************',
                       number: item.card_number || '****************',
+                      holderName: item.account_holder_name || "-",
                     }}
                   />
                 </SwiperSlide>

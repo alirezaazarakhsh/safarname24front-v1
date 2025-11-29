@@ -10,15 +10,15 @@ import useLogout from '@/hooks/dashboard/useLogout';
 
 type urlTitleType =
   | {
-      type: 'normal';
-      href: `/dashboard/${string}` | '/dashboard';
-      title: string;
-    }
+    type: 'normal';
+    href: `/dashboard/${string}` | '/dashboard';
+    title: string;
+  }
   | {
-      type: 'regexp';
-      regexp: RegExp;
-      title: string;
-    };
+    type: 'regexp';
+    regexp: RegExp;
+    title: string;
+  };
 
 const urlTitles: urlTitleType[] = [
   {
@@ -43,8 +43,8 @@ const urlTitles: urlTitleType[] = [
   },
   {
     type: 'normal',
-    href: '/dashboard/financial/factors',
-    title: 'لیست فاکتورهای واریز و برداشت وجه',
+    href: '/dashboard/financial/detailed-report',
+    title: 'بخش مالی - لیست ریز گزارشات',
   },
   {
     type: 'normal',

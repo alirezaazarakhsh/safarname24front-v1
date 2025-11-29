@@ -16,18 +16,17 @@ import useApiMutation from '@/hooks/dashboard/useApiMutation';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
-import { GETCartToCartPageDetails } from '@/types/dashboard/api/get';
+import { GETCartToCartPageDetails, GETPersonalProfile } from '@/types/dashboard/api/get';
 import { CartToCartFinancialMode } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { removeCommas } from '@persian-tools/persian-tools';
 import moment from 'jalali-moment';
-import { JSX, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 // Defining formschema 
 const formSchema = z.object({
-  creditCard: z.number(),
   depositorName: z
     .string({ required_error: 'وارد کردن نام واریز کننده الزامی است' })
     .min(2, { message: 'نام واریز کننده باید حداقل ۲ کاراکتر باشد' })
@@ -63,19 +62,11 @@ export default function CartToCartFinancialPage(): JSX.Element {
   const userInfo = useUserInfo();
   const userLegalInfo = useUserLegalInfo();
   const [image, setImage] = useState<File | undefined>();
+  const [selectedCreditCard, setSelectedCreditCard] = useState<GETPersonalProfile["card_numbers"][0] | undefined>(userInfo.card_numbers[0]);
   const form = useForm<cartToCartFormType>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: {
-      creditCard:
-        mode === "personal"
-          ? userInfo.card_numbers.length !== 0
-            ? userInfo.card_numbers[0].id
-            : undefined
-          : userLegalInfo.data.card_numbers.length !== 0
-            ? userLegalInfo.data.card_numbers[0].id
-            : undefined
-    }
   });
 
   const getDetails = useApiQuery<GETCartToCartPageDetails>({
@@ -122,10 +113,16 @@ export default function CartToCartFinancialPage(): JSX.Element {
         description: "لطفا عکس فیش مربوطه نیز اپلود کنید.",
         theme: "theme"
       })
+    } else if (!selectedCreditCard) {
+      toast({
+        title: "خطایی در ارسال فرم رخ داد!",
+        description: "لطفا کارت مد نظر را چک کرده و مجددا امتحان کنید.",
+        theme: "theme"
+      })
     } else {
       await depositReceipts.mutateAsync({
         profile_type: mode === "personal" ? "natural" : "juridical",
-        card_object_id: data.creditCard,
+        card_object_id: selectedCreditCard.id,
         depositor_name: data.depositorName,
         tracking_number: data.trackingNumber,
         amount: Number(removeCommas(data.extraAmount)),
@@ -140,24 +137,32 @@ export default function CartToCartFinancialPage(): JSX.Element {
     <main className="p-5 lg:pb-5 pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
       <SelectMode
         value={mode}
-        onValueChange={setMode}
         submitLoading={depositReceipts.isPending}
-        onSubmit={form.handleSubmit(onSubmit, (errors) => {
-          if (errors.creditCard?.message) {
-            toast({
-              title: "خطایی در ارسال فرم رخ داد!",
-              description: errors.creditCard.message,
-              theme: "theme"
-            })
-          }
-        })}
+        onSubmit={form.handleSubmit(onSubmit)}
+        disabled={selectedCreditCard === undefined}
+        onValueChange={(val) => {
+          setMode(val);
+
+          setImage(undefined);
+          form.setValue("depositorName", "");
+          form.setValue("trackingNumber", "");
+          form.setValue("extraAmount", "");
+          form.setValue("depositDate", "");
+
+          (val === "company")
+            ? setSelectedCreditCard(userLegalInfo.data.card_numbers[0])
+            : setSelectedCreditCard(userInfo.card_numbers[0]);
+        }}
       />
       <div className="grid lg:grid-cols-3 lg:gap-5 gap-[24px]">
         <UserCreditCard
           title={mode === "company" ? "حقوقی" : "حقیقی"}
           mode={mode}
           data={(mode === "company") ? userLegalInfo.data.card_numbers : userInfo.card_numbers}
-          onValueChange={(data) => form.setValue("creditCard", Number(data.id))}
+          onValueChange={(card) => {
+            setSelectedCreditCard(card);
+            console.log(card);
+          }}
         />
         <div className="flex items-center justify-between flex-col lg:gap-5 gap-[24px]">
           <CartBalance hasMobileView className="shrink-0 w-full" />
@@ -167,10 +172,22 @@ export default function CartToCartFinancialPage(): JSX.Element {
               className="lg:w-full w-full h-full"
               onChange={setImage}
               useSingleFile
+              disabled={
+                mode === "company"
+                  ? userLegalInfo.data.card_numbers.length === 0
+                  : userInfo.card_numbers.length === 0
+              }
             />
           </div>
         </div>
-        <EmergencieForm form={form} />
+        <EmergencieForm
+          form={form}
+          disabled={
+            mode === "company"
+              ? userLegalInfo.data.card_numbers.length === 0
+              : userInfo.card_numbers.length === 0
+          }
+        />
       </div>
       <div className="lg:grid flex flex-col  lg:grid-cols-5 lg:gap-5 gap-[24px]">
         <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] lg:col-span-2">

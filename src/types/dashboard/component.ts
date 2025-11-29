@@ -265,6 +265,7 @@ export interface UploadComponentPropsType {
   fetchURL?: string;
   hideSubmit?: boolean;
   useSingleFile?: boolean;
+  disabled?: boolean;
 }
 
 export type CreditCardSubscriptionChartType = [
@@ -355,6 +356,7 @@ export interface DatePickerComponentPropsType {
 export interface DatePickerInputComponentPropsType {
   onChange?: (date: moment.Moment) => void;
   label: string;
+  disabled?: boolean;
   error?: string;
   className?: string;
   placeholder: string;
@@ -371,6 +373,7 @@ export interface SheetComponentPropsType {
 export interface SearchFinancialDashboardPropsType {
   onChange?: (val: string) => void;
   loading?: boolean;
+  hideInput?: boolean;
 }
 
 export interface FinancialFatorsDashboardTablePropsType {
@@ -698,6 +701,7 @@ export interface CreditCardDropDownPropsType
   useSheba?: boolean;
   reset?: () => void;
   hideCreate?: boolean;
+  error?: string;
 }
 
 export interface CustomerClubGiftGainedPropsType
@@ -859,6 +863,7 @@ export interface SelectModePropsType {
   value?: CartToCartFinancialMode;
   onSubmit?: () => void;
   submitLoading?: boolean;
+  disabled?: boolean;
 }
 
 export interface SelecterPropsType {
@@ -891,6 +896,7 @@ export interface CardShowCasePropsType {
   data?: {
     bankName: string;
     bankIcon: BankNameType;
+    holderName: string;
     number: string;
     iban: string;
   };
@@ -898,6 +904,7 @@ export interface CardShowCasePropsType {
 
 export interface EmergencieFormPropsType {
   className?: string;
+  disabled?: boolean;
   form: UseFormReturn<cartToCartFormType>;
 }
 

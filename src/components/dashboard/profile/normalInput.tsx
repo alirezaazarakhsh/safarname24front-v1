@@ -99,10 +99,7 @@ export default function NormalInput({
         >
           <input
             dir={textLTR ? 'ltr' : 'rtl'}
-            className={cn(
-              'placeholder:text-black/50 flex-1 transition-all duration-500 text-black px-4 focus:text-black lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold group-data-[focused=true]:placeholder:text-black',
-              textLTR ? 'text-left' : 'text-right',
-            )}
+            maxLength={lenghtValidation}
             required={required}
             placeholder={required ? `* ${placeholder}` : placeholder}
             ref={validationInputRef}
@@ -119,6 +116,10 @@ export default function NormalInput({
               onInput?.(e);
               setValueLenght(e.currentTarget.value.length);
             }}
+            className={cn(
+              'placeholder:text-black/50 flex-1 transition-all duration-500 text-black px-4 focus:text-black lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold group-data-[focused=true]:placeholder:text-black',
+              textLTR ? 'text-left' : 'text-right',
+            )}
             {...props}
           />
           <div

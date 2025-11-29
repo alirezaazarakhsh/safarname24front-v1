@@ -16,7 +16,8 @@ export default function Upload({
   fetchURL,
   hideSubmit = false,
   useSingleFile = false,
-  onChange
+  onChange,
+  disabled = false
 }: UploadComponentPropsType): ReactNode {
   const [isErrored, setErrored] = useState<boolean>(false);
   const [isUploading, setUploading] = useState<boolean>(false);
@@ -83,8 +84,9 @@ export default function Upload({
 
   return (
     <div
+      data-disabled={disabled}
       className={cn(
-        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] overflow-hidden flex flex-col items-start justify-start lg:w-[50%] w-full',
+        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] overflow-hidden flex flex-col items-start justify-start lg:w-[50%] w-full transition-all duration-500 data-[disabled=true]:opacity-50 data-[disabled=true]:cursor-not-allowed',
         className,
       )}
     >
@@ -108,12 +110,13 @@ export default function Upload({
       <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] h-full border-b border-b-black/10 w-full flex">
         <div
           {...getRootProps()}
+          data-disabled={disabled}
           className={cn(
-            'w-full bg-white border-black/10 text-black lg:border-[3px] border-2 lg:rounded-xl rounded-[10px] border-dashed flex items-center justify-center cursor-pointer transition-all duration-500 px-4 lg:h-full h-[129px]',
+            'w-full bg-white border-black/10 text-black lg:border-[3px] border-2 lg:rounded-xl rounded-[10px] border-dashed flex items-center justify-center cursor-pointer transition-all duration-500 px-4 lg:h-full h-[129px] disabled:pointer-events-none',
             (isDragActive || isFileDialogActive) && 'bg-black/5',
           )}
         >
-          <input {...getInputProps()} multiple={!useSingleFile} hidden />
+          <input {...getInputProps()} multiple={!useSingleFile} hidden disabled={disabled} />
           <div className="overflow-hidden">
             <IconsaxIcons
               color={isErrored ? '#F30F26' : 'currentColor'}

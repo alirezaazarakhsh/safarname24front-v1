@@ -64,8 +64,8 @@ export default function AdminCreditCardInfo({
           </p>
         </div>
       </div>
-      <div className="lg:p-4 p-[14px] grid lg:grid-cols-5 gap-4">
-        <div className="h-[190px] bg-gray-200 rounded-xl py-4 px-8 overflow-hidden lg:col-span-2">
+      <div className="lg:p-4 p-[14px] grid lg:grid-cols-7 gap-4">
+        <div className="h-[190px] bg-gray-200 rounded-xl py-4 px-8 overflow-hidden lg:col-span-3">
           {
             loading
               ? <Skeleton className="h-[calc(190px-32px)] bg-black/50" />
@@ -76,13 +76,14 @@ export default function AdminCreditCardInfo({
                     bankIcon: cardInfo?.type || 'unknown',
                     bankName: cardInfo?.name || 'نامعلوم',
                     iban: getData.data?.iban_number || "-",
+                    holderName: getData.data?.account_holder_name || "-",
                     number: getData.data?.card_number || "-",
                   }}
                 />
               )
           }
         </div>
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-4">
           <div className="grid lg:grid-cols-2 gap-4 flex-wrap mb-6">
             <div className="flex items-center justif-start gap-3">
               <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">

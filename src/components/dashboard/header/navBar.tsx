@@ -52,8 +52,8 @@ const data: {
           href: '/dashboard/financial/cart-to-cart',
         },
         {
-          label: 'فاکتور ها',
-          href: '/dashboard/financial/factors',
+          label: 'ریز گزارشات',
+          href: '/dashboard/financial/detailed-report',
         },
       ],
     },

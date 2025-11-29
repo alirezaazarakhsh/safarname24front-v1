@@ -1,6 +1,7 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
+import EmptyTable from '@/components/dashboard/api/emptyTable';
 // Importing part
 import ErrorTable from '@/components/dashboard/api/errorTable';
 import Search from '@/components/dashboard/financialFactors/search';
@@ -45,20 +46,29 @@ export default function CartToCartFinancialPage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
-      <Search onChange={(val) => setSearchVal(val)} />
+      <Search
+        onChange={(val) => setSearchVal(val)}
+        hideInput={!getData.isLoading && getData.data && getData.data.total_item === 0}
+      />
       {
         getData.isLoading
           ? <FactorsTable data={[]} loading />
           : getData.isError
             ? <ErrorTable />
             : !getData.isLoading && !getData.isError && getData.data
-              ? <FactorsTable
-                data={dataToRender}
-                loading={false}
-                paginationCount={getData.data.total_item}
-                paginationActiveIndex={paginationNumber}
-                setPaginationActiveIndex={setPaginationNumber}
-              />
+              ? dataToRender.length === 0
+                ? <EmptyTable
+                  description='مشتری گرامی لیست ریز گزارشات شما خالی است.'
+                  title="هیچ ریز گزارشی ندارید!"
+                />
+                :
+                <FactorsTable
+                  data={dataToRender}
+                  loading={false}
+                  paginationCount={getData.data.total_item}
+                  paginationActiveIndex={paginationNumber}
+                  setPaginationActiveIndex={setPaginationNumber}
+                />
               : false
       }
     </main>
