@@ -145,6 +145,7 @@ export default function AddCardDialog({
                       data={{
                         bankIcon: cardInfo?.type || 'unknown',
                         bankName: cardInfo?.name || 'نامعلوم',
+                        holderName: formData.ownerName,
                         iban: formData.iban || "-",
                         number: formData.cardNumber || "-",
                       }}
