@@ -2,7 +2,7 @@
 'use client';
 
 // Importing part
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import CheckboxItem from '@/components/dashboard/financial/checkboxItem';
 import NormalInput from '../profile/normalInput';
 import CreditCardDropDown from '../profile/creditCardDropdown';
@@ -85,6 +85,13 @@ export default function CashOut(): ReactNode {
     });
   };
 
+  // Using useEffect to reset data on profile changes
+  useEffect(() => {
+    form.resetField("creditCard", undefined);
+    form.resetField("walletAmount", undefined);
+    setFakeValueOfCard(undefined);
+  }, [profile])
+
   // Returning JSX
   return (
     <section className="bg-white border rounded-xl border-black/10 p-4 grid lg:grid-cols-4 gap-10">
@@ -119,15 +126,7 @@ export default function CashOut(): ReactNode {
       <form
         action="#"
         className="lg:grid flex flex-col lg:col-span-3 lg:grid-cols-3 gap-4"
-        onSubmit={form.handleSubmit(onSubmit, (errors) => {
-          if (errors.creditCard?.message) {
-            toast({
-              title: "مشکلی پیش امد.",
-              description: errors.creditCard?.message,
-              theme: "theme"
-            })
-          }
-        })}
+        onSubmit={form.handleSubmit(onSubmit)}
       >
         <div className="w-full">
           <div className="mb-5 w-full">
@@ -183,6 +182,7 @@ export default function CashOut(): ReactNode {
               useSheba
               placeholder="24 رقم شماره شبا کارت را وارد نمایید"
               value={fakeValueOfCard ? fakeValueOfCard.iban : ""}
+              error={form.formState.errors.creditCard?.message}
               className='w-full h-[50px]'
               reset={() => {
                 setFakeValueOfCard(undefined);

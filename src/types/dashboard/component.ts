@@ -701,6 +701,7 @@ export interface CreditCardDropDownPropsType
   useSheba?: boolean;
   reset?: () => void;
   hideCreate?: boolean;
+  error?: string;
 }
 
 export interface CustomerClubGiftGainedPropsType
