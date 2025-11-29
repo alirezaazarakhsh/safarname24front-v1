@@ -65,7 +65,7 @@ export default function CartToCartFinancialPage(): JSX.Element {
   const [selectedCreditCard, setSelectedCreditCard] = useState<GETPersonalProfile["card_numbers"][0] | undefined>(userInfo.card_numbers[0]);
   const form = useForm<cartToCartFormType>({
     resolver: zodResolver(formSchema),
-    mode: "onSubmit",
+    mode: "onChange",
     reValidateMode: "onChange",
   });
 
@@ -142,7 +142,6 @@ export default function CartToCartFinancialPage(): JSX.Element {
         disabled={selectedCreditCard === undefined}
         onValueChange={(val) => {
           setMode(val);
-          form.trigger();
 
           setImage(undefined);
           form.setValue("depositorName", "");

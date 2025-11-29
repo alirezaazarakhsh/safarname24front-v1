@@ -5,7 +5,7 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { EmergencieFormPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { JSX } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import NormalInput from '../profile/normalInput';
 import DatePickerInput from './datePickerInput';
 import { addCommas, removeCommas } from '@persian-tools/persian-tools';
@@ -16,6 +16,20 @@ export default function EmergencieForm({
   form,
   disabled = false
 }: EmergencieFormPropsType): JSX.Element {
+  // Defining hooks
+  const [fieldsComplete, setFieldsComplete] = useState<boolean>(false);
+
+  // Defining variables
+  const formWatch = form.watch();
+
+  // Using useEffect to setFieldsComplete state 
+  useEffect(() => {
+    const arrayOfFields = [formWatch.depositorName, formWatch.depositDate, formWatch.extraAmount, formWatch.trackingNumber];
+    const isValid = arrayOfFields.every(item => typeof item === "string" && item);
+
+    setFieldsComplete(isValid);
+  }, [formWatch])
+
   // Returning JSX
   return (
     <div
@@ -111,7 +125,7 @@ export default function EmergencieForm({
       </div>
       <div className="lg:p-4 p-[14px] shrink-0 w-full border-t border-t-black/10">
         <div
-          data-invalid={!form.formState.isValid}
+          data-invalid={!fieldsComplete}
           className={cn(
             'transition-all duration-500 lg:w-fit  w-full h-[40px] lg:rounded-lg rounded-[10px] gap-2 flex items-center justify-start px-3',
             'data-[invalid=false]:bg-green-500/5 data-[invalid=false]:hover:bg-green-500/10 data-[invalid=false]:text-green-500',
@@ -119,12 +133,12 @@ export default function EmergencieForm({
           )}
         >
           <IconsaxIcons
-            name={!form.formState.isValid ? 'CloseSquare' : 'TickSquare'}
+            name={fieldsComplete ? 'CloseSquare' : 'TickSquare'}
             color="currentColor"
             className="h-[20px] w-[20px]"
           />
           <span className="font-normal truncate w-full text-right text-xs text-current block">
-            {form.formState.isValid
+            {fieldsComplete
               ? 'اطلاعات فیلد ها تکمیل شده'
               : 'اطلاعات فیلد ها تکمیل نشده'}
           </span>
