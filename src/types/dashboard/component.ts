@@ -370,8 +370,13 @@ export interface SheetComponentPropsType {
   className?: string;
 }
 
+export type filterType = "all" | "oldest" | "newest" | "most-price" | "least-price";
+export type typeFilterType = "all" | "withdrawal" | "wallet_increase" | "card_to_card";
+
 export interface SearchFinancialDashboardPropsType {
   onChange?: (val: string) => void;
+  onFilterChange?: (val: filterType) => void;
+  onTypeFilterChange?: (val: typeFilterType) => void;
   loading?: boolean;
   hideInput?: boolean;
 }
