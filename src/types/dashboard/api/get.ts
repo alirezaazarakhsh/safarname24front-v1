@@ -13,8 +13,9 @@ export interface GETReservationItem {
   check_out_date: string;
   created_at: string;
   total_guests: number;
-  cancellation_status: null | boolean;
-  payment_status: 'paid' | 'unpaid' | 'pending';
+  cancellation_status: null | "pending" | "approved" | "rejected";
+  cancellation_status_display: string | null;
+  payment_status: 'paid' | 'unpaid' | 'pending' | "failed";
 }
 
 export interface GETPersonalProfile {
