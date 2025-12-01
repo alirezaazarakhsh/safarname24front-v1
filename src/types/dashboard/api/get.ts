@@ -321,7 +321,7 @@ export interface GETWalletOperations {
 }
 
 export interface GETCartToCartPageDetails {
-  text: string;
+  text: string | null;
 }
 
 export type GETCustomerClubList = GETPaginationAPILayout<

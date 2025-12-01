@@ -21,7 +21,7 @@ import { CartToCartFinancialMode } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { removeCommas } from '@persian-tools/persian-tools';
 import moment from 'jalali-moment';
-import { JSX, useEffect, useState } from 'react';
+import { JSX, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -216,24 +216,18 @@ export default function CartToCartFinancialPage(): JSX.Element {
         <AdminCreditCardInfo className="lg:col-span-4" />
         <Subscription className="lg:col-span-2 cursor-not-allowed opacity-50" />
       </div>
-      {
-        getDetails.isLoading
-          ? <Skeleton className="rounded-xl w-full h-[200px]" />
-          : getDetails.isError
-            ? false
-            : !getDetails.isLoading && !getDetails.isError && getDetails.data
-              ? (
-                <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">
-                  <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
-                    توضیحات تکمیلی :
-                  </span>
-                  <p className="text-cs75 font-normal text-right block text-black/70">
-                    {getDetails.data.text}
-                  </p>
-                </div>
-              ) : false
-
-      }
+      {getDetails.isLoading ? (
+        <Skeleton className="rounded-xl w-full h-[200px]" />
+      ) : getDetails.isError || !getDetails.data?.text ? null : (
+        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">
+          <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
+            توضیحات تکمیلی :
+          </span>
+          <p className="text-cs08 font-normal text-right block text-black/70 leading-6">
+            {getDetails.data.text}
+          </p>
+        </div>
+      )}
       <CashOut />
     </main>
   );

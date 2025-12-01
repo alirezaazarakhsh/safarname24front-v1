@@ -1,8 +1,8 @@
 // Forcing next.js to render this component as client side component
 'use client';
 
-import EmptyTable from '@/components/dashboard/api/emptyTable';
 // Importing part
+import EmptyTable from '@/components/dashboard/api/emptyTable';
 import ErrorTable from '@/components/dashboard/api/errorTable';
 import Search from '@/components/dashboard/financialFactors/search';
 import FactorsTable from '@/components/dashboard/financialFactors/table';
