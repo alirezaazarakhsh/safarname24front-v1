@@ -17,12 +17,12 @@ import { payment } from '../helpers/constant';
 import { formSchema } from '../helpers/schema';
 import { getFormDefaultValues } from '../utils';
 
-import { useQuery } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loading, Error } from '../atoms/reservation-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { OtherPassengers } from '../molecules/reservation-form';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { handleSubmit as onSubmit } from '../utils/handle-submission';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
@@ -30,6 +30,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 export function ReservationForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const searchParams = useSearchParams();
 
   const { handleToggleLoading } = usePaymentLoading();
@@ -76,6 +77,10 @@ export function ReservationForm() {
               trackingCode,
               handleNavigation,
               handleToggleLoading,
+              () =>
+                queryClient.invalidateQueries({
+                  queryKey: ['reservation-invoice'],
+                }),
             ),
           )}
           className="rounded-xl border bg-white p-5 pb-6"

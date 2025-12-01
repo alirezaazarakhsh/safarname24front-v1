@@ -11,6 +11,7 @@ export async function handleSubmit(
   trackingCode: string | null,
   handleNavigation: () => void,
   handleToggleLoading: () => void,
+  handleInvalidateQuery: () => void,
 ) {
   try {
     handleToggleLoading();
@@ -19,6 +20,7 @@ export async function handleSubmit(
       description: sessionStorage.getItem(payment.descriptionKey),
     });
 
+    handleInvalidateQuery();
     handleNavigation();
     showCMToast({
       type: 'success',
