@@ -52,6 +52,10 @@ const data: {
           href: '/dashboard/financial/cart-to-cart',
         },
         {
+          label: 'اشتراک',
+          href: '/dashboard/financial/subscription',
+        },
+        {
           label: 'ریز گزارشات',
           href: '/dashboard/financial/detailed-report',
         },
