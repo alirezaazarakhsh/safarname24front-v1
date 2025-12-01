@@ -950,3 +950,7 @@ export interface WalletIntroductionPropsType {
   onValueChange: (value: "dynamic" | "static") => void;
   value: "dynamic" | "static";
 }
+
+export interface DetailsComponentPropsType {
+  className?: string;
+}
