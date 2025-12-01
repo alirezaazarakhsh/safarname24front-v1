@@ -66,45 +66,4 @@ type FormSchema = {
 
 // ------------------------------
 
-type Reservation = {
-  tracking_code: string;
-  hotel_id: number;
-  hotel_slug: string;
-  hotel_name: string;
-  hotel_image: string;
-  city_name: string;
-  created_at: string;
-  description: string;
-  number_of_nights: number;
-  date: { enter: string; exit: string };
-  time: { enter: string; exit: string };
-  reserver: Person;
-  rooms: Array<{
-    id: number;
-    name: string;
-    capacity: 2;
-    extra_capacity: 1;
-    extra_capacity_price: number;
-    discount_on_purchase: string;
-    passengers: {
-      main_passenger: Person;
-      other_passengers: Array<Person>;
-      extra_capacity_passengers: Array<Person>;
-    };
-    half_charges: {
-      enter: { enabled: boolean; price: string };
-      exit: { enabled: boolean; price: string };
-    };
-  }>;
-  half_charges: { enter: boolean; exit: boolean };
-  invoice: {
-    total_price: string;
-    extra_passengers: string;
-    half_charges: string;
-    discount_code: string;
-    discount_on_purchase: string;
-    final_total_price: string;
-  };
-};
-
 export type { FormSchema, Person, RoomForm, ReservationDetail, Invoice };

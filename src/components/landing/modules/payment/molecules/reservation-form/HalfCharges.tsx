@@ -16,18 +16,22 @@ export function HalfCharges(props: Props) {
     halfCharges: { enter, exit },
   } = props;
 
-  if (!enter.price && !exit.price) return null;
-
   return (
-    <div className="text-cs08 font-bold flex flex-col gap-4 xl:flex-row xl:items-center">
+    <div className="flex flex-col gap-4 text-cs08 font-bold xl:flex-row xl:items-center">
       <div className="flex items-center gap-4">
         <span>نیم شارژ اتاق :</span>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row md:gap-5 xl:w-2/3 xl:mr-auto xl:justify-end">
-        <HalfCharge type="enter" price={enter.price} roomIndex={roomIndex} />
-        <HalfCharge type="exit" price={exit.price} roomIndex={roomIndex} />
-      </div>
+      {!enter.price && !exit.price ? (
+        <p className="font-semibold text-zinc-500">
+          هتل مورد نظر دارای خدمات "نیم شارژ" نمیباشد .
+        </p>
+      ) : (
+        <div className="flex flex-col gap-4 sm:flex-row md:gap-5 xl:mr-auto xl:w-2/3 xl:justify-end">
+          <HalfCharge type="enter" price={enter.price} roomIndex={roomIndex} />
+          <HalfCharge type="exit" price={exit.price} roomIndex={roomIndex} />
+        </div>
+      )}
     </div>
   );
 }
