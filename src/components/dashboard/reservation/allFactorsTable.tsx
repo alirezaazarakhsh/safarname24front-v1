@@ -335,7 +335,7 @@ export default function AllFactorsTable({
                   </div>
                 </TableCell>
                 <TableCell className="p-[20px] flex items-center justify-end gap-3">
-                  {!isMinutesPassed(item.created_at, 30) &&
+                  {
                     !item.cancellation_status &&
                     item.payment_status === 'paid' && (
                       <button
@@ -400,8 +400,7 @@ export default function AllFactorsTable({
                     </div>
                   </div>
                   <div className="flex items-center justify-between gap-[10px]">
-                    {!isMinutesPassed(item.created_at, 30) &&
-                      !item.cancellation_status &&
+                    {!item.cancellation_status &&
                       item.payment_status === 'paid' && (
                         <button
                           className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"

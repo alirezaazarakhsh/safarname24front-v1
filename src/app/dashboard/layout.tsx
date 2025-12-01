@@ -14,7 +14,7 @@ export default function DashboardLayout({
   // Returning JSX
   return (
     <>
-      <Toaster position="bottom-left" duration={5000} className="z-[60]" />
+      <Toaster position="bottom-left" duration={5000} className='z-[70]' />
       <Page>{children}</Page>
     </>
   );
