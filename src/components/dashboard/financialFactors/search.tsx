@@ -6,6 +6,8 @@ import { filterType, SearchFinancialDashboardPropsType, typeFilterType } from '@
 import * as DropDown from '@/components/ui/dropdown-menu';
 import { ReactNode, useEffect, useState } from 'react';
 import IconInput from '../ui/iconInput';
+import { Skeleton } from '@/components/ui/skeleton';
+import IconsaxIcons from '@/components/icons/iconsaxIcons';
 
 // Defining variables
 const filters: {
@@ -77,84 +79,98 @@ export default function Search({
         لیست ریز گزارشات
       </span>
       {
-        !hideInput && (
-          <div className='flex items-center justify-end gap-2 w-full'>
-            <IconInput
-              wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-auto w-full'
-              icon='SearchStatus'
-              className='lg:h-10 h-[45px] lg:w-[200px] w-full'
-              placeholder='جست و جوی ریز گزارشات'
-              onChange={({ currentTarget: { value } }) => onChange?.(value)}
-            />
-            <DropDown.DropdownMenu open={openedDropdown === "filter"} onOpenChange={(open) => open ? setOpenedDropdown("filter") : setOpenedDropdown(undefined)}>
-              <DropDown.DropdownMenuTrigger asChild>
-                <button className='lg:h-10 h-[45px] px-5 font-normal text-cs75 rounded-md lg:bg-white shrink-0 bg-gray-100 lg:hover:bg-white hover:bg-gray-100 w-fit'>
-                  فیلتر
-                </button>
-              </DropDown.DropdownMenuTrigger>
-              <DropDown.DropdownMenuContent
-                className="w-[200px] rounded-[8px]"
-                align="start"
-              >
-                {
-                  filters.map((item, index) => (
-                    <DropDown.DropdownMenuItem
-                      onSelect={(e) => e.preventDefault()}
-                      key={index}
-                      asChild
-                      data-active={filterState === item.value}
-                      className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red data-[active=true]:bg-cs-red/10 data-[active=true]:text-cs-red"
-                      onClick={() => {
-                        setFilterState(item.value);
-                        setOpenedDropdown(undefined);
-                      }}
-                    >
-                      <button>
-                        <span className="text-cs08 font-semibold text-current text-right truncate block">
-                          {item.label}
-                        </span>
-                      </button>
-                    </DropDown.DropdownMenuItem>
-                  ))
-                }
-              </DropDown.DropdownMenuContent>
-            </DropDown.DropdownMenu>
-
-            <DropDown.DropdownMenu open={openedDropdown === "typefilter"} onOpenChange={(open) => open ? setOpenedDropdown("typefilter") : setOpenedDropdown(undefined)}>
-              <DropDown.DropdownMenuTrigger asChild>
-                <button className='lg:h-10 h-[45px] px-5 font-normal text-cs75 rounded-md lg:bg-white shrink-0 bg-gray-100 lg:hover:bg-white hover:bg-gray-100 w-fit'>
-                  فیلتر بر اساس نوع خدمت
-                </button>
-              </DropDown.DropdownMenuTrigger>
-              <DropDown.DropdownMenuContent
-                className="w-[200px] rounded-[8px]"
-                align="start"
-              >
-                {
-                  typeFilter.map((item, index) => (
-                    <DropDown.DropdownMenuItem
-                      onSelect={(e) => e.preventDefault()}
-                      key={index}
-                      asChild
-                      data-active={typeFilterState === item.value}
-                      className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red data-[active=true]:bg-cs-red/10 data-[active=true]:text-cs-red"
-                      onClick={() => {
-                        setTypeFilterState(item.value);
-                        setOpenedDropdown(undefined);
-                      }}
-                    >
-                      <button>
-                        <span className="text-cs08 font-semibold text-current text-right truncate block">
-                          {item.label}
-                        </span>
-                      </button>
-                    </DropDown.DropdownMenuItem>
-                  ))
-                }
-              </DropDown.DropdownMenuContent>
-            </DropDown.DropdownMenu>
-          </div>
-        )
+        loading
+          ? (
+            <div className='flex items-center justify-end gap-2 w-full'>
+              <Skeleton className='lg:h-10 h-[45px] lg:w-[200px] w-full' />
+              <Skeleton className='lg:h-10 h-[45px] w-[100px]' />
+              <Skeleton className='lg:h-10 h-[45px] w-[200px]' />
+            </div>
+          ) : !hideInput && (
+            <div className='flex items-center justify-end gap-2 w-full'>
+              <IconInput
+                wholeClassName='lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-auto w-full'
+                icon='SearchStatus'
+                className='lg:h-10 h-[45px] lg:w-[200px] w-full'
+                placeholder='جست و جوی ریز گزارشات'
+                onChange={({ currentTarget: { value } }) => onChange?.(value)}
+              />
+              <DropDown.DropdownMenu open={openedDropdown === "filter"} onOpenChange={(open) => open ? setOpenedDropdown("filter") : setOpenedDropdown(undefined)}>
+                <DropDown.DropdownMenuTrigger asChild>
+                  <button
+                    data-opened={openedDropdown === "filter"}
+                    className='lg:h-10 h-[45px] px-5 font-normal text-cs75 rounded-md lg:bg-white shrink-0 bg-gray-100 lg:hover:bg-white hover:bg-gray-100 w-fit flex items-center justify-between gap-3 group'
+                  >
+                    فیلتر
+                    <IconsaxIcons name="ArrowDown2" color="currentColor" className='size-3 transition-all duration-500 group-data-[opened=true]:rotate-180' />
+                  </button>
+                </DropDown.DropdownMenuTrigger>
+                <DropDown.DropdownMenuContent
+                  className="w-[200px] rounded-[8px]"
+                  align="start"
+                >
+                  {
+                    filters.map((item, index) => (
+                      <DropDown.DropdownMenuItem
+                        onSelect={(e) => e.preventDefault()}
+                        key={index}
+                        asChild
+                        data-active={filterState === item.value}
+                        className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red data-[active=true]:bg-cs-red/10 data-[active=true]:text-cs-red"
+                        onClick={() => {
+                          setFilterState(item.value);
+                          setOpenedDropdown(undefined);
+                        }}
+                      >
+                        <button>
+                          <span className="text-cs08 font-semibold text-current text-right truncate block">
+                            {item.label}
+                          </span>
+                        </button>
+                      </DropDown.DropdownMenuItem>
+                    ))
+                  }
+                </DropDown.DropdownMenuContent>
+              </DropDown.DropdownMenu>
+              <DropDown.DropdownMenu open={openedDropdown === "typefilter"} onOpenChange={(open) => open ? setOpenedDropdown("typefilter") : setOpenedDropdown(undefined)}>
+                <DropDown.DropdownMenuTrigger asChild>
+                  <button
+                    data-opened={openedDropdown === "typefilter"}
+                    className='lg:h-10 h-[45px] px-5 font-normal text-cs75 rounded-md lg:bg-white shrink-0 bg-gray-100 lg:hover:bg-white hover:bg-gray-100 w-fit flex items-center justify-between gap-3 group'
+                  >
+                    فیلتر بر اساس نوع خدمت
+                    <IconsaxIcons name="ArrowDown2" color="currentColor" className='size-3 transition-all duration-500 group-data-[opened=true]:rotate-180' />
+                  </button>
+                </DropDown.DropdownMenuTrigger>
+                <DropDown.DropdownMenuContent
+                  className="w-[200px] rounded-[8px]"
+                  align="start"
+                >
+                  {
+                    typeFilter.map((item, index) => (
+                      <DropDown.DropdownMenuItem
+                        onSelect={(e) => e.preventDefault()}
+                        key={index}
+                        asChild
+                        data-active={typeFilterState === item.value}
+                        className="p-3 bg-white transition-all duration-500 text-gray-600 block w-full cursor-pointer data-[highlighted]:bg-cs-red/10 data-[highlighted]:text-cs-red data-[active=true]:bg-cs-red/10 data-[active=true]:text-cs-red"
+                        onClick={() => {
+                          setTypeFilterState(item.value);
+                          setOpenedDropdown(undefined);
+                        }}
+                      >
+                        <button>
+                          <span className="text-cs08 font-semibold text-current text-right truncate block">
+                            {item.label}
+                          </span>
+                        </button>
+                      </DropDown.DropdownMenuItem>
+                    ))
+                  }
+                </DropDown.DropdownMenuContent>
+              </DropDown.DropdownMenu>
+            </div>
+          )
       }
     </div>
   );

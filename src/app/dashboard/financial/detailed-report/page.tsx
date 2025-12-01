@@ -74,31 +74,40 @@ export default function CartToCartFinancialPage(): ReactNode {
   // Returning JSX
   return (
     <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[24px] lg:bg-transparent bg-white">
-      <Search
-        onChange={(val) => setSearchVal(val)}
-        hideInput={!getData.isLoading && getData.data && getData.data.total_item === 0}
-        onFilterChange={setFilter}
-        onTypeFilterChange={setTypeFilter}
-      />
       {
         getData.isLoading
-          ? <FactorsTable data={[]} loading />
+          ? (
+            <>
+              <Search loading />
+              <FactorsTable data={[]} loading />
+            </>
+          )
           : getData.isError
             ? <ErrorTable />
             : !getData.isLoading && !getData.isError && getData.data
               ? dataToRender.length === 0
-                ? <EmptyTable
-                  description='مشتری گرامی لیست ریز گزارشات شما خالی است.'
-                  title="هیچ ریز گزارشی ندارید!"
-                />
-                :
-                <FactorsTable
-                  data={dataToRender}
-                  loading={false}
-                  paginationCount={getData.data.total_item}
-                  paginationActiveIndex={paginationNumber}
-                  setPaginationActiveIndex={setPaginationNumber}
-                />
+                ? (
+                  <EmptyTable
+                    description='مشتری گرامی لیست ریز گزارشات شما خالی است.'
+                    title="هیچ ریز گزارشی ندارید!"
+                  />
+                ) : (
+                  <>
+                    <Search
+                      onChange={(val) => setSearchVal(val)}
+                      hideInput={!getData.isLoading && getData.data && getData.data.total_item === 0}
+                      onFilterChange={setFilter}
+                      onTypeFilterChange={setTypeFilter}
+                    />
+                    <FactorsTable
+                      data={dataToRender}
+                      loading={false}
+                      paginationCount={getData.data.total_item}
+                      paginationActiveIndex={paginationNumber}
+                      setPaginationActiveIndex={setPaginationNumber}
+                    />
+                  </>
+                )
               : false
       }
     </main>
