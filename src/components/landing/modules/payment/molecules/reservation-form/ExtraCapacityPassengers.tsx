@@ -5,10 +5,10 @@ import {
 } from '../../atoms/reservation-form';
 
 import { Input } from './Input';
+import { usePaymentInvoiceDispatch } from '@/context';
+
 import { FormSchema, Person } from '../../helpers/type';
 import { PassengersNoteBook } from './PassengersNoteBook';
-
-import { usePaymentInvoiceDispatch } from '@/context';
 import { Control, useFieldArray, useFormContext } from 'react-hook-form';
 
 type Props = {
@@ -68,10 +68,9 @@ export function ExtraCapacityPassengers(props: Props) {
 
   return (
     <div className="space-y-4">
-      {/* === Extra-Capacity-Passengers (Titles) */}
       <div className="flex flex-col gap-5 md:flex-row md:items-center">
-        <div className="flex items-center gap-5">
-          <h4 className="text-cs08 font-bold flex gap-2">نفرات اضافه :</h4>
+        <div className="flex items-center gap-4">
+          <h4 className="flex gap-2 text-cs08 font-bold">نفرات اضافه :</h4>
 
           <AddButton
             onClick={addPassenger}
@@ -82,28 +81,28 @@ export function ExtraCapacityPassengers(props: Props) {
         <PriceGuide price={passengerPrice} />
       </div>
 
-      {/* === Extra-Capacity-Passengers */}
       {extraFields.map((field, idx) => (
         <div
           key={field.id}
           className="grid grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] gap-5"
         >
           <Input
-            placeholder="نام مسافر"
+            placeholder="* نام مسافر"
             name={`rooms.${roomIndex}.passengers.extra_capacity_passengers.${idx}.first_name`}
           />
+
           <Input
-            placeholder="نام خانوادگی مسافر"
+            placeholder="* نام خانوادگی"
             name={`rooms.${roomIndex}.passengers.extra_capacity_passengers.${idx}.last_name`}
           />
 
           <Input
             isNationalId
-            placeholder="کد ملی مسافر"
+            placeholder="کد ملی یا پاسپورت (اختیاری)"
             name={`rooms.${roomIndex}.passengers.extra_capacity_passengers.${idx}.national_code`}
           />
 
-          <div className="h-10 flex">
+          <div className="flex h-10">
             <PassengersNoteBook idx={idx} fillPassenger={fillPassenger} />
             <RemoveButton onClick={removePassenger} idx={idx} />
           </div>

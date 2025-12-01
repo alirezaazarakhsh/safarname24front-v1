@@ -9,15 +9,15 @@ type Props = {
 
 export function PriceGuide(props: Props) {
   return (
-    <div className="text-zinc-400 text-cs75 font-semibold -mt-1 flex items-center gap-1.5 md:mt-0">
+    <div className="-mt-1 flex items-center gap-1.5 text-cs75 font-semibold text-zinc-400 md:mt-0">
       <Info color="#888" size={15} />
 
       <p>
         قیمت به ازای هر نفر مبلغ
-        <span className="text-zinc-500 text-cs08 font-extrabold inline-block mx-1">
+        <span className="mx-1 inline-block text-cs08 font-extrabold text-zinc-500">
           {numberSeparation(props.price)}
         </span>
-        تومان میباشد
+        تومان میباشد .
       </p>
     </div>
   );
