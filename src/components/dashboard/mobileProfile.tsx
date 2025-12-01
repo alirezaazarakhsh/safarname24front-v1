@@ -70,6 +70,12 @@ const data: {
           link: '/dashboard/financial/card-to-card',
         },
         {
+          icon: 'Flash',
+          title: 'اشتراک',
+          subTitle: 'خرید و ارتقاء اشتراک فعلی شما',
+          link: '/dashboard/financial/subscription',
+        },
+        {
           icon: 'Receipt',
           title: 'لیست ریز گزارشات',
           subTitle: 'اطلاعات کامل تراکنش های شما',

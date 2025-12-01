@@ -21,7 +21,6 @@ import CanclationReasonDialog from './dialog/canclationReseaonDialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GETReservationItem } from '@/types/dashboard/api/get';
 import moment from 'jalali-moment';
-import { isMinutesPassed } from '@/utils/date';
 import CustomPagination from '../ui/customPagination';
 
 // Creating and exporting AllFactorsTable component as default
@@ -56,7 +55,7 @@ export default function AllFactorsTable({
     if (isCancled === null) {
       return {
         color:
-          status === 'unpaid'
+          status === 'unpaid' || status === 'failed'
             ? '#F30F26'
             : status === 'pending'
               ? '#4B5BCE'
@@ -70,12 +69,9 @@ export default function AllFactorsTable({
               ? 'پرداخت نشده'
               : status === 'pending'
                 ? 'در حال پرداخت'
-                : 'نا معلوم',
-      };
-    } else if (!isCancled) {
-      return {
-        color: '#F30F26',
-        title: 'کنسلی تایید نشد',
+                : status === "failed"
+                  ? "ناموفق"
+                  : 'نا معلوم',
       };
     } else {
       return {
@@ -83,6 +79,14 @@ export default function AllFactorsTable({
         title: 'کنسل شده',
       };
     }
+  }
+
+  function returnCanclationColor(status: CanclationTypes): string {
+    return (status === "pending")
+      ? "#4B5BCE"
+      : status === "approved"
+        ? "#35A346"
+        : "#F30F26"
   }
 
   // Conditional rendering
@@ -121,6 +125,9 @@ export default function AllFactorsTable({
               <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                 وضعیت مالی
               </TableHead>
+              <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
+                وضعیت کنسلی
+              </TableHead>
               <TableHead className="w-[30%] text-right truncate text-[12.5px] font-semibold" />
             </TableRow>
           </TableHeader>
@@ -148,6 +155,12 @@ export default function AllFactorsTable({
                 </TableCell>
                 <TableCell className="p-[20px]">
                   <Skeleton className="rounded-[5px] w-[60px] h-[16px]" />
+                </TableCell>
+                <TableCell className="p-[20px]">
+                  <div className="flex items-center justify-start gap-2">
+                    <Skeleton className="size-[7px] shrink-0 rounded-full" />
+                    <Skeleton className="rounded-[5px] w-[60px] h-[16px]" />
+                  </div>
                 </TableCell>
                 <TableCell className="p-[20px]">
                   <div className="flex items-center justify-start gap-2">
@@ -204,6 +217,16 @@ export default function AllFactorsTable({
                   <div>
                     <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
                     <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                  <Skeleton className="rounded-[7px] w-[43px] h-[43px]" />
+                  <div>
+                    <Skeleton className="rounded-[5px] w-[50px] h-[16px] mb-1" />
+                    <div className="flex items-center justify-start gap-[5px]">
+                      <Skeleton className="size-[7px] shrink-0 rounded-full" />
+                      <Skeleton className="rounded-[5px] w-[50px] h-[16px]" />
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center justify-start gap-[10px] mb-[20px]">
@@ -273,6 +296,9 @@ export default function AllFactorsTable({
               <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
                 وضعیت مالی
               </TableHead>
+              <TableHead className="text-right p-[20px] truncate text-[12.5px] font-semibold text-[#3d4046]">
+                وضعیت کنسلی
+              </TableHead>
               <TableHead className="w-[30%] text-right truncate text-[12.5px] font-semibold" />
             </TableRow>
           </TableHeader>
@@ -334,8 +360,27 @@ export default function AllFactorsTable({
                     </span>
                   </div>
                 </TableCell>
+                <TableCell className="p-[20px]">
+                  {
+                    item.cancellation_status !== null
+                      ? (
+                        <div className="flex items-center justify-start gap-2">
+                          <div className="size-[7px] shrink-0 rounded-full" style={{
+                            background: returnCanclationColor(item.cancellation_status)
+                          }} />
+                          <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
+                            {item.cancellation_status_display}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="font-medium text-[12.5px] text-gray-600 truncate block text-right">
+                          -
+                        </span>
+                      )
+                  }
+                </TableCell>
                 <TableCell className="p-[20px] flex items-center justify-end gap-3">
-                  {!isMinutesPassed(item.created_at, 30) &&
+                  {
                     !item.cancellation_status &&
                     item.payment_status === 'paid' && (
                       <button
@@ -400,8 +445,7 @@ export default function AllFactorsTable({
                     </div>
                   </div>
                   <div className="flex items-center justify-between gap-[10px]">
-                    {!isMinutesPassed(item.created_at, 30) &&
-                      !item.cancellation_status &&
+                    {!item.cancellation_status &&
                       item.payment_status === 'paid' && (
                         <button
                           className="h-[40px] w-[40px] aspect-square rounded-[7px] border border-red-600 bg-red-50 text-red-600 flex items-center justify-center"
@@ -524,6 +568,36 @@ export default function AllFactorsTable({
                     </div>
                   </div>
                 </div>
+                {
+                  item.cancellation_status !== null && (
+                    <div className="flex items-center justify-start gap-[10px] mb-[20px]">
+                      <div className="h-[43px] w-[43px] rounded-[7px] bg-gray-100 flex items-center justify-center shrink-0">
+                        <IconsaxIcons
+                          name="Status"
+                          className="w-[20px] h-[20px] text-black"
+                        />
+                      </div>
+                      <div>
+                        <span className="text-[12px] font-bold text-[#2b2b2b] truncate block text-right mb-1">
+                          وضعیت کنسلی
+                        </span>
+                        <div className="flex items-center justify-start gap-[5px]">
+                          <div
+                            className="size-[7px] shrink-0 rounded-full"
+                            style={{
+                              backgroundColor: returnCanclationColor(
+                                item.cancellation_status,
+                              ),
+                            }}
+                          />
+                          <span className="text-[10px] font-600 text-gray-600 truncate block text-right">
+                            {item.cancellation_status_display}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                }
               </div>
             ))}
           </div>

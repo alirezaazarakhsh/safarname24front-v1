@@ -2,7 +2,6 @@
 'use client';
 
 // Importing part
-import moment from 'jalali-moment';
 import { FinancialFatorsDashboardTablePropsType } from '@/types/dashboard/component';
 import { ReactNode } from 'react';
 import { cn } from '@/utils/utils';
@@ -17,8 +16,6 @@ import {
 } from '@/components/ui/table';
 import { handleZeroBeforeNumber } from '@/utils/string';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import Image from 'next/image';
-import EmptyImage from '../../../../public/image/empty.png';
 import { numberSeparation } from '@/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -65,7 +62,7 @@ export default function FactorsTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[...new Array(10)].map((item, index) => (
+            {[...new Array(10)].map((_, index) => (
               <TableRow
                 key={index}
                 className={cn(
@@ -96,7 +93,7 @@ export default function FactorsTable({
         </Table>
         <div className="lg:hidden block mt-5">
           <div className="flex flex-col">
-            {[new Array(10)].map((item, index) => (
+            {[...new Array(10)].map((_, index) => (
               <div
                 key={index}
                 className={

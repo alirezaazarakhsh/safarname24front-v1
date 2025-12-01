@@ -35,7 +35,7 @@ const formSchema = z.object({
   message: z
     .string({ message: 'مشترک گرامی فیلد توضیحات تکمیل نشده است.' })
     .min(10, { message: 'پیام باید حداقل ۱۰ کاراکتر داشته باشد.' })
-    .max(200, { message: 'پیام نباید بیش از ۲۰۰ کاراکتر باشد.' }),
+    .max(256, { message: 'پیام نباید بیش از ۲۰۰ کاراکتر باشد.' }),
   reason: z.number({
     message: 'لطفاً یک دلیل معتبر انتخاب کنید.',
   }),
@@ -86,6 +86,14 @@ export default function CanclationReasonDialog({
       },
     },
   });
+
+  // Using useEffect reset form
+  useEffect(() => {
+    if (!isOpened) {
+      formHook.resetField("message", undefined);
+      formHook.resetField("reason", undefined);
+    }
+  }, [isOpened])
 
   // Handling submit event
   const handleOnSubmitEvent: SubmitHandler<formType> = async ({
@@ -228,7 +236,7 @@ export default function CanclationReasonDialog({
                 ))}
                 <Button
                   variant="default"
-                  disabled={formHook.formState.isSubmitting || data.isLoading}
+                  disabled={formHook.formState.isSubmitting || data.isLoading || !formHook.formState.isValid}
                   className="bg-[#4b5bce] rounded-md transition-all duration-500 hover:bg-[#5261cc] w-full mt-3 lg:flex items-center justify-center hidden"
                 >
                   {!formHook.formState.isSubmitting ? (
@@ -246,12 +254,12 @@ export default function CanclationReasonDialog({
             <div className="h-full lg:col-span-3 lg:mt-0 mt-[25px] w-full lg:block flex flex-col items-start justify-between">
               <textarea
                 className="w-full resize-none h-full bg-gray-100 lg:rounded-[7px] rounded-[10px] lg:p-3 p-6 outline-0 placeholder:font-semibold font-semibold placeholder:text-[13px] placeholder:text-gray-400 text-[13px] text-black border-none"
-                placeholder="توضیحات خود را وارد نمایید..."
+                placeholder="توضیحات (حداقل 10 و حداکثر 256 کاراکتر)"
                 {...formHook.register('message')}
               />
               <Button
                 variant="default"
-                disabled={formHook.formState.isSubmitting || data.isLoading}
+                disabled={formHook.formState.isSubmitting || data.isLoading || !formHook.formState.isValid}
                 className="bg-blue-700 rounded-[10px] w-full mt-3 lg:hidden flex items-center justify-center h-[50px] shrink-0 hover:bg-blue-700 transition-all duration-500"
               >
                 {!formHook.formState.isSubmitting ? (

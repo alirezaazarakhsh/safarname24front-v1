@@ -4,24 +4,22 @@
 // Importing part
 import AdminCreditCardInfo from '@/components/dashboard/financialCartToCart/adminCreditCardInfo';
 import CashOut from '@/components/dashboard/financialCartToCart/cashout';
+import Details from '@/components/dashboard/financialCartToCart/details';
 import EmergencieForm from '@/components/dashboard/financialCartToCart/emergencieForm';
 import SelectMode from '@/components/dashboard/financialCartToCart/selectMode';
-import Subscription from '@/components/dashboard/financialCartToCart/subscription/subscription';
 import UserCreditCard from '@/components/dashboard/financialCartToCart/userCreditCard';
 import CartBalance from '@/components/dashboard/profile/cartBalance';
 import toast from '@/components/dashboard/ui/customSonner/toast';
 import Upload from '@/components/dashboard/upload/upload';
-import { Skeleton } from '@/components/ui/skeleton';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
-import { GETCartToCartPageDetails, GETPersonalProfile } from '@/types/dashboard/api/get';
+import { GETPersonalProfile } from '@/types/dashboard/api/get';
 import { CartToCartFinancialMode } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { removeCommas } from '@persian-tools/persian-tools';
 import moment from 'jalali-moment';
-import { JSX, useEffect, useState } from 'react';
+import { JSX, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -67,15 +65,6 @@ export default function CartToCartFinancialPage(): JSX.Element {
     resolver: zodResolver(formSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-  });
-
-  const getDetails = useApiQuery<GETCartToCartPageDetails>({
-    url: "/finance/card-to-card/instruction/",
-    queryKey: ["cart-to-cart-detail"],
-    options: {
-      staleTime: Infinity,
-      refetchInterval: Infinity,
-    }
   });
 
   const depositReceipts = useApiMutation({
@@ -213,27 +202,9 @@ export default function CartToCartFinancialPage(): JSX.Element {
         </div>
       </div>
       <div className="grid lg:grid-cols-6  lg:gap-5 gap-[24px]">
-        <AdminCreditCardInfo className="lg:col-span-4" />
-        <Subscription className="lg:col-span-2 cursor-not-allowed opacity-50" />
+        <AdminCreditCardInfo className="lg:col-span-4 lg:h-[302px]" />
+        <Details className='lg:col-span-2 lg:h-[302px]' />
       </div>
-      {
-        getDetails.isLoading
-          ? <Skeleton className="rounded-xl w-full h-[200px]" />
-          : getDetails.isError
-            ? false
-            : !getDetails.isLoading && !getDetails.isError && getDetails.data
-              ? (
-                <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px]">
-                  <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
-                    توضیحات تکمیلی :
-                  </span>
-                  <p className="text-cs75 font-normal text-right block text-black/70">
-                    {getDetails.data.text}
-                  </p>
-                </div>
-              ) : false
-
-      }
       <CashOut />
     </main>
   );

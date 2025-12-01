@@ -44,7 +44,7 @@ export default function Filter({
                   wholeClassName="lg:bg-white bg-gray-100 lg:hover:bg-white hover:bg-gray-100 lg:w-[220px] w-full"
                   icon="SearchStatus"
                   className="lg:h-10 h-[45px]"
-                  placeholder="جستجو مسافر، هتل"
+                  placeholder="جستجو رزرو ها"
                   value={filterValue && filterValue}
                   onClear={() => onChange && onChange('')}
                   onChange={(e) => onChange && onChange(e.target.value)}
