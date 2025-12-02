@@ -8,18 +8,19 @@ import {
   StepBackButton,
 } from '../molecules/stepper';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { payment } from '../helpers/constant';
-
 import { axiosInstance } from '@/utils/axios';
-import { useQuery } from '@tanstack/react-query';
-import { usePathname, useSearchParams } from 'next/navigation';
 
-type ApiResponse = { data: { payment_status: 'unpaid' | 'paid' | 'pending' } };
+import { useQuery } from '@tanstack/react-query';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+type ApiResponse = { payment_status: 'unpaid' | 'paid' | 'pending' };
 
 // ------------------------------
 
 export function Stepper() {
+  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -27,10 +28,22 @@ export function Stepper() {
   const trackingCode = searchParams.get(reservationId);
 
   // === Fetch Payment-Status
-  const { data: paymentStatus } = useQuery<ApiResponse>({
+  const { data: paymentStatus, status } = useQuery<ApiResponse>({
     queryKey: ['payment-status'],
     queryFn: () => axiosInstance(`/payment/payment-status/${trackingCode}/`),
   });
+
+  // Check payment-status
+  // useEffect(() => {
+  //   if (
+  //     (pathname.includes('complete-passengers-information') ||
+  //       pathname.includes('check-reservation-information')) &&
+  //     status !== 'pending' &&
+  //     paymentStatus?.payment_status !== 'pending'
+  //   ) {
+  //     router.replace('/');
+  //   }
+  // }, [paymentStatus, status, pathname]);
 
   // === Calculate Active-Step
   const activeStep = useMemo(() => {

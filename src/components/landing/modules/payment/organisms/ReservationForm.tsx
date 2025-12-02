@@ -79,7 +79,7 @@ export function ReservationForm() {
               handleToggleLoading,
               () =>
                 queryClient.invalidateQueries({
-                  queryKey: ['reservation-invoice'],
+                  queryKey: ['reservation-form'],
                 }),
             ),
           )}

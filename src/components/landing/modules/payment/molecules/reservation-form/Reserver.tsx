@@ -20,7 +20,6 @@ export function Reserver() {
         />
 
         <Input
-          isNationalId
           name={`reserver.national_code`}
           placeholder="کد ملی یا پاسپورت (اختیاری)"
         />
