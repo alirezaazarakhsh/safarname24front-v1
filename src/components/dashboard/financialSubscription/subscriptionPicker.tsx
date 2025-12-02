@@ -8,6 +8,55 @@ import { cn } from '@/utils/utils';
 import { JSX, useState } from 'react';
 import { addCommas } from '@persian-tools/persian-tools';
 import BuySubscriptionDialog from './dialog/buySubscriptionDialog';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Defining dummy data
+const data: {
+  name: string;
+  smallDescrption: string;
+  monthlyPrice: number;
+  colorName: string;
+  features: string[];
+}[] = [
+    {
+      name: "پلن پایه",
+      smallDescrption: "برای استفاده عادی روزانه",
+      monthlyPrice: 120000,
+      colorName: "آبی",
+      features: [
+        "دسترسی به امکانات اصلی",
+        "پشتیبانی عادی",
+        "آپدیت های ماهانه",
+        "سرعت متوسط"
+      ]
+    },
+    {
+      name: "پلن حرفه‌ای",
+      smallDescrption: "برای کسب‌وکارهای کوچک",
+      monthlyPrice: 350000,
+      colorName: "بنفش",
+      features: [
+        "تمام قابلیت‌های پلن پایه",
+        "پشتیبانی سریع",
+        "سرعت بالا",
+        "امکان مدیریت چند کاربر",
+        "آپدیت‌های هفتگی"
+      ]
+    },
+    {
+      name: "پلن سازمانی",
+      smallDescrption: "ویژه تیم‌ها و شرکت‌ها",
+      monthlyPrice: 950000,
+      colorName: "سبز",
+      features: [
+        "پشتیبانی ۲۴ ساعته",
+        "آپدیت‌های فوری",
+        "امنیت پیشرفته",
+        "امکان اتصال به API",
+        "پهنای باند نامحدود"
+      ]
+    }
+  ];
 
 // Creating and exporting SubscriptionPicker component as default
 export default function SubscriptionPicker({
@@ -15,6 +64,8 @@ export default function SubscriptionPicker({
 }: SubscriptionPickerPropsType): JSX.Element {
   // Defininig hooks
   const [modalOpened, setModalOpened] = useState<boolean>(false);
+  const [activeSwiperSlideIndex, setActiveSwiperSlideIndex] =
+    useState<number>(0);
 
   // Returning JSX
   return (
@@ -55,22 +106,37 @@ export default function SubscriptionPicker({
         </button>
       </div>
       <div className="lg:p-4 p-[14px] grid lg:grid-cols-9 gap-4">
-        <div className="lg:h-[230px] h-[190px]  bg-gray-200 rounded-xl py-4 px-8 overflow-hidden lg:col-span-4">
-          <div className='rounded-xl p-4 text-white flex flex-col items-center justify-between gap-3 bg-gray-300 from-transparent to-cs-red bg-gradient-to-bl h-full'>
-            <div className='w-full'>
-              <span className="text-left truncate block flex-1 text-white font-semibold text-cs75">
-                اشتراک سفرنامه 24
-              </span>
-            </div>
-            <div className='w-full'>
-              <span className="text-left truncate block text-white font-medium text-cs95 mb-1.5">
-                فلان
-              </span>
-              <span className="text-left truncate block text-white font-semibold text-cs85">
-                {`${addCommas(1200000)} تومان`}
-              </span>
-            </div>
-          </div>
+        <div className="lg:h-[230px] h-[190px] bg-gray-200 rounded-xl overflow-hidden lg:col-span-4 py-4 px-8">
+          <Swiper
+            className='h-full w-full !overflow-visible'
+            spaceBetween={20}
+            onSlideChange={(swiper) => {
+              const activeIndex = swiper.activeIndex;
+              setActiveSwiperSlideIndex(activeIndex);
+            }}
+          >
+            {
+              data.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <div className='rounded-xl p-4 text-white flex flex-col items-center justify-between gap-3 bg-gray-300 from-transparent to-cs-red bg-gradient-to-bl h-full w-full' >
+                    <div className='w-full'>
+                      <span className="text-left truncate block flex-1 text-white font-semibold text-cs75">
+                        اشتراک سفرنامه 24
+                      </span>
+                    </div>
+                    <div className='w-full'>
+                      <span className="text-left truncate block text-white font-medium text-cs95 mb-1.5">
+                        {item.name}
+                      </span>
+                      <span className="text-left truncate block text-white font-semibold text-cs85">
+                        {`${addCommas(item.monthlyPrice)} تومان`}
+                      </span>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))
+            }
+          </Swiper>
         </div>
         <div className="lg:col-span-5 grid lg:grid-cols-2 gap-4">
           <div className='space-y-4'>
@@ -87,7 +153,7 @@ export default function SubscriptionPicker({
                   نام
                 </span>
                 <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                  فلان
+                  {data[activeSwiperSlideIndex].name}
                 </span>
               </div>
             </div>
@@ -104,7 +170,7 @@ export default function SubscriptionPicker({
                   توضیحات
                 </span>
                 <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                  فلان توضیحات
+                  {data[activeSwiperSlideIndex].smallDescrption}
                 </span>
               </div>
             </div>
@@ -121,7 +187,7 @@ export default function SubscriptionPicker({
                   هزینه ماهانه
                 </span>
                 <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                  {`${addCommas(1200000)} تومان`}
+                  {`${addCommas(data[activeSwiperSlideIndex].monthlyPrice)} تومان`}
                 </span>
               </div>
             </div>
@@ -138,7 +204,7 @@ export default function SubscriptionPicker({
                   رنگ
                 </span>
                 <span className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-                  قرمز
+                  {data[activeSwiperSlideIndex].colorName}
                 </span>
               </div>
             </div>
@@ -158,9 +224,9 @@ export default function SubscriptionPicker({
             </div>
             <ul className='w-full space-y-4 list-inside list-disc lg:h-full overflow-auto custom-scrollbar'>
               {
-                [...new Array(20)].map((_, index) => (
+                data[activeSwiperSlideIndex].features.map((item, index) => (
                   <li className="text-right truncate text-black/75 lg:text-cs75 text-[12px] lg:font-semibold font-bold" key={index}>
-                    فلان
+                    {item}
                   </li>
                 ))
               }
