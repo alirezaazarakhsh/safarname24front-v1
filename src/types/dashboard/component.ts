@@ -954,3 +954,20 @@ export interface WalletIntroductionPropsType {
 export interface DetailsComponentPropsType {
   className?: string;
 }
+
+export interface SubscriptionPackagePropsType {
+  className?: string;
+  data: {
+    features: string[];
+    id: number;
+    name: string;
+    subTitle: string;
+    price: number;
+  };
+}
+
+export interface BuySubscriptionDialogPropsType {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  id: number;
+}
