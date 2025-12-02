@@ -97,7 +97,6 @@ export function ExtraCapacityPassengers(props: Props) {
           />
 
           <Input
-            isNationalId
             placeholder="کد ملی یا پاسپورت (اختیاری)"
             name={`rooms.${roomIndex}.passengers.extra_capacity_passengers.${idx}.national_code`}
           />

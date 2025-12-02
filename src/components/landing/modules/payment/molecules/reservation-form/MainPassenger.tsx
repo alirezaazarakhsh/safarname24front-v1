@@ -28,7 +28,6 @@ export function MainPassenger(props: Props) {
       />
 
       <Input
-        isNationalId
         placeholder="* کد ملی یا پاسپورت"
         name={`rooms.${roomIndex}.passengers.main_passenger.national_code`}
       />
