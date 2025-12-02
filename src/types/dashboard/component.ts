@@ -971,3 +971,7 @@ export interface BuySubscriptionDialogPropsType {
   onOpenChange?: (open: boolean) => void;
   id: number;
 }
+
+export interface SubscriptionPickerPropsType {
+  className?: string;
+}
