@@ -37,6 +37,14 @@ const formSchema = z.object({
     })
     .refine(val => verifyIranianNationalId(val), {
       message: "کد ملی معتبر نیست.",
+    }),
+  file: z
+    .custom<File>((v) => v instanceof File, { message: "فایل معتبر نیست." })
+    .refine((file) => file.size <= 30 * 1024 * 1024, {
+      message: "حجم فایل باید کمتر از ۳۰ مگابایت باشد.",
+    })
+    .refine((file) => /^image\//.test(file.type), {
+      message: "فایل باید یک تصویر باشد (png, jpg, webp, ...).",
     })
 });
 
@@ -134,6 +142,24 @@ export default function BuySubscriptionDialog({
                 error={form.formState.errors.nationalCode?.message}
                 lenghtValidation={10}
                 {...form.register("nationalCode")}
+              />
+            </div>
+            <div className='w-full'>
+              <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
+                اپلود عکس فیش
+              </span>
+              <NormalInput
+                type="file"
+                className="h-[45px] w-full"
+                placeholder="کد ملی خود را وارد کنید"
+                accept="image/*"
+                error={form.formState.errors.file?.message}
+                onChange={(e) => {
+                  const files = e.currentTarget.files;
+                  if (files) {
+                    form.setValue("file", files[0]);
+                  }
+                }}
               />
             </div>
             <button disabled={form.formState.isSubmitting} className="h-[45px] rounded-md flex items-center justify-center bg-green-500 text-white w-full disabled:text-gray-700 disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">
