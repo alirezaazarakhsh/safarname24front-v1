@@ -24,7 +24,7 @@ export default function Subscription({
         className,
       )}
     >
-      <div className="lg:px-3 lg:py-4 px-[14px] py-[14px] flex items-center justify-between border-b border-b-black/10 gap-3 shrink-0 w-full">
+      <div className="lg:p-4 p-[14px] flex items-center justify-between border-b border-b-black/10 gap-3 shrink-0 w-full">
         <div className="shrink-0 size-[45px] rounded-md flex items-center justify-center border border-black/10 text-black">
           <IconsaxIcons
             name="Flash"
@@ -41,7 +41,7 @@ export default function Subscription({
           </p>
         </div>
       </div>
-      <div className="flex lg:flex-row flex-col items-center gap-3 w-full h-full lg:px-3 lg:py-4 px-[14px] py-[14px] overflow-auto scrollbar-hide">
+      <div className="flex lg:flex-row flex-col items-center gap-3 w-full h-full lg:p-4 p-[14px] overflow-auto scrollbar-hide">
         {subscription?.chart ? (
           <div className="lg:w-[125px] w-full lg:h-full h-[145px] bg-gray-100 border-[1.5px] border-black/10 lg:rounded-lg rounded-[10px] shrink-0 overflow-auto scrollbar-hide flex items-end justify-start">
             <SubscriptionChart chart={subscription.chart} />

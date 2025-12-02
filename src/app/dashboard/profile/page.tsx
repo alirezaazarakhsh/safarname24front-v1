@@ -18,11 +18,7 @@ import Upload from '@/components/dashboard/upload/upload';
 import LegalNotes from '@/components/dashboard/profile/legal/legalNotes';
 import WaitForAcceptDialog from '@/components/dashboard/profile/dialog/waitForAcceptDialog';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
-import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETLegalProfile } from '@/types/dashboard/api/get';
 import {
-  isShebaValid,
-  verifyCardNumber,
   verifyIranianNationalId,
 } from '@persian-tools/persian-tools';
 import useLocalStorageState from 'use-local-storage-state';
@@ -78,18 +74,12 @@ const personalFormSchema = z.object({
   creditCard: z
     .string()
     .length(16, { message: 'شماره کارت باید ۱۶ رقم باشد' })
-    .refine((value) => verifyCardNumber(Number(value)), {
-      message: 'شماره کارت وارد شده معتبر نیست',
-    })
     .or(z.literal(''))
     .optional(),
 
   shabaNumber: z
     .string()
     .length(24, { message: 'شماره شبا باید ۲۴ رقم باشد' })
-    .refine((value) => isShebaValid(value), {
-      message: 'شماره شبا وارد شده معتبر نیست',
-    })
     .or(z.literal(''))
     .optional(),
 
@@ -159,18 +149,12 @@ const legalFormSchema = z.object({
   creditCard: z
     .string()
     .length(16, { message: 'شماره کارت باید ۱۶ رقم باشد' })
-    .refine((value) => verifyCardNumber(Number(value)), {
-      message: 'شماره کارت وارد شده معتبر نیست',
-    })
     .or(z.literal(''))
     .optional(),
 
   shabaNumber: z
     .string()
     .length(24, { message: 'شماره شبا باید ۲۴ رقم باشد' })
-    .refine((value) => isShebaValid(value), {
-      message: 'شماره شبا وارد شده معتبر نیست',
-    })
     .or(z.literal(''))
     .optional(),
 
@@ -196,9 +180,9 @@ export default function ProfilePage(): ReactNode {
   const [userImage, setUserImage] = useState<string | undefined>();
   const [userStatus, setUserStatus] = useState<
     | {
-        status: 'checking' | 'accpeted' | 'rejected';
-        rejectReason: string | null;
-      }
+      status: 'checking' | 'accpeted' | 'rejected';
+      rejectReason: string | null;
+    }
     | undefined
   >();
 
@@ -219,10 +203,11 @@ export default function ProfilePage(): ReactNode {
     reValidateMode: 'onChange',
   });
 
-  const creditCard = userInfo.card_numbers[0];
 
   // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {
+    const firstCard = userInfo.card_numbers[0];
+
     personalForm.setValue('address', userInfo.address);
     personalForm.setValue('name', userInfo.first_name);
     personalForm.setValue('meliCode', userInfo.national_code);
@@ -230,17 +215,13 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
     personalForm.setValue('tell', userInfo.phone_number);
-    setUserImage(userInfo.image || '');
 
-    if (creditCard) {
-      if (
-        verifyCardNumber(Number(creditCard.card_number)) &&
-        isShebaValid(creditCard.iban)
-      ) {
-        personalForm.setValue('creditCard', creditCard.card_number);
-        personalForm.setValue('shabaNumber', creditCard.iban);
-      }
+    if (firstCard) {
+      personalForm.setValue('creditCard', firstCard.card_number);
+      personalForm.setValue('shabaNumber', firstCard.iban);
     }
+
+    setUserImage(userInfo.image || '');
   }, [personalForm, userInfo]);
 
   // Setting form values (legal profiles)
@@ -258,20 +239,15 @@ export default function ProfilePage(): ReactNode {
     legalForm.setValue('tell', legalInfo.phone_number);
     setLegalUserImage(legalInfo.image || '');
 
+    if (firstCard) {
+      legalForm.setValue('creditCard', firstCard.card_number);
+      legalForm.setValue('shabaNumber', firstCard.iban);
+    }
+
     setUserStatus({
       rejectReason: legalInfo.reject_reason,
       status: legalInfo.status,
     });
-
-    if (firstCard) {
-      if (
-        verifyCardNumber(Number(firstCard.card_number)) &&
-        isShebaValid(firstCard.iban)
-      ) {
-        legalForm.setValue('creditCard', firstCard.card_number);
-        legalForm.setValue('shabaNumber', firstCard.iban);
-      }
-    }
   }, []);
 
   // Returning JSX

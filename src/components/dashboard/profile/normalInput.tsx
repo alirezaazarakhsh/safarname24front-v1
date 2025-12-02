@@ -21,11 +21,14 @@ export default function NormalInput({
   onBlur,
   onFocus,
   onInput,
+  type,
   ...props
 }: NormalInputComponentPropsType): ReactNode {
   // Defining hooks
   const [focused, setFocused] = useState<boolean>(props.autoFocus || false);
+  const [file, setFile] = useState<File | undefined>(undefined);
   const validationInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [valueLenght, setValueLenght] = useState<number>(0);
 
   // Conditional rendering
@@ -43,6 +46,7 @@ export default function NormalInput({
         >
           <input
             dir={textLTR ? 'ltr' : 'rtl'}
+            type={type}
             className={cn(
               'text-right placeholder:text-black/50 flex-1 transition-all duration-500 text-black px-4 focus:text-black lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold group-data-[focused=true]:placeholder:text-black',
             )}
@@ -104,6 +108,7 @@ export default function NormalInput({
             placeholder={required ? `* ${placeholder}` : placeholder}
             ref={validationInputRef}
             value={props.value}
+            type={type}
             onFocus={(e) => {
               setFocused(true);
               onFocus?.(e);
@@ -143,29 +148,80 @@ export default function NormalInput({
       </div>
     );
   } else {
-    return (
-      <div className={cn('w-full', wholeClassName)}>
-        <input
-          dir={textLTR ? 'ltr' : 'rtl'}
-          required={required}
-          placeholder={required ? `* ${placeholder}` : placeholder}
-          data-errored={error ? true : false}
-          onInput={onInput}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          className={cn(
-            'px-4 py-4 h-[50px] w-full text-right block bg-white placeholder:text-black/50 text-black focus:text-black border-[1.2px] border-black/10 lg:rounded-lg rounded-[8px] lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold  transition-all duration-500 focus:border-black focus:placeholder:text-black data-[errored="true"]:border-cs-red data-[errored="true"]:focus:border-cs-red data-[errored="true"]:text-cs-red disabled:cursor-not-allowed disabled:opacity-50',
-            textLTR ? 'text-left' : 'text-right',
-            className,
+    if (type === "file") {
+      return (
+        <div className={cn('w-full', wholeClassName)}>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onInput={(e) => {
+              const files = e.currentTarget.files;
+
+              onInput?.(e);
+              files && setFile(files[0]);
+            }}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            hidden
+            required={required}
+            placeholder={required ? `* ${placeholder}` : placeholder}
+            {...props}
+          />
+          <button
+            dir={textLTR ? 'ltr' : 'rtl'}
+            data-errored={error ? true : false}
+            type="button"
+            onClick={() => {
+              if (fileInputRef.current) {
+                fileInputRef.current?.click()
+              } else {
+                alert("not attached")
+              }
+            }}
+            className={cn(
+              'px-4 py-4 h-[50px] w-full text-right bg-white placeholder:text-black/50 text-black focus:text-black border-[1.2px] border-black/10 lg:rounded-lg rounded-[8px] lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold  transition-all duration-500 focus:border-black focus:placeholder:text-black data-[errored="true"]:border-cs-red data-[errored="true"]:focus:border-cs-red data-[errored="true"]:text-cs-red disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-start',
+              textLTR ? 'text-left' : 'text-right',
+              className,
+            )}
+          >
+            {
+              file ? file.name : "برای انتخواب فایل کلیک کنید."
+            }
+          </button>
+          {error && !noErrorText && (
+            <p className="text-cs07 font-medium text-cs-red block text-right mt-2">
+              {error}
+            </p>
           )}
-          {...props}
-        />
-        {error && !noErrorText && (
-          <p className="text-cs07 font-medium text-cs-red block text-right mt-2">
-            {error}
-          </p>
-        )}
-      </div>
-    );
+        </div>
+      );
+    } else {
+      return (
+        <div className={cn('w-full', wholeClassName)}>
+          <input
+            dir={textLTR ? 'ltr' : 'rtl'}
+            required={required}
+            placeholder={required ? `* ${placeholder}` : placeholder}
+            data-errored={error ? true : false}
+            onInput={onInput}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            type={type}
+            className={cn(
+              'px-4 py-4 h-[50px] w-full text-right block bg-white placeholder:text-black/50 text-black focus:text-black border-[1.2px] border-black/10 lg:rounded-lg rounded-[8px] lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold  transition-all duration-500 focus:border-black focus:placeholder:text-black data-[errored="true"]:border-cs-red data-[errored="true"]:focus:border-cs-red data-[errored="true"]:text-cs-red disabled:cursor-not-allowed disabled:opacity-50',
+              textLTR ? 'text-left' : 'text-right',
+              className,
+            )}
+            {...props}
+          />
+          {error && !noErrorText && (
+            <p className="text-cs07 font-medium text-cs-red block text-right mt-2">
+              {error}
+            </p>
+          )}
+        </div>
+      );
+
+    }
   }
 }
