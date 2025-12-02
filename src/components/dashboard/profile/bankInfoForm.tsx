@@ -423,7 +423,7 @@ export default function BankInfoForm({
               });
             })}
             disabled={form.formState.isSubmitting}
-            className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] text-cs07 font-medium disabled:bg-gray-400 disabled:hover:bg-gray-400"
+            className="bg-green-500 hover:bg-green-600 transition-all duration-500 text-white rounded-lg px-5 h-[50px] w-[100px] text-cs07 font-medium disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center"
           >
             {form.formState.isSubmitting ? <Loading /> : 'ثبت اطلاعات'}
           </button>

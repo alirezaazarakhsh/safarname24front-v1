@@ -82,7 +82,7 @@ export default function LegalInfoForm({
           {...form.register('economicCode')}
         />
         <NormalInput
-          placeholder="شماره شرکت خود را وارد نمایید"
+          placeholder="شماره تلفن شرکت خود را وارد نمایید"
           type="tell"
           required
           error={form.formState.errors.tell?.message}

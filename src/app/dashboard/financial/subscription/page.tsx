@@ -7,8 +7,8 @@ import Subscription from '@/components/dashboard/financialCartToCart/subscriptio
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
 import { JSX } from 'react';
 
-// Creating and exporting CartToCart financial page as default
-export default function CartToCartFinancialPage(): JSX.Element {
+// Creating and exporting Subscription financial page as default
+export default function SubscriptionFinancialPage(): JSX.Element {
   // Returning JSX
   return (
     <main className="p-5 lg:pb-5 pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
