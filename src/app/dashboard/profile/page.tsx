@@ -203,10 +203,11 @@ export default function ProfilePage(): ReactNode {
     reValidateMode: 'onChange',
   });
 
-  const creditCard = userInfo.card_numbers[0];
 
   // Setting form values based on parsed userInfo in first fetch and passed with context
   useEffect(() => {
+    const firstCard = userInfo.card_numbers[0];
+
     personalForm.setValue('address', userInfo.address);
     personalForm.setValue('name', userInfo.first_name);
     personalForm.setValue('meliCode', userInfo.national_code);
@@ -214,8 +215,12 @@ export default function ProfilePage(): ReactNode {
     personalForm.setValue('email', userInfo.email);
     personalForm.setValue('postCode', userInfo.postal_code);
     personalForm.setValue('tell', userInfo.phone_number);
-    personalForm.setValue('creditCard', creditCard.card_number);
-    personalForm.setValue('shabaNumber', creditCard.iban);
+
+    if (firstCard) {
+      personalForm.setValue('creditCard', firstCard.card_number);
+      personalForm.setValue('shabaNumber', firstCard.iban);
+    }
+
     setUserImage(userInfo.image || '');
   }, [personalForm, userInfo]);
 
@@ -232,9 +237,12 @@ export default function ProfilePage(): ReactNode {
     legalForm.setValue('address', legalInfo.address);
     legalForm.setValue('postCode', legalInfo.postal_code);
     legalForm.setValue('tell', legalInfo.phone_number);
-    legalForm.setValue('creditCard', firstCard.card_number);
-    legalForm.setValue('shabaNumber', firstCard.iban);
     setLegalUserImage(legalInfo.image || '');
+
+    if (firstCard) {
+      legalForm.setValue('creditCard', firstCard.card_number);
+      legalForm.setValue('shabaNumber', firstCard.iban);
+    }
 
     setUserStatus({
       rejectReason: legalInfo.reject_reason,

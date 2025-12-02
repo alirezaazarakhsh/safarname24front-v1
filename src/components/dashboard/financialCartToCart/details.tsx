@@ -42,7 +42,7 @@ export default function Details({ className }: DetailsComponentPropsType): JSX.E
             توضیحات تکمیلی :
           </span>
           <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-            لطفا قبل از انجام عملیات برداشت وجه یا کارت به کارت توضیحات را با دقت بخوانید.
+            پیش از اقدام، توضیحات را مطالعه فرمایید.
           </p>
         </div>
       </div>
@@ -52,7 +52,7 @@ export default function Details({ className }: DetailsComponentPropsType): JSX.E
           ? "flex items-center justify-center"
           : !isLoading && data
             ? data.text
-              ? "overflow-auto scrollbar-hide"
+              ? "overflow-hidden"
               : "flex items-center justify-center"
             : ""
       )}>
@@ -67,9 +67,11 @@ export default function Details({ className }: DetailsComponentPropsType): JSX.E
               )
               : (!isLoading && !isError && data)
                 ? (
-                  <p className="text-cs08 font-normal text-right block text-black/70 leading-6">
-                    {data.text}
-                  </p>
+                  <div className='lg:pl-4 pl-0 overflow-auto custom-scrollbar w-full h-full'>
+                    <p className="text-cs08 font-normal text-right block text-black/70 leading-6">
+                      {data.text}
+                    </p>
+                  </div>
                 ) : (
                   <span className='font-bold text-base block truncate text-center text-black'>
                     اطلاعاتی برای نشان دادن یافت نشد.
