@@ -979,3 +979,18 @@ export interface SubscriptionPickerPropsType {
   className?: string;
   disabled?: boolean;
 }
+
+export interface FinancialSubscriptionsDashboardTablePropsType {
+  className?: string;
+  loading: boolean;
+  paginationCount?: number;
+  paginationActiveIndex?: number;
+  setPaginationActiveIndex?: Dispatch<SetStateAction<number>>;
+  data: {
+    name: string;
+    expireDate: string | null;
+    createdAt: string;
+    price: number;
+    status: 'successfull' | 'unsucessfull';
+  }[];
+}
