@@ -1,21 +1,18 @@
-# Base image with the specified Node.js version
-FROM node:20.11.0
+FROM node:20-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Install dependencies
 COPY package*.json ./
+
 RUN npm install --legacy-peer-deps
 
-# Copy project files
 COPY . .
 
-# Build the Next.js application
 RUN npm run build
 
-# Expose the port the app runs on
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+ENV HOST=0.0.0.0
+ENV PORT=3000
+
+CMD ["npm", "run", "start"]

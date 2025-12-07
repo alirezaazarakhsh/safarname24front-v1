@@ -1,9 +1,11 @@
-version: '3'
+version: "3.9"
 
 services:
-  react-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  nextapp:
+    build: .
+    container_name: safarname-next
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: always
