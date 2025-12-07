@@ -286,7 +286,6 @@ export type CreditCardSubscriptionChartType = [
 export interface CreditCardSubscriptionType {
   type: 'premium' | 'free';
   endsAt: string;
-  discountCode: string;
   price: number;
   chart: CreditCardSubscriptionChartType;
 }
@@ -955,6 +954,10 @@ export interface DetailsComponentPropsType {
   className?: string;
 }
 
+export interface SubscriptionDetailsComponentPropsType {
+  className?: string;
+}
+
 export interface SubscriptionPackagePropsType {
   className?: string;
   data: {
@@ -974,4 +977,5 @@ export interface BuySubscriptionDialogPropsType {
 
 export interface SubscriptionPickerPropsType {
   className?: string;
+  disabled?: boolean;
 }

@@ -3,12 +3,10 @@
 
 // Importing part
 import AdminCreditCardInfo from '@/components/dashboard/financialCartToCart/adminCreditCardInfo';
-import Details from '@/components/dashboard/financialCartToCart/details';
 import Subscription from '@/components/dashboard/financialCartToCart/subscription/subscription';
-import SubscriptionPackage from '@/components/dashboard/financialSubscription/subscriptionPackage';
 import SubscriptionPicker from '@/components/dashboard/financialSubscription/subscriptionPicker';
+import SubscriptionDetails from '@/components/dashboard/financialSubscription/subscriptionsDetails';
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
-import { cn } from '@/utils/utils';
 import { JSX } from 'react';
 
 // Creating and exporting Subscription financial page as default
@@ -30,41 +28,30 @@ export default function SubscriptionFinancialPage(): JSX.Element {
         <SubscriptionType className='lg:col-span-2' />
       </div>
       <div className='grid lg:grid-cols-7 lg:gap-4 gap-[14px]'>
-        <Subscription className='lg:col-span-2' />
+        <Subscription className='lg:col-span-2' subscription={{
+          chart: [
+            { month: 'فروردین', price: 200000 },
+            { month: 'اردیبهشت', price: 200000 },
+            { month: 'خرداد', price: 48888 },
+            { month: 'تیر', price: 48888 },
+            { month: 'مرداد', price: 48888 },
+            { month: 'شهریور', price: 48888 },
+            { month: 'مهر', price: 48888 },
+            { month: 'ابان', price: 48888 },
+            { month: 'اذر', price: 48888 },
+            { month: 'دی', price: 48888 },
+            { month: 'بهمن', price: 48888 },
+            { month: 'اسفند', price: 48888 },
+          ],
+          endsAt: new Date().toISOString(),
+          price: 400000,
+          type: "free"
+        }} />
         <AdminCreditCardInfo className='lg:col-span-5' />
       </div>
       <div className='grid lg:grid-cols-7 lg:gap-4 gap-[14px]'>
         <SubscriptionPicker className='lg:col-span-5 lg:h-[344px]' />
-        <Details className='lg:col-span-2 lg:h-[344px]' />
-      </div>
-      <div className='py-10'>
-        <div className='grid lg:grid-cols-3 items-center lg:gap-0 gap-[24px] lg:w-3/4 mx-auto'>
-          {
-            [...new Array(3)].map((_, index) => (
-              <SubscriptionPackage
-                key={index}
-                className={cn(
-                  "lg:h-[500px]",
-                  index === 1 && "lg:scale-[1.1]"
-                )}
-                data={{
-                  id: 1,
-                  name: "Starter",
-                  price: 120000,
-                  subTitle: "Perfect for trying out our service",
-                  features: [
-                    "1",
-                    "2",
-                    "2",
-                    "3",
-                    "4"
-                  ],
-                }}
-              />
-
-            ))
-          }
-        </div>
+        <SubscriptionDetails className='lg:col-span-2 lg:h-[344px]' />
       </div>
     </main>
   );

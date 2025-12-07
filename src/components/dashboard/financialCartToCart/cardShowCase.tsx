@@ -40,18 +40,18 @@ export default function CardShowCase({
         />
       </div>
       <div className="w-full">
-        <span className="text-left truncate block text-white font-medium text-cs07 mb-1.5">
-          {data ? data.holderName : "-"}
-        </span>
-        <span className="text-left truncate block text-white font-medium text-cs07 font-inter mb-1">
+        <span className="text-left truncate block text-white font-medium text-cs07 font-inter mb-1.5">
           {data
             ? numberSeparation(data.number, ' ', 4)
             : numberSeparation('0000000000000000', ' ', 4)}
         </span>
-        <span className="text-left truncate block text-white font-semibold text-cs07 font-inter">
+        <span className="text-left truncate block text-white font-semibold text-cs07 font-inter mb-1">
           {data
             ? `IR ${numberSeparation(data.iban, ' ', 4)}`
             : `IR ${numberSeparation('000000000000000000000000', ' ', 4)}`}
+        </span>
+        <span className="text-left truncate block text-white font-medium text-cs07">
+          {data ? data.holderName : "-"}
         </span>
       </div>
     </div>

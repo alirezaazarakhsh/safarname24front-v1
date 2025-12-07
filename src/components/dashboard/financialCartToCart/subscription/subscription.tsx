@@ -58,16 +58,9 @@ export default function Subscription({
           </div>
         )}
         <div className="w-full h-full flex flex-col justify-center lg:gap-5 gap-[10px] items-start">
-          {subscription ? (
-            <span className="block text-right font-semibold text-black lg:text-cs75 text-[12px] truncate w-full">
-              کارت اشتراک -
-              {subscription.type === 'premium' ? ' پریمیوم' : ' رایگان'}
-            </span>
-          ) : (
-            <span className="block text-right font-semibold text-black lg:text-cs75 text-[10px] truncate w-full">
-              کارت اشتراک ندارید!
-            </span>
-          )}
+          <span className="block text-right font-semibold text-black lg:text-cs75 text-[10px] truncate w-full">
+            کارت اشتراک ندارید!
+          </span>
           <div className="flex items-center justify-between gap-3 w-full">
             <span className="block text-right font-medium text-black lg:text-cs07 text-[10px] truncate">
               تاریخ انقضا :
@@ -80,12 +73,15 @@ export default function Subscription({
           </div>
           <div className="flex items-center justify-between gap-3 w-full">
             <span className="block text-right font-medium text-black lg:text-cs07 text-[10px] truncate">
-              کد تخفیف اشتراک :
+              نوع :
             </span>
             <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
-              {subscription ? subscription.discountCode : 'کد اشتراک ندارید'}
+              {subscription
+                ? subscription.type === "free" ? "ارتقاء" : "خریداری شده"
+                : 'نامعلوم'}
             </span>
           </div>
+
           <div className="flex items-center justify-between gap-3 w-full">
             <span className="block text-right font-medium text-black lg:text-cs07 text-[10px] truncate">
               مبلغ اشتراک :
