@@ -994,3 +994,8 @@ export interface FinancialSubscriptionsDashboardTablePropsType {
     status: 'successfull' | 'unsucessfull';
   }[];
 }
+
+export interface RenewSubscriptionDialogProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}

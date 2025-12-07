@@ -8,6 +8,7 @@ import SubscriptionPicker from '@/components/dashboard/financialSubscription/sub
 import SubscriptionDetails from '@/components/dashboard/financialSubscription/subscriptionsDetails';
 import SubscriptionTable from '@/components/dashboard/financialSubscription/table';
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
+import moment from 'jalali-moment';
 import { JSX, useState } from 'react';
 
 // Creating and exporting Subscription financial page as default
@@ -47,7 +48,7 @@ export default function SubscriptionFinancialPage(): JSX.Element {
             { month: 'بهمن', price: 48888 },
             { month: 'اسفند', price: 48888 },
           ],
-          endsAt: new Date().toISOString(),
+          endsAt: moment().add(3, "day").toISOString(),
           price: 400000,
           type: "free"
         }} />
