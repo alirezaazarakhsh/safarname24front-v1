@@ -6,13 +6,17 @@ import { numberSeparation } from '@/utils';
 
 import DeadlineTimer from './DeadlineTimer';
 import PriceCalendar from '../price-calendar/PriceCalendar';
+import RoomNumber from './RoomNumber';
+import { MAX, MIN } from '../NormalRoom';
 
 type Props = {
   room: Room;
+  counter: number;
   children: React.ReactNode;
+  handleChangeCounter: (type: 'inc' | 'dec') => void;
 };
 
-// -------------------------------------
+// ------------------------------
 
 export default function NormalPrimaryInfo(props: Props) {
   const {
@@ -31,6 +35,8 @@ export default function NormalPrimaryInfo(props: Props) {
       },
     },
     children,
+    counter,
+    handleChangeCounter,
   } = props;
 
   const formattedDeadline = moment
@@ -40,14 +46,14 @@ export default function NormalPrimaryInfo(props: Props) {
   return (
     <>
       {/* === Small-Screen */}
-      <div className="text-zinc-800 text-cs08 font-bold border-t lg:hidden">
-        <div className="p-5 grid grid-cols-[2fr_1fr] gap-3">
+      <div className="border-t text-cs08 font-bold text-zinc-800 lg:hidden">
+        <div className="grid grid-cols-[2fr_1fr] gap-3 p-5">
           {is_fixed_discount_one_time && (
-            <div className="bg-zinc-100 h-11 flex-center gap-1 col-span-2 rounded-lg">
-              <button className="relative ml-1 rounded-full group">
+            <div className="flex-center col-span-2 h-11 gap-1 rounded-lg bg-zinc-100">
+              <button className="group relative ml-1 rounded-full">
                 <InfoCircle size={16} color="#666" />
 
-                <span className="bg-cs-dark-blue text-zinc-100 text-cs75/5 font-medium w-60 text-right px-3 py-2 absolute -top-14 right-0 transition-all ease-in-out rounded-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible group-hover:-top-20">
+                <span className="invisible absolute -top-14 right-0 w-60 rounded-lg bg-cs-dark-blue px-3 py-2 text-right text-cs75/5 font-medium text-zinc-100 opacity-0 transition-all ease-in-out group-hover:visible group-hover:-top-20 group-hover:opacity-100">
                   این مبلغ در مرحله پرداخت از مجموع قیمت فاکتور شما کسر میگردد
                 </span>
               </button>
@@ -58,7 +64,7 @@ export default function NormalPrimaryInfo(props: Props) {
           )}
 
           {discount_percentage && !discount_date && (
-            <div className="bg-cs-red/10 text-cs-red h-11 flex-center gap-1 col-span-2 rounded-lg">
+            <div className="flex-center col-span-2 h-11 gap-1 rounded-lg bg-cs-red/10 text-cs-red">
               <span className="-ml-0.5">%</span>
               <span className="font-extrabold">
                 {discount_percentage.toFixed(0)}
@@ -69,8 +75,8 @@ export default function NormalPrimaryInfo(props: Props) {
           )}
 
           {discount_percentage && discount_date && (
-            <div className="grid grid-cols-[1fr_3fr] gap-3 col-span-2">
-              <div className="bg-cs-red/10 text-cs-red h-11 flex-center gap-1 rounded-lg">
+            <div className="col-span-2 grid grid-cols-[1fr_3fr] gap-3">
+              <div className="flex-center h-11 gap-1 rounded-lg bg-cs-red/10 text-cs-red">
                 <span className="-ml-0.5">%</span>
 
                 <span className="font-extrabold">
@@ -92,20 +98,31 @@ export default function NormalPrimaryInfo(props: Props) {
             }}
           />
 
-          <div className="bg-zinc-100 h-11 flex-center gap-1 rounded-lg">
+          <div className="flex-center h-11 gap-1 rounded-lg bg-zinc-100">
             <span>{night_count}</span>
             <span>شب</span>
           </div>
+
+          <div className="col-span-2 lg:hidden">
+            <RoomNumber
+              counter={counter}
+              handleChangeCounter={handleChangeCounter}
+              disabled={{
+                increase: counter >= MAX,
+                decrease: counter <= MIN,
+              }}
+            />
+          </div>
         </div>
 
-        <div className="bg-zinc-100/50 text-cs85 font-extrabold p-5 grid grid-cols-[max-content_1fr] items-center gap-4 border-t rounded-t-[10%]">
+        <div className="grid grid-cols-[max-content_1fr] items-center gap-4 rounded-t-[10%] border-t bg-zinc-100/50 p-5 text-cs85 font-extrabold">
           <span>{discount_percentage ? 'قیمت نهایی :' : 'قیمت کل :'}</span>
 
           <div className="flex items-center justify-end gap-1">
             <span>
               {discount_percentage
-                ? numberSeparation(total_price_discount)
-                : numberSeparation(total_price)}
+                ? numberSeparation(total_price_discount * counter)
+                : numberSeparation(total_price * counter)}
             </span>
             <span>تومان</span>
           </div>
@@ -115,21 +132,21 @@ export default function NormalPrimaryInfo(props: Props) {
       </div>
 
       {/* === Large-Screen */}
-      <div className="text-zinc-800 text-cs08 font-bold p-5 flex-col gap-4 hidden justify-center lg:flex">
-        <div className="text-cs85 font-extrabold flex-between items-center">
+      <div className="hidden flex-col justify-center gap-4 p-5 text-cs08 font-bold text-zinc-800 lg:flex">
+        <div className="flex-between items-center text-cs85 font-extrabold">
           <span>{discount_percentage ? 'قیمت نهایی :' : 'قیمت کل :'}</span>
 
           <div className="flex-center gap-1">
             <span className="text-cs09">
               {discount_percentage
-                ? numberSeparation(total_price_discount)
-                : numberSeparation(total_price)}
+                ? numberSeparation(total_price_discount * counter)
+                : numberSeparation(total_price * counter)}
             </span>
             <span>تومان</span>
           </div>
         </div>
 
-        <div className="h-10 mt-1 grid grid-cols-[2fr_1fr] gap-3">
+        <div className="mt-1 grid h-10 grid-cols-[2fr_1fr] gap-3">
           <PriceCalendar
             info={{
               capacity,
@@ -140,7 +157,7 @@ export default function NormalPrimaryInfo(props: Props) {
             }}
           />
 
-          <div className="bg-zinc-100 flex-center gap-1 rounded-lg">
+          <div className="flex-center gap-1 rounded-lg bg-zinc-100">
             <span>{night_count}</span>
             <span>شب</span>
           </div>
@@ -148,20 +165,20 @@ export default function NormalPrimaryInfo(props: Props) {
 
         <div className="flex gap-3">
           {discount_percentage && (
-            <div className="relative text-cs08 bg-cs-red/10 text-cs-red w-12 flex-center gap-1 group rounded-lg">
+            <div className="flex-center group relative w-12 gap-1 rounded-lg bg-cs-red/10 text-cs08 text-cs-red">
               <span className="-ml-0.5">%</span>
               <span className="font-extrabold">
                 {discount_percentage.toFixed(0)}
               </span>
 
-              <div className="absolute z-20 -top-full left-0 pointer-events-none opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:-top-[calc(100%+0.6rem)]">
-                <div className="w-max h-10 bg-red-100 text-cs-red text-cs07 px-4 flex-center gap-1 rounded-lg">
+              <div className="pointer-events-none absolute -top-full left-0 z-20 opacity-0 transition-all duration-300 ease-in-out group-hover:-top-[calc(100%+0.6rem)] group-hover:opacity-100">
+                <div className="flex-center h-10 w-max gap-1 rounded-lg bg-red-100 px-4 text-cs07 text-cs-red">
                   <span>به ارزش قیمت : </span>
                   <span>{numberSeparation(discount_amount)}</span>
                   <span>تومان</span>
                 </div>
 
-                <div className="absolute left-4 w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-t-[8px] border-t-red-100 rounded-[0.2rem]"></div>
+                <div className="absolute left-4 h-0 w-0 rounded-[0.2rem] border-l-[7px] border-r-[7px] border-t-[8px] border-l-transparent border-r-transparent border-t-red-100"></div>
               </div>
             </div>
           )}

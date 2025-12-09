@@ -20,7 +20,7 @@ export function StepBackButton(props: Props) {
           ? '/'
           : `/payment/complete-passengers-information?${reservationId}=${searchParams.get(reservationId)}`
       }
-      className="bg-zinc-100 text-cs08 font-semibold px-4 py-3 rounded-lg"
+      className="rounded-lg bg-zinc-100 px-4 py-3 text-cs08 font-semibold lg:px-5"
     >
       {activeStep === 1 || activeStep === 4
         ? 'بازگشت به صفحه اصلی'

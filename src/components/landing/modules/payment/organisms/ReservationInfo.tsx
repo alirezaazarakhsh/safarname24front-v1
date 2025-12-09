@@ -46,6 +46,7 @@ export function ReservationInfo() {
             {data?.rooms.map((room, index) => (
               <div key={index} className="space-y-4">
                 <RoomInfo
+                  index={index}
                   name={room.name}
                   discountOnPurchase={0}
                   capacity={room.capacity}

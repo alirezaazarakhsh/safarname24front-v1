@@ -21,10 +21,6 @@ html {
     @apply min-h-dvh bg-[--clr-main-light] text-black;
   }
 
-  a {
-    @apply text-blue-600 hover:text-blue-800;
-  }
-
   button,
   input {
     @apply outline-none;
@@ -41,13 +37,7 @@ html {
   }
 
   .full-size {
-    @apply w-full h-full;
-  }
-}
-
-@layer components {
-  .rules-content a {
-    @apply underline;
+    @apply h-full w-full;
   }
 }
 

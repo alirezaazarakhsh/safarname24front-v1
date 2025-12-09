@@ -97,6 +97,7 @@ export function ReservationForm() {
               >
                 <RoomInfo
                   name={room.name}
+                  index={roomIndex}
                   capacity={room.capacity}
                   extraCapacity={room.extra_capacity}
                   discountOnPurchase={room.discount_on_purchase}
