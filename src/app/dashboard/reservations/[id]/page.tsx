@@ -25,6 +25,7 @@ import localFont from 'next/font/local';
 
 // Defining fonts
 const aubrey = Aubrey({
+  subsets: ["latin"],
   weight: "400",
   display: "block",
   preload: true
