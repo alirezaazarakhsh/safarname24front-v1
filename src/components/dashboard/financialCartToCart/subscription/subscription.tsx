@@ -13,6 +13,7 @@ import { cn } from '@/utils/utils';
 import { isNearISO } from '@/utils/date';
 import RenewSubscriptionDialog from '../dialog/renewSubscription';
 import Tooltip from '../../ui/tooltip';
+import SubscriptionDetailsDialog from '../dialog/subscriptionDetailDialog';
 
 // Creating and exporting Subscription component as default
 export default function Subscription({
@@ -21,6 +22,7 @@ export default function Subscription({
 }: SubscriptionComponentPropsType): ReactNode {
   // Defining hooks
   const [renewalDialogOpened, setRenewalDialogOpened] = useState<boolean>(false);
+  const [detailsDialogOpened, setDetailsDialogOpened] = useState<boolean>(false);
 
   // Returning JSX
   return (
@@ -30,6 +32,10 @@ export default function Subscription({
         className,
       )}
     >
+      <SubscriptionDetailsDialog
+        open={detailsDialogOpened}
+        onOpenChange={setDetailsDialogOpened}
+      />
       <div className="lg:p-4 p-[14px] flex items-center justify-between border-b border-b-black/10 gap-3 shrink-0 w-full">
         <div className='flex items-center justify-start gap-3 flex-1 overflow-hidden'>
           <div className="shrink-0 size-[45px] rounded-md flex items-center justify-center border border-black/10 text-black">
@@ -119,7 +125,7 @@ export default function Subscription({
         </div>
       </div>
       <div className="px-4 pb-4 shrink-0 w-full">
-        <button className="bg-black rounded-lg items-center justify-center flex text-white w-full px-3 h-[40px] text-cs07 font-semibold">
+        <button className="bg-black rounded-lg items-center justify-center flex text-white w-full px-3 h-[40px] text-cs07 font-semibold" onClick={() => setDetailsDialogOpened(true)}>
           جزییات استفاده کارت اشتراکی
         </button>
       </div>

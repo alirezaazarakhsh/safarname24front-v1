@@ -69,9 +69,9 @@ export function hexToRgba(hex: string | undefined, opacity: number): string {
     const fullHex =
       cleanedHex.length === 3
         ? cleanedHex
-            .split('')
-            .map((c) => c + c)
-            .join('')
+          .split('')
+          .map((c) => c + c)
+          .join('')
         : cleanedHex;
     const r = parseInt(fullHex.substring(0, 2), 16);
     const g = parseInt(fullHex.substring(2, 4), 16);
@@ -115,4 +115,8 @@ const tailwind500Colors = [
 export function getRandomTailwind500Color() {
   const randomIndex = Math.floor(Math.random() * tailwind500Colors.length);
   return tailwind500Colors[randomIndex];
+}
+
+export function getPercentage(largeNum: number, smallNum: number): number {
+  return 100 - Math.round((largeNum / (largeNum + smallNum)) * 100);
 }

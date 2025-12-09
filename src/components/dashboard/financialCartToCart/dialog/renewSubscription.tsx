@@ -7,7 +7,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { RenewSubscriptionDialogProps } from '@/types/dashboard/component';
 import { JSX } from 'react';
 
-// Creating and exporting AddCardDialog component as default
+// Creating and exporting RenewSubscriptionDialog component as default
 export default function RenewSubscriptionDialog({
   open, onOpenChange,
 }: RenewSubscriptionDialogProps): JSX.Element {

@@ -999,3 +999,8 @@ export interface RenewSubscriptionDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
+
+export interface SubscriptionDetailsDialogPropsType {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
