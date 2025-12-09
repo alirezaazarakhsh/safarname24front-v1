@@ -27,12 +27,14 @@ import localFont from 'next/font/local';
 const aubrey = Aubrey({
   weight: "400",
   display: "block",
+  preload: true
 })
 
 const sepahboodFont = localFont({
   src: "../../../../../public/font/Sepahbod.otf",
   display: "block",
   weight: "500",
+  preload: true
 });
 
 // Creating and exporting ReservationFactor page as default
