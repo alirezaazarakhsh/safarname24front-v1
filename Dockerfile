@@ -4,11 +4,16 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --legacy-peer-deps
+RUN npm ci --only=production
 
 COPY . .
 
 RUN npm run build
+
+# ساخت یوزر غیر root
+RUN addgroup -S app && adduser -S app -G app
+
+USER app
 
 EXPOSE 3000
 
