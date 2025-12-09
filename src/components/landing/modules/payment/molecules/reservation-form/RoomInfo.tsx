@@ -5,6 +5,7 @@ import { MdOutlineKey } from 'react-icons/md';
 
 type Props = {
   name: string;
+  index: number;
   capacity: number;
   extraCapacity: number;
   discountOnPurchase: number;
@@ -13,13 +14,19 @@ type Props = {
 // ------------------------------
 
 export function RoomInfo(props: Props) {
-  const { capacity, extraCapacity, name, discountOnPurchase } = props;
+  const { capacity, extraCapacity, name, discountOnPurchase, index } = props;
 
   return (
     <legend className="flex w-full items-center font-bold">
-      <span className="flex items-center gap-2 text-cs85">
-        <MdOutlineKey size={20} color="#333" />
+      <span className="flex items-center gap-1.5 text-cs85">
+        {/* <span>اتاق</span> */}
+        <span className="flex-center w-5 rounded bg-cs-dark-blue pt-0.5 text-white">
+          {index + 1}
+        </span>
+      </span>
 
+      <span className="mr-2 flex items-center gap-1.5 text-cs85">
+        {/* <MdOutlineKey size={20} color="#333" /> */}
         <span>اتاق {name}</span>
       </span>
 

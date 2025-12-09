@@ -26,9 +26,9 @@ export default function CheckReservationInformation() {
       </div>
 
       {/* === Large-Screen */}
-      <div className="hidden grid-cols-[1fr_2.8fr] gap-x-6 overflow-hidden lg:grid">
+      <div className="hidden grid-cols-[1fr_2.8fr] items-start gap-x-6 lg:grid">
         {/* --- Right-Column */}
-        <div className="space-y-6">
+        <div className="sticky top-[6.4rem] space-y-6">
           <CheckReservationInfo />
           <ApplyDiscountCode />
           <WalletWithdraw />
