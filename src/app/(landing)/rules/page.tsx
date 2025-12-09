@@ -34,6 +34,13 @@ export default function Rules() {
     return { id: String(index), ...rest };
   });
 
+  // محاسبه کل زمان مطالعه
+  const totalDuration = data?.data.reduce((sum, item) => {
+    const plainText = item.text.replace(/<[^>]*>/g, '');
+    const charCount = plainText.length;
+    return sum + Math.ceil(charCount / 1000);
+  }, 0) || 0;
+
   const [activeSection, setActiveSection] = useState('');
   if (isEmptyOrInvalid({ data, status })) return null;
 
@@ -63,7 +70,7 @@ export default function Rules() {
             <div className="bg-zinc-100 text-zinc-700 text-cs08 font-bold px-5 flex-center gap-1 rounded-lg">
               <span>زمان مطالعه</span>
               <span>:</span>
-              <span>10</span>
+              <span>{totalDuration}</span>
               <span>دقیقه</span>
             </div>
           </div>
@@ -78,7 +85,6 @@ export default function Rules() {
           data?.data.map((section, index) => (
             <Section
               key={index}
-              durationOfStudy={10}
               sectionIsFirst={index === 0}
               setActiveSection={setActiveSection}
               section={{ id: String(index), ...section }}
