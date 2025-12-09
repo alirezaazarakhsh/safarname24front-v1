@@ -43,7 +43,7 @@ export default function NumberOfNights(props: Props) {
                     <span>شب</span>
                   </>
                 ) : (
-                  '- - - - - -'
+                  '- - - -'
                 )}
               </span>
             </div>

@@ -26,7 +26,7 @@ export default function BestHotels() {
       <div className="mt-4 lg:mt-12">
         <Setting />
 
-        <div className="grid gap-10 lg:grid-cols-[20rem_1fr] lg:mt-10">
+        <div className="grid gap-10 lg:mt-10 lg:grid-cols-[20rem_1fr]">
           <div className="hidden lg:block">
             <Filters />
           </div>

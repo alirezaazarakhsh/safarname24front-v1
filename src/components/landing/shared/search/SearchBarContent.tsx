@@ -63,7 +63,7 @@ export default function SearchBarContent(props: Props) {
               {!pathname.startsWith('/best-hotels/') && <CityOrHotel />}
               
               <DatePicker />
-              <Passengers />
+              {/* <Passengers /> */}
               <NumberOfNights />
             </div>
 
