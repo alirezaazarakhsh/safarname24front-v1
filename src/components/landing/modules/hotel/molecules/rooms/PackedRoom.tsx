@@ -172,11 +172,11 @@ export default function PackedRoom(props: Props) {
             </div>
           </div>
 
-          <ReserveButton
+          {/* <ReserveButton
             checkAuth={checkAuth}
             hotelId={pack_rooms[0].hotel}
             roomId={pack_rooms.map((room) => room.id)}
-          />
+          /> */}
         </div>
       </div>
     </div>
