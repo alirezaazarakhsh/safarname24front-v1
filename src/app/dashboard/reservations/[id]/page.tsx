@@ -18,8 +18,25 @@ import ErrorTable from '@/components/dashboard/api/errorTable';
 import Image from 'next/image';
 import TraiangleIcon from '../../../../../public/image/dashboardReservationFactor/traiangles.svg';
 import LogoIcon from '../../../../../public/image/dashboardReservationFactor/logo.webp';
-import LogoAndDetailsImage from '../../../../../public/image/dashboardReservationFactor/logoAndDetails.png';
 import Link from 'next/link';
+import { Aubrey } from 'next/font/google';
+import { cn } from '@/utils/utils';
+import localFont from 'next/font/local';
+
+// Defining fonts
+const aubrey = Aubrey({
+  subsets: ["latin"],
+  weight: "400",
+  display: "block",
+  preload: true
+})
+
+const sepahboodFont = localFont({
+  src: "../../../../../public/font/Sepahbod.otf",
+  display: "block",
+  weight: "500",
+  preload: true
+});
 
 // Creating and exporting ReservationFactor page as default
 export default function ReservationFactorPage({
@@ -101,15 +118,22 @@ export default function ReservationFactorPage({
             priority
             unoptimized
           />
-          <Image
-            alt="لوگو سفرنامه"
-            src={LogoAndDetailsImage.src}
-            width={100}
-            height={100}
-            priority
-            unoptimized
-            className="w-[100px] h-auto absolute right-5 top-5 pointer-events-none select-none z-20"
-          />
+          <div
+            className="absolute right-5 top-5 pointer-events-none select-none z-20"
+          >
+            <Image
+              alt="لوگو سفرنامه"
+              priority
+              unoptimized
+              src={LogoIcon.src}
+              width={500}
+              height={500}
+              className="w-[65px] mx-auto pointer-events-none select-none block"
+            />
+            <span className={cn('text-center font-medium text-black block text-cs07', aubrey.className)}>SAFARNAMEH24</span>
+            <span className={cn('text-center font-normal text-black block text-cs07', sepahboodFont.className)}>سفرنامه ۲۴</span>
+            <span className={'text-center font-normal text-black block text-cs06'}>شماره ثبت: 603443</span>
+          </div>
           <Image
             alt="لوگو سفرنامه"
             priority

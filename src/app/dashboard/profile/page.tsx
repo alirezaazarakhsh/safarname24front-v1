@@ -26,6 +26,10 @@ import { cn } from '@/utils/utils';
 import useUserLegalInfo from '@/hooks/dashboard/useUserLegalInfo';
 
 // Defining form schemas
+const landlineSchema = z.string().regex(/^0[0-9]{2,3}[0-9]{7,8}$/, "شماره تلفن اشتباه است.");
+const mobileSchema = z.string().regex(/^09\d{9}$/, "شماره تلفن اشتباه است.");
+const phoneSchema = z.union([landlineSchema, mobileSchema]);
+
 const personalFormSchema = z.object({
   name: z
     .string({
@@ -120,19 +124,7 @@ const legalFormSchema = z.object({
     .min(1, { message: 'کد اقتصادی نمی‌تواند خالی باشد' })
     .max(16, { message: 'کد اقتصادی نمی‌تواند بیشتر از ۱۶ رقم باشد' })
     .regex(/^\d+$/, { message: 'کد اقتصادی باید فقط عددی باشد' }),
-
-  tell: z
-    .string({
-      message: 'شماره موبایل الزامی است',
-    })
-    .length(11, 'شماره باید دقیقاً ۱۱ رقم باشد.')
-    .regex(/^\d+$/, { message: 'شماره تماس باید فقط شامل اعداد باشد.' })
-    .refine((s) => s.startsWith('0'), {
-      message: 'شماره تماس باید با 0 شروع شود.',
-    })
-    .refine((s) => /^0[1-8]\d{9}$/.test(s), {
-      message: 'شماره شرکت معتبر نیست.',
-    }),
+  tell: phoneSchema,
   email: z
     .string()
     .max(254, { message: 'ایمیل نمی‌تواند بیشتر از ۲۵۴ کاراکتر باشد' })

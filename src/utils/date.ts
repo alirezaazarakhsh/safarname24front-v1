@@ -49,3 +49,14 @@ export function isMinutesPassed(
     return false;
   }
 }
+
+export function isNearISO(
+  iso: string,
+  threshold: { value: number; unit: moment.unitOfTime.DurationConstructor } = { value: 7, unit: "day" }
+) {
+  const t = moment(iso);
+  if (!t.isValid()) return false;
+  const now = moment();
+  const diff = Math.abs(t.diff(now, threshold.unit));
+  return diff <= threshold.value;
+}
