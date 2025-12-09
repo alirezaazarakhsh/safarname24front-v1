@@ -36,7 +36,7 @@ export function RoomsContent(props: Props) {
           <div className="grid grid-cols-[1.6fr_1fr_1fr] gap-4">
             <DDatePicker sideOffset={15} triggerType="else" />
             <NumberOfNights type="else" />
-            <Passengers sideOffset={15} triggerType="else" />
+            {/* <Passengers sideOffset={15} triggerType="else" /> */}
           </div>
 
           <div className="flex gap-4 mr-auto">

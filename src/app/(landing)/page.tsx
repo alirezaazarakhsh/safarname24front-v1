@@ -10,6 +10,7 @@ import {
   MostVisitedCities,
   AdvertisingBanners,
 } from '@/components/landing/modules/home';
+
 import StickyArea from '@/components/landing/shared/StickyArea';
 
 // ------------------------------
@@ -23,7 +24,7 @@ export default function Home() {
         searchbarStatus={{ static: true, fixed: true }}
       />
 
-      <div className="mt-5 flex flex-col gap-14 lg:gap-20 lg:mt-0">
+      <div className="mt-5 flex flex-col gap-14 lg:mt-0 lg:gap-20">
         <HeroSection />
         <Services />
         <SuggestedHotels />

@@ -10,52 +10,44 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+import { generalInstance } from '@/utils/services';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Skeleton } from '@/components/ui/skeleton';
+
+import type { HeroSlide } from '@/types/landing/home';
+import SearchAndFilter from './molecules/SearchAndFilter';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 
-import { Skeleton } from '@/components/ui/skeleton';
-import SearchAndFilter from './molecules/SearchAndFilter';
-import { generalInstance, isEmptyOrInvalid } from '@/utils/services';
+type ApiResponse = HeroSlide[];
 
-type Data = {
-  order: number;
-  image: string;
-};
-
-type ApiResponse = {
-  data: Data[];
-};
-
-const slidesInitialStat = {
-  allowSlidePrev: false,
-  allowSlideNext: true,
-};
-
-// -----------------------------------------------
+// -----------------------------------
 
 export function HeroSection() {
-  const [controlSlides, setControlSlides] = useState(slidesInitialStat);
-
-  const { data, status } = useQuery<ApiResponse>({
-    queryKey: ['config-slides'],
-    queryFn: () => generalInstance('/config/slides'),
+  const [controlSlides, setControlSlides] = useState({
+    allowSlidePrev: false,
+    allowSlideNext: true,
   });
 
-  // Control Slide-Changes
-  const handleSetControlSlides = (slide: 'next' | 'prev', value: boolean) =>
-    setControlSlides((prev) => ({
-      ...prev,
+  const { data: heroSlides, status } = useQuery<ApiResponse>({
+    queryKey: ['config-slides'],
+    queryFn: () => generalInstance('/config/slides').then((res) => res.data),
+  });
+
+  function handleSetControlSlides(slide: 'next' | 'prev', value: boolean) {
+    setControlSlides((prevValue) => ({
+      ...prevValue,
       [`allowSlide${slide.charAt(0).toUpperCase() + slide.slice(1)}`]: value,
     }));
+  }
 
-  if (isEmptyOrInvalid({ data, status })) return null;
+  if (status !== 'pending' && (!heroSlides || !heroSlides.length)) return null;
 
   return (
-    <div className="relative hidden -mb-4 lg:block">
+    <div className="relative -mb-4 hidden lg:block">
       {status !== 'pending' && <SearchAndFilter />}
 
       {status === 'pending' ? (
-        <Skeleton className="w-full h-[36rem] rounded-2xl xl:h-[40rem]" />
+        <Skeleton className="h-[36rem] w-full rounded-2xl xl:h-[40rem]" />
       ) : (
         <Swiper
           slidesPerView={1}
@@ -64,8 +56,8 @@ export function HeroSection() {
           speed={800}
           autoplay={{
             delay: 8000,
-            disableOnInteraction: false,
             pauseOnMouseEnter: true,
+            disableOnInteraction: false,
           }}
           pagination={{ clickable: true }}
           onSlideChange={(swiper) => {
@@ -76,23 +68,22 @@ export function HeroSection() {
               handleSetControlSlides('next', false);
             else handleSetControlSlides('next', true);
           }}
+          modules={[Pagination, Autoplay, EffectFade]}
           allowSlidePrev={controlSlides.allowSlidePrev}
           allowSlideNext={controlSlides.allowSlideNext}
-          modules={[Pagination, Autoplay, EffectFade]}
           className="heroSection-swiper h-[36rem] rounded-2xl xl:h-[40rem]"
         >
-          {data?.data.map((image, index) => (
+          {heroSlides?.map((slide, index) => (
             <SwiperSlide
               key={index}
-              className="bg-zinc-200 max-w-full select-none flex-center overflow-hidden rounded-2xl"
+              className="flex-center relative max-w-full select-none overflow-hidden rounded-2xl bg-zinc-200"
             >
-              {image && (
+              {slide.image && (
                 <Image
+                  fill
                   priority
-                  width={1280}
-                  height={800}
-                  alt="hotel-view"
-                  src={image.image}
+                  src={slide.image}
+                  alt="hotel-pictures"
                   className="full-size object-cover"
                 />
               )}
