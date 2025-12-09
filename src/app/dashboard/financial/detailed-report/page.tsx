@@ -4,8 +4,8 @@
 // Importing part
 import EmptyTable from '@/components/dashboard/api/emptyTable';
 import ErrorTable from '@/components/dashboard/api/errorTable';
-import Search from '@/components/dashboard/financialFactors/search';
-import FactorsTable from '@/components/dashboard/financialFactors/table';
+import Search from '@/components/dashboard/financialDetailedReport/search';
+import FactorsTable from '@/components/dashboard/financialDetailedReport/table';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
 import { GETWalletOperations } from '@/types/dashboard/api/get';
 import { filterType, typeFilterType } from '@/types/dashboard/component';

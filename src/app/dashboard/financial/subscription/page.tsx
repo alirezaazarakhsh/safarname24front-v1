@@ -3,20 +3,23 @@
 
 // Importing part
 import AdminCreditCardInfo from '@/components/dashboard/financialCartToCart/adminCreditCardInfo';
-import Details from '@/components/dashboard/financialCartToCart/details';
 import Subscription from '@/components/dashboard/financialCartToCart/subscription/subscription';
-import SubscriptionPackage from '@/components/dashboard/financialSubscription/subscriptionPackage';
 import SubscriptionPicker from '@/components/dashboard/financialSubscription/subscriptionPicker';
+import SubscriptionDetails from '@/components/dashboard/financialSubscription/subscriptionsDetails';
+import SubscriptionTable from '@/components/dashboard/financialSubscription/table';
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
-import { cn } from '@/utils/utils';
-import { JSX } from 'react';
+import moment from 'jalali-moment';
+import { JSX, useState } from 'react';
 
 // Creating and exporting Subscription financial page as default
 export default function SubscriptionFinancialPage(): JSX.Element {
+  // Defining hooks
+  const [paginationNumber, setPaginationNumber] = useState<number>(0);
+
   // Returning JSX
   return (
-    <main className="p-5 lg:pb-5 pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
-      <div className='grid lg:grid-cols-6 lg:gap-4 gap-[14px]'>
+    <main className="lg:p-5 p-0 lg:pb-[50px] flex flex-col lg:gap-5 gap-0">
+      <div className='grid lg:grid-cols-6 lg:gap-4 gap-[14px] lg:p-0 p-5'>
         <div className={'bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] flex lg:flex-row flex-col items-center justify-between gap-3 lg:col-span-4'}>
           <div className="overflow-hidden flex-1 lg:w-auto w-full">
             <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
@@ -29,42 +32,43 @@ export default function SubscriptionFinancialPage(): JSX.Element {
         </div>
         <SubscriptionType className='lg:col-span-2' />
       </div>
-      <div className='grid lg:grid-cols-7 lg:gap-4 gap-[14px]'>
-        <Subscription className='lg:col-span-2' />
+      <div className='grid lg:grid-cols-7 lg:gap-4 gap-[14px] lg:p-0 p-5'>
+        <Subscription className='lg:col-span-2' subscription={{
+          chart: [
+            { month: 'فروردین', price: 200000 },
+            { month: 'اردیبهشت', price: 200000 },
+            { month: 'خرداد', price: 48888 },
+            { month: 'تیر', price: 48888 },
+            { month: 'مرداد', price: 48888 },
+            { month: 'شهریور', price: 48888 },
+            { month: 'مهر', price: 48888 },
+            { month: 'ابان', price: 48888 },
+            { month: 'اذر', price: 48888 },
+            { month: 'دی', price: 48888 },
+            { month: 'بهمن', price: 48888 },
+            { month: 'اسفند', price: 48888 },
+          ],
+          endsAt: moment().add(3, "day").toISOString(),
+          price: 400000,
+          type: "free"
+        }} />
         <AdminCreditCardInfo className='lg:col-span-5' />
       </div>
-      <div className='grid lg:grid-cols-7 lg:gap-4 gap-[14px]'>
+      <div className='grid lg:grid-cols-7 lg:gap-4 gap-[14px] lg:p-0 p-5'>
         <SubscriptionPicker className='lg:col-span-5 lg:h-[344px]' />
-        <Details className='lg:col-span-2 lg:h-[344px]' />
+        <SubscriptionDetails className='lg:col-span-2 lg:h-[344px]' />
       </div>
-      <div className='py-10'>
-        <div className='grid lg:grid-cols-3 items-center lg:gap-0 gap-[24px] lg:w-3/4 mx-auto'>
-          {
-            [...new Array(3)].map((_, index) => (
-              <SubscriptionPackage
-                key={index}
-                className={cn(
-                  "lg:h-[500px]",
-                  index === 1 && "lg:scale-[1.1]"
-                )}
-                data={{
-                  id: 1,
-                  name: "Starter",
-                  price: 120000,
-                  subTitle: "Perfect for trying out our service",
-                  features: [
-                    "1",
-                    "2",
-                    "2",
-                    "3",
-                    "4"
-                  ],
-                }}
-              />
-
-            ))
-          }
-        </div>
+      <div className='lg:p-0 p-5 lg:bg-transparent bg-white lg:border-none border-t border-t-gray-300'>
+        <SubscriptionTable
+          data={[...new Array(10).fill({
+            createdAt: new Date().toISOString(),
+            expireDate: new Date().toISOString(),
+            name: "X",
+            price: 3123412312,
+            status: "successfull"
+          })]}
+          loading={false}
+        />
       </div>
     </main>
   );
