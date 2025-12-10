@@ -13,6 +13,9 @@ RUN npm run build
 # ساخت یوزر غیر root
 RUN addgroup -S app && adduser -S app -G app
 
+# تنظیم permission برای public directory
+RUN chown -R app:app /app/public
+
 USER app
 
 EXPOSE 3000
