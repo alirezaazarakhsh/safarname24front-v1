@@ -1,26 +1,21 @@
-FROM node:20-alpine
+# Base image with the specified Node.js version
+FROM node:20.11.0
 
+# Set working directory
 WORKDIR /app
 
+# Install dependencies
 COPY package*.json ./
+RUN npm install --legacy-peer-deps
 
-RUN npm ci --legacy-peer-deps
-
+# Copy project files
 COPY . .
 
+# Build the Next.js application
 RUN npm run build
 
-# ساخت یوزر غیر root
-RUN addgroup -S app && adduser -S app -G app
-
-# تنظیم permission برای public directory
-RUN chown -R app:app /app/public
-
-USER app
-
+# Expose the port the app runs on
 EXPOSE 3000
 
-ENV HOST=0.0.0.0
-ENV PORT=3000
-
-CMD ["npm", "run", "start"]
+# Start the application
+CMD ["npm", "start"]
