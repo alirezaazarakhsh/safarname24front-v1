@@ -26,9 +26,9 @@ export default function UserFavorites() {
 
   return (
     <>
-      {/* Small-Device */}
+      {/* === Small-Device */}
       <button
-        className="flex flex-col items-center gap-1.5 overflow-hidden lg:hidden"
+        className="flex flex-col items-center gap-1 overflow-hidden lg:hidden"
         onClick={handleClick}
       >
         <IconsaxIcons
@@ -36,12 +36,11 @@ export default function UserFavorites() {
           name={'Heart'}
           variant={isActive ? 'Bold' : 'Outline'}
           color={isActive ? '#27272a' : '#71717a'}
-          className="transition-colors duration-300 ease-in-out"
         />
 
         <span
           className={clsx(
-            'text-[clamp(0.65rem,3vw,0.75rem)] font-bold text-zinc-500 transition-colors duration-300 ease-in-out',
+            'text-[clamp(0.65rem,3vw,0.75rem)] font-bold text-zinc-500',
             isActive && 'text-zinc-800',
           )}
         >
@@ -49,9 +48,7 @@ export default function UserFavorites() {
         </span>
       </button>
 
-      {/* ---------------------------- */}
-
-      {/* Large-Device */}
+      {/* === Large-Device */}
       <button
         className="lg:flex-center hidden gap-2 rounded-lg bg-zinc-200/50 px-4 transition-colors duration-300 ease-in-out hover:bg-zinc-200/80"
         onClick={handleClick}
