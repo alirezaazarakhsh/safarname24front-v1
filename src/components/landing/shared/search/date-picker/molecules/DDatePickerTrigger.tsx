@@ -39,7 +39,7 @@ export function DDatePickerTrigger(props: Props) {
 
     const delayScroll = props.scrollPosition ?? 300;
     if (scrollPosition !== delayScroll && !isOpen) {
-      if (window.innerHeight < 800) {
+      if (window.innerHeight < 700) {
         document
           .getElementById('d-date-picker-trigger')
           ?.scrollIntoView({ behavior: 'smooth' });

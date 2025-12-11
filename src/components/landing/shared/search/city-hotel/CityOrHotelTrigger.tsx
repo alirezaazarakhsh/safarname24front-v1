@@ -41,7 +41,7 @@ export default function CityOrHotelTrigger(props: Props) {
 
     const delayScroll = props.scrollPosition ?? 300;
     if (scrollPosition !== delayScroll && !isOpen) {
-      if (window.innerHeight < 800) {
+      if (window.innerHeight < 700) {
         document
           .getElementById('city-or-hotel-trigger')
           ?.scrollIntoView({ behavior: 'smooth' });
@@ -64,12 +64,12 @@ export default function CityOrHotelTrigger(props: Props) {
       <button onPointerDown={(e) => handleDropDownTrigger(e)}>
         {type === 'home' ? (
           <div className="flex flex-col items-start gap-y-2 truncate">
-            <span className="text-zinc-800 text-cs85 font-extrabold">
+            <span className="text-cs85 font-extrabold text-zinc-800">
               انتخاب شهر یا هتل
             </span>
 
             {confirmedValue.city ? (
-              <div className="text-zinc-500 text-cs08 font-semibold flex items-center gap-1">
+              <div className="flex items-center gap-1 text-cs08 font-semibold text-zinc-500">
                 {confirmedValue.hotel ? (
                   <>
                     <span>هتل</span>
@@ -86,23 +86,23 @@ export default function CityOrHotelTrigger(props: Props) {
                 )}
               </div>
             ) : (
-              <span className="text-zinc-500 text-cs08 font-semibold flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 text-cs08 font-semibold text-zinc-500">
                 <span>شهر یا هتل</span>
                 <span>(داخلی , خارجی)</span>
               </span>
             )}
           </div>
         ) : (
-          <div className="text-cs08 flex flex-col items-start gap-y-3">
-            <span className="text-zinc-800 text-cs08 font-extrabold">
+          <div className="flex flex-col items-start gap-y-3 text-cs08">
+            <span className="text-cs08 font-extrabold text-zinc-800">
               {pathname === '/best-hotels'
                 ? 'انتخاب شهر مقصد'
                 : 'انتخاب شهر یا هتل'}
             </span>
 
-            <div className="bg-zinc-200/50 w-full h-12 font-semibold px-4 flex items-center gap-0.5 rounded-lg">
+            <div className="flex h-12 w-full items-center gap-0.5 rounded-lg bg-zinc-200/50 px-4 font-semibold">
               {confirmedValue.city ? (
-                <div className="text-zinc-700 flex items-center gap-1">
+                <div className="flex items-center gap-1 text-zinc-700">
                   {confirmedValue.hotel ? (
                     <>
                       <span>هتل</span>
@@ -120,7 +120,7 @@ export default function CityOrHotelTrigger(props: Props) {
                   )}
                 </div>
               ) : (
-                <span className="text-zinc-500 flex items-center gap-1.5">
+                <span className="flex items-center gap-1.5 text-zinc-500">
                   {pathname === '/best-hotels' ? (
                     <span>شهر مقصد</span>
                   ) : (
