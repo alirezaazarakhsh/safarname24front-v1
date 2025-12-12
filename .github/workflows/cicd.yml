@@ -33,7 +33,7 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
       env:
-        SERVER_IP: 91.107.172.215
+        SERVER_IP: 91.107.183.166
 
     - name: Deploy to Server
       run: |
@@ -48,6 +48,6 @@ jobs:
           docker-compose up -d --build
         EOF
       env:
-        SERVER_IP: 91.107.172.215
+        SERVER_IP: 91.107.183.166
 
         
