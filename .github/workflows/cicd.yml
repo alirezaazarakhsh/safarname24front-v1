@@ -10,44 +10,46 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4  # نسخه جدیدتر
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: |
-        npm install --legacy-peer-deps
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps  # بهتر از npm install
 
-    - name: Build Docker Image
-      run: |
-        docker build -t myapp .
+      - name: Test Build (اختیاری اما توصیه می‌شه)
+        run: npm run build
 
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-      env:
-        SERVER_IP: 91.107.183.166
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
 
-    - name: Deploy to Server
-      run: |
-        ssh -i ~/.ssh/id_rsa root@${{ secrets.SERVER_IP }} << 'EOF'
-          # Go to the correct directory for the frontend
-          cd /var/safarname24front-v1
-          # Pull the latest changes from the repository
-          git pull origin main
-          # Stop running containers (if any)
-          docker-compose down
-          # Rebuild and run the containers in detached mode
-          docker-compose up -d --build
-        EOF
-      env:
-        SERVER_IP: 91.107.183.166
+      - name: Deploy to Server (با کاربر غیر-root)
+        run: |
+          ssh -o StrictHostKeyChecking=no sasha@${{ secrets.SERVER_IP }} -p 2394 << 'EOF'
+            cd /var/safarname24front-v1
 
-        
+            # بروزرسانی کد
+            git pull origin main
+
+            # توقف کانتینرهای قدیمی
+            docker compose down
+
+            # بازسازی و راه‌اندازی دوباره (با build)
+            docker compose up -d --build
+
+            # اختیاری: پاک کردن تصاویر قدیمی برای صرفه‌جویی در فضا
+            docker image prune -f
+          EOF
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
