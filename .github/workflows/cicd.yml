@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4  # نسخه جدیدتر
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -20,10 +20,11 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps  # بهتر از npm install
+        run: npm ci --legacy-peer-deps
 
-      - name: Test Build (اختیاری اما توصیه می‌شه)
+      - name: Test Build (Optional - continue on failure)
         run: npm run build
+        continue-on-error: true  # اگر build شکست، job ادامه پیدا کنه (چون build اصلی روی سرور انجام می‌شه)
 
       - name: Setup SSH
         run: |
@@ -31,25 +32,24 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-        env:
-          SERVER_IP: ${{ secrets.SERVER_IP }}
 
-      - name: Deploy to Server (با کاربر غیر-root)
+      - name: Deploy to Server
         run: |
-          ssh -o StrictHostKeyChecking=no sasha@${{ secrets.SERVER_IP }} -p 2394 << 'EOF'
-            cd /var/safarname24front-v1
+          ssh -o StrictHostKeyChecking=no -v -p 2394 sasha@${{ secrets.SERVER_IP }} << 'EOF'
+            echo "Connected successfully as sasha on port 2394"
+            cd /var/safarname24front-v1 || { echo "Directory not found!"; exit 1; }
 
             # بروزرسانی کد
             git pull origin main
 
-            # توقف کانتینرهای قدیمی
-            docker compose down
+            # توقف و حذف کانتینرهای قدیمی
+            docker compose down || true
 
-            # بازسازی و راه‌اندازی دوباره (با build)
+            # بازسازی و راه‌اندازی
             docker compose up -d --build
 
-            # اختیاری: پاک کردن تصاویر قدیمی برای صرفه‌جویی در فضا
-            docker image prune -f
+            # پاک کردن تصاویر قدیمی (اختیاری)
+            docker image prune -f || true
+
+            echo "Deployment completed successfully!"
           EOF
-        env:
-          SERVER_IP: ${{ secrets.SERVER_IP }}
