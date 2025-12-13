@@ -22,34 +22,43 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Test Build (Optional - continue on failure)
+      - name: Test Build (Optional)
         run: npm run build
-        continue-on-error: true  # اگر build شکست، job ادامه پیدا کنه (چون build اصلی روی سرور انجام می‌شه)
+        continue-on-error: true  # اگر build لوکال شکست، ادامه بده
 
-      - name: Setup SSH
+      - name: Setup SSH (Secure)
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          
+          # روش امن برای نوشتن کلید خصوصی (جلوگیری از leak تشخیص GitHub)
+          printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          
+          # اضافه کردن host key سرور
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts 2>/dev/null
+          
+          # چک ساده (بدون لو دادن کلید)
+          echo "SSH key configured: $(wc -l < ~/.ssh/id_rsa) lines"
 
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no -v -p 2394 sasha@${{ secrets.SERVER_IP }} << 'EOF'
-            echo "Connected successfully as sasha on port 2394"
-            cd /var/safarname24front-v1 || { echo "Directory not found!"; exit 1; }
-
-            # بروزرسانی کد
+            echo "Successfully connected to server as sasha on port 2394"
+            
+            cd /var/safarname24front-v1 || { echo "Error: Directory not found!"; exit 1; }
+            
+            echo "Pulling latest code from main..."
             git pull origin main
-
-            # توقف و حذف کانتینرهای قدیمی
+            
+            echo "Stopping old containers..."
             docker compose down || true
-
-            # بازسازی و راه‌اندازی
+            
+            echo "Building and starting new containers..."
             docker compose up -d --build
-
-            # پاک کردن تصاویر قدیمی (اختیاری)
+            
+            echo "Pruning old images..."
             docker image prune -f || true
-
-            echo "Deployment completed successfully!"
+            
+            echo "Deployment completed successfully on $(date)"
           EOF
