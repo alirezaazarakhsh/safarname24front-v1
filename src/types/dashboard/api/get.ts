@@ -324,6 +324,11 @@ export interface GETCartToCartPageDetails {
   text: string | null;
 }
 
+export interface GETSubscriptionDetails {
+  id: number;
+  description: string;
+}
+
 export type GETCustomerClubList = GETPaginationAPILayout<
   GETCustomerClubListItem[]
 >;

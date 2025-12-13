@@ -5,7 +5,7 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETCartToCartPageDetails } from '@/types/dashboard/api/get';
+import { GETCartToCartPageDetails, GETSubscriptionDetails } from '@/types/dashboard/api/get';
 import { SubscriptionDetailsComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { JSX } from 'react';
@@ -17,9 +17,9 @@ export default function SubscriptionDetails({ className }: SubscriptionDetailsCo
     isLoading,
     isError,
     data
-  } = useApiQuery<GETCartToCartPageDetails>({
-    url: "/finance/card-to-card/instruction/",
-    queryKey: ["cart-to-cart-detail"],
+  } = useApiQuery<GETSubscriptionDetails>({
+    url: "/subscription/description/",
+    queryKey: ["subscription-detail"],
     options: {
       staleTime: Infinity,
       refetchInterval: Infinity,
@@ -51,7 +51,7 @@ export default function SubscriptionDetails({ className }: SubscriptionDetailsCo
         isError
           ? "flex items-center justify-center"
           : !isLoading && data
-            ? data.text
+            ? data.description
               ? "overflow-hidden"
               : "flex items-center justify-center"
             : ""
@@ -69,7 +69,7 @@ export default function SubscriptionDetails({ className }: SubscriptionDetailsCo
                 ? (
                   <div className='lg:pl-4 pl-0 overflow-auto custom-scrollbar w-full h-full'>
                     <p className="text-cs08 font-normal text-right block text-black/70 leading-6">
-                      {data.text}
+                      {data.description}
                     </p>
                   </div>
                 ) : (
