@@ -1,12 +1,16 @@
 version: '3.8'
 
+networks:
+  internal:
+    driver: bridge
+
 services:
   react-app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"  
     restart: unless-stopped
     environment:
       - NODE_ENV=production
@@ -20,4 +24,10 @@ services:
       - no-new-privileges:true  
     cap_drop:
       - ALL  
-    
+    networks:
+      - internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
