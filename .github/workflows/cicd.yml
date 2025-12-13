@@ -40,8 +40,8 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh -o StrictHostKeyChecking=no -p 2394 sasha@${{ secrets.SERVER_IP }} << 'EOF'
-            echo "Connected as sasha on port 2394"
+          ssh -o StrictHostKeyChecking=no -p 2394 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            echo "Connected as ${{ secrets.SERVER_USER }} on port 2394"
             
             cd /var/safarname24front-v1 || { echo "Directory not found!"; exit 1; }
             
