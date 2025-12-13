@@ -5,7 +5,7 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETCartToCartPageDetails, GETSubscriptionDetails } from '@/types/dashboard/api/get';
+import { GETSubscriptionDetails } from '@/types/dashboard/api/get';
 import { SubscriptionDetailsComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
 import { JSX } from 'react';
