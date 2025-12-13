@@ -10,55 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
 
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+    - name: Install dependencies
+      run: |
+        npm install --legacy-peer-deps
 
-      - name: Test Build (Optional)
-        run: npm run build
-        continue-on-error: true  # اگر build لوکال شکست، job ادامه پیدا کنه
+    - name: Build Docker Image
+      run: |
+        docker build -t myapp .
 
-      - name: Setup SSH (Secure)
-        run: |
-          mkdir -p ~/.ssh
-          
-          # روش امن برای نوشتن کلید خصوصی (بدون مشکل leak در GitHub)
-          printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          
-          chmod 600 ~/.ssh/id_rsa
-          
-          # اضافه کردن host key سرور برای جلوگیری از خطا
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts 2>/dev/null
-          
-          # چک ساده بدون لو دادن کلید
-          echo "SSH key configured: $(wc -l < ~/.ssh/id_rsa) lines"
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      env:
+        SERVER_IP: 91.107.143.26
 
-      - name: Deploy to Server
-        run: |
-          ssh -o StrictHostKeyChecking=no -v -p 2394 sasha@${{ secrets.SERVER_IP }} << 'EOF'
-            echo "Successfully connected as sasha on port 2394"
-            
-            cd /var/safarname24front-v1 || { echo "Error: Directory not found!"; exit 1; }
-            
-            echo "Pulling latest code..."
-            git pull origin main
-            
-            echo "Stopping old containers..."
-            docker compose down || true
-            
-            echo "Building and starting containers..."
-            docker compose up -d --build
-            
-            echo "Pruning unused images..."
-            docker image prune -f || true
-            
-            echo "Deployment completed successfully on $(date)"
-          EOF
+    - name: Deploy to Server
+      run: |
+        ssh -i ~/.ssh/id_rsa root@${{ secrets.SERVER_IP }} << 'EOF'
+          # Go to the correct directory for the frontend
+          cd /var/safarname24front-v1
+          # Pull the latest changes from the repository
+          git pull origin main
+          # Stop running containers (if any)
+          docker-compose down
+          # Rebuild and run the containers in detached mode
+          docker-compose up -d --build
+        EOF
+      env:
+        SERVER_IP: 91.107.143.26
+
+        
