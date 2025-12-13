@@ -324,6 +324,25 @@ export interface GETCartToCartPageDetails {
   text: string | null;
 }
 
+export interface GETSubscriptionDetails {
+  id: number;
+  description: string;
+}
+
+export interface GETSubscriptionPackages {
+  id: number;
+  name: string;
+  short_description: string;
+  monthly_cost: number;
+  color: string;
+  options: {
+    id: number;
+    name: string;
+  }[];
+  upgrade_to_level: string;
+  period_fk: string;
+}
+
 export type GETCustomerClubList = GETPaginationAPILayout<
   GETCustomerClubListItem[]
 >;

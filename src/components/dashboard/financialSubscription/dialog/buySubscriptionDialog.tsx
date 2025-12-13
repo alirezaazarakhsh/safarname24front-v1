@@ -15,6 +15,7 @@ import Loading from '../../ui/loading';
 import { phoneNumberValidator } from '@persian-tools/persian-tools';
 import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import toast from '../../ui/customSonner/toast';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
 
 // Defining form schema
 const formSchema = z.object({
@@ -66,21 +67,38 @@ export default function BuySubscriptionDialog({
     }
   })
 
+  const setData = useApiMutation({
+    url: "/subscription/payment-request/",
+    method: "post",
+    isFormData: true,
+    options: {
+      onSuccess: () => {
+        toast({
+          title: "خرید اشتراک موفقیت امیز بود!",
+          description: "مشتری عزیز, پس از تایید ما اشتراک جدید شما فعال میشود.",
+          theme: "green"
+        })
+      },
+      onError: () => {
+        toast({
+          title: "خطایی رخ داد!",
+          description: "مشتری عزیز, در هنگام خرید اشتراک شما مشکلی پیش امد.",
+          theme: "theme"
+        })
+      },
+      onSettled: () => onOpenChange?.(false)
+    }
+  })
+
   // Defining onSubmit event
   const onSubmit: SubmitHandler<formType> = async (submitData) => {
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 seconds
-    onOpenChange?.(false);
-    toast({
-      title: "خرید اشتراک موفقیت امیز بود!",
-      description: "مشتری عزیز, پس از تایید ما اشتراک جدید شما فعال میشود.",
-      theme: "green"
+    await setData.mutateAsync({
+      package: id,
+      full_name: submitData.name,
+      phone_number: submitData.phoneNumber,
+      national_id: submitData.nationalCode,
+      receipt: submitData.file
     })
-
-    // toast({
-    //   title: "خطایی رخ داد!",
-    //   description: "مشتری عزیز, در هنگام خرید اشتراک شما مشکلی پیش امد.",
-    //   theme: "theme"
-    // })
   }
 
   // Using useEffect to reset values
