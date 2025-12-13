@@ -20,17 +20,16 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps  
+        run: npm ci --legacy-peer-deps
 
-      - name: Test Build 
+      - name: Test Build
         run: npm run build
-        continue-on-error: true  
+        continue-on-error: true
 
-      - name: Setup SSH (Secure)
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           
-          # روش امن برای کلید خصوصی (GitHub leak تشخیص نمی‌ده)
           printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           
           chmod 600 ~/.ssh/id_rsa
@@ -46,13 +45,17 @@ jobs:
             
             cd /var/safarname24front-v1 || { echo "Directory not found!"; exit 1; }
             
+            echo "Pulling latest code..."
             git pull origin main
             
+            echo "Stopping old containers..."
             docker compose down || true
             
+            echo "Rebuilding and starting containers..."
             docker compose up -d --build
             
+            echo "Cleaning old images..."
             docker image prune -f || true
             
-            echo "Deploy completed on $(date)"
+            echo "Deployment completed on $(date)"
           EOF
