@@ -50,3 +50,6 @@ jobs:
             docker image prune -f || true
             echo "Deployment completed on $(date)"
           EOF
+
+
+          
