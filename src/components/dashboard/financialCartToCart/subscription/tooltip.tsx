@@ -3,6 +3,7 @@
 
 // Importing part
 import { numberSeparation } from '@/utils';
+import moment from 'jalali-moment';
 import { ReactNode } from 'react';
 import { TooltipProps } from 'recharts';
 
@@ -26,7 +27,7 @@ export default function Tooltip({
           {`${numberSeparation(item.total)} تومان`}
         </span>
         <span className="truncate block text-right font-nortmal text-black/50 text-cs06">
-          {`در تاریخ : ${item.date}`}
+          {`در تاریخ : ${moment(item.date).locale("fa").format("jDD jMMMM jYYYY")}`}
         </span>
       </div>
     );
