@@ -1,16 +1,105 @@
 // Forcing next.js to render this component as client side component
 "use client";
 
-import { ICX } from '@/components/icons/ICX';
 // Importing part
+import { ICX } from '@/components/icons/ICX';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { RenewSubscriptionDialogProps } from '@/types/dashboard/component';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { phoneNumberValidator, verifyIranianNationalId } from '@persian-tools/persian-tools';
 import { JSX } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import toast from '../../ui/customSonner/toast';
+import NormalInput from '../../profile/normalInput';
+import Loading from '../../ui/loading';
+
+// Defining form schema
+const formSchema = z.object({
+  name: z
+    .string({
+      required_error: "وارد کردن نام الزامی است."
+    })
+    .min(2, { message: "نام باید حداقل ۲ کاراکتر باشد." })
+    .max(256, { message: "نام نمی‌تواند بیشتر از ۲۵۶ کاراکتر باشد." }),
+  phoneNumber: z
+    .string({
+      required_error: "وارد کردن شماره موبایل الزامی است."
+    })
+    .refine(val => phoneNumberValidator(val), {
+      message: "شماره موبایل معتبر نیست.",
+    }),
+  nationalCode: z
+    .string({
+      required_error: "وارد کردن کد ملی الزامی است."
+    })
+    .refine(val => verifyIranianNationalId(val), {
+      message: "کد ملی معتبر نیست.",
+    }),
+  file: z
+    .custom<File>((v) => v instanceof File, { message: "فایل معتبر نیست." })
+    .refine((file) => file.size <= 30 * 1024 * 1024, {
+      message: "حجم فایل باید کمتر از ۳۰ مگابایت باشد.",
+    })
+    .refine((file) => /^image\//.test(file.type), {
+      message: "فایل باید یک تصویر باشد (png, jpg, webp, ...).",
+    })
+
+});
+
+// Defining form Type
+type formType = z.infer<typeof formSchema>;
 
 // Creating and exporting RenewSubscriptionDialog component as default
 export default function RenewSubscriptionDialog({
   open, onOpenChange,
 }: RenewSubscriptionDialogProps): JSX.Element {
+  // Defining hooks
+  const userInfo = useUserInfo();
+  const form = useForm<formType>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: `${userInfo.first_name} ${userInfo.last_name}`,
+      nationalCode: userInfo.national_code,
+      phoneNumber: userInfo.phone_number
+    }
+  })
+
+  const setData = useApiMutation({
+    url: "/subscription/renewal-request/",
+    method: "post",
+    isFormData: true,
+    options: {
+      onSuccess: () => {
+        toast({
+          title: "خرید اشتراک موفقیت امیز بود!",
+          description: "مشتری عزیز, پس از تایید ما اشتراک جدید شما فعال میشود.",
+          theme: "green"
+        })
+      },
+      onError: () => {
+        toast({
+          title: "خطایی رخ داد!",
+          description: "مشتری عزیز, در هنگام تمدید اشتراک شما مشکلی پیش امد.",
+          theme: "theme"
+        })
+      },
+      onSettled: () => onOpenChange?.(false)
+    }
+  })
+
+  // Defining onSubmit event
+  const onSubmit: SubmitHandler<formType> = async (submitData) => {
+    await setData.mutateAsync({
+      full_name: submitData.name,
+      phone_number: submitData.phoneNumber,
+      national_id: submitData.nationalCode,
+      receipt: submitData.file,
+    })
+  }
+
   // Returning JSX
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -25,27 +114,71 @@ export default function RenewSubscriptionDialog({
             </button>
           </DialogClose>
         </DialogHeader>
-        <div className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
-          <DialogDescription className='text-right text-sm font-medium text-black'>
-            مشترک گرامی عزیز لازم به ذکر میباشد که در صورت تایید کردن، با حسب مبلغ مد نظر اشتراک شما تمدید خواهد شد.
-          </DialogDescription>
-          <DialogFooter dir='ltr' className='space-x-2'>
-            <DialogClose asChild>
-              <button
-                className='flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-black border border-black/10'
-              >
-                انصراف
-              </button>
-            </DialogClose>
-            <button
-              className='flex items-center justify-center px-6 py-2.5 rounded-md text-cs08 font-medium  transition-all duration-500 text-white bg-red-600 disabled:bg-gray-100'
-            >
-              <span className='text-[12px] font-semibold text-white'>
-                تایید
-              </span>
-            </button>
-          </DialogFooter>
-        </div>
+        <form action="#" onSubmit={form.handleSubmit(onSubmit)} className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
+          <div className='w-full'>
+            <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
+              نام و نام خوانوادگی
+            </span>
+            <NormalInput
+              type="text"
+              className="h-[45px] w-full"
+              placeholder="نام و نام خانوادگی خود را وارد کنید"
+              error={form.formState.errors.name?.message}
+              {...form.register("name")}
+            />
+          </div>
+          <div className='w-full'>
+            <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
+              شماره همراه
+            </span>
+            <NormalInput
+              type="tel"
+              className="h-[45px] w-full"
+              placeholder="شماره همراه خود را وارد کنید"
+              error={form.formState.errors.phoneNumber?.message}
+              lenghtValidation={11}
+              {...form.register("phoneNumber")}
+            />
+          </div>
+          <div className='w-full'>
+            <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
+              کد ملی
+            </span>
+            <NormalInput
+              type="text"
+              className="h-[45px] w-full"
+              placeholder="کد ملی خود را وارد کنید"
+              error={form.formState.errors.nationalCode?.message}
+              lenghtValidation={10}
+              {...form.register("nationalCode")}
+            />
+          </div>
+          <div className='w-full'>
+            <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
+              اپلود عکس فیش
+            </span>
+            <NormalInput
+              type="file"
+              className="h-[45px] w-full"
+              placeholder="کد ملی خود را وارد کنید"
+              accept="image/*"
+              error={form.formState.errors.file?.message}
+              onChange={(e) => {
+                const files = e.currentTarget.files;
+                if (files) {
+                  form.setValue("file", files[0]);
+                }
+              }}
+            />
+          </div>
+          <button disabled={form.formState.isSubmitting} className="h-[45px] rounded-md flex items-center justify-center bg-green-500 text-white w-full disabled:text-gray-700 disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">
+            {
+              !form.formState.isSubmitting
+                ? "ثبت اطلاعات"
+                : <Loading className='bg-current' />
+            }
+          </button>
+        </form>
       </DialogContent>
     </Dialog>
   );
