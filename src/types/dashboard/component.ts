@@ -327,7 +327,6 @@ export interface SubscriptionChartComponentPropsType {
 }
 
 export interface SubscriptionComponentPropsType {
-  subscription?: CreditCardSubscriptionType;
   className?: string;
 }
 
@@ -1003,4 +1002,9 @@ export interface RenewSubscriptionDialogProps {
 export interface SubscriptionDetailsDialogPropsType {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  data: {
+    current: number;
+    target: number;
+    next_level: string;
+  };
 }

@@ -343,6 +343,17 @@ export interface GETSubscriptionPackages {
   period_fk: string;
 }
 
+export interface GETCurrentSubscription {
+  expiration_date: null | string;
+  subscription_type: string;
+  renewal_cost: number | null;
+  purchased_amount: number;
+  progress: {
+    current: number;
+    target: number;
+    next_level: string;
+  };
+}
 export type GETCustomerClubList = GETPaginationAPILayout<
   GETCustomerClubListItem[]
 >;

@@ -33,25 +33,7 @@ export default function SubscriptionFinancialPage(): JSX.Element {
         <SubscriptionType className='lg:col-span-2' />
       </div>
       <div className='grid lg:grid-cols-7 lg:gap-4 gap-[14px] lg:p-0 p-5'>
-        <Subscription className='lg:col-span-2' subscription={{
-          chart: [
-            { month: 'فروردین', price: 200000 },
-            { month: 'اردیبهشت', price: 200000 },
-            { month: 'خرداد', price: 48888 },
-            { month: 'تیر', price: 48888 },
-            { month: 'مرداد', price: 48888 },
-            { month: 'شهریور', price: 48888 },
-            { month: 'مهر', price: 48888 },
-            { month: 'ابان', price: 48888 },
-            { month: 'اذر', price: 48888 },
-            { month: 'دی', price: 48888 },
-            { month: 'بهمن', price: 48888 },
-            { month: 'اسفند', price: 48888 },
-          ],
-          endsAt: moment().add(3, "day").toISOString(),
-          price: 400000,
-          type: "free"
-        }} />
+        <Subscription className='lg:col-span-2' />
         <AdminCreditCardInfo className='lg:col-span-5' />
       </div>
       <div className='grid lg:grid-cols-7 lg:gap-4 gap-[14px] lg:p-0 p-5'>
