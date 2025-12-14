@@ -8,7 +8,6 @@ import SubscriptionPicker from '@/components/dashboard/financialSubscription/sub
 import SubscriptionDetails from '@/components/dashboard/financialSubscription/subscriptionsDetails';
 import SubscriptionTable from '@/components/dashboard/financialSubscription/table';
 import SubscriptionType from '@/components/dashboard/profile/subscriptionType';
-import moment from 'jalali-moment';
 import { JSX, useState } from 'react';
 
 // Creating and exporting Subscription financial page as default

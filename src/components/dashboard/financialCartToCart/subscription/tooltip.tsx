@@ -8,8 +8,8 @@ import { TooltipProps } from 'recharts';
 
 // Defining type of data
 interface DataItem {
-  month: string;
-  price: number;
+  date: string;
+  total: number;
 }
 
 // Creating and exporting Tooltip component as default
@@ -23,10 +23,10 @@ export default function Tooltip({
     return (
       <div className="bg-white rounded-md border border-black/10 py-2 px-3">
         <span className="truncate block text-right font-medium text-cs65 mb-1">
-          {`${numberSeparation(item.price)} تومان`}
+          {`${numberSeparation(item.total)} تومان`}
         </span>
         <span className="truncate block text-right font-nortmal text-black/50 text-cs06">
-          {`در تاریخ : ${item.month}`}
+          {`در تاریخ : ${item.date}`}
         </span>
       </div>
     );

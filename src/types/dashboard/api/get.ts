@@ -354,6 +354,12 @@ export interface GETCurrentSubscription {
     next_level: string;
   };
 }
+
+export type GETSubscriptionChart = {
+  date: string;
+  total: number;
+}[];
+
 export type GETCustomerClubList = GETPaginationAPILayout<
   GETCustomerClubListItem[]
 >;

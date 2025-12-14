@@ -3,6 +3,7 @@
 
 // Importing part
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
+import SubscriptionChart from './subscriptionChart';
 import { ReactNode, useState } from 'react';
 import moment from 'jalali-moment';
 import { numberSeparation } from '@/utils';
@@ -14,7 +15,7 @@ import RenewSubscriptionDialog from '../dialog/renewSubscription';
 import Tooltip from '../../ui/tooltip';
 import SubscriptionDetailsDialog from '../dialog/subscriptionDetailDialog';
 import { useApiQuery } from '@/hooks/dashboard/useApiQuery';
-import { GETCurrentSubscription } from '@/types/dashboard/api/get';
+import { GETCurrentSubscription, GETSubscriptionChart } from '@/types/dashboard/api/get';
 import { Skeleton } from '@/components/ui/skeleton';
 
 // Creating and exporting Subscription component as default
@@ -33,6 +34,19 @@ export default function Subscription({
     }
   });
 
+  const chartsData = useApiQuery<GETSubscriptionChart>({
+    url: "/subscription/daily-purchases/",
+    queryKey: ["subscription-chart"],
+    options: {
+      enabled: !getData.isLoading,
+      refetchInterval: Infinity,
+      staleTime: Infinity
+    }
+  });
+
+  // Defining varaiables
+  const loading = [getData.isLoading, chartsData.isLoading].some(item => item === true);
+
   // Returning JSX
   return (
     <div
@@ -42,7 +56,7 @@ export default function Subscription({
       )}
     >
       {
-        !getData.isLoading && !getData.isError && getData.data && (
+        !loading && !getData.isError && getData.data && (
           <SubscriptionDetailsDialog
             data={getData.data.progress}
             open={detailsDialogOpened}
@@ -68,11 +82,11 @@ export default function Subscription({
             </p>
           </div>
           {
-            getData.isLoading
+            loading
               ? <Skeleton className='size-[45px] shrink-0 rounded-md' />
               : getData.isError
                 ? false
-                : !getData.isLoading && !getData.isError && getData.data
+                : !loading && !getData.isError && getData.data
                   ? getData.data.expiration_date && isNearISO(getData.data.expiration_date) && (
                     <>
                       <RenewSubscriptionDialog open={renewalDialogOpened} onOpenChange={setRenewalDialogOpened} />
@@ -92,15 +106,28 @@ export default function Subscription({
         </div>
       </div>
       <div className="flex lg:flex-row flex-col items-center gap-3 w-full h-full lg:p-4 p-[14px] overflow-auto scrollbar-hide">
-        <div className="lg:w-[125px] w-full lg:h-full h-[145px] bg-gray-100 border-[1.5px] border-black/10 lg:rounded-lg rounded-[10px] shrink-0 overflow-auto scrollbar-hide flex items-center flex-col justify-center">
-          <ICChartDown
-            className="lg:w-[60px] w-[40px] aspect-square block lg:mb-3 mb-2"
-            fill="currentColor"
-          />
-          <span className="lg:text-cs75 text-[14px] block text-center mx-auto truncate font-normal text-current">
-            مبلغ چارت نامعلوم
-          </span>
-        </div>
+        {
+          loading
+            ? <Skeleton className='lg:w-[125px] w-full lg:h-full h-[145px] bg-gray-100 border-[1.5px] border-black/10 lg:rounded-lg rounded-[10px] shrink-0' />
+            : chartsData.isError || !chartsData.data || chartsData.data.length === 0
+              ? (
+                <div className="lg:w-[125px] w-full lg:h-full h-[145px] bg-gray-100 border-[1.5px] border-black/10 lg:rounded-lg rounded-[10px] shrink-0 overflow-auto scrollbar-hide flex items-center flex-col justify-center">
+                  <ICChartDown
+                    className="lg:w-[60px] w-[40px] aspect-square block lg:mb-3 mb-2"
+                    fill="currentColor"
+                  />
+                  <span className="lg:text-cs75 text-[14px] block text-center mx-auto truncate font-normal text-current">
+                    مبلغ چارت نامعلوم
+                  </span>
+                </div>
+              ) : !loading && !chartsData.isError && chartsData.data
+                ? (
+                  <div className="lg:w-[125px] w-full lg:h-full h-[145px] bg-gray-100 border-[1.5px] border-black/10 lg:rounded-lg rounded-[10px] shrink-0 overflow-auto scrollbar-hide flex items-end justify-start">
+                    <SubscriptionChart chart={chartsData.data} />
+                  </div>
+                )
+                : false
+        }
         <div className="w-full h-full flex flex-col justify-center lg:gap-5 gap-[10px] items-start">
           <span className="block text-right font-semibold text-black lg:text-cs75 text-[10px] truncate w-full">
             کارت اشتراک ندارید!
@@ -110,14 +137,14 @@ export default function Subscription({
               تاریخ انقضا :
             </span>
             {
-              getData.isLoading
+              loading
                 ? <Skeleton className='h-[18px] rounded-md w-full' />
                 : getData.isError
                   ? (
                     <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
                       -
                     </span>
-                  ) : !getData.isLoading && !getData.isError && getData.data ? (
+                  ) : !loading && !getData.isError && getData.data ? (
                     <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
                       {getData.data.expiration_date ? moment(getData.data.expiration_date).format('jYYYY/jMM/jDD') : "-"}
                     </span>
@@ -129,14 +156,14 @@ export default function Subscription({
               نوع :
             </span>
             {
-              getData.isLoading
+              loading
                 ? <Skeleton className='h-[18px] rounded-md w-full' />
                 : getData.isError
                   ? (
                     <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
                       -
                     </span>
-                  ) : !getData.isLoading && !getData.isError && getData.data ? (
+                  ) : !loading && !getData.isError && getData.data ? (
                     <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
                       {getData.data.subscription_type}
                     </span>
@@ -149,14 +176,14 @@ export default function Subscription({
             </span>
             <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
               {
-                getData.isLoading
+                loading
                   ? <Skeleton className='h-[18px] rounded-md w-full' />
                   : getData.isError
                     ? (
                       <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
                         -
                       </span>
-                    ) : !getData.isLoading && !getData.isError && getData.data ? (
+                    ) : !loading && !getData.isError && getData.data ? (
                       <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
                         {getData.data.purchased_amount ? `${numberSeparation(getData.data.purchased_amount)} تومان` : "-"}
                       </span>
@@ -167,15 +194,10 @@ export default function Subscription({
         </div>
       </div>
       <div className="px-4 pb-4 shrink-0 w-full">
-        <button className="bg-black rounded-lg items-center justify-center flex text-white w-full px-3 h-[40px] text-cs07 font-semibold" onClick={() => setDetailsDialogOpened(true)}>
+        <button disabled={loading || getData.isError || !getData.data} className="bg-black rounded-lg items-center justify-center flex text-white w-full px-3 h-[40px] text-cs07 border border-black font-semibold transition-all duration-500 disabled:bg-white disabled:text-black" onClick={() => setDetailsDialogOpened(true)}>
           جزییات استفاده کارت اشتراکی
         </button>
       </div>
     </div>
   );
 }
-
-// import SubscriptionChart from './subscriptionChart';
-// <div className="lg:w-[125px] w-full lg:h-full h-[145px] bg-gray-100 border-[1.5px] border-black/10 lg:rounded-lg rounded-[10px] shrink-0 overflow-auto scrollbar-hide flex items-end justify-start">
-//   <SubscriptionChart chart={subscription.chart} />
-// </div>

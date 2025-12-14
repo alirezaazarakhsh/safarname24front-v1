@@ -14,7 +14,7 @@ import { SubscriptionChartComponentPropsType } from '@/types/dashboard/component
 
 // Defining dummy data
 const chartConfig = {
-  price: {
+  total: {
     label: 'قیمت',
     color: '#F30F26',
   },
@@ -40,7 +40,7 @@ export default function SubscriptionChart({
           </linearGradient>
         </defs>
         <Area
-          dataKey="price"
+          dataKey="total"
           type="natural"
           fill="url(#fillSubscription)"
           fillOpacity={0.3}
