@@ -81,6 +81,16 @@ export default function Subscription({
               کد تخفیف کارت اشتراکی سفرنامه 24
             </p>
           </div>
+          <RenewSubscriptionDialog open={renewalDialogOpened} onOpenChange={setRenewalDialogOpened} />
+          <Tooltip content='تمدید اشتراک'>
+            <button onClick={() => setRenewalDialogOpened(true)} className="size-[45px] shrink-0 flex items-center justify-center rounded-md text-white  transition-all duration-500 bg-black">
+              <IconsaxIcons
+                name="Repeat"
+                className="w-[20px] h-[20px]"
+                color="currentColor"
+              />
+            </button>
+          </Tooltip>
           {
             loading
               ? <Skeleton className='size-[45px] shrink-0 rounded-md' />
