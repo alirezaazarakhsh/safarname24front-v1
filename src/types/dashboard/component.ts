@@ -268,20 +268,10 @@ export interface UploadComponentPropsType {
   disabled?: boolean;
 }
 
-export type CreditCardSubscriptionChartType = [
-  { month: 'فروردین'; price: number },
-  { month: 'اردیبهشت'; price: number },
-  { month: 'خرداد'; price: number },
-  { month: 'تیر'; price: number },
-  { month: 'مرداد'; price: number },
-  { month: 'شهریور'; price: number },
-  { month: 'مهر'; price: number },
-  { month: 'ابان'; price: number },
-  { month: 'اذر'; price: number },
-  { month: 'دی'; price: number },
-  { month: 'بهمن'; price: number },
-  { month: 'اسفند'; price: number },
-];
+export type CreditCardSubscriptionChartType = {
+  date: string;
+  total: number;
+}[];
 
 export interface CreditCardSubscriptionType {
   type: 'premium' | 'free';
@@ -327,7 +317,6 @@ export interface SubscriptionChartComponentPropsType {
 }
 
 export interface SubscriptionComponentPropsType {
-  subscription?: CreditCardSubscriptionType;
   className?: string;
 }
 
@@ -1003,4 +992,9 @@ export interface RenewSubscriptionDialogProps {
 export interface SubscriptionDetailsDialogPropsType {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  data: {
+    current: number;
+    target: number;
+    next_level: string;
+  };
 }
