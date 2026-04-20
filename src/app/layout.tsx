@@ -1,14 +1,116 @@
 import './globals.css';
-
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import { Inter } from 'next/font/google';
 
 import MainWrapper from '@/components/landing/shared/MainWrapper';
+import { cn } from '@/utils/utils';
 
 // ---------------------------------------------------
+// Online Font
+// import { Inter } from 'next/font/google';
+// const interFont = localFont({
+//   subsets: ['latin'],
+//   variable: '--font-inter'
+// });
 
-const interFont = Inter({ subsets: ['latin'], variable: '--font-inter' });
+// Local font
+const interFont = localFont({
+  src: [
+    {
+      path: '../../public/font/inter/Inter_18pt-Thin.ttf',
+      weight: '100',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-ThinItalic.ttf',
+      weight: '100',
+      style: 'italic',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-ExtraLight.ttf',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-ExtraLightItalic.ttf',
+      weight: '200',
+      style: 'italic',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-Light.ttf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-LightItalic.ttf',
+      weight: '300',
+      style: 'italic',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-Italic.ttf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-Medium.ttf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-MediumItalic.ttf',
+      weight: '500',
+      style: 'italic',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-SemiBold.ttf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-SemiBoldItalic.ttf',
+      weight: '600',
+      style: 'italic',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-BoldItalic.ttf',
+      weight: '700',
+      style: 'italic',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-ExtraBold.ttf',
+      weight: '800',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-ExtraBoldItalic.ttf',
+      weight: '800',
+      style: 'italic',
+    },
+
+    {
+      path: '../../public/font/inter/Inter_18pt-Black.ttf',
+      weight: '900',
+      style: 'normal',
+    },
+    {
+      path: '../../public/font/inter/Inter_18pt-BlackItalic.ttf',
+      weight: '900',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-inter',
+});
+
 const iranSansFont = localFont({
   src: [
     { path: '../../public/font/woff/IRANSansX-LightD4.woff', weight: '400' },
@@ -34,7 +136,7 @@ const iranSansFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Safarnameh 24',
+  title: 'Safarname 24',
   description: 'Agency Safarname 24 Hotel',
 };
 
@@ -46,7 +148,11 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <body
-        className={`${interFont.variable} ${iranSansFont.variable} font-sans antialiased ss01`}
+        className={cn(
+          interFont.variable,
+          iranSansFont.variable,
+          'font-sans antialiased ss01',
+        )}
         suppressHydrationWarning
       >
         <MainWrapper>{children}</MainWrapper>
