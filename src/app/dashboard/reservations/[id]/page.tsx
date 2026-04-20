@@ -21,7 +21,6 @@ import LogoIcon from '../../../../../public/image/dashboardReservationFactor/log
 import Link from 'next/link';
 import localFont from 'next/font/local';
 import { cn } from '@/utils/utils';
-import localFont from 'next/font/local';
 
 // Defining fonts
 const aubrey = localFont({
