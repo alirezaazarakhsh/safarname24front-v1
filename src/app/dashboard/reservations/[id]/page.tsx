@@ -19,16 +19,17 @@ import Image from 'next/image';
 import TraiangleIcon from '../../../../../public/image/dashboardReservationFactor/traiangles.svg';
 import LogoIcon from '../../../../../public/image/dashboardReservationFactor/logo.webp';
 import Link from 'next/link';
-import { Aubrey } from 'next/font/google';
+import localFont from 'next/font/local';
 import { cn } from '@/utils/utils';
 import localFont from 'next/font/local';
 
 // Defining fonts
-const aubrey = Aubrey({
-  subsets: ["latin"],
-  weight: "400",
-  display: "block",
-  preload: true
+const aubrey = localFont({
+  preload: true,
+  src: [{
+    path: "../../../../../public/font/aubrey/Aubrey-Regular.ttf",
+    weight: "400",
+  }]
 })
 
 const sepahboodFont = localFont({
