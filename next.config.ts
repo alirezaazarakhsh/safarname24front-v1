@@ -1,10 +1,18 @@
 // Importing next config type
 import type { NextConfig } from 'next';
 
-// Defining configs of next.js 
+// Defining configs of next.js
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'safarnameh24.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'safarnameh24.com',
+      },
       {
         protocol: 'http',
         hostname: 'cps.safarnameh24.com',
@@ -12,10 +20,6 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cps.safarnameh24.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'safarnameh24.com',
       },
     ],
   },

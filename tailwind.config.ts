@@ -3,9 +3,9 @@ import type { Config } from 'tailwindcss';
 export default {
   darkMode: ['class'],
   content: [
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   safelist: [
     {
@@ -74,9 +74,9 @@ export default {
         },
       },
       animation: {
-        'caret-blink': 'caret-blink 1.25s ease-out infinite',
-        'accordion-down': 'accordion-down 0.3s ease-out',
         'accordion-up': 'accordion-up 0.3s ease-out',
+        'accordion-down': 'accordion-down 0.3s ease-out',
+        'caret-blink': 'caret-blink 1.25s ease-out infinite',
       },
     },
   },
