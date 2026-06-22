@@ -15,36 +15,36 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-axiosInstance.interceptors.response.use(
-  (response) => response,
+// axiosInstance.interceptors.response.use(
+//   (response) => response,
 
-  async (error) => {
-    const originalRequest = error.config;
+//   async (error) => {
+//     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
 
-      try {
-        if (!isRefreshing) {
-          isRefreshing = true;
+//       try {
+//         if (!isRefreshing) {
+//           isRefreshing = true;
 
-          await axiosInstance.post(
-            '/token/refresh/',
-            {},
-            { withCredentials: true },
-          );
-          isRefreshing = false;
-        }
+//           await axiosInstance.post(
+//             '/token/refresh/',
+//             {},
+//             { withCredentials: true },
+//           );
+//           isRefreshing = false;
+//         }
 
-        return axiosInstance(originalRequest);
-      } catch (err) {
-        isRefreshing = false;
+//         return axiosInstance(originalRequest);
+//       } catch (err) {
+//         isRefreshing = false;
 
-        console.log('Refresh token expired → force logout');
-        return Promise.reject(err);
-      }
-    }
+//         console.log('Refresh token expired → force logout');
+//         return Promise.reject(err);
+//       }
+//     }
 
-    return Promise.reject(error);
-  },
-);
+//     return Promise.reject(error);
+//   },
+// );
