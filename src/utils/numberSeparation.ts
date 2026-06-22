@@ -5,11 +5,15 @@ export function numberSeparation(
   format: string = ',', // What to format with
   sortBy: number = 3, // Group By
 ) {
-  const pattern = `\\B(?=(\\d{${sortBy}})+(?!\\d))`;
-  const regex = new RegExp(pattern, 'g');
+   try {
+      const pattern = `\\B(?=(\\d{${sortBy}})+(?!\\d))`;
+        const regex = new RegExp(pattern, 'g');
 
-  const str = number.toString();
-  const result = str.replace(regex, format);
+        const str = number.toString();
+        const result = str.replace(regex, format);
 
-  return result;
-}
+        return result;
+   } catch {
+      return "-";
+   }
+  }
