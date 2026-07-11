@@ -112,7 +112,7 @@ export default function Invoice({
             معادل ریالی مبلغ :
           </span>
           <span className="block text-left font-semibold text-black truncate text-[13px]">
-            {value !== 0 ? `${num2persian(value)} تومان` : 'نامعلوم'}
+            {value !== 0 ? `${num2persian(value * 10)} ریال` : 'نامعلوم'}
           </span>
         </div>
         <button

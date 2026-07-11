@@ -75,11 +75,10 @@ export default function CustomCharge({
       />
       <div className="w-full lg:mb-0 mb-4">
         <span className="text-[14px] lg:font-bold font-semibold text-black truncate block mb-2">
-          مبلغ بیشتر شارژ کیف پول
+          تراکنش‌های با مبلغ بالا
         </span>
         <p className="text-[12px] font-semibold text-gray-500 lg:line-clamp-2">
-          مشتری گرامی لازم به ذکر است که حداقل وارد کردن مبلغ سقف (1,000,000
-          تومان) و حداکثر وارد کردن مبلغ به سقف (100,000,000 تومان) میباشد.
+          مشتری گرامی لازم به ذکر است که محدوده مجاز برای شارژ حساب بین ۱,۰۰۰,۰۰۰ تا ۱۰۰,۰۰۰,۰۰۰ تومان می‌باشد.
         </p>
       </div>
       <div className="w-full">

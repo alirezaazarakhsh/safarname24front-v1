@@ -27,18 +27,18 @@ export default function Introduction({
           بخش مالی - شارژ کیف پول
         </span>
         <span className="text-cs75 font-normal truncate text-right block text-black/70">
-          مشتری گرامی لطفا از بین دو روش انتخابی شارژ کیف پول خود یکی را انتخاب نمایید.
+          جهت تکمیل موجودی کیف پول، از میان گزینه‌های رو به رو اقدام نمایید.
         </span>
       </div>
       <div className="flex lg:flex-row flex-col lg:w-auto w-full items-center justify-end gap-5 shrink-0">
         <Selecter
-          label="مبلغ انتخابی"
+          label="مقادیر پیشنهادی"
           className="lg:w-auto w-full"
           checked={value === 'static'}
           onCheckChange={(checked) => checked && onValueChange('static')}
         />
         <Selecter
-          label="مبلغ دستی اضافه"
+          label="وارد کردن مبلغ دلخواه"
           checked={value === 'dynamic'}
           className="lg:w-auto w-full"
           onCheckChange={(checked) => checked && onValueChange('dynamic')}
