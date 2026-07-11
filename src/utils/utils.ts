@@ -120,3 +120,9 @@ export function getRandomTailwind500Color() {
 export function getPercentage(largeNum: number, smallNum: number): number {
   return 100 - Math.round((largeNum / (largeNum + smallNum)) * 100);
 }
+
+export function handleNoWord(value: string) {
+     return value
+             .replace(/\D/g, "")
+             .trim();
+  }

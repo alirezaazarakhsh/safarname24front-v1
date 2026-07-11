@@ -560,6 +560,8 @@ export interface NormalInputComponentPropsType
   clearFn?: () => void;
   textLTR?: boolean;
   lenghtValidation?: number;
+   lenghtValidationEmtpyValueCount?: number;
+  leftSideIcon?: ReactNode;
 }
 
 export interface BankInfoFormComponentPropsType {

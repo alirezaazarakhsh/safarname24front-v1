@@ -20,6 +20,8 @@ import toast from '../../ui/customSonner/toast';
 import { userFetchedInfoContext } from '../../page';
 import { AnimatePresence, motion } from 'framer-motion';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
+import { handleNoWord } from '@/utils/utils';
+import { numberSeparation } from '@/utils';
 
 // Defining form schema
 const formSchema = z.object({
@@ -51,7 +53,12 @@ export default function AddCardDialog({
   const userLegalInfo = useUserLegalInfo();
   const userInfo = useContext(userFetchedInfoContext);
   const form = useForm<formType>({
-    resolver: zodResolver(formSchema)
+     resolver: zodResolver(formSchema),
+     defaultValues: {
+        cardNumber: "",
+        iban: "",
+        ownerName: ""
+     }
   })
 
   const post = useApiMutation({
@@ -82,6 +89,7 @@ export default function AddCardDialog({
 
   // Defining variables
   const formData = form.watch();
+  const isValid = formData.cardNumber.length === 16 && formData.iban.length === 24 && formData.ownerName !== "";
 
   // Defining onSubmit event
   const onSubmit: SubmitHandler<formType> = async (data) => {
@@ -98,14 +106,14 @@ export default function AddCardDialog({
     if (!open) {
       form.reset();
     }
-  }, [open])
+  }, [open, form])
 
   // Using useEffect to set card show case infos when form is valid
   useEffect(() => {
-    if (form.formState.isValid) {
+     if (isValid) {
       setCardInfo(getBankFromCard(formData.cardNumber));
     }
-  }, [form.formState.isValid])
+  }, [isValid, formData.cardNumber])
 
   // Returning JSX
   return (
@@ -125,7 +133,7 @@ export default function AddCardDialog({
           <form action="#" onSubmit={form.handleSubmit(onSubmit)} className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
             <AnimatePresence>
               {
-                form.formState.isValid && (
+                 isValid && (
                   <motion.div
                     initial={{
                       height: 0,
@@ -165,7 +173,15 @@ export default function AddCardDialog({
                 className="h-[45px] w-full"
                 placeholder="16 رقم شماره شبا را وارد نمایید"
                 lenghtValidation={16}
-                {...form.register("cardNumber")}
+                lenghtValidationEmtpyValueCount={3}
+                textLTR
+                       onChange={(e) => {
+                                                                 const newValue = numberSeparation(handleNoWord(e.target.value), " ", 4);
+                                                                 const removedWhiteSpace = newValue.replace(/\s/g, "");
+
+                                                                 e.target.value = newValue;
+                                                                 form.setValue('cardNumber', removedWhiteSpace)
+                                                       }}
               />
             </div>
             <div className='w-full'>
@@ -177,12 +193,17 @@ export default function AddCardDialog({
                 error={form.formState.errors.iban?.message}
                 className="h-[45px] w-full"
                 placeholder="24 رقم شماره شبا را وارد نمایید"
+                leftSideIcon="IR"
+                textLTR
                 lenghtValidation={24}
-                onChange={(e) =>
-                  form.setValue('iban', e.currentTarget.value)
-                }
-                value={form.watch('iban')}
-                name={form.register('iban').name}
+                lenghtValidationEmtpyValueCount={5}
+                onChange={(e) => {
+                                          const newValue = numberSeparation(handleNoWord(e.target.value), " ", 4);
+                                          const removedWhiteSpace = newValue.replace(/\s/g, "");
+
+                                          e.target.value = newValue;
+                                          form.setValue('iban', removedWhiteSpace)
+                                }}
               />
             </div>
             <div>
@@ -192,11 +213,15 @@ export default function AddCardDialog({
               <NormalInput
                 className="h-[45px] w-full"
                 placeholder="نام صاحب حساب را وارد کنید"
-                error={form.formState.errors.ownerName?.message}
-                {...form.register("ownerName")}
+                       onChange={(e) => {
+                  const value = e.target.value.replace(/[^\u0600-\u06FF\s]/g, "");
+
+                          e.target.value = value;
+                  form.setValue('ownerName', value);
+                }}
               />
             </div>
-            <button disabled={form.formState.isSubmitting} className="h-[45px] rounded-md flex items-center justify-center bg-green-500 text-white w-full disabled:text-gray-700 disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">
+            <button disabled={form.formState.isSubmitting || !isValid} className="h-[45px] rounded-md flex items-center justify-center bg-green-500 text-white w-full disabled:text-gray-700 disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">
               {
                 !form.formState.isSubmitting
                   ? "ثبت اطلاعات"

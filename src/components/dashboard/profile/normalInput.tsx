@@ -22,6 +22,8 @@ export default function NormalInput({
   onFocus,
   onInput,
   type,
+  leftSideIcon,
+  lenghtValidationEmtpyValueCount = 0,
   ...props
 }: NormalInputComponentPropsType): ReactNode {
   // Defining hooks
@@ -48,7 +50,7 @@ export default function NormalInput({
             dir={textLTR ? 'ltr' : 'rtl'}
             type={type}
             className={cn(
-              'text-right placeholder:text-black/50 flex-1 transition-all duration-500 text-black px-4 focus:text-black lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold group-data-[focused=true]:placeholder:text-black',
+              'text-right placeholder:text-black/50 flex-1 transition-all duration-500 text-black px-4 focus:text-black lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold group-data-[focused=true]:placeholder:text-black h-[50px]',
             )}
             required={required}
             placeholder={required ? `* ${placeholder}` : placeholder}
@@ -63,22 +65,31 @@ export default function NormalInput({
             }}
             {...props}
           />
-          <button
-            type="button"
-            className="shrink-0 size-[30px] ml-3 flex items-center justify-center bg-gray-100 rounded-md text-black group-data-[disabled=true]:cursor-not-allowed"
-            onClick={() => {
-              if (!props.disabled) {
-                clearFn();
-              }
-            }}
-          >
-            <IconsaxIcons
-              name="CloseSquare"
-              color="currentColor"
-              className="size-[20px]"
-            />
-          </button>
-        </div>
+          <div className="flex items-center justify-start shrink-0 gap-2 ml-2 mr-2">
+             <button
+                         type="button"
+                         className="shrink-0 size-[30px] ml-2 mr-2 flex items-center justify-center bg-gray-100 rounded-md text-black group-data-[disabled=true]:cursor-not-allowed"
+                         onClick={() => {
+                           if (!props.disabled) {
+                             clearFn();
+                           }
+                         }}
+                       >
+                         <IconsaxIcons
+                           name="CloseSquare"
+                           color="currentColor"
+                           className="size-[20px]"
+                         />
+                       </button>
+                       {
+                                                                   leftSideIcon && (
+                                                                      <div className="size-[30px] flex items-center justify-center text-[12px] font-medium text-current leading-none truncate text-center bg-gray-100 text-black [&>svg]:size-[12px] rounded-md">
+                                                                         {leftSideIcon}
+                                                                      </div>
+                                                                   )
+                                                                }
+          </div>
+                  </div>
         {error && !noErrorText && (
           <p className="text-cs07 font-medium text-cs-red block text-right mt-2">
             {error}
@@ -103,7 +114,7 @@ export default function NormalInput({
         >
           <input
             dir={textLTR ? 'ltr' : 'rtl'}
-            maxLength={lenghtValidation}
+            maxLength={lenghtValidation + lenghtValidationEmtpyValueCount}
             required={required}
             placeholder={required ? `* ${placeholder}` : placeholder}
             ref={validationInputRef}
@@ -119,27 +130,41 @@ export default function NormalInput({
             }}
             onInput={(e) => {
               onInput?.(e);
-              setValueLenght(e.currentTarget.value.length);
+               const value = e.currentTarget.value;
+               const removedWhiteSpace = value.replace(/\s/g, "");
+
+              setValueLenght(removedWhiteSpace.length);
             }}
             className={cn(
-              'placeholder:text-black/50 flex-1 transition-all duration-500 text-black px-4 focus:text-black lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold group-data-[focused=true]:placeholder:text-black',
+              'placeholder:text-black/50 flex-1 transition-all duration-500 text-black px-4 focus:text-black lg:text-[12px] text-[10px] lg:placeholder:text-cs75 placeholder:text-[10px] lg:font-medium font-semibold lg:placeholder:font-medium placeholder:font-semibold group-data-[focused=true]:placeholder:text-black h-[50px]',
               textLTR ? 'text-left' : 'text-right',
             )}
             {...props}
           />
-          <div
-            data-valid={lenghtValidation - valueLenght === 0}
-            className="ml-3 shrink-0 px-4 h-[30px] transition-all duration-500 data-[valid=true]:text-white data-[valid=true]:bg-green-500 data-[valid=false]:text-black data-[valid=false]:bg-gray-100  rounded-md flex items-center justify-center"
-          >
-            <span className="text-cs06 text-current leading-none truncate block text-center">
-              {
-                lenghtValidation - valueLenght >= 0
-                  ? `${lenghtValidation - valueLenght} رقم`
-                  : "اشتباه"
-              }
-            </span>
+             <div className="flex items-center justify-start shrink-0 gap-2 ml-2 mr-2">
+                <div
+                            data-valid={lenghtValidation - valueLenght === 0}
+                            className="px-4 h-[30px] transition-all duration-500 data-[valid=true]:text-white data-[valid=true]:bg-green-500 data-[valid=false]:text-black data-[valid=false]:bg-gray-100  rounded-md flex items-center justify-center"
+                          >
+                            <span className="text-[12px] font-medium text-current leading-none truncate block text-center">
+                              {
+                                lenghtValidation - valueLenght > 0
+                                  ? `${lenghtValidation - valueLenght} رقم`
+                                         : lenghtValidation - valueLenght === 0
+                                         ? "تکمیل شد"
+                                         : "اشتباه"
+                              }
+                            </span>
+                          </div>
+                          {
+                                             leftSideIcon && (
+                                                <div className="size-[30px] flex items-center justify-center text-[12px] font-medium text-current leading-none truncate text-center bg-gray-100 text-black [&>svg]:size-[12px] rounded-md">
+                                                   {leftSideIcon}
+                                                </div>
+                                             )
+                                          }
           </div>
-        </div>
+                  </div>
         {error && !noErrorText && (
           <p className="text-cs07 font-medium text-cs-red block text-right mt-2">
             {error}

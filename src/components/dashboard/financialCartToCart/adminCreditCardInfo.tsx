@@ -19,7 +19,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function AdminCreditCardInfo({
   className,
 }: AdminCreditCardInfoPropsType): JSX.Element {
-  // Defining hooks 
+  // Defining hooks
   const [cardInfo, setCardInfo] = useState<BankInfo | null>(null);
   const getData = useApiQuery<GETAdminCreditCard>({
     url: "/finance/admin-card-settings/",
@@ -196,7 +196,7 @@ export default function AdminCreditCardInfo({
               <button
                 disabled={loading}
                 className="size-[45px] shrink-0 flex items-center justify-center lg:rounded-md rounded-[10px] transition-all duration-500 bg-gray-100/50 hover:bg-gray-100 text-black disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={() => hanldeClipboardCopy(getData.data?.card_number || "************************")}
+                onClick={() => hanldeClipboardCopy(getData.data?.iban_number || "************************")}
               >
                 <IconsaxIcons
                   name="DocumentCopy"
