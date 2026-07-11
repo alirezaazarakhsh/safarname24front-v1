@@ -75,17 +75,17 @@ export default function Subscription({
           </div>
           <div className="overflow-hidden w-full">
             <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-              اشتراک
+              کارت ویژه
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-              کد تخفیف کارت اشتراکی سفرنامه 24
+کد تحفیف اختصاصی کارت اشتراکی
             </p>
           </div>
           <RenewSubscriptionDialog open={renewalDialogOpened} onOpenChange={setRenewalDialogOpened} />
           <Tooltip content='تمدید اشتراک'>
-            <button onClick={() => setRenewalDialogOpened(true)} className="size-[45px] shrink-0 flex items-center justify-center rounded-md text-white  transition-all duration-500 bg-black">
+            <button onClick={() => setRenewalDialogOpened(true)} className="size-[45px] shrink-0 flex items-center justify-center rounded-md text-black  transition-all duration-500 bg-[#f2f2f2]">
               <IconsaxIcons
-                name="Repeat"
+                name="Add"
                 className="w-[20px] h-[20px]"
                 color="currentColor"
               />
@@ -152,11 +152,11 @@ export default function Subscription({
                 : getData.isError
                   ? (
                     <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
-                      -
+                       خطا !
                     </span>
                   ) : !loading && !getData.isError && getData.data ? (
                     <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
-                      {getData.data.expiration_date ? moment(getData.data.expiration_date).format('jYYYY/jMM/jDD') : "-"}
+                      {getData.data.expiration_date ? moment(getData.data.expiration_date).format('jYYYY/jMM/jDD') : "تعیین نشده"}
                     </span>
                   ) : false
             }
@@ -171,7 +171,7 @@ export default function Subscription({
                 : getData.isError
                   ? (
                     <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
-                      -
+                       خطا
                     </span>
                   ) : !loading && !getData.isError && getData.data ? (
                     <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
@@ -191,11 +191,11 @@ export default function Subscription({
                   : getData.isError
                     ? (
                       <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
-                        -
+                        خطا !
                       </span>
                     ) : !loading && !getData.isError && getData.data ? (
                       <span className="block text-left font-medium text-black lg:text-cs07 text-[10px] truncate">
-                        {getData.data.purchased_amount ? `${numberSeparation(getData.data.purchased_amount)} تومان` : "-"}
+                        {getData.data.purchased_amount ? `${numberSeparation(getData.data.purchased_amount)} تومان` : "تعیین نشده"}
                       </span>
                     ) : false
               }

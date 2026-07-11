@@ -26,7 +26,7 @@ export default function SubscriptionDetails({ className }: SubscriptionDetailsCo
     }
   });
 
-  // Returning JSX 
+  // Returning JSX
   return (
     <div className={cn('bg-white border border-black/10 lg:rounded-lg rounded-[14px] overflow-hidden flex flex-col justify-between items-center', className)}>
       <div className="flex items-center justif-start gap-3 lg:p-4 p-[14px] border-b border-b-black/10 overflow-hidden w-full shrink-0">
@@ -39,10 +39,10 @@ export default function SubscriptionDetails({ className }: SubscriptionDetailsCo
         </div>
         <div className="overflow-hidden w-full">
           <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-            توضیحات تکمیلی :
+             راهنمای کاربر
           </span>
           <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-            پیش از اقدام، توضیحات را مطالعه فرمایید.
+مطالعه این بخش قبل از اقدام الزامی است
           </p>
         </div>
       </div>

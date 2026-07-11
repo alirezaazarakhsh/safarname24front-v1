@@ -61,10 +61,10 @@ export default function SubscriptionPicker({
           </div>
           <div className="overflow-hidden w-full">
             <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-              خرید و تمدید اشتراک
+              مدیریت و تمدید اشتراک
             </span>
             <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-              برای خرید و تمدید اشتراک خود در سفرنامه 24 از این قسمت استفاده کنید.
+جهت خرید یا تمدید دوره‌ی اشتراک خود، از این بخش استفاده کنید.
             </p>
           </div>
         </div>

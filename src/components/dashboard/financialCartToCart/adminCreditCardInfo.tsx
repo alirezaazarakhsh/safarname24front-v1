@@ -57,10 +57,10 @@ export default function AdminCreditCardInfo({
         </div>
         <div className="overflow-hidden w-full">
           <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
-            حساب بانکی مدیر
+            اطلاعات حساب بانکی مدیریت
           </span>
           <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
-            برای واریز وجه به اطلاعات زیر دقت زیادی توجه بفرمایید.
+لطفاً پیش از انجام هرگونه تراکنش، صحت اطلاعات و شماره حساب ذیل را با دقت بررسی نمایید.
           </p>
         </div>
       </div>
