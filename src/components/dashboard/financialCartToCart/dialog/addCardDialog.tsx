@@ -54,6 +54,7 @@ export default function AddCardDialog({
   const userInfo = useContext(userFetchedInfoContext);
   const form = useForm<formType>({
      resolver: zodResolver(formSchema),
+     mode: "all",
      defaultValues: {
         cardNumber: "",
         iban: "",
@@ -89,7 +90,6 @@ export default function AddCardDialog({
 
   // Defining variables
   const formData = form.watch();
-  const isValid = formData.cardNumber.length === 16 && formData.iban.length === 24 && formData.ownerName !== "";
 
   // Defining onSubmit event
   const onSubmit: SubmitHandler<formType> = async (data) => {
@@ -110,10 +110,10 @@ export default function AddCardDialog({
 
   // Using useEffect to set card show case infos when form is valid
   useEffect(() => {
-     if (isValid) {
+     if (form.formState.isValid) {
       setCardInfo(getBankFromCard(formData.cardNumber));
     }
-  }, [isValid, formData.cardNumber])
+  }, [form.formState.isValid, formData.cardNumber])
 
   // Returning JSX
   return (
@@ -133,7 +133,7 @@ export default function AddCardDialog({
           <form action="#" onSubmit={form.handleSubmit(onSubmit)} className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
             <AnimatePresence>
               {
-                 isValid && (
+                 form.formState.isValid && (
                   <motion.div
                     initial={{
                       height: 0,
@@ -180,7 +180,9 @@ export default function AddCardDialog({
                                                                  const removedWhiteSpace = newValue.replace(/\s/g, "");
 
                                                                  e.target.value = newValue;
-                                                                 form.setValue('cardNumber', removedWhiteSpace)
+                          form.setValue('cardNumber', removedWhiteSpace, {
+                                                                    shouldValidate: true,
+                                                                 })
                                                        }}
               />
             </div>
@@ -202,7 +204,9 @@ export default function AddCardDialog({
                                           const removedWhiteSpace = newValue.replace(/\s/g, "");
 
                                           e.target.value = newValue;
-                                          form.setValue('iban', removedWhiteSpace)
+                                          form.setValue('iban', removedWhiteSpace, {
+                                             shouldValidate: true,
+                                          })
                                 }}
               />
             </div>
@@ -217,11 +221,13 @@ export default function AddCardDialog({
                   const value = e.target.value.replace(/[^\u0600-\u06FF\s]/g, "");
 
                           e.target.value = value;
-                  form.setValue('ownerName', value);
+                          form.setValue('ownerName', value, {
+                             shouldValidate: true
+                  });
                 }}
               />
             </div>
-            <button disabled={form.formState.isSubmitting || !isValid} className="h-[45px] rounded-md flex items-center justify-center bg-green-500 text-white w-full disabled:text-gray-700 disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">
+               <button disabled={form.formState.isSubmitting || !form.formState.isValid} className="h-[45px] rounded-md flex items-center justify-center bg-[#252525] text-white w-full disabled:text-[#252525] disabled:bg-[#e7e7e7] disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">
               {
                 !form.formState.isSubmitting
                   ? "ثبت اطلاعات"

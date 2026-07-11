@@ -3,9 +3,8 @@
 
 // Importing part
 import { ICX } from '@/components/icons/ICX';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import useApiMutation from '@/hooks/dashboard/useApiMutation';
-import useUserInfo from '@/hooks/dashboard/useUserInfo';
 import { RenewSubscriptionDialogProps } from '@/types/dashboard/component';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { phoneNumberValidator, verifyIranianNationalId } from '@persian-tools/persian-tools';
@@ -15,6 +14,7 @@ import { z } from 'zod';
 import toast from '../../ui/customSonner/toast';
 import NormalInput from '../../profile/normalInput';
 import Loading from '../../ui/loading';
+import useUserInfo from '@/hooks/dashboard/useUserInfo';
 
 // Defining form schema
 const formSchema = z.object({
@@ -60,11 +60,13 @@ export default function RenewSubscriptionDialog({
   const userInfo = useUserInfo();
   const form = useForm<formType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: `${userInfo.first_name} ${userInfo.last_name}`,
-      nationalCode: userInfo.national_code,
-      phoneNumber: userInfo.phone_number
-    }
+     mode: "all",
+     values: {
+       name: `${userInfo.first_name} ${userInfo.last_name}`,
+       phoneNumber: userInfo.phone_number,
+       nationalCode: userInfo.national_code,
+       file: new File([], "")
+     },
   })
 
   const setData = useApiMutation({
@@ -100,13 +102,16 @@ export default function RenewSubscriptionDialog({
     })
   }
 
+   // Defining variables
+   const formWatch = form.watch();
+
   // Returning JSX
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-full lg:max-w-[450px] max-w-full gap-0 p-0 lg:rounded-xl rounded-none">
         <DialogHeader className='flex !flex-row items-center justify-between gap-3 border-b border-b-black/10 w-full px-4 h-[50px]'>
           <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black truncate flex-1">
-            آیا از تمدید اشتراک خود مطمئن هستید؟
+             تمدید کارت اشتراک
           </DialogTitle>
           <DialogClose className='shrink-0 !mt-0' asChild>
             <button>
@@ -124,7 +129,12 @@ export default function RenewSubscriptionDialog({
               className="h-[45px] w-full"
               placeholder="نام و نام خانوادگی خود را وارد کنید"
               error={form.formState.errors.name?.message}
-              {...form.register("name")}
+              value={formWatch.name}
+              onChange={(e) => {
+                                             form.setValue("name", e.currentTarget.value, {
+                                                shouldValidate: true,
+                                             })
+                                          }}
             />
           </div>
           <div className='w-full'>
@@ -133,11 +143,17 @@ export default function RenewSubscriptionDialog({
             </span>
             <NormalInput
               type="tel"
+              required
               className="h-[45px] w-full"
               placeholder="شماره همراه خود را وارد کنید"
               error={form.formState.errors.phoneNumber?.message}
               lenghtValidation={11}
-              {...form.register("phoneNumber")}
+              value={formWatch.phoneNumber}
+              onChange={(e) => {
+                               form.setValue("phoneNumber", e.currentTarget.value, {
+                                  shouldValidate: true,
+                               })
+                            }}
             />
           </div>
           <div className='w-full'>
@@ -147,10 +163,16 @@ export default function RenewSubscriptionDialog({
             <NormalInput
               type="text"
               className="h-[45px] w-full"
+              required
               placeholder="کد ملی خود را وارد کنید"
               error={form.formState.errors.nationalCode?.message}
               lenghtValidation={10}
-              {...form.register("nationalCode")}
+              value={formWatch.nationalCode}
+              onChange={(e) => {
+                 form.setValue("nationalCode", e.currentTarget.value, {
+                    shouldValidate: true,
+                 })
+              }}
             />
           </div>
           <div className='w-full'>
@@ -160,18 +182,21 @@ export default function RenewSubscriptionDialog({
             <NormalInput
               type="file"
               className="h-[45px] w-full"
-              placeholder="کد ملی خود را وارد کنید"
+              placeholder="برای بارگزاری فایل مورد نظر کلیک کنید"
+              required
               accept="image/*"
               error={form.formState.errors.file?.message}
               onChange={(e) => {
                 const files = e.currentTarget.files;
                 if (files) {
-                  form.setValue("file", files[0]);
+                   form.setValue("file", files[0], {
+                     shouldValidate: true
+                  });
                 }
               }}
             />
           </div>
-          <button disabled={form.formState.isSubmitting} className="h-[45px] rounded-md flex items-center justify-center bg-green-500 text-white w-full disabled:text-gray-700 disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">
+             <button disabled={form.formState.isSubmitting || !form.formState.isValid} className="h-[45px] rounded-md flex items-center justify-center bg-[#252525] text-white w-full disabled:text-[#252525] disabled:bg-[#e7e7e7] disabled:cursor-not-allowed transition-all duration-500 text-cs08 font-semibold px-4">
             {
               !form.formState.isSubmitting
                 ? "ثبت اطلاعات"

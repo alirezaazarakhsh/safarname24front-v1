@@ -5,7 +5,7 @@
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
 import { NormalInputComponentPropsType } from '@/types/dashboard/component';
 import { cn } from '@/utils/utils';
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 
 // Creating and exporting NormalInput component as default
 export default function NormalInput({
@@ -32,6 +32,15 @@ export default function NormalInput({
   const validationInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [valueLenght, setValueLenght] = useState<number>(0);
+
+   useEffect(() => {
+      if (lenghtValidation && type !== "file") {
+         if (props.value) {
+            const value = props.value ?? "";
+            setValueLenght(value.toLocaleString().length);
+         }
+      }
+   }, [props.value, lenghtValidation, type])
 
   // Conditional rendering
   if (clearFn) {
