@@ -4,9 +4,14 @@ import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type Data = {
+  page: {
+    title: string;
+    page: string;
+    path: string;
+  };
   order: number;
   title: string;
-  page: { path: string };
+
 };
 
 type ApiResponse = {
@@ -16,28 +21,32 @@ type ApiResponse = {
 // --------------------------------------
 
 export default function NavLinks() {
-  const { data, status } = useQuery<ApiResponse>({
+  const { data, isPending, isError } = useQuery<ApiResponse>({
     queryKey: ['header-menus'],
-    queryFn: () => generalInstance('/config/header-menus'),
+    queryFn: async () => {
+      const response = await generalInstance.get('/config/header-menus');
+      return response.data;
+    },
   });
 
   return (
     <nav className="flex-center">
-      {status === 'pending' ? (
-        <div className="flex-center gap-4">
-          {Array(5)
-            .fill(null)
-            .map((_, index) => (
-              <Skeleton key={index} className="w-20 h-6" />
-            ))}
-        </div>
-      ) : (
-        data?.data.map((nav, index) => (
-          <NavLink key={index} href={nav.page.path}>
-            {nav.title}
-          </NavLink>
-        ))
-      )}
+      {
+        isPending
+          ? (
+            <div className="flex-center gap-4">
+              {Array(5)
+                .fill(null)
+                .map((_, index) => (
+                  <Skeleton key={index} className="w-20 h-6" />
+                ))}
+            </div>
+          ) : !isError && data ? data.data.map((item, index) => (
+            <NavLink key={index} href={item.page.path}>
+              {item.title}
+            </NavLink>
+          )) : false
+      }
     </nav>
   );
 }

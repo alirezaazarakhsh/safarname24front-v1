@@ -31,10 +31,12 @@ function chunkArray<T>(arr: T[], size: number): T[][] {
 
 export function BestSellingHotels() {
   const swiperRef = useRef<SwiperType>(null);
-
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['best-selling-hotels'],
-    queryFn: () => axiosInstance('/hotel/hotels/best-sellers'),
+    queryFn: async () => {
+      const response = await axiosInstance.get('/hotel/hotels/best-sellers')
+      return response.data;
+    },
   });
 
   const hotels = data?.data ?? [];
