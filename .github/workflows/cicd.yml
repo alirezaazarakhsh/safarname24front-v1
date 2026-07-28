@@ -47,8 +47,10 @@ jobs:
             git reset --hard HEAD
             git clean -fd
 
-            echo "📥 Pulling latest code..."
+            echo "📥 Fetching latest changes..."
             git fetch --all
+
+            echo "🔄 Syncing with origin/main..."
             git reset --hard origin/main
 
             echo "🛑 Stopping old containers..."
