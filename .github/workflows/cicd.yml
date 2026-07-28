@@ -24,7 +24,6 @@ jobs:
 
       - name: Build project
         run: npm run build
-        continue-on-error: true
 
       - name: Setup SSH
         run: |
@@ -33,20 +32,33 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -p 2394 -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
-          echo "SSH key loaded and known_hosts updated"
 
       - name: Deploy to Server
         run: |
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p 2394 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            echo "Connected as ${{ secrets.SERVER_USER }} on port 2394"
-            cd /var/safarname24front-v1 || { echo "Directory not found!"; exit 1; }
-            echo "Pulling latest code..."
-            git pull origin main
-            echo "Stopping old containers..."
+            echo "🚀 Connected to server"
+
+            cd /var/safarname24front-v1 || {
+              echo "❌ ERROR: Deployment directory not found!";
+              exit 1;
+            }
+
+            echo "🧹 Cleaning local changes..."
+            git reset --hard HEAD
+            git clean -fd
+
+            echo "📥 Pulling latest code..."
+            git fetch --all
+            git reset --hard origin/main
+
+            echo "🛑 Stopping old containers..."
             docker compose down || true
-            echo "Rebuilding and starting containers..."
+
+            echo "🔨 Rebuilding containers..."
             docker compose up -d --build
-            echo "Cleaning old images..."
+
+            echo "🧼 Cleaning old Docker images..."
             docker image prune -f || true
-            echo "Deployment completed on $(date)"
+
+            echo "✅ Deployment completed at $(date)"
           EOF
