@@ -1,21 +1,23 @@
-# Base image with the specified Node.js version
+# Base image with Node.js 20
 FROM node:20.11.0
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy package files first (better caching)
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install --legacy-peer-deps
 
-# Copy project files
+# Copy full project
 COPY . .
 
-# Build the Next.js application
+# Build Next.js
 RUN npm run build
 
-# Expose the port the app runs on
+# Expose port
 EXPOSE 3000
 
-# Start the application
+# Start app
 CMD ["npm", "start"]
