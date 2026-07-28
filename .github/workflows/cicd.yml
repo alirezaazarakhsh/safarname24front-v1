@@ -1,4 +1,4 @@
-name: Deploy Next.js App
+name: Deploy Next.js App (Zero Downtime)
 
 on:
   push:
@@ -33,13 +33,13 @@ jobs:
           ssh-keyscan -p 2394 -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-      - name: Deploy to Server
+      - name: Deploy to Server (Zero Downtime)
         run: |
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p 2394 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             echo "🚀 Connected to server"
 
             cd /var/safarname24front-v1 || {
-              echo "❌ ERROR: Deployment directory not found!";
+              echo "❌ Deployment directory not found!";
               exit 1;
             }
 
@@ -47,20 +47,37 @@ jobs:
             git reset --hard HEAD
             git clean -fd
 
-            echo "📥 Fetching latest changes..."
+            echo "📥 Fetch latest changes..."
             git fetch --all
 
-            echo "🔄 Syncing with origin/main..."
+            echo "🔄 Sync with origin/main..."
             git reset --hard origin/main
 
-            echo "🛑 Stopping old containers..."
-            docker compose down || true
+            echo "🔧 Building new image..."
+            NEW_TAG=$(date +%s)
+            docker build -t safarname24front:$NEW_TAG .
 
-            echo "🔨 Rebuilding containers..."
-            docker compose up -d --build
+            echo "🚀 Starting new container..."
+            docker run -d --name safarname24front_new_$NEW_TAG -p 3000:3000 safarname24front:$NEW_TAG
 
-            echo "🧼 Cleaning old Docker images..."
+            echo "⏳ Waiting for health check..."
+            sleep 10
+
+            echo "🩺 Checking health..."
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "✅ New version healthy → switching traffic"
+              docker stop safarname24front_old || true
+              docker rm safarname24front_old || true
+              docker rename safarname24front_new_$NEW_TAG safarname24front_old
+            else
+              echo "❌ New version unhealthy → keeping old version"
+              docker stop safarname24front_new_$NEW_TAG || true
+              docker rm safarname24front_new_$NEW_TAG || true
+              exit 1
+            fi
+
+            echo "🧼 Cleaning old images..."
             docker image prune -f || true
 
-            echo "✅ Deployment completed at $(date)"
+            echo "✨ Zero‑downtime deployment completed at $(date)"
           EOF
