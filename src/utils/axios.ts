@@ -6,45 +6,76 @@ export const axiosInstance = axios.create({
 });
 
 let isRefreshing = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (token) {
+      prom.resolve(axiosInstance(prom.config));
+    } else {
+      prom.reject(error);
+    }
+  });
+
+  failedQueue = [];
+};
 
 axiosInstance.interceptors.request.use(
   (config) => {
+    const access = localStorage.getItem('access_token');
+    if (access) {
+      config.headers.Authorization = `Bearer ${access}`;
+    }
     config.withCredentials = true;
     return config;
   },
   (error) => Promise.reject(error),
 );
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
+axiosInstance.interceptors.response.use(
+  (response) => response,
 
-//   async (error) => {
-//     const originalRequest = error.config;
+  async (error) => {
+    const originalRequest = error.config;
 
-//     if (error.response?.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
 
-//       try {
-//         if (!isRefreshing) {
-//           isRefreshing = true;
+      if (isRefreshing) {
+        return new Promise(function (resolve, reject) {
+          failedQueue.push({ resolve, reject, config: originalRequest });
+        });
+      }
 
-//           await axiosInstance.post(
-//             '/token/refresh/',
-//             {},
-//             { withCredentials: true },
-//           );
-//           isRefreshing = false;
-//         }
+      isRefreshing = true;
 
-//         return axiosInstance(originalRequest);
-//       } catch (err) {
-//         isRefreshing = false;
+      try {
+        const refresh = localStorage.getItem('refresh_token');
 
-//         console.log('Refresh token expired → force logout');
-//         return Promise.reject(err);
-//       }
-//     }
+        const refreshResponse = await axiosInstance.post(
+          '/token/refresh/',
+          { refresh },
+          { withCredentials: true }
+        );
 
-//     return Promise.reject(error);
-//   },
-// );
+        const newAccess = refreshResponse.data.access;
+        localStorage.setItem('access_token', newAccess);
+
+        originalRequest.headers.Authorization = `Bearer ${newAccess}`;
+
+        isRefreshing = false;
+        processQueue(null, newAccess);
+
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        isRefreshing = false;
+        processQueue(err, null);
+
+        console.log('Refresh token expired → force logout');
+        return Promise.reject(err);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
