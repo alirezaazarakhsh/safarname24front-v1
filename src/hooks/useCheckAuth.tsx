@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "@/utils/axios";
 
 export function useCheckAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const access = localStorage.getItem("access_token");
