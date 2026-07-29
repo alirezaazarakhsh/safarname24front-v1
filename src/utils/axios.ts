@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: 'https://cps.safarnameh24.com/api/v1',
+  baseURL: "https://cps.safarnameh24.com/api/v1",
   withCredentials: true,
 });
 
@@ -16,20 +16,18 @@ const processQueue = (error: any, token: string | null = null) => {
       prom.reject(error);
     }
   });
-
   failedQueue = [];
 };
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const access = localStorage.getItem('access_token');
+    const access = localStorage.getItem("access_token");
     if (access) {
       config.headers.Authorization = `Bearer ${access}`;
     }
-    config.withCredentials = true;
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 axiosInstance.interceptors.response.use(
@@ -42,7 +40,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       if (isRefreshing) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject, config: originalRequest });
         });
       }
@@ -50,16 +48,15 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refresh = localStorage.getItem('refresh_token');
-
-        const refreshResponse = await axiosInstance.post(
-          '/token/refresh/',
-          { refresh },
+        // ❗❗ مهم: از axios اصلی استفاده کن، نه axiosInstance
+        const refreshResponse = await axios.post(
+          "https://cps.safarnameh24.com/api/v1/token/refresh/",
+          {},
           { withCredentials: true }
         );
 
         const newAccess = refreshResponse.data.access;
-        localStorage.setItem('access_token', newAccess);
+        localStorage.setItem("access_token", newAccess);
 
         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
 
@@ -71,7 +68,9 @@ axiosInstance.interceptors.response.use(
         isRefreshing = false;
         processQueue(err, null);
 
-        console.log('Refresh token expired → force logout');
+        localStorage.removeItem("access_token");
+        console.log("Refresh token expired → force logout");
+
         return Promise.reject(err);
       }
     }
