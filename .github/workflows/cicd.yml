@@ -13,7 +13,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # مرحله تست SSH — اگر این کار کند، کلید ۱۰۰٪ درست پاس داده شده
       - name: Test SSH Connection
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -25,7 +24,6 @@ jobs:
             echo "SSH OK"
             hostname
 
-      # انتقال پروژه
       - name: Copy project to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -37,7 +35,6 @@ jobs:
           target: "/var/www/safarname24front"
           overwrite: true
 
-      # اجرای دیپلوی روی سرور
       - name: Deploy on Server
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -77,4 +74,3 @@ jobs:
             docker image prune -f || true
 
             echo "✨ Zero‑downtime deployment completed!"
-            
