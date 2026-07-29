@@ -24,17 +24,6 @@ jobs:
             echo "SSH OK"
             hostname
 
-      - name: Copy project to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          port: 2394
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./"
-          target: "/var/www/safarname24front"
-          overwrite: true
-
       - name: Deploy on Server
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -48,6 +37,9 @@ jobs:
             cd /var/www/safarname24front
 
             NEW_TAG=$(date +%s)
+
+            echo "🔧 Pulling latest code..."
+            git pull
 
             echo "🔧 Building new Docker image..."
             docker build -t safarname24front:$NEW_TAG .
