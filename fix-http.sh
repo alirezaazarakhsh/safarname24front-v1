@@ -6,10 +6,7 @@ REPLACEMENT="https://cps.safarnameh24.com"
 echo "🔍 در حال جستجو برای URL های HTTP..."
 echo "------------------------------------------------"
 
-# لیست پسوندهایی که باید اسکن شوند
 EXTENSIONS=("ts" "tsx" "js" "jsx" "json" "css" "scss")
-
-# فولدرهایی که باید اسکن شوند
 DIRECTORIES=("src" "app" "public")
 
 for DIR in "${DIRECTORIES[@]}"; do
