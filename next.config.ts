@@ -6,10 +6,6 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'cps.safarnameh24.com',
-      },
-      {
         protocol: 'https',
         hostname: 'cps.safarnameh24.com',
       },
@@ -20,6 +16,7 @@ const nextConfig: NextConfig = {
     ],
   },
 };
+
 
 // Exporting the configs
 export default nextConfig;
