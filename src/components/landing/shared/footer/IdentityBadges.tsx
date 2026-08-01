@@ -26,7 +26,7 @@ export default function IdentityBadges() {
     queryFn: async () => {
       const response = await generalInstance.get('/config/licenses');
 
-      return response.data.data; // Data array in api response
+      return response.data; // Data array in api response
     }
   });
 
@@ -36,7 +36,7 @@ export default function IdentityBadges() {
     queryFn: async () => {
       const response = await generalInstance.get('/config/enamad');
 
-      return response.data.data; // Data object in api response
+      return response.data; // Data object in api response
     }
   });
 
