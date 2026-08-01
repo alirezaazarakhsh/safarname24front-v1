@@ -14,14 +14,10 @@ type Data = {
 
 };
 
-type ApiResponse = {
-  data: Data[];
-};
-
 // --------------------------------------
 
 export default function NavLinks() {
-  const { data, isPending, isError } = useQuery<ApiResponse>({
+  const { data, isPending, isError } = useQuery<Data[]>({
     queryKey: ['header-menus'],
     queryFn: async () => {
       const response = await generalInstance.get('/config/header-menus');
@@ -41,11 +37,12 @@ export default function NavLinks() {
                   <Skeleton key={index} className="w-20 h-6" />
                 ))}
             </div>
-          ) : !isError && data ? data.data.map((item, index) => (
+          ) : isError ? false : !isPending && !isError && data ? data.map((item, index) => (
             <NavLink key={index} href={item.page.path}>
               {item.title}
             </NavLink>
-          )) : false
+          ))
+            : false
       }
     </nav>
   );
