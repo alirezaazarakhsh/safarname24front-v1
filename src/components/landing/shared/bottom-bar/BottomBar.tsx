@@ -10,6 +10,7 @@ import UserFavorites from '../auth/UserFavorites';
 import { useCheckAuth, useMediaQuery } from '@/hooks';
 
 import { useUserAccountContext } from '@/context/UserAccountContext';
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 // -----------------------------
 
@@ -18,6 +19,8 @@ export function BottomBar() {
   const { isAuthenticated } = useCheckAuth();
   const [showNav, setShowNav] = useState(true);
 
+    const { data: user } = useCurrentUser() 
+  
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   useEffect(() => {
@@ -45,7 +48,7 @@ export function BottomBar() {
       <BottomBarItem icon={'Flash'} href="/best-hotels" title="بهترین هتل ها" />
       <UserFavorites />
 
-      {isAuthenticated ? (
+      {/* {isAuthenticated ? (
         <Link
           href={'/dashboard/profile'}
           className="flex flex-col items-center gap-1"
@@ -65,7 +68,29 @@ export function BottomBar() {
             حساب کاربری
           </span>
         </button>
-      )}
+      )} */}
+
+                {user ? (
+               <Link
+          href={'/dashboard/profile'}
+          className="flex flex-col items-center gap-1"
+        >
+          <Profile2User size={18} color="#71717a" />
+          <span className="text-[clamp(0.65rem,3vw,0.75rem)] font-bold text-zinc-500">
+            پروفایل کاربری
+          </span>
+        </Link>
+                ) : (
+          <button
+          className="flex flex-col items-center gap-1"
+          onClick={() => toggle()}
+        >
+          <Profile2User size={18} color="#71717a" />
+          <span className="text-[clamp(0.65rem,3vw,0.75rem)] font-bold text-zinc-500">
+            حساب کاربری
+          </span>
+        </button>
+                )}
     </nav>
   );
 }

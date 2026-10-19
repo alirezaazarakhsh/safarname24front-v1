@@ -16,13 +16,14 @@ function redirectTo(path: string, request: NextRequest) {
 
 // -----------------------------
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   let isError = false;
   let comingSoonIsActive = false;
 
   const access = request.cookies.get('access_token');
+  console.log(access)
 
   try {
     const response = await fetch(apiBaseUrl + '/config/coming-soon/');

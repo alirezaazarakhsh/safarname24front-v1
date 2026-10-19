@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useCurrentUser = () => {
   return useQuery({
-    queryKey: ['auth', 'me'],
+    queryKey: ['natural-profiles'],
 
     queryFn: async () => {
       const { data } = await axiosInstance.get(
@@ -13,7 +13,7 @@ export const useCurrentUser = () => {
       );
 
       console.log('user-data', data);
-      return data.data;
+      return data;
     },
 
     retry: false,

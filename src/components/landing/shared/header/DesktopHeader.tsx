@@ -26,7 +26,7 @@ export default function DesktopHeader() {
   const scrollPosition = useScrollPosition();
 
   const desktopCondition = scrollPosition > 0 || pathname !== '/';
-  const { data: user, isPending } = useCurrentUser() 
+  const { data: user } = useCurrentUser() 
 
   // const {
   //   status,
