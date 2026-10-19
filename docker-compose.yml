@@ -5,9 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: safarname24front-react-app-1
+    restart: unless-stopped
     ports:
       - '3000:3000'
-    develop:
-      watch:
-        - path: .
-          action: rebuild
+    environment:
+      - NODE_ENV=production
+      - NODE_OPTIONS=--max-old-space-size=2048

@@ -1,4 +1,4 @@
-name: Deploy Next.js App (Zero Downtime)
+name: Deploy Next.js App
 
 on:
   push:
@@ -13,56 +13,44 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Test SSH Connection
-        uses: appleboy/ssh-action@v0.1.7
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          port: 2394
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "SSH OK"
-            hostname
+          node-version: 20
+          cache: 'npm'
 
-      - name: Deploy on Server
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          port: 2394
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "🚀 Connected to server"
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
 
-            cd /var/www/safarname24front
+      - name: Build project
+        run: npm run build
+        continue-on-error: true
 
-            NEW_TAG=$(date +%s)
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p 2394 -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          echo "SSH key loaded and known_hosts updated"
 
-            echo "🔧 Pulling latest code..."
-            git pull
-
-            echo "🔧 Building new Docker image..."
-            docker build -t safarname24front:$NEW_TAG .
-
-            echo "🚀 Starting new container..."
-            docker run -d --name safarname24front_new_$NEW_TAG -p 3000:3000 safarname24front:$NEW_TAG
-
-            echo "⏳ Waiting for health check..."
-            sleep 10
-
-            if curl -s http://localhost:3000 > /dev/null; then
-              echo "✅ New version healthy → switching traffic"
-              docker stop safarname24front_old || true
-              docker rm safarname24front_old || true
-              docker rename safarname24front_new_$NEW_TAG safarname24front_old
-            else
-              echo "❌ New version unhealthy → keeping old version"
-              docker stop safarname24front_new_$NEW_TAG || true
-              docker rm safarname24front_new_$NEW_TAG || true
-              exit 1
-            fi
-
-            echo "🧼 Cleaning old images..."
+      - name: Deploy to Server
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p 2394 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            echo "Connected as ${{ secrets.SERVER_USER }} on port 2394"
+            cd /var/www/safarname24front || { echo "Directory not found!"; exit 1; }
+            echo "Pulling latest code..."
+            git pull origin main
+            echo "Stopping old containers..."
+            docker compose down || true
+            echo "Rebuilding and starting containers..."
+            docker compose up -d --build
+            echo "Cleaning old images..."
             docker image prune -f || true
+            echo "Deployment completed on $(date)"
+          EOF
 
-            echo "✨ Zero‑downtime deployment completed!"
+
+
+          
