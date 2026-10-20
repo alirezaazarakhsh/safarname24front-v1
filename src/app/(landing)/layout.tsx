@@ -1,8 +1,7 @@
-import { Header } from '@/components/landing/shared';
-import { Footer } from '@/components/landing/shared';
-
+import { Header } from '@/components/landing/shared/header/Header';
+import { Footer } from '@/components/landing/shared/footer/Footer';
 import UserAccount from '@/components/landing/shared/auth/UserAccount';
-import { BottomBar } from '@/components/landing/shared/bottom-bar';
+import { BottomBar } from '@/components/landing/shared/bottom-bar/BottomBar';
 
 type Props = Readonly<{
   children: React.ReactNode;

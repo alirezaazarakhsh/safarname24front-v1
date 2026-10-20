@@ -14,7 +14,6 @@ import UserFavorites from '../auth/UserFavorites';
 import { useCheckAuth, useScrollPosition } from '@/hooks';
 import { GETPersonalProfile } from '@/types/dashboard/api/get';
 import { useUserAccountContext } from '@/context/UserAccountContext';
-import { useCurrentUser } from '@/hooks/use-current-user';
 
 // --------------------------------
 
@@ -26,18 +25,17 @@ export default function DesktopHeader() {
   const scrollPosition = useScrollPosition();
 
   const desktopCondition = scrollPosition > 0 || pathname !== '/';
-  const { data: user } = useCurrentUser() 
 
-  // const {
-  //   status,
-  //   fetchStatus,
-  //   data: personalData,
-  // } = useQuery<GETPersonalProfile>({
-  //   enabled: isAuthenticated,
-  //   queryKey: ['natural-profiles'],
-  //   queryFn: () =>
-  //     axiosInstance('/natural-profiles/').then((data) => data.data),
-  // });
+  const {
+    status,
+    fetchStatus,
+    data: personalData,
+  } = useQuery<GETPersonalProfile>({
+    enabled: isAuthenticated,
+    queryKey: ['natural-profiles'],
+    queryFn: () =>
+      axiosInstance('/natural-profiles/').then((data) => data.data),
+  });
 
   return (
     <>
@@ -57,7 +55,7 @@ export default function DesktopHeader() {
           <div className="flex h-11 gap-2 text-cs07 text-zinc-800 xl:gap-3">
             <UserFavorites />
 
-            {/* {fetchStatus !== 'idle' && status === 'pending' ? (
+            {fetchStatus !== 'idle' && status === 'pending' ? (
               <button className="flex-center w-16 gap-2 rounded-lg bg-zinc-200/50 xl:w-28">
                 <span className="loader-dots-dark"></span>
               </button>
@@ -73,21 +71,7 @@ export default function DesktopHeader() {
                 <Profile2User size={19} color="#292D32" />
                 <span className="hidden xl:block">حساب کاربری</span>
               </button>
-            )} */}
-
-          {user ? (
-          <UserProfile
-                userName={`${user.first_name} ${user.last_name}`}
-              />
-          ) : (
-              <button
-              onClick={() => toggle()}
-                className="flex-center gap-2 rounded-lg bg-zinc-200/50 px-4 transition-colors duration-300 ease-in-out hover:bg-zinc-200/80"
-              >
-                <Profile2User size={19} color="#292D32" />
-                <span className="hidden xl:block">حساب کاربری</span>
-              </button>
-          )}
+            )}
           </div>
         </section>
       </header>

@@ -44,20 +44,20 @@ export default function MainWrapper(props: Props) {
   });
 
   // === Check Activate-Status
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response: ApiResponse = await generalInstance(
-  //         '/config/coming-soon',
-  //       );
+  useEffect(() => {
+    (async () => {
+      try {
+        const response: ApiResponse = await generalInstance(
+          '/config/coming-soon',
+        );
 
-  //       setActive(response?.data.data.is_active);
-  //     } catch (error) {
-  //       setError(true);
-  //       console.error(error);
-  //     }
-  //   })();
-  // }, []);
+        setActive(response?.data?.data?.is_active || false);
+      } catch (error) {
+        // Log error but allow app to render normally
+        console.warn('Coming soon config check failed:', error);
+      }
+    })();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

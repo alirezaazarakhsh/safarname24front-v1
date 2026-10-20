@@ -71,3 +71,17 @@ html {
 .no-ss01 * {
   font-feature-settings: 'ss01' 0;
 }
+
+@keyframes strokeDraw {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 100;
+  }
+}
+
+.animate-stroke-draw {
+  animation: strokeDraw 2.5s linear infinite;
+}
+

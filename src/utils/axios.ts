@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: "https://cps.safarnameh24.com/api/v1",
+  baseURL: typeof window !== "undefined" ? "/api/v1" : "https://cps.safarnameh24.com/api/v1",
   withCredentials: true,
 });
 
@@ -50,7 +50,9 @@ axiosInstance.interceptors.response.use(
       try {
         // ❗❗ مهم: از axios اصلی استفاده کن، نه axiosInstance
         const refreshResponse = await axios.post(
-          "https://cps.safarnameh24.com/api/v1/token/refresh/",
+          typeof window !== "undefined"
+            ? "/api/v1/token/refresh/"
+            : "https://cps.safarnameh24.com/api/v1/token/refresh/",
           {},
           { withCredentials: true }
         );

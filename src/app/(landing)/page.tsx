@@ -33,7 +33,6 @@ export default function Home() {
         <AdvertisingBanners />
         <BestSellingHotels />
         <BestHotels />
-        {/* <InterestingBlogs /> */}
         <CustomerReviews />
       </div>
     </>

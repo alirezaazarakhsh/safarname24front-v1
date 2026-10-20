@@ -82,7 +82,24 @@ function Service(props: Data) {
   const { icon, title, subtitle } = props;
 
   return (
-    <div className="relative bg-white p-5 flex flex-col gap-2 rounded-xl shadow-[0_1rem_1rem_rgba(0,0,0,0.02)] transition-all duration-300 delay-100 ease-in-out group xl:bg-[#F8F8F8] xl:shadow-none xl:hover:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.08)]">
+    <div className="relative bg-white p-5 flex flex-col gap-2 rounded-xl shadow-[0_1rem_1rem_rgba(0,0,0,0.02)] transition-all duration-300 ease-in-out group xl:bg-[#F8F8F8] xl:shadow-none xl:hover:shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.08)]">
+      {/* Animated Red Stroke Border on Hover */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none rounded-xl overflow-visible z-10">
+        <rect
+          x="1"
+          y="1"
+          width="calc(100% - 2px)"
+          height="calc(100% - 2px)"
+          rx="12"
+          fill="none"
+          stroke="#F30F26"
+          strokeWidth="1.5"
+          pathLength="100"
+          strokeDasharray="25 75"
+          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-stroke-draw"
+        />
+      </svg>
+
       <div className="bg-cs-red/10 w-12 h-12 mb-2 p-2.5 flex-center rounded-cs-10">
         {icon.url && <Image alt="icon" width={24} height={24} src={icon.url} />}
       </div>
@@ -94,8 +111,6 @@ function Service(props: Data) {
       <p className="text-zinc-500 text-cs08/5 line-clamp-4 font-semibold">
         {subtitle}
       </p>
-
-      <div className="absolute -z-10 bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-20 bg-cs-red hidden rounded-xl transition-all duration-300 delay-200 ease-in-out group-hover:-bottom-2 lg:block"></div>
     </div>
   );
 }

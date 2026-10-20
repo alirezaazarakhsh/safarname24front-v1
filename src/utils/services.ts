@@ -3,7 +3,7 @@ import axios from 'axios';
 // --------------------------------
 
 export const generalInstance = axios.create({
-  baseURL: 'https://cps.safarnameh24.com/api/v1/',
+  baseURL: typeof window !== 'undefined' ? '/api/v1/' : 'https://cps.safarnameh24.com/api/v1/',
 });
 
 // --------------------------------

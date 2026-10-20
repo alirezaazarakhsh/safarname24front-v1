@@ -8,15 +8,12 @@ import { useCheckAuth } from '@/hooks';
 import AuthGuardReaction from './AuthGuardReaction';
 import { usePathname, useRouter } from 'next/navigation';
 import IconsaxIcons from '@/components/icons/iconsaxIcons';
-import { useCurrentUser } from '@/hooks/use-current-user';
 
 // --------------------------------------------
 
 export default function UserFavorites() {
   const router = useRouter();
   const pathname = usePathname();
-
-    const { data: user } = useCurrentUser() 
 
   const { isAuthenticated } = useCheckAuth();
   const isActive = pathname === '/dashboard/favorites';
