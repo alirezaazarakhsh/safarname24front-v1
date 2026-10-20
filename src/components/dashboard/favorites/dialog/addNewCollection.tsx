@@ -142,7 +142,7 @@ export default function AddNewCollectionDialog({
           </DialogClose>
         </div>
         <form
-          action="#"
+         
           className="p-6 w-full"
           onSubmit={form.handleSubmit(submitEventHandler, (e) => {
             const nameError = e.name?.message;

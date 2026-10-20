@@ -169,7 +169,7 @@ export default function CanclationReasonDialog({
             </DialogClose>
           </div>
           <form
-            action="#"
+           
             onSubmit={formHook.handleSubmit(handleOnSubmitEvent, (error) => {
               if (!isMobile) {
                 if (error.message?.message)

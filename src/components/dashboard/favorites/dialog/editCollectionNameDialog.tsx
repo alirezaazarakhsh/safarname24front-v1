@@ -131,7 +131,7 @@ export default function EditCollectionNameDialog({
               ویرایش متن
             </DrawerTitle>
             <form
-              action="#"
+             
               className="space-y-[12px] w-full"
               onSubmit={form.handleSubmit(submitEventHandler, (e) => {
                 const nameError = e.name?.message;
@@ -192,7 +192,7 @@ export default function EditCollectionNameDialog({
             </DialogClose>
           </div>
           <form
-            action="#"
+           
             className="p-6 w-full"
             onSubmit={form.handleSubmit(submitEventHandler, (e) => {
               const nameError = e.name?.message;

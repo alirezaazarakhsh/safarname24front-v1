@@ -116,7 +116,7 @@ export default function ReportTicket(): ReactNode {
                 });
               });
             })}
-            action="#"
+           
             className="p-6"
           >
             <div className="flex flex-col gap-4 mb-7">

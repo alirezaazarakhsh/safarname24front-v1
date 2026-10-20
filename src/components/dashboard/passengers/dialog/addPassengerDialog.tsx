@@ -190,7 +190,7 @@ export default function AddPassengersDialog({
           </DialogClose>
         </div>
         <form
-          action="#"
+         
           onSubmit={form.handleSubmit(submitEventHandler)}
           className="px-3 lg:py-3 py-4 w-full flex flex-col items-center justify-between gap-3 lg:h-auto h-[calc(100%-40px)]"
         >

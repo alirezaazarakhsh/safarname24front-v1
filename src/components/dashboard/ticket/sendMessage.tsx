@@ -147,7 +147,7 @@ export default function SendMessage({
           <div className="relative">
             <Reply />
             <form
-              action="#"
+             
               className={cn(
                 'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
                 reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
@@ -259,7 +259,7 @@ export default function SendMessage({
           <div className="relative">
             <Reply />
             <form
-              action="#"
+             
               className={cn(
                 'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
                 reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',
@@ -324,7 +324,7 @@ export default function SendMessage({
           <div className="relative">
             <Reply />
             <form
-              action="#"
+             
               className={cn(
                 'flex justify-between text-black/50 bg-gray-100 h-[50px] relative transition-all duration-500',
                 reply.name !== '' ? 'rounded-b-lg' : 'rounded-lg',

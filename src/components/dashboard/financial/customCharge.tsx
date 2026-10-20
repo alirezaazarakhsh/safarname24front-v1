@@ -64,7 +64,7 @@ export default function CustomCharge({
           }
         }
       })}
-      action="#"
+     
       className="bg-white lg:rounded-[10px] lg:border border-black/10 lg:p-3 p-[24px] lg:col-span-2 col-span-1 lg:flex flex-col items-start justify-around gap-6 transition-all duration-500 data-[disabled='false']:opacity-100 data-[disabled='true']:opacity-50 data-[disabled='true']:pointer-events-none data-[disabled='false']:pointer-events-auto"
     >
       <CanclationErrorDrawer

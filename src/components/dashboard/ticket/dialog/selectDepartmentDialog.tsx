@@ -156,7 +156,7 @@ export default function SelectDepartmentDialog({
                 });
               }
             })}
-            action="#"
+           
             className="p-6 w-full lg:h-auto h-[calc(100dvh-50px)] lg:block flex flex-col items-start justify-between gap-8 overflow-auto custom-scrollbar"
           >
             <div className="flex flex-col gap-4 lg:mb-7 w-full">

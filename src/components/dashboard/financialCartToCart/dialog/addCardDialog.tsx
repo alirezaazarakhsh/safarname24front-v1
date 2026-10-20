@@ -130,7 +130,7 @@ export default function AddCardDialog({
               </button>
             </DialogClose>
           </DialogHeader>
-          <form action="#" onSubmit={form.handleSubmit(onSubmit)} className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
             <AnimatePresence>
               {
                  form.formState.isValid && (

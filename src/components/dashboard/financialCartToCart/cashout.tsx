@@ -124,7 +124,7 @@ export default function CashOut(): ReactNode {
         </div>
       </div>
       <form
-        action="#"
+       
         className="lg:grid flex flex-col lg:col-span-3 lg:grid-cols-3 gap-4"
         onSubmit={form.handleSubmit(onSubmit)}
       >

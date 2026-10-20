@@ -113,7 +113,7 @@ export default function EditCurrentCardDialog({
               </button>
             </DialogClose>
           </DialogHeader>
-          <form action="#" onSubmit={form.handleSubmit(onSubmit)} className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='p-4 space-y-4 lg:max-h-[calc(100dvh-50px-25px)] max-h-[calc(100dvh-50px)] overflow-auto scrollbar-hide'>
             <div className='w-full'>
               <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
                 شماره کارت :
