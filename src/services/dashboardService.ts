@@ -1,5 +1,32 @@
 import { apiClient } from './apiClient';
-import type { PassengerType, TicketType, FinancialReportType, FavoriteItemType } from '@/types/dashboard/component';
+
+export interface PassengerType {
+  id?: string | number;
+  first_name?: string;
+  last_name?: string;
+  national_code?: string;
+  [key: string]: unknown;
+}
+
+export interface TicketType {
+  id?: string | number;
+  title?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface FinancialReportType {
+  id?: string | number;
+  amount?: number;
+  date?: string;
+  [key: string]: unknown;
+}
+
+export interface FavoriteItemType {
+  id?: string | number;
+  title?: string;
+  [key: string]: unknown;
+}
 
 /**
  * Service handling all API calls for the Dashboard section.
