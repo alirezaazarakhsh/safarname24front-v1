@@ -21,7 +21,7 @@ export default function Navbar() {
           variant={item.href === pathname ? 'secondary' : 'link'}
           render={
             <Link href={item.href} className="relative font-semibold!">
-              <item.icon className="hidden size-4.5 xl:block" />
+              <item.icon className="hidden xl:block" />
 
               <span>{item.label}</span>
             </Link>

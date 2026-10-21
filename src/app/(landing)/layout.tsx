@@ -11,7 +11,7 @@ export default function IndexLayout({
   return (
     <div className="flex min-h-dvh flex-col">
       <Header />
-      <main className="relative mx-auto mt-8 mb-24 w-full max-w-7xl px-4">
+      <main className="relative mx-auto mt-6 mb-24 w-full max-w-7xl px-4">
         {children}
       </main>
       {/* <Footer /> */}

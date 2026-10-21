@@ -15,7 +15,7 @@ export function LoginTrigger() {
 
   return (
     <Button
-      className={'mr-3 lg:px-5'}
+      className={'sm:px-5'}
       nativeButton={false}
       render={
         <Link

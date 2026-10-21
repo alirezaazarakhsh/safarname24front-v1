@@ -1,0 +1,18 @@
+.swiper-hero-section .swiper-pagination {
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-50%);
+
+  top: 50% !important;
+  left: 1.6rem !important;
+  width: fit-content !important;
+  height: fit-content !important;
+}
+
+.swiper-hero-section .swiper-pagination-bullet {
+  width: 0.2rem;
+  height: 1.6rem;
+  border-radius: 0.2rem;
+  background-color: white;
+}

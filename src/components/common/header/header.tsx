@@ -13,29 +13,28 @@ import { ClipboardCheck, Headphones } from 'lucide-react';
 export function Header() {
   return (
     <header className="bg-background sticky inset-x-0 top-0 z-40 border-b">
-      <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-8 px-4 lg:h-20 lg:rounded-2xl">
+      <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-6 px-4 lg:h-21 lg:rounded-2xl xl:gap-8">
         <Brand />
         <Navbar />
 
-        <div className="flex-center mr-auto gap-2 lg:gap-0">
-          {/* <div className="hidden lg:block">
-            <ThemeSwitcher />
-          </div> */}
-
-          <div className="hidden lg:block">
-            <Button variant={'secondary'} className={'font-semibold'}>
+        <div className="flex-center mr-auto gap-3">
+          <div className="hidden sm:block">
+            <Button variant={'ghost'} className={'font-semibold'}>
               <ClipboardCheck />
               <span>پیگیری رزرو</span>
             </Button>
 
-            <Button variant={'secondary'} className={'font-semibold'}>
+            <Button variant={'ghost'} className={'font-semibold'}>
               <Headphones />
               <span>پشتیبانی</span>
             </Button>
           </div>
 
-          <AuthHandler />
+          <div className="hidden lg:block">
+            <ThemeSwitcher className="rounded-xl" />
+          </div>
 
+          <AuthHandler />
           <Menu />
         </div>
       </div>
