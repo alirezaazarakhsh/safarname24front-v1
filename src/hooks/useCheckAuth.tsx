@@ -1,18 +1,34 @@
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import { axiosInstance } from "@/utils/axios";
 
 export function useCheckAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return Boolean(
+      localStorage.getItem("access_token") ||
+      localStorage.getItem("token") ||
+      Cookies.get("auth") === "true" ||
+      Cookies.get("AUTH") === "true"
+    );
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const access = localStorage.getItem("access_token");
+    const hasToken = Boolean(
+      localStorage.getItem("access_token") ||
+      localStorage.getItem("token") ||
+      Cookies.get("auth") === "true" ||
+      Cookies.get("AUTH") === "true"
+    );
 
-    if (!access) {
+    if (!hasToken) {
       setIsAuthenticated(false);
       setLoading(false);
       return;
     }
+
+    setIsAuthenticated(true);
 
     axiosInstance
       .get("/natural-profiles/")
@@ -29,15 +45,22 @@ export function useCheckAuth() {
             );
 
             const newAccess = refreshResponse.data.access;
-            localStorage.setItem("access_token", newAccess);
-
-            setIsAuthenticated(true);
+            if (newAccess) {
+              localStorage.setItem("access_token", newAccess);
+              localStorage.setItem("token", newAccess);
+              Cookies.set("auth", "true", { expires: 30 });
+              Cookies.set("AUTH", "true", { expires: 30 });
+              setIsAuthenticated(true);
+            } else {
+              throw new Error("No access token in refresh response");
+            }
           } catch {
             localStorage.removeItem("access_token");
+            localStorage.removeItem("token");
+            Cookies.remove("auth");
+            Cookies.remove("AUTH");
             setIsAuthenticated(false);
           }
-        } else {
-          setIsAuthenticated(false);
         }
       })
       .finally(() => {

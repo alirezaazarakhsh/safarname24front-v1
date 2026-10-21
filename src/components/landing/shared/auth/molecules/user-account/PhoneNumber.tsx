@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { AxiosError } from 'axios';
+import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 
 import { useMutation } from '@tanstack/react-query';
@@ -45,14 +46,20 @@ export default function PhoneNumber(props: Props) {
     mutationFn: (data: { phone: string }) => {
       return generalInstance.post('/auth/', data);
     },
-    onError: (error: AxiosError<{ detail?: string }>) => {
+    onError: (error: AxiosError<{ detail?: string; message?: string }>) => {
       if (error?.response?.status === 502 || error?.response?.status === 504) {
         form.setError('phoneNumber', {
           message: 'سرور بک‌اند در دسترس نیست (502 Bad Gateway). لطفاً سرویس Django/Gunicorn را در سرور بررسی فرمایید.',
         });
         return;
       }
-      const serverError = error?.response?.data?.detail;
+      const serverError = error?.response?.data?.detail || (error?.response?.data as any)?.message;
+      if (serverError && (serverError.includes('قبلاً') || serverError.includes('وارد شده‌اید'))) {
+        Cookies.set('auth', 'true', { expires: 30 });
+        Cookies.set('AUTH', 'true', { expires: 30 });
+        window.location.reload();
+        return;
+      }
       form.setError('phoneNumber', {
         message: serverError
           ? serverError

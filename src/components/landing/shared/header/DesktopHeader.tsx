@@ -59,9 +59,13 @@ export default function DesktopHeader() {
               <button className="flex-center w-16 gap-2 rounded-lg bg-zinc-200/50 xl:w-28">
                 <span className="loader-dots-dark"></span>
               </button>
-            ) : personalData?.first_name ? (
+            ) : isAuthenticated ? (
               <UserProfile
-                userName={`${personalData.first_name} ${personalData.last_name}`}
+                userName={
+                  personalData?.first_name
+                    ? `${personalData.first_name} ${personalData.last_name || ''}`.trim()
+                    : 'حساب کاربری'
+                }
               />
             ) : (
               <button

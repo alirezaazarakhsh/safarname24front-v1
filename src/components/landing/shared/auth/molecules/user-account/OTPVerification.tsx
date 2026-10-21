@@ -53,7 +53,12 @@ export default function OTPVerification(props: Props) {
       const accessToken = data?.access || data?.token || data?.data?.access;
       if (accessToken) {
         localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('token', accessToken);
         Cookies.set('auth', 'true', { expires: 30 });
+        Cookies.set('AUTH', 'true', { expires: 30 });
+      } else {
+        Cookies.set('auth', 'true', { expires: 30 });
+        Cookies.set('AUTH', 'true', { expires: 30 });
       }
       window.location.reload();
     },

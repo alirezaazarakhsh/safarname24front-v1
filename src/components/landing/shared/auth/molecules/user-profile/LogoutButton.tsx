@@ -16,8 +16,10 @@ export default function LogoutButton() {
     },
     onSuccess: () => {
       localStorage.removeItem('access_token');
+      localStorage.removeItem('token');
       sessionStorage.removeItem('upn');
       document.cookie = 'auth=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      document.cookie = 'AUTH=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       window.location.reload();
     },
   });

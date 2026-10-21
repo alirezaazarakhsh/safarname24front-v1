@@ -38,7 +38,10 @@ export default function useLogout() {
         ticketWalpaper[2].removeItem();
         ticketTheme[2].removeItem();
         ticketNotifications[2].removeItem();
-        profileState[2].removeItem();
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('token');
+        document.cookie = 'auth=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = 'AUTH=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         sessionStorage.removeItem("upn");
 
         window.location.pathname = '/';
