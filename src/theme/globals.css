@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@import './theme.css';
+@import './style.css';
+
+@custom-variant hover (&:hover);
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-primary;
+  }
+
+  body {
+    @apply bg-background text-foreground min-h-dvh;
+  }
+}
+
+@layer utilities {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between;
+  }
+}
