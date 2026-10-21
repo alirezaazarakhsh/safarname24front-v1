@@ -60,7 +60,9 @@ export default function OTPVerification(props: Props) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate({ otp: values.otp, phone: `0${phoneNumber}` });
+    const raw = sessionStorage.getItem('upn') || phoneNumber || '';
+    const clean = raw.replace(/[^\d]/g, '').replace(/^0+/, '');
+    mutation.mutate({ otp: values.otp, phone: `0${clean}` });
   }
 
   return (

@@ -17,8 +17,10 @@ const ResendOTPToken = memo(function ResendOTPToken() {
 
   function resetCountDown() {
     setCountDownKey((prev) => prev + 1);
+    const raw = sessionStorage.getItem('upn') || '';
+    const clean = raw.replace(/[^\d]/g, '').replace(/^0+/, '');
     mutation.mutate({
-      phone: `0${sessionStorage.getItem('upn')}`,
+      phone: `0${clean}`,
     });
   }
 

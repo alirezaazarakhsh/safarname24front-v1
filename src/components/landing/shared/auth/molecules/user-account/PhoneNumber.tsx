@@ -17,8 +17,7 @@ import { Form, FormField, FormItem, FormControl } from '@/components/ui/form';
 const formSchema = z.object({
   phoneNumber: z
     .string()
-    .min(10, 'شماره تلفن باید 10 رقم باشد')
-    .max(10, 'شماره تلفن باید 10 رقم باشد'),
+    .regex(/^9\d{9}$/, 'شماره همراه باید ۱۰ رقم باشد و با ۹ شروع شود (مثال: ۹۱۲۳۴۵۶۷۸۹)'),
 });
 
 type Props = {
@@ -47,21 +46,29 @@ export default function PhoneNumber(props: Props) {
       return generalInstance.post('/auth/', data);
     },
     onError: (error: AxiosError<{ detail?: string }>) => {
+      if (error?.response?.status === 502 || error?.response?.status === 504) {
+        form.setError('phoneNumber', {
+          message: 'سرور بک‌اند در دسترس نیست (502 Bad Gateway). لطفاً سرویس Django/Gunicorn را در سرور بررسی فرمایید.',
+        });
+        return;
+      }
       const serverError = error?.response?.data?.detail;
       form.setError('phoneNumber', {
         message: serverError
           ? serverError
-          : 'مشکلی به وجود آمده است , لطفا مجدد تلاش فرمایید .',
+          : 'مشکلی در ارسال پیامک به وجود آمده است، لطفاً مجدداً تلاش نمایید.',
       });
     },
     onSuccess: () => {
       setDialogStep();
-      sessionStorage.setItem('upn', form.getValues().phoneNumber);
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate({ phone: `0${values.phoneNumber}` });
+    let clean = values.phoneNumber.replace(/[^\d]/g, '');
+    if (clean.startsWith('0')) clean = clean.slice(1);
+    sessionStorage.setItem('upn', clean);
+    mutation.mutate({ phone: `0${clean}` });
   }
 
   return (
@@ -94,13 +101,18 @@ export default function PhoneNumber(props: Props) {
                 <FormControl>
                   <Input
                     {...field}
+                    placeholder="9123456789"
+                    type="tel"
+                    inputMode="numeric"
                     onChange={(e) => {
-                      const englishValue = convertToEnglishDigits(
-                        e.target.value,
-                      );
-                      field.onChange(
-                        englishValue.replace(/[^\d]/g, '').slice(0, 10),
-                      );
+                      let cleaned = convertToEnglishDigits(e.target.value).replace(/[^\d]/g, '');
+                      if (cleaned.startsWith('98') && cleaned.length > 2) {
+                        cleaned = cleaned.slice(2);
+                      }
+                      if (cleaned.startsWith('0')) {
+                        cleaned = cleaned.slice(1);
+                      }
+                      field.onChange(cleaned.slice(0, 10));
                     }}
                     className="h-full text-[0.9rem] pl-6 tracking-[0.2rem] border-none rounded-none"
                   />
