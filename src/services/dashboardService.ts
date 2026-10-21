@@ -34,43 +34,43 @@ export interface FavoriteItemType {
 export const dashboardService = {
   /** Get user profile details */
   async getProfile() {
-    const response = await apiClient.get('/user/profile');
+    const response = await apiClient.get('/user/profile/');
     return response.data;
   },
 
   /** Update user profile */
   async updateProfile(data: Record<string, unknown>) {
-    const response = await apiClient.put('/user/profile', data);
+    const response = await apiClient.put('/user/profile/', data);
     return response.data;
   },
 
   /** Get user passengers list */
   async getPassengers(): Promise<PassengerType[]> {
-    const response = await apiClient.get('/user/passengers');
+    const response = await apiClient.get('/user/passengers/');
     return response.data;
   },
 
   /** Add a new passenger */
   async addPassenger(passenger: Omit<PassengerType, 'id'>) {
-    const response = await apiClient.post('/user/passengers', passenger);
+    const response = await apiClient.post('/user/passengers/', passenger);
     return response.data;
   },
 
   /** Get tickets list */
   async getTickets(): Promise<TicketType[]> {
-    const response = await apiClient.get('/user/tickets');
+    const response = await apiClient.get('/user/tickets/');
     return response.data;
   },
 
   /** Get financial report */
   async getFinancialReport(): Promise<FinancialReportType[]> {
-    const response = await apiClient.get('/user/financial-reports');
+    const response = await apiClient.get('/user/financial-reports/');
     return response.data;
   },
 
   /** Get user favorites */
   async getFavorites(): Promise<FavoriteItemType[]> {
-    const response = await apiClient.get('/user/favorites');
+    const response = await apiClient.get('/user/favorites/');
     return response.data;
   },
 };

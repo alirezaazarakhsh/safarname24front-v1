@@ -40,7 +40,7 @@ export default async function Hotel(props: Props) {
   const { hotel: hotelSlug } = await props.params;
 
   const response = await fetch(
-    `${apiBaseUrl}/hotel/hotels/${hotelSlug}/introduction`,
+    `${apiBaseUrl}/hotel/hotels/${hotelSlug}/introduction/`,
   );
 
   if (!response.ok) notFound();

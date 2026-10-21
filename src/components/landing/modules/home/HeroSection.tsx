@@ -30,7 +30,7 @@ export function HeroSection() {
 
   const { data: heroSlides, status } = useQuery<ApiResponse>({
     queryKey: ['config-slides'],
-    queryFn: () => generalInstance('/config/slides').then((res) => res.data),
+    queryFn: () => generalInstance('/config/slides/').then((res) => res.data),
   });
 
   function handleSetControlSlides(slide: 'next' | 'prev', value: boolean) {

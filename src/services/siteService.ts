@@ -6,19 +6,19 @@ import { apiClient } from './apiClient';
 export const siteService = {
   /** Search hotels by city or query */
   async searchHotels(params: { city?: string; checkIn?: string; checkOut?: string; guests?: number }) {
-    const response = await apiClient.get('/hotels/search', { params });
+    const response = await apiClient.get('/hotels/search/', { params });
     return response.data;
   },
 
   /** Get best selling hotels for homepage */
   async getBestSellingHotels() {
-    const response = await apiClient.get('/hotels/best-selling');
+    const response = await apiClient.get('/hotels/best-selling/');
     return response.data;
   },
 
   /** Get customer reviews */
   async getCustomerReviews() {
-    const response = await apiClient.get('/reviews');
+    const response = await apiClient.get('/reviews/');
     return response.data;
   },
 };

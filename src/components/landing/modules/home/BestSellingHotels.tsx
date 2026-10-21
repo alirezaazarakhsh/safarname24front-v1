@@ -34,7 +34,7 @@ export function BestSellingHotels() {
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['best-selling-hotels'],
     queryFn: async () => {
-      const response = await axiosInstance.get('/hotel/hotels/best-sellers')
+      const response = await axiosInstance.get('/hotel/hotels/best-sellers/');
       return response.data;
     },
   });

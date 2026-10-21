@@ -20,7 +20,7 @@ export default function NavLinks() {
   const { data, isPending, isError } = useQuery<Data[]>({
     queryKey: ['header-menus'],
     queryFn: async () => {
-      const response = await generalInstance.get('/config/header-menus');
+      const response = await generalInstance.get('/config/header-menus/');
       return response.data;
     },
   });

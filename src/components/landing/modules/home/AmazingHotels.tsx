@@ -26,7 +26,7 @@ export function AmazingHotels() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['amazing-hotels'],
-    queryFn: () => axiosInstance('/hotel/hotels/amazing-hotels'),
+    queryFn: () => axiosInstance('/hotel/hotels/amazing-hotels/'),
   });
 
   if (isEmptyOrInvalid({ data, status })) return null;

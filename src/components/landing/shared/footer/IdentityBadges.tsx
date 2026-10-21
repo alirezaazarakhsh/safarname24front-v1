@@ -24,7 +24,7 @@ export default function IdentityBadges() {
   const licesnsesQuery = useQuery<License[]>({
     queryKey: ["licenses"],
     queryFn: async () => {
-      const response = await generalInstance.get('/config/licenses');
+      const response = await generalInstance.get('/config/licenses/');
 
       return response.data; // Data array in api response
     }
@@ -34,7 +34,7 @@ export default function IdentityBadges() {
     queryKey: ["enamad"],
     enabled: !licesnsesQuery.isPending && licesnsesQuery.data && !licesnsesQuery.isError,
     queryFn: async () => {
-      const response = await generalInstance.get('/config/enamad');
+      const response = await generalInstance.get('/config/enamad/');
 
       return response.data; // Data object in api response
     }

@@ -52,7 +52,7 @@ export default function MainWrapper(props: Props) {
     (async () => {
       try {
         const response: ApiResponse = await generalInstance(
-          '/config/coming-soon',
+          '/config/coming-soon/',
         );
 
         setActive(response?.data?.data?.is_active || false);

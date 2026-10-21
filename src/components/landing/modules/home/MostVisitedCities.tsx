@@ -33,7 +33,7 @@ export function MostVisitedCities() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['most-visited-cities'],
-    queryFn: () => generalInstance('/hotel/cities/homepage'),
+    queryFn: () => generalInstance('/hotel/cities/homepage/'),
   });
 
   if (isEmptyOrInvalid({ data, status })) return null;

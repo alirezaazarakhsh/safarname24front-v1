@@ -33,7 +33,7 @@ export function CustomerReviews() {
 
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['config-comments'],
-    queryFn: () => generalInstance('/config/comments'),
+    queryFn: () => generalInstance('/config/comments/'),
   });
 
   if (isEmptyOrInvalid({ data, status })) return null;

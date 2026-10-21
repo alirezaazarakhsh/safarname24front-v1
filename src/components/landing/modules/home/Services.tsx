@@ -27,7 +27,7 @@ type ApiResponse = {
 export function Services() {
   const { data, status } = useQuery<ApiResponse>({
     queryKey: ['config-advantages'],
-    queryFn: () => generalInstance('/config/advantages'),
+    queryFn: () => generalInstance('/config/advantages/'),
   });
 
   if (isEmptyOrInvalid({ data, status })) return null;
