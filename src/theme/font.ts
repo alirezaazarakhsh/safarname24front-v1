@@ -15,8 +15,13 @@ const iransans_font = localFont({
   variable: '--font-iransans',
 });
 
+const hezargan_font = localFont({
+  src: '../assets/fonts/Hezargan.ttf',
+  variable: '--font-hezargan',
+});
+
 const inter_font = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 // ------------------------------
 
-export { iransans_font, inter_font };
+export { iransans_font, hezargan_font, inter_font };

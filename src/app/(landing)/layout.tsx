@@ -1,5 +1,5 @@
 // import { Footer } from '@/components/shared/footer';
-// import { Header } from '@/components/shared/header';
+import { Header } from '@/components/common/header';
 
 // ------------------------------
 
@@ -10,7 +10,7 @@ export default function IndexLayout({
 }>) {
   return (
     <div className="flex min-h-dvh flex-col">
-      {/* <Header /> */}
+      <Header />
       <main className="relative mx-auto mt-8 mb-24 w-full max-w-7xl px-4">
         {children}
       </main>

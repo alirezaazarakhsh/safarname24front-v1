@@ -2,6 +2,7 @@
   /* Font */
   --font-primary: var(--font-iransans);
   --font-secondary: var(--font-inter);
+  --font-brand: var(--font-hezargan);
 
   /* Text */
   --text-08: 0.8rem;

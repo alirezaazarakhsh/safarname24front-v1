@@ -4,7 +4,7 @@ body {
   --sb-track-color: var(--color-background);
 }
 
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
   width: var(--sb-size);
 }
 
@@ -21,7 +21,7 @@ body::-webkit-scrollbar-thumb {
   body {
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
-}
+} */
 
 .ss01 {
   font-feature-settings: 'ss01';
