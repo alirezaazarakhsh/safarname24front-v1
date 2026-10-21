@@ -14,8 +14,10 @@ export default function LogoutButton() {
     onError: (error) => {
       console.error(error);
     },
-    onSuccess: (data) => {
-      // console.log(data);
+    onSuccess: () => {
+      localStorage.removeItem('access_token');
+      sessionStorage.removeItem('upn');
+      document.cookie = 'auth=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       window.location.reload();
     },
   });

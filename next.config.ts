@@ -4,18 +4,8 @@ import type { NextConfig } from 'next';
 // Defining configs of next.js
 const nextConfig: NextConfig = {
   output: 'standalone',
-  async rewrites() {
-    return [
-      {
-        source: '/api/v1/:path*/',
-        destination: 'https://cps.safarnameh24.com/api/v1/:path*/',
-      },
-      {
-        source: '/api/v1/:path*',
-        destination: 'https://cps.safarnameh24.com/api/v1/:path*/',
-      },
-    ];
-  },
+  skipTrailingSlashRedirect: true,
+
   images: {
     remotePatterns: [
       {

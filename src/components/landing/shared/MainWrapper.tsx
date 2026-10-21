@@ -34,14 +34,18 @@ export default function MainWrapper(props: Props) {
   const [isError, setError] = useState(false);
   const [isActive, setActive] = useState(false);
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: 1,
+            staleTime: 1000 * 60 * 5,
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
 
   // === Check Activate-Status
   useEffect(() => {

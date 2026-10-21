@@ -10,9 +10,11 @@ async function proxyHandler(
   const path = resolvedParams.path ? resolvedParams.path.join('/') : '';
   const search = req.nextUrl.search;
 
-  // Preserve trailing slash if present in original path
-  const hasTrailingSlash = req.nextUrl.pathname.endsWith('/');
-  const targetPath = path + (hasTrailingSlash && path && !path.endsWith('/') ? '/' : '');
+  // Always ensure trailing slash for Django API endpoints unless it is a file with extension
+  const isFile = /\.[a-zA-Z0-9]+$/.test(path);
+  const targetPath = isFile || !path
+    ? path
+    : (path.endsWith('/') ? path : `${path}/`);
   const targetUrl = `${TARGET_BASE_URL}/${targetPath}${search}`;
 
   const requestHeaders = new Headers();
@@ -49,10 +51,22 @@ async function proxyHandler(
 
     const responseHeaders = new Headers();
     res.headers.forEach((value, key) => {
-      if (key.toLowerCase() !== 'content-encoding') {
+      const lower = key.toLowerCase();
+      if (
+        lower !== 'content-encoding' &&
+        lower !== 'content-length' &&
+        lower !== 'set-cookie'
+      ) {
         responseHeaders.set(key, value);
       }
     });
+
+    if (typeof (res.headers as any).getSetCookie === 'function') {
+      const cookies = (res.headers as any).getSetCookie();
+      for (const cookie of cookies) {
+        responseHeaders.append('set-cookie', cookie);
+      }
+    }
 
     const responseData = await res.arrayBuffer();
 
