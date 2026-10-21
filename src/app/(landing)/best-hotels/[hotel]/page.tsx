@@ -39,11 +39,25 @@ export default async function Hotel(props: Props) {
   const { sectionLinks } = hotel;
   const { hotel: hotelSlug } = await props.params;
 
-  const response = await fetch(
-    `${apiBaseUrl}/hotel/hotels/${hotelSlug}/introduction/`,
-  );
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
 
-  if (!response.ok) notFound();
+    const response = await fetch(
+      `${apiBaseUrl}/hotel/hotels/${hotelSlug}/introduction/`,
+      {
+        signal: controller.signal,
+        next: { revalidate: 180 }, // Cache for 3 minutes to make page refreshes instant
+      }
+    );
+    clearTimeout(timeoutId);
+
+    if (response.status === 404) {
+      notFound();
+    }
+  } catch (error) {
+    console.error('SSR hotel fetch error (handled safely):', error);
+  }
 
   return (
     <>
