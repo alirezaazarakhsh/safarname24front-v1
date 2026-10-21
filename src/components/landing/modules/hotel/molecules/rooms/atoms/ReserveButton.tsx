@@ -43,24 +43,39 @@ export default function ReserveButton(props: Props) {
   // const isMultipleRoom = roomId.length > 1;
   const [isLoading, setLoading] = useState(false);
 
-  const { mutate } = useMutation<Response, AxiosError<any>, Request>({
+  const { mutate } = useMutation<any, AxiosError<any>, Request>({
     mutationFn: (data) => {
       setLoading(true);
       return axiosInstance.post('hotel/reservation/create/', data);
     },
     onSuccess: (response) => {
-      router.push(
-        `/payment/complete-passengers-information?${payment.reservationId}=${response.data.tracking_code}`,
-        { scroll: false },
-      );
+      setLoading(false);
+      const trackingCode =
+        response?.data?.data?.tracking_code ||
+        response?.data?.tracking_code ||
+        (response as any)?.tracking_code;
+
+      if (trackingCode) {
+        router.push(
+          `/payment/complete-passengers-information?${payment.reservationId}=${trackingCode}`,
+          { scroll: false },
+        );
+      } else {
+        router.push('/payment/complete-passengers-information', { scroll: false });
+      }
     },
     onError: (error) => {
       setLoading(false);
+      if (error?.response?.status === 401) {
+        if (checkAuth) checkAuth();
+        return;
+      }
       callReaction({
         type: 'error',
         title: 'متاسفانه خطایی رخ داده است !',
         description:
           error?.response?.data?.error ??
+          error?.response?.data?.detail ??
           'عملیات رزرو با مشکلی در سرور روبرو شده است',
       });
     },
@@ -70,7 +85,14 @@ export default function ReserveButton(props: Props) {
     const exitDate = searchParams.get('end-date');
     const enterDate = searchParams.get('start-date');
 
-    if (!checkAuth() || !enterDate || !exitDate) return;
+    if (!enterDate || !exitDate) {
+      callReaction({
+        type: 'error',
+        title: 'تاریخ ورود و خروج مشخص نشده است',
+        description: 'لطفاً ابتدا تاریخ ورود و خروج اقامت خود را مشخص فرمایید.',
+      });
+      return;
+    }
 
     mutate({
       room_id: roomId,

@@ -5,6 +5,7 @@ import { useCheckAuth } from '@/hooks';
 import { Room } from '@/types/landing';
 import { Warning2 } from 'iconsax-react';
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 import { AuthGuardReaction } from '../favorite-button/AuthGuardReaction';
 
 type PackedRoom = {
@@ -36,10 +37,20 @@ export default function RoomsArea(props: Props) {
   }, [data, isNormalRooms]);
 
   function handleCheckAuth(): boolean {
-    if (!isAuthenticated) {
+    const hasToken =
+      typeof window !== 'undefined' &&
+      Boolean(
+        localStorage.getItem('access_token') ||
+          localStorage.getItem('token') ||
+          Cookies.get('auth') ||
+          Cookies.get('AUTH')
+      );
+
+    if (!isAuthenticated && !hasToken) {
       setAuthReactionOpen(true);
       return false;
-    } else return true;
+    }
+    return true;
   }
 
   if (status === 'pending') {
