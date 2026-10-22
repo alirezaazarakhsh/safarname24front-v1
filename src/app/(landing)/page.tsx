@@ -5,7 +5,7 @@ import {
   TopHotels,
   HeroSection,
   RecommendedHotels,
-} from '@/pages/home';
+} from '@/views/home';
 
 // ------------------------------
 
