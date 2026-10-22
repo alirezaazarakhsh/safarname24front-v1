@@ -1,13 +1,23 @@
-import HeroSection from '@/pages/home/hero-section/hero-section';
-import { div } from 'motion/react-client';
-import Image from 'next/image';
+import {
+  FAQ,
+  Cities,
+  Features,
+  TopHotels,
+  HeroSection,
+  RecommendedHotels,
+} from '@/pages/home';
 
 // ------------------------------
 
 export default function Home() {
   return (
-    <div className="h-[200vh]">
+    <div className="space-y-20">
       <HeroSection />
+      <Features />
+      <Cities />
+      <RecommendedHotels />
+      <TopHotels />
+      <FAQ />
     </div>
   );
 }

@@ -19,7 +19,7 @@ import HeroSearch from './hero-search';
 
 // ------------------------------
 
-export default function HeroSection() {
+export function HeroSection() {
   return (
     <section>
       <div className="hidden h-80 overflow-hidden rounded-[2rem] sm:block xl:rounded-[3rem]">

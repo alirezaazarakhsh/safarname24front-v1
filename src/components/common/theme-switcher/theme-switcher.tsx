@@ -15,7 +15,7 @@ import {
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
-import { themeOptions } from '@/lib/constants/general';
+import { THEME_OPTIONS } from '@/lib/constants/general';
 import ThemeSwitcherTrigger from './theme-switcher-trigger';
 import { SelectableDropdownMenuItem } from '../dropdown-menu-item-select';
 
@@ -51,7 +51,7 @@ export function ThemeSwitcher({ className }: Props) {
         <TooltipContent side="bottom">تنظیمات ظاهری</TooltipContent>
 
         <DropdownMenuContent side="bottom" align="end">
-          {themeOptions.map((item) => {
+          {THEME_OPTIONS.map((item) => {
             const Icon = item.icon;
             const isSelected = theme === item.value;
 

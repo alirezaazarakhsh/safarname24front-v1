@@ -40,7 +40,7 @@ body::-webkit-scrollbar-thumb {
     bottom: 0 !important;
 
     .swiper-pagination-bullet {
-      background-color: var(--color-brand) !important;
+      background-color: var(--color-primary) !important;
     }
   }
 }

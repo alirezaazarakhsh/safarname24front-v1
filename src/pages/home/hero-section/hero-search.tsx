@@ -25,7 +25,7 @@ export default function HeroSearch() {
     <div
       className={cn(
         'relative z-10 mx-auto grid w-full grid-cols-2 gap-4 rounded-4xl p-6',
-        'bg-sidebar shadow-xl/5',
+        'bg-sidebar border shadow-xl/5',
         'sm:-mt-20 sm:max-lg:max-w-10/12 lg:-mt-12 lg:grid-cols-[1fr_1fr_1fr_auto] xl:max-w-10/12 xl:rounded-[1.5rem]',
       )}
     >

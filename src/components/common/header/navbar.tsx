@@ -17,8 +17,9 @@ export default function Navbar() {
         <Button
           key={item.id}
           nativeButton={false}
-          className={item.href === pathname ? 'bg-input/60' : 'opacity-80'}
-          variant={item.href === pathname ? 'secondary' : 'link'}
+          variant={'ghost'}
+          // className={item.href === pathname ? 'bg-input/60' : 'opacity-80'}
+          // variant={item.href === pathname ? 'secondary' : 'link'}
           render={
             <Link href={item.href} className="relative font-semibold!">
               <item.icon className="hidden xl:block" />

@@ -12,7 +12,7 @@ import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { useEffect, useId, useState } from 'react';
 import { LayoutGroup, motion } from 'framer-motion';
-import { themeOptions } from '@/lib/constants/general';
+import { THEME_OPTIONS } from '@/lib/constants/general';
 
 type Props = {
   className?: string;
@@ -43,7 +43,7 @@ export function ThemeTabs({ className }: Props) {
           className,
         )}
       >
-        {themeOptions.map((item) => {
+        {THEME_OPTIONS.map((item) => {
           const Icon = item.icon;
           const isSelected = theme === item.value;
 

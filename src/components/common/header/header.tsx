@@ -12,7 +12,7 @@ import { ClipboardCheck, Headphones } from 'lucide-react';
 
 export function Header() {
   return (
-    <header className="bg-background sticky inset-x-0 top-0 z-40 border-b">
+    <header className="bg-sidebar sticky inset-x-0 top-0 z-40 border-b">
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-6 px-4 lg:h-21 lg:rounded-2xl xl:gap-8">
         <Brand />
         <Navbar />
