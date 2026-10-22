@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  output: 'standalone', // <--- این خط را اضافه کنید
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -15,9 +16,6 @@ const nextConfig: NextConfig = {
   experimental: {
     agentFeedback: true,
   },
-  // این دو خط را کامنت کنید:
-  // cacheComponents: true,
-  // partialPrefetching: true,
   turbopack: {
     rules: {
       '*.css': {
