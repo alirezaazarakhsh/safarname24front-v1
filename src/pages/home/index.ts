@@ -1,7 +1,6 @@
-export * from './faq/faq';
-export * from './top-cities/cities';
-export * from './features/features';
-export * from './top-hotels/top-hotels';
-export * from './hero-section/hero-section';
-export * from './hero-section/hero-section';
-export * from './recommended-hotels/recommended-hotels';
+export { default as Faq } from './faq/faq';
+export { default as TopCities } from './top-cities/cities';
+export { default as Features } from './features/features';
+export { default as TopHotels } from './top-hotels/top-hotels';
+export { default as HeroSection } from './hero-section/hero-section';
+export { default as RecommendedHotels } from './recommended-hotels/recommended-hotels';
