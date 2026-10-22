@@ -15,8 +15,9 @@ const nextConfig: NextConfig = {
   experimental: {
     agentFeedback: true,
   },
-  cacheComponents: true,
-  partialPrefetching: true,
+  // این دو خط را کامنت کنید:
+  // cacheComponents: true,
+  // partialPrefetching: true,
   turbopack: {
     rules: {
       '*.css': {
