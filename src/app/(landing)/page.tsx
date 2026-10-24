@@ -6,7 +6,7 @@ import {
   HeroSection,
   DiscountedHotels,
   RecommendedHotels,
-} from '@/pages/home';
+} from '@/components/pages/home';
 
 import { Suspense } from 'react';
 
