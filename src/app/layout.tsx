@@ -136,10 +136,10 @@ const iranSansFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Safarnameh 24',
+  title: '167669436',
   description: 'Hotel reservation and tourism portal application',
   openGraph: {
-    title: 'Safarnameh 24',
+    title: '167669436',
     description: 'Hotel reservation and tourism portal application',
   },
 };
