@@ -1,0 +1,39 @@
+services:
+  safarname-front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: safarname-front
+    restart: unless-stopped
+    ports:
+      - '3003:3000' # ← پورت ۳۰۰۳ روی سرور
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      # اگه متغیر محیطی داری اینجا اضافه کن:
+      # - NEXT_PUBLIC_API_URL=https://api.example.com
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '--spider', 'http://localhost:3000']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 1536M
+          cpus: '1.5'
+        reservations:
+          memory: 256M
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
+    networks:
+      - safarname-net
+
+networks:
+  safarname-net:
+    driver: bridge

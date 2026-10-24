@@ -7,6 +7,7 @@ import {
   DiscountedHotels,
   RecommendedHotels,
 } from '@/pages/home';
+
 import { Suspense } from 'react';
 
 // ------------------------------
