@@ -4,19 +4,25 @@ import {
   TopHotels,
   TopCities,
   HeroSection,
+  DiscountedHotels,
   RecommendedHotels,
 } from '@/pages/home';
+import { Suspense } from 'react';
 
 // ------------------------------
 
 export default function Home() {
   return (
     <div className="space-y-20">
-      <HeroSection />
+      <Suspense>
+        <HeroSection />
+      </Suspense>
+
       <Features />
-      <RecommendedHotels />
-      <TopHotels />
       <TopCities />
+      <RecommendedHotels />
+      <DiscountedHotels />
+      <TopHotels />
       <FAQ />
     </div>
   );

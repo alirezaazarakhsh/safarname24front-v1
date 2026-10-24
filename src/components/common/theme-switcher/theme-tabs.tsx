@@ -66,7 +66,7 @@ export function ThemeTabs({ className }: Props) {
                     {isSelected && (
                       <motion.div
                         layoutId="active-theme-pill"
-                        className="bg-brand absolute inset-0 -z-10 rounded-full"
+                        className="absolute inset-0 -z-10 rounded-full bg-red-500"
                       />
                     )}
                   </Button>

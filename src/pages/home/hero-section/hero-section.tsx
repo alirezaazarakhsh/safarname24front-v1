@@ -43,6 +43,7 @@ export function HeroSection() {
                 fill
                 priority
                 src={slide}
+                sizes="100vw"
                 alt="hotel-pictures"
                 className="object-cover object-center"
               />

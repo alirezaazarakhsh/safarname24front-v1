@@ -5,7 +5,7 @@ import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper/types';
 
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, User } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from 'cn';
 import { TOP_CITIES } from '@/lib/constants/general';

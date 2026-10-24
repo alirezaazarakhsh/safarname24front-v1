@@ -1,5 +1,12 @@
-import { Sun, Moon, Laptop } from 'lucide-react';
 import { TopCities } from '../types/general';
+
+import telegram from '@/assets/images/social-media/telegram.svg';
+import whatsapp from '@/assets/images/social-media/whatsapp.svg';
+import linkedin from '@/assets/images/social-media/linkedin.svg';
+import instagram from '@/assets/images/social-media/instagram.svg';
+
+import { Mail, MapPin, PhoneCall } from 'lucide-react';
+import { Sun, Home, Moon, Globe2, Server, Laptop } from 'lucide-react';
 
 // ------------------------------
 
@@ -68,6 +75,101 @@ const TOP_CITIES: TopCities[] = [
   },
 ];
 
+const SOCIAL_MEDIA = [
+  {
+    label: {
+      en: 'telegram',
+      fa: 'تلگرام',
+    },
+    image: {
+      src: telegram,
+      alt: '',
+    },
+    href: '#',
+    icon: undefined,
+    type: 'telegram',
+  },
+  {
+    label: {
+      en: 'instagram',
+      fa: 'اینستاگرام',
+    },
+    image: {
+      src: instagram,
+      alt: '',
+    },
+    href: 'https://www.instagram.com/sevinhostir/',
+    type: 'instagram',
+    icon: undefined,
+  },
+  {
+    label: {
+      en: 'whatsapp',
+      fa: 'واتساپ',
+    },
+    image: {
+      src: whatsapp,
+      alt: '',
+    },
+    href: '#',
+    type: 'whatsapp',
+    icon: undefined,
+  },
+  {
+    label: {
+      en: 'linkedin',
+      fa: 'لینکدین',
+    },
+    image: {
+      src: linkedin,
+      alt: '',
+    },
+    href: '#',
+    type: 'linkedin',
+    icon: undefined,
+  },
+];
+
+const CONTACT = [
+  {
+    icon: PhoneCall,
+    image: undefined,
+    type: 'phone-number',
+    value: '021-91301614',
+    label: 'شماره تماس شرکت',
+    actionLabel: 'تماس با ما',
+    href: 'tel:02191301614',
+  },
+  {
+    icon: PhoneCall,
+    image: undefined,
+    type: 'phone-number',
+    value: '09120759419',
+    label: 'شماره تماس همراه',
+    actionLabel: 'تماس با ما',
+    href: 'tel:09120759419',
+  },
+  {
+    icon: Mail,
+    image: undefined,
+    type: 'email',
+    label: 'ایمیل',
+    value: 'info@my.sevinhost.ir',
+    actionLabel: 'ارسال ایمیل',
+    href: 'mailto:info@my.sevinhost.ir',
+  },
+  {
+    icon: MapPin,
+    image: undefined,
+    type: 'address',
+    label: 'دفتر مرکزی',
+    value:
+      'تهران - جنت آباد مرکزی شاهین شمالی بیست متری گلستان شرقی کوچه معینی نبش رحیم بزی پلاک ۲۰ واحد ۲۰',
+    actionLabel: undefined,
+    href: undefined,
+  },
+];
+
 // ------------------------------
 
-export { THEME_OPTIONS, TOP_CITIES };
+export { THEME_OPTIONS, TOP_CITIES, CONTACT, SOCIAL_MEDIA };
