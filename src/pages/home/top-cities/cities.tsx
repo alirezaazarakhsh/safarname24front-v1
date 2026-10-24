@@ -14,32 +14,23 @@ import heroImage_1 from '@/assets/images/background/hero-3.jpg';
 import { Button } from '@/components/ui/button';
 import { useRef } from 'react';
 import Link from 'next/link';
+import { SectionTitle } from '@/components/common/section-topbar/section-title';
+import { SectionNavigation } from '@/components/common/section-topbar/section-navigation';
 
 // ------------------------------
 
-export function Cities() {
+export function TopCities() {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-6">
       <div className="flex items-center justify-between">
-        <span className="font-extrabold">شهر های پربازدید ایران</span>
+        <SectionTitle>شهرهای پربازدید ایران</SectionTitle>
 
-        <div className="flex gap-2">
-          <Button
-            size={'icon-lg'}
-            onClick={() => swiperRef.current?.slidePrev()}
-          >
-            <ArrowRight />
-          </Button>
-
-          <Button
-            size={'icon-lg'}
-            onClick={() => swiperRef.current?.slideNext()}
-          >
-            <ArrowLeft />
-          </Button>
-        </div>
+        <SectionNavigation
+          nextSlide={() => swiperRef.current?.slideNext()}
+          prevSlide={() => swiperRef.current?.slidePrev()}
+        />
       </div>
 
       <div className="-mx-4 xl:mx-0">
@@ -58,7 +49,7 @@ export function Cities() {
           }}
 
           spaceBetween={24}
-          className="size-full h-64"
+          className="size-full h-56"
           onSwiper={(swiper) => (swiperRef.current = swiper)}
         >
           {TOP_CITIES.map((item, i) => (
@@ -69,16 +60,16 @@ export function Cities() {
               >
                 <div
                   className={cn(
-                    'absolute inset-0 z-20 p-5',
+                    'absolute inset-0 z-20 p-4',
                     'flex flex-col justify-between',
                     'bg-linear-0 from-black/60 via-transparent to-transparent',
                   )}
                 >
                   <div
                     className={cn(
-                      'flex w-fit items-center gap-1 rounded-md bg-white/80 text-xs font-semibold backdrop-blur-md',
+                      'flex w-fit items-center gap-1 rounded-md bg-white/80 text-xs font-semibold backdrop-blur-md dark:bg-black/80',
                       'px-2 py-1 sm:-mt-1',
-                      'transition-all',
+                      'transition-all duration-300',
                       'sm:invisible sm:opacity-0 sm:group-hover:visible sm:group-hover:mt-0 sm:group-hover:opacity-100',
                       '',
                     )}
@@ -88,7 +79,9 @@ export function Cities() {
                   </div>
 
                   <div
-                    className={cn('truncate text-sm font-semibold text-white')}
+                    className={cn(
+                      'truncate p-0.5 text-sm font-semibold text-white',
+                    )}
                   >
                     <span>{item.province}</span>
                     <span className="mx-1">,</span>
@@ -100,7 +93,7 @@ export function Cities() {
                   alt=""
                   fill
                   src={heroImage_1}
-                  className="z-10 object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
+                  className="z-10 object-cover transition-all duration-300 ease-in-out group-hover:scale-105"
                 />
               </Link>
             </SwiperSlide>

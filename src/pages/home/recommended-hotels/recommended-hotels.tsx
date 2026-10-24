@@ -12,6 +12,8 @@ import { TOP_CITIES } from '@/lib/constants/general';
 import { Button } from '@/components/ui/button';
 import { useRef } from 'react';
 import { HotelCard } from './hotel-card';
+import { SectionTitle } from '@/components/common/section-topbar/section-title';
+import { SectionNavigation } from '@/components/common/section-topbar/section-navigation';
 
 // ------------------------------
 
@@ -19,25 +21,14 @@ export function RecommendedHotels() {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-6">
       <div className="flex items-center justify-between">
-        <span className="font-extrabold">هتل های پیشنهادی</span>
+        <SectionTitle>هتل های پیشنهادی</SectionTitle>
 
-        <div className="flex gap-2">
-          <Button
-            size={'icon-lg'}
-            onClick={() => swiperRef.current?.slidePrev()}
-          >
-            <ArrowRight />
-          </Button>
-
-          <Button
-            size={'icon-lg'}
-            onClick={() => swiperRef.current?.slideNext()}
-          >
-            <ArrowLeft />
-          </Button>
-        </div>
+        <SectionNavigation
+          nextSlide={() => swiperRef.current?.slideNext()}
+          prevSlide={() => swiperRef.current?.slidePrev()}
+        />
       </div>
 
       <div className="-mx-4 xl:mx-0">

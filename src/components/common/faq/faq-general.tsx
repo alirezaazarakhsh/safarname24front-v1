@@ -21,7 +21,7 @@ export function FAQGeneral(props: Props) {
   return (
     <div
       className={cn(
-        'bg-card -mx-4 px-5 lg:px-6 xl:mx-0 xl:rounded-3xl xl:px-10 xl:py-4',
+        'bg-card -mx-4 px-4 sm:px-6 xl:mx-0 xl:rounded-3xl xl:px-10 xl:py-2',
         className,
       )}
     >

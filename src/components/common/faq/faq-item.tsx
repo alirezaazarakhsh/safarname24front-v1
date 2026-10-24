@@ -21,7 +21,7 @@ export function FaqItem(props: Props) {
 
   return (
     <AccordionItem value={key} className={cn('', className)}>
-      <AccordionTrigger className={'py-5'}>
+      <AccordionTrigger className={'gap-2 py-5'}>
         <p>{data.question}</p>
       </AccordionTrigger>
 

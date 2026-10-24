@@ -2,17 +2,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import hotel_logo from '@/assets/images/logo/atana.png';
+import { SectionTitle } from '@/components/common/section-topbar/section-title';
 
 // ------------------------------
 
 export function TopHotels() {
   return (
     <section className="space-y-8">
-      <span className="inline-block w-full text-center font-black lg:text-lg">
+      <SectionTitle className="w-full text-center">
         هتل های برتر ایران
-      </span>
+      </SectionTitle>
 
-      <div className="mx-auto grid w-full grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-6">
+      <div className="mx-auto grid w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {Array.from({ length: 12 })
           .fill(null)
           .map((_, i) => (

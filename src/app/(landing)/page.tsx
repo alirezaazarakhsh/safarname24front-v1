@@ -1,8 +1,8 @@
 import {
   FAQ,
-  Cities,
   Features,
   TopHotels,
+  TopCities,
   HeroSection,
   RecommendedHotels,
 } from '@/pages/home';
@@ -14,9 +14,9 @@ export default function Home() {
     <div className="space-y-20">
       <HeroSection />
       <Features />
-      <Cities />
       <RecommendedHotels />
       <TopHotels />
+      <TopCities />
       <FAQ />
     </div>
   );

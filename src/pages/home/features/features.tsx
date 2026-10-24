@@ -72,10 +72,10 @@ export function Features() {
             key={index}
             className="h-auto! max-w-80 select-none xl:max-w-full"
           >
-            <div className="bg-card h-full rounded-2xl p-5">
+            <div className="bg-card h-full rounded-2xl border p-5">
               <service.icon className="size-13 rounded-xl bg-red-500/10 p-3 text-red-500" />
 
-              <span className="text-09 mt-5 mb-2 inline-block font-extrabold">
+              <span className="text-09 mt-5 mb-2 inline-block font-bold">
                 {service.title}
               </span>
 
