@@ -136,7 +136,7 @@ const iranSansFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'سفرنامه ۲۴',
+  title: '167669436',
   description: 'رزرواسیون آنلاین هتل به صورت ۲۴ ساعته',
   openGraph: {
     title: 'سفرنامه ۲۴ ',
