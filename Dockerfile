@@ -36,7 +36,11 @@ RUN cp -r public .next/standalone/public 2>/dev/null || true
 # ========================
 # Runner (فوق‌العاده سبک)
 # ========================
+# ========================
+# Runner
+# ========================
 FROM base AS runner
+
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -45,12 +49,13 @@ ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 ENV NODE_OPTIONS="--max-old-space-size=1536"
 
-# کاربر غیر root برای امنیت بیشتر
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
+# کپی خروجی Standalone
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+
+# کپی فایل‌های استاتیک Next.js
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
