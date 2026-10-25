@@ -22,6 +22,10 @@
   body {
     @apply bg-background text-foreground min-h-dvh;
   }
+
+  button {
+    @apply cursor-pointer;
+  }
 }
 
 @layer utilities {
