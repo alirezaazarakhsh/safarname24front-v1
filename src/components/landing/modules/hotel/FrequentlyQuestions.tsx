@@ -105,9 +105,9 @@ function Questions(props: QuestionProps) {
         >
           <AccordionTrigger className="text-zinc-800 text-cs08/6 font-bold py-5 lg:text-cs85/6">
             <div className="flex items-center gap-3">
-              {item.icon.link && (
+              {/* {item.icon.link && (
                 <Image src={item.icon.link} alt="icon" width={24} height={24} />
-              )}
+              )} */}
 
               <div className="text-right">{item.question}</div>
             </div>

@@ -47,7 +47,7 @@ export default async function Hotel(props: Props) {
       `${apiBaseUrl}/hotel/hotels/${hotelSlug}/introduction/`,
       {
         signal: controller.signal,
-        next: { revalidate: 180 }, // Cache for 3 minutes to make page refreshes instant
+        // next: { revalidate: 180 }, // Cache for 3 minutes to make page refreshes instant
       }
     );
     clearTimeout(timeoutId);

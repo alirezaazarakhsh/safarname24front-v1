@@ -45,9 +45,10 @@ export const formSchema = z.object({
         }),
       }),
       passengers: z.object({
-        main_passenger: personSchema.omit({ national_code: true }).extend({
-          national_code: z.string().nonempty('* کد ملی یا پاسپورت الزامی است'),
-        }),
+        // main_passenger: personSchema.omit({ national_code: true }).extend({
+        //   national_code: z.string().nonempty('* کد ملی یا پاسپورت الزامی است'),
+        // }),
+        main_passenger: personSchema,
         other_passengers: z.array(personSchema.omit({ phone_number: true })),
         extra_capacity_passengers: z.array(
           personSchema.omit({ phone_number: true }),

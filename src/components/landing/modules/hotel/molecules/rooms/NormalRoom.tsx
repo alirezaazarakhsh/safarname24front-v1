@@ -57,7 +57,7 @@ export default function NormalRoom(props: Props) {
   return (
     <div className="grid overflow-hidden rounded-xl border bg-white shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.03)] lg:grid-cols-[1fr_17rem] lg:rounded-2xl">
       <div className="relative gap-3 overflow-hidden p-3 text-[clamp(0.8rem,3vw,0.85rem)] font-semibold text-zinc-800 lg:flex lg:border-l lg:p-4">
-        <div className="flex-center relative h-48 overflow-hidden rounded-cs-10 bg-zinc-100 lg:h-40 lg:w-60 lg:rounded-xl">
+        {/* <div className="flex-center relative h-48 overflow-hidden rounded-cs-10 bg-zinc-100 lg:h-40 lg:w-60 lg:rounded-xl">
           {image ? (
             <RoomPicture image={image} />
           ) : (
@@ -69,9 +69,9 @@ export default function NormalRoom(props: Props) {
               className="opacity-20 grayscale"
             />
           )}
-        </div>
+        </div> */}
 
-        <div className="mt-3 p-2 lg:mt-0 lg:flex lg:flex-1 lg:flex-col">
+        <div className="p-2 lg:mt-0 lg:flex lg:flex-1 lg:flex-col">
           <div className="text-[clamp(0.85rem,3vw,0.9rem)] font-extrabold">
             {name}
           </div>

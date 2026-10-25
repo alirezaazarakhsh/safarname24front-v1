@@ -16,7 +16,7 @@ export default function TopBarSwiperNavigation(props: Props) {
 
   return (
     <div
-      className={`flex gap-3 ${pathname.includes('/best-hotels/') ? 'ml-[7.6rem]' : ''}`}
+      className={`flex gap-3 ${pathname.includes('/best-hotels/') ? '' : ''}`}
     >
       {prevClickFunc && nextClickFunc && (
         <>

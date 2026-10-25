@@ -31,8 +31,11 @@ export function Star() {
         {[1, 2, 3, 4, 5].map((number) => (
           <div
             key={number}
+            onClick={() => {
+              handleSetStar(number);
+              console.log('star')
+            }}
             className="text-zinc-800 text-cs08 font-bold flex items-center select-none cursor-pointer"
-            onClick={() => handleSetStar(number)}
           >
             <div className="relative bg-zinc-200/50 w-5 h-5 overflow-hidden rounded-[0.3rem]">
               <div

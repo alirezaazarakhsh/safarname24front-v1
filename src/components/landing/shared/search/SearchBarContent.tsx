@@ -24,6 +24,9 @@ export default function SearchBarContent(props: Props) {
 
   const pathname = usePathname();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+  
+  const isBestHotel = pathname === '/best-hotels';
+  const isHotelDetail = pathname.startsWith('/best-hotels/');
 
   return (
     <>
@@ -60,7 +63,7 @@ export default function SearchBarContent(props: Props) {
 
             {/* === Setting */}
             <div className="mt-8 grid gap-4">
-              {!pathname.startsWith('/best-hotels/') && <CityOrHotel />}
+              {!isHotelDetail && <CityOrHotel />}
               
               <DatePicker />
               {/* <Passengers /> */}

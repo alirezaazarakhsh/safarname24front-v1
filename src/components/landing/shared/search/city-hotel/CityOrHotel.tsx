@@ -48,6 +48,10 @@ export default function CityOrHotel(props: Props) {
   const [isOpen, setOpen] = useState(false);
 
   const dispatch = useHotelOrCityDispatch();
+
+  const isBestHotel = pathname === '/best-hotels';
+  const isHotelDetail = pathname.startsWith('/best-hotels/');
+
   const { confirmedValue } = useHotelOrCityContext();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
@@ -77,7 +81,7 @@ export default function CityOrHotel(props: Props) {
               </div>
             ) : (
               <div className="flex items-center gap-1.5">
-                {pathname === '/best-hotels' ? (
+                {isBestHotel ? (
                   <span>شهر مقصد</span>
                 ) : (
                   <span>شهر یا هتل</span>

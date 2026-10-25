@@ -25,6 +25,7 @@ export function AmazingHotels() {
   const swiperRef = useRef<SwiperType>(null);
 
   const { data, status } = useQuery<ApiResponse>({
+    staleTime: 1000 * 60 * 5,
     queryKey: ['amazing-hotels'],
     queryFn: () => axiosInstance('/hotel/hotels/amazing-hotels/'),
   });

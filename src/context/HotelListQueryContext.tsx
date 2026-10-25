@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo } from 'react';
 
 // ------------------------------
 
@@ -26,12 +26,32 @@ export const HotelQueryProvider = ({
 }: Readonly<{ children: React.ReactNode }>) => {
   const [queryState, setQueryState] = useState(initialState);
 
-  function handleSetQueryState(isPending: boolean, totalLength: number | null) {
-    setQueryState({ isPending, totalLength });
-  }
+  // ۱. تثبیت رفرنس تابع با useCallback
+  // ۲. جلوگیری از آپدیت مجدد اگر مقادیر دقیقاً مثل قبل باشند (Bail out)
+  const handleSetQueryState = useCallback(
+    (isPending: boolean, totalLength: number | null) => {
+      setQueryState((prev) => {
+        // اگر دیتا تغییری نکرده، اصلاً استیت را آپدیت نکن تا رندر اضافه رخ ندهد
+        if (prev.isPending === isPending && prev.totalLength === totalLength) {
+          return prev;
+        }
+        return { isPending, totalLength };
+      });
+    },
+    []
+  );
+
+  // ۳. تثبیت رفرنس value با useMemo برای جلوگیری از رندر بیهوده کامپوننت‌های فرزند
+  const value = useMemo(
+    () => ({
+      queryState,
+      handleSetQueryState,
+    }),
+    [queryState, handleSetQueryState]
+  );
 
   return (
-    <HotelQueryContext.Provider value={{ queryState, handleSetQueryState }}>
+    <HotelQueryContext.Provider value={value}>
       {children}
     </HotelQueryContext.Provider>
   );

@@ -18,7 +18,7 @@ type ApiResponse = {
 
 export function Gallery() {
   const { data, status } = useQuery<ApiResponse>({
-    queryKey: ['config-banners'],
+    queryKey: ['config-banners-about'],
     queryFn: () => generalInstance('/config/banners?path=/about-us'),
   });
 

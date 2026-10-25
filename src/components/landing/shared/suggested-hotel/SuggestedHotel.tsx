@@ -9,6 +9,7 @@ import { Hotel } from '@/types';
 import { numberSeparation } from '@/utils';
 import DiscountPercentage from './DiscountPercentage';
 import { DynamicSuggestedHotelTimer } from './SuggestedHotelTimer';
+import { useState } from 'react';
 
 type Props = {
   hotel: Hotel;
@@ -37,6 +38,8 @@ export function SuggestedHotel(props: Props) {
     showTimer = true,
     showDiscount = true,
   } = props;
+
+  const [isClicked, setClicked] = useState(false)
 
   const pathname = usePathname();
   const formattedDeadline =
@@ -121,9 +124,12 @@ export function SuggestedHotel(props: Props) {
         {/* Hotel-Reservation */}
         <Link
           href={`/best-hotels/${slug}`}
-          className="bg-zinc-100 text-zinc-600 h-10 mt-2 flex-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-[#252525] hover:text-zinc-100"
+          onClick={() => setClicked(true)}
+          className="text-zinc-100 h-10 mt-2 flex-center rounded-[11px] transition-colors duration-200 ease-in-out bg-[#252525] hover:text-zinc-100"
         >
-          مشاهده هتل
+
+
+          {isClicked ? <div className="loader-dots" /> : <span>مشاهده هتل</span>}
         </Link>
       </div>
     </div>

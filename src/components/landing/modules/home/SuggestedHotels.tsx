@@ -26,6 +26,7 @@ export function SuggestedHotels() {
   const swiperRef = useRef<SwiperType>(null);
 
   const { data, status } = useQuery<ApiResponse>({
+    staleTime: 1000 * 60 * 5,
     queryKey: ['suggested-hotels'],
     queryFn: () => axiosInstance('/hotel/hotels/suggested-hotels'),
   });

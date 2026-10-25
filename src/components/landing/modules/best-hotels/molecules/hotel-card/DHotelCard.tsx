@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { numberSeparation } from '@/utils';
 import { useSearchParams } from 'next/navigation';
 import { Hotel } from '@/types/landing/best-hotels';
+import { useState } from 'react';
 
 type Props = Hotel;
 
@@ -30,6 +31,9 @@ export function DHotelCard(props: Props) {
   } = props;
 
   const searchParams = useSearchParams();
+
+  const [isClicked, setClicked] = useState(false)
+
 
   const endDate = searchParams.get('end-date');
   const startDate = searchParams.get('start-date');
@@ -139,9 +143,11 @@ export function DHotelCard(props: Props) {
 
         <Link
           href={navigationLink}
+          onClick={() => setClicked(true)}
           className="bg-cs-dark-blue text-white text-cs08 font-semibold h-10 flex-center rounded-cs-10"
         >
-          مشاهده اتاق ها
+             {isClicked ? <div className="loader-dots" /> : <span>مشاهده اتاق ها</span>}
+          
         </Link>
       </div>
     </div>

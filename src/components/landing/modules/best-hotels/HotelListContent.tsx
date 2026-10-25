@@ -12,14 +12,18 @@ type Props = {
   data?: Hotel[];
   totalPages?: number;
   status: 'error' | 'success' | 'pending';
+  isFetching?: boolean; // ۱. اضافه شدن پراپ
 };
 
 // ------------------------------
 
 export function HotelListContent(props: Props) {
-  const { data, status, city, totalPages } = props;
+  const { data, status, city, totalPages, isFetching } = props;
 
-  if (status !== 'pending' && (!data || !data?.length)) {
+  // ۲. تعریف وضعیت لودینگ (چه در اولین لود چه حین تغییر فیلترها)
+  const isLoading = status === 'pending' || isFetching;
+
+  if (!isLoading && (!data || !data?.length)) {
     return (
       <>
         <TopBarConfig
@@ -47,7 +51,7 @@ export function HotelListContent(props: Props) {
 
       {/* === Small-Screen */}
       <div className="grid gap-6 md:grid-cols-2 xl:hidden">
-        {status === 'pending'
+        {isLoading
           ? Array(8)
               .fill(null)
               .map((_, index) => (
@@ -58,7 +62,7 @@ export function HotelListContent(props: Props) {
 
       {/* === Large-Screen */}
       <div className="hidden gap-6 xl:grid">
-        {status === 'pending'
+        {isLoading
           ? Array(8)
               .fill(null)
               .map((_, index) => (
