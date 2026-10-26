@@ -40,7 +40,7 @@ export function LookingAtServices() {
     <div>
       <TopBarConfig
         subtitle="یکی از قوی ترین خدمات های هتلداری ایران !"
-        title={{ type: 'single', text: 'نگاهی به خدمات سفرنامه 24' }}
+        title={{ type: 'single', text: 'نگاهی به خدمات زروان تریپ' }}
       />
 
       <div className="grid items-start gap-20 lg:grid-cols-[1.2fr_1fr]">
@@ -61,9 +61,9 @@ export function LookingAtServices() {
                 className="border-b last:border-none"
                 onClick={() => setActiveIndex(index)}
               >
-                <AccordionTrigger className="text-zinc-800 text-cs85 font-bold">
+                <AccordionTrigger className="text-cs85 font-bold text-zinc-800">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 flex-center border-2 border-zinc-200 rounded-md">
+                    <div className="flex-center h-10 w-10 rounded-md border-2 border-zinc-200">
                       <span className="pt-1">{index + 1}</span>
                     </div>
 
@@ -79,7 +79,7 @@ export function LookingAtServices() {
           </Accordion>
         )}
 
-        <div className="bg-zinc-200 h-80 hidden overflow-hidden rounded-2xl lg:block">
+        <div className="hidden h-80 overflow-hidden rounded-2xl bg-zinc-200 lg:block">
           {data?.data[activeIndex].image && (
             <Image
               width={400}

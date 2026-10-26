@@ -76,7 +76,7 @@ export function SendTicket() {
   return (
     <div>
       <TopBarConfig
-        title={{ type: 'single', text: 'تماس با شبکه سفرنامه 24' }}
+        title={{ type: 'single', text: 'تماس با شبکه زروان تریپ' }}
         subtitle="دوست داریم نظرات و پیشنهادات شما را بشنویم پیام هایتان را با ما در میان بذارید."
       />
 
@@ -106,7 +106,7 @@ export function SendTicket() {
                         placeholder="* موضوع مورد نظر را وارد نمایید"
                       />
 
-                      <div className="absolute top-1/2 -translate-y-1/2 left-4 h-7 px-3 bg-zinc-100 text-zinc-500 text-cs07 font-extrabold pt-0.5 flex-center gap-1 rounded-md">
+                      <div className="flex-center absolute left-4 top-1/2 h-7 -translate-y-1/2 gap-1 rounded-md bg-zinc-100 px-3 pt-0.5 text-cs07 font-extrabold text-zinc-500">
                         <span className="w-3 text-center">
                           {35 - form.getValues('title').length >= 0
                             ? 35 - form.getValues('title').length

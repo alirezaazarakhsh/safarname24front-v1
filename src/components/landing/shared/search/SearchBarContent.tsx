@@ -50,8 +50,8 @@ export default function SearchBarContent(props: Props) {
                 />
               </div>
 
-              <SheetTitle className="font-inter text-[clamp(0.95rem,3vw,1rem)] font-bold capitalize">
-                safarname 24 hotel
+              <SheetTitle className="mt-2 font-inter text-[clamp(0.95rem,3vw,1rem)] font-bold capitalize">
+                zarvantrip
               </SheetTitle>
 
               <button

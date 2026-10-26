@@ -33,8 +33,8 @@ export function ReasonOfSelection() {
   return (
     <div className="-ml-5 lg:ml-0">
       <TopBarConfig
-        title={{ type: 'single', text: 'دلایل انتخاب سفرنامه 24' }}
-        subtitle="موارد مهم برای اینکه باید سفرنامه اولویت باشه !"
+        title={{ type: 'single', text: 'دلایل انتخاب زروان تریپ' }}
+        subtitle="موارد مهم برای اینکه باید زروان تریپ اولویت باشه !"
       />
 
       {status === 'pending' ? (
@@ -43,7 +43,7 @@ export function ReasonOfSelection() {
           <Skeleton className="h-80 rounded-xl xl:hidden" />
 
           {/* === large-Screen */}
-          <div className="h-96 hidden grid-cols-4 gap-6 xl:grid">
+          <div className="hidden h-96 grid-cols-4 gap-6 xl:grid">
             {Array(4)
               .fill(null)
               .map((_, index) => (
@@ -65,25 +65,25 @@ export function ReasonOfSelection() {
           {data?.data.map((item, index) => (
             <SwiperSlide
               key={index}
-              className="max-w-72 pb-4 select-none xl:max-w-full"
+              className="max-w-72 select-none pb-4 xl:max-w-full"
             >
-              <div className="relative bg-zinc-200/70 h-80 overflow-hidden rounded-2xl shadow-[0_0.5rem_1rem_rgb(0,0,0,0.05)] xl:h-96">
+              <div className="relative h-80 overflow-hidden rounded-2xl bg-zinc-200/70 shadow-[0_0.5rem_1rem_rgb(0,0,0,0.05)] xl:h-96">
                 {item.image && (
                   <Image
                     fill
-                    sizes='500'
+                    sizes="500"
                     src={item.image}
                     alt="image-reason"
                     className="full-size object-cover"
                   />
                 )}
 
-                <div className="absolute top-[12.8rem] bottom-4 inset-x-4 bg-white px-6 py-4 flex flex-col items-center gap-2 rounded-xl transition-all duration-500 ease-in-out hover:top-4">
-                  <span className="text-zinc-800 text-cs08 font-bold">
+                <div className="absolute inset-x-4 bottom-4 top-[12.8rem] flex flex-col items-center gap-2 rounded-xl bg-white px-6 py-4 transition-all duration-500 ease-in-out hover:top-4">
+                  <span className="text-cs08 font-bold text-zinc-800">
                     {item.title}
                   </span>
 
-                  <p className="text-zinc-500 text-cs75/5 text-justify font-semibold overflow-hidden">
+                  <p className="overflow-hidden text-justify text-cs75/5 font-semibold text-zinc-500">
                     {item.description}
                   </p>
                 </div>

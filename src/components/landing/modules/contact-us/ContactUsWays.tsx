@@ -34,7 +34,7 @@ export function ContactUsWays() {
     <div>
       <TopBarConfig
         title={{ type: 'single', text: 'تماس با ما' }}
-        subtitle="راه های ارتباطی با آژانس سفرنامه 24"
+        subtitle="راه های ارتباطی با آژانس زروان تریپ"
       />
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-5">
@@ -50,10 +50,10 @@ export function ContactUsWays() {
           data?.data.map((item, index) => (
             <div
               key={index}
-              className="bg-white p-5 flex gap-4 border-2 border-zinc-100 rounded-xl shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)] xl:flex-col"
+              className="flex gap-4 rounded-xl border-2 border-zinc-100 bg-white p-5 shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)] xl:flex-col"
             >
               {/* Icon */}
-              <div className="w-10 h-10 flex-center border border-zinc-200 rounded-md">
+              <div className="flex-center h-10 w-10 rounded-md border border-zinc-200">
                 {item.icon.link && (
                   <Image
                     alt="icon"
@@ -65,12 +65,12 @@ export function ContactUsWays() {
               </div>
 
               {/* {/* Title | Subtitle | Detail */}
-              <div className="text-zinc-800 font-bold flex flex-col flex-1 gap-3">
-                <div className="text-cs85 font-extrabold line-clamp-1">
+              <div className="flex flex-1 flex-col gap-3 font-bold text-zinc-800">
+                <div className="line-clamp-1 text-cs85 font-extrabold">
                   {item.title}
                 </div>
 
-                <div className="text-zinc-500 text-cs75 line-clamp-1">
+                <div className="line-clamp-1 text-cs75 text-zinc-500">
                   {item.subtitle}
                 </div>
 
@@ -79,7 +79,7 @@ export function ContactUsWays() {
                     {item.value}
                   </Link>
                 ) : (
-                  <span dir="ltr" className="font-inter text-cs08 text-right">
+                  <span dir="ltr" className="text-right font-inter text-cs08">
                     {item.value}
                   </span>
                 )}

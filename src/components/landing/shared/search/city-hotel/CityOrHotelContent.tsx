@@ -80,8 +80,8 @@ export default function CityOrHotelContent(props: Props) {
           />
         </div>
 
-        <span className="font-inter text-[clamp(0.95rem,3vw,1rem)] font-bold capitalize">
-          safarname 24 hotel
+        <span className="mt-2 font-inter text-[clamp(0.95rem,3vw,1rem)] font-bold capitalize">
+          zarvantrip
         </span>
 
         <button className="absolute right-0 top-0" onClick={handleClose}>

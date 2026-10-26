@@ -40,10 +40,7 @@ export function FrequentlyQuestions() {
 
   return (
     <div>
-      <TopBarConfig
-        title={{ type: 'single', text: 'سوالات متداول' }}
-        subtitle="پرسش و پاسخ های مهم در رابط با رزرواسیون !"
-      />
+      <TopBarConfig title={{ type: 'single', text: 'سوالات متداول' }} />
 
       {/* Small-Device */}
       <div className="lg:hidden">

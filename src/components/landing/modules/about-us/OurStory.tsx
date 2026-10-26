@@ -33,16 +33,16 @@ export function OurStory() {
     <div>
       <TopBarConfig
         title={{ type: 'single', text: 'درباره ما' }}
-        subtitle="داستان آژانس سفرنامه 24 از کجا شروع شد ؟"
+        subtitle="داستان مجموعه زروان تریپ از کجا شروع شد ؟"
       />
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:grid-flow-col-dense">
+      <div className="grid gap-8 lg:grid-flow-col-dense lg:grid-cols-[1fr_1.2fr]">
         {/* Story */}
-        <div className="bg-white px-3 py-6 space-y-3 border-2 border-zinc-200 rounded-xl shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:rounded-2xl lg:order-2 lg:py-8 lg:space-y-3">
+        <div className="space-y-3 rounded-xl border-2 border-zinc-200 bg-white px-3 py-6 shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:order-2 lg:space-y-3 lg:rounded-2xl lg:py-8">
           {status === 'pending' ? (
-            <Skeleton className="w-1/3 h-6" />
+            <Skeleton className="h-6 w-1/3" />
           ) : (
-            <h2 className="text-zinc-800 text-base font-extrabold px-4 lg:text-xl">
+            <h2 className="px-4 text-base font-extrabold text-zinc-800 lg:text-xl">
               {data?.data.title}
             </h2>
           )}
@@ -54,7 +54,7 @@ export function OurStory() {
           ) : (
             <p
               dir={isDesktop ? 'rtl' : 'ltr'}
-              className="h-72 text-zinc-600 text-cs85/[1.6rem] text-justify font-semibold px-4 overflow-auto custom-scrollbar lg:h-[26rem]"
+              className="custom-scrollbar h-72 overflow-auto px-4 text-justify text-cs85/[1.6rem] font-semibold text-zinc-600 lg:h-[26rem]"
             >
               {data?.data.description}
             </p>
@@ -63,7 +63,7 @@ export function OurStory() {
 
         {/* Image | Information */}
         <div className="flex flex-col gap-8 lg:order-1">
-          <div className="bg-zinc-200 h-64 overflow-hidden rounded-xl shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:rounded-2xl lg:h-72">
+          <div className="h-64 overflow-hidden rounded-xl bg-zinc-200 shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:h-72 lg:rounded-2xl">
             {data?.data.image && (
               <Image
                 width={400}
@@ -75,7 +75,7 @@ export function OurStory() {
             )}
           </div>
 
-          <div className="bg-white p-4 grid gap-3 border-2 border-zinc-200 rounded-xl shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:rounded-2xl lg:grid-cols-2 lg:flex-1">
+          <div className="grid gap-3 rounded-xl border-2 border-zinc-200 bg-white p-4 shadow-[0_0.5rem_1.5rem_rgb(0,0,0,0.05)] lg:flex-1 lg:grid-cols-2 lg:rounded-2xl">
             {status === 'pending'
               ? Array(4)
                   .fill(null)
@@ -85,12 +85,12 @@ export function OurStory() {
               : data?.data.items.map((item, index) => (
                   <div
                     key={index}
-                    className="bg-zinc-100 h-[5.4rem] px-5 flex flex-col justify-center gap-1.5 rounded-cs-10 lg:h-auto"
+                    className="flex h-[5.4rem] flex-col justify-center gap-1.5 rounded-cs-10 bg-zinc-100 px-5 lg:h-auto"
                   >
-                    <span className="text-zinc-800 font-extrabold">
+                    <span className="font-extrabold text-zinc-800">
                       {item.title}
                     </span>
-                    <span className="text-zinc-600 text-cs08 font-semibold">
+                    <span className="text-cs08 font-semibold text-zinc-600">
                       {item.subtitle}
                     </span>
                   </div>

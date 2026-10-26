@@ -6,12 +6,6 @@ import MainWrapper from '@/components/landing/shared/MainWrapper';
 import { cn } from '@/utils/utils';
 
 // ---------------------------------------------------
-// Online Font
-// import { Inter } from 'next/font/google';
-// const interFont = localFont({
-//   subsets: ['latin'],
-//   variable: '--font-inter'
-// });
 
 // Local font
 const interFont = localFont({
@@ -136,10 +130,10 @@ const iranSansFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'سفرنامه ۲۴',
+  title: 'زروان تریپ',
   description: 'رزرواسیون آنلاین هتل به صورت ۲۴ ساعته',
   openGraph: {
-    title: 'سفرنامه ۲۴ ',
+    title: 'زروان تریپ',
     description: 'رزرواسیون آنلاین هتل به صورت ۲۴ ساعته ',
   },
 };
@@ -155,7 +149,7 @@ export default function RootLayout({
         className={cn(
           interFont.variable,
           iranSansFont.variable,
-          'font-sans antialiased ss01',
+          'ss01 font-sans antialiased',
         )}
         suppressHydrationWarning
       >
