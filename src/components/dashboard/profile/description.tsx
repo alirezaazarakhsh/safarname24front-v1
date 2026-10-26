@@ -11,16 +11,16 @@ export default function Description({
   return (
     <div
       className={cn(
-        'bg-white border border-black/10 lg:rounded-[10px] rounded-[14px] overflow-hidden lg:p-4 p-[14px]',
+        'overflow-hidden rounded-[14px] border border-black/10 bg-white p-[14px] lg:rounded-[10px] lg:p-4',
         className,
       )}
     >
-      <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
+      <span className="mb-1 block truncate text-right text-[12px] font-semibold text-black lg:text-cs75">
         توضیحات تکمیلی :
       </span>
-      <p className="text-right text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+      <p className="text-right text-[10px] font-bold text-black/50 lg:text-cs75 lg:font-semibold">
         مشتری گرامی لازم به ذکر میباشد که پروفایل حقیقی خود را با دقت پر کنید و
-        در صورت خطا به تیم پشتیبانی سفرنامه 24 پیام دهید تا مشکلاتان را برطرف
+        در صورت خطا به تیم پشتیبانی زروان تریپ پیام دهید تا مشکلاتان را برطرف
         کنند از همراهی شما سپاسگزاریم.
       </p>
     </div>

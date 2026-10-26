@@ -10,21 +10,21 @@ import useLogout from '@/hooks/dashboard/useLogout';
 
 type urlTitleType =
   | {
-    type: 'normal';
-    href: `/dashboard/${string}` | '/dashboard';
-    title: string;
-  }
+      type: 'normal';
+      href: `/dashboard/${string}` | '/dashboard';
+      title: string;
+    }
   | {
-    type: 'regexp';
-    regexp: RegExp;
-    title: string;
-  };
+      type: 'regexp';
+      regexp: RegExp;
+      title: string;
+    };
 
 const urlTitles: urlTitleType[] = [
   {
     type: 'normal',
     href: '/dashboard',
-    title: 'داشبورد سفرنامه',
+    title: 'داشبورد زروان تریپ',
   },
   {
     type: 'normal',
@@ -106,28 +106,28 @@ export default function TopSide(): ReactNode {
 
   // Returning JSX
   return (
-    <div className="bg-transparent transition-all duration-500 border-b-[1.4px] border-b-black/10">
-      <div className="p-5 max-w-screen-template mx-auto lg:flex hidden items-center justify-between">
+    <div className="border-b-[1.4px] border-b-black/10 bg-transparent transition-all duration-500">
+      <div className="mx-auto hidden max-w-screen-template items-center justify-between p-5 lg:flex">
         <Logo />
         <div className="flex items-center justify-between gap-4">
           <button
-            className="aspect-square w-12 h-12 bg-cs-red/5 transition-all duration-500 hover:bg-cs-red/10 text-cs-red rounded-lg flex items-center justify-center disabled:opacity-50"
+            className="flex aspect-square h-12 w-12 items-center justify-center rounded-lg bg-cs-red/5 text-cs-red transition-all duration-500 hover:bg-cs-red/10 disabled:opacity-50"
             disabled={logOut.loading}
             onClick={logOut.mutate}
           >
-            <ICLogOut className="w-5 h-5 text-current" />
+            <ICLogOut className="h-5 w-5 text-current" />
           </button>
           <Notification />
           <ProfileDropdown />
         </div>
       </div>
-      <div className="lg:hidden block py-[16px] px-[24px]">
+      <div className="block px-[24px] py-[16px] lg:hidden">
         <button
           onClick={() => router.back()}
-          className="flex items-center justify-start gap-[10px] w-full overflow-hidden"
+          className="flex w-full items-center justify-start gap-[10px] overflow-hidden"
         >
-          <ICArrowFlashRight className="w-[24px] h-[24px] aspect-square shrink-0" />
-          <span className="block truncate text-black text-[14px] font-bold w-full text-right">
+          <ICArrowFlashRight className="aspect-square h-[24px] w-[24px] shrink-0" />
+          <span className="block w-full truncate text-right text-[14px] font-bold text-black">
             {matched?.title || 'بازگشت به صفحه'}
           </span>
         </button>

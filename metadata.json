@@ -1,7 +1,5 @@
 {
-  "name": "Safarnameh 24",
+  "name": "zarvantrip",
   "description": "Hotel reservation and tourism portal application",
-  "capabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

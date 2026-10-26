@@ -23,7 +23,7 @@ import { JSX, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-// Defining formschema 
+// Defining formschema
 const formSchema = z.object({
   depositorName: z
     .string({ required_error: 'وارد کردن نام واریز کننده الزامی است' })
@@ -31,7 +31,7 @@ const formSchema = z.object({
     .nonempty({ message: 'وارد کردن نام واریز کننده الزامی است' }),
   trackingNumber: z
     .string({
-      message: "لطفا این فیلد را پر کنید."
+      message: 'لطفا این فیلد را پر کنید.',
     })
     .length(12, { message: 'شماره پیگیری باید دقیقا ۱۲ رقم باشد' })
     .regex(/^[0-9]+$/, { message: 'شماره پیگیری فقط باید شامل اعداد باشد' }),
@@ -45,10 +45,10 @@ const formSchema = z.object({
     }),
   depositDate: z
     .string({
-      message: "لطفا این فیلد را پر کنید."
+      message: 'لطفا این فیلد را پر کنید.',
     })
     .nonempty({ message: 'تاریخ واریز وجه را وارد نمایید' }),
-})
+});
 
 // Defining form type
 export type cartToCartFormType = z.infer<typeof formSchema>;
@@ -60,70 +60,73 @@ export default function CartToCartFinancialPage(): JSX.Element {
   const userInfo = useUserInfo();
   const userLegalInfo = useUserLegalInfo();
   const [image, setImage] = useState<File | undefined>();
-  const [selectedCreditCard, setSelectedCreditCard] = useState<GETPersonalProfile["card_numbers"][0] | undefined>(userInfo.card_numbers[0]);
+  const [selectedCreditCard, setSelectedCreditCard] = useState<
+    GETPersonalProfile['card_numbers'][0] | undefined
+  >(userInfo.card_numbers[0]);
   const form = useForm<cartToCartFormType>({
     resolver: zodResolver(formSchema),
-    mode: "onChange",
-    reValidateMode: "onChange",
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
 
   const depositReceipts = useApiMutation({
-    method: "post",
-    url: "/finance/deposit-receipts/",
+    method: 'post',
+    url: '/finance/deposit-receipts/',
     isFormData: true,
     options: {
       onSuccess: () => {
         toast({
-          title: "انتقال مبلغ موفقیت امیز بود!",
-          description: "مشترک گرامی , انتقال مبلغ مد نظر شما با موفقیت انجام شد. منتظر تایید ادمین باشید داشته باشه",
-          theme: "green"
+          title: 'انتقال مبلغ موفقیت امیز بود!',
+          description:
+            'مشترک گرامی , انتقال مبلغ مد نظر شما با موفقیت انجام شد. منتظر تایید ادمین باشید داشته باشه',
+          theme: 'green',
         });
 
-        form.resetField("trackingNumber");
-        form.resetField("depositorName");
-        form.resetField("extraAmount");
-        form.setValue("depositDate", "");
+        form.resetField('trackingNumber');
+        form.resetField('depositorName');
+        form.resetField('extraAmount');
+        form.setValue('depositDate', '');
       },
       onError: () => {
         toast({
-          title: "خطایی در انتقال وجه شکل گرفت!",
-          description: "مشترک گرامی , انتقال مبلغ مد نظر شما انجام نشد.",
-          theme: "theme"
+          title: 'خطایی در انتقال وجه شکل گرفت!',
+          description: 'مشترک گرامی , انتقال مبلغ مد نظر شما انجام نشد.',
+          theme: 'theme',
         });
-      }
-    }
+      },
+    },
   });
 
   // Defining submit handler
   const onSubmit: SubmitHandler<cartToCartFormType> = async (data) => {
     if (!image) {
       toast({
-        title: "خطایی در ارسال فرم رخ داد!",
-        description: "لطفا عکس فیش مربوطه نیز اپلود کنید.",
-        theme: "theme"
-      })
+        title: 'خطایی در ارسال فرم رخ داد!',
+        description: 'لطفا عکس فیش مربوطه نیز اپلود کنید.',
+        theme: 'theme',
+      });
     } else if (!selectedCreditCard) {
       toast({
-        title: "خطایی در ارسال فرم رخ داد!",
-        description: "لطفا کارت مد نظر را چک کرده و مجددا امتحان کنید.",
-        theme: "theme"
-      })
+        title: 'خطایی در ارسال فرم رخ داد!',
+        description: 'لطفا کارت مد نظر را چک کرده و مجددا امتحان کنید.',
+        theme: 'theme',
+      });
     } else {
       await depositReceipts.mutateAsync({
-        profile_type: mode === "personal" ? "natural" : "juridical",
+        profile_type: mode === 'personal' ? 'natural' : 'juridical',
         card_object_id: selectedCreditCard.id,
         depositor_name: data.depositorName,
         tracking_number: data.trackingNumber,
         amount: Number(removeCommas(data.extraAmount)),
         deposit_date_jalali: moment(data.depositDate).format('YYYY/MM/DD'),
-        receipt_image: image
+        receipt_image: image,
       });
     }
-  }
+  };
 
   // Returning JSX
   return (
-    <main className="p-5 lg:pb-5 pb-[50px] flex flex-col lg:gap-5 gap-[24px]">
+    <main className="flex flex-col gap-[24px] p-5 pb-[50px] lg:gap-5 lg:pb-5">
       <SelectMode
         value={mode}
         submitLoading={depositReceipts.isPending}
@@ -133,36 +136,40 @@ export default function CartToCartFinancialPage(): JSX.Element {
           setMode(val);
 
           setImage(undefined);
-          form.setValue("depositorName", "");
-          form.setValue("trackingNumber", "");
-          form.setValue("extraAmount", "");
-          form.setValue("depositDate", "");
+          form.setValue('depositorName', '');
+          form.setValue('trackingNumber', '');
+          form.setValue('extraAmount', '');
+          form.setValue('depositDate', '');
 
-          (val === "company")
+          val === 'company'
             ? setSelectedCreditCard(userLegalInfo.data.card_numbers[0])
             : setSelectedCreditCard(userInfo.card_numbers[0]);
         }}
       />
-      <div className="grid lg:grid-cols-3 lg:gap-5 gap-[24px]">
+      <div className="grid gap-[24px] lg:grid-cols-3 lg:gap-5">
         <UserCreditCard
-          title={mode === "company" ? "حقوقی" : "حقیقی"}
+          title={mode === 'company' ? 'حقوقی' : 'حقیقی'}
           mode={mode}
-          data={(mode === "company") ? userLegalInfo.data.card_numbers : userInfo.card_numbers}
+          data={
+            mode === 'company'
+              ? userLegalInfo.data.card_numbers
+              : userInfo.card_numbers
+          }
           onValueChange={(card) => {
             setSelectedCreditCard(card);
             console.log(card);
           }}
         />
-        <div className="flex items-center justify-between flex-col lg:gap-5 gap-[24px]">
-          <CartBalance hasMobileView className="shrink-0 w-full" />
-          <div className="w-full h-full">
+        <div className="flex flex-col items-center justify-between gap-[24px] lg:gap-5">
+          <CartBalance hasMobileView className="w-full shrink-0" />
+          <div className="h-full w-full">
             <Upload
               hideSubmit
-              className="lg:w-full w-full h-full"
+              className="h-full w-full lg:w-full"
               onChange={setImage}
               useSingleFile
               disabled={
-                mode === "company"
+                mode === 'company'
                   ? userLegalInfo.data.card_numbers.length === 0
                   : userInfo.card_numbers.length === 0
               }
@@ -172,38 +179,38 @@ export default function CartToCartFinancialPage(): JSX.Element {
         <EmergencieForm
           form={form}
           disabled={
-            mode === "company"
+            mode === 'company'
               ? userLegalInfo.data.card_numbers.length === 0
               : userInfo.card_numbers.length === 0
           }
         />
       </div>
-      <div className="lg:grid flex flex-col  lg:grid-cols-5 lg:gap-5 gap-[24px]">
-        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] lg:col-span-2">
-          <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
+      <div className="flex flex-col gap-[24px] lg:grid lg:grid-cols-5 lg:gap-5">
+        <div className="rounded-xl border border-black/10 bg-white p-[14px] lg:col-span-2 lg:p-4">
+          <span className="mb-2 block truncate text-right text-cs09 font-extrabold text-black">
             بخش مالی - بخش اطلاعاتی
           </span>
-          <p className="text-cs75 font-normal truncate text-right block text-black/70">
+          <p className="block truncate text-right text-cs75 font-normal text-black/70">
             مشتری گرامی در این بخش میتوایند مبلغ مدنظرتون واریز و برداشت کنید.
           </p>
         </div>
-        <div className="bg-white border rounded-xl border-black/10 lg:p-4 p-[14px] lg:col-span-3">
-          <span className="text-cs09 font-extrabold truncate text-right mb-2 block text-black">
+        <div className="rounded-xl border border-black/10 bg-white p-[14px] lg:col-span-3 lg:p-4">
+          <span className="mb-2 block truncate text-right text-cs09 font-extrabold text-black">
             نکته ضروری :
           </span>
-          <p className="text-cs75 font-normal truncate text-right block text-black/70">
+          <p className="block truncate text-right text-cs75 font-normal text-black/70">
             اگر مبلغی را واریز کردید و به کیف پول شما واریز نگردید در آنی واحد
             به تیم{' '}
-            <span className="text-cs-red font-semibold">
-              پشتیبانی سفرنامه 24
+            <span className="font-semibold text-cs-red">
+              پشتیبانی زروان تریپ
             </span>{' '}
             تماس بگیرید.
           </p>
         </div>
       </div>
-      <div className="grid lg:grid-cols-6  lg:gap-5 gap-[24px]">
+      <div className="grid gap-[24px] lg:grid-cols-6 lg:gap-5">
         <AdminCreditCardInfo className="lg:col-span-4 lg:h-[302px]" />
-        <Details className='lg:col-span-2 lg:h-[302px]' />
+        <Details className="lg:col-span-2 lg:h-[302px]" />
       </div>
       <CashOut />
     </main>

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TARGET="http://cps.safarnameh24.com"
-REPLACEMENT="https://cps.safarnameh24.com"
+TARGET="http://cps.zarvantrip.com"
+REPLACEMENT="https://cps.zarvantrip.com"
 
 echo "🔍 در حال جستجو برای URL های HTTP..."
 echo "------------------------------------------------"

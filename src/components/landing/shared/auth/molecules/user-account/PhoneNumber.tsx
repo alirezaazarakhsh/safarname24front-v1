@@ -18,7 +18,10 @@ import { Form, FormField, FormItem, FormControl } from '@/components/ui/form';
 const formSchema = z.object({
   phoneNumber: z
     .string()
-    .regex(/^9\d{9}$/, 'شماره همراه باید ۱۰ رقم باشد و با ۹ شروع شود (مثال: ۹۱۲۳۴۵۶۷۸۹)'),
+    .regex(
+      /^9\d{9}$/,
+      'شماره همراه باید ۱۰ رقم باشد و با ۹ شروع شود (مثال: ۹۱۲۳۴۵۶۷۸۹)',
+    ),
 });
 
 type Props = {
@@ -49,12 +52,18 @@ export default function PhoneNumber(props: Props) {
     onError: (error: AxiosError<{ detail?: string; message?: string }>) => {
       if (error?.response?.status === 502 || error?.response?.status === 504) {
         form.setError('phoneNumber', {
-          message: 'سرور بک‌اند در دسترس نیست (502 Bad Gateway). لطفاً سرویس Django/Gunicorn را در سرور بررسی فرمایید.',
+          message:
+            'سرور بک‌اند در دسترس نیست (502 Bad Gateway). لطفاً سرویس Django/Gunicorn را در سرور بررسی فرمایید.',
         });
         return;
       }
-      const serverError = error?.response?.data?.detail || (error?.response?.data as any)?.message;
-      if (serverError && (serverError.includes('قبلاً') || serverError.includes('وارد شده‌اید'))) {
+      const serverError =
+        error?.response?.data?.detail ||
+        (error?.response?.data as any)?.message;
+      if (
+        serverError &&
+        (serverError.includes('قبلاً') || serverError.includes('وارد شده‌اید'))
+      ) {
         Cookies.set('auth', 'true', { expires: 30 });
         Cookies.set('AUTH', 'true', { expires: 30 });
         window.location.reload();
@@ -82,21 +91,21 @@ export default function PhoneNumber(props: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="h-full flex flex-col md:items-center"
+        className="flex h-full flex-col md:items-center"
       >
-        <span className="text-zinc-800 text-cs09 font-extrabold mb-2.5">
+        <span className="mb-2.5 text-cs09 font-extrabold text-zinc-800">
           ورود به حساب کاربری
         </span>
 
-        <p className="text-zinc-600 text-cs08 font-semibold">
-          برای ورود به سفرنامه 24 شماره همراه خود را وارد نمایید :
+        <p className="text-cs08 font-semibold text-zinc-600">
+          برای ورود به زروان تریپ شماره همراه خود را وارد نمایید :
         </p>
 
         <div
           dir="ltr"
-          className={`w-full h-12 text-zinc-600 mt-6 mb-4 grid grid-cols-[1fr_3fr] overflow-hidden border-2 rounded-lg md:mt-5 md:mb-3 ${form.formState.errors.phoneNumber ? 'border-cs-red/50' : 'border-zinc-200'}`}
+          className={`mb-4 mt-6 grid h-12 w-full grid-cols-[1fr_3fr] overflow-hidden rounded-lg border-2 text-zinc-600 md:mb-3 md:mt-5 ${form.formState.errors.phoneNumber ? 'border-cs-red/50' : 'border-zinc-200'}`}
         >
-          <div className="text-[0.85rem] font-semibold text-zinc-400 flex-center border-r-2">
+          <div className="flex-center border-r-2 text-[0.85rem] font-semibold text-zinc-400">
             + 98
           </div>
 
@@ -112,7 +121,9 @@ export default function PhoneNumber(props: Props) {
                     type="tel"
                     inputMode="numeric"
                     onChange={(e) => {
-                      let cleaned = convertToEnglishDigits(e.target.value).replace(/[^\d]/g, '');
+                      let cleaned = convertToEnglishDigits(
+                        e.target.value,
+                      ).replace(/[^\d]/g, '');
                       if (cleaned.startsWith('98') && cleaned.length > 2) {
                         cleaned = cleaned.slice(2);
                       }
@@ -121,7 +132,7 @@ export default function PhoneNumber(props: Props) {
                       }
                       field.onChange(cleaned.slice(0, 10));
                     }}
-                    className="h-full text-[0.9rem] pl-6 tracking-[0.2rem] border-none rounded-none"
+                    className="h-full rounded-none border-none pl-6 text-[0.9rem] tracking-[0.2rem]"
                   />
                 </FormControl>
               </FormItem>
@@ -129,7 +140,7 @@ export default function PhoneNumber(props: Props) {
           />
         </div>
 
-        <p className="text-cs08 font-semibold text-red-500 mb-3 md:mb-0">
+        <p className="mb-3 text-cs08 font-semibold text-red-500 md:mb-0">
           {form.formState.errors.phoneNumber?.message}
         </p>
 
@@ -137,16 +148,16 @@ export default function PhoneNumber(props: Props) {
 
         <button
           disabled={mutation.isPending}
-          className={`relative w-full h-12 bg-cs-dark-blue mt-auto overflow-hidden rounded-lg transition-colors duration-300 ease-in-out md:mt-0 hover:bg-cs-dark-blue/95 ${mutation.isPending ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
+          className={`relative mt-auto h-12 w-full overflow-hidden rounded-lg bg-cs-dark-blue transition-colors duration-300 ease-in-out hover:bg-cs-dark-blue/95 md:mt-0 ${mutation.isPending ? 'cursor-not-allowed hover:bg-cs-dark-blue' : ''}`}
         >
           <span
-            className={`absolute inset-0 text-zinc-100 text-cs85 font-semibold flex-center pointer-events-none transition-all duration-300 ease-in-out ${mutation.isPending ? 'opacity-0 invisible -right-8' : 'opacity-100 visible right-0'}`}
+            className={`flex-center pointer-events-none absolute inset-0 text-cs85 font-semibold text-zinc-100 transition-all duration-300 ease-in-out ${mutation.isPending ? 'invisible -right-8 opacity-0' : 'visible right-0 opacity-100'}`}
           >
             تایید و دریافت کد
           </span>
 
           <span
-            className={`absolute inset-0 flex-center pointer-events-none transition-all duration-300 ease-in-out ${mutation.isPending ? 'opacity-100 visible left-0' : 'opacity-0 invisible -left-8'}`}
+            className={`flex-center pointer-events-none absolute inset-0 transition-all duration-300 ease-in-out ${mutation.isPending ? 'visible left-0 opacity-100' : 'invisible -left-8 opacity-0'}`}
           >
             <span className="loader-dots" />
           </span>

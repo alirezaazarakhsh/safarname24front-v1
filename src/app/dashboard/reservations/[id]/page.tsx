@@ -25,17 +25,19 @@ import { cn } from '@/utils/utils';
 // Defining fonts
 const aubrey = localFont({
   preload: true,
-  src: [{
-    path: "../../../../../public/font/aubrey/Aubrey-Regular.ttf",
-    weight: "400",
-  }]
-})
+  src: [
+    {
+      path: '../../../../../public/font/aubrey/Aubrey-Regular.ttf',
+      weight: '400',
+    },
+  ],
+});
 
 const sepahboodFont = localFont({
-  src: "../../../../../public/font/Sepahbod.otf",
-  display: "block",
-  weight: "500",
-  preload: true
+  src: '../../../../../public/font/Sepahbod.otf',
+  display: 'block',
+  weight: '500',
+  preload: true,
 });
 
 // Creating and exporting ReservationFactor page as default
@@ -73,14 +75,14 @@ export default function ReservationFactorPage({
     settingsData.isRefetching
   ) {
     return (
-      <main className="p-5 h-dvh w-dvw flex items-center justify-center fixed top-0 left-0">
+      <main className="fixed left-0 top-0 flex h-dvh w-dvw items-center justify-center p-5">
         <Loading className="bg-cs-red" />
       </main>
     );
   } else if (factorData.isError || settingsData.isError) {
     return (
       <ErrorTable
-        className="bg-transparent p-5 min-h-dvh h-auto"
+        className="h-auto min-h-dvh bg-transparent p-5"
         refetch={factorData.refetch}
       />
     );
@@ -99,13 +101,13 @@ export default function ReservationFactorPage({
     // Returning JSX
     return (
       <>
-        <div className="w-dvw bg-white text-black p-5 hidden print:block">
+        <div className="hidden w-dvw bg-white p-5 text-black print:block">
           <Image
             alt="Traiangle Icon"
             src={TraiangleIcon.src}
             width={500}
             height={500}
-            className="w-[25%] -translate-y-1/4 h-auto fixed left-0 top-0 pointer-events-none select-none z-10"
+            className="pointer-events-none fixed left-0 top-0 z-10 h-auto w-[25%] -translate-y-1/4 select-none"
             priority
             unoptimized
           />
@@ -114,41 +116,57 @@ export default function ReservationFactorPage({
             src={TraiangleIcon.src}
             width={500}
             height={500}
-            className="w-[25%] translate-y-1/4 h-auto fixed right-0 bottom-0 rotate-180 pointer-events-none select-none z-10"
+            className="pointer-events-none fixed bottom-0 right-0 z-10 h-auto w-[25%] translate-y-1/4 rotate-180 select-none"
             priority
             unoptimized
           />
-          <div
-            className="absolute right-5 top-5 pointer-events-none select-none z-20"
-          >
+          <div className="pointer-events-none absolute right-5 top-5 z-20 select-none">
             <Image
-              alt="لوگو سفرنامه"
+              alt="لوگو زروان تریپ"
               priority
               unoptimized
               src={LogoIcon.src}
               width={500}
               height={500}
-              className="w-[65px] mx-auto pointer-events-none select-none block"
+              className="pointer-events-none mx-auto block w-[65px] select-none"
             />
-            <span className={cn('text-center font-medium text-black block text-cs07', aubrey.className)}>SAFARNAMEH24</span>
-            <span className={cn('text-center font-normal text-black block text-cs07', sepahboodFont.className)}>سفرنامه ۲۴</span>
-            <span className={'text-center font-normal text-black block text-cs06'}>شماره ثبت: 603443</span>
+            <span
+              className={cn(
+                'block text-center text-cs07 font-medium text-black',
+                aubrey.className,
+              )}
+            >
+              Zarvantrip
+            </span>
+            <span
+              className={cn(
+                'block text-center text-cs07 font-normal text-black',
+                sepahboodFont.className,
+              )}
+            >
+              زروان تریپ
+            </span>
+            <span
+              className={'block text-center text-cs06 font-normal text-black'}
+            >
+              شماره ثبت: 603443
+            </span>
           </div>
           <Image
-            alt="لوگو سفرنامه"
+            alt="لوگو زروان تریپ"
             priority
             unoptimized
             src={LogoIcon.src}
             width={500}
             height={500}
-            className="w-[75%] fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 contrast-0 pointer-events-none select-none z-0"
+            className="pointer-events-none fixed left-1/2 top-1/2 z-0 w-[75%] -translate-x-1/2 -translate-y-1/2 select-none opacity-10 contrast-0"
           />
-          <div className="absolute bottom-5 left-5 py-3 z-20" dir="ltr">
-            <div className="h-px w-full mb-3 bg-gradient-to-r from-transparent to-transparent via-black" />
-            <div className="flex items-center justify-between gap-5 mb-2">
+          <div className="absolute bottom-5 left-5 z-20 py-3" dir="ltr">
+            <div className="mb-3 h-px w-full bg-gradient-to-r from-transparent via-black to-transparent" />
+            <div className="mb-2 flex items-center justify-between gap-5">
               <Link
                 href={`tel:${settings.contact_number_1}`}
-                className="flex items-center justify-start gap-2 w-fit text-cs-red"
+                className="flex w-fit items-center justify-start gap-2 text-cs-red"
               >
                 <IconsaxIcons
                   name="Call"
@@ -156,13 +174,13 @@ export default function ReservationFactorPage({
                   variant="Bold"
                   className="size-5"
                 />
-                <span className="text-black font-light text-left text-xs flex-1 truncate block">
+                <span className="block flex-1 truncate text-left text-xs font-light text-black">
                   {settings.contact_number_1}
                 </span>
               </Link>
               <Link
                 href={`tel:${settings.contact_number_2}`}
-                className="flex items-center justify-start gap-2 w-fit text-cs-red"
+                className="flex w-fit items-center justify-start gap-2 text-cs-red"
               >
                 <IconsaxIcons
                   name="Call"
@@ -170,13 +188,13 @@ export default function ReservationFactorPage({
                   variant="Bold"
                   className="size-5"
                 />
-                <span className="text-black font-light text-left text-xs flex-1 truncate block">
+                <span className="block flex-1 truncate text-left text-xs font-light text-black">
                   {settings.contact_number_2}
                 </span>
               </Link>
             </div>
             <div className="flex items-center justify-end gap-2 text-cs-red">
-              <span className="text-black font-light text-right text-xs flex-1 truncate block">
+              <span className="block flex-1 truncate text-right text-xs font-light text-black">
                 {settingsData.data.invoice_settings.postal_address}
               </span>
               <IconsaxIcons
@@ -185,11 +203,11 @@ export default function ReservationFactorPage({
                 className="size-5 shrink-0"
               />
             </div>
-            <div className="h-px w-full mt-3 bg-gradient-to-r from-transparent to-transparent via-black" />
+            <div className="mt-3 h-px w-full bg-gradient-to-r from-transparent via-black to-transparent" />
           </div>
-          <div className="pt-[120px] h-auto absolute w-full right-0 p-5">
+          <div className="absolute right-0 h-auto w-full p-5 pt-[120px]">
             <HotelAcceptSection
-              className="z-10 relative"
+              className="relative z-10"
               hotelName={`${settings.title} - هتل ${data.hotel.name}`}
               noMq
               data={{
@@ -202,7 +220,7 @@ export default function ReservationFactorPage({
               }}
             />
             <RoomsSection
-              className="z-10 relative mt-5 pt-5 border-t border-t-black/50"
+              className="relative z-10 mt-5 border-t border-t-black/50 pt-5"
               noMq
               data={data.rooms.map((item) => ({
                 info: {
@@ -220,7 +238,7 @@ export default function ReservationFactorPage({
             />
           </div>
         </div>
-        <main className="lg:p-5 lg:pb-5 lg:pt-5 pt-[calc(28px+24px)] p-[24px] pb-[100px] print:hidden flex flex-col lg:gap-8 gap-[25px] bg-white">
+        <main className="flex flex-col gap-[25px] bg-white p-[24px] pb-[100px] pt-[calc(28px+24px)] lg:gap-8 lg:p-5 lg:pb-5 lg:pt-5 print:hidden">
           <Header />
           <HotelAcceptSection
             printFn={() => window.print()}
@@ -234,19 +252,19 @@ export default function ReservationFactorPage({
               reserver: data.reserver_name,
             }}
           />
-          <div className="p-3 lg:h-16 bg-[#f8f8f8] border border-black/10 rounded-lg lg:flex hidden items-center justify-between gap-5">
-            <p className="font-semibold text-[#2c2c2c] text-cs75 block text-right truncate">{`هتل ${data.hotel.name} - ${data.hotel.address}`}</p>
+          <div className="hidden items-center justify-between gap-5 rounded-lg border border-black/10 bg-[#f8f8f8] p-3 lg:flex lg:h-16">
+            <p className="block truncate text-right text-cs75 font-semibold text-[#2c2c2c]">{`هتل ${data.hotel.name} - ${data.hotel.address}`}</p>
           </div>
-          <div className="lg:hidden block py-[20px] border-y-[1.5px] border-black/10">
+          <div className="block border-y-[1.5px] border-black/10 py-[20px] lg:hidden">
             <div className="flex items-start justify-start gap-[10px]">
-              <div className="h-[43px] w-[43px] rounded-[5px] bg-gray-100 flex items-center justify-center shrink-0">
+              <div className="flex h-[43px] w-[43px] shrink-0 items-center justify-center rounded-[5px] bg-gray-100">
                 <IconsaxIcons name="Location" className="h-[17px] w-[17px]" />
               </div>
               <div>
-                <span className="text-[12px] font-bold text-black truncate block text-right mb-1">
+                <span className="mb-1 block truncate text-right text-[12px] font-bold text-black">
                   آدرس هتل
                 </span>
-                <p className="text-[10px] font-medium text-gray-600 text-right">
+                <p className="text-right text-[10px] font-medium text-gray-600">
                   {data.hotel.address}
                 </p>
               </div>

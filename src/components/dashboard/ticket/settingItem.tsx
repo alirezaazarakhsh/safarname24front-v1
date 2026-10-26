@@ -49,7 +49,7 @@ const fakeMessages: MessageItemPropsType['data'][] = [
     createdAt: new Date().toISOString(),
     from: 'user',
     message:
-      'سلام خوبی.. من یه سوال خیلی مبهم داشتم درمورد سیستم عملکردی سفرنامه اگر بتونی کمک کنی ممنونت میشم.',
+      'سلام خوبی.. من یه سوال خیلی مبهم داشتم درمورد سیستم عملکردی زروان تریپ اگر بتونی کمک کنی ممنونت میشم.',
     type: 'text',
     answererName: 'شما',
   },
@@ -57,7 +57,7 @@ const fakeMessages: MessageItemPropsType['data'][] = [
     createdAt: new Date().toISOString(),
     from: 'answerer',
     message:
-      'سلام خوبی من یه سوال خیلی مبهم داشتم درمورد سیستم عملکردی سفرنامه اگر بتونی کمک کنی ممنونت میشم. ',
+      'سلام خوبی من یه سوال خیلی مبهم داشتم درمورد سیستم عملکردی زروان تریپ اگر بتونی کمک کنی ممنونت میشم. ',
     type: 'text',
     answererName: 'محمد علی کلی',
   },
@@ -97,20 +97,20 @@ export default function SettingItem({
         <button
           onClick={() => !disabled && onClick && onClick()}
           className={cn(
-            'flex items-center justify-between gap-3 w-full transition-all duration-500 disabled:cursor-not-allowed cursor-pointer bg-white disabled:hover:bg-white hover:bg-gray-100 ',
-            size === 'lg' ? 'p-[12px] rounded-lg' : 'py-2',
+            'flex w-full cursor-pointer items-center justify-between gap-3 bg-white transition-all duration-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:hover:bg-white',
+            size === 'lg' ? 'rounded-lg p-[12px]' : 'py-2',
             className,
           )}
         >
           <div
             className={cn(
-              'flex items-center overflow-hidden gap-3',
-              size === 'lg' ? 'justify-start' : 'justify-center w-full',
+              'flex items-center gap-3 overflow-hidden',
+              size === 'lg' ? 'justify-start' : 'w-full justify-center',
             )}
           >
             <div
               className={
-                'size-10 bg-gray-200 flex items-center justify-center text-black rounded-lg overflow-hidden shrink-0'
+                'flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-200 text-black'
               }
             >
               <IconsaxIcons
@@ -121,10 +121,10 @@ export default function SettingItem({
             </div>
             {size === 'lg' && (
               <div className="overflow-hidden">
-                <span className="text-cs75 font-medium text-black text-right truncate block mb-1">
+                <span className="mb-1 block truncate text-right text-cs75 font-medium text-black">
                   {title}
                 </span>
-                <span className="text-cs75 font-medium text-black/70 text-right truncate block">
+                <span className="block truncate text-right text-cs75 font-medium text-black/70">
                   {type === 'files'
                     ? subTitle
                       ? subTitle
@@ -142,7 +142,7 @@ export default function SettingItem({
             )}
           </div>
           {size === 'lg' && (
-            <div className="text-black shrink-0">
+            <div className="shrink-0 text-black">
               <IconsaxIcons
                 name={disabled ? 'Lock' : 'ArrowLeft2'}
                 className="size-4"
@@ -161,29 +161,29 @@ export default function SettingItem({
       <Dialog>
         <SettingButton />
         <DialogPortal>
-          <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-[50dvh] h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-auto custom-scrollbar">
-            <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 bg-white w-full shrink-0 lg:h-auto h-[50px]">
+          <DialogContent className="custom-scrollbar block h-dvh w-full max-w-[100vw] gap-0 overflow-auto !rounded-none p-0 lg:h-[50dvh] lg:max-w-[400px] lg:!rounded-2xl">
+            <div className="flex h-[50px] w-full shrink-0 items-center justify-between gap-3 border-b border-b-black/10 bg-white px-6 py-5 lg:h-auto">
               <div className="flex items-center justify-start gap-3">
-                <DialogClose asChild className="lg:hidden block">
+                <DialogClose asChild className="block lg:hidden">
                   <button className="shrink-0" type="button">
                     <IconsaxIcons
                       name="ArrowRight"
-                      className="w-5 h-5 text-black"
+                      className="h-5 w-5 text-black"
                     />
                   </button>
                 </DialogClose>
-                <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full">
+                <DialogTitle className="w-full truncate text-right text-[14px] font-bold text-[#2b2b2b]">
                   لیست فایل های ذخیره شده
                 </DialogTitle>
               </div>
-              <DialogClose asChild className="lg:block hidden">
+              <DialogClose asChild className="hidden lg:block">
                 <button className="shrink-0" type="button">
-                  <ICX className="w-3 h-3 text-black" fill="currentColor" />
+                  <ICX className="h-3 w-3 text-black" fill="currentColor" />
                 </button>
               </DialogClose>
             </div>
             <div
-              className="lg:h-[calc(50dvh-62px)] h-[calc(100dvh-50px)] lg:block flex flex-col justify-between gap-3 overflow-y-auto overflow-x-hidden custom-scrollbar w-full p-6 bg-gray-100"
+              className="custom-scrollbar flex h-[calc(100dvh-50px)] w-full flex-col justify-between gap-3 overflow-y-auto overflow-x-hidden bg-gray-100 p-6 lg:block lg:h-[calc(50dvh-62px)]"
               dir="ltr"
             >
               <div className="flex flex-col gap-4" dir="rtl">
@@ -201,73 +201,73 @@ export default function SettingItem({
       <Dialog>
         <SettingButton />
         <DialogPortal>
-          <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-auto h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-auto custom-scrollbar">
-            <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 bg-white w-full shrink-0 lg:h-auto h-[50px]">
+          <DialogContent className="custom-scrollbar block h-dvh w-full max-w-[100vw] gap-0 overflow-auto !rounded-none p-0 lg:h-auto lg:max-w-[400px] lg:!rounded-2xl">
+            <div className="flex h-[50px] w-full shrink-0 items-center justify-between gap-3 border-b border-b-black/10 bg-white px-6 py-5 lg:h-auto">
               <div className="flex items-center justify-start gap-3">
-                <DialogClose asChild className="lg:hidden block">
+                <DialogClose asChild className="block lg:hidden">
                   <button className="shrink-0" type="button">
                     <IconsaxIcons
                       name="ArrowRight"
-                      className="w-5 h-5 text-black"
+                      className="h-5 w-5 text-black"
                     />
                   </button>
                 </DialogClose>
                 <div>
-                  <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full">
+                  <DialogTitle className="w-full truncate text-right text-[14px] font-bold text-[#2b2b2b]">
                     والپیپر
                   </DialogTitle>
-                  <span className="text-right text-[12px] font-normal text-[#2b2b2b] truncate lg:block hidden mt-1">
+                  <span className="mt-1 hidden truncate text-right text-[12px] font-normal text-[#2b2b2b] lg:block">
                     {walpaperData.find((item) => item.color === walpaper)
                       ?.label || '-'}
                   </span>
                 </div>
               </div>
-              <DialogClose asChild className="lg:block hidden">
+              <DialogClose asChild className="hidden lg:block">
                 <button className="shrink-0" type="button">
-                  <ICX className="w-3 h-3 text-black" fill="currentColor" />
+                  <ICX className="h-3 w-3 text-black" fill="currentColor" />
                 </button>
               </DialogClose>
             </div>
-            <div className="lg:p-6 p-0 lg:h-auto h-[calc(100dvh-50px)] lg:block flex flex-col justify-between gap-3">
-              <div className="w-full flex flex-col justify-between">
-                <div className="p-6 lg:hidden flex items-center justify-between gap-3 w-full">
+            <div className="flex h-[calc(100dvh-50px)] flex-col justify-between gap-3 p-0 lg:block lg:h-auto lg:p-6">
+              <div className="flex w-full flex-col justify-between">
+                <div className="flex w-full items-center justify-between gap-3 p-6 lg:hidden">
                   <div>
-                    <span className="text-right text-[16px] font-bold text-[#2b2b2b] truncate w-full">
+                    <span className="w-full truncate text-right text-[16px] font-bold text-[#2b2b2b]">
                       والپیپر
                     </span>
-                    <span className="text-right text-[14px] font-normal text-[#2b2b2b] truncate mt-1 block">
+                    <span className="mt-1 block truncate text-right text-[14px] font-normal text-[#2b2b2b]">
                       {walpaperData.find((item) => item.color === walpaper)
                         ?.label || '-'}
                     </span>
                   </div>
                   <DialogClose asChild>
-                    <button className="px-4 py-3 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md">
+                    <button className="w-fit rounded-md bg-black px-4 py-3 text-center text-cs07 font-medium text-white">
                       ذخیره اطلاعات
                     </button>
                   </DialogClose>
                 </div>
                 <div
-                  className="p-[24px] flex flex-col gap-4 lg:rounded-lg rounded-0 w-full lg:bg-white bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
+                  className="rounded-0 custom-scrollbar mb-7 flex h-[200px] w-full flex-col gap-4 overflow-x-hidden overflow-y-scroll bg-gray-100 p-[24px] lg:rounded-lg lg:bg-white"
                   style={{ background: walpaper }}
                 >
                   {fakeMessages.map((item, index) => (
                     <MessageItem data={item} key={index} />
                   ))}
                 </div>
-                <div className="grid grid-cols-6 lg:gap-3 gap-7 shrink-0 lg:px-0 px-6">
+                <div className="grid shrink-0 grid-cols-6 gap-7 px-6 lg:gap-3 lg:px-0">
                   {walpaperData.map((item, index) => (
                     <div
                       key={index}
                       onClick={() => setWalpaper(item.color)}
                       data-active={item.color === walpaper}
-                      className="aspect-square flex lg:p-1.5 p-1 rounded-lg relative overflow-hidden group shrink-0"
+                      className="group relative flex aspect-square shrink-0 overflow-hidden rounded-lg p-1 lg:p-1.5"
                     >
                       <div
-                        className="absolute top-0 left-0 w-full h-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
+                        className="absolute left-0 top-0 h-full w-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
                         style={{ background: item.color }}
                       />
                       <div
-                        className="rounded-md cursor-pointer w-full z-10"
+                        className="z-10 w-full cursor-pointer rounded-md"
                         style={{ background: item.color }}
                       />
                     </div>
@@ -281,9 +281,9 @@ export default function SettingItem({
                   setActiveTabState={setMobileActiveTab}
                 />
               )}
-              <div className="lg:block hidden mt-5">
+              <div className="mt-5 hidden lg:block">
                 <DialogClose asChild>
-                  <button className="px-5 py-2.5 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md">
+                  <button className="w-fit rounded-md bg-black px-5 py-2.5 text-center text-cs07 font-medium text-white">
                     ذخیره اطلاعات
                   </button>
                 </DialogClose>
@@ -298,73 +298,73 @@ export default function SettingItem({
       <Dialog>
         <SettingButton />
         <DialogPortal>
-          <DialogContent className="p-0 w-full lg:max-w-[400px] max-w-[100vw] lg:h-auto h-dvh gap-0 block lg:!rounded-2xl !rounded-none overflow-auto custom-scrollbar">
-            <div className="px-6 py-5 border-b border-b-black/10 flex items-center justify-between gap-3 bg-white w-full shrink-0 lg:h-auto h-[50px]">
+          <DialogContent className="custom-scrollbar block h-dvh w-full max-w-[100vw] gap-0 overflow-auto !rounded-none p-0 lg:h-auto lg:max-w-[400px] lg:!rounded-2xl">
+            <div className="flex h-[50px] w-full shrink-0 items-center justify-between gap-3 border-b border-b-black/10 bg-white px-6 py-5 lg:h-auto">
               <div className="flex items-center justify-start gap-3">
-                <DialogClose asChild className="lg:hidden block">
+                <DialogClose asChild className="block lg:hidden">
                   <button className="shrink-0" type="button">
                     <IconsaxIcons
                       name="ArrowRight"
-                      className="w-5 h-5 text-black"
+                      className="h-5 w-5 text-black"
                     />
                   </button>
                 </DialogClose>
                 <div>
-                  <DialogTitle className="text-right text-[14px] font-bold text-[#2b2b2b] truncate w-full">
+                  <DialogTitle className="w-full truncate text-right text-[14px] font-bold text-[#2b2b2b]">
                     رنگ چت تایم
                   </DialogTitle>
-                  <span className="text-right text-[12px] font-normal text-[#2b2b2b] truncate lg:block hidden mt-1">
+                  <span className="mt-1 hidden truncate text-right text-[12px] font-normal text-[#2b2b2b] lg:block">
                     {themeData.find((item) => item.color === theme)?.label ||
                       '-'}
                   </span>
                 </div>
               </div>
-              <DialogClose asChild className="lg:block hidden">
+              <DialogClose asChild className="hidden lg:block">
                 <button className="shrink-0" type="button">
-                  <ICX className="w-3 h-3 text-black" fill="currentColor" />
+                  <ICX className="h-3 w-3 text-black" fill="currentColor" />
                 </button>
               </DialogClose>
             </div>
-            <div className="lg:p-6 p-0 lg:h-auto h-[calc(100dvh-50px)] lg:block flex flex-col justify-between gap-3">
-              <div className="w-full flex flex-col justify-between">
-                <div className="p-6 lg:hidden flex items-center justify-between gap-3 w-full">
+            <div className="flex h-[calc(100dvh-50px)] flex-col justify-between gap-3 p-0 lg:block lg:h-auto lg:p-6">
+              <div className="flex w-full flex-col justify-between">
+                <div className="flex w-full items-center justify-between gap-3 p-6 lg:hidden">
                   <div>
-                    <span className="text-right text-[16px] font-bold text-[#2b2b2b] truncate w-full">
+                    <span className="w-full truncate text-right text-[16px] font-bold text-[#2b2b2b]">
                       رنگ چت تایم
                     </span>
-                    <span className="text-right text-[14px] font-normal text-[#2b2b2b] truncate mt-1 block">
+                    <span className="mt-1 block truncate text-right text-[14px] font-normal text-[#2b2b2b]">
                       {themeData.find((item) => item.color === theme)?.label ||
                         '-'}
                     </span>
                   </div>
                   <DialogClose asChild>
-                    <button className="px-4 py-3 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md">
+                    <button className="w-fit rounded-md bg-black px-4 py-3 text-center text-cs07 font-medium text-white">
                       ذخیره اطلاعات
                     </button>
                   </DialogClose>
                 </div>
                 <div
-                  className="p-[24px] flex flex-col gap-4 lg:rounded-lg rounded-0 w-full bg-gray-100 h-[200px] overflow-y-scroll overflow-x-hidden custom-scrollbar mb-7"
+                  className="rounded-0 custom-scrollbar mb-7 flex h-[200px] w-full flex-col gap-4 overflow-x-hidden overflow-y-scroll bg-gray-100 p-[24px] lg:rounded-lg"
                   style={{ background: walpaper }}
                 >
                   {fakeMessages.map((item, index) => (
                     <MessageItem data={item} key={index} />
                   ))}
                 </div>
-                <div className="grid grid-cols-6 lg:gap-3 gap-7 shrink-0 lg:px-0 px-6">
+                <div className="grid shrink-0 grid-cols-6 gap-7 px-6 lg:gap-3 lg:px-0">
                   {themeData.map((item, index) => (
                     <div
                       key={index}
                       onClick={() => setTheme(item.color)}
                       data-active={item.color === theme}
-                      className="aspect-square flex lg:p-1.5 p-1 rounded-lg relative overflow-hidden group shrink-0"
+                      className="group relative flex aspect-square shrink-0 overflow-hidden rounded-lg p-1 lg:p-1.5"
                     >
                       <div
-                        className="absolute top-0 left-0 w-full h-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
+                        className="absolute left-0 top-0 h-full w-full transition-all duration-500 group-data-[active=false]:opacity-10 group-data-[active=true]:opacity-50"
                         style={{ background: item.color }}
                       />
                       <div
-                        className="rounded-md cursor-pointer w-full z-10"
+                        className="z-10 w-full cursor-pointer rounded-md"
                         style={{ background: item.color }}
                       />
                     </div>
@@ -378,9 +378,9 @@ export default function SettingItem({
                   setActiveTabState={setMobileActiveTab}
                 />
               )}
-              <div className="lg:block hidden mt-5">
+              <div className="mt-5 hidden lg:block">
                 <DialogClose asChild>
-                  <button className="px-5 py-2.5 bg-black text-white text-center w-fit text-cs07 font-medium rounded-md">
+                  <button className="w-fit rounded-md bg-black px-5 py-2.5 text-center text-cs07 font-medium text-white">
                     ذخیره اطلاعات
                   </button>
                 </DialogClose>

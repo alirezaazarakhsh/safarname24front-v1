@@ -141,22 +141,29 @@ function InnerPage({
 
   const isTicketPage = pathname.includes('/dashboard/tickets');
   const irregularPages = isReservationSubPage || isTicketPage;
-  const fetchingArray = [personalDataFetch, walletBalanceFetch, notificationsFetch, customerClubPointsFetch, legalUserInfoFetching];
-  const loading = fetchingArray.some(item => item.isLoading);
-  const error = fetchingArray.some(item => item.isError);
+  const fetchingArray = [
+    personalDataFetch,
+    walletBalanceFetch,
+    notificationsFetch,
+    customerClubPointsFetch,
+    legalUserInfoFetching,
+  ];
+  const loading = fetchingArray.some((item) => item.isLoading);
+  const error = fetchingArray.some((item) => item.isError);
 
   // Condititional rendering
   if (loading) {
     return (
       <>
-        <div className="bg-black/10 fixed top-0 left-0 w-dvw h-dvh z-0" />
-        <div className="bg-white rounded-2xl lg:size-[225px] size-[200px] aspect-square fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-10 p-4 flex items-center justify-center flex-col">
+        <div className="fixed left-0 top-0 z-0 h-dvh w-dvw bg-black/10" />
+        <div className="fixed left-[50%] top-[50%] z-10 flex aspect-square size-[200px] -translate-x-[50%] -translate-y-[50%] flex-col items-center justify-center rounded-2xl bg-white p-4 lg:size-[225px]">
           <Logo onlyLogo />
-          <div className="w-full mt-3 mb-6">
-            <span className="font-bold text-black text-cs08 block text-center truncate mb-0">
-              Agency Safarnameh 24 Hotel
+          <div className="mb-6 mt-3 w-full">
+            <span className="mb-0 block truncate text-center text-cs08 font-bold text-black">
+              Zarvantrip
             </span>
-            <span className="font-bold text-gray-500 text-cs08 block text-center truncate">
+
+            <span className="block truncate text-center text-cs08 font-bold text-gray-500">
               در حال بررسی
             </span>
           </div>
@@ -166,11 +173,18 @@ function InnerPage({
     );
   } else if (error) {
     return (
-      <div className='h-dvh w-dvw flex items-center justify-center p-5'>
-        <div className='text-black'>
-          <h1 className='text-center text-current font-black block truncate text-4xl mb-4'>اوپس !</h1>
-          <p className='text-center font-medium text-lg mb-3 text-current/70'>مشکلی در دریافت اطلاعات شما پیش امد.</p>
-          <Link href="/" className='w-fit mx-auto h-10 px-4 bg-cs-red rounded-lg text-cs75 font-semibold text-white flex items-center justify-center'>
+      <div className="flex h-dvh w-dvw items-center justify-center p-5">
+        <div className="text-black">
+          <h1 className="mb-4 block truncate text-center text-4xl font-black text-current">
+            اوپس !
+          </h1>
+          <p className="text-current/70 mb-3 text-center text-lg font-medium">
+            مشکلی در دریافت اطلاعات شما پیش امد.
+          </p>
+          <Link
+            href="/"
+            className="mx-auto flex h-10 w-fit items-center justify-center rounded-lg bg-cs-red px-4 text-cs75 font-semibold text-white"
+          >
             بازگشت به خانه
           </Link>
         </div>
@@ -221,13 +235,13 @@ function InnerPage({
                   )}
                 >
                   {isReservationSubPage ? (
-                    <div className="max-w-screen-template bg-white mx-auto">
+                    <div className="mx-auto max-w-screen-template bg-white">
                       {children}
                     </div>
                   ) : irregularPages ? (
                     children
                   ) : (
-                    <div className="max-w-screen-template mx-auto">
+                    <div className="mx-auto max-w-screen-template">
                       {children}
                     </div>
                   )}

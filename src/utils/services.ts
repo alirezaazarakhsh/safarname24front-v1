@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 export const generalInstance = axios.create({
-  baseURL: typeof window !== 'undefined' ? '/api/v1' : 'https://cps.safarnameh24.com/api/v1',
+  baseURL:
+    typeof window !== 'undefined'
+      ? '/api/v1'
+      : 'https://cps.zarvantrip.com/api/v1',
 });
 
 generalInstance.interceptors.request.use(
@@ -19,7 +22,7 @@ generalInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 type ServiceHelper<T = any> = {

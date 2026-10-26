@@ -7,13 +7,13 @@ import { ReactNode } from 'react';
 
 // Creating and exporting Dashboard page ("/") as default
 export default function Dashboard(): ReactNode {
-    // Returning JSX
-    return (
-        <main className="lg:p-5 lg:pb-5 p-[24px] pb-[50px] flex flex-col lg:gap-5 gap-[25px]">
-            <Filter />
-            <UserStatus />
-            <LatestTicketsTable />
-            <LatestReservationsTable />
-        </main>
-    );
+  // Returning JSX
+  return (
+    <main className="flex flex-col gap-[25px] p-[24px] pb-[50px] lg:gap-5 lg:p-5 lg:pb-5">
+      <Filter />
+      <UserStatus />
+      <LatestTicketsTable />
+      <LatestReservationsTable />
+    </main>
+  );
 }

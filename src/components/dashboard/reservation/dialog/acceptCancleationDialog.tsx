@@ -37,20 +37,20 @@ export default function AcceptCanclationDialog({
     return (
       <Drawer open={isOpened} onClose={closeFn}>
         <DrawerContent>
-          <DrawerHeader className="px-[24px] py-0 mb-[10px]">
-            <DrawerTitle className="text-[14px] font-bold text-black truncate block text-right">
+          <DrawerHeader className="mb-[10px] px-[24px] py-0">
+            <DrawerTitle className="block truncate text-right text-[14px] font-bold text-black">
               اطلاعات شما با موفقیت ثبت شد
             </DrawerTitle>
           </DrawerHeader>
           <div className="px-[24px] py-0">
             <DrawerDescription className="text-[12px] font-medium text-gray-500">
-              مشترک گرامی عزیز پس از تایید ادمین سفرنامه 24 رزرو شما لغو و با
+              مشترک گرامی عزیز پس از تایید ادمین زروان تریپ رزرو شما لغو و با
               شما تماس گرفته خواهد شد از همراهی شما متشکریم.
             </DrawerDescription>
           </div>
-          <DrawerFooter className="px-[24px] py-0 mt-[10px]">
+          <DrawerFooter className="mt-[10px] px-[24px] py-0">
             <DrawerClose asChild>
-              <button className="px-[50px] h-[43px] flex items-center justify-center bg-green-600 rounded-[8px] w-fit">
+              <button className="flex h-[43px] w-fit items-center justify-center rounded-[8px] bg-green-600 px-[50px]">
                 <span className="text-[12px] font-semibold text-white">
                   متوجه شدم
                 </span>
@@ -63,21 +63,21 @@ export default function AcceptCanclationDialog({
   } else {
     return (
       <Dialog open={isOpened}>
-        <DialogContent className="lg:w-auto w-[calc(100vw-25px)]">
+        <DialogContent className="w-[calc(100vw-25px)] lg:w-auto">
           <DialogHeader>
-            <DialogTitle className="text-right lg:text-[14px] text-[12px] font-bold text-black">
+            <DialogTitle className="text-right text-[12px] font-bold text-black lg:text-[14px]">
               اطلاعات شما با موفقیت ثبت شد
             </DialogTitle>
           </DialogHeader>
           <DialogDescription className="text-right text-sm font-medium text-black">
-            مشترک گرامی عزیز پس از تایید ادمین سفرنامه 24 رزرو شما لغو و با شما
+            مشترک گرامی عزیز پس از تایید ادمین زروان تریپ رزرو شما لغو و با شما
             تماس گرفته خواهد شد از همراهی شما متشکریم.
           </DialogDescription>
           <DialogFooter dir="ltr">
             <DialogClose asChild>
               <button
                 onClick={closeFn}
-                className="flex items-center justify-center lg:px-6 px-4 lg:py-2.5 py-2 rounded-md lg:text-cs08 text-cs07 font-medium text-white bg-green-600"
+                className="flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-cs07 font-medium text-white lg:px-6 lg:py-2.5 lg:text-cs08"
               >
                 متوجه شدم
               </button>

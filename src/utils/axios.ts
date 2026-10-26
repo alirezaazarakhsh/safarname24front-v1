@@ -1,7 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: typeof window !== "undefined" ? "/api/v1" : "https://cps.safarnameh24.com/api/v1",
+  baseURL:
+    typeof window !== 'undefined'
+      ? '/api/v1'
+      : 'https://cps.zarvantrip.com/api/v1',
   withCredentials: true,
 });
 
@@ -33,13 +36,13 @@ axiosInstance.interceptors.request.use(
       }
     }
 
-    const access = localStorage.getItem("access_token");
+    const access = localStorage.getItem('access_token');
     if (access) {
       config.headers.Authorization = `Bearer ${access}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 axiosInstance.interceptors.response.use(
@@ -61,15 +64,15 @@ axiosInstance.interceptors.response.use(
 
       try {
         const refreshResponse = await axios.post(
-          typeof window !== "undefined"
-            ? "/api/v1/token/refresh/"
-            : "https://cps.safarnameh24.com/api/v1/token/refresh/",
+          typeof window !== 'undefined'
+            ? '/api/v1/token/refresh/'
+            : 'https://cps.zarvantrip.com/api/v1/token/refresh/',
           {},
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         const newAccess = refreshResponse.data.access;
-        localStorage.setItem("access_token", newAccess);
+        localStorage.setItem('access_token', newAccess);
 
         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
 
@@ -81,13 +84,13 @@ axiosInstance.interceptors.response.use(
         isRefreshing = false;
         processQueue(err, null);
 
-        localStorage.removeItem("access_token");
-        console.log("Refresh token expired → force logout");
+        localStorage.removeItem('access_token');
+        console.log('Refresh token expired → force logout');
 
         return Promise.reject(err);
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );

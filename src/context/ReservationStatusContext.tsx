@@ -30,7 +30,7 @@ export function ReservationStatusProvider({
     if (!trackingCode) return;
 
     const socket = new WebSocket(
-      `wss://cps.safarnameh24.com/ws/${trackingCode}/`,
+      `wss://cps.zarvantrip.com/ws/${trackingCode}/`,
     );
     setWs(socket);
 

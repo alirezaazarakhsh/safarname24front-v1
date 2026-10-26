@@ -45,7 +45,7 @@ export function SuggestedHotels(props: Props) {
     <Section sectionID="suggested-hotels" className="-ml-5 xl:ml-0">
       <TopBarConfig
         arraylength={data?.data.length}
-        subtitle="هتل های پیشنهادی سفرنامه رو از دست نده !"
+        subtitle="هتل های پیشنهادی زروان تریپ رو از دست نده !"
         title={{ type: 'single', text: topBarConfigTitle }}
         prevClickFunc={() => swiperRef.current?.slidePrev()}
         nextClickFunc={() => swiperRef.current?.slideNext()}
@@ -55,7 +55,7 @@ export function SuggestedHotels(props: Props) {
       {status === 'pending' ? (
         <>
           <Skeleton className="h-[23.5rem] xl:hidden" />
-          <div className="h-[23.5rem] hidden grid-cols-4 gap-5 xl:grid">
+          <div className="hidden h-[23.5rem] grid-cols-4 gap-5 xl:grid">
             {Array(4)
               .fill(null)
               .map((_, index) => (
@@ -89,7 +89,7 @@ export function SuggestedHotels(props: Props) {
           {data?.data?.map((hotel, index) => (
             <SwiperSlide
               key={index}
-              className="max-w-72 pb-4 select-none xl:max-w-full"
+              className="max-w-72 select-none pb-4 xl:max-w-full"
             >
               <SuggestedHotel hotel={hotel} />
             </SwiperSlide>

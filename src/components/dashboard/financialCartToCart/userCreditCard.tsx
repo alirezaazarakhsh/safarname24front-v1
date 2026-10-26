@@ -21,12 +21,15 @@ export default function UserCreditCard({
   data,
   onValueChange,
   title,
-  mode
+  mode,
 }: UserCreditCardPropsType): JSX.Element {
   // Defining hooks
-  const [addCardDialogOpened, setAddCardDialogOpened] = useState<boolean>(false);
-  const [editCardDialogOpened, setEditCardDialogOpened] = useState<boolean>(false);
-  const [deleteCardDialogOpened, setDeleteCardDialogOpened] = useState<boolean>(false);
+  const [addCardDialogOpened, setAddCardDialogOpened] =
+    useState<boolean>(false);
+  const [editCardDialogOpened, setEditCardDialogOpened] =
+    useState<boolean>(false);
+  const [deleteCardDialogOpened, setDeleteCardDialogOpened] =
+    useState<boolean>(false);
   const [activeSwiperSlideIndex, setActiveSwiperSlideIndex] =
     useState<number>(0);
 
@@ -34,36 +37,36 @@ export default function UserCreditCard({
   return (
     <div
       className={cn(
-        'bg-white border rounded-xl border-black/10 overflow-hidden',
+        'overflow-hidden rounded-xl border border-black/10 bg-white',
         className,
       )}
     >
-      <div className="flex items-center justif-start gap-3 lg:p-4 p-[14px] border-b border-b-black/10">
-        <div className="shrink-0 w-[45px] h-[45px] lg:rounded-md rounded-[10px] flex items-center justify-center border border-black/10 text-black">
+      <div className="justif-start flex items-center gap-3 border-b border-b-black/10 p-[14px] lg:p-4">
+        <div className="flex h-[45px] w-[45px] shrink-0 items-center justify-center rounded-[10px] border border-black/10 text-black lg:rounded-md">
           <IconsaxIcons
             name="Cards"
-            className="w-[20px] h-[20px]"
+            className="h-[20px] w-[20px]"
             color="currentColor"
           />
         </div>
-        <div className="overflow-hidden w-full">
-          <span className="lg:text-cs75 text-[12px] font-semibold text-black truncate block text-right mb-1">
+        <div className="w-full overflow-hidden">
+          <span className="mb-1 block truncate text-right text-[12px] font-semibold text-black lg:text-cs75">
             {`حساب بانکی شما (${title})`}
           </span>
-          <p className="text-right truncate text-black/50 lg:text-cs75 text-[10px] lg:font-semibold font-bold">
+          <p className="truncate text-right text-[10px] font-bold text-black/50 lg:text-cs75 lg:font-semibold">
             میتوانید کارت بانکی دلخواه مدنظر خود را اضافه نمایید.
           </p>
         </div>
       </div>
-      <div className="lg:p-4 p-[14px]">
-        <div className="h-[190px] bg-gray-200 mb-4 rounded-xl py-4 px-8 overflow-hidden">
+      <div className="p-[14px] lg:p-4">
+        <div className="mb-4 h-[190px] overflow-hidden rounded-xl bg-gray-200 px-8 py-4">
           {data.length === 0 ? (
             <CardShowCase
               className="h-[calc(190px-32px)]"
               data={{
                 bankIcon: 'unknown',
-                holderName: "-",
-                bankName: 'Safarnameh24',
+                holderName: '-',
+                bankName: 'Zarvantrip',
                 iban: '************************',
                 number: '****************',
               }}
@@ -93,7 +96,7 @@ export default function UserCreditCard({
                         getBankFromCard(item.card_number)?.name || 'نامعلوم',
                       iban: item.iban || '************************',
                       number: item.card_number || '****************',
-                      holderName: item.account_holder_name || "-",
+                      holderName: item.account_holder_name || '-',
                     }}
                   />
                 </SwiperSlide>
@@ -104,31 +107,36 @@ export default function UserCreditCard({
         <div className="space-y-4">
           <div className="flex items-center justify-start gap-4">
             <div className="flex-1 overflow-hidden">
-              <span className="font-semibold text-cs07 text-black truncate text-right mb-1 block">
+              <span className="mb-1 block truncate text-right text-cs07 font-semibold text-black">
                 بانک
               </span>
-              <span className="font-medium text-cs07 text-black/70 truncate text-right block">
+              <span className="block truncate text-right text-cs07 font-medium text-black/70">
                 {data.length === 0
                   ? 'سیستم بانکی ناشناخته است!'
                   : getBankFromCard(data[activeSwiperSlideIndex].card_number)
-                    ?.name || 'سیستم بانکی ناشناخته است!'}
+                      ?.name || 'سیستم بانکی ناشناخته است!'}
               </span>
             </div>
-            <div className="shrink-0 flex items-center justify-between gap-2">
-              {
-                data.length < 2 && (
-                  <>
-                    <AddCardDialog mode={mode} open={addCardDialogOpened} onOpenChange={setAddCardDialogOpened} />
-                    <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black" onClick={() => setAddCardDialogOpened(true)}>
-                      <IconsaxIcons
-                        name="Add"
-                        className="size-[18px]"
-                        color="currentColor"
-                      />
-                    </button>
-                  </>
-                )
-              }
+            <div className="flex shrink-0 items-center justify-between gap-2">
+              {data.length < 2 && (
+                <>
+                  <AddCardDialog
+                    mode={mode}
+                    open={addCardDialogOpened}
+                    onOpenChange={setAddCardDialogOpened}
+                  />
+                  <button
+                    className="flex size-[40px] items-center justify-center rounded-[10px] border border-black/10 bg-white text-black transition-all duration-500 hover:bg-gray-100/50 lg:rounded-md"
+                    onClick={() => setAddCardDialogOpened(true)}
+                  >
+                    <IconsaxIcons
+                      name="Add"
+                      className="size-[18px]"
+                      color="currentColor"
+                    />
+                  </button>
+                </>
+              )}
               {data.length !== 0 && (
                 <>
                   <EditCurrentCardDialog
@@ -143,14 +151,20 @@ export default function UserCreditCard({
                     onOpenChange={setDeleteCardDialogOpened}
                     data={data[activeSwiperSlideIndex]}
                   />
-                  <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-white border border-black/10 transition-all duration-500 hover:bg-gray-100/50 text-black" onClick={() => setEditCardDialogOpened(true)}>
+                  <button
+                    className="flex size-[40px] items-center justify-center rounded-[10px] border border-black/10 bg-white text-black transition-all duration-500 hover:bg-gray-100/50 lg:rounded-md"
+                    onClick={() => setEditCardDialogOpened(true)}
+                  >
                     <IconsaxIcons
                       name="Edit2"
                       className="size-[18px]"
                       color="currentColor"
                     />
                   </button>
-                  <button className="size-[40px] lg:rounded-md rounded-[10px] flex items-center justify-center bg-cs-red/5 transition-all duration-500 hover:bg-cs-red/10 text-cs-red" onClick={() => setDeleteCardDialogOpened(true)}>
+                  <button
+                    className="flex size-[40px] items-center justify-center rounded-[10px] bg-cs-red/5 text-cs-red transition-all duration-500 hover:bg-cs-red/10 lg:rounded-md"
+                    onClick={() => setDeleteCardDialogOpened(true)}
+                  >
                     <IconsaxIcons
                       name="Trash"
                       className="size-[18px]"
@@ -162,7 +176,7 @@ export default function UserCreditCard({
             </div>
           </div>
           <div>
-            <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
+            <span className="mb-2 block truncate text-right text-cs85 font-semibold text-black">
               شماره کارت بانکی
             </span>
             <NormalInput
@@ -174,10 +188,10 @@ export default function UserCreditCard({
               value={
                 data.length !== 0
                   ? numberSeparation(
-                    data[activeSwiperSlideIndex].card_number,
-                    ' - ',
-                    4,
-                  )
+                      data[activeSwiperSlideIndex].card_number,
+                      ' - ',
+                      4,
+                    )
                   : ''
               }
               clearFn={() => {
@@ -186,7 +200,7 @@ export default function UserCreditCard({
             />
           </div>
           <div>
-            <span className="font-semibold text-cs85 text-black truncate text-right mb-2 block">
+            <span className="mb-2 block truncate text-right text-cs85 font-semibold text-black">
               شماره شبا کارت بانکی
             </span>
             <NormalInput
@@ -197,7 +211,11 @@ export default function UserCreditCard({
               disabled
               value={
                 data.length !== 0
-                  ? numberSeparation(data[activeSwiperSlideIndex].iban, ' - ', 4)
+                  ? numberSeparation(
+                      data[activeSwiperSlideIndex].iban,
+                      ' - ',
+                      4,
+                    )
                   : ''
               }
               clearFn={() => {

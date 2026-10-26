@@ -21,7 +21,7 @@ export default function CardShowCase({
     <div
       dir="ltr"
       className={cn(
-        'rounded-xl p-4 text-white flex flex-col items-center justify-between gap-3',
+        'flex flex-col items-center justify-between gap-3 rounded-xl p-4 text-white',
         className,
       )}
       style={{
@@ -29,9 +29,9 @@ export default function CardShowCase({
         backgroundImage: `linear-gradient(to bottom right, rgba(0,0,0, 0.5) , ${randomColor})`,
       }}
     >
-      <div className="flex items-center justify-between gap-3 w-full">
-        <span className="text-left truncate block flex-1 text-white font-semibold text-cs75">
-          {data ? data.bankName : 'Safarname 24'}
+      <div className="flex w-full items-center justify-between gap-3">
+        <span className="block flex-1 truncate text-left text-cs75 font-semibold text-white">
+          {data ? data.bankName : 'زروان تریپ'}
         </span>
         <BankIcon
           name={data ? data?.bankIcon : 'unknown'}
@@ -40,18 +40,18 @@ export default function CardShowCase({
         />
       </div>
       <div className="w-full">
-        <span className="text-left truncate block text-white font-medium text-cs07 font-inter mb-1.5">
+        <span className="mb-1.5 block truncate text-left font-inter text-cs07 font-medium text-white">
           {data
             ? numberSeparation(data.number, ' ', 4)
             : numberSeparation('0000000000000000', ' ', 4)}
         </span>
-        <span className="text-left truncate block text-white font-semibold text-cs07 font-inter mb-1">
+        <span className="mb-1 block truncate text-left font-inter text-cs07 font-semibold text-white">
           {data
             ? `IR ${numberSeparation(data.iban, ' ', 4)}`
             : `IR ${numberSeparation('000000000000000000000000', ' ', 4)}`}
         </span>
-        <span className="text-left truncate block text-white font-medium text-cs07">
-          {data ? data.holderName : "-"}
+        <span className="block truncate text-left text-cs07 font-medium text-white">
+          {data ? data.holderName : '-'}
         </span>
       </div>
     </div>

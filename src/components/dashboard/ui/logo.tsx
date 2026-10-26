@@ -1,6 +1,7 @@
 // Importing part
 import { ReactNode } from 'react';
 import Image from 'next/image';
+import logo from '@/assets';
 import Link from 'next/link';
 import LogoImage from '../../../../public/image/logo/red-gray.png';
 import { LogoComponentPropsType } from '@/types/dashboard/component';
@@ -18,8 +19,8 @@ export default function Logo({
         <Image
           width={100}
           height={100}
-          alt={'سفرنامه 24'}
-          src={LogoImage.src}
+          alt={'زروان تریپ'}
+          src={logo}
           className="w-16"
         />
       </Link>
@@ -31,20 +32,20 @@ export default function Logo({
           <Image
             width={100}
             height={100}
-            alt={'سفرنامه 24'}
-            src={LogoImage.src}
+            alt={'زروان تریپ'}
+            src={logo}
             className="w-16"
           />
         </Link>
         <div className="text-[#27272A ]">
-          <span className="font-extrabold text-[13px] block truncate mb-0.5">
-            سفرنامه 24
+          <span className="mb-0.5 block truncate text-[13px] font-extrabold">
+            زروان تریپ
           </span>
           <span
-            className="font-semibold text-[13px] block truncate font-inter"
+            className="block truncate font-inter text-[13px] font-semibold"
             dir="ltr"
           >
-            Agency Safarnameh 24 Hotel
+            Zarvantrip
           </span>
         </div>
       </div>

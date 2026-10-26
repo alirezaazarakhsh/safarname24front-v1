@@ -40,14 +40,14 @@ export default function PriceCalendar(props: Props) {
 
   return (
     <Sheet>
-      <SheetTrigger className="bg-cs-blue/10 text-cs-blue  h-11 rounded-lg md:h-10">
+      <SheetTrigger className="h-11 rounded-lg bg-cs-blue/10 text-cs-blue md:h-10">
         تقویم قیمتی
       </SheetTrigger>
 
       <SheetContent
         side={'right'}
         aria-describedby={undefined}
-        className="w-full grid grid-rows-[auto_auto_1fr_auto] border-none md:w-[28rem]"
+        className="grid w-full grid-rows-[auto_auto_1fr_auto] border-none md:w-[28rem]"
       >
         <SheetTitle className="hidden"></SheetTitle>
 
@@ -64,8 +64,8 @@ export default function PriceCalendar(props: Props) {
           </div>
 
           <div className="grid text-cs85 font-bold">
-            <span>سفرنامه 24</span>
-            <span className="capitalize">safarname 24 agency hotel</span>
+            <span>زروان تریپ</span>
+            <span className="capitalize">Zarvantrip</span>
           </div>
 
           <SheetClose className="mr-auto">
@@ -74,7 +74,7 @@ export default function PriceCalendar(props: Props) {
         </div>
 
         {/* === Room-Name */}
-        <div className="text-cs08 flex items-center gap-1 font-bold pt-3 pb-4 border-b border-dashed border-zinc-300">
+        <div className="flex items-center gap-1 border-b border-dashed border-zinc-300 pb-4 pt-3 text-cs08 font-bold">
           <span>اتاق</span>
           <span>{capacity}</span>
           <span>نفره</span>
@@ -89,8 +89,8 @@ export default function PriceCalendar(props: Props) {
         </div>
 
         {/* === Total-Price & Submit-Button */}
-        <div className="flex flex-col gap-4 pt-5 border-t">
-          <div className="text-cs85 flex-between items-center font-semibold border-zinc-200">
+        <div className="flex flex-col gap-4 border-t pt-5">
+          <div className="flex-between items-center border-zinc-200 text-cs85 font-semibold">
             <div className="flex items-center gap-1">
               <span>مجموع قیمت</span>
               <span>{numberOfNights}</span>
@@ -105,7 +105,7 @@ export default function PriceCalendar(props: Props) {
           </div>
 
           {roomType === 'normal' && (
-            <button className="bg-cs-blue h-11 mt-1 text-white text-cs85 font-semibold rounded-cs-10">
+            <button className="mt-1 h-11 rounded-cs-10 bg-cs-blue text-cs85 font-semibold text-white">
               <span>تایید رزرو اتاق</span>
             </button>
           )}

@@ -238,20 +238,20 @@ export default function TicketsPage(): ReactNode {
   // Conditional rendering
   if (isLoading) {
     return (
-      <main className="h-dvh overflow-hidden flex items-center justify-center p-5">
+      <main className="flex h-dvh items-center justify-center overflow-hidden p-5">
         <div className="text-[#292D32]">
           <IconsaxIcons
             name="DeviceMessage"
-            className="size-28 mx-auto block mb-5"
+            className="mx-auto mb-5 block size-28"
             color="currentColor"
           />
-          <span className="text-cs95 font-bold text-current truncate block text-center mb-2">
-            در حال اتصال به تیکت سفرنامه ۲۴
+          <span className="mb-2 block truncate text-center text-cs95 font-bold text-current">
+            در حال اتصال به تیکت زروان تریپ ۲۴
           </span>
-          <span className="text-cs85 font-medium text-current/50 truncate block text-center mb-5">
+          <span className="text-current/50 mb-5 block truncate text-center text-cs85 font-medium">
             لطفا منتظر بمانید...
           </span>
-          <div className="w-full flex items-center justify-center">
+          <div className="flex w-full items-center justify-center">
             <Loading className="bg-cs-red" />
           </div>
         </div>

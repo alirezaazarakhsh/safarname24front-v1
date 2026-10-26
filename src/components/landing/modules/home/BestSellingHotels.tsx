@@ -51,19 +51,19 @@ export function BestSellingHotels() {
       <TopBarConfig
         title={{
           type: 'single',
-          text: 'هتل های پرفروش و جذاب سفرنامه',
+          text: 'هتل های پرفروش و جذاب زروان تریپ',
         }}
         arraylength={hotels.length}
         prevClickFunc={() => swiperRef.current?.slidePrev()}
         nextClickFunc={() => swiperRef.current?.slideNext()}
-        subtitle="هتل های پرفروش و جذاب سفرنامه رو از دست نده !"
+        subtitle="هتل های پرفروش و جذاب زروان تریپ رو از دست نده !"
       />
 
-      <div className="grid-cols-[30%_67%] xl:grid justify-between">
+      <div className="grid-cols-[30%_67%] justify-between xl:grid">
         {/* --- Mobile (A) --- */}
         <div className="xl:hidden">
           {status === 'pending' ? (
-            <Skeleton className="w-full h-40 rounded-xl" />
+            <Skeleton className="h-40 w-full rounded-xl" />
           ) : (
             <Swiper
               spaceBetween={20}
@@ -111,7 +111,7 @@ export function BestSellingHotels() {
         {/* --- Desktop (A)-couple -- */}
         <div className="hidden xl:block">
           {status === 'pending' ? (
-            <div className="h-80 grid grid-cols-2 gap-4">
+            <div className="grid h-80 grid-cols-2 gap-4">
               {Array.from({ length: 4 }).map((_, i) => (
                 <Skeleton key={i} className="rounded-xl" />
               ))}
@@ -126,7 +126,7 @@ export function BestSellingHotels() {
               onSwiper={(swiper) => (swiperRef.current = swiper)}
             >
               {groupedHotels.map((group, i) => (
-                <SwiperSlide key={i} className="max-w-full pb-4 select-none">
+                <SwiperSlide key={i} className="max-w-full select-none pb-4">
                   <div className="grid gap-4">
                     {group.map((hotel, j) => (
                       <BestSellingHotelA key={j} hotel={hotel} />

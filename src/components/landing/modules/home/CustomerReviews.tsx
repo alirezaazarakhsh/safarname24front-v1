@@ -39,10 +39,10 @@ export function CustomerReviews() {
   if (isEmptyOrInvalid({ data, status })) return null;
 
   return (
-    <div className="-ml-5 -mb-4 lg:ml-0">
+    <div className="-mb-4 -ml-5 lg:ml-0">
       <TopBarConfig
         arraylength={data?.data.length}
-        subtitle="نظرات محبت آمیز مشتری های سفرنامه"
+        subtitle="نظرات محبت آمیز مشتری های زروان تریپ"
         title={{ type: 'single', text: 'نظرات مشتریان' }}
         prevClickFunc={() => swiperRef.current?.slidePrev()}
         nextClickFunc={() => swiperRef.current?.slideNext()}
@@ -50,9 +50,9 @@ export function CustomerReviews() {
 
       {status === 'pending' ? (
         <>
-          <Skeleton className="h-[19rem] xl:hidden rounded-xl" />
+          <Skeleton className="h-[19rem] rounded-xl xl:hidden" />
 
-          <div className="grid-cols-4 gap-4 hidden xl:grid">
+          <div className="hidden grid-cols-4 gap-4 xl:grid">
             {Array(4)
               .fill(null)
               .map((_, index) => (
@@ -73,7 +73,7 @@ export function CustomerReviews() {
           {data?.data.map((review, index) => (
             <SwiperSlide
               key={index}
-              className="max-w-72 pb-4 select-none xl:max-w-full"
+              className="max-w-72 select-none pb-4 xl:max-w-full"
             >
               <CustomerReview {...review} />
             </SwiperSlide>

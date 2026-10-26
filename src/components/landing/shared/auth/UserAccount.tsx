@@ -56,7 +56,7 @@ export default function UserAccount() {
             </div>
 
             <h1 className="font-inter font-bold capitalize md:hidden">
-              safarname 24 hotel
+              zarvantrip
             </h1>
           </div>
 

@@ -93,14 +93,14 @@ export default function TicketsContext({
           style={{
             background: walpaper,
           }}
-          className="h-dvh flex flex-col justify-between"
+          className="flex h-dvh flex-col justify-between"
         >
           <div
             data-opened={mobileTicketAnswererProfileOpened}
-            className="bg-white h-dvh absolute overflow-y-auto overflow-x-hidden custom-scrollbar top-0 left-0 w-dvw z-50 data-[opened=false]:invisible data-[opened=true]:visible data-[opened=false]:opacity-0 data-[opened=true]:opacity-100  data-[opened=false]:translate-x-[100%] data-[opened=true]:translate-x-0 transition-all duration-500"
+            className="custom-scrollbar absolute left-0 top-0 z-50 h-dvh w-dvw overflow-y-auto overflow-x-hidden bg-white transition-all duration-500 data-[opened=true]:visible data-[opened=false]:invisible data-[opened=false]:translate-x-[100%] data-[opened=true]:translate-x-0 data-[opened=false]:opacity-0 data-[opened=true]:opacity-100"
           >
             <button
-              className="text-black absolute left-[24px] top-[30px]"
+              className="absolute left-[24px] top-[30px] text-black"
               onClick={() => setMobileTicketAnswererProfileOpened(false)}
             >
               <IconsaxIcons
@@ -109,7 +109,7 @@ export default function TicketsContext({
                 color="currentColor"
               />
             </button>
-            <div className="p-[24px] border-b border-black/10">
+            <div className="border-b border-black/10 p-[24px]">
               <Image
                 width={100}
                 height={100}
@@ -119,17 +119,17 @@ export default function TicketsContext({
                     ? foundedTicketItem.user.img
                     : Avatar.src
                 }
-                className="size-[75px] aspect-square mb-4 block mx-auto transition-all duration-500 object-cover rounded-full"
+                className="mx-auto mb-4 block aspect-square size-[75px] rounded-full object-cover transition-all duration-500"
               />
-              <span className="text-cs75 font-bold text-black text-center truncate block">
+              <span className="block truncate text-center text-cs75 font-bold text-black">
                 {foundedTicketItem ? foundedTicketItem.user.name : 'نامعلوم'}
               </span>
-              <span className="text-cs65 font-medium text-black/70 text-center truncate block  mt-1">
+              <span className="mt-1 block truncate text-center text-cs65 font-medium text-black/70">
                 {foundedTicketItem ? foundedTicketItem.user.role : 'نامعلوم'}
               </span>
             </div>
             <div className="p-[24px]">
-              <span className="text-cs75 font-medium text-black/70 text-right truncate block">
+              <span className="block truncate text-right text-cs75 font-medium text-black/70">
                 فایل های ذخیره
               </span>
             </div>
@@ -190,7 +190,7 @@ export default function TicketsContext({
             }
           />
           <div
-            className="flex items-center justify-between gap-3 border-b px-[12px] h-[50px] shrink-0"
+            className="flex h-[50px] shrink-0 items-center justify-between gap-3 border-b px-[12px]"
             style={{
               background: hexToRgba('#ffffff', 0.2),
               color: isColorDark(walpaper) ? '#ffffff' : '#000000',
@@ -201,7 +201,7 @@ export default function TicketsContext({
           >
             <button
               onClick={() => setMobileTicketAnswererProfileOpened(true)}
-              className="flex items-center justify-start gap-3 flex-1 overflow-hidden w-full"
+              className="flex w-full flex-1 items-center justify-start gap-3 overflow-hidden"
             >
               {foundedTicketItem.user.img ? (
                 <Image
@@ -209,41 +209,41 @@ export default function TicketsContext({
                   height={100}
                   alt="پروفایل کاریر"
                   src={foundedTicketItem.user.img}
-                  className="size-[35px] aspect-square block object-cover rounded-full shrink-0"
+                  className="block aspect-square size-[35px] shrink-0 rounded-full object-cover"
                 />
               ) : (
                 <div
                   style={{
                     background: theme[0],
                   }}
-                  className="size-[40px] aspect-square shrink-0 rounded-full"
+                  className="aspect-square size-[40px] shrink-0 rounded-full"
                 />
               )}
               <div
-                className="flex-1 w-full overflow-hidden"
+                className="w-full flex-1 overflow-hidden"
                 style={{
                   color: isColorDark(walpaper) ? '#ffffff' : '#000000',
                 }}
               >
-                <span className="text-cs75 font-bold text-current text-right truncate block">
+                <span className="block truncate text-right text-cs75 font-bold text-current">
                   {foundedTicketItem.user.name}
                 </span>
-                <span className="text-cs65 font-medium text-current/70 text-right truncate block">
+                <span className="text-current/70 block truncate text-right text-cs65 font-medium">
                   {foundedTicketItem.user.role}
                 </span>
               </div>
             </button>
-            <div className="flex items-center justify-between gap-3 shrink-0">
+            <div className="flex shrink-0 items-center justify-between gap-3">
               <button
                 data-active={ticketNotifications}
-                className="relative overflow-hidden transition-all duration-500 data-[active=true]:text-current data-[active=false]:text-current/50"
+                className="data-[active=false]:text-current/50 relative overflow-hidden transition-all duration-500 data-[active=true]:text-current"
                 onClick={() => {
                   setTicketNotifications((prev) => !prev);
                   setNotificationDrawerOpened(true);
                 }}
               >
                 {!ticketNotifications && (
-                  <div className="absolute left-[50%] -translate-x-[50%] top-0 w-[2px] h-full bg-current rotate-[45deg] scale-125" />
+                  <div className="absolute left-[50%] top-0 h-full w-[2px] -translate-x-[50%] rotate-[45deg] scale-125 bg-current" />
                 )}
                 <IconsaxIcons
                   name="Notification"
@@ -264,14 +264,14 @@ export default function TicketsContext({
             </div>
           </div>
           <div
-            className="p-[24px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-full"
+            className="custom-scrollbar relative flex h-full w-full flex-col overflow-y-auto overflow-x-hidden p-[24px]"
             style={{
               background: walpaper,
             }}
           >
             {foundedTicketItem.messages.length === 0 ? (
               <div
-                className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none overflow-auto custom-scrollbar"
+                className="custom-scrollbar pointer-events-none absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] overflow-auto"
                 style={{
                   color: isColorDark(walpaper) ? '#ffffff' : '#000000',
                 }}
@@ -281,10 +281,10 @@ export default function TicketsContext({
                     <IconsaxIcons
                       name="EmojiSad"
                       color="currentColor"
-                      className="size-32 mb-5 block mx-auto"
+                      className="mx-auto mb-5 block size-32"
                     />
                   </div>
-                  <p className="text-current/75 text-cs07 font-normal text-center block">
+                  <p className="text-current/75 block text-center text-cs07 font-normal">
                     مشتری گرامی صفحه چت برای شما قفل میباشد، برای استارت ابتدا
                     دپارتمان خود را انتخاب نمایید
                   </p>
@@ -304,7 +304,7 @@ export default function TicketsContext({
             )}
           </div>
           <div
-            className="shrink-0 w-full p-3 border-t-2"
+            className="w-full shrink-0 border-t-2 p-3"
             style={{
               background: 'rgba(256,256,256,0.2)',
               borderColor: isColorDark(walpaper)
@@ -340,15 +340,15 @@ export default function TicketsContext({
             isOpened={exitModalOpened}
             closeFn={() => setExitModalOpened(false)}
           />
-          <div className="flex items-center justify-between gap-3 bg-white border-b border-b-black/10 px-[12px] h-[50px]">
-            <span className="text-cs85 font-bold text-black/70 text-right truncate block flex-1">
+          <div className="flex h-[50px] items-center justify-between gap-3 border-b border-b-black/10 bg-white px-[12px]">
+            <span className="block flex-1 truncate text-right text-cs85 font-bold text-black/70">
               {mobileActiveTab === 'closedMessage'
                 ? 'تیکت های گذشته '
                 : mobileActiveTab === 'settings'
                   ? 'تنظیمات چت'
-                  : 'چت تایم سفرنامه'}
+                  : 'چت تایم زروان تریپ'}
             </span>
-            <div className="flex items-center justify-between gap-3 shrink-0">
+            <div className="flex shrink-0 items-center justify-between gap-3">
               <button
                 className="text-cs-blue"
                 onClick={() => setModalOpened(true)}
@@ -371,22 +371,22 @@ export default function TicketsContext({
               </button>
             </div>
           </div>
-          <div className="py-[10px] flex flex-col w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar h-[calc(100dvh-125px)] bg-white">
+          <div className="custom-scrollbar relative flex h-[calc(100dvh-125px)] w-full flex-col overflow-y-auto overflow-x-hidden bg-white py-[10px]">
             {mobileActiveTab === 'closedMessage' ? (
               <>
                 {tickets.previousTickets.length === 0 ? (
-                  <div className="h-full flex items-center justify-center p-[24px] overflow-auto custom-scrollbar flex-col">
+                  <div className="custom-scrollbar flex h-full flex-col items-center justify-center overflow-auto p-[24px]">
                     <Image
                       alt="هیچ لیست رزروی فعلا ندارید!"
                       src={EmptyImage.src}
                       width={500}
                       height={500}
-                      className="w-[40%] aspect-square block mb-2 mx-auto"
+                      className="mx-auto mb-2 block aspect-square w-[40%]"
                     />
-                    <span className="block text-center w-full text-black text-[12px] mb-2 font-bold truncate">
+                    <span className="mb-2 block w-full truncate text-center text-[12px] font-bold text-black">
                       تیکت های گذشته
                     </span>
-                    <span className="block text-center w-full text-gray-500 text-[10px] font-normal truncate">
+                    <span className="block w-full truncate text-center text-[10px] font-normal text-gray-500">
                       مشتری گرامی تیکتی در گذشته ندارید!
                     </span>
                   </div>
@@ -398,8 +398,8 @@ export default function TicketsContext({
                         key={index}
                       >
                         <AccordionTrigger asChild>
-                          <button className="flex items-center justify-between gap-3 px-[12px] py-[10px] bg-white transition-all duration-500 hover:bg-gray-100 w-full text-black/70 group">
-                            <span className="text-cs75 font-medium text-current text-right truncate block flex-1">
+                          <button className="group flex w-full items-center justify-between gap-3 bg-white px-[12px] py-[10px] text-black/70 transition-all duration-500 hover:bg-gray-100">
+                            <span className="block flex-1 truncate text-right text-cs75 font-medium text-current">
                               تیکت های{' '}
                               {moment(item.date)
                                 .locale('fa')
@@ -419,7 +419,7 @@ export default function TicketsContext({
                               onClick={() => setSelectedTicket(innerItem.id)}
                               type="prevois"
                               className={
-                                'bg-white hover:bg-gray-100 rounded-none px-[12px]'
+                                'rounded-none bg-white px-[12px] hover:bg-gray-100'
                               }
                               data={{
                                 createdAt: innerItem.user.lastSeen,
@@ -438,14 +438,14 @@ export default function TicketsContext({
             ) : mobileActiveTab === 'message' ? (
               <>
                 {tickets.currentTickets.length === 0 ? (
-                  <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-black/50 overflow-auto custom-scrollbar">
+                  <div className="custom-scrollbar pointer-events-none absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] overflow-auto text-black/50">
                     <div>
                       <IconsaxIcons
                         name="EmojiSad"
                         color="currentColor"
-                        className="size-32 mb-5 block mx-auto"
+                        className="mx-auto mb-5 block size-32"
                       />
-                      <p className="text-black/75 text-cs07 font-normal text-center block">
+                      <p className="block text-center text-cs07 font-normal text-black/75">
                         مشتری گرامی صفحه چت برای شما قفل میباشد، برای استارت
                         ابتدا دپارتمان خود را انتخاب نمایید
                       </p>
@@ -457,7 +457,7 @@ export default function TicketsContext({
                       key={index}
                       onClick={() => setSelectedTicket(item.id)}
                       className={
-                        'bg-white hover:bg-gray-100 rounded-none px-[12px]'
+                        'rounded-none bg-white px-[12px] hover:bg-gray-100'
                       }
                       newNotifications={2}
                       data={{
@@ -475,7 +475,7 @@ export default function TicketsContext({
                 <SettingItem
                   setMobileActiveTab={setMobileActiveTab}
                   mobileActiveTab={mobileActiveTab}
-                  className="px-[12px] rounded-0"
+                  className="rounded-0 px-[12px]"
                   icon="MessageText"
                   title="والپیپر"
                   type="walpaper"
@@ -484,7 +484,7 @@ export default function TicketsContext({
                 <SettingItem
                   setMobileActiveTab={setMobileActiveTab}
                   mobileActiveTab={mobileActiveTab}
-                  className="px-[12px] rounded-0"
+                  className="rounded-0 px-[12px]"
                   icon="Bucket"
                   title="رنگ چت تایم"
                   type="theme"
@@ -514,12 +514,12 @@ export default function TicketsContext({
         <div
           data-size={rightLayoutSize}
           className={cn(
-            'bg-white flex overflow-hidden group h-dvh w-full',
+            'group flex h-dvh w-full overflow-hidden bg-white',
             className,
           )}
         >
-          <div className="group-data-[size=sm]:w-[10%] group-data-[size=lg]:w-[25%] transition-all duration-500 overflow-auto custom-scrollbar">
-            <div className="p-[24px] border-b border-black/10">
+          <div className="custom-scrollbar overflow-auto transition-all duration-500 group-data-[size=lg]:w-[25%] group-data-[size=sm]:w-[10%]">
+            <div className="border-b border-black/10 p-[24px]">
               <Image
                 width={100}
                 height={100}
@@ -529,20 +529,20 @@ export default function TicketsContext({
                     ? foundedTicketItem.user.img
                     : Avatar.src
                 }
-                className="group-data-[size=sm]:size-[50px] group-data-[size=lg]:size-[75px] aspect-square mb-4 block mx-auto transition-all duration-500 object-cover rounded-full"
+                className="mx-auto mb-4 block aspect-square rounded-full object-cover transition-all duration-500 group-data-[size=lg]:size-[75px] group-data-[size=sm]:size-[50px]"
               />
-              <span className="text-cs95 font-bold text-black text-center truncate block">
+              <span className="block truncate text-center text-cs95 font-bold text-black">
                 {foundedTicketItem ? foundedTicketItem.user.name : 'نامعلوم'}
               </span>
               {rightLayoutSize === 'lg' && (
-                <span className="text-cs85 font-medium text-black/70 text-center truncate block  mt-1">
+                <span className="mt-1 block truncate text-center text-cs85 font-medium text-black/70">
                   {foundedTicketItem ? foundedTicketItem.user.role : 'نامعلوم'}
                 </span>
               )}
             </div>
             <div className="border-b border-black/10 pb-[24px]">
-              <div className="group-data-[size=sm]:p-3 group-data-[size=lg]:p-[24px]">
-                <span className="text-cs75 font-medium text-black/70 text-right group-data-[size=sm]:text-center group-data-[size=lg]:text-right truncate block">
+              <div className="group-data-[size=lg]:p-[24px] group-data-[size=sm]:p-3">
+                <span className="block truncate text-right text-cs75 font-medium text-black/70 group-data-[size=sm]:text-center group-data-[size=lg]:text-right">
                   فایل های ذخیره
                 </span>
               </div>
@@ -597,9 +597,9 @@ export default function TicketsContext({
                 />
               </div>
             </div>
-            <div className="group-data-[size=sm]:pb-0 group-data-[size=lg]:pb-[24px]">
-              <div className="group-data-[size=sm]:p-3 group-data-[size=lg]:p-[24px]">
-                <span className="text-cs75 font-medium text-black/70 text-right group-data-[size=sm]:text-center group-data-[size=lg]:text-right truncate block">
+            <div className="group-data-[size=lg]:pb-[24px] group-data-[size=sm]:pb-0">
+              <div className="group-data-[size=lg]:p-[24px] group-data-[size=sm]:p-3">
+                <span className="block truncate text-right text-cs75 font-medium text-black/70 group-data-[size=sm]:text-center group-data-[size=lg]:text-right">
                   تنظیمات چت
                 </span>
               </div>
@@ -621,26 +621,26 @@ export default function TicketsContext({
               </div>
             </div>
           </div>
-          <div className="border-x border-x-black/10 group-data-[size=sm]:w-[65%] group-data-[size=lg]:w-[50%] transition-all duration-500 p-[24px] flex flex-col gap-[24px]">
-            <div className="flex items-center justify-between gap-3 shrink-0 w-full">
+          <div className="flex flex-col gap-[24px] border-x border-x-black/10 p-[24px] transition-all duration-500 group-data-[size=lg]:w-[50%] group-data-[size=sm]:w-[65%]">
+            <div className="flex w-full shrink-0 items-center justify-between gap-3">
               {!foundedTicketItem ? (
-                <span className="text-cs95 font-bold text-black text-start truncate block flex-1">
-                  بخش دپارتمان سفرنامه
+                <span className="block flex-1 truncate text-start text-cs95 font-bold text-black">
+                  بخش دپارتمان زروان تریپ
                 </span>
               ) : foundedTicketItem && foundedTicketItem.status === 'open' ? (
-                <span className="text-cs95 font-bold text-black text-start truncate block flex-1">
+                <span className="block flex-1 truncate text-start text-cs95 font-bold text-black">
                   {foundedTicketItem.user.name}
                 </span>
               ) : (
-                <p className="text-cs95 font-bold text-black text-start truncate block flex-1">
+                <p className="block flex-1 truncate text-start text-cs95 font-bold text-black">
                   {foundedTicketItem.user.name}{' '}
                   <span className="text-cs-red">(تیکت منقضی شده)</span>
                 </p>
               )}
-              <div className="flex items-center justify-end gap-3 shrink-0">
+              <div className="flex shrink-0 items-center justify-end gap-3">
                 <button
                   data-active={ticketNotifications}
-                  className="relative overflow-hidden transition-all duration-500 data-[active=true]:text-black data-[active=false]:text-gray-500"
+                  className="relative overflow-hidden transition-all duration-500 data-[active=false]:text-gray-500 data-[active=true]:text-black"
                   onClick={() => {
                     if (ticketNotifications) {
                       setTicketNotifications(false);
@@ -662,7 +662,7 @@ export default function TicketsContext({
                   }}
                 >
                   {!ticketNotifications && (
-                    <div className="absolute left-[50%] -translate-x-[50%] top-0 w-[2px] h-full bg-gray-500 rotate-[45deg] scale-125" />
+                    <div className="absolute left-[50%] top-0 h-full w-[2px] -translate-x-[50%] rotate-[45deg] scale-125 bg-gray-500" />
                   )}
                   <IconsaxIcons
                     name="Notification"
@@ -685,11 +685,11 @@ export default function TicketsContext({
             </div>
             <div
               style={{ background: walpaper }}
-              className="p-[24px] flex flex-col gap-4 rounded-[12px] h-full w-full overflow-x-hidden overflow-y-auto relative custom-scrollbar"
+              className="custom-scrollbar relative flex h-full w-full flex-col gap-4 overflow-y-auto overflow-x-hidden rounded-[12px] p-[24px]"
             >
               <DateSeprator date={new Date().toISOString()} />
               {!foundedTicketItem ? (
-                <div className=" absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] pointer-events-none text-gray-200 overflow-auto custom-scrollbar">
+                <div className="custom-scrollbar pointer-events-none absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] overflow-auto text-gray-200">
                   <IconsaxIcons
                     name="EmojiSad"
                     color="currentColor"
@@ -710,7 +710,7 @@ export default function TicketsContext({
               )}
             </div>
             <SendMessage
-              className="shrink-0 w-full"
+              className="w-full shrink-0"
               disabled={!foundedTicketItem}
               isClosed={foundedTicketItem?.status === 'closed'}
               reportTypes={foundedTicketItem?.report}
@@ -724,20 +724,20 @@ export default function TicketsContext({
               }}
             />
           </div>
-          <div className="w-[25%] flex flex-col">
-            <div className="px-[20px] py-[24px] shrink-0 border-b border-b-black/10">
+          <div className="flex w-[25%] flex-col">
+            <div className="shrink-0 border-b border-b-black/10 px-[20px] py-[24px]">
               <Button
                 onClick={() => setModalOpened(true)}
-                className="flex items-center justif-center px-[12px] h-[50px] bg-cs-blue/10 !text-cs-blue w-full transition-all duration-500 hover:bg-cs-blue/20 rounded-lg"
+                className="justif-center flex h-[50px] w-full items-center rounded-lg bg-cs-blue/10 px-[12px] !text-cs-blue transition-all duration-500 hover:bg-cs-blue/20"
               >
-                <span className="text-cs75 font-semibold text-center truncate">
+                <span className="truncate text-center text-cs75 font-semibold">
                   ثبت تیکت جدید
                 </span>
               </Button>
             </div>
-            <div className="shrink-0 border-b border-b-black/10 py-[12px]  overflow-auto custom-scrollbar h-[200px]">
+            <div className="custom-scrollbar h-[200px] shrink-0 overflow-auto border-b border-b-black/10 py-[12px]">
               <div className="px-[20px]">
-                <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
+                <span className="mb-3 block truncate text-right text-cs75 font-medium text-black/70">
                   تیکت های حال حاضر
                 </span>
               </div>
@@ -764,25 +764,25 @@ export default function TicketsContext({
               </div>
             </div>
             {tickets.previousTickets.length === 0 ? (
-              <div className="h-full flex items-center justify-center p-[24px] overflow-auto custom-scrollbar flex-col">
+              <div className="custom-scrollbar flex h-full flex-col items-center justify-center overflow-auto p-[24px]">
                 <Image
                   alt="هیچ لیست رزروی فعلا ندارید!"
                   src={EmptyImage.src}
                   width={500}
                   height={500}
-                  className="w-[50%] aspect-square block mb-2 mx-auto"
+                  className="mx-auto mb-2 block aspect-square w-[50%]"
                 />
-                <span className="block text-center w-full text-black text-[12px] mb-2 font-bold truncate">
+                <span className="mb-2 block w-full truncate text-center text-[12px] font-bold text-black">
                   تیکت های گذشته
                 </span>
-                <span className="block text-center w-full text-gray-500 text-[10px] font-normal truncate">
+                <span className="block w-full truncate text-center text-[10px] font-normal text-gray-500">
                   مشتری گرامی تیکتی در گذشته ندارید!
                 </span>
               </div>
             ) : (
-              <div className="h-full overflow-auto custom-scrollbar pt-[24px]">
+              <div className="custom-scrollbar h-full overflow-auto pt-[24px]">
                 <div className="px-[20px]">
-                  <span className="text-cs75 font-medium text-black/70 text-right truncate block mb-3">
+                  <span className="mb-3 block truncate text-right text-cs75 font-medium text-black/70">
                     تیکت های گذشته
                   </span>
                 </div>
@@ -793,8 +793,8 @@ export default function TicketsContext({
                       key={index}
                     >
                       <AccordionTrigger asChild>
-                        <button className="flex items-center justify-between gap-3 px-[20px] py-[10px] bg-white transition-all duration-500 hover:bg-gray-100 w-full text-black/70 group">
-                          <span className="text-cs75 font-medium text-current text-right truncate block flex-1">
+                        <button className="group flex w-full items-center justify-between gap-3 bg-white px-[20px] py-[10px] text-black/70 transition-all duration-500 hover:bg-gray-100">
+                          <span className="block flex-1 truncate text-right text-cs75 font-medium text-current">
                             تیکت های{' '}
                             {moment(item.date)
                               .locale('fa')
@@ -833,17 +833,17 @@ export default function TicketsContext({
                 </Accordion>
               </div>
             )}
-            <div className="px-[20px] py-[24px] shrink-0">
+            <div className="shrink-0 px-[20px] py-[24px]">
               <Button
                 onClick={() => setExitModalOpened(true)}
-                className="flex items-center justif-center h-[50px] px-[12px] bg-cs-red/10 !text-cs-red w-full transition-all duration-500 hover:bg-cs-red/20 rounded-lg gap-2"
+                className="justif-center flex h-[50px] w-full items-center gap-2 rounded-lg bg-cs-red/10 px-[12px] !text-cs-red transition-all duration-500 hover:bg-cs-red/20"
               >
                 <IconsaxIcons
                   className="size-[20px] shrink-0"
                   name="LogoutCurve"
                   color="currentColor"
                 />
-                <span className="text-cs75 font-semibold text-right truncate text-current">
+                <span className="truncate text-right text-cs75 font-semibold text-current">
                   خروج از تیکت, بازگشت به صفحه
                 </span>
               </Button>

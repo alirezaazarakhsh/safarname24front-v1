@@ -17,13 +17,13 @@ export function InterestingBlogs() {
   const swiperRef = useRef<SwiperType>(null);
 
   return (
-    <div className="-ml-5 -mb-4 lg:ml-0">
+    <div className="-mb-4 -ml-5 lg:ml-0">
       <TopBarConfig
         viewAllHref="/tourism-magazine"
         title={{ type: 'single', text: 'بلاگ های جذاب' }}
         prevClickFunc={() => swiperRef.current?.slidePrev()}
         nextClickFunc={() => swiperRef.current?.slideNext()}
-        subtitle="بلاگ های محبوب و جذاب سفرنامه رو حتما بخون !"
+        subtitle="بلاگ های محبوب و جذاب زروان تریپ رو حتما بخون !"
       />
 
       <Swiper
@@ -43,11 +43,11 @@ export function InterestingBlogs() {
         {home.interestingBLogs.map((blog) => (
           <SwiperSlide
             key={blog.id}
-            className="max-w-72 pb-4 select-none xl:max-w-full"
+            className="max-w-72 select-none pb-4 xl:max-w-full"
           >
-            <div className="bg-white h-full p-2.5 rounded-xl shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)]">
+            <div className="h-full rounded-xl bg-white p-2.5 shadow-[0_0.5rem_1rem_rgba(0,0,0,0.02)]">
               {/* Image */}
-              <div className="relative bg-zinc-100 h-44 overflow-hidden rounded-cs-10">
+              <div className="relative h-44 overflow-hidden rounded-cs-10 bg-zinc-100">
                 {blog.image && (
                   <Image
                     width={300}
@@ -59,27 +59,27 @@ export function InterestingBlogs() {
                 )}
 
                 {blog.mostVisited && (
-                  <div className="absolute top-2.5 right-2.5 h-7 px-2.5 bg-[#4B5BCE] text-zinc-100 text-cs07 font-medium flex-center rounded-md">
+                  <div className="flex-center absolute right-2.5 top-2.5 h-7 rounded-md bg-[#4B5BCE] px-2.5 text-cs07 font-medium text-zinc-100">
                     پر بازدید !
                   </div>
                 )}
               </div>
 
               {/* Blog-Information */}
-              <div className="text-zinc-900 font-semibold px-1.5 py-1 mt-3 flex flex-col gap-2">
+              <div className="mt-3 flex flex-col gap-2 px-1.5 py-1 font-semibold text-zinc-900">
                 {/* Blog-Title */}
-                <h4 className="text-cs85 font-bold truncate">{blog.title}</h4>
+                <h4 className="truncate text-cs85 font-bold">{blog.title}</h4>
 
                 {/* Blog-Description */}
-                <p className="h-[4.8rem] text-zinc-500 text-cs08/5 text-justify font-medium line-clamp-4 overflow-hidden">
+                <p className="line-clamp-4 h-[4.8rem] overflow-hidden text-justify text-cs08/5 font-medium text-zinc-500">
                   {blog.desc}
                 </p>
 
                 {/* Read-More | Date */}
-                <div className="h-9 text-cs75 mt-2 flex-between items-center">
+                <div className="flex-between mt-2 h-9 items-center text-cs75">
                   <Link
                     href={''}
-                    className="h-full bg-zinc-100 px-4 flex-center rounded-[7px] transition-colors duration-200 ease-in-out hover:bg-[#252525] hover:text-zinc-100"
+                    className="flex-center h-full rounded-[7px] bg-zinc-100 px-4 transition-colors duration-200 ease-in-out hover:bg-[#252525] hover:text-zinc-100"
                   >
                     مطالعه بیشتر
                   </Link>
