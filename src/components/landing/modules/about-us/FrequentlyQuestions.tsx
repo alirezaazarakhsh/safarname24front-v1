@@ -63,7 +63,7 @@ export function FrequentlyQuestions() {
       {/* Large-Device */}
       <div className="hidden lg:block">
         {status === 'pending' ? (
-          <div className="w-full grid grid-cols-2 gap-x-20 gap-y-4">
+          <div className="grid w-full grid-cols-2 gap-x-20 gap-y-4">
             {Array(4)
               .fill(null)
               .map((_, index) => (
@@ -98,14 +98,8 @@ function Questions(props: QuestionProps) {
           value={`item-${index}`}
           className="border-b last:border-none"
         >
-          <AccordionTrigger className="text-zinc-800 text-cs85 font-bold py-5">
-            <div className="flex items-center gap-3">
-              {item.icon.link && (
-                <Image src={item.icon.link} alt="icon" width={24} height={24} />
-              )}
-
-              <span>{item.question}</span>
-            </div>
+          <AccordionTrigger className="py-5 text-cs85 font-bold text-zinc-800">
+            <span className="text-cs85">{item.question}</span>
           </AccordionTrigger>
 
           <AccordionContent className="text-cs08/6">

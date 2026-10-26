@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 
+import logo from '@/assets';
 import { generalInstance } from '@/utils/services';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -23,37 +24,30 @@ export default function DHeaderStatics() {
     queryFn: () => generalInstance('/config/main'),
   });
 
-  const logo = data?.data.header_logo;
   const title = data?.data.header_title;
   const subtitle = data?.data.header_sub_title;
 
   return (
     <Link href={'/'} className="flex items-center gap-3.5">
-      {status === 'pending' ? (
-        <Skeleton className="w-14 h-14" />
-      ) : (
-        <div className="w-16 h-16 flex-center overflow-hidden rounded-cs-10">
-          {logo && (
-            <Image
-              src={logo}
-              alt="logo"
-              width={100}
-              height={100}
-              className="w-full aspect-auto"
-            />
-          )}
-        </div>
-      )}
+      <div className="flex-center h-16 w-16 overflow-hidden rounded-cs-10">
+        <Image
+          src={logo}
+          alt="logo"
+          width={100}
+          height={100}
+          className="aspect-auto w-full"
+        />
+      </div>
 
       {status === 'pending' ? (
         <div className="space-y-3">
-          <Skeleton className="w-40 h-4" />
-          <Skeleton className="w-40 h-4" />
+          <Skeleton className="h-4 w-40" />
+          <Skeleton className="h-4 w-40" />
         </div>
       ) : (
-        <div className="max-w-48 text-zinc-800 text-cs08 space-y-0.5">
-          <h1 className="font-extrabold truncate">{title}</h1>
-          <h2 className="font-inter font-semibold capitalize truncate">
+        <div className="max-w-48 space-y-0.5 text-cs08 text-zinc-800">
+          <h1 className="truncate font-extrabold">{title}</h1>
+          <h2 className="truncate font-inter font-semibold capitalize">
             {subtitle}
           </h2>
         </div>

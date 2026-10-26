@@ -4,10 +4,13 @@ import Link from 'next/link';
 
 export default function WebsiteIdentity() {
   return (
-    <div className='absolute bottom-0 inset-x-0 bg-[#202126] w-full h-20 text-cs85 flex-center xl:relative xl:h-11 xl:pb-0 xl:rounded-cs-10'>
-      <p className='text-white font-inter font-semibold truncate lg:font-medium'>
+    <div className="flex-center absolute inset-x-0 bottom-0 h-20 w-full bg-cs-dark-blue text-cs85 xl:relative xl:h-11 xl:rounded-cs-10 xl:pb-0">
+      <p className="truncate font-inter font-semibold text-white lg:font-medium">
         Design & Develop By{' '}
-        <Link href={''} className='text-cs-red hover:underline lg:text-zinc-100'>
+        <Link
+          href={''}
+          className="text-cs-red hover:underline lg:text-zinc-100"
+        >
           Sevin Team
         </Link>
       </p>

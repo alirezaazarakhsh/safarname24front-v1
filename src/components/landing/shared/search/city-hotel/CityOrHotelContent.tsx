@@ -8,6 +8,7 @@ import { City, Hotel } from '@/types/landing';
 import { generalInstance } from '@/utils/services';
 import { CityOrHotelList } from './CityOrHotelList';
 
+import logo from '@/assets';
 import Image from 'next/image';
 import { IoClose } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
@@ -69,28 +70,28 @@ export default function CityOrHotelContent(props: Props) {
     <>
       {/* === Logo - Title - Close */}
       <div className="relative grid place-items-center lg:hidden">
-        <div className="relative w-16 aspect-square">
+        <div className="relative aspect-square w-16">
           <Image
             fill
             alt="logo"
             sizes="100%"
             className="object-contain"
-            src="/image/logo/red-gray.png"
+            src={logo}
           />
         </div>
 
-        <span className="text-[clamp(0.95rem,3vw,1rem)] font-inter font-bold capitalize">
+        <span className="font-inter text-[clamp(0.95rem,3vw,1rem)] font-bold capitalize">
           safarname 24 hotel
         </span>
 
-        <button className="absolute top-0 right-0" onClick={handleClose}>
+        <button className="absolute right-0 top-0" onClick={handleClose}>
           <ArrowRight size={22} color="#444" />
         </button>
       </div>
 
       {/* === Search-Input */}
-      <div className="relative bg-zinc-200/50 h-11 mt-8 flex overflow-hidden rounded-cs-10 lg:bg-zinc-100 lg:h-10 lg:mt-4 lg:mx-4">
-        <button className="w-[3rem] pr-0.5 flex-center">
+      <div className="relative mt-8 flex h-11 overflow-hidden rounded-cs-10 bg-zinc-200/50 lg:mx-4 lg:mt-4 lg:h-10 lg:bg-zinc-100">
+        <button className="flex-center w-[3rem] pr-0.5">
           <SearchStatus size={16} color="#666" />
         </button>
 
@@ -103,12 +104,12 @@ export default function CityOrHotelContent(props: Props) {
               ? 'جتسجو شهر مقصد ...'
               : 'جستجو شهر یا هتل ...'
           }
-          className="bg-transparent text-zinc-600 text-cs08 font-semibold pl-16 flex-1 placeholder:text-zinc-500 placeholder:font-semibold"
+          className="flex-1 bg-transparent pl-16 text-cs08 font-semibold text-zinc-600 placeholder:font-semibold placeholder:text-zinc-500"
         />
 
         <button
           onClick={handleClearInput}
-          className={`absolute inset-y-0 w-12 flex-center transition-all duration-300 ease-in-out ${inputValue ? 'opacity-100 left-0' : 'opacity-0 -left-full'}`}
+          className={`flex-center absolute inset-y-0 w-12 transition-all duration-300 ease-in-out ${inputValue ? 'left-0 opacity-100' : '-left-full opacity-0'}`}
         >
           <IoClose size={16} color="#888" />
         </button>
@@ -123,7 +124,7 @@ export default function CityOrHotelContent(props: Props) {
 
       <button
         onClick={handleSubmit}
-        className={`bg-cs-dark-blue text-white text-cs85 font-semibold h-11 mt-4 rounded-cs-10 transition-colors lg:hidden ${error ? 'bg-cs-red' : 'bg-cs-dark-blue'}`}
+        className={`mt-4 h-11 rounded-cs-10 bg-cs-dark-blue text-cs85 font-semibold text-white transition-colors lg:hidden ${error ? 'bg-cs-red' : 'bg-cs-dark-blue'}`}
       >
         {error ? 'مقداری انتخاب نشده است' : 'ثبت و ادامه فرآیند'}
       </button>

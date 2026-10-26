@@ -6,6 +6,7 @@ import SubmitButton from './SubmitButton';
 import NumberOfNights from './NumberOfNights';
 import Passengers from './passengers/Passengers';
 
+import logo from '@/assets';
 import DatePicker from './date-picker/MDatePicker';
 import CityOrHotel from './city-hotel/CityOrHotel';
 
@@ -24,7 +25,7 @@ export default function SearchBarContent(props: Props) {
 
   const pathname = usePathname();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
-  
+
   const isBestHotel = pathname === '/best-hotels';
   const isHotelDetail = pathname.startsWith('/best-hotels/');
 
@@ -35,26 +36,26 @@ export default function SearchBarContent(props: Props) {
           <SheetContent
             side={'right'}
             aria-describedby={undefined}
-            className="bg-[#f8f8f8] w-full h-dvh pt-6 flex flex-col gap-0 border-none"
+            className="flex h-dvh w-full flex-col gap-0 border-none bg-[#f8f8f8] pt-6"
           >
             {/* === Logo | Title | Close */}
             <div className="relative grid place-items-center">
-              <div className="relative w-16 aspect-square">
+              <div className="relative aspect-square w-16">
                 <Image
                   fill
                   alt="logo"
                   sizes="100%"
                   className="object-contain"
-                  src="/image/logo/red-gray.png"
+                  src={logo}
                 />
               </div>
 
-              <SheetTitle className="text-[clamp(0.95rem,3vw,1rem)] font-inter font-bold capitalize">
+              <SheetTitle className="font-inter text-[clamp(0.95rem,3vw,1rem)] font-bold capitalize">
                 safarname 24 hotel
               </SheetTitle>
 
               <button
-                className="absolute top-0 right-0"
+                className="absolute right-0 top-0"
                 onClick={setDialogClose}
               >
                 <ArrowRight size={22} color="#444" />
@@ -64,7 +65,7 @@ export default function SearchBarContent(props: Props) {
             {/* === Setting */}
             <div className="mt-8 grid gap-4">
               {!isHotelDetail && <CityOrHotel />}
-              
+
               <DatePicker />
               {/* <Passengers /> */}
               <NumberOfNights />

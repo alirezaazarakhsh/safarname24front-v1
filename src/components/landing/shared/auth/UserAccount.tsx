@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '@/hooks';
 import PhoneNumber from './molecules/user-account/PhoneNumber';
 
+import logo from '@/assets';
 import useControlBodyOverflow from '@/hooks/useControlBodyOverflow';
 import { useUserAccountContext } from '@/context/UserAccountContext';
 import OTPVerification from './molecules/user-account/OTPVerification';
@@ -28,11 +29,11 @@ export default function UserAccount() {
     <>
       {/* Dialog */}
       <div
-        className={`fixed inset-y-0 z-40 w-full h-dvh bg-white transition-all duration-500 ease-in-out md:bg-black/50 md:left-0 md:duration-300 ${isOpen ? 'visible left-0 md:opacity-100' : 'invisible left-full md:opacity-0'}`}
+        className={`fixed inset-y-0 z-40 h-dvh w-full bg-white transition-all duration-500 ease-in-out md:left-0 md:bg-black/50 md:duration-300 ${isOpen ? 'visible left-0 md:opacity-100' : 'invisible left-full md:opacity-0'}`}
         onClick={() => isDesktop && toggle()}
       >
         <div
-          className={`absolute z-50 bg-white full-size text-zinc-800 grid grid-rows-[auto_1fr] transition-all duration-500 ease-in-out md:w-[26rem] md:h-[25rem] md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:duration-300 ${isOpen ? 'opacity-100 md:scale-100' : 'opacity-0 md:scale-95'}`}
+          className={`full-size absolute z-50 grid grid-rows-[auto_1fr] bg-white text-zinc-800 transition-all duration-500 ease-in-out md:left-1/2 md:top-1/2 md:h-[25rem] md:w-[26rem] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-2xl md:duration-300 ${isOpen ? 'opacity-100 md:scale-100' : 'opacity-0 md:scale-95'}`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Dialog-Close-Button */}
@@ -44,12 +45,12 @@ export default function UserAccount() {
 
           {/* Dialog-Logo | Title */}
           <div className="mt-8 flex flex-col items-center gap-1 md:mt-6">
-            <div className="relative w-20 aspect-square">
+            <div className="relative aspect-square w-20">
               <Image
                 fill
                 alt="logo"
                 sizes="100%"
-                src="/image/logo/red.png"
+                src={logo}
                 className="object-contain"
               />
             </div>
@@ -60,7 +61,7 @@ export default function UserAccount() {
           </div>
 
           {/* Dialog-Content */}
-          <div className="relative mx-8 mb-8 mt-12 md:mt-2 md:mx-12">
+          <div className="relative mx-8 mb-8 mt-12 md:mx-12 md:mt-2">
             <AnimatePresence mode="wait">
               {dialogStep === 'phone-number' ? (
                 <motion.div

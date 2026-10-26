@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useMediaQuery } from '@/hooks';
 import { usePathname } from 'next/navigation';
 
+import logo from '@/assets';
 import CityOrHotelContent from './CityOrHotelContent';
 import CityOrHotelTrigger from './CityOrHotelTrigger';
 
@@ -60,7 +61,7 @@ export default function CityOrHotel(props: Props) {
       {!isDesktop ? (
         // === Small-Device
         <Sheet open={isOpen} onOpenChange={setOpen}>
-          <SheetTrigger className="bg-zinc-200/50 text-zinc-600 text-cs08 font-semibold h-12 px-5 rounded-cs-10">
+          <SheetTrigger className="h-12 rounded-cs-10 bg-zinc-200/50 px-5 text-cs08 font-semibold text-zinc-600">
             {confirmedValue.city ? (
               <div className="flex items-center gap-1">
                 {confirmedValue.hotel ? (
@@ -81,11 +82,7 @@ export default function CityOrHotel(props: Props) {
               </div>
             ) : (
               <div className="flex items-center gap-1.5">
-                {isBestHotel ? (
-                  <span>شهر مقصد</span>
-                ) : (
-                  <span>شهر یا هتل</span>
-                )}
+                {isBestHotel ? <span>شهر مقصد</span> : <span>شهر یا هتل</span>}
                 <span>(داخلی , خارجی)</span>
               </div>
             )}
@@ -94,7 +91,7 @@ export default function CityOrHotel(props: Props) {
           <SheetContent
             side={'left'}
             aria-describedby={undefined}
-            className="bg-[#f8f8f8] w-full h-dvh grid grid-rows-[auto_auto_1fr_auto] gap-0 border-none"
+            className="grid h-dvh w-full grid-rows-[auto_auto_1fr_auto] gap-0 border-none bg-[#f8f8f8]"
           >
             <SheetTitle className="hidden" />
             <CityOrHotelContent
@@ -125,7 +122,7 @@ export default function CityOrHotel(props: Props) {
             sideOffset={sideOffset}
             avoidCollisions={false}
             alignOffset={alignOffset}
-            className="w-[21rem] max-h-[28rem] z-10 rounded-xl shadow-[0_0.5rem_2rem_rgba(0,0,0,0.06)]"
+            className="z-10 max-h-[28rem] w-[21rem] rounded-xl shadow-[0_0.5rem_2rem_rgba(0,0,0,0.06)]"
           >
             <CityOrHotelContent
               isOpen={isOpen}
