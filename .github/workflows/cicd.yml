@@ -1,4 +1,4 @@
-name: Deploy Next.js App (Zero Downtime)
+name: Deploy Next.js App (Zarvantrip)
 
 on:
   push:
@@ -13,25 +13,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # استپ اول: سرور اصلی (پورت 2394)
-      - name: Test SSH Connection
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          port: 22
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "SSH OK on main server"
-            hostname
-
-      # استپ دوم: سرور زروان‌تریپ (پورت اصلاح‌شده به 22)
-      - name: Deploy on Server
+      - name: Deploy on Zarvantrip Server
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP_ZARVANTRIP }}
           username: ${{ secrets.SERVER_USER_ZARVANTRIP }}
-          port: 22   # 👈 اصلاح شده به 22
+          port: 22   # 👈 پورت سرور زروان‌تریپ ۲۲ است
           key: ${{ secrets.SSH_PRIVATE_KEY_ZARVANTRIP }}
           script: |
             echo "🚀 Connected to Zarvantrip server"
@@ -46,7 +33,7 @@ jobs:
             echo "🔧 Building new Docker image..."
             docker build -t safarname24front:$NEW_TAG .
 
-            echo "🛑 Stopping and removing old container..."
+            echo "🛑 Stopping old container..."
             docker stop safarname24front_old || true
             docker rm safarname24front_old || true
 
