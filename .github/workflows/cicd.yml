@@ -3,7 +3,7 @@ name: Deploy Next.js App (Zero Downtime)
 on:
   push:
     branches:
-      - main
+      - zarvantrip
 
 jobs:
   deploy:
@@ -27,14 +27,14 @@ jobs:
       - name: Deploy on Server
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
+          host: ${{ secrets.SERVER_IP_ZARVANTRIP }}
+          username: ${{ secrets.SERVER_USER_ZARVANTRIP }}
           port: 2394
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_ZARVANTRIP }}
           script: |
             echo "🚀 Connected to server"
 
-            cd /var/www/safarname24front
+            cd /var/safarname24front
 
             NEW_TAG=$(date +%s)
 
