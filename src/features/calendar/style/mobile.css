@@ -1,0 +1,68 @@
+.mobile-calendar .rmdp-calendar {
+  padding: 0 !important;
+  width: 100% !important;
+  /* direction: ltr !important; */
+}
+
+/* ========= Header */
+/* ======================= */
+
+.mobile-calendar .rmdp-header {
+  display: flex;
+  margin: 0 !important;
+  padding: 0 !important;
+  justify-content: space-between !important;
+}
+
+.mobile-calendar .rmdp-header div {
+  gap: 0.7rem;
+}
+
+.mobile-calendar .rmdp-header div .rmdp-header-values span {
+  padding: 0 !important;
+  font-weight: 600 !important;
+  font-size: clamp(0.7rem, 3vw, 0.8rem) !important;
+}
+
+/* ========= Day-Month-Year */
+/* ======================= */
+
+.mobile-calendar .rmdp-calendar > div:nth-child(2) {
+  padding-top: 1.4rem !important;
+  margin-top: 1.4rem !important;
+  border-top: 1px dashed rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ========= Day-Picker */
+/* ======================= */
+
+.mobile-calendar .rmdp-day-picker {
+  padding: 0;
+  /* direction: rtl !important; */
+  position: relative !important;
+}
+
+.mobile-calendar .rmdp-day-picker > div {
+  gap: 0.4rem;
+  display: flex;
+  padding-top: 3rem;
+  flex-direction: column;
+  margin-inline: auto !important;
+}
+
+.mobile-calendar .rmdp-day-picker .rmdp-week:first-child {
+  gap: 0.4rem;
+  top: 0 !important;
+  left: 50% !important;
+  translate: -50% 0 !important;
+  position: absolute !important;
+}
+
+.mobile-calendar .rmdp-day-picker .rmdp-day {
+  width: 2.6rem !important;
+  height: 2.6rem !important;
+  color: black !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  font-size: clamp(0.9rem, 3vw, 0.95rem) !important;
+}

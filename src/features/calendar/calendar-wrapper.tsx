@@ -27,8 +27,6 @@ import CalendarTrigger from './calendar-trigger';
 import { useMediaQuery } from '@/lib/hooks/use-media-query';
 
 type MobileCalendarSheetProps = {
-  isOpen: boolean;
-  onClose: () => void;
   calendarType: CalendarType;
   toggleCalendarType: () => void;
   tempDates: DateObject[];

@@ -21,19 +21,20 @@ import React, { useState } from 'react';
 import { cn } from 'cn';
 import { Calendar } from '@/features/calendar/calendar';
 import { DateObject } from 'react-multi-date-picker';
+import { DateRange } from '@/features/calendar/use-calendar';
 
 // ------------------------------
 
 export default function HeroSearch() {
-  const [dates, setDates] = useState<[DateObject | null]>([null]);
+  const [dates, setDates] = useState<DateRange>([null, null]);
   console.log('dates', dates);
 
   return (
     <div
       className={cn(
-        'relative z-10 mx-auto grid w-full gap-6 rounded-4xl p-6 lg:gap-4',
-        'bg-sidebar shadow-xl/5',
-        'sm:-mt-20 sm:max-lg:max-w-10/12 lg:-mt-12 lg:grid-cols-[1fr_1.2fr_auto_auto] lg:items-end xl:max-w-10/12 xl:rounded-[1.5rem]',
+        'relative z-10 grid w-full gap-6 px-4 py-8 sm:rounded-4xl sm:p-7',
+        'bg-sidebar mx-auto shadow-xl/5',
+        'sm:-mt-28 sm:max-lg:max-w-10/12 lg:mx-auto lg:-mt-12 lg:max-w-[95%] lg:grid-cols-[1fr_1.4fr_auto] lg:items-end lg:gap-4 xl:max-w-10/12 xl:rounded-[1.5rem]',
       )}
     >
       <div className="flex flex-col gap-4">
@@ -49,22 +50,9 @@ export default function HeroSearch() {
       </div>
 
       <Calendar
-        // onChange={({ startDate, endDate }) => {
-        //   setBookingDates({ startDate, endDate });
-        // }}
-        onChange={(newDates: [DateObject | null]) => setDates(newDates)}
+        initialRange={dates}
+        onChange={(newDates) => setDates(newDates)}
       />
-
-      <div className="flex flex-col gap-4">
-        <Label className="gap-1.5 px-1 text-sm/3 font-semibold">
-          <Moon className="size-4.5" />
-          <span>مدت اقامت</span>
-        </Label>
-
-        <div className="border-primary/15 flex h-12 w-32 items-center rounded-xl border px-4">
-          <span className="text-sm font-bold">{5} شب</span>
-        </div>
-      </div>
 
       <Button className={'h-12 lg:w-40'}>
         <span className="font-semibold">جستجو</span>

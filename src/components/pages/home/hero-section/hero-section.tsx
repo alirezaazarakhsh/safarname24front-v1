@@ -21,8 +21,8 @@ import HeroSearch from './hero-search';
 
 export function HeroSection() {
   return (
-    <section>
-      <div className="hidden h-100 overflow-hidden rounded-[2rem] sm:block xl:rounded-[3rem]">
+    <section className="-mx-4 -mt-6 xl:mt-0">
+      <div className="hidden h-100 overflow-hidden sm:block xl:rounded-[3rem]">
         <Swiper
           autoplay={{
             delay: 8000,

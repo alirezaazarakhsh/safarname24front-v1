@@ -19,7 +19,7 @@ export default function CalendarTrigger(props: Props) {
         <Label className="font-semibold">انتخاب تاریخ اقامت</Label>
 
         {tempDates?.length === 2 && nights > 0 && (
-          <span className="mr-auto text-xs font-bold text-rose-500 sm:mr-0 sm:hidden">
+          <span className="mr-auto text-sm/3 font-bold text-rose-500 sm:mr-0">
             ({nights} شب)
           </span>
         )}
@@ -29,8 +29,8 @@ export default function CalendarTrigger(props: Props) {
         <div className="flex items-center justify-between px-4 text-sm font-semibold">
           {tempDates?.length === 2 ? (
             <>
-              <span className="text-muted-foreground">از</span>
-              <span>{tempDates[0].format('DD MMMM YYYY')}</span>
+              <span className="text-muted-foreground">تاریخ ورود</span>
+              <span>{tempDates[0].format('DD MMMM')}</span>
             </>
           ) : (
             <>
@@ -46,8 +46,8 @@ export default function CalendarTrigger(props: Props) {
         <div className="flex items-center justify-between px-4 text-sm font-semibold">
           {tempDates?.length === 2 ? (
             <>
-              <span className="text-muted-foreground">تا</span>
-              <span>{tempDates[1].format('DD MMMM YYYY')}</span>
+              <span className="text-muted-foreground">تاریخ خروج</span>
+              <span>{tempDates[1].format('DD MMMM')}</span>
             </>
           ) : (
             <>
