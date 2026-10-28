@@ -9,7 +9,7 @@ export function Contact() {
       <div className="flex flex-col items-start gap-4">
         <p className="font-semibold">
           <span className="text-muted-foreground">
-            با پشتیبانی 24 ساعته سوین هاست ,
+            با پشتیبانی 24 ساعته سفرنامه ,
           </span>{' '}
           <span>همیشه همراه شما هستیم :)</span>
         </p>

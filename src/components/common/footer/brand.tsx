@@ -21,7 +21,7 @@ export function Brand() {
         </div>
       </Link>
 
-      <p className="text-muted-foreground text-sm leading-7 font-medium">
+      <p className="text-muted-foreground text-justify text-sm leading-7 font-medium">
         {description}
       </p>
     </div>

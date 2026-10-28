@@ -1,27 +1,13 @@
 'use client';
 
-import { TextField as CustomInput } from '@/components/common/input-custom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-// import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-// import { InputGroup } from '@/components/ui/input-group';
-import {
-  Calendar1,
-  Calendar1Icon,
-  CalendarRange,
-  LocationEdit,
-  MapIcon,
-  MapPin,
-  Moon,
-  Search,
-  SearchIcon,
-} from 'lucide-react';
-import React, { useState } from 'react';
+import { MapPin } from 'lucide-react';
+import { useState } from 'react';
 import { cn } from 'cn';
-import { Calendar } from '@/features/calendar/calendar';
-import { DateObject } from 'react-multi-date-picker';
-import { DateRange } from '@/features/calendar/use-calendar';
+import { Calendar } from '@/features/calendar/view/organisms/calendar';
+import { DateRange } from '@/features/calendar/model/use-calendar';
 
 // ------------------------------
 
@@ -45,7 +31,7 @@ export default function HeroSearch() {
 
         <Input
           placeholder="هتل یا شهر مقصد را انتخاب کنید"
-          className="border-primary/15 h-12"
+          className="border-primary/15 bg-input/20 h-12"
         />
       </div>
 
@@ -56,7 +42,6 @@ export default function HeroSearch() {
 
       <Button className={'h-12 lg:w-40'}>
         <span className="font-semibold">جستجو</span>
-        {/* <Search /> */}
       </Button>
     </div>
   );

@@ -19,7 +19,7 @@ export function SocialMedia() {
         شبکه های اجتماعی :
       </span>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-4">
         {SOCIAL_MEDIA?.map(
           (item) =>
             item.href && (
@@ -27,9 +27,9 @@ export function SocialMedia() {
                 <TooltipTrigger
                   render={
                     <Button
-                      variant="secondary"
+                      variant="link"
                       nativeButton={false}
-                      className="size-12 rounded-xl p-2"
+                      className="size-10 rounded-xl p-0"
                       render={
                         <Link target="_blank" href={item.href}>
                           {item.image && (
