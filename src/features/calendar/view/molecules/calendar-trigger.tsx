@@ -25,7 +25,7 @@ export default function CalendarTrigger(props: Props) {
         )}
       </div>
 
-      <div className="border-primary/15 divide-primary/15 grid h-12 grid-cols-2 divide-x overflow-hidden rounded-xl border">
+      <div className="border-primary/15 divide-primary/15 bg-input/20 grid h-12 grid-cols-2 divide-x overflow-hidden rounded-xl border">
         <div className="flex items-center justify-between px-4 text-sm font-semibold">
           {tempDates?.length === 2 ? (
             <>

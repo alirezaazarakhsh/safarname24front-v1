@@ -1,5 +1,5 @@
-import '../../style/desktop.css';
-import '../../style/general.css';
+import '@/features/calendar/style/calendar-dialog.css';
+import '@/features/calendar/style/calendar-general.css';
 
 import {
   Dialog,
@@ -10,15 +10,20 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-import { Calendar, DateObject } from 'react-multi-date-picker';
-import { isWeekendDay } from '../../helpers';
-import CalendarTrigger from '../../calendar-trigger';
+import { Calendar, CalendarRef, DateObject } from 'react-multi-date-picker';
+import { isWeekendDay } from '../../model/helpers';
+import CalendarTrigger from '../molecules/calendar-trigger';
 import { Button } from '@/components/ui/button';
-import { DateRange, useCalendar } from '../../use-calendar';
+import { DateRange, useCalendar } from '../../model/use-calendar';
 import { customWeekDays } from '../../model/constants';
 import weekends from 'react-multi-date-picker/plugins/highlight_weekends';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import ConfirmButton from '../molecules/confirm-button';
+import ToggleCalendar from '../molecules/toggle-calendar';
+import CnTrigger from '../molecules/cn-trigger';
+import { useRef } from 'react';
+import CheckInOutBar from '../molecules/checkInOutBar';
 
 type Props = {
   initialRange?: DateRange;
@@ -38,12 +43,26 @@ export default function CalendarDialog(props: Props) {
     handleSelectDates,
     confirmDraft,
     resetDraft,
+    handleClear,
     currentCalendar,
     currentLocale,
     selectedDates,
     calendarType,
     toggleCalendarType,
   } = useCalendar(initialRange, onChange);
+
+  const calendarRef = useRef<CalendarRef>(null);
+
+  const handleGoToToday = () => {
+    if (calendarRef.current) {
+      const today = new DateObject({
+        calendar: currentCalendar,
+        locale: currentLocale,
+      });
+
+      calendarRef.current.set('date', today);
+    }
+  };
 
   // مدیریت باز و بسته شدن دراور
   const handleOpenChange = (isOpen: boolean) => {
@@ -54,28 +73,38 @@ export default function CalendarDialog(props: Props) {
     onOpenChange(isOpen);
   };
 
+  const startDate = draftDates[0] || null;
+  const endDate = draftDates[1] || null;
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger>
-        <CalendarTrigger tempDates={selectedDates} nights={draftNights} />
+        <div>
+          <CnTrigger tempDates={selectedDates} nights={draftNights} />
+        </div>
+
+        {/* <CalendarTrigger tempDates={selectedDates} nights={draftNights} /> */}
       </DialogTrigger>
 
-      <DialogContent className={'sm:max-w-[44rem]'} dir="rtl">
+      <DialogContent
+        className={'rounded-none p-7 sm:max-w-full md:max-w-240 md:rounded-3xl'}
+      >
         <DialogHeader>
           <DialogTitle className={'hidden'}></DialogTitle>
           <DialogDescription className={'hidden'}></DialogDescription>
-
-          {/* دکمه تبدیل تقویم */}
-          <div className="flex justify-end pb-3">
-            <button
+          <div className="flex justify-end-safe gap-3">
+            <ToggleCalendar
+              calendarType={calendarType}
               onClick={toggleCalendarType}
-              type="button"
-              className="rounded-xl border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700 active:bg-gray-100"
+            />
+
+            <Button
+              variant={'secondary'}
+              onClick={handleGoToToday}
+              className={'h-10 px-5 sm:h-11'}
             >
-              {calendarType === 'persian'
-                ? 'تبدیل به تقویم میلادی'
-                : 'تبدیل به تقویم شمسی'}
-            </button>
+              برو به امروز
+            </Button>
           </div>
         </DialogHeader>
 
@@ -93,20 +122,23 @@ export default function CalendarDialog(props: Props) {
                 type="button"
                 variant={'secondary'}
                 onClick={handleClick}
-                className={'size-8! rounded-md!'}
+                className={'size-9 rounded-lg'}
               >
                 {isNext ? <ChevronLeft /> : <ChevronRight />}
               </Button>
             );
           }}
 
+          ref={calendarRef}
           range
           plugins={[weekends(calendarType ? [6] : [0])]}
-
+          disableMonthPicker
+          disableYearPicker
           rangeHover
+          monthYearSeparator=" "
           minDate={new DateObject({ calendar: currentCalendar })}
-          weekDays={customWeekDays[calendarType]}
-          className="general-calendar desktop-calendar"
+          weekDays={customWeekDays.full[calendarType]}
+          className="general-calendar dialog-calendar"
           numberOfMonths={2}
           value={draftDates} // ✅ اتصال به استیت پیش‌نویس
           onChange={(dates) => handleSelectDates(dates, false)} // ✅ فقط draft تغییر کند نه استیت اصلی
@@ -119,18 +151,33 @@ export default function CalendarDialog(props: Props) {
           }}
         />
 
-        <Button
-          className={'w-fit px-6'}
-          disabled={draftDates.length < 2}
-          onClick={() => {
-            confirmDraft(); // ۱. تایید و ارسال تاریخ‌ها به والد
-            onOpenChange(false); // ۲. بستن دراور
-          }}
-        >
-          {draftNights > 0
-            ? `تایید، ${draftNights} شب اقامت`
-            : 'انتخاب تاریخ خروج'}
-        </Button>
+        <div className="flex items-center gap-3">
+          <ConfirmButton
+            className="w-40"
+            selectedCount={draftDates.length}
+            onClick={() => {
+              confirmDraft();
+              onOpenChange(false);
+            }}
+          />
+
+          <Button
+            className={'px-5'}
+            onClick={handleClear}
+            variant={'destructive'}
+            disabled={draftDates.length < 2 && selectedDates.length < 0}
+          >
+            پاک کردن
+          </Button>
+
+          <CheckInOutBar
+            className="mr-auto"
+            endDate={endDate}
+            nights={draftNights}
+            startDate={startDate}
+            calendarType={calendarType}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );

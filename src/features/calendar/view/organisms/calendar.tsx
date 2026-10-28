@@ -1,16 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { HotelCalendarProps } from './types';
-// import { DesktopCalendar } from './desktop-calendar';
-import './style.css';
-import MobileCalendarDrawer from './mobile-calendar-drawer';
-import CalendarWrapper from './calendar-wrapper';
-import { DateObject } from 'react-multi-date-picker';
-import { DateRange } from './use-calendar';
-import CalendarDrawer from './view/organisms/calendar-drawer';
+import { useState } from 'react';
+('react-multi-date-picker');
+import { DateRange } from '../../model/use-calendar';
+import CalendarDrawer from './calendar-drawer';
 import { useMediaQuery } from '@/lib/hooks/use-media-query';
-import CalendarDialog from './view/organisms/calendar-dialog';
+import CalendarDialog from './calendar-dialog';
 
 type Props = {
   initialRange?: DateRange;

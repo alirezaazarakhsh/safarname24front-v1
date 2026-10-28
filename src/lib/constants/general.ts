@@ -1,9 +1,9 @@
 import { TopCities } from '../types/general';
 
-import telegram from '@/assets/images/social-media/telegram.svg';
-import whatsapp from '@/assets/images/social-media/whatsapp.svg';
-import linkedin from '@/assets/images/social-media/linkedin.svg';
-import instagram from '@/assets/images/social-media/instagram.svg';
+import telegram from '@/assets/images/social-media/pack-2/telegram.svg';
+import whatsapp from '@/assets/images/social-media/pack-2/whatsapp.svg';
+import linkedin from '@/assets/images/social-media/pack-2/linkedin.svg';
+import instagram from '@/assets/images/social-media/pack-2/instagram.svg';
 
 import { Mail, MapPin, PhoneCall } from 'lucide-react';
 import { Sun, Home, Moon, Globe2, Server, Laptop } from 'lucide-react';
