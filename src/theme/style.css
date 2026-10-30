@@ -23,6 +23,8 @@ body::-webkit-scrollbar-thumb {
   }
 } */
 
+/* ----------------------- */
+
 .ss01 {
   font-feature-settings: 'ss01';
   -moz-font-feature-settings: 'ss01';
@@ -32,6 +34,8 @@ body::-webkit-scrollbar-thumb {
 .no-ss01 * {
   font-feature-settings: 'ss01' 0;
 }
+
+/* ----------------------- */
 
 .swiper-pagination-custom {
   padding-bottom: 2rem !important;
@@ -44,6 +48,8 @@ body::-webkit-scrollbar-thumb {
     }
   }
 }
+
+/* ----------------------- */
 
 .dots {
   width: 4.5px;
@@ -71,5 +77,36 @@ body::-webkit-scrollbar-thumb {
       21.3px 0 0 0,
       42.6px 0 0 3.4px,
       63.900000000000006px 0 0 7.8px;
+  }
+}
+
+/* ----------------------- */
+
+.scrollbar-custom::-webkit-scrollbar {
+  --sb-size: 0.4rem;
+  width: var(--sb-size);
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  margin-bottom: 1rem;
+  border-radius: 0.2rem;
+
+  --sb-track-color: var(--color-secondary);
+  background: var(--sb-track-color);
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  border-radius: 0.2rem;
+
+  --sb-thumb-color: var(--color-input);
+  background: var(--sb-thumb-color);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .scrollbar-custom {
+    --sb-thumb-color: var(--color-input);
+    --sb-track-color: var(--color-secondary);
+
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
 }

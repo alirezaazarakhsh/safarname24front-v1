@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-('react-multi-date-picker');
-import { DateRange } from '../../model/use-calendar';
+
 import CalendarDrawer from './calendar-drawer';
-import { useMediaQuery } from '@/lib/hooks/use-media-query';
 import CalendarDialog from './calendar-dialog';
+import { DateRange } from '../../model/use-calendar';
+import { useMediaQuery } from '@/lib/hooks/use-media-query';
 
 type Props = {
   initialRange?: DateRange;
