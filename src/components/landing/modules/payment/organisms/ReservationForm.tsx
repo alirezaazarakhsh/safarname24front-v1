@@ -9,7 +9,7 @@ import {
   OtherPassengers,
 } from '../molecules/reservation-form';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { FormSchema } from '../helpers/type';
 
 import { usePaymentLoading } from '@/context';
@@ -41,10 +41,12 @@ export function ReservationForm() {
   const { handleToggleLoading } = usePaymentLoading();
 
   const trackingCode = searchParams.get(payment.reservationId);
+  const isSubmittingRef = useRef(false);
 
   const { data, status } = useQuery<FormSchema>({
     queryKey: ['reservation-form/1', trackingCode],
     queryFn: () => getFormDefaultValues(trackingCode),
+    enabled: Boolean(trackingCode),
   });
 
   const methods = useForm<FormSchema>({
@@ -69,10 +71,29 @@ export function ReservationForm() {
     );
   }, [isAuthenticated]);
 
-  // بازنشانی فرم با مقادیر اولیه دریافتی
+  // ۱. بازنشانی هوشمند فرم: اولویت با داده‌های تایپ‌شده کاربر است تا با لاگین پاک نشوند
   useEffect(() => {
-    if (data) methods.reset(data);
-  }, [data, methods]);
+    if (status !== 'success' || !data) return;
+
+    if (typeof window !== 'undefined') {
+      const savedRaw = sessionStorage.getItem('pending_passenger_form');
+      if (savedRaw) {
+        try {
+          const saved = JSON.parse(savedRaw);
+          // اگر کاربر قبلاً اطلاعاتی برای همین کد پیگیری وارد کرده، همان را نگه دار
+          if (saved.trackingCode === trackingCode && saved.formData) {
+            methods.reset(saved.formData);
+            return;
+          }
+        } catch {
+          sessionStorage.removeItem('pending_passenger_form');
+        }
+      }
+    }
+
+    // در غیر این صورت مقادیر پیش‌فرض سرور را بگذار
+    methods.reset(data);
+  }, [data, status, trackingCode, methods]);
 
   function handleNavigation() {
     router.push(
@@ -83,16 +104,26 @@ export function ReservationForm() {
 
   // مدیریت ثبت فرم و هدایت به لاگین
   const handleFormSubmit = useCallback(async (formData: FormSchema) => {
-    // اگر کاربر لاگین نبود، فرم ذخیره شده و پنجره لاگین باز می‌شود
+    // اگر کاربر لاگین نبود، فرم به همراه کد پیگیری ذخیره شده و پنجره لاگین باز می‌شود
     if (!checkIsUserAuth()) {
       if (typeof window !== 'undefined') {
-        sessionStorage.setItem('pending_passenger_form', JSON.stringify(formData));
+        sessionStorage.setItem(
+          'pending_passenger_form',
+          JSON.stringify({ trackingCode, formData }),
+        );
       }
       openLoginModal();
       return;
     }
 
-    // اگر کاربر لاگین بود، ۵ آرگومان طبق ساختار اصلی فرستاده می‌شود
+    // پیشگیری از خطای ۴۰۰ توضیحات در صورت خالی بودن
+    if (typeof window !== 'undefined') {
+      const desc = sessionStorage.getItem(payment.descriptionKey);
+      if (!desc) {
+        sessionStorage.setItem(payment.descriptionKey, '');
+      }
+    }
+
     await onSubmit(
       formData,
       trackingCode,
@@ -105,21 +136,28 @@ export function ReservationForm() {
     );
   }, [checkIsUserAuth, openLoginModal, trackingCode, handleToggleLoading, queryClient]);
 
-  // ثبت خودکار فرم بلافاصله پس از لاگین کاربر
+  // ۲. ارسال خودکار فرم بلافاصله پس از لاگین موفق کاربر (بدون پاک شدن اطلاعات)
   useEffect(() => {
-    if (checkIsUserAuth() && trackingCode) {
-      const savedFormData = sessionStorage.getItem('pending_passenger_form');
-      if (savedFormData) {
-        try {
-          const parsedData = JSON.parse(savedFormData);
-          sessionStorage.removeItem('pending_passenger_form');
-          handleFormSubmit(parsedData);
-        } catch {
-          sessionStorage.removeItem('pending_passenger_form');
-        }
+    if (!trackingCode || !checkIsUserAuth() || status !== 'success') return;
+
+    const savedRaw = sessionStorage.getItem('pending_passenger_form');
+    if (!savedRaw || isSubmittingRef.current) return;
+
+    try {
+      const saved = JSON.parse(savedRaw);
+      // فقط در صورتی ارسال کن که متعلق به همین رزرو باشد
+      if (saved.trackingCode === trackingCode && saved.formData) {
+        isSubmittingRef.current = true;
+        sessionStorage.removeItem('pending_passenger_form');
+        methods.reset(saved.formData);
+        handleFormSubmit(saved.formData).finally(() => {
+          isSubmittingRef.current = false;
+        });
       }
+    } catch {
+      sessionStorage.removeItem('pending_passenger_form');
     }
-  }, [isAuthenticated, checkIsUserAuth, trackingCode, handleFormSubmit]);
+  }, [isAuthenticated, checkIsUserAuth, trackingCode, status, handleFormSubmit, methods]);
 
   return (
     <FormProvider {...methods}>
