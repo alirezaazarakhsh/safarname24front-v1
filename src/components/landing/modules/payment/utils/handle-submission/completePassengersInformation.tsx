@@ -1,10 +1,9 @@
 import { axiosInstance } from '@/utils/axios';
 import { FormSchema } from '../../helpers/type';
-
 import { payment } from '../../helpers/constant';
 import { showCMToast } from '@/components/landing/shared/toast';
 
-// بررسی وضعیت لاگین بودن مسافر
+// بررسی دقیق و ایمن وضعیت لاگین بودن مسافر
 function isUserLoggedIn(): boolean {
   if (typeof window === 'undefined') return false;
 
@@ -33,11 +32,10 @@ export async function handleSubmit(
   handleToggleLoading: () => void,
   handleInvalidateQuery: () => void,
 ) {
-  // ۱. اگر کاربر لاگین نبود، فرم ذخیره شده و درخواست لاگین می‌دهد
+  // ۱. اگر کاربر لاگین نبود، فرم ذخیره شده و درخواست ورود می‌دهد
   if (!isUserLoggedIn()) {
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('pending_passenger_form', JSON.stringify(data));
-      // ارسال ایونت برای باز شدن مدال لاگین
       window.dispatchEvent(new Event('open-auth-modal'));
     }
 
@@ -52,31 +50,44 @@ export async function handleSubmit(
   // ۲. در صورت لاگین بودن، اطلاعات ثبت می‌شود
   try {
     handleToggleLoading();
+
+    // ثبت اطلاعات مسافران و اتاق‌ها
     await axiosInstance.put(`/hotel/reservation/form/${trackingCode}/`, data);
 
-    const description =
-      typeof window !== 'undefined'
-        ? sessionStorage.getItem(payment.descriptionKey)
-        : null;
+    // ثبت توضیحات (به صورت محافظت‌شده و اختیاری تا هرگز مانع ادامه فرآیند نشود)
+    try {
+      const description =
+        typeof window !== 'undefined'
+          ? sessionStorage.getItem(payment.descriptionKey) || ''
+          : '';
 
-    if (description) {
       await axiosInstance.put(`/hotel/reservation/description/${trackingCode}/`, {
-        description,
+        description: description,
       });
+    } catch (descError) {
+      console.warn('Description optional error (ignored):', descError);
     }
 
+    // هدایت قطعی به مرحله دوم
     handleInvalidateQuery();
     handleNavigation();
+
     showCMToast({
       type: 'success',
       title: 'عملیات با موفقیت انجام شد',
       description: 'کاربر گرامی اطلاعات با موفقیت بروزرسانی شد',
     });
-  } catch (error) {
+  } catch (error: any) {
+    const errorMsg =
+      error?.response?.data?.detail ||
+      error?.response?.data?.message ||
+      error?.response?.data?.error ||
+      'کاربر گرامی در بروزرسانی اطلاعات مشکلی بوجود آمد';
+
     showCMToast({
       type: 'error',
       title: 'عملیات با خطا مواجه شد !',
-      description: 'کاربر گرامی در بروزرسانی اطلاعات مشکلی بوجود آمد',
+      description: errorMsg,
     });
   } finally {
     handleToggleLoading();
