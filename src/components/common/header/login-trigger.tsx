@@ -1,31 +1,17 @@
 'use client';
 
-import Link from 'next/link';
-
 import { LogIn } from 'lucide-react';
-import { routes } from '@/config/routes';
 
-import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { useAuthModal } from '@/features/auth/model/auth-modal-context';
 
 // ---------------------------------
 
 export function LoginTrigger() {
-  const pathname = usePathname();
+  const { openAuthModal } = useAuthModal();
 
   return (
-    <Button
-      className={'sm:px-5'}
-      nativeButton={false}
-      render={
-        <Link
-          href={{
-            pathname: routes.login,
-            query: { 'last-url': pathname },
-          }}
-        />
-      }
-    >
+    <Button onClick={openAuthModal} className={'sm:px-5'}>
       <LogIn />
       <span>ورود</span>
     </Button>

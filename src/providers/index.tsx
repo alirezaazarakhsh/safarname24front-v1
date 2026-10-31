@@ -8,6 +8,8 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { DirectionProvider } from '@/components/ui/direction';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthModalProvider } from '@/features/auth/model/auth-modal-context';
+import { AuthModal } from '@/features/auth/view/auth-modal';
 
 // ------------------------------
 
@@ -32,14 +34,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
         disableTransitionOnChange
       >
         <TooltipProvider>
-          {/* <AuthProvider> */}
+          <AuthModalProvider>
             <QueryClientProvider client={queryClient}>
               {children}
 
               <Toaster />
+              <AuthModal />
               {/* <AuthAlert /> */}
             </QueryClientProvider>
-          {/* </AuthProvider> */}
+          </AuthModalProvider>
         </TooltipProvider>
       </ThemeProvider>
     </DirectionProvider>
